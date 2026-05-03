@@ -300,8 +300,32 @@ code:not(.code){font-family:'JetBrains Mono',monospace;font-size:13px;
           <div class="fig-cap"><span class="lbl">Lens 2 &middot; LSA</span><span class="desc">Allison&ndash;Liker z-scores: which lag-1 transitions occur more (red) or less (blue) than chance.</span></div>
         </div>
         <div class="fig">
-          <img src="example_figures/sm_spm_top.png" alt="Sequential pattern mining">
-          <div class="fig-cap"><span class="lbl">Lens 3 &middot; SPM</span><span class="desc">Top frequent variable-length sub-sequences mined by cSPADE; bars show support.</span></div>
+          <svg viewBox="0 0 560 280" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;border:1px solid var(--line);border-radius:6px;background:#fff">
+            <defs>
+              <style>
+                .gttl{font-family:'Inter',sans-serif;font-size:15px;font-weight:800;fill:#0F1A2A}
+                .glbl{font-family:'JetBrains Mono',monospace;font-size:10px;fill:#1E2D3F}
+                .gnote{font-family:'Inter',sans-serif;font-size:11px;fill:#3D4F5F}
+                .bad{fill:#E07A5F}
+                .good{fill:#0A7480}
+              </style>
+            </defs>
+            <text class="gttl" x="28" y="34">Raw top support</text>
+            <text class="gttl" x="304" y="34">Filtered motifs</text>
+            <rect x="18" y="18" width="248" height="210" rx="14" fill="#fff" stroke="#0F1A2A" stroke-width="2"/>
+            <rect x="294" y="18" width="248" height="210" rx="14" fill="#fff" stroke="#0F1A2A" stroke-width="2"/>
+            <text class="glbl" x="34" y="72">ASK</text><rect class="bad" x="88" y="62" width="148" height="14" rx="4"/><text class="glbl" x="248" y="72" text-anchor="end">1.00</text>
+            <text class="glbl" x="34" y="102">EXPLAIN</text><rect class="bad" x="88" y="92" width="146" height="14" rx="4"/><text class="glbl" x="248" y="102" text-anchor="end">0.99</text>
+            <text class="glbl" x="34" y="132">AGREE</text><rect class="bad" x="88" y="122" width="146" height="14" rx="4"/><text class="glbl" x="248" y="132" text-anchor="end">0.99</text>
+            <text class="glbl" x="34" y="162">ASK,EXPLAIN</text><rect class="bad" x="88" y="152" width="140" height="14" rx="4" opacity="0.9"/><text class="glbl" x="248" y="162" text-anchor="end">0.95</text>
+            <text class="gnote" x="34" y="204">Ceiling-heavy and not very informative.</text>
+            <text class="glbl" x="310" y="72">ASK,EXPLAIN,EXAMPLE</text><rect class="good" x="418" y="62" width="92" height="14" rx="4"/><text class="glbl" x="526" y="72" text-anchor="end">0.75</text>
+            <text class="glbl" x="310" y="102">EXPLAIN,AGREE,ELAB</text><rect class="good" x="418" y="92" width="82" height="14" rx="4"/><text class="glbl" x="526" y="102" text-anchor="end">0.67</text>
+            <text class="glbl" x="310" y="132">ASK,EXAMPLE,AGREE</text><rect class="good" x="418" y="122" width="74" height="14" rx="4"/><text class="glbl" x="526" y="132" text-anchor="end">0.61</text>
+            <text class="glbl" x="310" y="162">EXAMPLE,AGREE,ELAB</text><rect class="good" x="418" y="152" width="69" height="14" rx="4" opacity="0.92"/><text class="glbl" x="526" y="162" text-anchor="end">0.57</text>
+            <text class="gnote" x="310" y="204">Better spread and more interpretable motifs.</text>
+          </svg>
+          <div class="fig-cap"><span class="lbl">Lens 3 &middot; SPM</span><span class="desc">Support alone can be misleading. Raw top bars often hit the ceiling; filtered multi-item motifs tell the more useful story.</span></div>
         </div>
         <div class="fig">
           <img src="example_figures/sm_hmm_states.png" alt="HMM hidden states">
@@ -1471,13 +1495,13 @@ hidden_paths(fit$model)</pre>
     const minX = Math.min(...nullStats, observed, -0.5);
     const maxX = Math.max(...nullStats, observed, 0.5);
     const width = 720;
-    const height = 330;
-    const leftPanelX = 12;
-    const leftPanelW = 184;
-    const histLeft = 230;
-    const margin = { t: 24, r: 18, b: 42, l: histLeft };
+    const height = 390;
+    const histTop = 24;
+    const histBottom = 210;
+    const sampleTop = 236;
+    const margin = { t: histTop, r: 18, b: height - histBottom, l: 42 };
     const plotW = width - margin.l - margin.r;
-    const plotH = height - margin.t - margin.b;
+    const plotH = histBottom - margin.t;
     const step = (maxX - minX) / bins;
     const counts = Array.from({ length: bins }, () => 0);
 
@@ -1497,19 +1521,15 @@ hidden_paths(fit$model)</pre>
     }).join('');
 
     const sampleRows = observedScores.map((v, i) => {
-      const x = 26 + (i % 6) * 54;
-      const y = i < 6 ? 42 : 84;
+      const x = 44 + (i % 6) * 102;
+      const y = i < 6 ? sampleTop + 34 : sampleTop + 74;
       const label = i < 6 ? 'A' : 'B';
       return `<rect x="${x}" y="${y}" width="44" height="26" rx="8" fill="${label === 'A' ? '#eef6f7' : '#fff1ec'}" stroke="${label === 'A' ? '#0A7480' : '#E07A5F'}" stroke-width="1.5"/><text x="${x + 22}" y="${y + 17}" text-anchor="middle" font-family="JetBrains Mono" font-size="11" font-weight="700" fill="#0F1A2A">${fmt(v)}</text>`;
     }).join('');
 
     qs('permPlot').innerHTML = `
-      <svg viewBox="0 0 720 330" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
-        <rect x="${leftPanelX}" y="18" width="${leftPanelW}" height="116" rx="14" fill="#fff" stroke="#0F1A2A" stroke-width="2"/>
-        <text x="28" y="42" font-family="Inter" font-size="15" font-weight="800" fill="#0F1A2A">Observed sessions</text>
-        <text x="28" y="60" font-family="Inter" font-size="12" fill="#3D4F5F">Top row = group A, bottom row = group B</text>
-        ${sampleRows}
-        <line x1="214" y1="24" x2="214" y2="286" stroke="#B5C6D0" stroke-width="1.5" stroke-dasharray="5 5"/>
+      <svg viewBox="0 0 720 390" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+        <text x="42" y="18" font-family="Inter" font-size="12" fill="#3D4F5F">Permutation null distribution</text>
         <line x1="${margin.l}" y1="${height - margin.b}" x2="${width - margin.r}" y2="${height - margin.b}" stroke="#0F1A2A" stroke-width="2"/>
         <line x1="${margin.l}" y1="${height - margin.b}" x2="${margin.l}" y2="${margin.t}" stroke="#0F1A2A" stroke-width="2"/>
         ${bars}
@@ -1519,6 +1539,10 @@ hidden_paths(fit$model)</pre>
         <text x="${margin.l}" y="${height - 18}" font-family="Inter" font-size="11" fill="#3D4F5F">${fmt(minX)}</text>
         <text x="${width - margin.r}" y="${height - 18}" text-anchor="end" font-family="Inter" font-size="11" fill="#3D4F5F">${fmt(maxX)}</text>
         <text x="${margin.l + plotW / 2}" y="${height - 18}" text-anchor="middle" font-family="Inter" font-size="12" fill="#3D4F5F">null distribution of group-gap statistics after label shuffling</text>
+        <rect x="24" y="${sampleTop}" width="672" height="116" rx="14" fill="#fff" stroke="#0F1A2A" stroke-width="2"/>
+        <text x="44" y="${sampleTop + 24}" font-family="Inter" font-size="15" font-weight="800" fill="#0F1A2A">Observed sessions</text>
+        <text x="44" y="${sampleTop + 42}" font-family="Inter" font-size="12" fill="#3D4F5F">Top row = group A, bottom row = group B</text>
+        ${sampleRows}
       </svg>
     `;
 
