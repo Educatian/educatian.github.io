@@ -127,6 +127,18 @@ code:not(.code){font-family:'JetBrains Mono',monospace;font-size:13px;background
 .metric-box .k{font-size:10px;font-weight:800;letter-spacing:1.6px;text-transform:uppercase;color:var(--olive);margin-bottom:4px}
 .metric-box .v{font-family:'JetBrains Mono',monospace;font-size:20px;font-weight:700;color:var(--ink)}
 .mini-note{font-size:12.5px;color:var(--ink2);margin-top:10px}
+.bundle-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:16px;margin:18px 0}
+.bundle-card{background:#fff;border:2px solid var(--ink);border-radius:14px;padding:18px}
+.bundle-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+.dl-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:999px;background:var(--olive);color:#fff;text-decoration:none;font-size:12px;font-weight:800;letter-spacing:.03em}
+.dl-btn.alt{background:#fff;color:var(--ink);border:1.5px solid var(--ink)}
+.row-demo{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:16px 0}
+.row-demo .cell{background:#fff;border:1.5px solid var(--line);border-radius:12px;padding:12px}
+.row-demo .cell.key{border-color:var(--olive);background:var(--olive-soft)}
+.row-demo .k{font-size:10px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;color:var(--olive);margin-bottom:4px}
+.row-demo .v{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--ink)}
+.df-callout{background:linear-gradient(180deg,#FCFBF6 0%,#F1EADB 100%);border:1.5px solid var(--line);border-radius:14px;padding:16px;margin:16px 0}
+.df-callout p{margin:0 0 8px}
 .micro-lab{background:#fff;border:2px dashed var(--olive);border-radius:14px;padding:18px 20px;margin:18px 0}
 .micro-lab .card-title{margin-bottom:10px}
 .micro-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
@@ -139,7 +151,9 @@ code:not(.code){font-family:'JetBrains Mono',monospace;font-size:13px;background
 .pill-row button.active{background:var(--olive);border-color:var(--olive);color:#fff}
 .supp-kicker{display:inline-block;background:#182126;color:#F4F1E8;padding:8px 12px;border-radius:999px;font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;margin-bottom:14px}
 @media (max-width:780px){.micro-grid,.check-grid{grid-template-columns:1fr}}
-@media (max-width:900px){.lab-grid{grid-template-columns:1fr}}
+@media (max-width:900px){.lab-grid,.bundle-grid{grid-template-columns:1fr}}
+@media (max-width:780px){.row-demo{grid-template-columns:1fr 1fr}}
+@media (max-width:560px){.row-demo{grid-template-columns:1fr}}
 .foot{margin-top:80px;padding-top:32px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:11px;color:var(--ink3);letter-spacing:.14em;text-transform:uppercase}
 .foot .olive{color:var(--olive);font-weight:700}
 </style>
@@ -383,6 +397,33 @@ code:not(.code){font-family:'JetBrains Mono',monospace;font-size:13px;background
           <div class="micro-out" id="schemaOut" style="margin-top:12px"></div>
         </div>
 
+        <div class="bundle-grid">
+          <div class="bundle-card">
+            <div class="card-title">What One Good Row Looks Like</div>
+            <p>Do not think of KT data as “a student dataset.” Think of it as an <strong>event log</strong>. Each row is one learner doing one thing at one point in the sequence.</p>
+            <div class="row-demo">
+              <div class="cell key"><div class="k">user_id</div><div class="v">S01</div></div>
+              <div class="cell key"><div class="k">order_id</div><div class="v">2</div></div>
+              <div class="cell"><div class="k">question_id</div><div class="v">Q02</div></div>
+              <div class="cell key"><div class="k">skill_name</div><div class="v">Fractions</div></div>
+              <div class="cell key"><div class="k">correct</div><div class="v">1</div></div>
+            </div>
+            <div class="df-callout">
+              <p><strong>Read it in plain English:</strong> learner <code>S01</code> made their <code>2nd</code> ordered attempt on item <code>Q02</code>, tagged to <code>Fractions</code>, and got it <code>correct</code>.</p>
+              <p class="mini">If you cannot read a row this way, your dataframe is not ready.</p>
+            </div>
+          </div>
+          <div class="bundle-card">
+            <div class="card-title">Bundled Starter Files</div>
+            <p>Use the included files as templates before forcing your own export into package-specific shape.</p>
+            <div class="bundle-actions">
+              <a class="dl-btn" href="example_data/toy_kt_long.csv" download>Download `toy_kt_long.csv`</a>
+              <a class="dl-btn alt" href="example_data/toy_lkt_minimal.csv" download>Download `toy_lkt_minimal.csv`</a>
+            </div>
+            <p class="mini" style="margin-top:12px"><code>toy_kt_long.csv</code> is the general KT event log. <code>toy_lkt_minimal.csv</code> is a stripped-down LKT-shaped starter.</p>
+          </div>
+        </div>
+
         <h3 class="h3">Universal event-log schema</h3>
         <table class="schema">
           <thead>
@@ -414,7 +455,7 @@ code:not(.code){font-family:'JetBrains Mono',monospace;font-size:13px;background
         </table>
 
         <h3 class="h3">One toy dataframe, three uses</h3>
-        <p>The bundled file <code>example_data/toy_kt_long.csv</code> is intentionally wide enough to support both interpretable and deep KT workflows. It includes <code>skill_name</code> for BKT and <code>question_id</code>/<code>concept_id</code> for DKT-style preprocessing.</p>
+        <p>The bundled file <a class="inline" href="example_data/toy_kt_long.csv" download><code>example_data/toy_kt_long.csv</code></a> is intentionally wide enough to support both interpretable and deep KT workflows. It includes <code>skill_name</code> for BKT and <code>question_id</code>/<code>concept_id</code> for DKT-style preprocessing.</p>
 
 <pre class="code"><span class="cm"># first rows of the bundled toy file</span>
 order_id,user_id,skill_name,question_id,concept_id,correct,timestamp,attempt_no,group
