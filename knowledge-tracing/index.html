@@ -168,6 +168,7 @@ code:not(.code){font-family:'JetBrains Mono',monospace;font-size:13px;background
       <li><a href="#interactive">Interactive beginner lab</a></li>
       <li><a href="#scenarios">Research scenarios in LS / Ed Psych</a></li>
       <li><a href="#trouble">Troubleshooting</a></li>
+      <li><a href="#faq">Practical FAQ</a></li>
       <li><a href="#checklist">Pre-publication checklist</a></li>
       <li><a href="#bayesnet">Supplement: Bayesian Networks</a></li>
       <li><a href="#references">Original guides and references</a></li>
@@ -953,8 +954,51 @@ lkt_model <- LKT(
       </div>
     </section>
 
+    <section class="section" id="faq">
+      <div class="section-label">Chapter 11 · FAQ</div>
+      <h2 class="h2">Practical <span class="olive">FAQ</span> for first KT projects</h2>
+      <div class="body">
+        <div class="card soft">
+          <div class="card-title">Beginner upgrade</div>
+          <p>This section answers the questions people usually ask right before they either do the analysis correctly or go off the rails.</p>
+        </div>
+        <table class="schema">
+          <thead>
+            <tr><th>Question</th><th>Short answer</th><th>Practical rule</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>How much data do I need?</td><td>There is no single magic number.</td><td>You need enough <strong>repeated, ordered, skill-linked attempts</strong> per learner and per skill to estimate change, not just level. If you only have 2-3 attempts per skill for most students, KT will usually be fragile.</td></tr>
+            <tr><td>Can I do KT with one pretest and one posttest?</td><td>No.</td><td>That supports growth or outcome analysis, not tracing. KT needs event-level sequences.</td></tr>
+            <tr><td>What is a minimally usable KT dataset?</td><td>A long event log with one row per attempt.</td><td>At minimum: <code>user_id</code>, <code>order_id</code> or timestamp, <code>skill_name</code> or concept tag, and <code>correct</code>.</td></tr>
+            <tr><td>Do I need timestamps?</td><td>Not always, but they help.</td><td>Plain BKT can run with stable ordering only. If you want spacing, delay, forgetting, or stealth behavior claims, reliable timestamps become much more important.</td></tr>
+            <tr><td>Can I run KT with only one skill?</td><td>Yes, if that skill has enough repeated opportunities.</td><td>One-skill KT is often defensible in a narrow tutor or unit. It is just less informative than multi-skill tracing.</td></tr>
+            <tr><td>What if my concept tags are messy?</td><td>Clean that before modeling.</td><td>Bad KC labels break interpretation faster than most model-choice mistakes.</td></tr>
+            <tr><td>How many students do I need?</td><td>Enough to stabilize patterns, but the key unit is still attempts.</td><td>Do not think only in student count. A dataset with many students but almost no repeated opportunities is still weak for KT.</td></tr>
+            <tr><td>Can I compare treatment and control groups?</td><td>Yes.</td><td>Use KT to derive mastery trajectories, then compare those trajectories or summaries with second-stage models.</td></tr>
+            <tr><td>Should I start with DKT?</td><td>Usually no.</td><td>Start with BKT or logistic KT, then benchmark deep models on the same split if prediction is the goal.</td></tr>
+            <tr><td>Can KT measure motivation or metacognition?</td><td>Not directly.</td><td>KT estimates latent proficiency from traces. Motivation and metacognition need their own measures or a broader learner model.</td></tr>
+            <tr><td>What should I report in a paper?</td><td>More than AUC.</td><td>Report preprocessing, sequence definition, skill mapping, baseline model, diagnostics, and at least one interpretable trajectory plot.</td></tr>
+            <tr><td>When is Bayesian network modeling worth the extra complexity?</td><td>When one latent skill is not enough.</td><td>If you need prerequisites, multiple hidden states, or stealth evidence from behaviors, move beyond vanilla BKT.</td></tr>
+          </tbody>
+        </table>
+
+        <div class="g2">
+          <div class="card">
+            <div class="card-title">Data Sufficiency Heuristic</div>
+            <p><strong>Green zone:</strong> repeated concept-linked opportunities across many students, with usable ordering and stable coding.</p>
+            <p><strong>Yellow zone:</strong> sparse opportunities, inconsistent tagging, or highly unbalanced skills. Use KT cautiously and simplify claims.</p>
+            <p><strong>Red zone:</strong> only summary scores, one-shot tests, or no defensible sequence. Do not force KT.</p>
+          </div>
+          <div class="card">
+            <div class="card-title">Questions Reviewers Actually Ask</div>
+            <p>Why KT instead of simpler growth modeling? How were skills tagged? What is one opportunity? Was there a transparent baseline? Are group claims based on trajectories or only final prediction metrics?</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section class="section" id="checklist">
-      <div class="section-label">Chapter 11 · QA</div>
+      <div class="section-label">Chapter 12 · QA</div>
       <h2 class="h2">Pre-publication <span class="olive">checklist</span></h2>
       <div class="body">
         <div class="card soft">
@@ -984,10 +1028,10 @@ lkt_model <- LKT(
       </div>
     </section>
 
-    <section class="section" id="references">
-      <div class="section-label">Chapter 11b · Supplement</div>
+    <section class="section" id="bayesnet">
+      <div class="section-label">Chapter 12b · Supplement</div>
       <h2 class="h2"><span class="olive">Bayesian Networks</span> for education</h2>
-      <div class="body" id="bayesnet">
+      <div class="body">
         <div class="supp-kicker">Supplementary module</div>
         <p>This module sits above KT in the model family tree. <strong>BKT is a specialized dynamic Bayesian model</strong>; broader <strong>Bayesian networks</strong> let you represent prerequisites, multiple latent skills, stealth evidence, and richer learner-model integration in one probabilistic graph.</p>
 
@@ -1081,7 +1125,7 @@ lkt_model <- LKT(
     </section>
 
     <section class="section" id="references">
-      <div class="section-label">Chapter 12 · Sources</div>
+      <div class="section-label">Chapter 13 · Sources</div>
       <h2 class="h2">Original guides and <span class="olive">references</span></h2>
       <div class="body">
         <div class="card soft">
