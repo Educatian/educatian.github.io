@@ -216,6 +216,7 @@ code:not(.code){font-family:'JetBrains Mono',monospace;font-size:13px;
     <ol>
       <li><a href="#why">Why "sequence mining"?</a></li>
       <li><a href="#decision">Method &times; question decision tree</a></li>
+      <li><a href="#stats-logic">Why ordinary IID statistics are not enough</a></li>
       <li><a href="#data">A shared dataframe to learn on</a></li>
       <li><a href="#quickstart">Quick start &mdash; first figure in 5 min</a></li>
     </ol>
@@ -450,6 +451,163 @@ code:not(.code){font-family:'JetBrains Mono',monospace;font-size:13px;
             <h4 class="h4">Pattern discovery</h4>
             <p>You suspect specific motifs (ASK&rarr;EXPLAIN&rarr;EXAMPLE) repeat across many sessions and you want to rank them. &rarr; <strong>SPM</strong>.</p>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2b. STATS LOGIC -->
+    <section class="section" id="stats-logic">
+      <div class="section-label">Chapter 02b &middot; Statistical background</div>
+      <h2 class="h2">Why ordinary <span class="teal">IID statistics</span> are often the wrong starting point</h2>
+      <div class="body">
+        <p>Many standard statistical procedures quietly assume that observations are <strong>independent and identically distributed</strong> (IID), or at least close enough that large-sample approximations behave well. Sequence data usually break that intuition. In an event stream, what happens at time <em>t</em> is often constrained by what happened at <em>t-1</em>, <em>t-2</em>, or by the broader local state of the interaction.</p>
+
+        <div class="card teal">
+          <div class="card-title">Core idea</div>
+          <h4 class="h4">Order is not noise in sequence data. Order is the object of study.</h4>
+          <p>If you collapse the sequence into totals or proportions too early, you destroy the very dependence structure you are trying to analyze. Sequence methods exist because temporal dependence is meaningful, not because it is a nuisance to be averaged away.</p>
+        </div>
+
+        <div class="fig">
+          <svg viewBox="0 0 980 300" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto">
+            <defs>
+              <marker id="iidArr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                <path d="M0,0 L10,5 L0,10 z" fill="#0F1A2A"/>
+              </marker>
+              <style>
+                .box{fill:#fff;stroke:#0F1A2A;stroke-width:2}
+                .soft{fill:#eef6f7;stroke:#0A7480;stroke-width:2}
+                .warn{fill:#fff1ec;stroke:#E07A5F;stroke-width:2}
+                .ttl{font-family:'Inter',sans-serif;font-size:16px;font-weight:800;fill:#0F1A2A}
+                .txt{font-family:'Inter',sans-serif;font-size:13px;fill:#1E2D3F}
+                .mono{font-family:'JetBrains Mono',monospace;font-size:13px;fill:#0A7480;font-weight:700}
+                .arr{stroke:#0F1A2A;stroke-width:2;fill:none;marker-end:url(#iidArr)}
+              </style>
+            </defs>
+            <rect class="box" x="18" y="22" width="280" height="246" rx="16"/>
+            <text class="ttl" x="42" y="52">Flat IID intuition</text>
+            <rect class="soft" x="42" y="76" width="44" height="44" rx="10"/><text class="mono" x="64" y="104" text-anchor="middle">A</text>
+            <rect class="soft" x="98" y="76" width="44" height="44" rx="10"/><text class="mono" x="120" y="104" text-anchor="middle">B</text>
+            <rect class="soft" x="154" y="76" width="44" height="44" rx="10"/><text class="mono" x="176" y="104" text-anchor="middle">C</text>
+            <rect class="soft" x="210" y="76" width="44" height="44" rx="10"/><text class="mono" x="232" y="104" text-anchor="middle">A</text>
+            <text class="txt" x="42" y="148">Treat each event as if it were</text>
+            <text class="txt" x="42" y="166">an unrelated row from one pool.</text>
+            <text class="txt" x="42" y="198">Result: sample size looks larger</text>
+            <text class="txt" x="42" y="216">than the process really supports.</text>
+
+            <rect class="box" x="342" y="22" width="280" height="246" rx="16"/>
+            <text class="ttl" x="366" y="52">Sequence intuition</text>
+            <circle cx="390" cy="98" r="20" fill="#0A7480"/><text x="390" y="103" text-anchor="middle" font-family="JetBrains Mono" font-size="13" font-weight="700" fill="#fff">ASK</text>
+            <circle cx="484" cy="98" r="20" fill="#0A7480"/><text x="484" y="103" text-anchor="middle" font-family="JetBrains Mono" font-size="11" font-weight="700" fill="#fff">EXPL</text>
+            <circle cx="578" cy="98" r="20" fill="#0A7480"/><text x="578" y="103" text-anchor="middle" font-family="JetBrains Mono" font-size="11" font-weight="700" fill="#fff">AGR</text>
+            <path class="arr" d="M410 98 H462"/>
+            <path class="arr" d="M504 98 H556"/>
+            <text class="txt" x="366" y="148">What happens now depends partly</text>
+            <text class="txt" x="366" y="166">on what happened just before.</text>
+            <text class="txt" x="366" y="198">Order carries information, so rows</text>
+            <text class="txt" x="366" y="216">are not exchangeable by default.</text>
+
+            <rect class="warn" x="666" y="22" width="296" height="246" rx="16"/>
+            <text class="ttl" x="690" y="52">Why this matters statistically</text>
+            <text class="txt" x="690" y="92">If you ignore dependence:</text>
+            <text class="txt" x="710" y="122">• standard errors can shrink too much</text>
+            <text class="txt" x="710" y="148">• p-values can look too optimistic</text>
+            <text class="txt" x="710" y="174">• totals can hide process structure</text>
+            <text class="txt" x="690" y="214">That is why sequence methods test</text>
+            <text class="txt" x="690" y="232">against process-aware null structures.</text>
+          </svg>
+          <div class="fig-cap"><span class="lbl">Why IID fails here</span><span class="desc">The same events can be counted as flat rows or understood as a dependent process. Sequence analysis starts from the second view.</span></div>
+        </div>
+
+        <h3 class="h3">So does the central limit theorem fail?</h3>
+        <p>Not exactly. The central limit theorem is not simply "false" for all dependent data, but <strong>you do not get to assume the simple IID version by default</strong>. Some dependent processes still admit asymptotic normality under additional mixing or stationarity conditions, but most applied behavioral datasets do not justify that leap automatically. Classroom talk, gameplay actions, clinical routines, and clickstreams are often path-dependent, bursty, and heterogeneous across sessions.</p>
+        <p>That is why sequence analysis often leans on <strong>resampling, permutation, simulation, or model-based likelihood logic</strong> instead of casually treating every event as if it were an independent draw from one big population.</p>
+
+        <div class="g2">
+          <div class="card">
+            <div class="card-title">What goes wrong</div>
+            <h4 class="h4">Naive event-level tests</h4>
+            <p>If you run a standard test on raw event counts as though every turn were independent, standard errors can look too small and effects can look too certain. The dependence inflates the apparent sample size.</p>
+          </div>
+          <div class="card">
+            <div class="card-title">What to ask instead</div>
+            <h4 class="h4">What null structure is plausible?</h4>
+            <p>For process data, the right question is often not "is the mean different?" but "different from what kind of ordered null process?" That is where permutation and sequence-specific null models become useful.</p>
+          </div>
+        </div>
+
+        <h3 class="h3">Why permutation shows up so often</h3>
+        <p>Permutation logic is attractive in sequence work because it can compare the observed structure to a <strong>rearranged world where the target effect is absent</strong>, while preserving parts of the data you still believe. For example, you may want to preserve session boundaries, overall code frequencies, or group labels, but break the specific alignment that would make one transition pattern look stronger than another.</p>
+        <p>That is also why permutation is not one single thing. A good permutation scheme must respect the unit of analysis. Sometimes you permute group labels across sessions. Sometimes you shuffle within session under constraints. Sometimes you simulate from a fitted null process instead of permuting raw events. The right choice depends on which dependence structure you are trying to keep and which structure you are testing against.</p>
+
+        <div class="tip">
+          <div class="pl">Practical reading rule</div>
+          <p>When a sequence paper says "permutation test," ask two follow-up questions immediately: <strong>what exactly was permuted</strong>, and <strong>what structure was intentionally preserved</strong>?</p>
+        </div>
+
+        <div class="fig">
+          <svg viewBox="0 0 980 320" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto">
+            <defs>
+              <marker id="permArr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                <path d="M0,0 L10,5 L0,10 z" fill="#0A7480"/>
+              </marker>
+              <style>
+                .pbox{fill:#fff;stroke:#0F1A2A;stroke-width:2}
+                .pkeep{fill:#eef6f7;stroke:#0A7480;stroke-width:2}
+                .pmove{fill:#fff1ec;stroke:#E07A5F;stroke-width:2}
+                .pttl{font-family:'Inter',sans-serif;font-size:16px;font-weight:800;fill:#0F1A2A}
+                .ptxt{font-family:'Inter',sans-serif;font-size:13px;fill:#1E2D3F}
+                .pm{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700}
+              </style>
+            </defs>
+            <rect class="pbox" x="24" y="24" width="274" height="250" rx="16"/>
+            <text class="pttl" x="48" y="54">Observed grouped sessions</text>
+            <rect class="pkeep" x="48" y="82" width="96" height="34" rx="10"/><text class="pm" x="96" y="104" text-anchor="middle" fill="#0A7480">Group A</text>
+            <rect class="pkeep" x="160" y="82" width="96" height="34" rx="10"/><text class="pm" x="208" y="104" text-anchor="middle" fill="#0A7480">Group B</text>
+            <text class="ptxt" x="48" y="142">Session 1: ASK → EXPLAIN → AGREE</text>
+            <text class="ptxt" x="48" y="164">Session 2: ASK → EXAMPLE → AGREE</text>
+            <text class="ptxt" x="48" y="186">Session 3: EXPLAIN → AGREE → ELAB</text>
+            <text class="ptxt" x="48" y="220">Observed question:</text>
+            <text class="ptxt" x="48" y="238">Do groups differ in sequence structure?</text>
+
+            <path d="M298 148 H390" stroke="#0A7480" stroke-width="3" fill="none" marker-end="url(#permArr)"/>
+
+            <rect class="pbox" x="402" y="24" width="208" height="250" rx="16"/>
+            <text class="pttl" x="426" y="54">Permutation step</text>
+            <text class="ptxt" x="426" y="94">Shuffle:</text>
+            <rect class="pmove" x="426" y="108" width="132" height="32" rx="10"/><text class="pm" x="492" y="129" text-anchor="middle" fill="#B55237">group labels</text>
+            <text class="ptxt" x="426" y="174">Preserve:</text>
+            <rect class="pkeep" x="426" y="188" width="150" height="32" rx="10"/><text class="pm" x="501" y="209" text-anchor="middle" fill="#0A7480">within-session order</text>
+            <rect class="pkeep" x="426" y="228" width="124" height="32" rx="10"/><text class="pm" x="488" y="249" text-anchor="middle" fill="#0A7480">session boundaries</text>
+
+            <path d="M610 148 H704" stroke="#0A7480" stroke-width="3" fill="none" marker-end="url(#permArr)"/>
+
+            <rect class="pbox" x="716" y="24" width="240" height="250" rx="16"/>
+            <text class="pttl" x="740" y="54">Null comparison world</text>
+            <text class="ptxt" x="740" y="92">If labels are shuffled many times,</text>
+            <text class="ptxt" x="740" y="110">how large is the group difference</text>
+            <text class="ptxt" x="740" y="128">just by chance?</text>
+            <text class="ptxt" x="740" y="168">Observed statistic</text>
+            <rect class="pmove" x="740" y="182" width="92" height="30" rx="10"/><text class="pm" x="786" y="202" text-anchor="middle" fill="#B55237">0.41</text>
+            <text class="ptxt" x="846" y="201">vs.</text>
+            <rect class="pkeep" x="876" y="182" width="56" height="30" rx="10"/><text class="pm" x="904" y="202" text-anchor="middle" fill="#0A7480">null</text>
+            <text class="ptxt" x="740" y="240">The p-value comes from that null distribution,</text>
+            <text class="ptxt" x="740" y="258">not from pretending events were IID rows.</text>
+          </svg>
+          <div class="fig-cap"><span class="lbl">Permutation logic</span><span class="desc">A useful permutation test breaks only the alignment tied to the hypothesis while preserving the dependence structure you still believe.</span></div>
+        </div>
+
+        <h3 class="h3">How this maps onto the four methods here</h3>
+        <ul>
+          <li><strong>TNA:</strong> often uses bootstrap or permutation-style comparisons because edge weights and centralities come from dependent event transitions, not IID rows.</li>
+          <li><strong>LSA:</strong> explicitly asks whether an observed lagged transition is above a chance model, so the null model is built into the logic of the z statistic.</li>
+          <li><strong>SPM:</strong> is descriptive first; the statistical challenge is usually choosing support thresholds and filtering trivial patterns, not pretending the discovered motifs came from IID events.</li>
+          <li><strong>HMM:</strong> handles dependence by modeling it directly through latent states and transition probabilities rather than pretending successive events are independent.</li>
+        </ul>
+
+        <div class="pitfall">
+          <div class="pl">Common beginner mistake</div>
+          <p>Treating a sequence dataset like a flat spreadsheet of unrelated rows is usually the fastest way to get misleading certainty. Before testing anything, decide whether the meaningful unit is the <strong>event</strong>, the <strong>session</strong>, the <strong>transition</strong>, or the <strong>entire sequence</strong>.</p>
         </div>
       </div>
     </section>
