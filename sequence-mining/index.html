@@ -172,6 +172,20 @@ code:not(.code){font-family:'JetBrains Mono',monospace;font-size:13px;
   letter-spacing:1.5px;text-transform:uppercase;color:var(--teal)}
 .fig-cap .desc{font-size:13px;color:#3D4F5F;line-height:1.5;flex:1;text-align:right}
 
+.faq-stack{display:grid;gap:12px;margin:20px 0}
+.faq-item{background:#fff;border:2px solid var(--ink);border-radius:14px;overflow:hidden}
+.faq-item{scroll-margin-top:24px}
+.faq-item[open]{border-color:var(--teal);box-shadow:0 10px 28px rgba(10,116,128,.10)}
+.faq-q{list-style:none;cursor:pointer;padding:18px 22px;font-size:18px;font-weight:800;line-height:1.35;display:flex;align-items:center;justify-content:space-between;gap:18px}
+.faq-q::-webkit-details-marker{display:none}
+.faq-q::after{content:'+';font-family:'JetBrains Mono',monospace;font-size:20px;font-weight:700;color:var(--teal);flex-shrink:0}
+.faq-item[open] .faq-q::after{content:'−'}
+.faq-a{padding:0 22px 20px}
+.faq-a p{font-size:15px;line-height:1.7;color:#1E2D3F;margin:0 0 12px}
+.faq-a p:last-child{margin-bottom:0}
+.faq-rule{background:var(--teal-soft);border-left:4px solid var(--teal);border-radius:0 10px 10px 0;padding:14px 16px;margin-top:12px}
+.faq-rule strong{color:var(--teal)}
+
 .gallery{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin:32px 0 0}
 .gallery .fig{margin:0}
 @media (max-width:780px){.gallery{grid-template-columns:1fr}}
@@ -216,6 +230,16 @@ code:not(.code){font-family:'JetBrains Mono',monospace;font-size:13px;
     <ol start="8">
       <li><a href="#compare">Side-by-side: same data, four lenses</a></li>
       <li><a href="#trouble">Troubleshooting matrix</a></li>
+      <li><a href="#faq">Practical FAQ</a></li>
+      <li><a href="#faq-choose">FAQ: choosing the method</a></li>
+      <li><a href="#faq-multi">FAQ: using multiple methods</a></li>
+      <li><a href="#faq-data">FAQ: minimum viable data</a></li>
+      <li><a href="#faq-time">FAQ: timestamps &amp; session length</a></li>
+      <li><a href="#faq-groups">FAQ: group comparison</a></li>
+      <li><a href="#faq-spm">FAQ: ceiling SPM support</a></li>
+      <li><a href="#faq-hmm">FAQ: when HMM is worth it</a></li>
+      <li><a href="#faq-report">FAQ: what to report</a></li>
+      <li><a href="#faq-reviewers">FAQ: reviewer objections</a></li>
       <li><a href="#cheat">Cheat sheet</a></li>
       <li><a href="#references">References &amp; credits</a></li>
     </ol>
@@ -833,9 +857,115 @@ table(paths)                       <span class="cm"># overall state usage</span>
       </div>
     </section>
 
-    <!-- 9b. CHEAT SHEET -->
+    <!-- 9b. FAQ -->
+    <section class="section" id="faq">
+      <div class="section-label">Chapter 09b &middot; FAQ</div>
+      <h2 class="h2">Practical <span class="teal">FAQ</span> for first sequence-mining projects</h2>
+      <div class="body">
+        <div class="card teal">
+          <div class="card-title">Why this section exists</div>
+          <p>Most early mistakes in sequence mining happen before the code runs: the wrong method is chosen, the event stream is too thin, or the interpretation overreaches what the output can support. These are the questions reviewers and beginners usually ask first.</p>
+        </div>
+
+        <div class="faq-stack">
+          <details class="faq-item" id="faq-choose" open>
+            <summary class="faq-q">How do I choose between TNA, LSA, SPM, and HMM?</summary>
+            <div class="faq-a">
+              <p>Start with the research question, not the most sophisticated-looking method. TNA is best when you want to show the overall flow between codes. LSA is best when you need to test whether a specific lagged transition occurs more or less than chance. SPM is best when you want to discover longer recurring motifs. HMM is best when you think the visible code stream is an imperfect signal of a smaller set of hidden states.</p>
+              <p>The main mistake is using a method because it produces an attractive figure. A network graph is not automatically better than a motif table, and a latent-state model is not automatically deeper than a transition model. Each one answers a different question.</p>
+              <div class="faq-rule"><strong>Practical rule:</strong> write the research question in one sentence first, then ask which output object answers that sentence most directly.</div>
+            </div>
+          </details>
+
+          <details class="faq-item" id="faq-multi">
+            <summary class="faq-q">Can I use more than one method on the same dataset?</summary>
+            <div class="faq-a">
+              <p>Yes. In many papers, the strongest design is a small sequence-mining pipeline rather than a single method. For example, TNA can describe the overall flow, LSA can test whether key lag-1 transitions are above chance, and SPM can surface longer motifs that are not obvious in the graph.</p>
+              <p>The important part is keeping the questions distinct. If you use multiple methods, each one should add a non-redundant layer of evidence rather than repeating the same descriptive point in a different format.</p>
+              <div class="faq-rule"><strong>Practical rule:</strong> use method A to surface structure and method B to test, sharpen, or reinterpret that structure.</div>
+            </div>
+          </details>
+
+          <details class="faq-item" id="faq-data">
+            <summary class="faq-q">What is the minimum viable dataset for sequence mining?</summary>
+            <div class="faq-a">
+              <p>There is no universal cutoff, but event sparsity is the common failure mode. If most sessions contain only a few coded events, TNA edges become unstable, LSA cells collapse toward zero counts, SPM returns either nothing or only trivial patterns, and HMM has almost no temporal signal to learn from.</p>
+              <p>What matters more than raw participant count is repeated coded structure: multiple events per session, recurring codes across sessions, and enough cases to stabilize estimates. A smaller dataset with dense sessions is often more usable than a larger dataset with only one or two events per case.</p>
+              <div class="faq-rule"><strong>Practical rule:</strong> before modeling, inspect session length, code frequency, and recurrence across cases. If those are weak, the sequence method will usually be weak too.</div>
+            </div>
+          </details>
+
+          <details class="faq-item" id="faq-time">
+            <summary class="faq-q">Do I need timestamps, and what if my sessions have different lengths?</summary>
+            <div class="faq-a">
+              <p>Stable order within each session is usually enough. TNA, LSA, SPM, and HMM all rely on sequence order first. Exact timestamps matter when you want to make claims about spacing, elapsed time, pauses, or tempo, but not for basic ordered-event analysis.</p>
+              <p>Unequal session lengths are normal. TNA, LSA, and SPM can all handle them as long as session boundaries are preserved. HMM can also handle unequal lengths, but extremely short sessions contribute little information about state transitions.</p>
+              <div class="faq-rule"><strong>Practical rule:</strong> protect within-session order and session boundaries first; treat clock time as optional unless timing itself is part of the theory.</div>
+            </div>
+          </details>
+
+          <details class="faq-item" id="faq-groups">
+            <summary class="faq-q">Can I compare treatment and control groups with these methods?</summary>
+            <div class="faq-a">
+              <p>Yes, but be explicit about what differs. TNA compares flow structure, LSA compares transition tendencies, SPM compares motif prevalence, and HMM compares latent-state dynamics or emission structure. Those are process differences, not automatically intervention effects.</p>
+              <p>In a paper, it is safer to say that groups differed in sequence structure or estimated state dynamics unless the study design supports causal language. Reviewers often object when process patterns are narrated as if they proved what the intervention did.</p>
+              <div class="faq-rule"><strong>Practical rule:</strong> describe group differences in structure, motifs, or states; reserve causal language for designs that justify causality.</div>
+            </div>
+          </details>
+
+          <details class="faq-item" id="faq-spm">
+            <summary class="faq-q">Why do my top SPM patterns all have support 1.00 or 0.99?</summary>
+            <div class="faq-a">
+              <p>This usually means you are looking at trivial, nearly universal patterns rather than informative motifs. Single items or very common short subsequences often dominate the ranking because they appear in almost every session, not because they tell the most interesting story.</p>
+              <p>That is why the raw top-support plot is often a poor final figure. The more interpretable view is usually a filtered ranking of multi-item patterns, optionally with ceiling-support patterns removed and closed or maximal filtering applied.</p>
+              <div class="faq-rule"><strong>Practical rule:</strong> for presentation, filter to 2+ item patterns and rank within a support range that shows real spread.</div>
+            </div>
+          </details>
+
+          <details class="faq-item" id="faq-hmm">
+            <summary class="faq-q">When is HMM worth the extra complexity?</summary>
+            <div class="faq-a">
+              <p>Use HMM when you have a real latent-state theory. If your codes are already the phenomenon of interest, a direct transition or motif method may be enough. HMM becomes worthwhile when you believe observed actions are noisy emissions from a smaller hidden process such as exploration, consolidation, or confusion.</p>
+              <p>HMM also demands more modeling discipline: choosing K, checking local optima, examining emission interpretability, and avoiding overfit. If you do not need a latent-state claim, it may be complexity without payoff.</p>
+              <div class="faq-rule"><strong>Practical rule:</strong> only choose HMM if your paper needs a latent-state argument, not just a temporal pattern description.</div>
+            </div>
+          </details>
+
+          <details class="faq-item" id="faq-report">
+            <summary class="faq-q">Should I report only the prettiest figure?</summary>
+            <div class="faq-a">
+              <p>No. Sequence-mining figures are persuasive, but reviewers also need the analytic spine: how sessions were defined, how codes were constructed, which method was chosen and why, what uncertainty or diagnostics were checked, and what preprocessing decisions affected the result.</p>
+              <p>A good figure should be the visual summary of a coherent analytic decision chain, not a substitute for that chain. This is especially true when the figure is based on synthetic or highly tuned examples.</p>
+              <div class="faq-rule"><strong>Practical rule:</strong> report the question, sequence definition, preprocessing, model settings, and one figure that directly answers the question.</div>
+            </div>
+          </details>
+
+          <details class="faq-item" id="faq-reviewers">
+            <summary class="faq-q">What do reviewers usually challenge in sequence-mining papers?</summary>
+            <div class="faq-a">
+              <p>The three most common targets are method fit, coding reliability, and over-interpretation. Reviewers want to know why this particular method fits the question, whether the codebook is stable and meaningful, and whether the claims go beyond what the output can support.</p>
+              <p>They also watch for visualization artifacts: thick edges without uncertainty, motif lists with no filtering rationale, or latent states that have been named more confidently than the emissions justify.</p>
+              <div class="faq-rule"><strong>Practical rule:</strong> be ready to justify the method, defend the code construction, and explain why the visual pattern is analytically meaningful rather than merely decorative.</div>
+            </div>
+          </details>
+        </div>
+
+        <div class="g2">
+          <div class="card">
+            <div class="card-title">Green flags</div>
+            <p>Repeated event codes, clear session boundaries, a defensible codebook, and a method whose output directly answers the stated question.</p>
+          </div>
+          <div class="card">
+            <div class="card-title">Red flags</div>
+            <p>One-off events, unstable coding, tiny per-group sample sizes, or a paper claim that treats exploratory pattern structure as if it were intervention evidence.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 10. CHEAT SHEET -->
     <section class="section" id="cheat">
-      <div class="section-label">Chapter 09b &middot; Cheat sheet</div>
+      <div class="section-label">Chapter 10 &middot; Cheat sheet</div>
       <h2 class="h2">One-page <span class="teal">cheat sheet</span></h2>
       <div class="body">
         <div class="g2">
@@ -899,9 +1029,9 @@ hidden_paths(fit$model)</pre>
       </div>
     </section>
 
-    <!-- 10. REFERENCES -->
+    <!-- 11. REFERENCES -->
     <section class="section" id="references">
-      <div class="section-label">Chapter 10 &middot; Credits</div>
+      <div class="section-label">Chapter 11 &middot; Credits</div>
       <h2 class="h2"><span class="teal">References</span> &mdash; cite the originals</h2>
       <div class="body">
         <h3 class="h3">TNA</h3>
@@ -964,6 +1094,10 @@ hidden_paths(fit$model)</pre>
   );
   let manualTargetId = null;
   let manualTimer = null;
+  const openIfFaqItem = (id) => {
+    const target = document.getElementById(id);
+    if (target && target.matches('details.faq-item')) target.open = true;
+  };
 
   const setActive = (id) => {
     tocLinks.forEach((link) => {
@@ -980,6 +1114,7 @@ hidden_paths(fit$model)</pre>
       manualTargetId = id;
       window.clearTimeout(manualTimer);
       manualTimer = window.setTimeout(() => { manualTargetId = null; }, 900);
+      openIfFaqItem(id);
       setActive(id);
     });
   });
@@ -990,6 +1125,7 @@ hidden_paths(fit$model)</pre>
     manualTargetId = id;
     window.clearTimeout(manualTimer);
     manualTimer = window.setTimeout(() => { manualTargetId = null; }, 900);
+    openIfFaqItem(id);
     setActive(id);
   });
 
@@ -1010,6 +1146,7 @@ hidden_paths(fit$model)</pre>
   sectionMap.forEach((section) => observer.observe(section));
   if (tocLinks.length) {
     const initial = location.hash ? location.hash.slice(1) : tocLinks[0].getAttribute('href').slice(1);
+    openIfFaqItem(initial);
     setActive(initial);
   }
 })();
