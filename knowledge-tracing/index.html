@@ -1494,6 +1494,8 @@ lkt_model <- LKT(
 
   function bindTocSpy() {
     const tocLinks = [...document.querySelectorAll('.toc a[href^="#"]')];
+    let manualTargetId = null;
+    let manualTimer = null;
     const sectionMap = new Map(
       tocLinks
         .map((link) => {
@@ -1515,11 +1517,27 @@ lkt_model <- LKT(
     tocLinks.forEach((link) => {
       link.addEventListener('click', () => {
         const id = link.getAttribute('href').slice(1);
+        manualTargetId = id;
+        window.clearTimeout(manualTimer);
+        manualTimer = window.setTimeout(() => { manualTargetId = null; }, 900);
         setActive(id);
       });
     });
 
+    window.addEventListener('hashchange', () => {
+      const id = location.hash.slice(1);
+      if (!id) return;
+      manualTargetId = id;
+      window.clearTimeout(manualTimer);
+      manualTimer = window.setTimeout(() => { manualTargetId = null; }, 900);
+      setActive(id);
+    });
+
     const observer = new IntersectionObserver((entries) => {
+      if (manualTargetId) {
+        setActive(manualTargetId);
+        return;
+      }
       const visible = entries
         .filter((entry) => entry.isIntersecting)
         .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
