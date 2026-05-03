@@ -113,6 +113,17 @@ code:not(.code){font-family:'JetBrains Mono',monospace;font-size:13px;background
 .metric-box .k{font-size:10px;font-weight:800;letter-spacing:1.6px;text-transform:uppercase;color:var(--olive);margin-bottom:4px}
 .metric-box .v{font-family:'JetBrains Mono',monospace;font-size:20px;font-weight:700;color:var(--ink)}
 .mini-note{font-size:12.5px;color:var(--ink2);margin-top:10px}
+.micro-lab{background:#fff;border:2px dashed var(--olive);border-radius:14px;padding:18px 20px;margin:18px 0}
+.micro-lab .card-title{margin-bottom:10px}
+.micro-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.micro-out{background:var(--olive-soft);border-radius:12px;padding:14px 16px;font-size:14px;line-height:1.6;color:var(--ink)}
+.select{width:100%;padding:10px 12px;border:1.5px solid var(--line);border-radius:10px;background:#fff;color:var(--ink);font:inherit}
+.check-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.check-grid label{display:flex;align-items:flex-start;gap:8px;font-size:14px;color:var(--ink)}
+.pill-row{display:flex;gap:8px;flex-wrap:wrap}
+.pill-row button{border:1.5px solid var(--ink);background:#fff;color:var(--ink);padding:8px 11px;border-radius:999px;font-size:12px;font-weight:700;cursor:pointer}
+.pill-row button.active{background:var(--olive);border-color:var(--olive);color:#fff}
+@media (max-width:780px){.micro-grid,.check-grid{grid-template-columns:1fr}}
 @media (max-width:900px){.lab-grid{grid-template-columns:1fr}}
 .foot{margin-top:80px;padding-top:32px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:11px;color:var(--ink3);letter-spacing:.14em;text-transform:uppercase}
 .foot .olive{color:var(--olive);font-weight:700}
@@ -180,6 +191,20 @@ code:not(.code){font-family:'JetBrains Mono',monospace;font-size:13px;background
           <div class="card-title">Beginner upgrade</div>
           <p>If this section still feels abstract, use this translation: <strong>KT is a way to turn many quiz attempts into a moving estimate of “how likely this student now knows this concept.”</strong></p>
         </div>
+        <div class="micro-lab">
+          <div class="card-title">Interactive Quick Check</div>
+          <div class="micro-grid">
+            <div>
+              <label for="whyData" style="font-size:13px;font-weight:700;display:block;margin-bottom:8px">What kind of data do you have?</label>
+              <select id="whyData" class="select">
+                <option value="posttest">One pre/post score only</option>
+                <option value="few">A few quizzes, not linked to skills</option>
+                <option value="kt" selected>Ordered, skill-linked repeated attempts</option>
+              </select>
+            </div>
+            <div class="micro-out" id="whyOut"></div>
+          </div>
+        </div>
         <ul>
           <li>Is this learner now likely to have mastered concept <code>C01</code>?</li>
           <li>Which skills are still unstable after repeated practice?</li>
@@ -236,6 +261,15 @@ code:not(.code){font-family:'JetBrains Mono',monospace;font-size:13px;background
           <div class="card-title">Beginner upgrade</div>
           <p>For first-time readers, the simplest mental map is: <strong>BKT = interpretable state model</strong>, <strong>LKT = regression-style tracing with features</strong>, <strong>DKT = neural sequence predictor</strong>.</p>
         </div>
+        <div class="micro-lab">
+          <div class="card-title">Interactive Quick Check</div>
+          <div class="pill-row" id="familyPills">
+            <button type="button" class="active" data-family="bkt">BKT</button>
+            <button type="button" data-family="lkt">LKT / AFM / PFA</button>
+            <button type="button" data-family="dkt">DKT</button>
+          </div>
+          <div class="micro-out" id="familyOut" style="margin-top:12px"></div>
+        </div>
         <table class="schema">
           <thead>
             <tr><th>Family</th><th>What it assumes</th><th>Why people still use it</th><th>Main cost</th></tr>
@@ -267,6 +301,20 @@ code:not(.code){font-family:'JetBrains Mono',monospace;font-size:13px;background
         <div class="card soft">
           <div class="card-title">Beginner upgrade</div>
           <p>If you are unsure, start with <strong>BKT</strong>. You can always move upward to logistic KT or DKT, but it is harder to recover interpretability after starting with a black box.</p>
+        </div>
+        <div class="micro-lab">
+          <div class="card-title">Interactive Decision Helper</div>
+          <div class="micro-grid">
+            <div>
+              <label for="goalSelect" style="font-size:13px;font-weight:700;display:block;margin-bottom:8px">Main goal</label>
+              <select id="goalSelect" class="select">
+                <option value="interpret">Explain mastery by skill</option>
+                <option value="features">Model hints / timing / spacing</option>
+                <option value="predict">Maximize prediction</option>
+              </select>
+            </div>
+            <div class="micro-out" id="decisionOut"></div>
+          </div>
         </div>
         <table class="schema">
           <thead>
@@ -306,6 +354,16 @@ code:not(.code){font-family:'JetBrains Mono',monospace;font-size:13px;background
         <div class="card soft">
           <div class="card-title">Beginner upgrade</div>
           <p>A good beginner test is this: can you print one student’s rows and explain the sequence with your eyes? If not, the model should not be run yet.</p>
+        </div>
+        <div class="micro-lab">
+          <div class="card-title">Interactive Schema Check</div>
+          <div class="check-grid" id="schemaChecks">
+            <label><input type="checkbox" data-weight="1" checked> I have one row per attempt.</label>
+            <label><input type="checkbox" data-weight="1" checked> I can sort within student by time/order.</label>
+            <label><input type="checkbox" data-weight="1" checked> I know the concept or skill for each attempt.</label>
+            <label><input type="checkbox" data-weight="1" checked> Correctness is coded consistently.</label>
+          </div>
+          <div class="micro-out" id="schemaOut" style="margin-top:12px"></div>
         </div>
 
         <h3 class="h3">Universal event-log schema</h3>
@@ -362,6 +420,17 @@ order_id,user_id,skill_name,question_id,concept_id,correct,timestamp,attempt_no,
           <div class="card-title">Beginner upgrade</div>
           <p>This workflow is ordered on purpose. Beginners often skip from raw CSV straight to a deep model. That usually creates debugging pain and weak interpretation.</p>
         </div>
+        <div class="micro-lab">
+          <div class="card-title">Interactive Workflow Risk</div>
+          <label for="skipStep" style="font-size:13px;font-weight:700;display:block;margin-bottom:8px">Which step are you tempted to skip?</label>
+          <select id="skipStep" class="select">
+            <option value="none">None</option>
+            <option value="audit">Audit the event log</option>
+            <option value="baseline">Transparent baseline</option>
+            <option value="viz">Visualization before claims</option>
+          </select>
+          <div class="micro-out" id="workflowOut" style="margin-top:12px"></div>
+        </div>
         <div class="g4">
           <div class="card">
             <div class="card-title">Step 1</div>
@@ -407,6 +476,14 @@ order_id,user_id,skill_name,question_id,concept_id,correct,timestamp,attempt_no,
           <div class="card-title">Beginner upgrade</div>
           <p>If you only want one safe Python entry point, use <code>pyBKT</code> first and treat <code>pyKT</code> as a benchmark layer after your baseline is working.</p>
         </div>
+        <div class="micro-lab">
+          <div class="card-title">Interactive Python Picker</div>
+          <select id="pythonPick" class="select">
+            <option value="pybkt">I want the safest first Python route</option>
+            <option value="pykt">I want to benchmark deep KT models</option>
+          </select>
+          <div class="micro-out" id="pythonOut" style="margin-top:12px"></div>
+        </div>
         <table class="schema">
           <thead>
             <tr><th>Package</th><th>Status on this machine</th><th>Notes</th></tr>
@@ -444,6 +521,14 @@ preds = model.predict(data=df)</pre>
         <div class="card soft">
           <div class="card-title">Beginner upgrade</div>
           <p>If you are more comfortable in R than Python, the practical first path is <strong>CRAN BKT</strong> for tracing and then standard <code>ggplot2</code> for communication.</p>
+        </div>
+        <div class="micro-lab">
+          <div class="card-title">Interactive R Picker</div>
+          <select id="rPick" class="select">
+            <option value="bkt">I want the easiest first R model</option>
+            <option value="lkt">I want feature-rich logistic tracing</option>
+          </select>
+          <div class="micro-out" id="rOut" style="margin-top:12px"></div>
         </div>
         <table class="schema">
           <thead>
@@ -486,6 +571,15 @@ lkt_model <- LKT(
         <div class="card soft">
           <div class="card-title">Beginner upgrade</div>
           <p>If you only make two plots, make <strong>mastery over opportunity</strong> and <strong>observed vs predicted correctness</strong>. Those two plots answer most first-pass interpretation questions.</p>
+        </div>
+        <div class="micro-lab">
+          <div class="card-title">Interactive Plot Chooser</div>
+          <select id="vizPick" class="select">
+            <option value="trajectory">I want to show learning over repeated attempts</option>
+            <option value="calibration">I want to show model quality</option>
+            <option value="risk">I want to show who needs support now</option>
+          </select>
+          <div class="micro-out" id="vizOut" style="margin-top:12px"></div>
         </div>
 
         <h3 class="h3">1. Mastery trajectory by opportunity</h3>
@@ -641,6 +735,20 @@ lkt_model <- LKT(
           <div class="card-title">Beginner upgrade</div>
           <p>A simple formula for applied papers is: <strong>use KT to create mastery trajectories, then ask your real research question on top of those trajectories.</strong></p>
         </div>
+        <div class="micro-lab">
+          <div class="card-title">Interactive Scenario Builder</div>
+          <div class="micro-grid">
+            <div>
+              <label for="scenarioPick" style="font-size:13px;font-weight:700;display:block;margin-bottom:8px">Context</label>
+              <select id="scenarioPick" class="select">
+                <option value="its">Intelligent tutoring / adaptive practice</option>
+                <option value="quiz">Low-stakes classroom quiz stream</option>
+                <option value="discourse">Process data + discourse / clicks</option>
+              </select>
+            </div>
+            <div class="micro-out" id="scenarioOut"></div>
+          </div>
+        </div>
         <h3 class="h3">Learning sciences scenario 1: adaptive scaffolding in an ITS</h3>
         <p>You have a tutor with repeated concept-linked practice and hint logs. Use KT to estimate concept mastery after each action, then connect mastery stalls with hint usage, revision behavior, or discourse traces. This is ideal when the argument is about <strong>process-sensitive support</strong>, not just posttest outcomes.</p>
 
@@ -671,6 +779,15 @@ lkt_model <- LKT(
           <div class="card-title">Beginner upgrade</div>
           <p>When a package fails, do not change five things at once. Reduce to one toy file, one model, one script, and one expected output file.</p>
         </div>
+        <div class="micro-lab">
+          <div class="card-title">Interactive Fix Finder</div>
+          <select id="troublePick" class="select">
+            <option value="pybkt">pyBKT fit fails on Windows</option>
+            <option value="lkt">LKT works on sample data but not my CSV</option>
+            <option value="deep">Deep KT preprocessing is a mess</option>
+          </select>
+          <div class="micro-out" id="troubleOut" style="margin-top:12px"></div>
+        </div>
         <table class="schema">
           <thead>
             <tr><th>Symptom</th><th>What it means</th><th>Fix</th></tr>
@@ -700,6 +817,16 @@ lkt_model <- LKT(
           <div class="card-title">Beginner upgrade</div>
           <p>If you can answer every item in this checklist with a concrete file, plot, or script, your analysis is already in much better shape than most first KT attempts.</p>
         </div>
+        <div class="micro-lab">
+          <div class="card-title">Interactive Readiness Score</div>
+          <div class="check-grid" id="readyChecks">
+            <label><input type="checkbox" data-weight="1"> I have a cleaned event log.</label>
+            <label><input type="checkbox" data-weight="1"> I have a baseline model script.</label>
+            <label><input type="checkbox" data-weight="1"> I have at least two interpretation plots.</label>
+            <label><input type="checkbox" data-weight="1"> I can explain the model choice in one sentence.</label>
+          </div>
+          <div class="micro-out" id="readyOut" style="margin-top:12px"></div>
+        </div>
         <ul>
           <li>Did you verify one row equals one attempt, not one student summary?</li>
           <li>Did you sort sequences explicitly and document the ordering key?</li>
@@ -720,6 +847,15 @@ lkt_model <- LKT(
         <div class="card soft">
           <div class="card-title">Beginner upgrade</div>
           <p>Use the original links here when you need to defend a modeling choice in a paper, methods appendix, or reviewer response. This page is the on-ramp; those sources are the authority layer.</p>
+        </div>
+        <div class="micro-lab">
+          <div class="card-title">Interactive Source Helper</div>
+          <select id="refPick" class="select">
+            <option value="justify">I need to justify a model choice in writing</option>
+            <option value="install">I need package docs / install help</option>
+            <option value="survey">I need a broad field overview</option>
+          </select>
+          <div class="micro-out" id="refOut" style="margin-top:12px"></div>
         </div>
         <h3 class="h3">Canonical KT / BKT / DKT references</h3>
         <ul>
@@ -894,6 +1030,93 @@ lkt_model <- LKT(
     `;
   }
 
+  const textMap = {
+    whyData: {
+      posttest: 'This is not KT-ready yet. One pre/post score supports outcome analysis, not mastery tracing over time.',
+      few: 'You may have learning evidence, but not full KT structure. First ask whether you can recover reliable order and skill tags.',
+      kt: 'This is KT-shaped data. You can defend a tracing model because you have repeated, ordered, skill-linked attempts.'
+    },
+    goalSelect: {
+      interpret: 'Recommendation: start with BKT. It gives the most direct mastery story for a methods section or practitioner audience.',
+      features: 'Recommendation: start with LKT / AFM / PFA style modeling. You want coefficients for timing, hints, spacing, or opportunities.',
+      predict: 'Recommendation: benchmark BKT first, then compare DKT / pyKT models on the same split.'
+    },
+    skipStep: {
+      none: 'Good. The workflow is conservative for a reason.',
+      audit: 'High risk: if the sequence is wrong, every later result is wrong.',
+      baseline: 'High risk: you lose the ability to say whether the deep model actually added value.',
+      viz: 'Medium-high risk: your results may be numerically correct but educationally opaque.'
+    },
+    pythonPick: {
+      pybkt: 'Use pyBKT first. It is the better starting point for transparent mastery tracing, but keep the Windows workaround notes nearby.',
+      pykt: 'Use pyKT when you are explicitly benchmarking deep KT families and already have a working baseline.'
+    },
+    rPick: {
+      bkt: 'Start with CRAN BKT. It is the easiest first R route from tidy event log to interpretable predictions.',
+      lkt: 'Use LKT after you understand the sample-data format. It is powerful, but more fragile for beginners.'
+    },
+    vizPick: {
+      trajectory: 'Make mastery-over-opportunity the headline plot. It tells the clearest learning story.',
+      calibration: 'Make observed-vs-predicted correctness your headline diagnostic plot.',
+      risk: 'Make a student × concept risk heatmap if the goal is instructional action.'
+    },
+    scenarioPick: {
+      its: 'KT output: concept-level mastery after each tutoring step. Follow-up question: where should the system scaffold next?',
+      quiz: 'KT output: evolving concept risk from repeated low-stakes assessment. Follow-up question: who needs support before the unit exam?',
+      discourse: 'KT output: mastery trajectory aligned with process traces. Follow-up question: which discourse or click patterns accompany mastery growth?'
+    },
+    troublePick: {
+      pybkt: 'Reduce to one toy CSV, pin scikit-learn, and use the serial workaround documented in this guide.',
+      lkt: 'Start from samplelkt-compatible structure first. Do not debug your full dataset before reproducing the package example.',
+      deep: 'Freeze one preprocessing pipeline: ID mapping, ordering, splits, and response encoding. Most deep KT pain starts there.'
+    },
+    refPick: {
+      justify: 'Use the original BKT / DKT papers and the KT survey. Those are the strongest methods-justification citations.',
+      install: 'Use the package docs and repo READMEs first: pyBKT, pyKT, CRAN BKT, and local LKT vignettes.',
+      survey: 'Start with the KT survey, then move to package docs and original model papers.'
+    }
+  };
+
+  function bindSelect(id, outId) {
+    const el = qs(id);
+    const out = qs(outId);
+    const render = () => { out.textContent = textMap[id][el.value]; };
+    el.addEventListener('input', render);
+    render();
+  }
+
+  function bindChecks(containerId, outId, thresholds) {
+    const box = qs(containerId);
+    const out = qs(outId);
+    const render = () => {
+      const count = [...box.querySelectorAll('input:checked')].length;
+      out.textContent = count >= thresholds.good
+        ? `Readiness: ${count}/${thresholds.total}. You are in good shape to move forward.`
+        : count >= thresholds.mid
+        ? `Readiness: ${count}/${thresholds.total}. Usable, but there are still avoidable risks.`
+        : `Readiness: ${count}/${thresholds.total}. Stop and clean the foundations first.`;
+    };
+    box.querySelectorAll('input').forEach((el) => el.addEventListener('change', render));
+    render();
+  }
+
+  function bindFamilyPills() {
+    const map = {
+      bkt: 'BKT is the best first mental model when you need concept mastery to be explainable to humans.',
+      lkt: 'LKT / AFM / PFA are best when you want tracing plus explicit predictors like opportunities, hints, or time.',
+      dkt: 'DKT is best viewed as a sequence predictor. Use it when predictive performance matters more than parameter interpretability.'
+    };
+    const out = qs('familyOut');
+    document.querySelectorAll('#familyPills button').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('#familyPills button').forEach((b) => b.classList.remove('active'));
+        btn.classList.add('active');
+        out.textContent = map[btn.dataset.family];
+      });
+    });
+    out.textContent = map.bkt;
+  }
+
   [priorRange, learnRange, slipRange, guessRange].forEach((el) => el.addEventListener('input', renderBKT));
   ['controlStart', 'controlSlope', 'treatStart', 'treatSlope'].forEach((id) => qs(id).addEventListener('input', renderGroup));
   document.querySelectorAll('#seqButtons button').forEach((btn) => {
@@ -905,6 +1128,18 @@ lkt_model <- LKT(
     });
   });
 
+  bindSelect('whyData', 'whyOut');
+  bindFamilyPills();
+  bindSelect('goalSelect', 'decisionOut');
+  bindChecks('schemaChecks', 'schemaOut', { good: 4, mid: 3, total: 4 });
+  bindSelect('skipStep', 'workflowOut');
+  bindSelect('pythonPick', 'pythonOut');
+  bindSelect('rPick', 'rOut');
+  bindSelect('vizPick', 'vizOut');
+  bindSelect('scenarioPick', 'scenarioOut');
+  bindSelect('troublePick', 'troubleOut');
+  bindChecks('readyChecks', 'readyOut', { good: 4, mid: 2, total: 4 });
+  bindSelect('refPick', 'refOut');
   renderBKT();
   renderGroup();
 })();
