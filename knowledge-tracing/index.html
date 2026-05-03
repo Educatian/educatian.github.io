@@ -123,6 +123,7 @@ code:not(.code){font-family:'JetBrains Mono',monospace;font-size:13px;background
 .pill-row{display:flex;gap:8px;flex-wrap:wrap}
 .pill-row button{border:1.5px solid var(--ink);background:#fff;color:var(--ink);padding:8px 11px;border-radius:999px;font-size:12px;font-weight:700;cursor:pointer}
 .pill-row button.active{background:var(--olive);border-color:var(--olive);color:#fff}
+.supp-kicker{display:inline-block;background:#182126;color:#F4F1E8;padding:8px 12px;border-radius:999px;font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;margin-bottom:14px}
 @media (max-width:780px){.micro-grid,.check-grid{grid-template-columns:1fr}}
 @media (max-width:900px){.lab-grid{grid-template-columns:1fr}}
 .foot{margin-top:80px;padding-top:32px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:11px;color:var(--ink3);letter-spacing:.14em;text-transform:uppercase}
@@ -156,6 +157,7 @@ code:not(.code){font-family:'JetBrains Mono',monospace;font-size:13px;background
       <li><a href="#scenarios">Research scenarios in LS / Ed Psych</a></li>
       <li><a href="#trouble">Troubleshooting</a></li>
       <li><a href="#checklist">Pre-publication checklist</a></li>
+      <li><a href="#bayesnet">Supplement: Bayesian Networks</a></li>
       <li><a href="#references">Original guides and references</a></li>
     </ol>
   </nav>
@@ -841,6 +843,102 @@ lkt_model <- LKT(
     </section>
 
     <section class="section" id="references">
+      <div class="section-label">Chapter 11b · Supplement</div>
+      <h2 class="h2"><span class="olive">Bayesian Networks</span> for education</h2>
+      <div class="body" id="bayesnet">
+        <div class="supp-kicker">Supplementary module</div>
+        <p>This module sits above KT in the model family tree. <strong>BKT is a specialized dynamic Bayesian model</strong>; broader <strong>Bayesian networks</strong> let you represent prerequisites, multiple latent skills, stealth evidence, and richer learner-model integration in one probabilistic graph.</p>
+
+        <div class="card soft">
+          <div class="card-title">Beginner upgrade</div>
+          <p>Use this translation: <strong>static BN</strong> means “what is likely true right now given the evidence?” <strong>dynamic BN</strong> means “how do hidden states change across time?” BKT is the simplest dynamic case many education researchers start with.</p>
+        </div>
+
+        <table class="schema">
+          <thead>
+            <tr><th>Variant</th><th>Educational use</th><th>What it adds</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="k">Static BN</td><td>Diagnostic assessment</td><td>Multiple linked proficiencies, misconceptions, and observed evidence in one graph.</td></tr>
+            <tr><td class="k">Dynamic BN</td><td>Learning progression / stealth assessment</td><td>Hidden states evolve across time slices using behavior or performance evidence.</td></tr>
+            <tr><td class="k">BKT</td><td>Per-skill mastery tracing</td><td>Interpretable special case of dynamic Bayesian modeling.</td></tr>
+          </tbody>
+        </table>
+
+        <h3 class="h3">Where BN is especially useful in education</h3>
+        <ul>
+          <li><strong>Diagnostic assessment:</strong> infer several skills at once rather than one total score.</li>
+          <li><strong>Prerequisite modeling:</strong> encode that concept B depends on concept A, and concept C depends on B.</li>
+          <li><strong>Stealth assessment:</strong> update hidden proficiency from gameplay or process behavior without interrupting the activity with constant quizzes.</li>
+          <li><strong>Learner model integration:</strong> combine knowledge, persistence, strategy use, and help-seeking in the same student model.</li>
+        </ul>
+
+        <div class="micro-lab">
+          <div class="card-title">Interactive Prerequisite BN</div>
+          <p class="mini">This simulates a <strong>static prerequisite network</strong>: Concept A supports B, and B supports C. Item evidence shifts the posterior of each concept.</p>
+          <div class="micro-grid">
+            <div>
+              <label for="bnA" style="font-size:13px;font-weight:700;display:block;margin-bottom:8px">Evidence on Concept A</label>
+              <select id="bnA" class="select">
+                <option value="na">No evidence</option>
+                <option value="correct">Correct</option>
+                <option value="incorrect">Incorrect</option>
+              </select>
+              <label for="bnB" style="font-size:13px;font-weight:700;display:block;margin:12px 0 8px">Evidence on Concept B</label>
+              <select id="bnB" class="select">
+                <option value="na">No evidence</option>
+                <option value="correct">Correct</option>
+                <option value="incorrect">Incorrect</option>
+              </select>
+              <label for="bnC" style="font-size:13px;font-weight:700;display:block;margin:12px 0 8px">Evidence on Concept C</label>
+              <select id="bnC" class="select">
+                <option value="na">No evidence</option>
+                <option value="correct">Correct</option>
+                <option value="incorrect">Incorrect</option>
+              </select>
+            </div>
+            <div class="micro-out" id="bnOut"></div>
+          </div>
+          <div class="viz" style="margin-top:14px">
+            <svg id="bnSvg" viewBox="0 0 820 270" xmlns="http://www.w3.org/2000/svg">
+              <rect x="0" y="0" width="820" height="270" fill="#fff"/>
+              <g id="bnPlot"></g>
+            </svg>
+          </div>
+        </div>
+
+        <div class="micro-lab">
+          <div class="card-title">Interactive Stealth Assessment BN</div>
+          <p class="mini">This simulates a <strong>dynamic/stealth assessment</strong> logic: hidden proficiency is inferred from process actions like planning, revising, guessing, and hint dependence.</p>
+          <div class="micro-grid">
+            <div>
+              <label for="planActs" style="font-size:13px;font-weight:700;display:block;margin-bottom:8px">Planning actions</label>
+              <input id="planActs" type="range" min="0" max="5" step="1" value="3">
+              <label for="reviseActs" style="font-size:13px;font-weight:700;display:block;margin:12px 0 8px">Strategic revisions</label>
+              <input id="reviseActs" type="range" min="0" max="5" step="1" value="3">
+              <label for="guessActs" style="font-size:13px;font-weight:700;display:block;margin:12px 0 8px">Rapid guessing</label>
+              <input id="guessActs" type="range" min="0" max="5" step="1" value="1">
+              <label for="hintActs" style="font-size:13px;font-weight:700;display:block;margin:12px 0 8px">Hint dependence</label>
+              <input id="hintActs" type="range" min="0" max="5" step="1" value="2">
+            </div>
+            <div class="micro-out" id="stealthOut"></div>
+          </div>
+          <div class="viz" style="margin-top:14px">
+            <svg id="stealthSvg" viewBox="0 0 820 290" xmlns="http://www.w3.org/2000/svg">
+              <rect x="0" y="0" width="820" height="290" fill="#fff"/>
+              <g id="stealthPlot"></g>
+            </svg>
+          </div>
+        </div>
+
+        <div class="tip">
+          <div class="pl">Decision rule</div>
+          <p>If your question is “did this learner master one skill across attempts?”, stay with <strong>BKT</strong>. If your question is “how do multiple hidden skills, prerequisites, and indirect behaviors combine?”, move toward a broader <strong>Bayesian network</strong> design.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="references">
       <div class="section-label">Chapter 12 · Sources</div>
       <h2 class="h2">Original guides and <span class="olive">references</span></h2>
       <div class="body">
@@ -1030,6 +1128,95 @@ lkt_model <- LKT(
     `;
   }
 
+  function applyEvidence(prior, evidence) {
+    if (evidence === 'correct') return Math.min(0.98, prior * 0.55 + 0.43);
+    if (evidence === 'incorrect') return Math.max(0.02, prior * 0.42);
+    return prior;
+  }
+
+  function colorForProb(p) {
+    const g = Math.round(235 - p * 92);
+    const r = Math.round(242 - p * 120);
+    return `rgb(${r},${g},${200 - Math.round(p * 40)})`;
+  }
+
+  function renderBN() {
+    const evA = qs('bnA').value;
+    const evB = qs('bnB').value;
+    const evC = qs('bnC').value;
+    const a = applyEvidence(0.62, evA);
+    const bPrior = Math.min(0.95, 0.18 + 0.65 * a);
+    const b = applyEvidence(bPrior, evB);
+    const cPrior = Math.min(0.95, 0.12 + 0.68 * b);
+    const c = applyEvidence(cPrior, evC);
+
+    qs('bnOut').innerHTML = `
+      <strong>Posterior reading</strong><br>
+      Concept A: ${fmt(a)}<br>
+      Concept B: ${fmt(b)}<br>
+      Concept C: ${fmt(c)}<br><br>
+      <strong>Interpretation:</strong> evidence on earlier prerequisite concepts pushes later concepts indirectly, even before direct evidence on those later concepts appears.
+    `;
+
+    const node = (x, y, label, prob, evidence) => `
+      <g>
+        <circle cx="${x}" cy="${y}" r="44" fill="${colorForProb(prob)}" stroke="#182126" stroke-width="2"/>
+        <text x="${x}" y="${y - 6}" text-anchor="middle" font-family="Inter" font-size="16" font-weight="800" fill="#182126">${label}</text>
+        <text x="${x}" y="${y + 16}" text-anchor="middle" font-family="JetBrains Mono" font-size="14" fill="#182126">${fmt(prob)}</text>
+        <text x="${x}" y="${y + 68}" text-anchor="middle" font-family="Inter" font-size="12" fill="#43525A">${evidence}</text>
+      </g>`;
+
+    qs('bnPlot').innerHTML = `
+      <defs><marker id="bnArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#182126"/></marker></defs>
+      <path d="M204 135 H360 M460 135 H616" fill="none" stroke="#182126" stroke-width="3" marker-end="url(#bnArrow)"/>
+      ${node(160, 135, 'A', a, evA)}
+      ${node(410, 135, 'B', b, evB)}
+      ${node(660, 135, 'C', c, evC)}
+      <text x="410" y="242" text-anchor="middle" font-family="Inter" font-size="13" fill="#43525A">Prerequisite chain: A → B → C</text>
+    `;
+  }
+
+  function renderStealth() {
+    const plan = Number(qs('planActs').value);
+    const revise = Number(qs('reviseActs').value);
+    const guess = Number(qs('guessActs').value);
+    const hint = Number(qs('hintActs').value);
+
+    const persistence = Math.min(0.98, Math.max(0.02, 0.35 + 0.09 * revise + 0.05 * plan - 0.08 * guess));
+    const strategy = Math.min(0.98, Math.max(0.02, 0.30 + 0.10 * plan + 0.08 * revise - 0.06 * hint));
+    const latentSkill = Math.min(0.98, Math.max(0.02, 0.22 + 0.38 * persistence + 0.40 * strategy - 0.04 * guess));
+
+    qs('stealthOut').innerHTML = `
+      <strong>Hidden-state estimate</strong><br>
+      Persistence: ${fmt(persistence)}<br>
+      Strategic thinking: ${fmt(strategy)}<br>
+      Inferred proficiency: ${fmt(latentSkill)}<br><br>
+      <strong>Stealth use:</strong> the system can update learner estimates from behavior logs during play, not just from explicit quiz correctness.
+    `;
+
+    const box = (x, y, w, h, label, value, fill) => `
+      <g>
+        <rect x="${x}" y="${y}" width="${w}" height="${h}" rx="16" fill="${fill}" stroke="#182126" stroke-width="2"/>
+        <text x="${x + w/2}" y="${y + 28}" text-anchor="middle" font-family="Inter" font-size="16" font-weight="800" fill="#182126">${label}</text>
+        <text x="${x + w/2}" y="${y + 54}" text-anchor="middle" font-family="JetBrains Mono" font-size="16" fill="#182126">${fmt(value)}</text>
+      </g>`;
+
+    qs('stealthPlot').innerHTML = `
+      <defs><marker id="stArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#182126"/></marker></defs>
+      ${box(38, 34, 138, 76, 'Planning', plan / 5, '#E5EFD3')}
+      ${box(38, 140, 138, 76, 'Revision', revise / 5, '#E5EFD3')}
+      ${box(38, 246, 138, 76, 'Guessing', 1 - guess / 5, '#F1D8D0')}
+      ${box(268, 72, 180, 84, 'Persistence', persistence, colorForProb(persistence))}
+      ${box(268, 188, 180, 84, 'Strategy use', strategy, colorForProb(strategy))}
+      ${box(574, 126, 190, 90, 'Inferred skill', latentSkill, colorForProb(latentSkill))}
+      <path d="M176 72 C216 72, 216 102, 268 114" fill="none" stroke="#182126" stroke-width="3" marker-end="url(#stArrow)"/>
+      <path d="M176 176 C216 176, 216 210, 268 230" fill="none" stroke="#182126" stroke-width="3" marker-end="url(#stArrow)"/>
+      <path d="M176 284 C226 284, 226 236, 268 230" fill="none" stroke="#182126" stroke-width="3" marker-end="url(#stArrow)"/>
+      <path d="M448 114 C502 114, 520 144, 574 160" fill="none" stroke="#182126" stroke-width="3" marker-end="url(#stArrow)"/>
+      <path d="M448 230 C502 230, 520 198, 574 182" fill="none" stroke="#182126" stroke-width="3" marker-end="url(#stArrow)"/>
+    `;
+  }
+
   const textMap = {
     whyData: {
       posttest: 'This is not KT-ready yet. One pre/post score supports outcome analysis, not mastery tracing over time.',
@@ -1140,8 +1327,12 @@ lkt_model <- LKT(
   bindSelect('troublePick', 'troubleOut');
   bindChecks('readyChecks', 'readyOut', { good: 4, mid: 2, total: 4 });
   bindSelect('refPick', 'refOut');
+  ['bnA', 'bnB', 'bnC'].forEach((id) => qs(id).addEventListener('input', renderBN));
+  ['planActs', 'reviseActs', 'guessActs', 'hintActs'].forEach((id) => qs(id).addEventListener('input', renderStealth));
   renderBKT();
   renderGroup();
+  renderBN();
+  renderStealth();
 })();
 </script>
 </body>
