@@ -98,6 +98,22 @@ code:not(.code){font-family:'JetBrains Mono',monospace;font-size:13px;background
 .viz-cap{display:flex;justify-content:space-between;gap:14px;margin-top:10px;padding-top:10px;border-top:1px solid var(--line)}
 .viz-cap .lbl{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--olive)}
 .viz-cap .desc{font-size:13px;line-height:1.5;color:var(--ink2);text-align:right;flex:1}
+.lab-grid{display:grid;grid-template-columns:320px 1fr;gap:18px;margin:22px 0}
+.lab-controls{background:#fff;border:2px solid var(--ink);border-radius:14px;padding:18px}
+.lab-plot{background:#fff;border:2px solid var(--ink);border-radius:14px;padding:18px}
+.control{margin-bottom:16px}
+.control label{display:flex;justify-content:space-between;gap:12px;font-size:13px;font-weight:700;color:var(--ink);margin-bottom:8px}
+.control output{font-family:'JetBrains Mono',monospace;color:var(--olive)}
+.control input[type=range]{width:100%}
+.seg{display:flex;gap:8px;flex-wrap:wrap}
+.seg button{border:1.5px solid var(--ink);background:#fff;color:var(--ink);padding:8px 12px;border-radius:999px;font-size:12px;font-weight:700;cursor:pointer}
+.seg button.active{background:var(--olive);color:#fff;border-color:var(--olive)}
+.metric-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0 6px}
+.metric-box{background:var(--olive-soft);border:1.5px solid var(--line);border-radius:12px;padding:12px 14px}
+.metric-box .k{font-size:10px;font-weight:800;letter-spacing:1.6px;text-transform:uppercase;color:var(--olive);margin-bottom:4px}
+.metric-box .v{font-family:'JetBrains Mono',monospace;font-size:20px;font-weight:700;color:var(--ink)}
+.mini-note{font-size:12.5px;color:var(--ink2);margin-top:10px}
+@media (max-width:900px){.lab-grid{grid-template-columns:1fr}}
 .foot{margin-top:80px;padding-top:32px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:11px;color:var(--ink3);letter-spacing:.14em;text-transform:uppercase}
 .foot .olive{color:var(--olive);font-weight:700}
 </style>
@@ -125,6 +141,7 @@ code:not(.code){font-family:'JetBrains Mono',monospace;font-size:13px;background
       <li><a href="#python">Python stack tested here</a></li>
       <li><a href="#rstack">R stack tested here</a></li>
       <li><a href="#viz">Visualizations worth showing</a></li>
+      <li><a href="#interactive">Interactive beginner lab</a></li>
       <li><a href="#scenarios">Research scenarios in LS / Ed Psych</a></li>
       <li><a href="#trouble">Troubleshooting</a></li>
       <li><a href="#checklist">Pre-publication checklist</a></li>
@@ -159,6 +176,10 @@ code:not(.code){font-family:'JetBrains Mono',monospace;font-size:13px;background
       <div class="body">
         <p>Knowledge tracing models a learner’s evolving state of mastery from a sequence of task attempts. In the canonical setup, each row records <strong>who</strong> attempted <strong>what</strong>, <strong>when</strong>, and <strong>whether it was correct</strong>. The model uses the history up to time <em>t</em> to estimate latent mastery and predict performance at time <em>t + 1</em>.</p>
         <p>That sounds abstract, but the practical questions are concrete:</p>
+        <div class="card soft">
+          <div class="card-title">Beginner upgrade</div>
+          <p>If this section still feels abstract, use this translation: <strong>KT is a way to turn many quiz attempts into a moving estimate of “how likely this student now knows this concept.”</strong></p>
+        </div>
         <ul>
           <li>Is this learner now likely to have mastered concept <code>C01</code>?</li>
           <li>Which skills are still unstable after repeated practice?</li>
@@ -211,6 +232,10 @@ code:not(.code){font-family:'JetBrains Mono',monospace;font-size:13px;background
       <h2 class="h2"><span class="olive">BKT, LKT, DKT</span>, and the models people actually use</h2>
       <div class="body">
         <p>The field did not stop at one model. It evolved in layers.</p>
+        <div class="card soft">
+          <div class="card-title">Beginner upgrade</div>
+          <p>For first-time readers, the simplest mental map is: <strong>BKT = interpretable state model</strong>, <strong>LKT = regression-style tracing with features</strong>, <strong>DKT = neural sequence predictor</strong>.</p>
+        </div>
         <table class="schema">
           <thead>
             <tr><th>Family</th><th>What it assumes</th><th>Why people still use it</th><th>Main cost</th></tr>
@@ -239,6 +264,10 @@ code:not(.code){font-family:'JetBrains Mono',monospace;font-size:13px;background
       <div class="section-label">Chapter 03 · Decision</div>
       <h2 class="h2">Which <span class="olive">model</span> should you use?</h2>
       <div class="body">
+        <div class="card soft">
+          <div class="card-title">Beginner upgrade</div>
+          <p>If you are unsure, start with <strong>BKT</strong>. You can always move upward to logistic KT or DKT, but it is harder to recover interpretability after starting with a black box.</p>
+        </div>
         <table class="schema">
           <thead>
             <tr><th>Your practical situation</th><th>Best first choice</th><th>Why</th></tr>
@@ -274,6 +303,10 @@ code:not(.code){font-family:'JetBrains Mono',monospace;font-size:13px;background
       <h2 class="h2">How the <span class="olive">dataframe</span> must be built</h2>
       <div class="body">
         <p>The biggest KT failure mode is not the model. It is the dataframe. If the event order, skill mapping, or correctness coding is wrong, everything downstream is wrong.</p>
+        <div class="card soft">
+          <div class="card-title">Beginner upgrade</div>
+          <p>A good beginner test is this: can you print one student’s rows and explain the sequence with your eyes? If not, the model should not be run yet.</p>
+        </div>
 
         <h3 class="h3">Universal event-log schema</h3>
         <table class="schema">
@@ -325,6 +358,10 @@ order_id,user_id,skill_name,question_id,concept_id,correct,timestamp,attempt_no,
       <div class="section-label">Chapter 05 · Workflow</div>
       <h2 class="h2">End-to-end <span class="olive">practical workflow</span></h2>
       <div class="body">
+        <div class="card soft">
+          <div class="card-title">Beginner upgrade</div>
+          <p>This workflow is ordered on purpose. Beginners often skip from raw CSV straight to a deep model. That usually creates debugging pain and weak interpretation.</p>
+        </div>
         <div class="g4">
           <div class="card">
             <div class="card-title">Step 1</div>
@@ -366,6 +403,10 @@ order_id,user_id,skill_name,question_id,concept_id,correct,timestamp,attempt_no,
       <h2 class="h2">Python stack <span class="olive">tested here</span></h2>
       <div class="body">
         <p>The guide is backed by runnable scripts under <code>tests/</code>, not just pasted code fragments.</p>
+        <div class="card soft">
+          <div class="card-title">Beginner upgrade</div>
+          <p>If you only want one safe Python entry point, use <code>pyBKT</code> first and treat <code>pyKT</code> as a benchmark layer after your baseline is working.</p>
+        </div>
         <table class="schema">
           <thead>
             <tr><th>Package</th><th>Status on this machine</th><th>Notes</th></tr>
@@ -400,6 +441,10 @@ preds = model.predict(data=df)</pre>
       <div class="section-label">Chapter 07 · R</div>
       <h2 class="h2">R stack <span class="olive">tested here</span></h2>
       <div class="body">
+        <div class="card soft">
+          <div class="card-title">Beginner upgrade</div>
+          <p>If you are more comfortable in R than Python, the practical first path is <strong>CRAN BKT</strong> for tracing and then standard <code>ggplot2</code> for communication.</p>
+        </div>
         <table class="schema">
           <thead>
             <tr><th>Package</th><th>Status on this machine</th><th>Notes</th></tr>
@@ -438,6 +483,10 @@ lkt_model <- LKT(
       <h2 class="h2">Visualizations that are <span class="olive">actually worth showing</span></h2>
       <div class="body">
         <p>Most KT papers underuse visualization. If all you show is AUC, your reader cannot tell whether the model produced an educationally sensible story.</p>
+        <div class="card soft">
+          <div class="card-title">Beginner upgrade</div>
+          <p>If you only make two plots, make <strong>mastery over opportunity</strong> and <strong>observed vs predicted correctness</strong>. Those two plots answer most first-pass interpretation questions.</p>
+        </div>
 
         <h3 class="h3">1. Mastery trajectory by opportunity</h3>
         <p>Plot mean predicted mastery against practice opportunity count, separated by concept and optionally by group. This is the most direct answer to “are students stabilizing?”</p>
@@ -491,10 +540,107 @@ lkt_model <- LKT(
       </div>
     </section>
 
+    <section class="section" id="interactive">
+      <div class="section-label">Chapter 08b · Interactive</div>
+      <h2 class="h2"><span class="olive">Interactive</span> beginner lab</h2>
+      <div class="body">
+        <p>These are not full statistical models. They are <strong>teaching plots</strong> designed for beginners who need intuition before code. Change the sliders and watch how a BKT-style mastery curve or a group mastery comparison changes.</p>
+
+        <h3 class="h3">Lab 1. What do BKT parameters actually do?</h3>
+        <div class="lab-grid">
+          <div class="lab-controls">
+            <div class="card-title">BKT intuition controls</div>
+            <div class="control">
+              <label for="priorRange"><span>Initial mastery (`prior`)</span><output id="priorOut">0.25</output></label>
+              <input id="priorRange" type="range" min="0.05" max="0.90" step="0.01" value="0.25">
+            </div>
+            <div class="control">
+              <label for="learnRange"><span>Learning rate (`learn`)</span><output id="learnOut">0.20</output></label>
+              <input id="learnRange" type="range" min="0.01" max="0.60" step="0.01" value="0.20">
+            </div>
+            <div class="control">
+              <label for="slipRange"><span>Slip (`P(wrong | know)`)</span><output id="slipOut">0.10</output></label>
+              <input id="slipRange" type="range" min="0.00" max="0.40" step="0.01" value="0.10">
+            </div>
+            <div class="control">
+              <label for="guessRange"><span>Guess (`P(correct | not know)`)</span><output id="guessOut">0.20</output></label>
+              <input id="guessRange" type="range" min="0.00" max="0.40" step="0.01" value="0.20">
+            </div>
+            <div class="control">
+              <div style="font-size:13px;font-weight:700;margin-bottom:8px">Observed sequence</div>
+              <div class="seg" id="seqButtons">
+                <button type="button" class="active" data-seq="0,1,1,0,1,1">0 1 1 0 1 1</button>
+                <button type="button" data-seq="0,0,1,1,1,1">0 0 1 1 1 1</button>
+                <button type="button" data-seq="1,0,1,0,1,0">1 0 1 0 1 0</button>
+              </div>
+            </div>
+            <p class="mini-note">Read the chart this way: the green line is the estimated probability that the student knows the skill after each attempt. The gold bars are the observed answers: 1 = correct, 0 = incorrect.</p>
+          </div>
+          <div class="lab-plot">
+            <div class="card-title">Posterior mastery after each attempt</div>
+            <svg id="bktSvg" viewBox="0 0 720 340" xmlns="http://www.w3.org/2000/svg">
+              <rect x="0" y="0" width="720" height="340" fill="#fff"/>
+              <g id="bktPlot"></g>
+            </svg>
+            <div class="metric-strip">
+              <div class="metric-box"><div class="k">Final mastery</div><div class="v" id="finalMastery">0.00</div></div>
+              <div class="metric-box"><div class="k">Next correct prob.</div><div class="v" id="nextCorrect">0.00</div></div>
+              <div class="metric-box"><div class="k">Interpretation</div><div class="v" id="trajectoryTag" style="font-size:14px">warming up</div></div>
+            </div>
+          </div>
+        </div>
+
+        <h3 class="h3">Lab 2. How do group mastery curves tell a story?</h3>
+        <div class="lab-grid">
+          <div class="lab-controls">
+            <div class="card-title">Trajectory controls</div>
+            <div class="control">
+              <label for="controlStart"><span>Control starts at</span><output id="controlStartOut">0.22</output></label>
+              <input id="controlStart" type="range" min="0.05" max="0.70" step="0.01" value="0.22">
+            </div>
+            <div class="control">
+              <label for="controlSlope"><span>Control growth per attempt</span><output id="controlSlopeOut">0.08</output></label>
+              <input id="controlSlope" type="range" min="0.01" max="0.20" step="0.01" value="0.08">
+            </div>
+            <div class="control">
+              <label for="treatStart"><span>Treatment starts at</span><output id="treatStartOut">0.24</output></label>
+              <input id="treatStart" type="range" min="0.05" max="0.70" step="0.01" value="0.24">
+            </div>
+            <div class="control">
+              <label for="treatSlope"><span>Treatment growth per attempt</span><output id="treatSlopeOut">0.12</output></label>
+              <input id="treatSlope" type="range" min="0.01" max="0.20" step="0.01" value="0.12">
+            </div>
+            <p class="mini-note">This is the plot many beginners should learn to read first. It answers: who starts higher, who learns faster, and how far apart the groups are by the end.</p>
+          </div>
+          <div class="lab-plot">
+            <div class="card-title">Group mastery by opportunity</div>
+            <svg id="groupSvg" viewBox="0 0 720 340" xmlns="http://www.w3.org/2000/svg">
+              <rect x="0" y="0" width="720" height="340" fill="#fff"/>
+              <g id="groupPlot"></g>
+            </svg>
+            <div class="metric-strip">
+              <div class="metric-box"><div class="k">End gap</div><div class="v" id="endGap">0.00</div></div>
+              <div class="metric-box"><div class="k">Control end</div><div class="v" id="controlEnd">0.00</div></div>
+              <div class="metric-box"><div class="k">Treatment end</div><div class="v" id="treatEnd">0.00</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tip">
+          <div class="pl">Why this helps</div>
+          <p>Most beginners struggle because KT packages return tables before intuition. These two mini-labs reverse the order: <strong>first the visual logic, then the package output</strong>.</p>
+        </div>
+      </div>
+    </section>
+
     <section class="section" id="scenarios">
       <div class="section-label">Chapter 09 · Use Cases</div>
       <h2 class="h2">Research scenarios in <span class="olive">learning sciences</span> and <span class="olive">educational psychology</span></h2>
       <div class="body">
+        <div class="card soft">
+          <div class="card-title">Beginner upgrade</div>
+          <p>A simple formula for applied papers is: <strong>use KT to create mastery trajectories, then ask your real research question on top of those trajectories.</strong></p>
+        </div>
         <h3 class="h3">Learning sciences scenario 1: adaptive scaffolding in an ITS</h3>
         <p>You have a tutor with repeated concept-linked practice and hint logs. Use KT to estimate concept mastery after each action, then connect mastery stalls with hint usage, revision behavior, or discourse traces. This is ideal when the argument is about <strong>process-sensitive support</strong>, not just posttest outcomes.</p>
 
@@ -521,6 +667,10 @@ lkt_model <- LKT(
       <div class="section-label">Chapter 10 · Troubleshooting</div>
       <h2 class="h2"><span class="olive">Troubleshooting</span> log and fixes</h2>
       <div class="body">
+        <div class="card soft">
+          <div class="card-title">Beginner upgrade</div>
+          <p>When a package fails, do not change five things at once. Reduce to one toy file, one model, one script, and one expected output file.</p>
+        </div>
         <table class="schema">
           <thead>
             <tr><th>Symptom</th><th>What it means</th><th>Fix</th></tr>
@@ -546,6 +696,10 @@ lkt_model <- LKT(
       <div class="section-label">Chapter 11 · QA</div>
       <h2 class="h2">Pre-publication <span class="olive">checklist</span></h2>
       <div class="body">
+        <div class="card soft">
+          <div class="card-title">Beginner upgrade</div>
+          <p>If you can answer every item in this checklist with a concrete file, plot, or script, your analysis is already in much better shape than most first KT attempts.</p>
+        </div>
         <ul>
           <li>Did you verify one row equals one attempt, not one student summary?</li>
           <li>Did you sort sequences explicitly and document the ordering key?</li>
@@ -563,6 +717,10 @@ lkt_model <- LKT(
       <div class="section-label">Chapter 12 · Sources</div>
       <h2 class="h2">Original guides and <span class="olive">references</span></h2>
       <div class="body">
+        <div class="card soft">
+          <div class="card-title">Beginner upgrade</div>
+          <p>Use the original links here when you need to defend a modeling choice in a paper, methods appendix, or reviewer response. This page is the on-ramp; those sources are the authority layer.</p>
+        </div>
         <h3 class="h3">Canonical KT / BKT / DKT references</h3>
         <ul>
           <li>Corbett, A. T., &amp; Anderson, J. R. Knowledge Tracing: Modeling the Acquisition of Procedural Knowledge. <a class="inline" href="https://doi.org/10.1007/BF01099821">Original DOI</a></li>
@@ -606,5 +764,150 @@ lkt_model <- LKT(
     </footer>
   </main>
 </div>
+<script>
+(() => {
+  const fmt = (v) => Number(v).toFixed(2);
+  const qs = (id) => document.getElementById(id);
+  const priorRange = qs('priorRange');
+  const learnRange = qs('learnRange');
+  const slipRange = qs('slipRange');
+  const guessRange = qs('guessRange');
+  let activeSeq = [0, 1, 1, 0, 1, 1];
+
+  function posteriorAfterResponse(prior, learn, slip, guess, response) {
+    const pKnow = prior;
+    const pCorrect = pKnow * (1 - slip) + (1 - pKnow) * guess;
+    const pKnowGivenObs = response === 1
+      ? (pKnow * (1 - slip)) / Math.max(pCorrect, 1e-9)
+      : (pKnow * slip) / Math.max(1 - pCorrect, 1e-9);
+    return pKnowGivenObs + (1 - pKnowGivenObs) * learn;
+  }
+
+  function drawAxes(width, height, margin) {
+    return `
+      <line x1="${margin.l}" y1="${height - margin.b}" x2="${width - margin.r}" y2="${height - margin.b}" stroke="#182126" stroke-width="2"/>
+      <line x1="${margin.l}" y1="${height - margin.b}" x2="${margin.l}" y2="${margin.t}" stroke="#182126" stroke-width="2"/>
+      <text x="${margin.l - 22}" y="${margin.t + 4}" font-family="Inter" font-size="12" fill="#43525A">1.0</text>
+      <text x="${margin.l - 22}" y="${height - margin.b + 4}" font-family="Inter" font-size="12" fill="#43525A">0.0</text>
+    `;
+  }
+
+  function renderBKT() {
+    const prior = Number(priorRange.value);
+    const learn = Number(learnRange.value);
+    const slip = Number(slipRange.value);
+    const guess = Number(guessRange.value);
+    qs('priorOut').value = fmt(prior);
+    qs('learnOut').value = fmt(learn);
+    qs('slipOut').value = fmt(slip);
+    qs('guessOut').value = fmt(guess);
+
+    const width = 720;
+    const height = 340;
+    const margin = { t: 24, r: 24, b: 46, l: 46 };
+    const plotW = width - margin.l - margin.r;
+    const plotH = height - margin.t - margin.b;
+    const xs = [];
+    const ys = [];
+    let current = prior;
+
+    activeSeq.forEach((resp, i) => {
+      current = posteriorAfterResponse(current, learn, slip, guess, resp);
+      xs.push(margin.l + (plotW / (activeSeq.length - 1)) * i);
+      ys.push(height - margin.b - current * plotH);
+    });
+
+    const bars = activeSeq.map((resp, i) => {
+      const x = margin.l + (plotW / (activeSeq.length - 1)) * i;
+      const barY = height - margin.b - (resp ? 36 : 14);
+      const barH = resp ? 36 : 14;
+      return `<rect x="${x - 14}" y="${barY}" width="28" height="${barH}" rx="5" fill="${resp ? '#C38E2B' : '#B6553B'}" opacity="0.82"/>`;
+    }).join('');
+
+    const poly = xs.map((x, i) => `${x},${ys[i]}`).join(' ');
+    const points = xs.map((x, i) => `<circle cx="${x}" cy="${ys[i]}" r="5.5" fill="#526B2E"/>`).join('');
+    const labels = activeSeq.map((_, i) => {
+      const x = margin.l + (plotW / (activeSeq.length - 1)) * i;
+      return `<text x="${x}" y="${height - 18}" text-anchor="middle" font-family="Inter" font-size="12" fill="#43525A">A${i + 1}</text>`;
+    }).join('');
+
+    const finalMastery = current;
+    const nextCorrect = finalMastery * (1 - slip) + (1 - finalMastery) * guess;
+    qs('finalMastery').textContent = fmt(finalMastery);
+    qs('nextCorrect').textContent = fmt(nextCorrect);
+    qs('trajectoryTag').textContent =
+      finalMastery >= 0.8 ? 'stable mastery'
+      : finalMastery >= 0.55 ? 'still learning'
+      : 'fragile mastery';
+
+    qs('bktPlot').innerHTML = `
+      ${drawAxes(width, height, margin)}
+      <polyline fill="none" stroke="#526B2E" stroke-width="4" points="${poly}"/>
+      ${points}
+      ${bars}
+      ${labels}
+      <text x="${width - 128}" y="${margin.t + 18}" font-family="Inter" font-size="12" fill="#526B2E">mastery estimate</text>
+      <text x="${width - 128}" y="${margin.t + 36}" font-family="Inter" font-size="12" fill="#8A6315">observed correct/incorrect</text>
+    `;
+  }
+
+  function curve(start, slope, attempts = 6) {
+    return Array.from({ length: attempts }, (_, i) => Math.min(0.98, start + slope * i));
+  }
+
+  function renderGroup() {
+    const cStart = Number(qs('controlStart').value);
+    const cSlope = Number(qs('controlSlope').value);
+    const tStart = Number(qs('treatStart').value);
+    const tSlope = Number(qs('treatSlope').value);
+    qs('controlStartOut').value = fmt(cStart);
+    qs('controlSlopeOut').value = fmt(cSlope);
+    qs('treatStartOut').value = fmt(tStart);
+    qs('treatSlopeOut').value = fmt(tSlope);
+
+    const control = curve(cStart, cSlope);
+    const treatment = curve(tStart, tSlope);
+    const width = 720;
+    const height = 340;
+    const margin = { t: 24, r: 24, b: 46, l: 46 };
+    const plotW = width - margin.l - margin.r;
+    const plotH = height - margin.t - margin.b;
+    const xAt = (i) => margin.l + (plotW / (control.length - 1)) * i;
+    const yAt = (v) => height - margin.b - v * plotH;
+    const cPoly = control.map((v, i) => `${xAt(i)},${yAt(v)}`).join(' ');
+    const tPoly = treatment.map((v, i) => `${xAt(i)},${yAt(v)}`).join(' ');
+    const xLabels = control.map((_, i) => `<text x="${xAt(i)}" y="${height - 18}" text-anchor="middle" font-family="Inter" font-size="12" fill="#43525A">${i + 1}</text>`).join('');
+
+    qs('endGap').textContent = fmt(treatment[treatment.length - 1] - control[control.length - 1]);
+    qs('controlEnd').textContent = fmt(control[control.length - 1]);
+    qs('treatEnd').textContent = fmt(treatment[treatment.length - 1]);
+
+    qs('groupPlot').innerHTML = `
+      ${drawAxes(width, height, margin)}
+      <polyline fill="none" stroke="#C38E2B" stroke-width="4" points="${cPoly}"/>
+      <polyline fill="none" stroke="#526B2E" stroke-width="4" points="${tPoly}"/>
+      ${control.map((v, i) => `<circle cx="${xAt(i)}" cy="${yAt(v)}" r="5" fill="#C38E2B"/>`).join('')}
+      ${treatment.map((v, i) => `<circle cx="${xAt(i)}" cy="${yAt(v)}" r="5" fill="#526B2E"/>`).join('')}
+      ${xLabels}
+      <text x="${width - 130}" y="${margin.t + 18}" font-family="Inter" font-size="12" fill="#8A6315">control</text>
+      <text x="${width - 130}" y="${margin.t + 36}" font-family="Inter" font-size="12" fill="#526B2E">treatment</text>
+    `;
+  }
+
+  [priorRange, learnRange, slipRange, guessRange].forEach((el) => el.addEventListener('input', renderBKT));
+  ['controlStart', 'controlSlope', 'treatStart', 'treatSlope'].forEach((id) => qs(id).addEventListener('input', renderGroup));
+  document.querySelectorAll('#seqButtons button').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('#seqButtons button').forEach((b) => b.classList.remove('active'));
+      btn.classList.add('active');
+      activeSeq = btn.dataset.seq.split(',').map(Number);
+      renderBKT();
+    });
+  });
+
+  renderBKT();
+  renderGroup();
+})();
+</script>
 </body>
 </html>
