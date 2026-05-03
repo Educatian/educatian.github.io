@@ -85,12 +85,22 @@ body{
   font-weight:500;transition:color .15s;
 }
 .toc a:hover{color:var(--rust)}
+.toc a.active{
+  color:var(--rust);
+  background:var(--rust-soft);
+  transform:translateX(3px);
+  font-weight:700;
+  border-radius:10px;
+  padding-left:10px;
+  padding-right:10px;
+}
 .toc a::before{
   content:counter(toc,decimal-leading-zero);
   color:var(--ink3);font-family:'JetBrains Mono',monospace;
   font-size:10.5px;font-weight:700;letter-spacing:.5px;
   flex-shrink:0;width:18px;
 }
+.toc a.active::before{color:var(--rust)}
 
 /* ---- Hero ---- */
 .hero{
@@ -1648,6 +1658,66 @@ CODE_A, CODE_B, ...   <span class="cm"># 0/1 ints</span></pre>
 
   ['onaView','onaThreshold','onaNodeMode','onaFocus'].forEach((id) => qs(id).addEventListener('input', renderPlayground));
   renderPlayground();
+
+  const tocLinks = [...document.querySelectorAll('.toc a[href^="#"]')];
+  const sectionMap = new Map(
+    tocLinks
+      .map((link) => {
+        const id = link.getAttribute('href').slice(1);
+        return [id, document.getElementById(id)];
+      })
+      .filter(([, section]) => section)
+  );
+  let manualTargetId = null;
+  let manualTimer = null;
+
+  const setActive = (id) => {
+    tocLinks.forEach((link) => {
+      const active = link.getAttribute('href') === `#${id}`;
+      link.classList.toggle('active', active);
+      if (active) link.setAttribute('aria-current', 'true');
+      else link.removeAttribute('aria-current');
+    });
+  };
+
+  tocLinks.forEach((link) => {
+    link.addEventListener('click', () => {
+      const id = link.getAttribute('href').slice(1);
+      manualTargetId = id;
+      window.clearTimeout(manualTimer);
+      manualTimer = window.setTimeout(() => { manualTargetId = null; }, 900);
+      setActive(id);
+    });
+  });
+
+  window.addEventListener('hashchange', () => {
+    const id = location.hash.slice(1);
+    if (!id) return;
+    manualTargetId = id;
+    window.clearTimeout(manualTimer);
+    manualTimer = window.setTimeout(() => { manualTargetId = null; }, 900);
+    setActive(id);
+  });
+
+  const observer = new IntersectionObserver((entries) => {
+    if (manualTargetId) {
+      setActive(manualTargetId);
+      return;
+    }
+    const visible = entries
+      .filter((entry) => entry.isIntersecting)
+      .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+    if (visible.length) setActive(visible[0].target.id);
+  }, {
+    rootMargin: '-18% 0px -60% 0px',
+    threshold: [0.2, 0.4, 0.6]
+  });
+
+  sectionMap.forEach((section) => observer.observe(section));
+  if (tocLinks.length) {
+    const initial = location.hash ? location.hash.slice(1) : tocLinks[0].getAttribute('href').slice(1);
+    setActive(initial);
+  }
 })();
 </script>
 </body>

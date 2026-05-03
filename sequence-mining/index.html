@@ -57,9 +57,12 @@ body{margin:0;padding:0;background:var(--bg);color:var(--ink);
 .toc a{display:flex;gap:10px;align-items:baseline;color:var(--ink);text-decoration:none;
   padding:9px 0;font-size:13.5px;line-height:1.35;font-weight:500;transition:color .15s}
 .toc a:hover{color:var(--teal)}
+.toc a.active{color:var(--teal);background:var(--teal-soft);transform:translateX(3px);
+  font-weight:700;border-radius:10px;padding-left:10px;padding-right:10px}
 .toc a::before{content:counter(toc,decimal-leading-zero);color:var(--ink3);
   font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:700;
   letter-spacing:.5px;flex-shrink:0;width:18px}
+.toc a.active::before{color:var(--teal)}
 
 .hero{border-bottom:1px solid var(--line);padding-bottom:56px;margin-bottom:56px}
 .kicker{font-size:13px;font-weight:800;letter-spacing:4px;text-transform:uppercase;
@@ -670,11 +673,32 @@ patterns <span class="kw">&lt;-</span> cspade(trans,
                    parameter = list(support = 0.3,
                                     maxsize = 1, maxlen = 4))
 df <span class="kw">&lt;-</span> as(patterns, <span class="hl">"data.frame"</span>)
-df[order(-df$support), ]                 <span class="cm"># top patterns</span></pre>
+df$n_items <span class="kw">&lt;-</span> stringr::str_count(df$sequence, <span class="hl">","</span>) + 1
+df_focus <span class="kw">&lt;-</span> subset(df, n_items &gt;= 2 &amp; support &lt; 0.98)
+df_focus[order(-df_focus$support, -df_focus$n_items), ]   <span class="cm"># more interpretable top patterns</span></pre>
 
         <div class="fig">
           <img src="example_figures/sm_spm_top.png" alt="Top SPM patterns">
-          <div class="fig-cap"><span class="lbl">SPM &middot; top patterns</span><span class="desc">Each bar is a sequence found in &ge; that fraction of sessions. Single items dominate the top because they're trivially supported; multi-item patterns are the interesting story.</span></div>
+          <div class="fig-cap"><span class="lbl">SPM &middot; top patterns</span><span class="desc">If the top bars all sit at 1.00 or 0.99, you are mostly seeing trivial single-item or near-universal patterns. The more useful plot is usually a filtered view of 2+ item patterns below the support ceiling.</span></div>
+        </div>
+
+        <div class="card teal">
+          <div class="card-title">Practical plotting rule</div>
+          <h4 class="h4">Do not make the raw top-support bar chart your final figure.</h4>
+          <p>If the first ranks are all <code>1.00</code> or <code>0.99</code>, the chart is telling you only that some events occur almost everywhere. For an interpretable figure, filter to <strong>multi-item patterns</strong>, optionally remove near-ceiling supports, and rank within that reduced set.</p>
+        </div>
+
+        <div class="g2">
+          <div class="card">
+            <div class="card-title">Bad first plot</div>
+            <h4 class="h4">Singletons + ceiling support</h4>
+            <p>Bars all look the same, the labels carry no narrative, and readers cannot tell whether the dataset has meaningful motif structure or just globally common codes.</p>
+          </div>
+          <div class="card">
+            <div class="card-title">Better final plot</div>
+            <h4 class="h4">2+ item motifs with spread</h4>
+            <p>Keep only patterns of length at least 2, then plot the top 10 or top 15 with visible support spread. That is where recurring instructional or behavioral motifs start to become legible.</p>
+          </div>
         </div>
 
         <div class="pitfall">
@@ -927,5 +951,68 @@ hidden_paths(fit$model)</pre>
   </main>
 </div>
 
+<script>
+(() => {
+  const tocLinks = [...document.querySelectorAll('.toc a[href^="#"]')];
+  const sectionMap = new Map(
+    tocLinks
+      .map((link) => {
+        const id = link.getAttribute('href').slice(1);
+        return [id, document.getElementById(id)];
+      })
+      .filter(([, section]) => section)
+  );
+  let manualTargetId = null;
+  let manualTimer = null;
+
+  const setActive = (id) => {
+    tocLinks.forEach((link) => {
+      const active = link.getAttribute('href') === `#${id}`;
+      link.classList.toggle('active', active);
+      if (active) link.setAttribute('aria-current', 'true');
+      else link.removeAttribute('aria-current');
+    });
+  };
+
+  tocLinks.forEach((link) => {
+    link.addEventListener('click', () => {
+      const id = link.getAttribute('href').slice(1);
+      manualTargetId = id;
+      window.clearTimeout(manualTimer);
+      manualTimer = window.setTimeout(() => { manualTargetId = null; }, 900);
+      setActive(id);
+    });
+  });
+
+  window.addEventListener('hashchange', () => {
+    const id = location.hash.slice(1);
+    if (!id) return;
+    manualTargetId = id;
+    window.clearTimeout(manualTimer);
+    manualTimer = window.setTimeout(() => { manualTargetId = null; }, 900);
+    setActive(id);
+  });
+
+  const observer = new IntersectionObserver((entries) => {
+    if (manualTargetId) {
+      setActive(manualTargetId);
+      return;
+    }
+    const visible = entries
+      .filter((entry) => entry.isIntersecting)
+      .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+    if (visible.length) setActive(visible[0].target.id);
+  }, {
+    rootMargin: '-18% 0px -60% 0px',
+    threshold: [0.2, 0.4, 0.6]
+  });
+
+  sectionMap.forEach((section) => observer.observe(section));
+  if (tocLinks.length) {
+    const initial = location.hash ? location.hash.slice(1) : tocLinks[0].getAttribute('href').slice(1);
+    setActive(initial);
+  }
+})();
+</script>
 </body>
 </html>
