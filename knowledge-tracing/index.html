@@ -1191,6 +1191,21 @@ lkt_model <- LKT(
           <li>Abdelrahman, G., Wang, Q., &amp; Nunes, B. Knowledge Tracing: A Survey. <a class="inline" href="https://doi.org/10.1145/3569576">ACM Computing Surveys DOI</a> · <a class="inline" href="https://arxiv.org/abs/2201.06953">arXiv preprint</a></li>
         </ul>
 
+        <h3 class="h3">CMU / Cognitive Tutor lineage</h3>
+        <ul>
+          <li>CMU DataLab concept page: <a class="inline" href="https://www.cmu.edu/datalab/getting-started/key-concepts.html">key concepts, KCs, learning curves, BKT, AFM</a></li>
+          <li>CMU DataLab resource page: <a class="inline" href="https://www.cmu.edu/datalab/tools/other-helpful-resources.html">CTAT, DataShop, Carnegie Learning, and related tools</a></li>
+          <li>CMU Simon Initiative CTAT page: <a class="inline" href="https://www.cmu.edu/simon/open-simon/toolkit/tools/learning-tools/ctat.html">Cognitive Tutor Authoring Tools</a></li>
+          <li>CMU impact/history page: <a class="inline" href="https://www.cmu.edu/homepage/computing/2011/winter/cog-tutors.shtml">Cognitive Tutors and large-scale deployment context</a></li>
+          <li>CMU / LearnLab background note: <a class="inline" href="https://learnlab.org/mediawiki-1.44.2/index.php?title=Cognitive_tutor">cognitive tutor overview, model tracing, and knowledge tracing</a></li>
+          <li>CMU BKT extension example: Yudelson, Koedinger, &amp; Gordon, <a class="inline" href="https://www.cs.cmu.edu/~ggordon/yudelson-koedinger-gordon-individualized-bayesian-knowledge-tracing.pdf">Individualized Bayesian Knowledge Tracing Models</a></li>
+        </ul>
+
+        <div class="card soft">
+          <div class="card-title">Why this matters</div>
+          <p>KT did not appear as an isolated leaderboard trick. A large part of its practical lineage comes through the <strong>CMU / Cognitive Tutor / DataShop / CTAT</strong> ecosystem, where fine-grained tutor logs, knowledge components, learning curves, BKT, and AFM were used together in real instructional systems.</p>
+        </div>
+
         <h3 class="h3">Python guides</h3>
         <ul>
           <li>pyBKT GitHub: <a class="inline" href="https://github.com/CAHLR/pyBKT">CAHLR/pyBKT</a></li>
@@ -1214,9 +1229,20 @@ lkt_model <- LKT(
           <li><a class="inline" href="tests/results/pybkt_result.json" download><code>tests/results/pybkt_result.json</code></a> · <a class="inline" href="tests/results/pykt_dkt_forward.json" download><code>tests/results/pykt_dkt_forward.json</code></a> · <a class="inline" href="tests/results/bkt_r_result.json" download><code>tests/results/bkt_r_result.json</code></a> · <a class="inline" href="tests/results/lkt_r_result.json" download><code>tests/results/lkt_r_result.json</code></a></li>
         </ul>
 
+        <h3 class="h3">Additional validation checks worth doing</h3>
+        <ul>
+          <li>Check whether your <strong>knowledge component mapping</strong> is theoretically defensible, not just convenient for export.</li>
+          <li>Check whether <strong>one row truly equals one opportunity</strong>; mixed granularity breaks learning curves and KT.</li>
+          <li>Check whether <strong>help, hints, or partial credit</strong> were collapsed in a way that distorts the correctness signal.</li>
+          <li>Check whether <strong>train / validation / test splits</strong> leak future information for the same learner or sequence.</li>
+          <li>Check whether <strong>very sparse skills</strong> should be merged, excluded, or analyzed descriptively instead of traced.</li>
+          <li>Check whether your main claim needs <strong>learning curves or AFM-style baselines</strong> in addition to KT, especially in the CMU / DataShop tradition.</li>
+          <li>Check whether reported gains are <strong>prediction gains only</strong> or actually support an educational interpretation.</li>
+        </ul>
+
         <div class="card soft">
           <div class="card-title">Fact-check note</div>
-          <p>This page blends <strong>primary references</strong>, <strong>official package documentation</strong>, and <strong>machine-local smoke tests</strong>. Where package behavior on this machine diverged from the smooth-path documentation, the guide reports the observed behavior explicitly rather than hiding it.</p>
+          <p>This page blends <strong>primary references</strong>, <strong>official package documentation</strong>, <strong>CMU ecosystem resources</strong>, and <strong>machine-local smoke tests</strong>. Where package behavior on this machine diverged from the smooth-path documentation, the guide reports the observed behavior explicitly rather than hiding it.</p>
         </div>
       </div>
     </section>
