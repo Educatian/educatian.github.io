@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Knowledge Tracing Blueprint — BKT, DKT, R, Python, and research use cases</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+:root{
+  --bg:#F4F1E8;
+  --bg2:#E9E1D2;
+  --ink:#182126;
+  --ink2:#43525A;
+  --ink3:#788892;
+  --olive:#526B2E;
+  --olive-soft:rgba(82,107,46,.10);
+  --olive-glow:rgba(82,107,46,.18);
+  --gold:#C38E2B;
+  --line:#CFC7B8;
+  --code-bg:#182126;
+  --code-fg:#F4F1E8;
+  --code-cm:#91A0A8;
+  --code-kw:#A7D46F;
+  --code-st:#E6C77C;
+  --warn:#B6553B;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Inter',sans-serif;line-height:1.68;-webkit-font-smoothing:antialiased}
+.grid-bg{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.28;background-image:linear-gradient(rgba(24,33,38,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(24,33,38,.06) 1px,transparent 1px);background-size:48px 48px;mask-image:radial-gradient(ellipse at 26% 18%,black 32%,transparent 82%)}
+.shell{position:relative;z-index:1;display:grid;grid-template-columns:280px 1fr;gap:60px;max-width:1420px;margin:0 auto;padding:64px 80px}
+@media (max-width:1080px){.shell{grid-template-columns:1fr;padding:40px 24px;gap:28px}.toc{position:relative!important;top:auto!important;max-height:none!important}}
+.toc{position:sticky;top:28px;align-self:start;max-height:calc(100vh - 56px);overflow-y:auto;border:2px solid var(--ink);border-radius:14px;background:#fff;padding:24px 22px}
+.toc-kicker{font-size:11px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:var(--olive);margin-bottom:12px}
+.toc h2{font-size:18px;line-height:1.2;margin:0 0 14px;font-weight:900}
+.toc ol{list-style:none;padding:0;margin:0;counter-reset:item}
+.toc li{border-top:1px solid var(--line);counter-increment:item}
+.toc li:first-child{border-top:0}
+.toc a{display:flex;gap:10px;padding:9px 0;color:var(--ink);text-decoration:none;font-size:13.5px;line-height:1.35;font-weight:500}
+.toc a:hover{color:var(--olive)}
+.toc a::before{content:counter(item,decimal-leading-zero);width:18px;flex-shrink:0;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;color:var(--ink3)}
+.hero{border-bottom:1px solid var(--line);padding-bottom:56px;margin-bottom:56px}
+.kicker{font-size:13px;font-weight:800;letter-spacing:4px;text-transform:uppercase;color:var(--olive);margin-bottom:18px}
+.h1{font-size:70px;line-height:1.03;letter-spacing:-.03em;font-weight:900;margin:0 0 20px}
+.h1 .olive{color:var(--olive)}
+.h1 .serif{font-family:'Playfair Display',serif;font-style:italic;font-weight:400}
+.lede{font-size:21px;line-height:1.56;color:var(--ink2);font-weight:300;max-width:820px;margin:0 0 28px}
+.hero-meta{display:flex;gap:12px;flex-wrap:wrap;font-size:11px;font-weight:800;letter-spacing:1.8px;text-transform:uppercase;color:var(--ink3)}
+.hero-meta span{padding:6px 12px;border:1.5px solid var(--ink);border-radius:6px;color:var(--ink)}
+.hero-meta .accent{background:var(--olive);border-color:var(--olive);color:#fff}
+.section{margin-bottom:72px;scroll-margin-top:24px}
+.section-label{font-size:11px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:var(--ink3);margin:0 0 14px;display:flex;gap:14px;align-items:center}
+.section-label::after{content:'';flex:1;height:1px;background:var(--line)}
+.h2{font-size:42px;line-height:1.1;margin:0 0 14px;font-weight:900;letter-spacing:-.02em}
+.h2 .olive{color:var(--olive)}
+.h3{font-size:24px;line-height:1.25;margin:34px 0 12px;font-weight:800}
+.h4{font-size:17px;line-height:1.3;margin:22px 0 8px;font-weight:800}
+.body p{font-size:15.5px;color:#203038;margin:0 0 14px}
+.body ul,.body ol{padding-left:22px;margin:0 0 16px}
+.body li{font-size:15.5px;color:#203038;margin-bottom:6px}
+.card{background:#fff;border:2px solid var(--ink);border-radius:12px;padding:22px 26px;margin:18px 0}
+.card.soft{background:var(--olive-soft);border-color:var(--olive)}
+.card.dark{background:var(--code-bg);color:var(--code-fg);border-color:var(--code-bg)}
+.card.dark p,.card.dark li{color:#D4DDD8}
+.card-title{font-size:11px;font-weight:800;letter-spacing:2.5px;text-transform:uppercase;margin-bottom:8px;color:var(--ink3)}
+.card.soft .card-title{color:var(--olive)}
+.card.dark .card-title{color:var(--code-cm)}
+.tip,.pitfall{border-radius:0 10px 10px 0;padding:18px 22px;margin:18px 0}
+.tip{border-left:4px solid var(--olive);background:var(--olive-soft)}
+.pitfall{border-left:4px solid var(--warn);background:rgba(182,85,59,.10)}
+.tip .pl,.pitfall .pl{font-size:11px;font-weight:800;letter-spacing:2.5px;text-transform:uppercase;margin-bottom:6px}
+.tip .pl{color:var(--olive)}
+.pitfall .pl{color:var(--warn)}
+.tip p,.pitfall p{margin:0;font-size:14.5px;line-height:1.6}
+.code{background:var(--code-bg);color:var(--code-fg);border-radius:12px;padding:20px 24px;font-family:'JetBrains Mono',monospace;font-size:13px;line-height:1.7;margin:14px 0 22px;border:2px solid var(--ink);overflow-x:auto;white-space:pre}
+.code .cm{color:var(--code-cm)}
+.code .kw{color:var(--code-kw)}
+.code .st{color:var(--code-st)}
+code:not(.code){font-family:'JetBrains Mono',monospace;font-size:13px;background:#fff;border:1px solid var(--line);border-radius:5px;padding:1px 7px;color:var(--olive);font-weight:600}
+.g2,.g3,.g4{display:grid;gap:18px;margin:18px 0}
+.g2{grid-template-columns:1fr 1fr}
+.g3{grid-template-columns:repeat(3,1fr)}
+.g4{grid-template-columns:repeat(4,1fr)}
+@media (max-width:780px){.g2,.g3,.g4{grid-template-columns:1fr}}
+.schema{width:100%;border-collapse:collapse;margin:18px 0;background:#fff;border:2px solid var(--ink);border-radius:12px;overflow:hidden;font-size:14px}
+.schema th{text-align:left;padding:14px 18px;background:var(--ink);color:var(--code-fg);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;font-weight:800}
+.schema td{padding:13px 18px;border-top:1px solid var(--line);vertical-align:top}
+.schema td.k{font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--olive);width:180px}
+.schema td.t{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--ink3);width:120px}
+.inline{color:var(--olive);text-decoration:none;border-bottom:1px solid currentColor;font-weight:600}
+.inline:hover{background:var(--olive-soft)}
+.mini{font-size:13px;color:var(--ink2)}
+.viz{border:2px solid var(--ink);border-radius:14px;background:#fff;padding:18px;margin:20px 0}
+.viz svg{width:100%;height:auto;display:block}
+.viz-cap{display:flex;justify-content:space-between;gap:14px;margin-top:10px;padding-top:10px;border-top:1px solid var(--line)}
+.viz-cap .lbl{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--olive)}
+.viz-cap .desc{font-size:13px;line-height:1.5;color:var(--ink2);text-align:right;flex:1}
+.foot{margin-top:80px;padding-top:32px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:11px;color:var(--ink3);letter-spacing:.14em;text-transform:uppercase}
+.foot .olive{color:var(--olive);font-weight:700}
+</style>
+<meta property="og:type" content="article">
+<meta property="og:title" content="Knowledge Tracing Blueprint — BKT, DKT, R, Python">
+<meta property="og:description" content="A practical guide to knowledge tracing with tested R and Python workflows, dataframe design rules, visualizations, troubleshooting, and learning-sciences use cases.">
+<meta property="og:url" content="https://educatian.github.io/knowledge-tracing/">
+<meta property="og:image" content="https://educatian.github.io/knowledge-tracing/thumbnails/hero_og_1200x630.svg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://educatian.github.io/knowledge-tracing/thumbnails/hero_og_1200x630.svg">
+<link rel="canonical" href="https://educatian.github.io/knowledge-tracing/">
+</head>
+<body>
+<div class="grid-bg"></div>
+<div class="shell">
+  <nav class="toc">
+    <div class="toc-kicker">Blueprint · v1</div>
+    <h2>Knowledge Tracing</h2>
+    <ol>
+      <li><a href="#why">What KT is actually for</a></li>
+      <li><a href="#family">BKT, LKT, DKT, and the field</a></li>
+      <li><a href="#decision">Which model should you use?</a></li>
+      <li><a href="#dataframe">How the dataframe must be built</a></li>
+      <li><a href="#workflow">End-to-end practical workflow</a></li>
+      <li><a href="#python">Python stack tested here</a></li>
+      <li><a href="#rstack">R stack tested here</a></li>
+      <li><a href="#viz">Visualizations worth showing</a></li>
+      <li><a href="#scenarios">Research scenarios in LS / Ed Psych</a></li>
+      <li><a href="#trouble">Troubleshooting</a></li>
+      <li><a href="#checklist">Pre-publication checklist</a></li>
+      <li><a href="#references">Original guides and references</a></li>
+    </ol>
+  </nav>
+
+  <main>
+    <header class="hero">
+      <div class="kicker">Knowledge Tracing · Practical Blueprint</div>
+      <h1 class="h1">Tracing <span class="olive">mastery over time</span> without guessing what your data can’t support.</h1>
+      <p class="lede">A practical guide to <strong>Knowledge Tracing</strong> for people who need to do the work, not just read the papers. This page covers <strong>BKT</strong>, <strong>LKT-style logistic tracing</strong>, and <strong>DKT / deep KT</strong>, with tested <strong>R</strong> and <strong>Python</strong> workflows, dataframe design rules, field-used model families, recommended visualizations, research scenarios for <strong>learning sciences</strong> and <strong>educational psychology</strong>, and a troubleshooting log from actual package runs on this machine.</p>
+      <div class="hero-meta">
+        <span class="accent">Practical first</span>
+        <span>Python 3.11.9</span>
+        <span>R 4.5.2</span>
+        <span>Windows-tested</span>
+        <span>BKT · LKT · DKT</span>
+      </div>
+      <p class="lede" style="font-size:14px;margin-top:14px;color:#5E6B74">Guide author: <strong>Jewoong Moon</strong> (The University of Alabama, <a class="inline" href="mailto:jmoon19@ua.edu">jmoon19@ua.edu</a>)</p>
+
+      <div class="card soft" style="max-width:820px">
+        <div class="card-title">What This Page Optimizes For</div>
+        <h4 class="h4">Method fit, dataframe hygiene, and real package behavior.</h4>
+        <p>This is not a “deep learning will solve everything” page. The core discipline is: <strong>pick the simplest KT model that matches your question, your data granularity, and your interpretability needs</strong>. On many education datasets, a clean BKT or logistic KT baseline is still the most defensible starting point.</p>
+      </div>
+    </header>
+
+    <section class="section" id="why">
+      <div class="section-label">Chapter 01 · Foundations</div>
+      <h2 class="h2">What <span class="olive">knowledge tracing</span> is actually for</h2>
+      <div class="body">
+        <p>Knowledge tracing models a learner’s evolving state of mastery from a sequence of task attempts. In the canonical setup, each row records <strong>who</strong> attempted <strong>what</strong>, <strong>when</strong>, and <strong>whether it was correct</strong>. The model uses the history up to time <em>t</em> to estimate latent mastery and predict performance at time <em>t + 1</em>.</p>
+        <p>That sounds abstract, but the practical questions are concrete:</p>
+        <ul>
+          <li>Is this learner now likely to have mastered concept <code>C01</code>?</li>
+          <li>Which skills are still unstable after repeated practice?</li>
+          <li>Did the intervention group reach mastery faster than the comparison group?</li>
+          <li>Which next item should the system recommend?</li>
+          <li>Which students need support before the unit quiz rather than after it?</li>
+        </ul>
+
+        <div class="tip">
+          <div class="pl">Core rule</div>
+          <p>KT is strongest when you have <strong>repeated, ordered, skill-linked practice events</strong>. If you only have one posttest score per student, KT is not the right tool.</p>
+        </div>
+
+        <div class="viz">
+          <svg viewBox="0 0 980 260" xmlns="http://www.w3.org/2000/svg">
+            <rect x="20" y="48" width="120" height="74" rx="10" fill="#526B2E" />
+            <text x="80" y="82" text-anchor="middle" fill="#fff" font-family="Inter" font-size="18" font-weight="800">Event log</text>
+            <text x="80" y="103" text-anchor="middle" fill="#fff" font-family="Inter" font-size="13">student · item · time · correct</text>
+
+            <rect x="196" y="48" width="150" height="74" rx="10" fill="#fff" stroke="#182126" stroke-width="2"/>
+            <text x="271" y="82" text-anchor="middle" fill="#182126" font-family="Inter" font-size="18" font-weight="800">State model</text>
+            <text x="271" y="103" text-anchor="middle" fill="#43525A" font-family="Inter" font-size="13">mastery changes over attempts</text>
+
+            <rect x="402" y="48" width="170" height="74" rx="10" fill="#fff" stroke="#182126" stroke-width="2"/>
+            <text x="487" y="82" text-anchor="middle" fill="#182126" font-family="Inter" font-size="18" font-weight="800">Prediction</text>
+            <text x="487" y="103" text-anchor="middle" fill="#43525A" font-family="Inter" font-size="13">P(correct on next attempt)</text>
+
+            <rect x="628" y="48" width="160" height="74" rx="10" fill="#fff" stroke="#182126" stroke-width="2"/>
+            <text x="708" y="82" text-anchor="middle" fill="#182126" font-family="Inter" font-size="18" font-weight="800">Interpretation</text>
+            <text x="708" y="103" text-anchor="middle" fill="#43525A" font-family="Inter" font-size="13">mastery, risk, growth, support</text>
+
+            <rect x="844" y="48" width="116" height="74" rx="10" fill="#C38E2B"/>
+            <text x="902" y="82" text-anchor="middle" fill="#182126" font-family="Inter" font-size="18" font-weight="900">Action</text>
+            <text x="902" y="103" text-anchor="middle" fill="#182126" font-family="Inter" font-size="13">feedback / next item</text>
+
+            <path d="M140 85 H196 M346 85 H402 M572 85 H628 M788 85 H844" fill="none" stroke="#182126" stroke-width="3" marker-end="url(#a)"/>
+            <defs>
+              <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+                <path d="M0,0 L10,5 L0,10 z" fill="#182126"/>
+              </marker>
+            </defs>
+          </svg>
+          <div class="viz-cap"><span class="lbl">KT flow</span><span class="desc">The value chain is event log → latent state estimate → prediction → educational action.</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="family">
+      <div class="section-label">Chapter 02 · Landscape</div>
+      <h2 class="h2"><span class="olive">BKT, LKT, DKT</span>, and the models people actually use</h2>
+      <div class="body">
+        <p>The field did not stop at one model. It evolved in layers.</p>
+        <table class="schema">
+          <thead>
+            <tr><th>Family</th><th>What it assumes</th><th>Why people still use it</th><th>Main cost</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="k">BKT</td><td>Binary latent mastery state with learn / guess / slip / forget parameters.</td><td>Interpretability, pedagogical plausibility, clean per-skill parameters, easy communication.</td><td>Rigid assumptions; limited feature richness.</td></tr>
+            <tr><td class="k">AFM / PFA / LKT</td><td>Logistic response model with practice features and sometimes richer covariates.</td><td>Strong baseline, easy covariate extension, transparent coefficients.</td><td>Less “stateful” than classic latent-state framing.</td></tr>
+            <tr><td class="k">DKT</td><td>RNN learns mastery dynamics directly from sequences.</td><td>Flexible sequential representation; often stronger raw prediction.</td><td>Lower interpretability, more preprocessing, more tuning.</td></tr>
+            <tr><td class="k">Memory / attention KT</td><td>Sequence structure, recency, and item relationships need more expressive architectures.</td><td>Current benchmark culture in EDM/AIED/LAK.</td><td>Harder to explain to education audiences.</td></tr>
+          </tbody>
+        </table>
+
+        <div class="card">
+          <div class="card-title">Field-used deep KT families</div>
+          <p>The deep KT ecosystem commonly includes <strong>DKT</strong>, <strong>DKT+</strong>, <strong>DKVMN</strong>, <strong>SAKT</strong>, <strong>SAINT</strong>, <strong>AKT</strong>, <strong>KQN</strong>, <strong>GKT</strong>, <strong>LPKT</strong>, and more recent attention- or graph-based variants. The <a class="inline" href="https://github.com/pykt-team/pykt-toolkit">pyKT toolkit</a> bundles many of these for benchmarking, which is one reason it matters as a practical research library.</p>
+        </div>
+
+        <div class="pitfall">
+          <div class="pl">Don’t confuse popularity with fit</div>
+          <p>A model being common in EDM leaderboards does not make it automatically right for a learning-sciences or educational-psychology paper. If your main claim depends on interpretable mastery growth by concept, BKT or logistic KT may be the stronger methodological choice.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="decision">
+      <div class="section-label">Chapter 03 · Decision</div>
+      <h2 class="h2">Which <span class="olive">model</span> should you use?</h2>
+      <div class="body">
+        <table class="schema">
+          <thead>
+            <tr><th>Your practical situation</th><th>Best first choice</th><th>Why</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>You need interpretable mastery per skill for teachers or reviewers.</td><td class="k">BKT</td><td>Parameters map to learn / slip / guess / forget language people understand.</td></tr>
+            <tr><td>You want coefficients for opportunities, time, hints, or durations.</td><td class="k">LKT / AFM / PFA</td><td>Feature-based logistic framing is easier to extend and report.</td></tr>
+            <tr><td>You have very long logs, many items, and prediction performance is the main goal.</td><td class="k">DKT or pyKT models</td><td>Deep sequence models can capture richer dependencies.</td></tr>
+            <tr><td>You need a defensible baseline before trying a transformer-style KT model.</td><td class="k">BKT + logistic KT</td><td>Strong baseline discipline prevents “black-box first” analysis.</td></tr>
+            <tr><td>You only have a pretest and posttest.</td><td class="k">Not KT</td><td>You do not have enough sequential evidence.</td></tr>
+          </tbody>
+        </table>
+
+        <div class="g3">
+          <div class="card soft">
+            <div class="card-title">Choose BKT when</div>
+            <p class="mini">The audience needs mastery curves and interpretable parameters, and your events are already tagged to knowledge components.</p>
+          </div>
+          <div class="card soft">
+            <div class="card-title">Choose logistic KT when</div>
+            <p class="mini">You want opportunity count, duration, help, spacing, or contextual features in the model itself.</p>
+          </div>
+          <div class="card soft">
+            <div class="card-title">Choose DKT when</div>
+            <p class="mini">Prediction is central, your sample is large enough, and you can justify the lower interpretability.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="dataframe">
+      <div class="section-label">Chapter 04 · Data</div>
+      <h2 class="h2">How the <span class="olive">dataframe</span> must be built</h2>
+      <div class="body">
+        <p>The biggest KT failure mode is not the model. It is the dataframe. If the event order, skill mapping, or correctness coding is wrong, everything downstream is wrong.</p>
+
+        <h3 class="h3">Universal event-log schema</h3>
+        <table class="schema">
+          <thead>
+            <tr><th>Column</th><th>Type</th><th>Why it matters</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="k">user_id</td><td class="t">string</td><td>Required to separate each learner’s sequence.</td></tr>
+            <tr><td class="k">order_id</td><td class="t">integer</td><td>Required to guarantee within-student temporal order.</td></tr>
+            <tr><td class="k">timestamp</td><td class="t">datetime</td><td>Useful for checking or reconstructing order; important for spacing / delay features.</td></tr>
+            <tr><td class="k">question_id</td><td class="t">string</td><td>Needed for item-level analytics and many deep KT pipelines.</td></tr>
+            <tr><td class="k">skill_name</td><td class="t">string</td><td>Needed for KC-level BKT or logistic KT.</td></tr>
+            <tr><td class="k">concept_id</td><td class="t">string/int</td><td>Often the categorical input for DKT-style concept-level modeling.</td></tr>
+            <tr><td class="k">correct</td><td class="t">0/1</td><td>The minimum required supervised signal.</td></tr>
+            <tr><td class="k">attempt_no</td><td class="t">integer</td><td>Useful for opportunity counts, curves, and debugging.</td></tr>
+            <tr><td class="k">group</td><td class="t">factor</td><td>Needed if you will compare conditions after tracing.</td></tr>
+          </tbody>
+        </table>
+
+        <h3 class="h3">Package-specific minimums</h3>
+        <table class="schema">
+          <thead>
+            <tr><th>Model / package</th><th>Minimum columns</th><th>Notes</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="k">pyBKT / R BKT</td><td><code>order_id</code>, <code>user_id</code>, <code>skill_name</code>, <code>correct</code></td><td><code>correct</code> must be coded as response status; pyBKT docs allow <code>-1, 0, 1</code>.</td></tr>
+            <tr><td class="k">pyKT DKT family</td><td><code>user_id</code>, ordered item/concept sequence, response sequence</td><td>In practice you also need train/valid/test splits and integer-coded IDs.</td></tr>
+            <tr><td class="k">LKT</td><td><code>Anon.Student.Id</code>, <code>Outcome</code>, <code>KC..Default.</code></td><td>The package sample data uses <code>CORRECT</code>/<code>INCORRECT</code> strings, not 0/1.</td></tr>
+          </tbody>
+        </table>
+
+        <h3 class="h3">One toy dataframe, three uses</h3>
+        <p>The bundled file <code>example_data/toy_kt_long.csv</code> is intentionally wide enough to support both interpretable and deep KT workflows. It includes <code>skill_name</code> for BKT and <code>question_id</code>/<code>concept_id</code> for DKT-style preprocessing.</p>
+
+<pre class="code"><span class="cm"># first rows of the bundled toy file</span>
+order_id,user_id,skill_name,question_id,concept_id,correct,timestamp,attempt_no,group
+1,S01,Fractions,Q01,C01,0,2026-01-10T09:00:00,1,control
+2,S01,Fractions,Q02,C01,1,2026-01-10T09:02:00,2,control
+3,S01,Decimals,Q03,C02,0,2026-01-10T09:05:00,1,control</pre>
+
+        <div class="pitfall">
+          <div class="pl">The ordering rule</div>
+          <p>Never trust row order implicitly. Sort by <code>user_id</code> and a verified temporal key before any modeling. If two attempts share the same timestamp, create an explicit tie-break rule and document it.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="workflow">
+      <div class="section-label">Chapter 05 · Workflow</div>
+      <h2 class="h2">End-to-end <span class="olive">practical workflow</span></h2>
+      <div class="body">
+        <div class="g4">
+          <div class="card">
+            <div class="card-title">Step 1</div>
+            <h4 class="h4">Audit the event log</h4>
+            <p class="mini">One row per attempt, sorted, no duplicated student-order pairs, correctness coding verified.</p>
+          </div>
+          <div class="card">
+            <div class="card-title">Step 2</div>
+            <h4 class="h4">Start simple</h4>
+            <p class="mini">Fit BKT or logistic KT first. This establishes whether the sequence signal is usable at all.</p>
+          </div>
+          <div class="card soft">
+            <div class="card-title">Step 3</div>
+            <h4 class="h4">Trace and visualize</h4>
+            <p class="mini">Plot mastery by concept, prediction quality, and opportunity curves before reporting model wins.</p>
+          </div>
+          <div class="card">
+            <div class="card-title">Step 4</div>
+            <h4 class="h4">Only then benchmark deep KT</h4>
+            <p class="mini">If prediction is the target, compare DKT-class models against strong transparent baselines.</p>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Recommended analysis order</div>
+          <ol>
+            <li>Count students, concepts, items, attempts per student, and opportunities per concept.</li>
+            <li>Verify the concept tagging logic with a human-readable sample of students.</li>
+            <li>Fit BKT or logistic KT baseline and inspect whether the predictions are sane.</li>
+            <li>Visualize mastery trajectories and calibration before group comparisons.</li>
+            <li>If using deep KT, compare it against the baseline on the same split and report what improved.</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="python">
+      <div class="section-label">Chapter 06 · Python</div>
+      <h2 class="h2">Python stack <span class="olive">tested here</span></h2>
+      <div class="body">
+        <p>The guide is backed by runnable scripts under <code>tests/</code>, not just pasted code fragments.</p>
+        <table class="schema">
+          <thead>
+            <tr><th>Package</th><th>Status on this machine</th><th>Notes</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="k">pyBKT 1.4.1</td><td>Fit succeeded</td><td>Required a serial workaround for <code>EM_fit.run</code> on Windows. Also pinned <code>scikit-learn==1.5.2</code>.</td></tr>
+            <tr><td class="k">pykt-toolkit 0.0.38</td><td>Import + DKT forward pass succeeded</td><td>Minimal test produced output shape <code>(2, 5, 8)</code>.</td></tr>
+            <tr><td class="k">torch 2.11.0+cpu</td><td>Worked</td><td>Sufficient for smoke testing and small examples.</td></tr>
+          </tbody>
+        </table>
+
+<pre class="code"><span class="cm"># tests/test_pybkt_python.py</span>
+<span class="kw">from</span> pyBKT.models <span class="kw">import</span> Model
+df = pd.read_csv(<span class="st">"example_data/toy_kt_long.csv"</span>)
+model = Model(seed=42, num_fits=1)
+model.fit(data=df)
+preds = model.predict(data=df)</pre>
+
+        <div class="card soft">
+          <div class="card-title">Observed output</div>
+          <p><strong>pyBKT</strong> fit on a 41-row toy dataframe with 6 students and 3 skills. The output file <code>tests/results/pybkt_result.json</code> was written successfully. <strong>pyKT</strong> DKT forward pass also wrote <code>tests/results/pykt_dkt_forward.json</code>.</p>
+        </div>
+
+        <div class="pitfall">
+          <div class="pl">Major Python caveat</div>
+          <p><strong>pyBKT is the most brittle part of this stack on Windows.</strong> The package documentation says Windows is supported, but in this environment the import-and-fit path needed both a <code>scikit-learn</code> version adjustment and a serial patch to bypass multiprocessing behavior in <code>pyBKT.fit.EM_fit.run</code>.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="rstack">
+      <div class="section-label">Chapter 07 · R</div>
+      <h2 class="h2">R stack <span class="olive">tested here</span></h2>
+      <div class="body">
+        <table class="schema">
+          <thead>
+            <tr><th>Package</th><th>Status on this machine</th><th>Notes</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="k">BKT 0.1.0</td><td>Fit + predict succeeded</td><td>Used <code>parallel = FALSE</code>, <code>num_fits = 1</code> on the toy long-format CSV.</td></tr>
+            <tr><td class="k">LKT 1.7.0</td><td><code>LKT()</code> succeeded on sample data</td><td>The safest first entry point is the package sample / vignette format.</td></tr>
+          </tbody>
+        </table>
+
+<pre class="code"><span class="cm"># tests/test_bkt_r.R</span>
+library(BKT)
+df <- read.csv("example_data/toy_kt_long.csv")
+fit_model <- fit(bkt(seed = 42, parallel = FALSE, num_fits = 1), data = df)
+preds <- predict_bkt(fit_model, data = df)</pre>
+
+<pre class="code"><span class="cm"># tests/test_lkt_r.R</span>
+library(LKT)
+data(samplelkt)
+lkt_model <- LKT(
+  data = samplelkt,
+  interc = FALSE,
+  components = c("Anon.Student.Id", "KC..Default.", "KC..Default."),
+  features = c("intercept", "intercept", "lineafm")
+)</pre>
+
+        <div class="card">
+          <div class="card-title">Observed output</div>
+          <p><code>tests/results/bkt_r_result.json</code> includes prediction samples and fitted parameters from the CRAN <code>BKT</code> package. <code>tests/results/lkt_r_result.json</code> records a successful <code>LKT()</code> run on <code>samplelkt</code> and a failure message from a more advanced <code>buildLKTModel()</code> path on a minimal toy frame.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="viz">
+      <div class="section-label">Chapter 08 · Visuals</div>
+      <h2 class="h2">Visualizations that are <span class="olive">actually worth showing</span></h2>
+      <div class="body">
+        <p>Most KT papers underuse visualization. If all you show is AUC, your reader cannot tell whether the model produced an educationally sensible story.</p>
+
+        <h3 class="h3">1. Mastery trajectory by opportunity</h3>
+        <p>Plot mean predicted mastery against practice opportunity count, separated by concept and optionally by group. This is the most direct answer to “are students stabilizing?”</p>
+
+        <h3 class="h3">2. Predicted vs observed correctness</h3>
+        <p>Calibration-style plots matter because a model can rank students well while still misestimating absolute success probabilities.</p>
+
+        <h3 class="h3">3. Heatmap of student × concept risk</h3>
+        <p>Use the most recent mastery estimate per student-concept cell. This is the easiest operational view for instructors or intervention designers.</p>
+
+        <h3 class="h3">4. Opportunity curve by group</h3>
+        <p>When you compare conditions, do not only compare final mastery. Compare <strong>how quickly</strong> mastery appears over repeated attempts.</p>
+
+        <div class="viz">
+          <svg viewBox="0 0 980 430" xmlns="http://www.w3.org/2000/svg">
+            <rect x="50" y="30" width="390" height="160" rx="12" fill="#fff" stroke="#182126" stroke-width="2"/>
+            <text x="74" y="58" font-family="Inter" font-size="16" font-weight="800" fill="#182126">Mastery over opportunity</text>
+            <line x1="90" y1="160" x2="390" y2="160" stroke="#182126" stroke-width="2"/>
+            <line x1="90" y1="160" x2="90" y2="82" stroke="#182126" stroke-width="2"/>
+            <polyline fill="none" stroke="#526B2E" stroke-width="4" points="95,145 150,132 205,118 260,97 315,82 370,74"/>
+            <polyline fill="none" stroke="#C38E2B" stroke-width="4" points="95,150 150,143 205,136 260,124 315,110 370,98"/>
+            <text x="312" y="72" font-family="Inter" font-size="12" fill="#526B2E">treatment</text>
+            <text x="315" y="120" font-family="Inter" font-size="12" fill="#8A6315">control</text>
+
+            <rect x="520" y="30" width="390" height="160" rx="12" fill="#fff" stroke="#182126" stroke-width="2"/>
+            <text x="544" y="58" font-family="Inter" font-size="16" font-weight="800" fill="#182126">Student × concept risk heatmap</text>
+            <g transform="translate(556,78)">
+              <rect x="0" y="0" width="56" height="28" fill="#E8F1D8"/><rect x="56" y="0" width="56" height="28" fill="#E0EBCB"/><rect x="112" y="0" width="56" height="28" fill="#F2D2C9"/>
+              <rect x="0" y="28" width="56" height="28" fill="#D4E4B9"/><rect x="56" y="28" width="56" height="28" fill="#F2D2C9"/><rect x="112" y="28" width="56" height="28" fill="#E4EFD2"/>
+              <rect x="0" y="56" width="56" height="28" fill="#F2D2C9"/><rect x="56" y="56" width="56" height="28" fill="#E1ECCC"/><rect x="112" y="56" width="56" height="28" fill="#D0E1B2"/>
+              <text x="190" y="18" font-family="Inter" font-size="12">C01</text><text x="246" y="18" font-family="Inter" font-size="12">C02</text><text x="302" y="18" font-family="Inter" font-size="12">C03</text>
+              <text x="-20" y="18" font-family="Inter" font-size="12">S01</text><text x="-20" y="46" font-family="Inter" font-size="12">S02</text><text x="-20" y="74" font-family="Inter" font-size="12">S03</text>
+            </g>
+
+            <rect x="50" y="230" width="390" height="160" rx="12" fill="#fff" stroke="#182126" stroke-width="2"/>
+            <text x="74" y="258" font-family="Inter" font-size="16" font-weight="800" fill="#182126">Observed vs predicted</text>
+            <line x1="90" y1="360" x2="390" y2="360" stroke="#182126" stroke-width="2"/>
+            <line x1="90" y1="360" x2="90" y2="282" stroke="#182126" stroke-width="2"/>
+            <line x1="105" y1="345" x2="372" y2="290" stroke="#CFC7B8" stroke-dasharray="6 5" stroke-width="2"/>
+            <circle cx="120" cy="336" r="5" fill="#526B2E"/><circle cx="170" cy="326" r="5" fill="#526B2E"/><circle cx="222" cy="312" r="5" fill="#526B2E"/><circle cx="275" cy="306" r="5" fill="#526B2E"/><circle cx="332" cy="296" r="5" fill="#526B2E"/>
+
+            <rect x="520" y="230" width="390" height="160" rx="12" fill="#fff" stroke="#182126" stroke-width="2"/>
+            <text x="544" y="258" font-family="Inter" font-size="16" font-weight="800" fill="#182126">When deep KT helps</text>
+            <text x="544" y="290" font-family="Inter" font-size="14" fill="#43525A">Long sequences</text>
+            <text x="544" y="316" font-family="Inter" font-size="14" fill="#43525A">Many items / concepts</text>
+            <text x="544" y="342" font-family="Inter" font-size="14" fill="#43525A">Prediction > explanation</text>
+            <text x="544" y="368" font-family="Inter" font-size="14" fill="#43525A">Benchmarking culture</text>
+          </svg>
+          <div class="viz-cap"><span class="lbl">Figure menu</span><span class="desc">These four plots usually give more educational value than a single leaderboard metric.</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="scenarios">
+      <div class="section-label">Chapter 09 · Use Cases</div>
+      <h2 class="h2">Research scenarios in <span class="olive">learning sciences</span> and <span class="olive">educational psychology</span></h2>
+      <div class="body">
+        <h3 class="h3">Learning sciences scenario 1: adaptive scaffolding in an ITS</h3>
+        <p>You have a tutor with repeated concept-linked practice and hint logs. Use KT to estimate concept mastery after each action, then connect mastery stalls with hint usage, revision behavior, or discourse traces. This is ideal when the argument is about <strong>process-sensitive support</strong>, not just posttest outcomes.</p>
+
+        <h3 class="h3">Learning sciences scenario 2: multimodal or discourse-rich practice episodes</h3>
+        <p>If you already analyze discourse or clickstream sequences, KT can serve as the <strong>performance state layer</strong>. For example: run KT on problem outcomes, then align mastery growth with help-seeking patterns, collaborative moves, or reflection prompts.</p>
+
+        <h3 class="h3">Educational psychology scenario 1: formative assessment and early warning</h3>
+        <p>KT can turn repeated low-stakes quizzes into concept-level risk estimates. Then the research question becomes: which self-regulation or motivation variables predict slower mastery stabilization, even after controlling for prior performance?</p>
+
+        <h3 class="h3">Educational psychology scenario 2: intervention comparison</h3>
+        <p>Instead of only testing whether treatment improved final score, compare <strong>mastery trajectories</strong>. Example: “Did retrieval-practice students reach stable mastery after fewer opportunities than worked-example students?”</p>
+
+        <h3 class="h3">Educational psychology scenario 3: spacing and forgetting</h3>
+        <p>If timestamps are reliable, build opportunity-delay features or forgetting-aware models. This is where logistic KT or richer variants can be more useful than plain BKT.</p>
+
+        <div class="card soft">
+          <div class="card-title">A strong scenario template</div>
+          <p><strong>Data source:</strong> repeated concept-linked attempts. <strong>KT role:</strong> derive evolving mastery. <strong>Second-stage analysis:</strong> compare mastery dynamics by group, motivational profile, discourse pattern, or support condition. That workflow is easier to defend than presenting KT as an end in itself.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="trouble">
+      <div class="section-label">Chapter 10 · Troubleshooting</div>
+      <h2 class="h2"><span class="olive">Troubleshooting</span> log and fixes</h2>
+      <div class="body">
+        <table class="schema">
+          <thead>
+            <tr><th>Symptom</th><th>What it means</th><th>Fix</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>pyBKT import or fit breaks with newer <code>scikit-learn</code></td><td>Version mismatch in utility code paths.</td><td>Pin <code>scikit-learn==1.5.2</code> in this environment.</td></tr>
+            <tr><td>pyBKT fit fails on Windows at multiprocessing / Pipe / access</td><td><code>pyBKT.fit.EM_fit.run</code> is fragile under this setup.</td><td>Use a serial workaround like the one in <code>tests/test_pybkt_python.py</code>.</td></tr>
+            <tr><td>pyBKT returns strange results after tiny toy fits</td><td>BKT is being fit on a very small dataset with strong simplifying assumptions.</td><td>Treat tiny toy results as smoke tests only, not substantive evidence.</td></tr>
+            <tr><td>LKT fails on your own CSV even though sample data works</td><td>Your columns or coding do not match the expected package idiom.</td><td>Replicate <code>samplelkt</code> first: <code>Anon.Student.Id</code>, <code>Outcome</code>, <code>KC..Default.</code>, with <code>CORRECT</code>/<code>INCORRECT</code>.</td></tr>
+            <tr><td>Deep KT preprocessing explodes</td><td>Your IDs are not integer-encoded or sequences are not split correctly.</td><td>Create stable mappings for concept/item IDs and make the split logic explicit.</td></tr>
+            <tr><td>Group differences are uninterpretable</td><td>You traced mastery but skipped visualization and second-stage modeling.</td><td>Plot opportunity curves and then test group differences on mastery summaries.</td></tr>
+          </tbody>
+        </table>
+
+        <div class="pitfall">
+          <div class="pl">Substantive warning</div>
+          <p>KT estimates <strong>latent proficiency from performance traces</strong>. It is not a direct measure of conceptual understanding, motivation, or metacognition. If your theory is about those constructs, KT should usually be one layer in a broader design, not the entire construct claim.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="checklist">
+      <div class="section-label">Chapter 11 · QA</div>
+      <h2 class="h2">Pre-publication <span class="olive">checklist</span></h2>
+      <div class="body">
+        <ul>
+          <li>Did you verify one row equals one attempt, not one student summary?</li>
+          <li>Did you sort sequences explicitly and document the ordering key?</li>
+          <li>Did you confirm skill tags with a human-readable sample?</li>
+          <li>Did you fit at least one transparent baseline before deep KT?</li>
+          <li>Did you visualize mastery or calibration, not just AUC?</li>
+          <li>Did you keep interpretation at the level the model actually supports?</li>
+          <li>Did you report package versions and preprocessing assumptions?</li>
+          <li>Did you separate smoke-test success from substantive validation?</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section" id="references">
+      <div class="section-label">Chapter 12 · Sources</div>
+      <h2 class="h2">Original guides and <span class="olive">references</span></h2>
+      <div class="body">
+        <h3 class="h3">Canonical KT / BKT / DKT references</h3>
+        <ul>
+          <li>Corbett, A. T., &amp; Anderson, J. R. Knowledge Tracing: Modeling the Acquisition of Procedural Knowledge. <a class="inline" href="https://doi.org/10.1007/BF01099821">Original DOI</a></li>
+          <li>Piech, C. et al. Deep Knowledge Tracing. NeurIPS 2015. <a class="inline" href="https://papers.nips.cc/paper/5654-deep-knowledge-tracing">Paper page</a> · <a class="inline" href="https://papers.nips.cc/paper_files/paper/2015/file/bac9162b47c56fc8a4d2a519803d51b3-Paper.pdf">PDF</a></li>
+          <li>Abdelrahman, G., Wang, Q., &amp; Nunes, B. Knowledge Tracing: A Survey. <a class="inline" href="https://doi.org/10.1145/3569576">ACM Computing Surveys DOI</a></li>
+        </ul>
+
+        <h3 class="h3">Python guides</h3>
+        <ul>
+          <li>pyBKT GitHub: <a class="inline" href="https://github.com/CAHLR/pyBKT">CAHLR/pyBKT</a></li>
+          <li>pyBKT practical article: Bulut et al. (2023), <em>An Introduction to Bayesian Knowledge Tracing with pyBKT</em>. <a class="inline" href="https://doi.org/10.3390/psych5030050">DOI</a> · <a class="inline" href="https://www.mdpi.com/2624-8611/5/3/50">Article page</a></li>
+          <li>pyKT toolkit site: <a class="inline" href="https://pykt.org/">pykt.org</a> · docs: <a class="inline" href="https://pykt.org/pykt-team.github.io_old/docs/index.html">documentation</a> · code: <a class="inline" href="https://github.com/pykt-team/pykt-toolkit">GitHub</a></li>
+          <li>pyKT benchmark paper: Liu et al. (2022), NeurIPS Datasets and Benchmarks. <a class="inline" href="https://github.com/pykt-team/pykt-toolkit">Citation in repo README</a></li>
+        </ul>
+
+        <h3 class="h3">R guides</h3>
+        <ul>
+          <li>CRAN <code>BKT</code> docs: <a class="inline" href="https://rdrr.io/cran/BKT/">rdrr package page</a> · <a class="inline" href="https://cran.r-universe.dev/BKT/doc/manual.html">manual</a></li>
+          <li><code>LKT</code> package docs are installed locally in this project under <code>tests/r_lib/LKT/doc/</code>. The sample-data workflow in <code>Basic_Operations.Rmd</code> and <code>Examples.Rmd</code> is the most reliable entry point.</li>
+        </ul>
+
+        <h3 class="h3">Files bundled with this guide</h3>
+        <ul>
+          <li><code>example_data/toy_kt_long.csv</code> — general toy KT event log</li>
+          <li><code>example_data/toy_lkt_minimal.csv</code> — minimal LKT-shaped CSV</li>
+          <li><code>tests/test_pybkt_python.py</code> · <code>tests/test_pykt_dkt_forward.py</code></li>
+          <li><code>tests/test_bkt_r.R</code> · <code>tests/test_lkt_r.R</code></li>
+          <li><code>tests/results/*.json</code> — captured smoke-test outputs</li>
+        </ul>
+
+        <div class="card soft">
+          <div class="card-title">Fact-check note</div>
+          <p>This page blends <strong>primary references</strong>, <strong>official package documentation</strong>, and <strong>machine-local smoke tests</strong>. Where package behavior on this machine diverged from the smooth-path documentation, the guide reports the observed behavior explicitly rather than hiding it.</p>
+        </div>
+      </div>
+    </section>
+
+    <footer class="foot">
+      <span>Knowledge Tracing · Practical Blueprint v1</span>
+      <span class="olive">Trace mastery, but respect the data.</span>
+    </footer>
+  </main>
+</div>
+</body>
+</html>

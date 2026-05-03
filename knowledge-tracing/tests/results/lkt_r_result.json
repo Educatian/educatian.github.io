@@ -1,0 +1,11 @@
+{
+  "lkt_sample_run": {
+    "rows": 1941,
+    "columns": ["Anon.Student.Id", "Duration..sec.", "Outcome", "KC..Default."],
+    "output_names": ["model", "coefs", "r2", "prediction", "nullmodel", "latencymodel", "optimizedpars", "studentRMSE", "newdata", "predictors", "loglike", "automat"],
+    "loglike": -833.3368
+  },
+  "minimal_data_columns": ["Anon.Student.Id", "Outcome", "KC..Default.", "Duration..sec."],
+  "buildLKTModel_error": "Check that is.data.table(DT) == TRUE. Otherwise, :=, `:=`(...) and let(...) are defined for use in j, once only and in particular ways. Note that namespace-qualification like data.table::`:=`(...) is not supported. See help(\":=\").",
+  "note": "On this machine, the safest smoke-test path is LKT() on samplelkt/vignette-style data. buildLKTModel() is easier to mis-specify on a minimal toy frame and should be treated as an advanced entry point."
+}

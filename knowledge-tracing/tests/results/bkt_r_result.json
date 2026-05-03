@@ -1,0 +1,139 @@
+{
+  "r_version": "4.5.2",
+  "rows": 41,
+  "students": 6,
+  "skills": ["Decimals", "Equations", "Fractions"],
+  "prediction_head": [
+    {
+      "user_id": "S01",
+      "skill_name": "Fractions",
+      "correct": 0,
+      "correct_predictions": 0.3341,
+      "state_predictions": 0.669
+    },
+    {
+      "user_id": "S01",
+      "skill_name": "Fractions",
+      "correct": 1,
+      "correct_predictions": 0.8034,
+      "state_predictions": 0.1875
+    },
+    {
+      "user_id": "S01",
+      "skill_name": "Decimals",
+      "correct": 0,
+      "correct_predictions": 0.3339,
+      "state_predictions": 0.6745
+    },
+    {
+      "user_id": "S01",
+      "skill_name": "Decimals",
+      "correct": 1,
+      "correct_predictions": 0.8029,
+      "state_predictions": 0.197
+    },
+    {
+      "user_id": "S01",
+      "skill_name": "Equations",
+      "correct": 0,
+      "correct_predictions": 0.3339,
+      "state_predictions": 0.6785
+    },
+    {
+      "user_id": "S01",
+      "skill_name": "Equations",
+      "correct": 1,
+      "correct_predictions": 0.8034,
+      "state_predictions": 0.1983
+    },
+    {
+      "user_id": "S02",
+      "skill_name": "Fractions",
+      "correct": 0,
+      "correct_predictions": 0.3341,
+      "state_predictions": 0.669
+    },
+    {
+      "user_id": "S02",
+      "skill_name": "Fractions",
+      "correct": 0,
+      "correct_predictions": 0.8034,
+      "state_predictions": 0.1875
+    }
+  ],
+  "param_rows": [
+    {
+      "skill": "Fractions",
+      "param": "learns",
+      "class": "default",
+      "value": "0.811195"
+    },
+    {
+      "skill": "Fractions",
+      "param": "guesses",
+      "class": "default",
+      "value": "0.011382"
+    },
+    {
+      "skill": "Fractions",
+      "param": "slips",
+      "class": "default",
+      "value": "0.013789"
+    },
+    {
+      "skill": "Fractions",
+      "param": "prior",
+      "class": "default",
+      "value": "0.331025"
+    },
+    {
+      "skill": "Decimals",
+      "param": "learns",
+      "class": "default",
+      "value": "0.802692"
+    },
+    {
+      "skill": "Decimals",
+      "param": "guesses",
+      "class": "default",
+      "value": "0.014225"
+    },
+    {
+      "skill": "Decimals",
+      "param": "slips",
+      "class": "default",
+      "value": "0.003675"
+    },
+    {
+      "skill": "Decimals",
+      "param": "prior",
+      "class": "default",
+      "value": "0.325494"
+    },
+    {
+      "skill": "Equations",
+      "param": "learns",
+      "class": "default",
+      "value": "0.801450"
+    },
+    {
+      "skill": "Equations",
+      "param": "guesses",
+      "class": "default",
+      "value": "0.019663"
+    },
+    {
+      "skill": "Equations",
+      "param": "slips",
+      "class": "default",
+      "value": "0.002736"
+    },
+    {
+      "skill": "Equations",
+      "param": "prior",
+      "class": "default",
+      "value": "0.321473"
+    }
+  ],
+  "note": "CRAN BKT ran successfully with parallel = FALSE and num_fits = 1 on toy long-format data."
+}

@@ -1,0 +1,162 @@
+{
+  "python_version": "3.11",
+  "rows": 41,
+  "students": 6,
+  "skills": [
+    "Decimals",
+    "Equations",
+    "Fractions"
+  ],
+  "rmse": 0.7650921887655554,
+  "param_rows": [
+    {
+      "skill": "Fractions",
+      "param": "prior",
+      "class": "default",
+      "value": 0.323374
+    },
+    {
+      "skill": "Fractions",
+      "param": "learns",
+      "class": "default",
+      "value": 0.80788
+    },
+    {
+      "skill": "Fractions",
+      "param": "guesses",
+      "class": "default",
+      "value": 0.021153
+    },
+    {
+      "skill": "Fractions",
+      "param": "slips",
+      "class": "default",
+      "value": 0.010848
+    },
+    {
+      "skill": "Fractions",
+      "param": "forgets",
+      "class": "default",
+      "value": 0.0
+    },
+    {
+      "skill": "Decimals",
+      "param": "prior",
+      "class": "default",
+      "value": 0.315518
+    },
+    {
+      "skill": "Decimals",
+      "param": "learns",
+      "class": "default",
+      "value": 0.798587
+    },
+    {
+      "skill": "Decimals",
+      "param": "guesses",
+      "class": "default",
+      "value": 0.027064
+    },
+    {
+      "skill": "Decimals",
+      "param": "slips",
+      "class": "default",
+      "value": 0.000295
+    },
+    {
+      "skill": "Decimals",
+      "param": "forgets",
+      "class": "default",
+      "value": 0.0
+    },
+    {
+      "skill": "Equations",
+      "param": "prior",
+      "class": "default",
+      "value": 0.320334
+    },
+    {
+      "skill": "Equations",
+      "param": "learns",
+      "class": "default",
+      "value": 0.800084
+    },
+    {
+      "skill": "Equations",
+      "param": "guesses",
+      "class": "default",
+      "value": 0.020594
+    },
+    {
+      "skill": "Equations",
+      "param": "slips",
+      "class": "default",
+      "value": 0.001412
+    },
+    {
+      "skill": "Equations",
+      "param": "forgets",
+      "class": "default",
+      "value": 0.0
+    }
+  ],
+  "prediction_head": [
+    {
+      "user_id": "S01",
+      "skill_name": "Fractions",
+      "correct": 0,
+      "correct_predictions": 0.334179,
+      "state_predictions": 0.323374
+    },
+    {
+      "user_id": "S01",
+      "skill_name": "Fractions",
+      "correct": 1,
+      "correct_predictions": 0.0,
+      "state_predictions": 0.0
+    },
+    {
+      "user_id": "S01",
+      "skill_name": "Decimals",
+      "correct": 0,
+      "correct_predictions": 0.33395,
+      "state_predictions": 0.315518
+    },
+    {
+      "user_id": "S01",
+      "skill_name": "Decimals",
+      "correct": 1,
+      "correct_predictions": 0.0,
+      "state_predictions": 0.0
+    },
+    {
+      "user_id": "S01",
+      "skill_name": "Equations",
+      "correct": 0,
+      "correct_predictions": 0.333878,
+      "state_predictions": 0.320334
+    },
+    {
+      "user_id": "S01",
+      "skill_name": "Equations",
+      "correct": 1,
+      "correct_predictions": 0.0,
+      "state_predictions": 0.0
+    },
+    {
+      "user_id": "S02",
+      "skill_name": "Fractions",
+      "correct": 0,
+      "correct_predictions": 0.334179,
+      "state_predictions": 0.323374
+    },
+    {
+      "user_id": "S02",
+      "skill_name": "Fractions",
+      "correct": 0,
+      "correct_predictions": 0.0,
+      "state_predictions": 0.0
+    }
+  ],
+  "note": "Uses a serial monkeypatch for pyBKT.fit.EM_fit.run on Windows to avoid multiprocessing/import issues."
+}

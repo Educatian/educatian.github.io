@@ -1,0 +1,24 @@
+{
+  "model": "DKT",
+  "num_concepts": 8,
+  "embedding_size": 16,
+  "input_shape_q": [
+    2,
+    5
+  ],
+  "output_shape": [
+    2,
+    5,
+    8
+  ],
+  "probability_range": [
+    0.6086126565933228,
+    0.6461215019226074
+  ],
+  "sample_step_0": [
+    0.613217,
+    0.636238,
+    0.628081,
+    0.626288
+  ]
+}

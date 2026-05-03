@@ -1,0 +1,4 @@
+.venv-kt/
+tests/r_lib/
+thumbnails/chrome-profile/
+__pycache__/
