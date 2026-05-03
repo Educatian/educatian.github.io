@@ -258,6 +258,18 @@ code:not(.code){
 /* ---- Legend / pills ---- */
 .legend{display:flex;gap:18px;flex-wrap:wrap;margin:18px 0;font-size:12.5px;color:#555}
 .legend .d{display:flex;align-items:center;gap:8px}
+.ona-play{display:grid;grid-template-columns:300px 1fr;gap:18px;margin:22px 0}
+.ona-controls,.ona-stage{background:#fff;border:2px solid var(--ink);border-radius:14px;padding:18px}
+.ona-controls label{display:block;font-size:12.5px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--ink3);margin:0 0 8px}
+.ona-controls .control{margin-bottom:16px}
+.ona-controls input[type=range],.ona-controls select{width:100%}
+.ona-controls output{font-family:'JetBrains Mono',monospace;color:var(--rust);font-size:12px}
+.ona-note{background:var(--rust-soft);border-radius:12px;padding:14px 16px;font-size:14px;line-height:1.6;color:#333}
+.ona-stage svg{width:100%;height:auto;display:block}
+.ona-mini-legend{display:flex;gap:12px;flex-wrap:wrap;margin-top:10px;font-size:12px;color:#555}
+.ona-mini-legend span{display:flex;align-items:center;gap:6px}
+.sw{width:14px;height:14px;border-radius:50%}
+@media (max-width:980px){.ona-play{grid-template-columns:1fr}}
 .legend .b{width:14px;height:14px;border:2px solid var(--ink);border-radius:3px;flex-shrink:0}
 .legend .b.rust{background:var(--rust);border-color:var(--rust)}
 .legend .b.white{background:#fff}
@@ -346,6 +358,7 @@ code:not(.code){
     </ol>
     <div style="font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#999;margin:14px 0 8px">Part II · Build the network</div>
     <ol start="9">
+      <li><a href="#playground">Interactive ONA playground</a></li>
       <li><a href="#combined">Combined view walkthrough</a></li>
       <li><a href="#panels">Side-by-side panels</a></li>
       <li><a href="#subtracted">Subtracted (difference) network</a></li>
@@ -354,7 +367,7 @@ code:not(.code){
       <li><a href="#tuning">Tuning knobs</a></li>
     </ol>
     <div style="font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#999;margin:14px 0 8px">Part III · Analyze &amp; interpret</div>
-    <ol start="15">
+    <ol start="16">
       <li><a href="#metrics">Network metrics: in/out strength, density, mass</a></li>
       <li><a href="#group-stats">Group comparison statistics</a></li>
       <li><a href="#interpretation">Interpretation framework</a></li>
@@ -741,6 +754,66 @@ str(long)
         </table>
 
         <p>Everything in the rest of this guide is ONA-specific, but ENA users will recognise the bones.</p>
+      </div>
+    </section>
+
+    <section class="section" id="playground">
+      <div class="section-label">Chapter 08b Â· Interactive</div>
+      <h2 class="h2">An <span class="rust">interactive ONA playground</span> you can actually touch</h2>
+      <div class="body">
+        <p>This mini embed is not a full statistics engine. It is a <strong>reading tool</strong> for beginners: change the controls and watch how the same coded process looks different in <strong>combined</strong>, <strong>panels</strong>, and <strong>difference</strong> views.</p>
+
+        <div class="ona-play">
+          <div class="ona-controls">
+            <div class="control">
+              <label for="onaView">View mode</label>
+              <select id="onaView">
+                <option value="combined">Combined overlay</option>
+                <option value="panels">Side-by-side panels</option>
+                <option value="difference">Difference network</option>
+              </select>
+            </div>
+            <div class="control">
+              <label for="onaThreshold">Edge threshold <output id="onaThresholdOut">0.30</output></label>
+              <input id="onaThreshold" type="range" min="0" max="0.8" step="0.05" value="0.3">
+            </div>
+            <div class="control">
+              <label for="onaNodeMode">Node sizing</label>
+              <select id="onaNodeMode">
+                <option value="in">In-strength</option>
+                <option value="out">Out-strength</option>
+              </select>
+            </div>
+            <div class="control">
+              <label for="onaFocus">Highlight code</label>
+              <select id="onaFocus">
+                <option value="none">None</option>
+                <option value="ASK">ASK</option>
+                <option value="EXPLAIN">EXPLAIN</option>
+                <option value="EXAMPLE">EXAMPLE</option>
+                <option value="RESPOND">RESPOND</option>
+              </select>
+            </div>
+            <div class="ona-note" id="onaSummary"></div>
+          </div>
+
+          <div class="ona-stage">
+            <svg id="onaPlaySvg" viewBox="0 0 980 480" xmlns="http://www.w3.org/2000/svg" aria-label="Interactive ONA playground">
+              <rect x="0" y="0" width="980" height="480" fill="#fff"/>
+              <g id="onaPlayPlot"></g>
+            </svg>
+            <div class="ona-mini-legend">
+              <span><i class="sw" style="background:#B5392A"></i>Treatment</span>
+              <span><i class="sw" style="background:#3B6EA8"></i>Control</span>
+              <span><i class="sw" style="background:#9C6B1F"></i>Difference edge</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="tip">
+          <div class="pl">How to use this</div>
+          <p>Start in <strong>combined</strong> view, raise the threshold until only the dominant transitions survive, then switch to <strong>difference</strong>. If one code suddenly dominates the colored arrows, that is usually the structural story you should read first.</p>
+        </div>
       </div>
     </section>
 
@@ -1391,5 +1464,151 @@ CODE_A, CODE_B, ...   <span class="cm"># 0/1 ints</span></pre>
   </main>
 </div>
 
+<script>
+(() => {
+  const qs = (id) => document.getElementById(id);
+  if (!qs('onaPlayPlot')) return;
+
+  const nodes = [
+    { id:'ASK', x:180, y:132 },
+    { id:'EXPLAIN', x:470, y:96 },
+    { id:'EXAMPLE', x:470, y:286 },
+    { id:'RESPOND', x:790, y:190 }
+  ];
+
+  const weights = {
+    treatment: {
+      'ASK|RESPOND': 0.42,
+      'ASK|EXPLAIN': 0.36,
+      'EXPLAIN|EXAMPLE': 0.74,
+      'EXAMPLE|RESPOND': 0.62,
+      'RESPOND|EXPLAIN': 0.28,
+      'ASK|EXAMPLE': 0.18
+    },
+    control: {
+      'ASK|RESPOND': 0.71,
+      'ASK|EXPLAIN': 0.22,
+      'EXPLAIN|EXAMPLE': 0.31,
+      'EXAMPLE|RESPOND': 0.29,
+      'RESPOND|EXPLAIN': 0.18,
+      'ASK|EXAMPLE': 0.08
+    }
+  };
+
+  const color = { treatment:'#B5392A', control:'#3B6EA8', ink:'#1a1a1a' };
+  const fmt = (v) => Number(v).toFixed(2);
+
+  function strength(mode, group) {
+    const acc = Object.fromEntries(nodes.map((n) => [n.id, 0]));
+    Object.entries(weights[group]).forEach(([key, value]) => {
+      const [from, to] = key.split('|');
+      acc[mode === 'in' ? to : from] += value;
+    });
+    return acc;
+  }
+
+  function drawNode(node, r) {
+    return `
+      <g>
+        <circle cx="${node.x}" cy="${node.y}" r="${r}" fill="#F6EFE7" stroke="${color.ink}" stroke-width="3"></circle>
+        <circle cx="${node.x}" cy="${node.y}" r="${Math.max(12, r - 10)}" fill="#fff"></circle>
+        <text x="${node.x}" y="${node.y + 5}" text-anchor="middle" font-family="Inter" font-size="13" font-weight="800" fill="${color.ink}">${node.id}</text>
+      </g>`;
+  }
+
+  function edgePath(from, to, bend = 0.18, offsetX = 0, offsetY = 0) {
+    const cx = (from.x + to.x) / 2 + (to.y - from.y) * bend + offsetX;
+    const cy = (from.y + to.y) / 2 - (to.x - from.x) * bend + offsetY;
+    return `M ${from.x} ${from.y} Q ${cx} ${cy} ${to.x} ${to.y}`;
+  }
+
+  function drawArrow(from, to, value, stroke, marker, focusOn, offsetX = 0, offsetY = 0) {
+    const width = 2 + value * 10;
+    const faded = focusOn && ![from.id, to.id].includes(focusOn);
+    return `<path d="${edgePath(from, to, 0.18, offsetX, offsetY)}" fill="none" stroke="${stroke}" stroke-width="${width}" stroke-linecap="round" marker-end="url(#${marker})" opacity="${faded ? 0.18 : 0.88}"></path>`;
+  }
+
+  function renderPlayground() {
+    const view = qs('onaView').value;
+    const threshold = Number(qs('onaThreshold').value);
+    const nodeMode = qs('onaNodeMode').value;
+    const focus = qs('onaFocus').value;
+    qs('onaThresholdOut').value = fmt(threshold);
+
+    const tStrength = strength(nodeMode, 'treatment');
+    const cStrength = strength(nodeMode, 'control');
+    const maxStrength = Math.max(...Object.values(tStrength), ...Object.values(cStrength));
+    const nodeRadius = (id) => 18 + 24 * ((Math.max(tStrength[id], cStrength[id])) / maxStrength);
+    const byId = Object.fromEntries(nodes.map((n) => [n.id, n]));
+    const activeFocus = focus === 'none' ? null : focus;
+
+    const filteredT = Object.entries(weights.treatment).filter(([, v]) => v >= threshold);
+    const filteredC = Object.entries(weights.control).filter(([, v]) => v >= threshold);
+    const diffs = Object.keys(weights.treatment).map((key) => [key, weights.treatment[key] - weights.control[key]])
+      .filter(([, v]) => Math.abs(v) >= threshold / 2);
+
+    const panelBase = (title, x, y, w, h) => `
+      <rect x="${x}" y="${y}" width="${w}" height="${h}" rx="18" fill="#fff" stroke="${color.ink}" stroke-width="2"></rect>
+      <text x="${x + 20}" y="${y + 28}" font-family="Inter" font-size="16" font-weight="800" fill="${color.ink}">${title}</text>`;
+
+    let markup = `
+      <defs>
+        <marker id="arrowT" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="${color.treatment}"></path></marker>
+        <marker id="arrowC" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="${color.control}"></path></marker>
+      </defs>`;
+
+    if (view === 'combined') {
+      markup += panelBase('Combined overlay', 24, 22, 932, 430);
+      filteredC.forEach(([key, value]) => {
+        const [from, to] = key.split('|').map((id) => byId[id]);
+        markup += drawArrow(from, to, value, color.control, 'arrowC', activeFocus, -10, 14);
+      });
+      filteredT.forEach(([key, value]) => {
+        const [from, to] = key.split('|').map((id) => byId[id]);
+        markup += drawArrow(from, to, value, color.treatment, 'arrowT', activeFocus, 10, -14);
+      });
+      nodes.forEach((node) => { markup += drawNode(node, nodeRadius(node.id)); });
+    } else if (view === 'panels') {
+      const leftNodes = nodes.map((n) => ({ ...n, x:n.x - 48, y:n.y + 10 }));
+      const rightNodes = nodes.map((n) => ({ ...n, x:n.x + 410, y:n.y + 10 }));
+      const leftMap = Object.fromEntries(leftNodes.map((n) => [n.id, n]));
+      const rightMap = Object.fromEntries(rightNodes.map((n) => [n.id, n]));
+      markup += panelBase('Treatment', 24, 22, 444, 430);
+      markup += panelBase('Control', 512, 22, 444, 430);
+      filteredT.forEach(([key, value]) => {
+        const [from, to] = key.split('|').map((id) => leftMap[id]);
+        markup += drawArrow(from, to, value, color.treatment, 'arrowT', activeFocus);
+      });
+      filteredC.forEach(([key, value]) => {
+        const [from, to] = key.split('|').map((id) => rightMap[id]);
+        markup += drawArrow(from, to, value, color.control, 'arrowC', activeFocus);
+      });
+      leftNodes.forEach((node) => { markup += drawNode(node, nodeRadius(node.id)); });
+      rightNodes.forEach((node) => { markup += drawNode(node, nodeRadius(node.id)); });
+    } else {
+      markup += panelBase('Difference network (treatment - control)', 24, 22, 932, 430);
+      diffs.forEach(([key, value]) => {
+        const [from, to] = key.split('|').map((id) => byId[id]);
+        const stroke = value >= 0 ? color.treatment : color.control;
+        markup += drawArrow(from, to, Math.abs(value), stroke, value >= 0 ? 'arrowT' : 'arrowC', activeFocus);
+      });
+      nodes.forEach((node) => { markup += drawNode(node, nodeRadius(node.id)); });
+    }
+
+    qs('onaPlayPlot').innerHTML = markup;
+    const dominant = [...diffs].sort((a, b) => Math.abs(b[1]) - Math.abs(a[1]))[0];
+    if (dominant) {
+      const [edge, val] = dominant;
+      const direction = val >= 0 ? 'treatment-favored' : 'control-favored';
+      qs('onaSummary').innerHTML = `<strong>Current reading</strong><br>The strongest visible contrast is <code>${edge.replace('|', ' → ')}</code> (${direction}, Δ = ${fmt(Math.abs(val))}). That transition is doing the most work in separating the two process structures at the current threshold.`;
+    } else {
+      qs('onaSummary').innerHTML = `<strong>Current reading</strong><br>The threshold is high enough that only a few edges remain. Lower it if you want to inspect weaker transitions before moving to a cleaner figure.`;
+    }
+  }
+
+  ['onaView','onaThreshold','onaNodeMode','onaFocus'].forEach((id) => qs(id).addEventListener('input', renderPlayground));
+  renderPlayground();
+})();
+</script>
 </body>
 </html>
