@@ -186,7 +186,7 @@ code:not(.code){font-family:'JetBrains Mono',monospace;font-size:13px;
 .faq-rule{background:var(--teal-soft);border-left:4px solid var(--teal);border-radius:0 10px 10px 0;padding:14px 16px;margin-top:12px}
 .faq-rule strong{color:var(--teal)}
 .perm-lab{display:grid;grid-template-columns:320px 1fr;gap:18px;margin:22px 0}
-.perm-controls,.perm-stage{background:#fff;border:2px solid var(--ink);border-radius:14px;padding:18px}
+.perm-controls,.perm-stage{background:#fff;border:2px solid var(--ink);border-radius:14px;padding:18px;min-width:0}
 .perm-controls .control{margin-bottom:16px}
 .perm-controls label{display:flex;justify-content:space-between;gap:12px;font-size:13px;font-weight:700;color:var(--ink);margin-bottom:8px}
 .perm-controls output{font-family:'JetBrains Mono',monospace;color:var(--teal)}
@@ -199,6 +199,7 @@ code:not(.code){font-family:'JetBrains Mono',monospace;font-size:13px;
 .perm-metric .k{font-size:10px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;color:var(--teal);margin-bottom:4px}
 .perm-metric .v{font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:700;color:var(--ink)}
 .perm-note{font-size:13px;line-height:1.6;color:#3D4F5F;margin-top:10px}
+.perm-stage svg{display:block;width:100%;height:auto}
 @media (max-width:900px){.perm-lab{grid-template-columns:1fr}}
 
 .gallery{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin:32px 0 0}
@@ -635,7 +636,7 @@ code:not(.code){font-family:'JetBrains Mono',monospace;font-size:13px;
             <p class="perm-note">This mini simulation keeps the session-level scores fixed and shuffles only the group labels. That is the point: preserve the session structure, break the group assignment, and ask how unusual the observed gap looks under that null.</p>
           </div>
           <div class="perm-stage">
-            <svg id="permPlot" viewBox="0 0 720 330" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto"></svg>
+            <div id="permPlot"></div>
             <div class="perm-note" id="permSummary">Press <strong>Run shuffle</strong> to generate a null distribution and compare the observed group gap to permutation outcomes.</div>
           </div>
         </div>
@@ -903,8 +904,63 @@ df_focus <span class="kw">&lt;-</span> subset(df, n_items &gt;= 2 &amp; support 
 df_focus[order(-df_focus$support, -df_focus$n_items), ]   <span class="cm"># more interpretable top patterns</span></pre>
 
         <div class="fig">
-          <img src="example_figures/sm_spm_top.png" alt="Top SPM patterns">
-          <div class="fig-cap"><span class="lbl">SPM &middot; top patterns</span><span class="desc">If the top bars all sit at 1.00 or 0.99, you are mostly seeing trivial single-item or near-universal patterns. The more useful plot is usually a filtered view of 2+ item patterns below the support ceiling.</span></div>
+          <svg viewBox="0 0 980 360" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto">
+            <defs>
+              <style>
+                .spm-title{font-family:'Inter',sans-serif;font-size:16px;font-weight:800;fill:#0F1A2A}
+                .spm-label{font-family:'JetBrains Mono',monospace;font-size:11px;fill:#1E2D3F}
+                .spm-note{font-family:'Inter',sans-serif;font-size:12px;fill:#3D4F5F}
+                .spm-bad{fill:#E07A5F}
+                .spm-good{fill:#0A7480}
+                .spm-box{fill:#fff;stroke:#0F1A2A;stroke-width:2}
+              </style>
+            </defs>
+
+            <rect class="spm-box" x="18" y="20" width="448" height="300" rx="16"/>
+            <text class="spm-title" x="42" y="50">Raw top-support ranking</text>
+            <text class="spm-note" x="42" y="70">What beginners often plot first</text>
+            <line x1="140" y1="282" x2="430" y2="282" stroke="#0F1A2A" stroke-width="2"/>
+            <text class="spm-label" x="42" y="112">ASK</text>
+            <rect class="spm-bad" x="140" y="98" width="280" height="18" rx="5"/>
+            <text class="spm-label" x="432" y="112" text-anchor="end">1.00</text>
+            <text class="spm-label" x="42" y="144">EXPLAIN</text>
+            <rect class="spm-bad" x="140" y="130" width="277" height="18" rx="5"/>
+            <text class="spm-label" x="432" y="144" text-anchor="end">0.99</text>
+            <text class="spm-label" x="42" y="176">AGREE</text>
+            <rect class="spm-bad" x="140" y="162" width="277" height="18" rx="5"/>
+            <text class="spm-label" x="432" y="176" text-anchor="end">0.99</text>
+            <text class="spm-label" x="42" y="208">ASK, EXPLAIN</text>
+            <rect class="spm-bad" x="140" y="194" width="266" height="18" rx="5" opacity="0.88"/>
+            <text class="spm-label" x="432" y="208" text-anchor="end">0.95</text>
+            <text class="spm-label" x="42" y="240">EXPLAIN, AGREE</text>
+            <rect class="spm-bad" x="140" y="226" width="263" height="18" rx="5" opacity="0.88"/>
+            <text class="spm-label" x="432" y="240" text-anchor="end">0.94</text>
+            <text class="spm-note" x="42" y="302">Interpretation problem: almost everything hugs the ceiling,</text>
+            <text class="spm-note" x="42" y="318">so the chart mainly says these events are common.</text>
+
+            <rect class="spm-box" x="514" y="20" width="448" height="300" rx="16"/>
+            <text class="spm-title" x="538" y="50">Filtered 2+ item motifs</text>
+            <text class="spm-note" x="538" y="70">A better final teaching / paper figure</text>
+            <line x1="650" y1="282" x2="926" y2="282" stroke="#0F1A2A" stroke-width="2"/>
+            <text class="spm-label" x="538" y="112">ASK, EXPLAIN, EXAMPLE</text>
+            <rect class="spm-good" x="650" y="98" width="210" height="18" rx="5"/>
+            <text class="spm-label" x="926" y="112" text-anchor="end">0.75</text>
+            <text class="spm-label" x="538" y="144">EXPLAIN, AGREE, ELAB</text>
+            <rect class="spm-good" x="650" y="130" width="188" height="18" rx="5"/>
+            <text class="spm-label" x="926" y="144" text-anchor="end">0.67</text>
+            <text class="spm-label" x="538" y="176">ASK, EXAMPLE, AGREE</text>
+            <rect class="spm-good" x="650" y="162" width="171" height="18" rx="5"/>
+            <text class="spm-label" x="926" y="176" text-anchor="end">0.61</text>
+            <text class="spm-label" x="538" y="208">EXAMPLE, AGREE, ELAB</text>
+            <rect class="spm-good" x="650" y="194" width="160" height="18" rx="5" opacity="0.9"/>
+            <text class="spm-label" x="926" y="208" text-anchor="end">0.57</text>
+            <text class="spm-label" x="538" y="240">ASK, EXPLAIN, AGREE, ELAB</text>
+            <rect class="spm-good" x="650" y="226" width="143" height="18" rx="5" opacity="0.9"/>
+            <text class="spm-label" x="926" y="240" text-anchor="end">0.51</text>
+            <text class="spm-note" x="538" y="302">Interpretation gain: visible spread, longer motifs,</text>
+            <text class="spm-note" x="538" y="318">and a story that is not dominated by trivial singletons.</text>
+          </svg>
+          <div class="fig-cap"><span class="lbl">SPM &middot; support ceiling problem</span><span class="desc">Left: raw top-support bars flatten the story. Right: a filtered 2+ item motif view gives support spread and a more interpretable narrative.</span></div>
         </div>
 
         <div class="card teal">
@@ -1416,7 +1472,10 @@ hidden_paths(fit$model)</pre>
     const maxX = Math.max(...nullStats, observed, 0.5);
     const width = 720;
     const height = 330;
-    const margin = { t: 24, r: 18, b: 42, l: 38 };
+    const leftPanelX = 12;
+    const leftPanelW = 184;
+    const histLeft = 230;
+    const margin = { t: 24, r: 18, b: 42, l: histLeft };
     const plotW = width - margin.l - margin.r;
     const plotH = height - margin.t - margin.b;
     const step = (maxX - minX) / bins;
@@ -1445,19 +1504,22 @@ hidden_paths(fit$model)</pre>
     }).join('');
 
     qs('permPlot').innerHTML = `
-      <rect x="12" y="18" width="184" height="116" rx="14" fill="#fff" stroke="#0F1A2A" stroke-width="2"/>
-      <text x="28" y="42" font-family="Inter" font-size="15" font-weight="800" fill="#0F1A2A">Observed sessions</text>
-      <text x="28" y="60" font-family="Inter" font-size="12" fill="#3D4F5F">Top row = group A, bottom row = group B</text>
-      ${sampleRows}
-      <line x1="${margin.l}" y1="${height - margin.b}" x2="${width - margin.r}" y2="${height - margin.b}" stroke="#0F1A2A" stroke-width="2"/>
-      <line x1="${margin.l}" y1="${height - margin.b}" x2="${margin.l}" y2="${margin.t}" stroke="#0F1A2A" stroke-width="2"/>
-      ${bars}
-      <line x1="${xScale(observed)}" y1="${margin.t}" x2="${xScale(observed)}" y2="${height - margin.b}" stroke="#E07A5F" stroke-width="3" stroke-dasharray="8 6"/>
-      <text x="${Math.min(width - 130, xScale(observed) + 8)}" y="${margin.t + 16}" font-family="JetBrains Mono" font-size="11" font-weight="700" fill="#E07A5F">observed = ${fmt(observed)}</text>
-      <text x="${margin.l - 8}" y="${margin.t + 6}" text-anchor="end" font-family="Inter" font-size="11" fill="#3D4F5F">count</text>
-      <text x="${margin.l}" y="${height - 18}" font-family="Inter" font-size="11" fill="#3D4F5F">${fmt(minX)}</text>
-      <text x="${width - margin.r}" y="${height - 18}" text-anchor="end" font-family="Inter" font-size="11" fill="#3D4F5F">${fmt(maxX)}</text>
-      <text x="${margin.l + plotW / 2}" y="${height - 18}" text-anchor="middle" font-family="Inter" font-size="12" fill="#3D4F5F">null distribution of group-gap statistics after label shuffling</text>
+      <svg viewBox="0 0 720 330" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+        <rect x="${leftPanelX}" y="18" width="${leftPanelW}" height="116" rx="14" fill="#fff" stroke="#0F1A2A" stroke-width="2"/>
+        <text x="28" y="42" font-family="Inter" font-size="15" font-weight="800" fill="#0F1A2A">Observed sessions</text>
+        <text x="28" y="60" font-family="Inter" font-size="12" fill="#3D4F5F">Top row = group A, bottom row = group B</text>
+        ${sampleRows}
+        <line x1="214" y1="24" x2="214" y2="286" stroke="#B5C6D0" stroke-width="1.5" stroke-dasharray="5 5"/>
+        <line x1="${margin.l}" y1="${height - margin.b}" x2="${width - margin.r}" y2="${height - margin.b}" stroke="#0F1A2A" stroke-width="2"/>
+        <line x1="${margin.l}" y1="${height - margin.b}" x2="${margin.l}" y2="${margin.t}" stroke="#0F1A2A" stroke-width="2"/>
+        ${bars}
+        <line x1="${xScale(observed)}" y1="${margin.t}" x2="${xScale(observed)}" y2="${height - margin.b}" stroke="#E07A5F" stroke-width="3" stroke-dasharray="8 6"/>
+        <text x="${Math.min(width - 130, xScale(observed) + 8)}" y="${margin.t + 16}" font-family="JetBrains Mono" font-size="11" font-weight="700" fill="#E07A5F">observed = ${fmt(observed)}</text>
+        <text x="${margin.l + 6}" y="${margin.t + 6}" font-family="Inter" font-size="11" fill="#3D4F5F">count</text>
+        <text x="${margin.l}" y="${height - 18}" font-family="Inter" font-size="11" fill="#3D4F5F">${fmt(minX)}</text>
+        <text x="${width - margin.r}" y="${height - 18}" text-anchor="end" font-family="Inter" font-size="11" fill="#3D4F5F">${fmt(maxX)}</text>
+        <text x="${margin.l + plotW / 2}" y="${height - 18}" text-anchor="middle" font-family="Inter" font-size="12" fill="#3D4F5F">null distribution of group-gap statistics after label shuffling</text>
+      </svg>
     `;
 
     qs('permSummary').innerHTML = p < 0.05
