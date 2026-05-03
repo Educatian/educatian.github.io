@@ -200,6 +200,7 @@ code:not(.code){font-family:'JetBrains Mono',monospace;font-size:13px;
       <li><a href="#why">Why "sequence mining"?</a></li>
       <li><a href="#decision">Method &times; question decision tree</a></li>
       <li><a href="#data">A shared dataframe to learn on</a></li>
+      <li><a href="#quickstart">Quick start &mdash; first figure in 5 min</a></li>
     </ol>
     <div style="font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#7A8A99;margin:14px 0 8px">Part II &middot; Four methods</div>
     <ol start="4">
@@ -212,6 +213,7 @@ code:not(.code){font-family:'JetBrains Mono',monospace;font-size:13px;
     <ol start="8">
       <li><a href="#compare">Side-by-side: same data, four lenses</a></li>
       <li><a href="#trouble">Troubleshooting matrix</a></li>
+      <li><a href="#cheat">Cheat sheet</a></li>
       <li><a href="#references">References &amp; credits</a></li>
     </ol>
   </nav>
@@ -298,6 +300,111 @@ code:not(.code){font-family:'JetBrains Mono',monospace;font-size:13px;
           </tbody>
         </table>
 
+        <h3 class="h3">Visual decision tree</h3>
+        <div class="fig" style="background:#fff;padding:24px">
+          <svg viewBox="0 0 920 540" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto">
+            <defs>
+              <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+                <path d="M0,0 L10,5 L0,10 z" fill="#0F1A2A"/>
+              </marker>
+              <style>
+                .nd{fill:#fff;stroke:#0F1A2A;stroke-width:2}
+                .nd-q{fill:#0F1A2A}
+                .nd-q text{fill:#fff;font-weight:800}
+                .nd-leaf{fill:#0A7480;stroke:#0A7480}
+                .nd-leaf text{fill:#fff;font-weight:800;letter-spacing:.5px}
+                .lbl{font-family:'Inter',sans-serif;font-size:13px;fill:#0F1A2A}
+                .qlbl{font-family:'Inter',sans-serif;font-size:14px;font-weight:700;fill:#fff}
+                .leaflbl{font-family:'Inter',sans-serif;font-size:18px;font-weight:900;fill:#fff}
+                .leafsub{font-family:'JetBrains Mono',monospace;font-size:11px;fill:#fff;opacity:.85}
+                .edge{stroke:#0F1A2A;stroke-width:2;fill:none}
+                .edge-lbl{font-family:'Inter',sans-serif;font-size:12px;font-weight:700;fill:#0F1A2A}
+              </style>
+            </defs>
+            <!-- Root -->
+            <rect class="nd nd-q" x="320" y="20" width="280" height="58" rx="10"/>
+            <text class="qlbl" x="460" y="46" text-anchor="middle">What do you want to know about</text>
+            <text class="qlbl" x="460" y="66" text-anchor="middle">your event sequences?</text>
+
+            <!-- Level 1: 4 question branches -->
+            <path class="edge" d="M 460 78 L 460 110 L 110 110 L 110 145" marker-end="url(#arr)"/>
+            <path class="edge" d="M 460 78 L 460 110 L 350 110 L 350 145" marker-end="url(#arr)"/>
+            <path class="edge" d="M 460 78 L 460 110 L 580 110 L 580 145" marker-end="url(#arr)"/>
+            <path class="edge" d="M 460 78 L 460 110 L 820 110 L 820 145" marker-end="url(#arr)"/>
+
+            <rect class="nd" x="20" y="145" width="180" height="80" rx="10"/>
+            <text class="lbl" x="110" y="170" text-anchor="middle">Test a SPECIFIC</text>
+            <text class="lbl" x="110" y="188" text-anchor="middle">transition (A &#8594; B)</text>
+            <text class="lbl" x="110" y="206" text-anchor="middle" style="font-style:italic;fill:#3D4F5F">at a fixed lag?</text>
+
+            <rect class="nd" x="260" y="145" width="180" height="80" rx="10"/>
+            <text class="lbl" x="350" y="170" text-anchor="middle">VISUALISE the typical</text>
+            <text class="lbl" x="350" y="188" text-anchor="middle">flow between codes</text>
+            <text class="lbl" x="350" y="206" text-anchor="middle" style="font-style:italic;fill:#3D4F5F">+ centrality?</text>
+
+            <rect class="nd" x="490" y="145" width="180" height="80" rx="10"/>
+            <text class="lbl" x="580" y="170" text-anchor="middle">DISCOVER frequent</text>
+            <text class="lbl" x="580" y="188" text-anchor="middle">multi-step motifs</text>
+            <text class="lbl" x="580" y="206" text-anchor="middle" style="font-style:italic;fill:#3D4F5F">across sessions?</text>
+
+            <rect class="nd" x="730" y="145" width="180" height="80" rx="10"/>
+            <text class="lbl" x="820" y="170" text-anchor="middle">Codes are noisy</text>
+            <text class="lbl" x="820" y="188" text-anchor="middle">measurements of</text>
+            <text class="lbl" x="820" y="206" text-anchor="middle" style="font-style:italic;fill:#3D4F5F">latent states?</text>
+
+            <!-- Level 2: leaves with method names -->
+            <path class="edge" d="M 110 225 L 110 285" marker-end="url(#arr)"/>
+            <path class="edge" d="M 350 225 L 350 285" marker-end="url(#arr)"/>
+            <path class="edge" d="M 580 225 L 580 285" marker-end="url(#arr)"/>
+            <path class="edge" d="M 820 225 L 820 285" marker-end="url(#arr)"/>
+
+            <rect class="nd nd-leaf" x="20" y="285" width="180" height="80" rx="10"/>
+            <text class="leaflbl" x="110" y="318" text-anchor="middle">LSA</text>
+            <text class="leafsub" x="110" y="340" text-anchor="middle">LagSequential</text>
+            <text class="leafsub" x="110" y="356" text-anchor="middle">/ custom AL z</text>
+
+            <rect class="nd nd-leaf" x="260" y="285" width="180" height="80" rx="10"/>
+            <text class="leaflbl" x="350" y="318" text-anchor="middle">TNA</text>
+            <text class="leafsub" x="350" y="340" text-anchor="middle">tna::build_model</text>
+            <text class="leafsub" x="350" y="356" text-anchor="middle">+ centralities()</text>
+
+            <rect class="nd nd-leaf" x="490" y="285" width="180" height="80" rx="10"/>
+            <text class="leaflbl" x="580" y="318" text-anchor="middle">SPM</text>
+            <text class="leafsub" x="580" y="340" text-anchor="middle">arulesSequences</text>
+            <text class="leafsub" x="580" y="356" text-anchor="middle">::cspade()</text>
+
+            <rect class="nd nd-leaf" x="730" y="285" width="180" height="80" rx="10"/>
+            <text class="leaflbl" x="820" y="318" text-anchor="middle">HMM</text>
+            <text class="leafsub" x="820" y="340" text-anchor="middle">seqHMM::build_hmm</text>
+            <text class="leafsub" x="820" y="356" text-anchor="middle">/ depmixS4</text>
+
+            <!-- Level 3: follow-up question for each -->
+            <text class="edge-lbl" x="110" y="395" text-anchor="middle">Group difference?</text>
+            <text class="edge-lbl" x="350" y="395" text-anchor="middle">Group difference?</text>
+            <text class="edge-lbl" x="580" y="395" text-anchor="middle">Refine?</text>
+            <text class="edge-lbl" x="820" y="395" text-anchor="middle">Refine?</text>
+
+            <rect class="nd" x="20" y="410" width="180" height="60" rx="10"/>
+            <text class="lbl" x="110" y="436" text-anchor="middle">Add chi-squared on</text>
+            <text class="lbl" x="110" y="454" text-anchor="middle">two transition tables</text>
+
+            <rect class="nd" x="260" y="410" width="180" height="60" rx="10"/>
+            <text class="lbl" x="350" y="436" text-anchor="middle">tna::group_model() +</text>
+            <text class="lbl" x="350" y="454" text-anchor="middle">permutation_test()</text>
+
+            <rect class="nd" x="490" y="410" width="180" height="60" rx="10"/>
+            <text class="lbl" x="580" y="436" text-anchor="middle">Add maxlen, closed</text>
+            <text class="lbl" x="580" y="454" text-anchor="middle">/ maximal filtering</text>
+
+            <rect class="nd" x="730" y="410" width="180" height="60" rx="10"/>
+            <text class="lbl" x="820" y="436" text-anchor="middle">Mixture HMM</text>
+            <text class="lbl" x="820" y="454" text-anchor="middle">(seqHMM::build_mhmm)</text>
+
+            <text class="edge-lbl" x="460" y="510" text-anchor="middle" style="font-size:13px">All four can be CHAINED. See Chapter 8.</text>
+          </svg>
+          <div class="fig-cap"><span class="lbl">Decision tree &middot; method by question</span><span class="desc">Read top-to-bottom: question &rarr; method &rarr; refinement. Cross-method chaining is encouraged (Chapter 8).</span></div>
+        </div>
+
         <div class="g3">
           <div class="card">
             <div class="card-title">If you start here</div>
@@ -336,6 +443,31 @@ code:not(.code){font-family:'JetBrains Mono',monospace;font-size:13px;
           </tbody>
         </table>
 
+        <h3 class="h3">First ten rows</h3>
+        <p>Each row is one turn. The five code columns are 0/1; exactly one is on per turn (in this synthetic data).</p>
+<pre class="code"><span class="cm">user_id, cond,      turn_idx, speaker, ASK, EXPLAIN, EXAMPLE, AGREE, ELABORATE</span>
+P001,    treatment, 1,        A,        0,   1,       0,       0,     0
+P001,    treatment, 2,        B,        0,   0,       0,       0,     1
+P001,    treatment, 3,        A,        0,   0,       0,       0,     1
+P001,    treatment, 4,        A,        0,   0,       1,       0,     0
+P001,    treatment, 5,        B,        0,   0,       0,       0,     1
+P001,    treatment, 6,        A,        0,   0,       0,       0,     1
+P001,    treatment, 7,        B,        0,   1,       0,       0,     0
+P001,    treatment, 8,        A,        0,   0,       0,       0,     1
+P001,    treatment, 9,        B,        0,   0,       0,       0,     1
+P001,    treatment, 10,       B,        0,   0,       0,       1,     0</pre>
+
+        <h3 class="h3">Sample-size cheat sheet</h3>
+        <table class="schema">
+          <thead><tr><th>Method</th><th>Practical minimum</th><th>Comfortable</th></tr></thead>
+          <tbody>
+            <tr><td class="k">TNA</td><td>~30 sequences per group, ~1,000 transitions total</td><td>100+ sequences for stable bootstrap</td></tr>
+            <tr><td class="k">LSA</td><td>Each lag-1 cell expected count &ge; 5 (Bakeman &amp; Quera)</td><td>Several hundred coded events per session</td></tr>
+            <tr><td class="k">SPM</td><td>50+ sequences (otherwise &ldquo;frequent&rdquo; is unreliable)</td><td>Hundreds-thousands; cSPADE shines at scale</td></tr>
+            <tr><td class="k">HMM (K=3-4)</td><td>~100 sequences, ~20 obs/sequence</td><td>Mixture HMM needs substantially more</td></tr>
+          </tbody>
+        </table>
+
         <p>Per-method, this CSV is reshaped exactly once into the structure that method needs:</p>
 
         <table class="schema">
@@ -346,6 +478,49 @@ code:not(.code){font-family:'JetBrains Mono',monospace;font-size:13px;
             <tr><td class="k">SPM</td><td>Transaction format: <code>sequenceID eventID size item</code> rows, written to a basket file and read by <code>arulesSequences::read_baskets()</code>.</td></tr>
           </tbody>
         </table>
+      </div>
+    </section>
+
+    <!-- 3.5 QUICK START -->
+    <section class="section" id="quickstart">
+      <div class="section-label">Chapter 03b &middot; Quick start</div>
+      <h2 class="h2">Five-minute <span class="teal">first figure</span></h2>
+      <div class="body">
+        <p>Open R. Paste the block. You should see a TNA network of the synthetic data within a minute.</p>
+
+<pre class="code"><span class="cm"># 1) Install once (skips already-installed)</span>
+pkgs <span class="kw">&lt;-</span> <span class="kw">c</span>(<span class="hl">"tna"</span>, <span class="hl">"TraMineR"</span>, <span class="hl">"arulesSequences"</span>, <span class="hl">"seqHMM"</span>, <span class="hl">"ggplot2"</span>)
+new <span class="kw">&lt;-</span> setdiff(pkgs, rownames(installed.packages()))
+<span class="kw">if</span> (length(new)) install.packages(new,
+       repos = <span class="hl">"https://cloud.r-project.org"</span>)
+
+<span class="cm"># 2) Load + grab the bundled fake CSV from GitHub</span>
+<span class="kw">library</span>(tna); <span class="kw">library</span>(TraMineR)
+url <span class="kw">&lt;-</span> <span class="hl">"https://educatian.github.io/sequence-mining/example_data/fake_dialogue_long.csv"</span>
+long <span class="kw">&lt;-</span> read.csv(url, stringsAsFactors = FALSE)
+
+<span class="cm"># 3) Reshape one-hot to a single &lsquo;code&rsquo; column, then to wide matrix</span>
+CODES <span class="kw">&lt;-</span> <span class="kw">c</span>(<span class="hl">"ASK"</span>,<span class="hl">"EXPLAIN"</span>,<span class="hl">"EXAMPLE"</span>,<span class="hl">"AGREE"</span>,<span class="hl">"ELABORATE"</span>)
+long$code <span class="kw">&lt;-</span> CODES[apply(long[, CODES], 1, which.max)]
+ids <span class="kw">&lt;-</span> unique(long$user_id)
+Lmax <span class="kw">&lt;-</span> max(table(long$user_id))
+W <span class="kw">&lt;-</span> matrix(NA_character_, length(ids), Lmax,
+            dimnames = list(ids, paste0(<span class="hl">"t"</span>, 1:Lmax)))
+<span class="kw">for</span> (uid <span class="kw">in</span> ids) {
+  s <span class="kw">&lt;-</span> long[long$user_id == uid, ]
+  W[uid, 1:nrow(s)] <span class="kw">&lt;-</span> s$code[order(s$turn_idx)]
+}
+
+<span class="cm"># 4) Fit + plot</span>
+seq_obj <span class="kw">&lt;-</span> seqdef(W, alphabet = CODES)
+m <span class="kw">&lt;-</span> build_model(seq_obj)
+plot(m)              <span class="cm"># your first TNA figure</span>
+centralities(m)      <span class="cm"># in/out degree etc.</span></pre>
+
+        <div class="tip">
+          <div class="pl">Tip &middot; Once you have <code>seq_obj</code></div>
+          <p>You can immediately call <code>seqfplot(seq_obj)</code> for code-frequency plots and <code>seqIplot(seq_obj)</code> for index plots &mdash; from <code>TraMineR</code>. Those visualisations are method-agnostic and worth knowing before any modelling.</p>
+        </div>
       </div>
     </section>
 
@@ -403,7 +578,12 @@ permutation_test(gm)                   <span class="cm"># test group difference<
         </div>
 
         <h3 class="h3">Minimal code (no external package)</h3>
-<pre class="code"><span class="cm"># Build lag-1 transition counts</span>
+<pre class="code"><span class="cm"># Reshape long-format CSV into a list of code-vectors (one per session)</span>
+sessions <span class="kw">&lt;-</span> split(long$code, long$user_id)
+CODES <span class="kw">&lt;-</span> <span class="kw">c</span>(<span class="hl">"ASK"</span>,<span class="hl">"EXPLAIN"</span>,<span class="hl">"EXAMPLE"</span>,<span class="hl">"AGREE"</span>,<span class="hl">"ELABORATE"</span>)
+trans <span class="kw">&lt;-</span> matrix(0, length(CODES), length(CODES),
+                dimnames = list(CODES, CODES))
+<span class="cm"># Build lag-1 transition counts</span>
 <span class="kw">for</span> (s <span class="kw">in</span> sessions) {
   <span class="kw">for</span> (i <span class="kw">in</span> 1:(length(s) - 1))
     trans[s[i], s[i+1]] <span class="kw">&lt;-</span> trans[s[i], s[i+1]] + 1
@@ -419,6 +599,16 @@ z <span class="kw">&lt;-</span> (trans - expected) / sqrt(var_AL)</pre>
           <img src="example_figures/sm_lsa_heatmap.png" alt="LSA heatmap">
           <div class="fig-cap"><span class="lbl">LSA &middot; AL z-scores</span><span class="desc">Read row to column. The +20.6 cell (ASK&rarr;EXPLAIN) confirms the synthetic backbone. Negative z (teal) means the consequent occurs less than chance after that antecedent.</span></div>
         </div>
+
+        <div class="card">
+          <div class="card-title">Reading the z values</div>
+          <h4 class="h4">When is a cell &ldquo;significant&rdquo;?</h4>
+          <p>Under the standard normal approximation, <code>|z| &gt; 1.96</code> is the two-sided <em>p</em> &lt; .05 threshold; <code>|z| &gt; 2.58</code> is <em>p</em> &lt; .01. In our heatmap, ASK&rarr;EXPLAIN at <strong>z = 20.6</strong> is many orders past chance &mdash; expected for hand-tuned synthetic data, not realistic for a real corpus.</p>
+          <p style="margin-top:10px"><strong>Multiple-comparison warning.</strong> A 5&times;5 lag-1 table tests 25 cells at once; if you also test multiple lags (1, 2, 3), the family-wise error rate inflates fast. Apply Bonferroni (divide alpha by the number of cells you test) or report only effects with <code>|z| &gt; 3</code> as a coarse safeguard.</p>
+        </div>
+
+        <h3 class="h3">Lag <em>k</em> &gt; 1</h3>
+        <p>To test "does B follow A two turns later," replace <code>s[i+1]</code> with <code>s[i+k]</code> in the inner loop and adjust the loop bound to <code>length(s) - k</code>. The Allison&ndash;Liker formula stays the same. In practice researchers report lag&nbsp;1 and lag&nbsp;2; longer lags require much more data.</p>
 
         <div class="pitfall">
           <div class="pl">Famous gotcha</div>
@@ -442,7 +632,14 @@ z <span class="kw">&lt;-</span> (trans - expected) / sqrt(var_AL)</pre>
 
         <h3 class="h3">Minimal code</h3>
 <pre class="code"><span class="kw">library</span>(arulesSequences)
-<span class="cm"># Build a "basket" file: sequenceID eventID size item</span>
+<span class="cm"># Step 1 — write a basket file (one row per event):
+#   sequenceID  eventID  size  item</span>
+<span class="cm"># Example first 4 lines of "baskets.txt":
+#   P001 1 1 ASK
+#   P001 2 1 EXPLAIN
+#   P001 3 1 EXAMPLE
+#   P001 4 1 ELABORATE</span>
+<span class="cm"># Step 2 — read it back as a transactions object:</span>
 trans <span class="kw">&lt;-</span> read_baskets(<span class="hl">"baskets.txt"</span>,
                        info = <span class="kw">c</span>(<span class="st">"sequenceID"</span>,<span class="st">"eventID"</span>,<span class="st">"SIZE"</span>),
                        sep = <span class="hl">" "</span>)
@@ -492,6 +689,23 @@ plot(fit$model)                   <span class="cm"># observed + hidden state plo
           <div class="fig-cap"><span class="lbl">HMM &middot; K=3 hidden states</span><span class="desc">Top: observed code per turn per session. Bottom: most-likely hidden state assignment. Compact contiguous bands suggest the state model captures real structure rather than noise.</span></div>
         </div>
 
+        <h3 class="h3">Choosing K with BIC</h3>
+<pre class="code"><span class="cm"># Fit K = 2..6 and compare BIC</span>
+bic_table <span class="kw">&lt;-</span> sapply(2:6, <span class="kw">function</span>(K) {
+  set.seed(K)
+  fit <span class="kw">&lt;-</span> fit_model(build_hmm(seq_obj, n_states = K),
+                    control_em = list(restart = list(times = 5)))
+  BIC(fit$model)
+})
+best_K <span class="kw">&lt;-</span> (2:6)[which.min(bic_table)]
+cat(<span class="hl">"Best K by BIC:"</span>, best_K, <span class="st">"\n"</span>)</pre>
+        <p>Pick the K with the lowest BIC, but <strong>also check that the gain from K to K+1 is meaningful</strong>. A drop of 2&ndash;6 BIC is "weak"; &gt;10 is "strong" (Kass &amp; Raftery 1995). For very long sequences BIC tends to over-penalise &mdash; cross-validated log-likelihood is more honest but takes longer to compute.</p>
+
+        <h3 class="h3">Hard state assignments (Viterbi)</h3>
+<pre class="code">paths <span class="kw">&lt;-</span> hidden_paths(fit$model)   <span class="cm"># most-likely state per turn per session</span>
+table(paths)                       <span class="cm"># overall state usage</span></pre>
+        <p>Run TNA on <code>paths</code> to get a transition graph in latent space &mdash; often more interpretable than the raw-code TNA.</p>
+
         <div class="pitfall">
           <div class="pl">Famous gotcha</div>
           <p>Choosing K (number of hidden states) is hard and consequential. EM is local-optimum prone &mdash; <strong>run many random initialisations and compare BIC / AIC / cross-validated log-likelihood</strong>. Picking K by eyeballing is the #1 reproducibility failure in applied HMM papers.</p>
@@ -511,7 +725,7 @@ plot(fit$model)                   <span class="cm"># observed + hidden state plo
           <tbody>
             <tr><td class="k">TNA</td><td>P(EXPLAIN | ASK) = 0.53</td><td>"Most likely follow-up to ASK is EXPLAIN."</td></tr>
             <tr><td class="k">LSA</td><td>z(ASK&rarr;EXPLAIN) = +20.6</td><td>"That follow-up is far more frequent than chance."</td></tr>
-            <tr><td class="k">SPM</td><td>support(ASK,EXPLAIN,EXAMPLE) &approx; 0.95</td><td>"This three-step motif appears in nearly every session."</td></tr>
+            <tr><td class="k">SPM</td><td>support(EXPLAIN,EXPLAIN,ASK) = 0.99</td><td>"This 3-step pattern appears in 99% of sessions."</td></tr>
             <tr><td class="k">HMM (K=3)</td><td>logLik = &minus;6271.79</td><td>"Three hidden states explain the sequence well; transition matrix recovered."</td></tr>
           </tbody>
         </table>
@@ -531,6 +745,19 @@ plot(fit$model)                   <span class="cm"># observed + hidden state plo
       <div class="section-label">Chapter 09 &middot; Troubleshoot</div>
       <h2 class="h2"><span class="teal">Troubleshooting</span> matrix</h2>
       <div class="body">
+        <h3 class="h3">Install issues (do this first)</h3>
+        <table class="schema">
+          <thead><tr><th>Symptom</th><th>Cause</th><th>Fix</th></tr></thead>
+          <tbody>
+            <tr><td><code>installation of package 'tna' had non-zero exit status</code></td><td>Windows: missing RTools</td><td>Install <a class="inline" href="https://cran.r-project.org/bin/windows/Rtools/">RTools45</a> at default path; reopen R.</td></tr>
+            <tr><td><code>arulesSequences</code> won't install</td><td>Depends on <code>arules</code> &amp; C++ toolchain</td><td><code>install.packages("arules"); install.packages("arulesSequences")</code> in that order.</td></tr>
+            <tr><td>SPMF Java errors</td><td>SPMF (the Java library) needs JRE 8+</td><td>Install OpenJDK 17 from <a class="inline" href="https://adoptium.net/">adoptium.net</a>; or stick to <code>arulesSequences</code>.</td></tr>
+            <tr><td><code>seqHMM</code> compile fails on macOS</td><td>Missing Fortran compiler</td><td>Install gfortran via <a class="inline" href="https://mac.r-project.org/tools/">CRAN tools page</a>.</td></tr>
+            <tr><td>CRAN timeout / 404</td><td>Default mirror down</td><td>Try <code>install.packages(..., repos = "https://cloud.r-project.org")</code>.</td></tr>
+          </tbody>
+        </table>
+
+        <h3 class="h3">Runtime issues</h3>
         <table class="schema">
           <thead><tr><th>Symptom</th><th>Likely cause</th><th>Fix</th></tr></thead>
           <tbody>
@@ -549,6 +776,72 @@ plot(fit$model)                   <span class="cm"># observed + hidden state plo
           <div class="pl">Universal caveat</div>
           <p>None of these methods are causal. A heavy ASK&rarr;EXPLAIN edge tells you about the structure of the dialogue, not about what would happen if you intervened. Causal claims need a causal design.</p>
         </div>
+      </div>
+    </section>
+
+    <!-- 9b. CHEAT SHEET -->
+    <section class="section" id="cheat">
+      <div class="section-label">Chapter 09b &middot; Cheat sheet</div>
+      <h2 class="h2">One-page <span class="teal">cheat sheet</span></h2>
+      <div class="body">
+        <div class="g2">
+          <div class="card dark">
+            <div class="card-title">TNA</div>
+            <h4 class="h4">tna::build_model</h4>
+<pre class="code" style="margin:0;border:0;padding:0;font-size:12.5px">build_model(seq_obj)
+group_model(seq_obj, group=g)
+centralities(m)
+bootstrap(m); plot(boot)
+permutation_test(group_model)</pre>
+            <p style="font-size:12px;color:#A3B4C2;margin-top:10px">Output: directed weighted graph<br>+ centrality + edge stability.</p>
+          </div>
+          <div class="card dark">
+            <div class="card-title">LSA</div>
+            <h4 class="h4">Lag-Sequential (custom)</h4>
+<pre class="code" style="margin:0;border:0;padding:0;font-size:12.5px">trans &lt;- count_lag1(sessions)
+expected &lt;- outer(rsum, csum/N)
+var_AL   &lt;- outer(rsum, p*(1-p)) *
+            outer(1-pA, 1)
+z &lt;- (trans - expected) /
+     sqrt(var_AL)</pre>
+            <p style="font-size:12px;color:#A3B4C2;margin-top:10px">Output: K&times;K z-score matrix.<br>Significance: <code>|z| &gt; 1.96</code>.</p>
+          </div>
+          <div class="card dark">
+            <div class="card-title">SPM</div>
+            <h4 class="h4">arulesSequences::cspade</h4>
+<pre class="code" style="margin:0;border:0;padding:0;font-size:12.5px">trans &lt;- read_baskets(file)
+patterns &lt;- cspade(trans,
+  parameter = list(
+    support = 0.3,
+    maxlen  = 4,
+    maxsize = 1))
+as(patterns, "data.frame")</pre>
+            <p style="font-size:12px;color:#A3B4C2;margin-top:10px">Output: ranked frequent<br>sub-sequences with support.</p>
+          </div>
+          <div class="card dark">
+            <div class="card-title">HMM</div>
+            <h4 class="h4">seqHMM::build_hmm</h4>
+<pre class="code" style="margin:0;border:0;padding:0;font-size:12.5px">hmm0 &lt;- build_hmm(seq_obj,
+                  n_states = K)
+fit  &lt;- fit_model(hmm0,
+  control_em =
+    list(restart =
+         list(times = 5)))
+hidden_paths(fit$model)</pre>
+            <p style="font-size:12px;color:#A3B4C2;margin-top:10px">Output: K hidden states +<br>transition + emission matrices.</p>
+          </div>
+        </div>
+
+        <h3 class="h3">Inputs / outputs at a glance</h3>
+        <table class="schema">
+          <thead><tr><th>Method</th><th>Input</th><th>Output</th><th>Headline metric</th></tr></thead>
+          <tbody>
+            <tr><td class="k">TNA</td><td>TraMineR <code>stslist</code></td><td>Directed weighted graph object</td><td>edge weight = P(next | current)</td></tr>
+            <tr><td class="k">LSA</td><td>List of code-vectors per session</td><td>K&times;K z-score matrix</td><td>z above &plusmn;1.96 = chance-rejected</td></tr>
+            <tr><td class="k">SPM</td><td>Basket-format transactions</td><td>data.frame of patterns + support</td><td>support = fraction of sessions</td></tr>
+            <tr><td class="k">HMM</td><td>TraMineR <code>stslist</code></td><td>K-state model + paths</td><td>logLik (compare with BIC)</td></tr>
+          </tbody>
+        </table>
       </div>
     </section>
 
