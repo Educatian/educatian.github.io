@@ -98,6 +98,18 @@ code:not(.code){font-family:'JetBrains Mono',monospace;font-size:13px;background
 .viz-cap{display:flex;justify-content:space-between;gap:14px;margin-top:10px;padding-top:10px;border-top:1px solid var(--line)}
 .viz-cap .lbl{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--olive)}
 .viz-cap .desc{font-size:13px;line-height:1.5;color:var(--ink2);text-align:right;flex:1}
+.scenario-gallery{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:18px 0 28px}
+.scenario-card{background:#fff;border:2px solid var(--ink);border-radius:16px;padding:18px}
+.scenario-card h3{margin:0 0 8px}
+.scenario-card p{font-size:14.5px;margin:0 0 12px}
+.scenario-card .scenario-svg{border:1.5px solid var(--line);border-radius:14px;background:linear-gradient(180deg,#FCFBF6 0%,#F1EADB 100%);padding:12px;margin:12px 0}
+.scenario-card .scenario-svg svg{width:100%;height:auto;display:block}
+.scenario-meta{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.scenario-meta div{background:var(--olive-soft);border-radius:12px;padding:10px 12px}
+.scenario-meta .k{font-size:10px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;color:var(--olive);margin-bottom:4px}
+.scenario-meta .v{font-size:13px;line-height:1.45;color:var(--ink)}
+@media (max-width:900px){.scenario-gallery{grid-template-columns:1fr}}
+@media (max-width:640px){.scenario-meta{grid-template-columns:1fr}}
 .lab-grid{display:grid;grid-template-columns:320px 1fr;gap:18px;margin:22px 0}
 .lab-controls{background:#fff;border:2px solid var(--ink);border-radius:14px;padding:18px}
 .lab-plot{background:#fff;border:2px solid var(--ink);border-radius:14px;padding:18px}
@@ -751,20 +763,150 @@ lkt_model <- LKT(
             <div class="micro-out" id="scenarioOut"></div>
           </div>
         </div>
-        <h3 class="h3">Learning sciences scenario 1: adaptive scaffolding in an ITS</h3>
-        <p>You have a tutor with repeated concept-linked practice and hint logs. Use KT to estimate concept mastery after each action, then connect mastery stalls with hint usage, revision behavior, or discourse traces. This is ideal when the argument is about <strong>process-sensitive support</strong>, not just posttest outcomes.</p>
+        <div class="scenario-gallery">
+          <article class="scenario-card">
+            <div class="card-title">Learning sciences · Scenario 1</div>
+            <h3 class="h3">Adaptive scaffolding in an ITS</h3>
+            <p>You have a tutor with repeated concept-linked practice and hint logs. Use KT to estimate concept mastery after each action, then connect mastery stalls with hint usage, revision behavior, or discourse traces.</p>
+            <div class="scenario-svg">
+              <svg viewBox="0 0 520 240" xmlns="http://www.w3.org/2000/svg" aria-label="Adaptive tutoring scenario">
+                <rect x="22" y="26" width="164" height="186" rx="18" fill="#182126"/>
+                <rect x="40" y="48" width="128" height="18" rx="9" fill="#E5EFD3"/>
+                <rect x="40" y="82" width="94" height="18" rx="9" fill="#F4F1E8"/>
+                <rect x="40" y="114" width="110" height="18" rx="9" fill="#F4F1E8"/>
+                <rect x="40" y="146" width="76" height="18" rx="9" fill="#C38E2B"/>
+                <circle cx="270" cy="82" r="36" fill="#E5EFD3" stroke="#182126" stroke-width="2"/>
+                <circle cx="270" cy="160" r="36" fill="#F0D7CC" stroke="#182126" stroke-width="2"/>
+                <circle cx="384" cy="82" r="36" fill="#DDE8C7" stroke="#182126" stroke-width="2"/>
+                <circle cx="384" cy="160" r="36" fill="#E9E1D2" stroke="#182126" stroke-width="2"/>
+                <path d="M186 118 C218 118, 220 90, 234 84" fill="none" stroke="#182126" stroke-width="3"/>
+                <path d="M186 118 C218 118, 222 150, 234 156" fill="none" stroke="#182126" stroke-width="3"/>
+                <path d="M306 82 H348" fill="none" stroke="#182126" stroke-width="3"/>
+                <path d="M306 160 H348" fill="none" stroke="#182126" stroke-width="3"/>
+                <text x="270" y="88" text-anchor="middle" font-family="Inter" font-size="14" font-weight="800" fill="#182126">C01</text>
+                <text x="270" y="166" text-anchor="middle" font-family="Inter" font-size="14" font-weight="800" fill="#182126">C02</text>
+                <text x="384" y="88" text-anchor="middle" font-family="Inter" font-size="13" font-weight="800" fill="#182126">Hint use</text>
+                <text x="384" y="166" text-anchor="middle" font-family="Inter" font-size="13" font-weight="800" fill="#182126">Revision</text>
+              </svg>
+            </div>
+            <div class="scenario-meta">
+              <div><div class="k">Data</div><div class="v">Ordered attempts, concept tags, hint logs, revision events</div></div>
+              <div><div class="k">Research question</div><div class="v">Where should the tutor scaffold next when mastery stalls?</div></div>
+            </div>
+          </article>
 
-        <h3 class="h3">Learning sciences scenario 2: multimodal or discourse-rich practice episodes</h3>
-        <p>If you already analyze discourse or clickstream sequences, KT can serve as the <strong>performance state layer</strong>. For example: run KT on problem outcomes, then align mastery growth with help-seeking patterns, collaborative moves, or reflection prompts.</p>
+          <article class="scenario-card">
+            <div class="card-title">Learning sciences · Scenario 2</div>
+            <h3 class="h3">Multimodal or discourse-rich practice</h3>
+            <p>If you already analyze discourse or clickstream sequences, KT can serve as the <strong>performance state layer</strong>. Align mastery growth with help-seeking patterns, collaborative moves, or reflection prompts.</p>
+            <div class="scenario-svg">
+              <svg viewBox="0 0 520 240" xmlns="http://www.w3.org/2000/svg" aria-label="Multimodal discourse scenario">
+                <rect x="28" y="42" width="118" height="74" rx="18" fill="#E5EFD3" stroke="#182126" stroke-width="2"/>
+                <rect x="28" y="128" width="118" height="74" rx="18" fill="#E9E1D2" stroke="#182126" stroke-width="2"/>
+                <rect x="204" y="56" width="104" height="132" rx="18" fill="#182126"/>
+                <path d="M338 120 C368 120, 374 78, 402 78" fill="none" stroke="#182126" stroke-width="3"/>
+                <path d="M338 120 C368 120, 374 160, 402 160" fill="none" stroke="#182126" stroke-width="3"/>
+                <circle cx="430" cy="78" r="40" fill="#DDE8C7" stroke="#182126" stroke-width="2"/>
+                <circle cx="430" cy="160" r="40" fill="#F0D7CC" stroke="#182126" stroke-width="2"/>
+                <path d="M58 76 h54 M58 92 h40" stroke="#182126" stroke-width="6" stroke-linecap="round"/>
+                <path d="M58 162 h58 M58 178 h46" stroke="#526B2E" stroke-width="6" stroke-linecap="round"/>
+                <rect x="224" y="76" width="64" height="12" rx="6" fill="#E5EFD3"/>
+                <rect x="224" y="104" width="42" height="12" rx="6" fill="#F4F1E8"/>
+                <rect x="224" y="132" width="58" height="12" rx="6" fill="#C38E2B"/>
+                <text x="87" y="146" text-anchor="middle" font-family="Inter" font-size="13" font-weight="800" fill="#182126">Discourse</text>
+                <text x="256" y="168" text-anchor="middle" font-family="Inter" font-size="13" font-weight="800" fill="#F4F1E8">KT state</text>
+                <text x="430" y="84" text-anchor="middle" font-family="Inter" font-size="13" font-weight="800" fill="#182126">Help-seeking</text>
+                <text x="430" y="166" text-anchor="middle" font-family="Inter" font-size="13" font-weight="800" fill="#182126">Mastery dip</text>
+              </svg>
+            </div>
+            <div class="scenario-meta">
+              <div><div class="k">Data</div><div class="v">Attempt outcomes plus coded discourse, clicks, or sensor events</div></div>
+              <div><div class="k">Research question</div><div class="v">Which process patterns reliably accompany mastery growth or collapse?</div></div>
+            </div>
+          </article>
 
-        <h3 class="h3">Educational psychology scenario 1: formative assessment and early warning</h3>
-        <p>KT can turn repeated low-stakes quizzes into concept-level risk estimates. Then the research question becomes: which self-regulation or motivation variables predict slower mastery stabilization, even after controlling for prior performance?</p>
+          <article class="scenario-card">
+            <div class="card-title">Educational psychology · Scenario 1</div>
+            <h3 class="h3">Formative assessment and early warning</h3>
+            <p>KT can turn repeated low-stakes quizzes into concept-level risk estimates. Then the real question becomes which self-regulation or motivation variables predict slower mastery stabilization.</p>
+            <div class="scenario-svg">
+              <svg viewBox="0 0 520 240" xmlns="http://www.w3.org/2000/svg" aria-label="Early warning scenario">
+                <rect x="28" y="34" width="176" height="172" rx="18" fill="#fff" stroke="#182126" stroke-width="2"/>
+                <path d="M56 74 h120 M56 104 h120 M56 134 h120 M56 164 h120" stroke="#D7D0C2" stroke-width="10" stroke-linecap="round"/>
+                <rect x="60" y="68" width="88" height="12" rx="6" fill="#526B2E"/>
+                <rect x="60" y="98" width="102" height="12" rx="6" fill="#526B2E"/>
+                <rect x="60" y="128" width="54" height="12" rx="6" fill="#B6553B"/>
+                <rect x="60" y="158" width="66" height="12" rx="6" fill="#C38E2B"/>
+                <circle cx="322" cy="92" r="48" fill="#F0D7CC" stroke="#182126" stroke-width="2"/>
+                <circle cx="430" cy="92" r="32" fill="#E5EFD3" stroke="#182126" stroke-width="2"/>
+                <circle cx="430" cy="164" r="32" fill="#E9E1D2" stroke="#182126" stroke-width="2"/>
+                <path d="M204 120 C246 120, 252 92, 274 92" fill="none" stroke="#182126" stroke-width="3"/>
+                <path d="M370 92 H398" fill="none" stroke="#182126" stroke-width="3"/>
+                <path d="M356 122 C388 132, 394 150, 404 156" fill="none" stroke="#182126" stroke-width="3"/>
+                <text x="322" y="98" text-anchor="middle" font-family="Inter" font-size="14" font-weight="800" fill="#182126">Risk</text>
+                <text x="430" y="98" text-anchor="middle" font-family="Inter" font-size="13" font-weight="800" fill="#182126">Support</text>
+                <text x="430" y="170" text-anchor="middle" font-family="Inter" font-size="13" font-weight="800" fill="#182126">Motivation</text>
+              </svg>
+            </div>
+            <div class="scenario-meta">
+              <div><div class="k">Data</div><div class="v">Repeated quiz attempts, concept map, survey covariates, time</div></div>
+              <div><div class="k">Research question</div><div class="v">Who is drifting into risk before the unit test, and why?</div></div>
+            </div>
+          </article>
 
-        <h3 class="h3">Educational psychology scenario 2: intervention comparison</h3>
-        <p>Instead of only testing whether treatment improved final score, compare <strong>mastery trajectories</strong>. Example: “Did retrieval-practice students reach stable mastery after fewer opportunities than worked-example students?”</p>
+          <article class="scenario-card">
+            <div class="card-title">Educational psychology · Scenario 2</div>
+            <h3 class="h3">Intervention comparison</h3>
+            <p>Instead of only testing whether treatment improved final score, compare <strong>mastery trajectories</strong>. Example: did retrieval-practice students reach stable mastery after fewer opportunities than worked-example students?</p>
+            <div class="scenario-svg">
+              <svg viewBox="0 0 520 240" xmlns="http://www.w3.org/2000/svg" aria-label="Intervention comparison scenario">
+                <rect x="42" y="30" width="436" height="178" rx="18" fill="#fff" stroke="#182126" stroke-width="2"/>
+                <path d="M84 168 H448 M84 60 V168" stroke="#182126" stroke-width="2.5"/>
+                <polyline fill="none" stroke="#C38E2B" stroke-width="5" points="98,154 160,142 222,132 284,118 346,106 408,96"/>
+                <polyline fill="none" stroke="#526B2E" stroke-width="5" points="98,154 160,132 222,112 284,96 346,78 408,68"/>
+                <circle cx="98" cy="154" r="5" fill="#C38E2B"/><circle cx="160" cy="142" r="5" fill="#C38E2B"/><circle cx="222" cy="132" r="5" fill="#C38E2B"/><circle cx="284" cy="118" r="5" fill="#C38E2B"/><circle cx="346" cy="106" r="5" fill="#C38E2B"/><circle cx="408" cy="96" r="5" fill="#C38E2B"/>
+                <circle cx="98" cy="154" r="5" fill="#526B2E"/><circle cx="160" cy="132" r="5" fill="#526B2E"/><circle cx="222" cy="112" r="5" fill="#526B2E"/><circle cx="284" cy="96" r="5" fill="#526B2E"/><circle cx="346" cy="78" r="5" fill="#526B2E"/><circle cx="408" cy="68" r="5" fill="#526B2E"/>
+                <rect x="324" y="34" width="118" height="28" rx="14" fill="#E5EFD3"/>
+                <rect x="324" y="70" width="118" height="28" rx="14" fill="#F4E0B0"/>
+                <text x="383" y="53" text-anchor="middle" font-family="Inter" font-size="12" font-weight="800" fill="#182126">Retrieval practice</text>
+                <text x="383" y="89" text-anchor="middle" font-family="Inter" font-size="12" font-weight="800" fill="#182126">Worked examples</text>
+              </svg>
+            </div>
+            <div class="scenario-meta">
+              <div><div class="k">Data</div><div class="v">Condition labels plus repeated concept-linked opportunities</div></div>
+              <div><div class="k">Research question</div><div class="v">Which condition reaches stable mastery faster, not just higher?</div></div>
+            </div>
+          </article>
 
-        <h3 class="h3">Educational psychology scenario 3: spacing and forgetting</h3>
-        <p>If timestamps are reliable, build opportunity-delay features or forgetting-aware models. This is where logistic KT or richer variants can be more useful than plain BKT.</p>
+          <article class="scenario-card">
+            <div class="card-title">Educational psychology · Scenario 3</div>
+            <h3 class="h3">Spacing and forgetting</h3>
+            <p>If timestamps are reliable, build opportunity-delay features or forgetting-aware models. This is where logistic KT or richer variants can be more useful than plain BKT.</p>
+            <div class="scenario-svg">
+              <svg viewBox="0 0 520 240" xmlns="http://www.w3.org/2000/svg" aria-label="Spacing and forgetting scenario">
+                <path d="M50 168 H470" stroke="#182126" stroke-width="2.5"/>
+                <circle cx="92" cy="168" r="12" fill="#526B2E"/>
+                <circle cx="176" cy="144" r="12" fill="#526B2E"/>
+                <circle cx="300" cy="122" r="12" fill="#C38E2B"/>
+                <circle cx="434" cy="88" r="12" fill="#526B2E"/>
+                <path d="M92 168 C126 156, 146 148, 176 144 C220 138, 248 136, 300 122 C350 108, 394 96, 434 88" fill="none" stroke="#526B2E" stroke-width="5"/>
+                <path d="M92 168 C124 188, 152 188, 176 144" fill="none" stroke="#B6553B" stroke-width="3" stroke-dasharray="7 7"/>
+                <path d="M176 144 C228 172, 264 170, 300 122" fill="none" stroke="#B6553B" stroke-width="3" stroke-dasharray="7 7"/>
+                <path d="M300 122 C360 150, 394 142, 434 88" fill="none" stroke="#B6553B" stroke-width="3" stroke-dasharray="7 7"/>
+                <rect x="58" y="34" width="128" height="32" rx="16" fill="#E5EFD3"/>
+                <rect x="204" y="34" width="128" height="32" rx="16" fill="#F4E0B0"/>
+                <rect x="350" y="34" width="128" height="32" rx="16" fill="#F0D7CC"/>
+                <text x="122" y="55" text-anchor="middle" font-family="Inter" font-size="12" font-weight="800" fill="#182126">short gap</text>
+                <text x="268" y="55" text-anchor="middle" font-family="Inter" font-size="12" font-weight="800" fill="#182126">review</text>
+                <text x="414" y="55" text-anchor="middle" font-family="Inter" font-size="12" font-weight="800" fill="#182126">long gap</text>
+              </svg>
+            </div>
+            <div class="scenario-meta">
+              <div><div class="k">Data</div><div class="v">Reliable timestamps, opportunity gaps, review episodes</div></div>
+              <div><div class="k">Research question</div><div class="v">How much delay erodes mastery, and which review schedule recovers it?</div></div>
+            </div>
+          </article>
+        </div>
 
         <div class="card soft">
           <div class="card-title">A strong scenario template</div>
