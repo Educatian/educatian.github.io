@@ -223,7 +223,7 @@ code:not(.code){font-family:'JetBrains Mono',monospace;font-size:13px;
     <header class="hero">
       <div class="kicker">Sequence Mining &middot; Beginner Blueprint</div>
       <h1 class="h1">The world of <span class="teal">sequence mining</span> &mdash; <span class="serif">four lenses</span> on the same stream of events.</h1>
-      <p class="lede">A friendly map of <strong>TNA</strong>, <strong>Lag Sequential Analysis</strong>, <strong>Sequential Pattern Mining</strong>, and <strong>Hidden Markov Models</strong> &mdash; what each one answers, which R package implements it, and how to read its output. Bundled with a synthetic dialogue dataset and four runnable templates so you can reproduce every figure here in under five minutes.</p>
+      <p class="lede">A friendly map of <strong>TNA</strong>, <strong>Lag Sequential Analysis</strong>, <strong>Sequential Pattern Mining</strong>, and <strong>Hidden Markov Models</strong> &mdash; what each one answers, which R package implements it, and how to read its output. Bundled with a synthetic dialogue dataset and four runnable templates so you can reproduce the example figures here quickly and adapt the workflow to your own data.</p>
 
       <div class="hero-meta">
         <span class="accent">For total beginners</span>
@@ -242,7 +242,7 @@ code:not(.code){font-family:'JetBrains Mono',monospace;font-size:13px;
       <div class="card" style="background:#fff;border-color:#0F1A2A;border-width:2px;margin-top:28px;max-width:780px">
         <div class="card-title">What this guide is &mdash; and isn&rsquo;t</div>
         <h4 class="h4">A friendlier on-ramp to existing tools, not original methodology.</h4>
-        <p>The methods below come from the work of <strong>Saqr, L&oacute;pez-Pernas, Tikka</strong> (TNA), <strong>Bakeman, Allison &amp; Liker</strong> (LSA), <strong>Zaki, Fournier-Viger</strong> (SPM), and <strong>Helske, Visser</strong> (HMM in R). This guide is an opinionated install + usage walkthrough that bundles a synthetic dataset and parameterised templates. For methodological depth, please cite the original sources in <a class="inline" href="#references">Chapter 10</a>.</p>
+        <p>The methods below come from the work of <strong>Saqr, L&oacute;pez-Pernas, Tikka</strong> (TNA), <strong>Bakeman, Allison &amp; Liker</strong> (LSA), <strong>Zaki, Fournier-Viger</strong> (SPM), and <strong>Helske, Visser</strong> (HMM in R). This guide is a practical install + usage walkthrough that bundles a synthetic dataset and parameterised templates. For methodological depth, please cite the original sources in <a class="inline" href="#references">Chapter 10</a>.</p>
       </div>
 
       <h3 class="h3" style="margin-top:48px">Four lenses on one synthetic dialogue dataset</h3>
@@ -541,7 +541,7 @@ centralities(m)      <span class="cm"># in/out degree etc.</span></pre>
 
         <div class="card">
           <div class="card-title">Original guides</div>
-          <h4 class="h4">Use this page as the on-ramp, then jump to the canonical TNA materials.</h4>
+          <h4 class="h4">Use this page as the on-ramp, then jump to the primary TNA materials.</h4>
           <p><strong>Primer + tutorial:</strong> <a class="inline" href="https://lamethods.org/book2/chapters/ch15-tna/ch15-tna.html">Advanced Learning Analytics Methods, Chapter 15</a> &middot; <strong>Package site:</strong> <a class="inline" href="https://sonsoles.me/tna/">sonsoles.me/tna</a> &middot; <strong>Software paper:</strong> <a class="inline" href="https://doi.org/10.1177/01466216251348840">Applied Psychological Measurement article</a></p>
           <p style="margin-top:10px"><strong>Follow-on extensions:</strong> <a class="inline" href="https://lamethods.org/book2/chapters/ch16-ftna/ch16-ftna.html">FTNA tutorial (Chapter 16)</a> and <a class="inline" href="https://lamethods.org/book2/chapters/ch17-tna-clusters/ch17-tna-clusters.html">TNA clusters / heterogeneity tutorial (Chapter 17)</a>.</p>
         </div>
@@ -753,10 +753,10 @@ table(paths)                       <span class="cm"># overall state usage</span>
         <table class="schema">
           <thead><tr><th>Method</th><th>Headline number</th><th>What it answers</th></tr></thead>
           <tbody>
-            <tr><td class="k">TNA</td><td>P(EXPLAIN | ASK) = 0.53</td><td>"Most likely follow-up to ASK is EXPLAIN."</td></tr>
-            <tr><td class="k">LSA</td><td>z(ASK&rarr;EXPLAIN) = +20.6</td><td>"That follow-up is far more frequent than chance."</td></tr>
-            <tr><td class="k">SPM</td><td>support(EXPLAIN,EXPLAIN,ASK) = 0.99</td><td>"This 3-step pattern appears in 99% of sessions."</td></tr>
-            <tr><td class="k">HMM (K=3)</td><td>logLik = &minus;6271.79</td><td>"Three hidden states explain the sequence well; transition matrix recovered."</td></tr>
+            <tr><td class="k">TNA</td><td>P(EXPLAIN | ASK) = 0.53</td><td>In the synthetic example used here, ASK was most often followed by EXPLAIN.</td></tr>
+            <tr><td class="k">LSA</td><td>z(ASK&rarr;EXPLAIN) = +20.6</td><td>In the same synthetic example, that follow-up occurred more often than the chance model would predict.</td></tr>
+            <tr><td class="k">SPM</td><td>support(EXPLAIN,EXPLAIN,ASK) = 0.99</td><td>In the same synthetic example, this 3-step pattern appeared in 99% of sessions.</td></tr>
+            <tr><td class="k">HMM (K=3)</td><td>logLik = &minus;6271.79</td><td>In the same synthetic example, a K=3 state model produced an interpretable transition structure.</td></tr>
           </tbody>
         </table>
 
@@ -908,7 +908,6 @@ hidden_paths(fit$model)</pre>
           <li>Helske, S., &amp; Helske, J. (2019). Mixture Hidden Markov Models for Sequence Data: The seqHMM Package in R. <em>Journal of Statistical Software, 88</em>(3). <a class="inline" href="https://doi.org/10.18637/jss.v088.i03">doi:10.18637/jss.v088.i03</a></li>
           <li><em>seqHMM</em> docs: <a class="inline" href="https://rdrr.io/cran/seqHMM/">package index</a> &middot; <a class="inline" href="https://rdrr.io/cran/seqHMM/f/inst/doc/seqHMM_estimation.pdf">estimation vignette</a> &middot; <a class="inline" href="https://rdrr.io/cran/seqHMM/f/inst/doc/seqHMM_algorithms.pdf">algorithms vignette</a>.</li>
           <li>Visser, I., &amp; Speekenbrink, M. (2010). depmixS4: An R Package for Hidden Markov Models. <em>Journal of Statistical Software, 36</em>(7). <a class="inline" href="https://www.jstatsoft.org/article/view/v036i07">JSS page</a>.</li>
-          <li>Aarts, E. et al. (2023). Bayesian multilevel HMM with categorical data. <em>Multivariate Behavioral Research</em>.</li>
           <li>Python: <a class="inline" href="https://github.com/hmmlearn/hmmlearn">hmmlearn</a> &middot; <a class="inline" href="https://hmmlearn.readthedocs.io/en/stable/tutorial.html">tutorial</a>.</li>
         </ul>
 

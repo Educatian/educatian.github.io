@@ -159,7 +159,7 @@ code:not(.code){font-family:'JetBrains Mono',monospace;font-size:13px;background
 </style>
 <meta property="og:type" content="article">
 <meta property="og:title" content="Knowledge Tracing Blueprint — BKT, DKT, R, Python">
-<meta property="og:description" content="A practical guide to knowledge tracing with tested R and Python workflows, dataframe design rules, visualizations, troubleshooting, and learning-sciences use cases.">
+<meta property="og:description" content="A practical guide to knowledge tracing with R and Python workflow notes, dataframe design rules, visualizations, troubleshooting, and learning-sciences use cases.">
 <meta property="og:url" content="https://educatian.github.io/knowledge-tracing/">
 <meta property="og:image" content="https://educatian.github.io/knowledge-tracing/thumbnails/hero_og_1200x630.png">
 <meta name="twitter:card" content="summary_large_image">
@@ -178,8 +178,8 @@ code:not(.code){font-family:'JetBrains Mono',monospace;font-size:13px;background
       <li><a href="#decision">Which model should you use?</a></li>
       <li><a href="#dataframe">How the dataframe must be built</a></li>
       <li><a href="#workflow">End-to-end practical workflow</a></li>
-      <li><a href="#python">Python stack tested here</a></li>
-      <li><a href="#rstack">R stack tested here</a></li>
+      <li><a href="#python">Python stack notes</a></li>
+      <li><a href="#rstack">R stack notes</a></li>
       <li><a href="#viz">Visualizations worth showing</a></li>
       <li><a href="#interactive">Interactive beginner lab</a></li>
       <li><a href="#scenarios">Research scenarios in LS / Ed Psych</a></li>
@@ -195,12 +195,12 @@ code:not(.code){font-family:'JetBrains Mono',monospace;font-size:13px;background
     <header class="hero">
       <div class="kicker">Knowledge Tracing · Practical Blueprint</div>
       <h1 class="h1">Tracing <span class="olive">mastery over time</span> without guessing what your data can’t support.</h1>
-      <p class="lede">A practical guide to <strong>Knowledge Tracing</strong> for people who need to do the work, not just read the papers. This page covers <strong>BKT</strong>, <strong>LKT-style logistic tracing</strong>, and <strong>DKT / deep KT</strong>, with tested <strong>R</strong> and <strong>Python</strong> workflows, dataframe design rules, field-used model families, recommended visualizations, research scenarios for <strong>learning sciences</strong> and <strong>educational psychology</strong>, and a troubleshooting log from actual package runs on this machine.</p>
+      <p class="lede">A practical guide to <strong>Knowledge Tracing</strong> for people who need to do the work, not just read the papers. This page covers <strong>BKT</strong>, <strong>LKT-style logistic tracing</strong>, and <strong>DKT / deep KT</strong>, with <strong>R</strong> and <strong>Python</strong> workflow notes, dataframe design rules, field-used model families, recommended visualizations, research scenarios for <strong>learning sciences</strong> and <strong>educational psychology</strong>, and troubleshooting notes that distinguish general guidance from observations made in the author&rsquo;s tested environment.</p>
       <div class="hero-meta">
         <span class="accent">Practical first</span>
         <span>Python 3.11.9</span>
         <span>R 4.5.2</span>
-        <span>Windows-tested</span>
+        <span>Windows notes included</span>
         <span>BKT · LKT · DKT</span>
       </div>
       <p class="lede" style="font-size:14px;margin-top:14px;color:#5E6B74">Guide author: <strong>Jewoong Moon</strong> (The University of Alabama, <a class="inline" href="mailto:jmoon19@ua.edu">jmoon19@ua.edu</a>)</p>
@@ -208,6 +208,7 @@ code:not(.code){font-family:'JetBrains Mono',monospace;font-size:13px;background
       <div class="card soft" style="max-width:820px">
         <div class="card-title">What This Page Optimizes For</div>
         <h4 class="h4">Method fit, dataframe hygiene, and real package behavior.</h4>
+        <p class="mini">Treat the workflow advice on this page as a practical default rather than a universal rule: the best starting model still depends on sequence density, concept mapping quality, outcome goals, and the level of interpretability your study needs.</p>
         <p>This is not a “deep learning will solve everything” page. The core discipline is: <strong>pick the simplest KT model that matches your question, your data granularity, and your interpretability needs</strong>. On many education datasets, a clean BKT or logistic KT baseline is still the most defensible starting point.</p>
       </div>
     </header>
@@ -239,7 +240,7 @@ code:not(.code){font-family:'JetBrains Mono',monospace;font-size:13px;background
         <ul>
           <li>Is this learner now likely to have mastered concept <code>C01</code>?</li>
           <li>Which skills are still unstable after repeated practice?</li>
-          <li>Did the intervention group reach mastery faster than the comparison group?</li>
+          <li>Did groups differ in their estimated mastery trajectories over time?</li>
           <li>Which next item should the system recommend?</li>
           <li>Which students need support before the unit quiz rather than after it?</li>
         </ul>
@@ -355,7 +356,7 @@ code:not(.code){font-family:'JetBrains Mono',monospace;font-size:13px;background
             <tr><td>You need interpretable mastery per skill for teachers or reviewers.</td><td class="k">BKT</td><td>Parameters map to learn / slip / guess / forget language people understand.</td></tr>
             <tr><td>You want coefficients for opportunities, time, hints, or durations.</td><td class="k">LKT / AFM / PFA</td><td>Feature-based logistic framing is easier to extend and report.</td></tr>
             <tr><td>You have very long logs, many items, and prediction performance is the main goal.</td><td class="k">DKT or pyKT models</td><td>Deep sequence models can capture richer dependencies.</td></tr>
-            <tr><td>You need a defensible baseline before trying a transformer-style KT model.</td><td class="k">BKT + logistic KT</td><td>Strong baseline discipline prevents “black-box first” analysis.</td></tr>
+            <tr><td>You need a transparent baseline before trying a transformer-style KT model.</td><td class="k">BKT + logistic KT</td><td>Strong baseline discipline prevents “black-box first” analysis.</td></tr>
             <tr><td>You only have a pretest and posttest.</td><td class="k">Not KT</td><td>You do not have enough sequential evidence.</td></tr>
           </tbody>
         </table>
@@ -527,12 +528,12 @@ order_id,user_id,skill_name,question_id,concept_id,correct,timestamp,attempt_no,
 
     <section class="section" id="python">
       <div class="section-label">Chapter 06 · Python</div>
-      <h2 class="h2">Python stack <span class="olive">tested here</span></h2>
+      <h2 class="h2">Python stack <span class="olive">notes</span></h2>
       <div class="body">
         <p>The guide is backed by runnable scripts under <code>tests/</code>, not just pasted code fragments.</p>
         <div class="card soft">
           <div class="card-title">Beginner upgrade</div>
-          <p>If you only want one safe Python entry point, use <code>pyBKT</code> first and treat <code>pyKT</code> as a benchmark layer after your baseline is working.</p>
+          <p>If you only want one conservative Python entry point, use <code>pyBKT</code> first and treat <code>pyKT</code> as a benchmark layer after your baseline is working.</p>
         </div>
         <div class="micro-lab">
           <div class="card-title">Interactive Python Picker</div>
@@ -544,7 +545,7 @@ order_id,user_id,skill_name,question_id,concept_id,correct,timestamp,attempt_no,
         </div>
         <table class="schema">
           <thead>
-            <tr><th>Package</th><th>Status on this machine</th><th>Notes</th></tr>
+            <tr><th>Package</th><th>Status in the tested environment</th><th>Notes</th></tr>
           </thead>
           <tbody>
             <tr><td class="k">pyBKT 1.4.1</td><td>Fit succeeded</td><td>Required a serial workaround for <code>EM_fit.run</code> on Windows. Also pinned <code>scikit-learn==1.5.2</code>.</td></tr>
@@ -562,19 +563,19 @@ preds = model.predict(data=df)</pre>
 
         <div class="card soft">
           <div class="card-title">Observed output</div>
-          <p><strong>pyBKT</strong> fit on a 41-row toy dataframe with 6 students and 3 skills. The output file <code>tests/results/pybkt_result.json</code> was written successfully. <strong>pyKT</strong> DKT forward pass also wrote <code>tests/results/pykt_dkt_forward.json</code>.</p>
+          <p><strong>pyBKT</strong> fit on a 41-row toy dataframe with 6 students and 3 skills in the tested environment used for this guide. The output file <code>tests/results/pybkt_result.json</code> was written successfully. <strong>pyKT</strong> DKT forward pass also wrote <code>tests/results/pykt_dkt_forward.json</code>.</p>
         </div>
 
         <div class="pitfall">
           <div class="pl">Major Python caveat</div>
-          <p><strong>pyBKT is the most brittle part of this stack on Windows.</strong> The package documentation says Windows is supported, but in this environment the import-and-fit path needed both a <code>scikit-learn</code> version adjustment and a serial patch to bypass multiprocessing behavior in <code>pyBKT.fit.EM_fit.run</code>.</p>
+          <p><strong>pyBKT was the most fragile part of this stack in the tested Windows environment.</strong> The package documentation says Windows is supported, but in this environment the import-and-fit path needed both a <code>scikit-learn</code> version adjustment and a serial patch to bypass multiprocessing behavior in <code>pyBKT.fit.EM_fit.run</code>.</p>
         </div>
       </div>
     </section>
 
     <section class="section" id="rstack">
       <div class="section-label">Chapter 07 · R</div>
-      <h2 class="h2">R stack <span class="olive">tested here</span></h2>
+      <h2 class="h2">R stack <span class="olive">notes</span></h2>
       <div class="body">
         <div class="card soft">
           <div class="card-title">Beginner upgrade</div>
@@ -590,7 +591,7 @@ preds = model.predict(data=df)</pre>
         </div>
         <table class="schema">
           <thead>
-            <tr><th>Package</th><th>Status on this machine</th><th>Notes</th></tr>
+            <tr><th>Package</th><th>Status in the tested environment</th><th>Notes</th></tr>
           </thead>
           <tbody>
             <tr><td class="k">BKT 0.1.0</td><td>Fit + predict succeeded</td><td>Used <code>parallel = FALSE</code>, <code>num_fits = 1</code> on the toy long-format CSV.</td></tr>
@@ -981,8 +982,8 @@ lkt_model <- LKT(
             <tr><th>Symptom</th><th>What it means</th><th>Fix</th></tr>
           </thead>
           <tbody>
-            <tr><td>pyBKT import or fit breaks with newer <code>scikit-learn</code></td><td>Version mismatch in utility code paths.</td><td>Pin <code>scikit-learn==1.5.2</code> in this environment.</td></tr>
-            <tr><td>pyBKT fit fails on Windows at multiprocessing / Pipe / access</td><td><code>pyBKT.fit.EM_fit.run</code> is fragile under this setup.</td><td>Use a serial workaround like the one in <code>tests/test_pybkt_python.py</code>.</td></tr>
+            <tr><td>pyBKT import or fit breaks with newer <code>scikit-learn</code></td><td>Version mismatch in utility code paths.</td><td>Pin <code>scikit-learn==1.5.2</code> in the tested environment or verify the package against your own dependency stack.</td></tr>
+            <tr><td>pyBKT fit fails on Windows at multiprocessing / Pipe / access</td><td><code>pyBKT.fit.EM_fit.run</code> was fragile under the tested setup.</td><td>Use a serial workaround like the one in <code>tests/test_pybkt_python.py</code>, or verify whether your own environment reproduces the issue first.</td></tr>
             <tr><td>pyBKT returns strange results after tiny toy fits</td><td>BKT is being fit on a very small dataset with strong simplifying assumptions.</td><td>Treat tiny toy results as smoke tests only, not substantive evidence.</td></tr>
             <tr><td>LKT fails on your own CSV even though sample data works</td><td>Your columns or coding do not match the expected package idiom.</td><td>Replicate <code>samplelkt</code> first: <code>Anon.Student.Id</code>, <code>Outcome</code>, <code>KC..Default.</code>, with <code>CORRECT</code>/<code>INCORRECT</code>.</td></tr>
             <tr><td>Deep KT preprocessing explodes</td><td>Your IDs are not integer-encoded or sequences are not split correctly.</td><td>Create stable mappings for concept/item IDs and make the split logic explicit.</td></tr>
@@ -1014,7 +1015,7 @@ lkt_model <- LKT(
             <tr><td>Can I do KT with one pretest and one posttest?</td><td>No.</td><td>That supports growth or outcome analysis, not tracing. KT needs event-level sequences.</td></tr>
             <tr><td>What is a minimally usable KT dataset?</td><td>A long event log with one row per attempt.</td><td>At minimum: <code>user_id</code>, <code>order_id</code> or timestamp, <code>skill_name</code> or concept tag, and <code>correct</code>.</td></tr>
             <tr><td>Do I need timestamps?</td><td>Not always, but they help.</td><td>Plain BKT can run with stable ordering only. If you want spacing, delay, forgetting, or stealth behavior claims, reliable timestamps become much more important.</td></tr>
-            <tr><td>Can I run KT with only one skill?</td><td>Yes, if that skill has enough repeated opportunities.</td><td>One-skill KT is often defensible in a narrow tutor or unit. It is just less informative than multi-skill tracing.</td></tr>
+            <tr><td>Can I run KT with only one skill?</td><td>Yes, if that skill has enough repeated opportunities.</td><td>One-skill KT can be reasonable in a narrow tutor or unit. It is just less informative than multi-skill tracing.</td></tr>
             <tr><td>What if my concept tags are messy?</td><td>Clean that before modeling.</td><td>Bad KC labels break interpretation faster than most model-choice mistakes.</td></tr>
             <tr><td>How many students do I need?</td><td>Enough to stabilize patterns, but the key unit is still attempts.</td><td>Do not think only in student count. A dataset with many students but almost no repeated opportunities is still weak for KT.</td></tr>
             <tr><td>Can I compare treatment and control groups?</td><td>Yes.</td><td>Use KT to derive mastery trajectories, then compare those trajectories or summaries with second-stage models.</td></tr>
@@ -1030,7 +1031,7 @@ lkt_model <- LKT(
             <div class="card-title">Data Sufficiency Heuristic</div>
             <p><strong>Green zone:</strong> repeated concept-linked opportunities across many students, with usable ordering and stable coding.</p>
             <p><strong>Yellow zone:</strong> sparse opportunities, inconsistent tagging, or highly unbalanced skills. Use KT cautiously and simplify claims.</p>
-            <p><strong>Red zone:</strong> only summary scores, one-shot tests, or no defensible sequence. Do not force KT.</p>
+            <p><strong>Red zone:</strong> only summary scores, one-shot tests, or no interpretable sequence. In that case, KT is usually not the right tool.</p>
           </div>
           <div class="card">
             <div class="card-title">Questions Reviewers Actually Ask</div>
@@ -1242,7 +1243,7 @@ lkt_model <- LKT(
 
         <div class="card soft">
           <div class="card-title">Fact-check note</div>
-          <p>This page blends <strong>primary references</strong>, <strong>official package documentation</strong>, <strong>CMU ecosystem resources</strong>, and <strong>machine-local smoke tests</strong>. Where package behavior on this machine diverged from the smooth-path documentation, the guide reports the observed behavior explicitly rather than hiding it.</p>
+          <p>This page blends <strong>primary references</strong>, <strong>official package documentation</strong>, <strong>CMU ecosystem resources</strong>, and <strong>machine-local smoke tests</strong>. Where package behavior in the author&rsquo;s tested environment diverged from the smooth-path documentation, the guide reports those observations explicitly and labels them as environment-specific notes rather than general methodological claims.</p>
         </div>
       </div>
     </section>
