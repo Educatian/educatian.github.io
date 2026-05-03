@@ -537,6 +537,13 @@ centralities(m)      <span class="cm"># in/out degree etc.</span></pre>
           <p>Especially good when you want one figure that summarises an entire cohort's typical dynamics, or when you want to compare the <em>structure</em> of two cohorts.</p>
         </div>
 
+        <div class="card">
+          <div class="card-title">Original guides</div>
+          <h4 class="h4">Use this page as the on-ramp, then jump to the canonical TNA materials.</h4>
+          <p><strong>Primer + tutorial:</strong> <a class="inline" href="https://lamethods.org/book2/chapters/ch15-tna/ch15-tna.html">Advanced Learning Analytics Methods, Chapter 15</a> &middot; <strong>Package site:</strong> <a class="inline" href="https://sonsoles.me/tna/">sonsoles.me/tna</a> &middot; <strong>Software paper:</strong> <a class="inline" href="https://doi.org/10.1177/01466216251348840">Applied Psychological Measurement article</a></p>
+          <p style="margin-top:10px"><strong>Follow-on extensions:</strong> <a class="inline" href="https://lamethods.org/book2/chapters/ch16-ftna/ch16-ftna.html">FTNA tutorial (Chapter 16)</a> and <a class="inline" href="https://lamethods.org/book2/chapters/ch17-tna-clusters/ch17-tna-clusters.html">TNA clusters / heterogeneity tutorial (Chapter 17)</a>.</p>
+        </div>
+
         <h3 class="h3">Minimal code</h3>
 <pre class="code"><span class="kw">library</span>(tna); <span class="kw">library</span>(TraMineR)
 seq_obj <span class="kw">&lt;-</span> seqdef(wide_matrix, alphabet = CODES)
@@ -575,6 +582,13 @@ permutation_test(gm)                   <span class="cm"># test group difference<
           <div class="card-title">Use when</div>
           <h4 class="h4">"I have a specific hypothesis about which transitions matter."</h4>
           <p>And you want a defensible significance test rather than just a pretty graph.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Original guides</div>
+          <h4 class="h4">LSA has a longer methods history than the R ecosystem around it.</h4>
+          <p><strong>Canonical book:</strong> <a class="inline" href="https://www.cambridge.org/core/books/sequential-analysis-and-observational-methods-for-the-behavioral-sciences/E74148FC98DEFA56367A2DF32759AF4D">Bakeman &amp; Quera's Sequential Analysis and Observational Methods for the Behavioral Sciences</a> &middot; <strong>Chapter preview:</strong> <a class="inline" href="https://www.cambridge.org/core/books/sequential-analysis-and-observational-methods-for-the-behavioral-sciences/timewindow-and-loglinear-sequential-analysis/3A978B409779ABD364D799B2716696E4">Time-Window and Log-Linear Sequential Analysis</a></p>
+          <p style="margin-top:10px"><strong>R implementation docs:</strong> <a class="inline" href="https://cran.r-universe.dev/LagSequential/doc/manual.html">LagSequential manual</a>, <a class="inline" href="https://rdrr.io/cran/LagSequential/">package overview + vignette index</a>, and <a class="inline" href="https://doi.org/10.3758/BF03200753">O'Connor (1999)</a> for the original SAS/SPSS program lineage.</p>
         </div>
 
         <h3 class="h3">Minimal code (no external package)</h3>
@@ -630,6 +644,13 @@ z <span class="kw">&lt;-</span> (trans - expected) / sqrt(var_AL)</pre>
           <p>Especially useful when motifs span more than two events &mdash; LSA only looks at lags one at a time, SPM finds sub-sequences of arbitrary length.</p>
         </div>
 
+        <div class="card">
+          <div class="card-title">Original guides</div>
+          <h4 class="h4">For SPM, the algorithm paper and software manuals matter as much as the concept.</h4>
+          <p><strong>Foundational algorithm:</strong> <a class="inline" href="https://link.springer.com/article/10.1023/A:1007652502315">Zaki (2001) SPADE paper</a> &middot; <strong>R docs:</strong> <a class="inline" href="https://cran.r-project.org/package=arulesSequences">arulesSequences on CRAN</a> and <a class="inline" href="https://www.rdocumentation.org/packages/arulesSequences/versions/0.1-3/topics/cspade">cSPADE function manual</a></p>
+          <p style="margin-top:10px"><strong>Broader algorithm library:</strong> <a class="inline" href="https://www.philippe-fournier-viger.com/spmf/">SPMF documentation + examples</a> &middot; <strong>Python route:</strong> <a class="inline" href="https://github.com/chuanconggao/PrefixSpan-py">PrefixSpan-py</a>.</p>
+        </div>
+
         <h3 class="h3">Minimal code</h3>
 <pre class="code"><span class="kw">library</span>(arulesSequences)
 <span class="cm"># Step 1 — write a basket file (one row per event):
@@ -672,6 +693,13 @@ df[order(-df$support), ]                 <span class="cm"># top patterns</span><
           <div class="card-title">Use when</div>
           <h4 class="h4">"My codes are measurements of a deeper construct, not the construct itself."</h4>
           <p>e.g. you suspect "exploring", "consolidating", and "stuck" states drive the visible moves but you can't observe them directly.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Original guides</div>
+          <h4 class="h4">HMM is the one chapter where the package vignettes are almost mandatory reading.</h4>
+          <p><strong>Main R entry point:</strong> <a class="inline" href="https://rdrr.io/cran/seqHMM/">seqHMM package index</a> &middot; <strong>Core paper:</strong> <a class="inline" href="https://doi.org/10.18637/jss.v088.i03">seqHMM Journal of Statistical Software article</a> &middot; <strong>Estimation tips:</strong> <a class="inline" href="https://rdrr.io/cran/seqHMM/f/inst/doc/seqHMM_estimation.pdf">seqHMM estimation vignette</a></p>
+          <p style="margin-top:10px"><strong>Algorithm details:</strong> <a class="inline" href="https://rdrr.io/cran/seqHMM/f/inst/doc/seqHMM_algorithms.pdf">seqHMM algorithms vignette</a> &middot; <strong>Alternative R package:</strong> <a class="inline" href="https://www.jstatsoft.org/article/view/v036i07">depmixS4 JSS paper</a> &middot; <strong>Python route:</strong> <a class="inline" href="https://hmmlearn.readthedocs.io/en/stable/tutorial.html">hmmlearn tutorial</a>.</p>
         </div>
 
         <h3 class="h3">Minimal code</h3>
@@ -859,25 +887,27 @@ hidden_paths(fit$model)</pre>
 
         <h3 class="h3">Lag Sequential Analysis</h3>
         <ul>
-          <li>Bakeman, R., &amp; Gottman, J. M. (1997). <em>Observing interaction: An introduction to sequential analysis</em> (2nd ed.). Cambridge University Press.</li>
-          <li>Allison, P. D., &amp; Liker, J. K. (1982). Analyzing sequential categorical data on dyadic interaction. <em>Psychological Bulletin, 91</em>(2), 393&ndash;403. (The variance correction we use.)</li>
-          <li>O'Connor, B. P. (2019). <em>LagSequential</em> [R package]. <a class="inline" href="https://cran.r-project.org/package=LagSequential">CRAN</a>.</li>
+          <li>Bakeman, R., &amp; Quera, V. (2011). <em>Sequential Analysis and Observational Methods for the Behavioral Sciences</em>. Cambridge University Press. <a class="inline" href="https://www.cambridge.org/core/books/sequential-analysis-and-observational-methods-for-the-behavioral-sciences/E74148FC98DEFA56367A2DF32759AF4D">Book page</a> &middot; <a class="inline" href="https://www.cambridge.org/core/books/sequential-analysis-and-observational-methods-for-the-behavioral-sciences/timewindow-and-loglinear-sequential-analysis/3A978B409779ABD364D799B2716696E4">Chapter 11 preview</a></li>
+          <li>Allison, P. D., &amp; Liker, J. K. (1982). Analyzing sequential categorical data on dyadic interaction. <em>Psychological Bulletin, 91</em>(3), 393&ndash;403. <a class="inline" href="https://doi.org/10.1037/0033-2909.91.3.393">doi:10.1037/0033-2909.91.3.393</a> (The variance correction we use.)</li>
+          <li>O'Connor, B. P. (1999). Simple and flexible SAS and SPSS programs for analyzing lag-sequential categorical data. <em>Behavior Research Methods, Instruments, &amp; Computers, 31</em>, 718&ndash;726. <a class="inline" href="https://doi.org/10.3758/BF03200753">doi:10.3758/BF03200753</a></li>
+          <li>Draper, Z. A., &amp; O'Connor, B. P. <em>LagSequential</em> [R package]. <a class="inline" href="https://cran.r-project.org/package=LagSequential">CRAN</a> &middot; <a class="inline" href="https://cran.r-universe.dev/LagSequential/doc/manual.html">reference manual</a> &middot; <a class="inline" href="https://rdrr.io/cran/LagSequential/">vignette / docs index</a>.</li>
         </ul>
 
         <h3 class="h3">Sequential Pattern Mining</h3>
         <ul>
-          <li>Zaki, M. J. (2001). SPADE: An efficient algorithm for mining frequent sequences. <em>Machine Learning, 42</em>, 31&ndash;60. (cSPADE adds constraints.)</li>
-          <li>Buchta, C., &amp; Hahsler, M. <em>arulesSequences</em> [R package]. <a class="inline" href="https://cran.r-project.org/package=arulesSequences">CRAN</a>.</li>
-          <li>Fournier-Viger, P. et al. <strong>SPMF</strong> &mdash; Java reference library with 55+ algorithms. <a class="inline" href="https://www.philippe-fournier-viger.com/spmf/">philippe-fournier-viger.com/spmf/</a></li>
+          <li>Zaki, M. J. (2001). SPADE: An efficient algorithm for mining frequent sequences. <em>Machine Learning, 42</em>, 31&ndash;60. <a class="inline" href="https://link.springer.com/article/10.1023/A:1007652502315">Springer page</a> (cSPADE adds constraints.)</li>
+          <li>Buchta, C., &amp; Hahsler, M. <em>arulesSequences</em> [R package]. <a class="inline" href="https://cran.r-project.org/package=arulesSequences">CRAN</a> &middot; <a class="inline" href="https://www.rdocumentation.org/packages/arulesSequences/versions/0.1-3/topics/cspade">cSPADE function manual</a>.</li>
+          <li>Fournier-Viger, P. et al. <strong>SPMF</strong> &mdash; Java reference library with 55+ algorithms. <a class="inline" href="https://www.philippe-fournier-viger.com/spmf/">official docs + examples</a></li>
           <li>Python: <a class="inline" href="https://github.com/chuanconggao/PrefixSpan-py">PrefixSpan-py</a>.</li>
         </ul>
 
         <h3 class="h3">HMM</h3>
         <ul>
           <li>Helske, S., &amp; Helske, J. (2019). Mixture Hidden Markov Models for Sequence Data: The seqHMM Package in R. <em>Journal of Statistical Software, 88</em>(3). <a class="inline" href="https://doi.org/10.18637/jss.v088.i03">doi:10.18637/jss.v088.i03</a></li>
-          <li>Visser, I., &amp; Speekenbrink, M. (2010). depmixS4: An R Package for Hidden Markov Models. <em>Journal of Statistical Software, 36</em>(7).</li>
+          <li><em>seqHMM</em> docs: <a class="inline" href="https://rdrr.io/cran/seqHMM/">package index</a> &middot; <a class="inline" href="https://rdrr.io/cran/seqHMM/f/inst/doc/seqHMM_estimation.pdf">estimation vignette</a> &middot; <a class="inline" href="https://rdrr.io/cran/seqHMM/f/inst/doc/seqHMM_algorithms.pdf">algorithms vignette</a>.</li>
+          <li>Visser, I., &amp; Speekenbrink, M. (2010). depmixS4: An R Package for Hidden Markov Models. <em>Journal of Statistical Software, 36</em>(7). <a class="inline" href="https://www.jstatsoft.org/article/view/v036i07">JSS page</a>.</li>
           <li>Aarts, E. et al. (2023). Bayesian multilevel HMM with categorical data. <em>Multivariate Behavioral Research</em>.</li>
-          <li>Python: <a class="inline" href="https://github.com/hmmlearn/hmmlearn">hmmlearn</a>.</li>
+          <li>Python: <a class="inline" href="https://github.com/hmmlearn/hmmlearn">hmmlearn</a> &middot; <a class="inline" href="https://hmmlearn.readthedocs.io/en/stable/tutorial.html">tutorial</a>.</li>
         </ul>
 
         <div class="card teal">
