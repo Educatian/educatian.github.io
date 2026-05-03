@@ -39,9 +39,11 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:'Inter',sans-ser
 .toc ol{list-style:none;padding:0;margin:0;counter-reset:item}
 .toc li{border-top:1px solid var(--line);counter-increment:item}
 .toc li:first-child{border-top:0}
-.toc a{display:flex;gap:10px;padding:9px 0;color:var(--ink);text-decoration:none;font-size:13.5px;line-height:1.35;font-weight:500}
-.toc a:hover{color:var(--olive)}
-.toc a::before{content:counter(item,decimal-leading-zero);width:18px;flex-shrink:0;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;color:var(--ink3)}
+.toc a{display:flex;gap:10px;padding:9px 10px;border-radius:10px;color:var(--ink);text-decoration:none;font-size:13.5px;line-height:1.35;font-weight:500;transition:background .18s ease,color .18s ease,transform .18s ease}
+.toc a:hover{color:var(--olive);background:var(--olive-soft)}
+.toc a.active{color:var(--olive);background:var(--olive-soft);transform:translateX(3px);font-weight:700}
+.toc a::before{content:counter(item,decimal-leading-zero);width:18px;flex-shrink:0;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;color:var(--ink3);transition:color .18s ease}
+.toc a.active::before{color:var(--olive)}
 .hero{border-bottom:1px solid var(--line);padding-bottom:56px;margin-bottom:56px}
 .kicker{font-size:13px;font-weight:800;letter-spacing:4px;text-transform:uppercase;color:var(--olive);margin-bottom:18px}
 .h1{font-size:70px;line-height:1.03;letter-spacing:-.03em;font-weight:900;margin:0 0 20px}
@@ -1490,6 +1492,50 @@ lkt_model <- LKT(
     out.textContent = map.bkt;
   }
 
+  function bindTocSpy() {
+    const tocLinks = [...document.querySelectorAll('.toc a[href^="#"]')];
+    const sectionMap = new Map(
+      tocLinks
+        .map((link) => {
+          const id = link.getAttribute('href').slice(1);
+          return [id, document.getElementById(id)];
+        })
+        .filter(([, section]) => section)
+    );
+
+    const setActive = (id) => {
+      tocLinks.forEach((link) => {
+        const active = link.getAttribute('href') === `#${id}`;
+        link.classList.toggle('active', active);
+        if (active) link.setAttribute('aria-current', 'true');
+        else link.removeAttribute('aria-current');
+      });
+    };
+
+    tocLinks.forEach((link) => {
+      link.addEventListener('click', () => {
+        const id = link.getAttribute('href').slice(1);
+        setActive(id);
+      });
+    });
+
+    const observer = new IntersectionObserver((entries) => {
+      const visible = entries
+        .filter((entry) => entry.isIntersecting)
+        .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+      if (visible.length) setActive(visible[0].target.id);
+    }, {
+      rootMargin: '-18% 0px -60% 0px',
+      threshold: [0.2, 0.4, 0.6]
+    });
+
+    sectionMap.forEach((section) => observer.observe(section));
+    if (tocLinks.length) {
+      const initial = location.hash ? location.hash.slice(1) : tocLinks[0].getAttribute('href').slice(1);
+      setActive(initial);
+    }
+  }
+
   [priorRange, learnRange, slipRange, guessRange].forEach((el) => el.addEventListener('input', renderBKT));
   ['controlStart', 'controlSlope', 'treatStart', 'treatSlope'].forEach((id) => qs(id).addEventListener('input', renderGroup));
   document.querySelectorAll('#seqButtons button').forEach((btn) => {
@@ -1513,6 +1559,7 @@ lkt_model <- LKT(
   bindSelect('troublePick', 'troubleOut');
   bindChecks('readyChecks', 'readyOut', { good: 4, mid: 2, total: 4 });
   bindSelect('refPick', 'refOut');
+  bindTocSpy();
   ['bnA', 'bnB', 'bnC'].forEach((id) => qs(id).addEventListener('input', renderBN));
   ['planActs', 'reviseActs', 'guessActs', 'hintActs'].forEach((id) => qs(id).addEventListener('input', renderStealth));
   renderBKT();
