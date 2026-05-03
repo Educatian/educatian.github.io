@@ -200,6 +200,14 @@ code:not(.code){font-family:'JetBrains Mono',monospace;font-size:13px;
 .perm-metric .v{font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:700;color:var(--ink)}
 .perm-note{font-size:13px;line-height:1.6;color:#3D4F5F;margin-top:10px}
 .perm-stage svg{display:block;width:100%;height:auto}
+.perm-sessions{margin-top:14px;padding:14px 16px;border:1.5px solid var(--line);border-radius:14px;background:#fbfcfd}
+.perm-sessions-title{font-size:14px;font-weight:800;color:var(--ink);margin-bottom:4px}
+.perm-sessions-sub{font-size:12px;color:#3D4F5F;margin-bottom:12px}
+.perm-session-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px}
+.perm-session-cell{border:1.5px solid var(--line);border-radius:10px;padding:8px 6px;text-align:center;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;color:var(--ink)}
+.perm-session-cell.a{background:#eef6f7;border-color:#0A7480}
+.perm-session-cell.b{background:#fff1ec;border-color:#E07A5F}
+@media (max-width:640px){.perm-session-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media (max-width:900px){.perm-lab{grid-template-columns:1fr}}
 
 .gallery{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin:32px 0 0}
@@ -661,6 +669,11 @@ code:not(.code){font-family:'JetBrains Mono',monospace;font-size:13px;
           </div>
           <div class="perm-stage">
             <div id="permPlot"></div>
+            <div class="perm-sessions">
+              <div class="perm-sessions-title">Observed sessions</div>
+              <div class="perm-sessions-sub">Top row = group A, bottom row = group B</div>
+              <div class="perm-session-grid" id="permSessionGrid"></div>
+            </div>
             <div class="perm-note" id="permSummary">Press <strong>Run shuffle</strong> to generate a null distribution and compare the observed group gap to permutation outcomes.</div>
           </div>
         </div>
@@ -1495,10 +1508,9 @@ hidden_paths(fit$model)</pre>
     const minX = Math.min(...nullStats, observed, -0.5);
     const maxX = Math.max(...nullStats, observed, 0.5);
     const width = 720;
-    const height = 390;
+    const height = 230;
     const histTop = 24;
-    const histBottom = 210;
-    const sampleTop = 236;
+    const histBottom = 186;
     const margin = { t: histTop, r: 18, b: height - histBottom, l: 42 };
     const plotW = width - margin.l - margin.r;
     const plotH = histBottom - margin.t;
@@ -1520,15 +1532,13 @@ hidden_paths(fit$model)</pre>
       return `<rect x="${x}" y="${y}" width="${barW - 4}" height="${h}" rx="4" fill="#0A7480" opacity="0.72"/>`;
     }).join('');
 
-    const sampleRows = observedScores.map((v, i) => {
-      const x = 44 + (i % 6) * 102;
-      const y = i < 6 ? sampleTop + 34 : sampleTop + 74;
-      const label = i < 6 ? 'A' : 'B';
-      return `<rect x="${x}" y="${y}" width="44" height="26" rx="8" fill="${label === 'A' ? '#eef6f7' : '#fff1ec'}" stroke="${label === 'A' ? '#0A7480' : '#E07A5F'}" stroke-width="1.5"/><text x="${x + 22}" y="${y + 17}" text-anchor="middle" font-family="JetBrains Mono" font-size="11" font-weight="700" fill="#0F1A2A">${fmt(v)}</text>`;
+    qs('permSessionGrid').innerHTML = observedScores.map((v, i) => {
+      const klass = i < 6 ? 'a' : 'b';
+      return `<div class="perm-session-cell ${klass}">${fmt(v)}</div>`;
     }).join('');
 
     qs('permPlot').innerHTML = `
-      <svg viewBox="0 0 720 390" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+      <svg viewBox="0 0 720 230" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
         <text x="42" y="18" font-family="Inter" font-size="12" fill="#3D4F5F">Permutation null distribution</text>
         <line x1="${margin.l}" y1="${height - margin.b}" x2="${width - margin.r}" y2="${height - margin.b}" stroke="#0F1A2A" stroke-width="2"/>
         <line x1="${margin.l}" y1="${height - margin.b}" x2="${margin.l}" y2="${margin.t}" stroke="#0F1A2A" stroke-width="2"/>
@@ -1539,10 +1549,6 @@ hidden_paths(fit$model)</pre>
         <text x="${margin.l}" y="${height - 18}" font-family="Inter" font-size="11" fill="#3D4F5F">${fmt(minX)}</text>
         <text x="${width - margin.r}" y="${height - 18}" text-anchor="end" font-family="Inter" font-size="11" fill="#3D4F5F">${fmt(maxX)}</text>
         <text x="${margin.l + plotW / 2}" y="${height - 18}" text-anchor="middle" font-family="Inter" font-size="12" fill="#3D4F5F">null distribution of group-gap statistics after label shuffling</text>
-        <rect x="24" y="${sampleTop}" width="672" height="116" rx="14" fill="#fff" stroke="#0F1A2A" stroke-width="2"/>
-        <text x="44" y="${sampleTop + 24}" font-family="Inter" font-size="15" font-weight="800" fill="#0F1A2A">Observed sessions</text>
-        <text x="44" y="${sampleTop + 42}" font-family="Inter" font-size="12" fill="#3D4F5F">Top row = group A, bottom row = group B</text>
-        ${sampleRows}
       </svg>
     `;
 
