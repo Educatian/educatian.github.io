@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The World of Sequence Mining — beginner blueprint</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,800;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+:root {
+  --bg:        #ECF1F4;
+  --bg-deep:   #DDE6EC;
+  --ink:       #0F1A2A;
+  --ink2:      #3D4F5F;
+  --ink3:      #7A8A99;
+  --teal:      #0A7480;
+  --teal-soft: rgba(10,116,128,.08);
+  --teal-glow: rgba(10,116,128,.22);
+  --cyan:      #1B9AAA;
+  --line:      #B5C6D0;
+  --code-bg:   #0F1A2A;
+  --code-fg:   #ECF1F4;
+  --code-cm:   #6D7C8D;
+  --code-kw:   #5FB3C9;
+  --code-st:   #B3D1BC;
+  --warm:      #E07A5F;
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;padding:0;background:var(--bg);color:var(--ink);
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+  font-weight:400;line-height:1.65;-webkit-font-smoothing:antialiased}
+
+.grid-bg{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.32;
+  background-image:linear-gradient(rgba(10,26,42,.07) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(10,26,42,.07) 1px,transparent 1px);
+  background-size:48px 48px;
+  mask-image:radial-gradient(ellipse at 30% 20%,black 30%,transparent 80%)}
+
+.shell{position:relative;z-index:1;display:grid;grid-template-columns:280px 1fr;
+  gap:60px;max-width:1400px;margin:0 auto;padding:64px 80px}
+@media (max-width:1080px){.shell{grid-template-columns:1fr;padding:40px 28px;gap:32px}
+  .toc{position:relative!important;top:auto!important;max-height:none!important}}
+
+.toc{position:sticky;top:32px;align-self:start;max-height:calc(100vh - 64px);
+  overflow-y:auto;border:2px solid var(--ink);border-radius:14px;
+  background:#fff;padding:24px 22px}
+.toc-kicker{font-size:11px;font-weight:800;letter-spacing:3.5px;text-transform:uppercase;
+  color:var(--teal);margin-bottom:14px}
+.toc h2{font-size:18px;font-weight:900;margin:0 0 14px;line-height:1.2;counter-reset:toc}
+.toc ol{list-style:none;padding:0;margin:0}
+.toc li{counter-increment:toc;margin:0;border-top:1px solid var(--line)}
+.toc li:first-child{border-top:0}
+.toc a{display:flex;gap:10px;align-items:baseline;color:var(--ink);text-decoration:none;
+  padding:9px 0;font-size:13.5px;line-height:1.35;font-weight:500;transition:color .15s}
+.toc a:hover{color:var(--teal)}
+.toc a::before{content:counter(toc,decimal-leading-zero);color:var(--ink3);
+  font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:700;
+  letter-spacing:.5px;flex-shrink:0;width:18px}
+
+.hero{border-bottom:1px solid var(--line);padding-bottom:56px;margin-bottom:56px}
+.kicker{font-size:13px;font-weight:800;letter-spacing:4px;text-transform:uppercase;
+  color:var(--teal);margin-bottom:18px}
+.h1{font-size:70px;font-weight:900;line-height:1.04;letter-spacing:-.025em;
+  margin:0 0 22px;color:#0F1A2A;font-family:'Inter',sans-serif}
+.h1 .teal{color:var(--teal)}
+.h1 .serif{font-family:'Playfair Display',Georgia,serif;font-style:italic;
+  font-weight:400;letter-spacing:-.01em}
+.lede{font-size:21px;line-height:1.55;color:#3D4F5F;font-weight:300;
+  max-width:780px;margin:0 0 32px}
+.hero-meta{display:flex;gap:14px;flex-wrap:wrap;font-size:11px;font-weight:800;
+  letter-spacing:2px;text-transform:uppercase;color:#7A8A99}
+.hero-meta span{padding:6px 12px;border:1.5px solid var(--ink);border-radius:6px;color:var(--ink)}
+.hero-meta .accent{background:var(--teal);color:#fff;border-color:var(--teal)}
+
+.insight-box{display:inline-block;background:var(--teal);color:#fff;border-radius:10px;
+  padding:18px 22px;font-size:14px;font-weight:700;line-height:1.5;max-width:380px;
+  box-shadow:0 8px 24px var(--teal-glow);margin-top:28px}
+.insight-box .ik{font-size:10px;letter-spacing:2.5px;opacity:.75;display:block;margin-bottom:6px;font-weight:800}
+
+.section{margin-bottom:72px;scroll-margin-top:24px}
+.section-label{font-size:11px;font-weight:800;letter-spacing:3.5px;text-transform:uppercase;
+  color:var(--ink3);margin:0 0 14px;display:flex;align-items:center;gap:14px}
+.section-label::after{content:'';flex:1;height:1px;background:var(--line)}
+.h2{font-size:42px;font-weight:900;line-height:1.1;margin:0 0 14px;color:#0F1A2A;letter-spacing:-.02em}
+.h2 .teal{color:var(--teal)}
+.h3{font-size:24px;font-weight:800;line-height:1.25;margin:36px 0 12px;color:#0F1A2A;letter-spacing:-.01em}
+.h4{font-size:17px;font-weight:800;line-height:1.3;margin:24px 0 8px;color:#0F1A2A}
+.body p{font-size:15.5px;line-height:1.7;color:#1E2D3F;margin:0 0 14px}
+.body p strong{color:#0F1A2A;font-weight:700}
+.body ul,.body ol{padding-left:22px;margin:0 0 16px}
+.body li{font-size:15.5px;line-height:1.7;color:#1E2D3F;margin-bottom:6px}
+
+a.inline{color:var(--teal);text-decoration:none;border-bottom:1px solid currentColor;font-weight:600}
+a.inline:hover{background:var(--teal-soft)}
+
+.card{background:#fff;border:2px solid var(--ink);border-radius:12px;padding:22px 26px;margin:18px 0}
+.card.teal{background:var(--teal-soft);border-color:var(--teal)}
+.card.dark{background:var(--ink);color:var(--code-fg);border-color:var(--ink)}
+.card.dark p{color:#C4D4E0}
+.card.dark .h4{color:#fff}
+.card-title{font-size:11px;font-weight:800;letter-spacing:2.5px;text-transform:uppercase;
+  margin-bottom:8px;color:var(--ink3)}
+.card.teal .card-title{color:var(--teal)}
+.card.dark .card-title{color:var(--code-cm)}
+
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:28px 0 12px}
+.step{border:2px solid var(--ink);border-radius:12px;padding:22px 18px;background:#fff;
+  min-height:200px;display:flex;flex-direction:column;position:relative}
+.step.hero{background:var(--teal);border-color:var(--teal);color:#fff;
+  box-shadow:0 10px 32px var(--teal-glow);transform:translateY(-10px)}
+.step-num{font-size:10px;font-weight:800;letter-spacing:2.5px;color:#A3B4C2;
+  margin-bottom:8px;text-transform:uppercase}
+.step.hero .step-num{color:rgba(255,255,255,.65)}
+.step-title{font-size:20px;font-weight:900;line-height:1.15;color:#0F1A2A;margin-bottom:8px}
+.step.hero .step-title{color:#fff}
+.step-body{font-size:13px;line-height:1.55;color:#3D4F5F;margin-top:auto}
+.step.hero .step-body{color:rgba(255,255,255,.92)}
+@media (max-width:780px){.steps{grid-template-columns:1fr 1fr}}
+
+.code{background:var(--code-bg);color:var(--code-fg);border-radius:12px;padding:20px 24px;
+  font-family:'JetBrains Mono',monospace;font-size:13.5px;line-height:1.7;
+  margin:14px 0 22px;border:2px solid var(--ink);overflow-x:auto;white-space:pre}
+.code .cm{color:var(--code-cm)}
+.code .kw{color:var(--code-kw)}
+.code .st{color:var(--code-st)}
+.code .hl{color:#5FB3C9;background:rgba(255,255,255,.08);padding:0 4px;border-radius:3px}
+
+code:not(.code){font-family:'JetBrains Mono',monospace;font-size:13px;
+  background:#fff;border:1px solid var(--line);border-radius:5px;
+  padding:1.5px 7px;color:var(--teal);font-weight:600}
+
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin:18px 0}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin:18px 0}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:18px 0}
+@media (max-width:780px){.g2,.g3,.g4{grid-template-columns:1fr}}
+
+.pitfall{border-left:4px solid var(--warm);background:rgba(224,122,95,.10);
+  border-radius:0 10px 10px 0;padding:18px 22px;margin:18px 0}
+.pitfall .pl{font-size:11px;font-weight:800;letter-spacing:2.5px;
+  text-transform:uppercase;color:var(--warm);margin-bottom:6px}
+.pitfall p{margin:0;font-size:14.5px;line-height:1.6;color:#1E2D3F}
+
+.tip{border-left:4px solid var(--teal);background:var(--teal-soft);
+  border-radius:0 10px 10px 0;padding:18px 22px;margin:18px 0}
+.tip .pl{font-size:11px;font-weight:800;letter-spacing:2.5px;
+  text-transform:uppercase;color:var(--teal);margin-bottom:6px}
+.tip p{margin:0;font-size:14.5px;line-height:1.6;color:#1E2D3F}
+
+.big-num{font-family:'Playfair Display',Georgia,serif;font-size:160px;font-weight:900;
+  line-height:.85;color:var(--teal);letter-spacing:-.04em;font-style:italic}
+
+.schema{width:100%;border-collapse:collapse;margin:18px 0;background:#fff;
+  border:2px solid var(--ink);border-radius:12px;overflow:hidden;font-size:14px}
+.schema th{text-align:left;padding:14px 18px;background:var(--ink);color:var(--code-fg);
+  font-size:11px;letter-spacing:1.5px;text-transform:uppercase;font-weight:800}
+.schema td{padding:13px 18px;border-top:1px solid var(--line);vertical-align:top}
+.schema td.k{font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--teal);width:170px}
+.schema td.t{font-family:'JetBrains Mono',monospace;font-size:12px;color:#7A8A99;width:120px}
+
+.fig{background:#fff;border:2px solid var(--ink);border-radius:14px;padding:18px 18px 14px;margin:24px 0}
+.fig img{width:100%;height:auto;border-radius:6px;display:block;border:1px solid var(--line)}
+.fig-cap{display:flex;justify-content:space-between;align-items:baseline;gap:14px;
+  margin-top:12px;padding-top:10px;border-top:1px solid var(--line)}
+.fig-cap .lbl{font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:700;
+  letter-spacing:1.5px;text-transform:uppercase;color:var(--teal)}
+.fig-cap .desc{font-size:13px;color:#3D4F5F;line-height:1.5;flex:1;text-align:right}
+
+.gallery{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin:32px 0 0}
+.gallery .fig{margin:0}
+@media (max-width:780px){.gallery{grid-template-columns:1fr}}
+
+.foot{margin-top:80px;padding-top:32px;border-top:1px solid var(--line);
+  display:flex;justify-content:space-between;font-size:11px;color:#7A8A99;
+  letter-spacing:.15em;text-transform:uppercase}
+.foot .teal{color:var(--teal);font-weight:700}
+</style>
+<meta property="og:type" content="article">
+<meta property="og:title" content="The World of Sequence Mining — TNA · LSA · SPM · HMM">
+<meta property="og:description" content="Beginner blueprint: which sequence-mining method for which research question, with end-to-end R templates and a bundled synthetic dataset.">
+<meta property="og:url" content="https://educatian.github.io/sequence-mining/">
+<meta property="og:image" content="https://educatian.github.io/sequence-mining/thumbnails/hero_og_1200x630.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://educatian.github.io/sequence-mining/thumbnails/hero_og_1200x630.png">
+<link rel="canonical" href="https://educatian.github.io/sequence-mining/">
+</head>
+<body>
+<div class="grid-bg"></div>
+
+<div class="shell">
+
+  <nav class="toc">
+    <div class="toc-kicker">Blueprint &middot; v1</div>
+    <h2>The World of Sequence Mining</h2>
+    <div style="font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#7A8A99;margin:4px 0 8px">Part I &middot; Map</div>
+    <ol>
+      <li><a href="#why">Why "sequence mining"?</a></li>
+      <li><a href="#decision">Method &times; question decision tree</a></li>
+      <li><a href="#data">A shared dataframe to learn on</a></li>
+    </ol>
+    <div style="font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#7A8A99;margin:14px 0 8px">Part II &middot; Four methods</div>
+    <ol start="4">
+      <li><a href="#tna">TNA &mdash; Transition Network Analysis</a></li>
+      <li><a href="#lsa">LSA &mdash; Lag Sequential Analysis</a></li>
+      <li><a href="#spm">SPM &mdash; Sequential Pattern Mining</a></li>
+      <li><a href="#hmm">HMM &mdash; Hidden Markov Models</a></li>
+    </ol>
+    <div style="font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#7A8A99;margin:14px 0 8px">Part III &middot; Compare &amp; troubleshoot</div>
+    <ol start="8">
+      <li><a href="#compare">Side-by-side: same data, four lenses</a></li>
+      <li><a href="#trouble">Troubleshooting matrix</a></li>
+      <li><a href="#references">References &amp; credits</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <header class="hero">
+      <div class="kicker">Sequence Mining &middot; Beginner Blueprint</div>
+      <h1 class="h1">The world of <span class="teal">sequence mining</span> &mdash; <span class="serif">four lenses</span> on the same stream of events.</h1>
+      <p class="lede">A friendly map of <strong>TNA</strong>, <strong>Lag Sequential Analysis</strong>, <strong>Sequential Pattern Mining</strong>, and <strong>Hidden Markov Models</strong> &mdash; what each one answers, which R package implements it, and how to read its output. Bundled with a synthetic dialogue dataset and four runnable templates so you can reproduce every figure here in under five minutes.</p>
+
+      <div class="hero-meta">
+        <span class="accent">For total beginners</span>
+        <span>R 4.4+</span>
+        <span>Windows &middot; macOS &middot; Linux</span>
+        <span>~30 min first time</span>
+      </div>
+
+      <div class="insight-box">
+        <span class="ik">KEY INSIGHT</span>
+        Pick the lens by the <em>question</em>, not the buzzword. TNA is for transition graphs; LSA for testing fixed-lag effects; SPM for discovering frequent sub-sequences; HMM for inferring hidden states.
+      </div>
+
+      <div class="card" style="background:#fff;border-color:#0F1A2A;border-width:2px;margin-top:28px;max-width:780px">
+        <div class="card-title">What this guide is &mdash; and isn&rsquo;t</div>
+        <h4 class="h4">A friendlier on-ramp to existing tools, not original methodology.</h4>
+        <p>The methods below come from the work of <strong>Saqr, L&oacute;pez-Pernas, Tikka</strong> (TNA), <strong>Bakeman, Allison &amp; Liker</strong> (LSA), <strong>Zaki, Fournier-Viger</strong> (SPM), and <strong>Helske, Visser</strong> (HMM in R). This guide is an opinionated install + usage walkthrough that bundles a synthetic dataset and parameterised templates. For methodological depth, please cite the original sources in <a class="inline" href="#references">Chapter 10</a>.</p>
+      </div>
+
+      <h3 class="h3" style="margin-top:48px">Four lenses on one synthetic dialogue dataset</h3>
+      <div class="gallery">
+        <div class="fig">
+          <img src="example_figures/sm_tna_full.png" alt="TNA full network">
+          <div class="fig-cap"><span class="lbl">Lens 1 &middot; TNA</span><span class="desc">Probabilistic transition graph &mdash; node centrality, edge weights = P(next | current).</span></div>
+        </div>
+        <div class="fig">
+          <img src="example_figures/sm_lsa_heatmap.png" alt="Lag-sequential heatmap">
+          <div class="fig-cap"><span class="lbl">Lens 2 &middot; LSA</span><span class="desc">Allison&ndash;Liker z-scores: which lag-1 transitions occur more (red) or less (blue) than chance.</span></div>
+        </div>
+        <div class="fig">
+          <img src="example_figures/sm_spm_top.png" alt="Sequential pattern mining">
+          <div class="fig-cap"><span class="lbl">Lens 3 &middot; SPM</span><span class="desc">Top frequent variable-length sub-sequences mined by cSPADE; bars show support.</span></div>
+        </div>
+        <div class="fig">
+          <img src="example_figures/sm_hmm_states.png" alt="HMM hidden states">
+          <div class="fig-cap"><span class="lbl">Lens 4 &middot; HMM</span><span class="desc">Three hidden states fit by EM &mdash; observed codes plus inferred state assignments per turn.</span></div>
+        </div>
+      </div>
+    </header>
+
+    <!-- 1. WHY -->
+    <section class="section" id="why">
+      <div class="section-label">Chapter 01 &middot; Map</div>
+      <h2 class="h2">Why a <span class="teal">family</span> of methods, not just one?</h2>
+      <div class="body">
+        <p>An event log &mdash; classroom turns, clinical actions, MOOC clicks, gameplay moves &mdash; is a <em>stream of categorical events</em> ordered in time. Researchers want very different things from the same stream:</p>
+        <ul>
+          <li>"How likely is each next move given the current one?" &rarr; <strong>TNA</strong></li>
+          <li>"Does B follow A more than chance would predict?" &rarr; <strong>LSA</strong></li>
+          <li>"Which long sub-sequences recur across many sessions?" &rarr; <strong>SPM</strong></li>
+          <li>"Are observed moves driven by a few hidden cognitive states?" &rarr; <strong>HMM</strong></li>
+        </ul>
+        <p>Each method makes different assumptions and produces a different artefact. Treating them as competitors is a category error &mdash; they answer different questions. The next chapter maps method to question.</p>
+      </div>
+    </section>
+
+    <!-- 2. DECISION TREE -->
+    <section class="section" id="decision">
+      <div class="section-label">Chapter 02 &middot; Map</div>
+      <h2 class="h2">Method &times; <span class="teal">question</span> decision tree</h2>
+      <div class="body">
+        <table class="schema">
+          <thead>
+            <tr><th>Your question</th><th>Method</th><th>R package</th><th>Output you'll get</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>"What's the typical flow between codes?"</td><td class="k">TNA</td><td><code>tna</code></td><td>Directed weighted graph with centrality + bootstrap stability</td></tr>
+            <tr><td>"Did groups differ in their flow structure?"</td><td class="k">TNA (group)</td><td><code>tna::group_model</code></td><td>Per-group networks + permutation contrast</td></tr>
+            <tr><td>"Does B significantly follow A at lag 1?"</td><td class="k">LSA</td><td><code>LagSequential</code> / custom z</td><td>z-score matrix per lag</td></tr>
+            <tr><td>"Which 3-step patterns recur in &ge; 30% of sessions?"</td><td class="k">SPM</td><td><code>arulesSequences</code> (cSPADE)</td><td>Ranked list of frequent ordered patterns</td></tr>
+            <tr><td>"Are there latent states behind the codes?"</td><td class="k">HMM</td><td><code>seqHMM</code> / <code>depmixS4</code></td><td>K hidden states + transition + emission matrices</td></tr>
+            <tr><td>"Do hidden states differ by group / covariates?"</td><td class="k">Mixture HMM</td><td><code>seqHMM::build_mhmm</code></td><td>Sub-populations with distinct dynamics</td></tr>
+            <tr><td>"How long does each state typically last?"</td><td class="k">Semi-Markov</td><td><code>mhsmm</code></td><td>State + duration distributions</td></tr>
+          </tbody>
+        </table>
+
+        <div class="g3">
+          <div class="card">
+            <div class="card-title">If you start here</div>
+            <h4 class="h4">Confirmatory hypothesis</h4>
+            <p>You wrote a hypothesis like "after teacher feedback, students respond more often than chance." &rarr; <strong>LSA</strong> with the Allison&ndash;Liker correction.</p>
+          </div>
+          <div class="card teal">
+            <div class="card-title">If you start here</div>
+            <h4 class="h4">Exploratory mapping</h4>
+            <p>You don't know what to expect. You want to see the dialogue's "shape" &mdash; which moves dominate, which transitions are typical. &rarr; <strong>TNA</strong>.</p>
+          </div>
+          <div class="card">
+            <div class="card-title">If you start here</div>
+            <h4 class="h4">Pattern discovery</h4>
+            <p>You suspect specific motifs (ASK&rarr;EXPLAIN&rarr;EXAMPLE) repeat across many sessions and you want to rank them. &rarr; <strong>SPM</strong>.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. DATA -->
+    <section class="section" id="data">
+      <div class="section-label">Chapter 03 &middot; Data</div>
+      <h2 class="h2">A shared <span class="teal">dataframe</span> to learn on</h2>
+      <div class="body">
+        <p>Every figure in this guide comes from one synthetic CSV bundled at <code>example_data/fake_dialogue_long.csv</code>. <strong>It is not real data</strong> &mdash; transition matrices were hand-tuned so each method has something interesting to find.</p>
+
+        <table class="schema">
+          <thead><tr><th>Column</th><th>Type</th><th>Carries</th></tr></thead>
+          <tbody>
+            <tr><td class="k">user_id</td><td class="t">P001..P100</td><td>Session identifier (50 treatment + 50 control).</td></tr>
+            <tr><td class="k">cond</td><td class="t">treatment / control</td><td>Group label.</td></tr>
+            <tr><td class="k">turn_idx</td><td class="t">int</td><td>Monotonic turn index within a session.</td></tr>
+            <tr><td class="k">speaker</td><td class="t">A / B</td><td>Who spoke this turn.</td></tr>
+            <tr><td class="k">ASK ... ELABORATE</td><td class="t">0 / 1</td><td>One-hot code per turn (5 codes).</td></tr>
+          </tbody>
+        </table>
+
+        <p>Per-method, this CSV is reshaped exactly once into the structure that method needs:</p>
+
+        <table class="schema">
+          <thead><tr><th>Method</th><th>Reshape</th></tr></thead>
+          <tbody>
+            <tr><td class="k">TNA / HMM</td><td>Wide matrix: one row per <code>user_id</code>, columns t1..t60, cells are code names. Built via <code>TraMineR::seqdef()</code>.</td></tr>
+            <tr><td class="k">LSA</td><td>Single ordered vector per session, then aggregated lag-1 transitions.</td></tr>
+            <tr><td class="k">SPM</td><td>Transaction format: <code>sequenceID eventID size item</code> rows, written to a basket file and read by <code>arulesSequences::read_baskets()</code>.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 4. TNA -->
+    <section class="section" id="tna">
+      <div class="section-label">Chapter 04 &middot; Method</div>
+      <h2 class="h2"><span class="teal">TNA</span> &mdash; Transition Network Analysis</h2>
+      <div class="body">
+        <p>TNA models your stream as a <strong>first-order Markov chain</strong> (next state depends only on current state) and renders the resulting transition matrix as a directed weighted graph &mdash; with centrality, bootstrap edge stability, community detection, and permutation-based group comparison built in.</p>
+
+        <div class="card teal">
+          <div class="card-title">Use when</div>
+          <h4 class="h4">"I want a network picture of how my codes flow."</h4>
+          <p>Especially good when you want one figure that summarises an entire cohort's typical dynamics, or when you want to compare the <em>structure</em> of two cohorts.</p>
+        </div>
+
+        <h3 class="h3">Minimal code</h3>
+<pre class="code"><span class="kw">library</span>(tna); <span class="kw">library</span>(TraMineR)
+seq_obj <span class="kw">&lt;-</span> seqdef(wide_matrix, alphabet = CODES)
+m <span class="kw">&lt;-</span> build_model(seq_obj)            <span class="cm"># fit first-order TNA</span>
+plot(m)                                <span class="cm"># transition graph</span>
+centralities(m)                        <span class="cm"># in/out degree, betweenness, closeness, ...</span>
+boot <span class="kw">&lt;-</span> bootstrap(m)                 <span class="cm"># edge stability</span>
+gm <span class="kw">&lt;-</span> group_model(seq_obj, group = cond)  <span class="cm"># per-group</span>
+permutation_test(gm)                   <span class="cm"># test group difference</span></pre>
+
+        <div class="fig">
+          <img src="example_figures/sm_tna_full.png" alt="TNA full cohort">
+          <div class="fig-cap"><span class="lbl">TNA &middot; full cohort</span><span class="desc">Edge labels = first-order transition probability. Self-loops show how often a state stays put. The strong ASK&rarr;EXPLAIN&rarr;EXAMPLE&rarr;ELABORATE backbone reflects the synthetic transition matrix.</span></div>
+        </div>
+
+        <div class="fig">
+          <img src="example_figures/sm_tna_groups.png" alt="TNA per group">
+          <div class="fig-cap"><span class="lbl">TNA &middot; per-group</span><span class="desc">Treatment vs Control side-by-side. Each panel uses the same node positions; visual differences reflect transition-probability differences.</span></div>
+        </div>
+
+        <div class="pitfall">
+          <div class="pl">Famous gotcha</div>
+          <p>TNA's default model is <strong>first-order Markov</strong>. Long-range dependencies and durations are invisible. If your data has clear "phases" (e.g. exploration &rarr; exploitation), consider FTNA, clustered TNA, or HMM instead.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. LSA -->
+    <section class="section" id="lsa">
+      <div class="section-label">Chapter 05 &middot; Method</div>
+      <h2 class="h2"><span class="teal">LSA</span> &mdash; Lag Sequential Analysis</h2>
+      <div class="body">
+        <p>LSA is the classic <strong>confirmatory test</strong>: given antecedent A, is consequent B significantly more likely at lag k than chance? It produces a z-score per (A, B, lag) cell. Popularised by Bakeman &amp; Gottman; Allison &amp; Liker (1982) corrected the variance for the dependence between row and column counts.</p>
+
+        <div class="card teal">
+          <div class="card-title">Use when</div>
+          <h4 class="h4">"I have a specific hypothesis about which transitions matter."</h4>
+          <p>And you want a defensible significance test rather than just a pretty graph.</p>
+        </div>
+
+        <h3 class="h3">Minimal code (no external package)</h3>
+<pre class="code"><span class="cm"># Build lag-1 transition counts</span>
+<span class="kw">for</span> (s <span class="kw">in</span> sessions) {
+  <span class="kw">for</span> (i <span class="kw">in</span> 1:(length(s) - 1))
+    trans[s[i], s[i+1]] <span class="kw">&lt;-</span> trans[s[i], s[i+1]] + 1
+}
+<span class="cm"># Allison-Liker z</span>
+N <span class="kw">&lt;-</span> sum(trans); rsum <span class="kw">&lt;-</span> rowSums(trans); csum <span class="kw">&lt;-</span> colSums(trans)
+pA <span class="kw">&lt;-</span> rsum / N; pB <span class="kw">&lt;-</span> csum / N
+expected <span class="kw">&lt;-</span> outer(rsum, pB)
+var_AL  <span class="kw">&lt;-</span> outer(rsum, pB * (1 - pB)) * outer(1 - pA, rep(1, length(pB)))
+z <span class="kw">&lt;-</span> (trans - expected) / sqrt(var_AL)</pre>
+
+        <div class="fig">
+          <img src="example_figures/sm_lsa_heatmap.png" alt="LSA heatmap">
+          <div class="fig-cap"><span class="lbl">LSA &middot; AL z-scores</span><span class="desc">Read row to column. The +20.6 cell (ASK&rarr;EXPLAIN) confirms the synthetic backbone. Negative z (teal) means the consequent occurs less than chance after that antecedent.</span></div>
+        </div>
+
+        <div class="pitfall">
+          <div class="pl">Famous gotcha</div>
+          <p>Raw z-scores are inflated when codes can repeat. <strong>Always use the Allison&ndash;Liker correction</strong> (or its equivalent) for sampling dependence; otherwise spurious "significance" is routine.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. SPM -->
+    <section class="section" id="spm">
+      <div class="section-label">Chapter 06 &middot; Method</div>
+      <h2 class="h2"><span class="teal">SPM</span> &mdash; Sequential Pattern Mining</h2>
+      <div class="body">
+        <p>SPM looks for <strong>variable-length sub-sequences</strong> that occur in at least <code>minSupport</code> fraction of your sessions &mdash; without imposing any Markov assumption. The cSPADE algorithm (Zaki 2001) implemented in <code>arulesSequences</code> is the standard R route; SPMF (Java) and PrefixSpan (Python) cover the rest.</p>
+
+        <div class="card teal">
+          <div class="card-title">Use when</div>
+          <h4 class="h4">"I want frequent ordered motifs across many sessions."</h4>
+          <p>Especially useful when motifs span more than two events &mdash; LSA only looks at lags one at a time, SPM finds sub-sequences of arbitrary length.</p>
+        </div>
+
+        <h3 class="h3">Minimal code</h3>
+<pre class="code"><span class="kw">library</span>(arulesSequences)
+<span class="cm"># Build a "basket" file: sequenceID eventID size item</span>
+trans <span class="kw">&lt;-</span> read_baskets(<span class="hl">"baskets.txt"</span>,
+                       info = <span class="kw">c</span>(<span class="st">"sequenceID"</span>,<span class="st">"eventID"</span>,<span class="st">"SIZE"</span>),
+                       sep = <span class="hl">" "</span>)
+patterns <span class="kw">&lt;-</span> cspade(trans,
+                   parameter = list(support = 0.3,
+                                    maxsize = 1, maxlen = 4))
+df <span class="kw">&lt;-</span> as(patterns, <span class="hl">"data.frame"</span>)
+df[order(-df$support), ]                 <span class="cm"># top patterns</span></pre>
+
+        <div class="fig">
+          <img src="example_figures/sm_spm_top.png" alt="Top SPM patterns">
+          <div class="fig-cap"><span class="lbl">SPM &middot; top patterns</span><span class="desc">Each bar is a sequence found in &ge; that fraction of sessions. Single items dominate the top because they're trivially supported; multi-item patterns are the interesting story.</span></div>
+        </div>
+
+        <div class="pitfall">
+          <div class="pl">Famous gotcha</div>
+          <p><strong>minSupport is a tuning knife.</strong> Too low &rarr; combinatorial explosion (millions of patterns, mostly noise). Too high &rarr; only trivial patterns survive. Always pair with closed/maximal pattern filtering.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. HMM -->
+    <section class="section" id="hmm">
+      <div class="section-label">Chapter 07 &middot; Method</div>
+      <h2 class="h2"><span class="teal">HMM</span> &mdash; Hidden Markov Models</h2>
+      <div class="body">
+        <p>HMM lets the <strong>state be latent</strong>. Observed codes are noisy emissions from a smaller set of unobserved cognitive/behavioural states. The model learns (1) emission probabilities P(code | state), (2) transition probabilities P(state<sub>t+1</sub> | state<sub>t</sub>), and (3) the most-likely state sequence per observation (Viterbi).</p>
+
+        <div class="card teal">
+          <div class="card-title">Use when</div>
+          <h4 class="h4">"My codes are measurements of a deeper construct, not the construct itself."</h4>
+          <p>e.g. you suspect "exploring", "consolidating", and "stuck" states drive the visible moves but you can't observe them directly.</p>
+        </div>
+
+        <h3 class="h3">Minimal code</h3>
+<pre class="code"><span class="kw">library</span>(seqHMM); <span class="kw">library</span>(TraMineR)
+seq_obj <span class="kw">&lt;-</span> seqdef(wide_matrix, alphabet = CODES)
+hmm0 <span class="kw">&lt;-</span> build_hmm(observations = seq_obj, n_states = 3)
+fit  <span class="kw">&lt;-</span> fit_model(hmm0,
+                  control_em = list(restart = list(times = 5)))
+fit$model$transition_probs        <span class="cm"># K x K state-transition matrix</span>
+fit$model$emission_probs          <span class="cm"># K x V code-emission matrix</span>
+plot(fit$model)                   <span class="cm"># observed + hidden state plot</span></pre>
+
+        <div class="fig">
+          <img src="example_figures/sm_hmm_states.png" alt="HMM states">
+          <div class="fig-cap"><span class="lbl">HMM &middot; K=3 hidden states</span><span class="desc">Top: observed code per turn per session. Bottom: most-likely hidden state assignment. Compact contiguous bands suggest the state model captures real structure rather than noise.</span></div>
+        </div>
+
+        <div class="pitfall">
+          <div class="pl">Famous gotcha</div>
+          <p>Choosing K (number of hidden states) is hard and consequential. EM is local-optimum prone &mdash; <strong>run many random initialisations and compare BIC / AIC / cross-validated log-likelihood</strong>. Picking K by eyeballing is the #1 reproducibility failure in applied HMM papers.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8. COMPARE -->
+    <section class="section" id="compare">
+      <div class="section-label">Chapter 08 &middot; Compare</div>
+      <h2 class="h2">Side-by-side: <span class="teal">same data</span>, four lenses</h2>
+      <div class="body">
+        <p>To make the family relationship vivid: all four figures above were fit on <em>exactly the same</em> 4,136-turn synthetic CSV. They each tell a different story.</p>
+
+        <table class="schema">
+          <thead><tr><th>Method</th><th>Headline number</th><th>What it answers</th></tr></thead>
+          <tbody>
+            <tr><td class="k">TNA</td><td>P(EXPLAIN | ASK) = 0.53</td><td>"Most likely follow-up to ASK is EXPLAIN."</td></tr>
+            <tr><td class="k">LSA</td><td>z(ASK&rarr;EXPLAIN) = +20.6</td><td>"That follow-up is far more frequent than chance."</td></tr>
+            <tr><td class="k">SPM</td><td>support(ASK,EXPLAIN,EXAMPLE) &approx; 0.95</td><td>"This three-step motif appears in nearly every session."</td></tr>
+            <tr><td class="k">HMM (K=3)</td><td>logLik = &minus;6271.79</td><td>"Three hidden states explain the sequence well; transition matrix recovered."</td></tr>
+          </tbody>
+        </table>
+
+        <h3 class="h3">When to chain them</h3>
+        <ul>
+          <li><strong>TNA &rarr; HMM:</strong> Use TNA to confirm the data has structure; use HMM to ask whether that structure is driven by latent states.</li>
+          <li><strong>SPM &rarr; LSA:</strong> Use SPM exploratorily to surface frequent motifs; use LSA to test whether the surfaced motifs are statistically meaningful.</li>
+          <li><strong>LSA &rarr; TNA:</strong> Use LSA to identify which transitions are above chance; visualise only those edges in TNA for a cleaner figure.</li>
+          <li><strong>HMM &rarr; TNA:</strong> Run TNA on the inferred hidden-state sequence to get a transition graph in latent space.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 9. TROUBLESHOOT -->
+    <section class="section" id="trouble">
+      <div class="section-label">Chapter 09 &middot; Troubleshoot</div>
+      <h2 class="h2"><span class="teal">Troubleshooting</span> matrix</h2>
+      <div class="body">
+        <table class="schema">
+          <thead><tr><th>Symptom</th><th>Likely cause</th><th>Fix</th></tr></thead>
+          <tbody>
+            <tr><td>TNA: <code>could not find function "build_tna"</code></td><td>Old API name</td><td>Use <code>build_model()</code> (tna 1.2.x).</td></tr>
+            <tr><td>seqdef: "found missing values ('NA')"</td><td>Sessions of unequal length</td><td>That's fine &mdash; <code>seqdef</code> codes voids; the message is informational.</td></tr>
+            <tr><td>LSA: NaN cells in z matrix</td><td>Row or column count is 0</td><td>Drop never-occurring codes or replace NaN with 0 after computing z.</td></tr>
+            <tr><td>cSPADE: 0 patterns returned</td><td>support too high</td><td>Lower <code>parameter = list(support = ...)</code> until you get patterns.</td></tr>
+            <tr><td>cSPADE: millions of patterns</td><td>support too low / no maxlen</td><td>Add <code>maxlen</code>, <code>maxsize</code> constraints; consider closed patterns.</td></tr>
+            <tr><td>HMM: degenerate states (all P&approx;0)</td><td>EM stuck in local optimum</td><td>Pass <code>control_em = list(restart = list(times = N))</code> with N &ge; 5.</td></tr>
+            <tr><td>HMM: K too high &rarr; overfit</td><td>BIC keeps rising with K</td><td>Use cross-validated log-likelihood; pick K where CV peaks, not BIC.</td></tr>
+            <tr><td>All methods: very few sessions per group</td><td>n &lt; 30 per group</td><td>Bootstrap heavily; report uncertainty; prefer descriptive over inferential framing.</td></tr>
+          </tbody>
+        </table>
+
+        <div class="pitfall">
+          <div class="pl">Universal caveat</div>
+          <p>None of these methods are causal. A heavy ASK&rarr;EXPLAIN edge tells you about the structure of the dialogue, not about what would happen if you intervened. Causal claims need a causal design.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 10. REFERENCES -->
+    <section class="section" id="references">
+      <div class="section-label">Chapter 10 &middot; Credits</div>
+      <h2 class="h2"><span class="teal">References</span> &mdash; cite the originals</h2>
+      <div class="body">
+        <h3 class="h3">TNA</h3>
+        <ul>
+          <li>Tikka, S., L&oacute;pez-Pernas, S., &amp; Saqr, M. (2025). <em>tna: An R Package for Transition Network Analysis.</em> <strong>Applied Psychological Measurement</strong>. <a class="inline" href="https://doi.org/10.1177/01466216251348840">doi:10.1177/01466216251348840</a></li>
+          <li>Saqr, M., L&oacute;pez-Pernas, S., T&ouml;rm&auml;nen, T., Kaliisa, R., Misiejuk, K., &amp; Tikka, S. (2025). Transition Network Analysis: A Novel Framework. <strong>LAK '25 Proceedings</strong>. <a class="inline" href="https://doi.org/10.1145/3706468.3706513">doi:10.1145/3706468.3706513</a></li>
+          <li>Package site: <a class="inline" href="https://sonsoles.me/tna/">sonsoles.me/tna/</a> &middot; tutorials at <a class="inline" href="https://lamethods.org/book2/">lamethods.org/book2/</a> (chapters 15&ndash;17 cover TNA / FTNA / TNA-clusters).</li>
+        </ul>
+
+        <h3 class="h3">Lag Sequential Analysis</h3>
+        <ul>
+          <li>Bakeman, R., &amp; Gottman, J. M. (1997). <em>Observing interaction: An introduction to sequential analysis</em> (2nd ed.). Cambridge University Press.</li>
+          <li>Allison, P. D., &amp; Liker, J. K. (1982). Analyzing sequential categorical data on dyadic interaction. <em>Psychological Bulletin, 91</em>(2), 393&ndash;403. (The variance correction we use.)</li>
+          <li>O'Connor, B. P. (2019). <em>LagSequential</em> [R package]. <a class="inline" href="https://cran.r-project.org/package=LagSequential">CRAN</a>.</li>
+        </ul>
+
+        <h3 class="h3">Sequential Pattern Mining</h3>
+        <ul>
+          <li>Zaki, M. J. (2001). SPADE: An efficient algorithm for mining frequent sequences. <em>Machine Learning, 42</em>, 31&ndash;60. (cSPADE adds constraints.)</li>
+          <li>Buchta, C., &amp; Hahsler, M. <em>arulesSequences</em> [R package]. <a class="inline" href="https://cran.r-project.org/package=arulesSequences">CRAN</a>.</li>
+          <li>Fournier-Viger, P. et al. <strong>SPMF</strong> &mdash; Java reference library with 55+ algorithms. <a class="inline" href="https://www.philippe-fournier-viger.com/spmf/">philippe-fournier-viger.com/spmf/</a></li>
+          <li>Python: <a class="inline" href="https://github.com/chuanconggao/PrefixSpan-py">PrefixSpan-py</a>.</li>
+        </ul>
+
+        <h3 class="h3">HMM</h3>
+        <ul>
+          <li>Helske, S., &amp; Helske, J. (2019). Mixture Hidden Markov Models for Sequence Data: The seqHMM Package in R. <em>Journal of Statistical Software, 88</em>(3). <a class="inline" href="https://doi.org/10.18637/jss.v088.i03">doi:10.18637/jss.v088.i03</a></li>
+          <li>Visser, I., &amp; Speekenbrink, M. (2010). depmixS4: An R Package for Hidden Markov Models. <em>Journal of Statistical Software, 36</em>(7).</li>
+          <li>Aarts, E. et al. (2023). Bayesian multilevel HMM with categorical data. <em>Multivariate Behavioral Research</em>.</li>
+          <li>Python: <a class="inline" href="https://github.com/hmmlearn/hmmlearn">hmmlearn</a>.</li>
+        </ul>
+
+        <div class="card teal">
+          <div class="card-title">Important</div>
+          <h4 class="h4">This is a community on-ramp, not the canonical source.</h4>
+          <p>Numbers in this guide come from a synthetic dataset bundled here for demonstration. Wording is summarised in our own words to be beginner-accessible. For methodological depth, defer to the publications above.</p>
+        </div>
+      </div>
+    </section>
+
+    <footer class="foot">
+      <span>Sequence Mining &middot; Beginner Blueprint v1</span>
+      <span class="teal">Four lenses, one stream of events.</span>
+    </footer>
+
+  </main>
+</div>
+
+</body>
+</html>
