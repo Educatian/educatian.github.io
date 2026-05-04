@@ -1,0 +1,1362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agentic XR Development — Workflow Guide</title>
+<meta name="description" content="A practical pattern catalog for building VR/MR with humans-in-the-loop and large language models. Eleven patterns, agentic failure modes, researcher-specific concerns, IWSDK + Unity case studies, glossary, and starter templates.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Agentic XR Development — Workflow Guide">
+<meta property="og:description" content="Eleven patterns for building VR/MR with LLM agents — plan files, custom tools, domain MCPs, screenshot loops, ECS-aware debugging, agent-reviewing-agent — with Unity and IWSDK case studies, failure-mode catalogue, and researcher-specific concerns.">
+<meta property="og:image" content="https://educatian.github.io/agentic-xr-workflow/thumbnails/hero_og_1200x630.png">
+<meta name="twitter:card" content="summary_large_image">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,800;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+:root{
+  --bg:#F0EAE0;
+  --ink:#1a1a1a;
+  --rust:#B5392A;
+  --rust-soft:#d76d5b;
+  --line:#cec8be;
+  --paper:#fffdf8;
+  --muted:#666;
+  --accent-blue:#2e5a87;
+  --accent-green:#3a7a4a;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);
+  font-family:'Inter',sans-serif;line-height:1.62;font-size:16px;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+a{color:var(--rust)}
+a:hover{color:var(--ink)}
+
+.grid-bg{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.30;
+  background-image:linear-gradient(rgba(26,26,26,.06) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(26,26,26,.06) 1px,transparent 1px);
+  background-size:48px 48px;
+  mask-image:radial-gradient(ellipse at 30% 20%,black 30%,transparent 80%)}
+
+/* ==================== layout ==================== */
+.layout{position:relative;z-index:1;display:grid;
+  grid-template-columns:280px minmax(0,840px);gap:48px;
+  max-width:1240px;margin:0 auto;padding:24px 32px 96px}
+nav.toc{position:sticky;top:24px;align-self:start;max-height:calc(100vh - 48px);
+  overflow-y:auto;padding-right:8px}
+nav.toc .toc-title{font-family:'JetBrains Mono',monospace;font-size:11px;
+  font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#888;
+  margin:0 0 14px}
+nav.toc ul{list-style:none;margin:0;padding:0;font-size:13.5px}
+nav.toc ul ul{margin:4px 0 8px 14px;font-size:12.5px}
+nav.toc li{margin:6px 0}
+nav.toc a{color:#555;text-decoration:none;display:block;padding:3px 8px;
+  border-left:2px solid transparent;border-radius:0 4px 4px 0;
+  transition:color .12s,border-color .12s,background .12s}
+nav.toc a:hover{color:var(--ink);border-left-color:var(--line)}
+nav.toc a.active{color:var(--rust);border-left-color:var(--rust);
+  background:rgba(181,57,42,.06);font-weight:600}
+nav.toc ul ul a{color:#888}
+nav.toc ul ul a.active{color:var(--rust);font-weight:500}
+
+main{min-width:0}
+
+/* ==================== hero ==================== */
+.hero{padding:48px 0 24px}
+.kicker{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;
+  letter-spacing:3px;text-transform:uppercase;color:var(--rust);margin-bottom:18px}
+.h1{font-size:56px;font-weight:900;line-height:1.04;letter-spacing:-.025em;
+  margin:0 0 22px;max-width:14ch}
+.h1 .serif{font-family:'Playfair Display',Georgia,serif;font-style:italic;font-weight:400}
+.lede{font-size:20px;line-height:1.55;color:#333;font-weight:300;
+  max-width:60ch;margin:0 0 20px}
+.lede strong{font-weight:600;color:var(--ink)}
+.byline{font-family:'JetBrains Mono',monospace;font-size:11px;color:#888;
+  letter-spacing:1.5px;text-transform:uppercase;margin-top:36px;
+  padding-top:18px;border-top:1px solid var(--line)}
+.byline a{color:var(--rust);text-decoration:none;font-weight:700}
+
+/* ==================== sections ==================== */
+section{margin:64px 0;scroll-margin-top:24px}
+section h2{font-size:36px;font-weight:900;letter-spacing:-.018em;line-height:1.15;
+  margin:0 0 14px;scroll-margin-top:24px}
+section h2 .num{font-family:'JetBrains Mono',monospace;font-size:14px;
+  font-weight:700;color:var(--rust);letter-spacing:2px;display:block;
+  margin-bottom:6px}
+section h3{font-size:22px;font-weight:800;margin:36px 0 10px;line-height:1.25;
+  letter-spacing:-.01em;scroll-margin-top:24px}
+section h4{font-size:16px;font-weight:700;margin:18px 0 8px;letter-spacing:-.005em}
+section p{font-size:16px;line-height:1.65;color:#333;margin:0 0 14px}
+section ul,section ol{font-size:16px;line-height:1.65;color:#333;
+  padding-left:24px;margin:0 0 14px}
+section li{margin:6px 0}
+section li::marker{color:var(--rust)}
+strong{font-weight:600;color:var(--ink)}
+em{font-style:italic;color:#444}
+
+/* ==================== code ==================== */
+code{font-family:'JetBrains Mono',monospace;font-size:14px;
+  background:#fff7ec;padding:1px 6px;border-radius:4px;color:#7a1a0e;
+  border:1px solid #e8dcc4}
+pre{font-family:'JetBrains Mono',monospace;font-size:13.5px;line-height:1.55;
+  background:#1a1a1a;color:#e8dccb;padding:18px 22px;border-radius:10px;
+  overflow-x:auto;margin:12px 0 18px;border:1px solid #2a2a2a}
+pre code{background:transparent;padding:0;border:0;color:inherit}
+.code-block{margin:12px 0 22px}
+.code-block-header{font-family:'JetBrains Mono',monospace;font-size:11px;
+  font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#888;
+  margin-bottom:6px;display:flex;justify-content:space-between;align-items:center}
+.code-block-header .lang{color:var(--rust)}
+.code-block pre{margin:0}
+
+/* ==================== callouts ==================== */
+.callout{background:var(--paper);border:1.5px solid var(--ink);border-radius:10px;
+  padding:18px 22px;margin:18px 0;position:relative}
+.callout::before{content:'';position:absolute;left:-1.5px;top:-1.5px;bottom:-1.5px;
+  width:5px;background:var(--rust);border-radius:10px 0 0 10px}
+.callout.pitfall::before{background:var(--rust)}
+.callout.tip::before{background:var(--accent-green)}
+.callout.note::before{background:var(--accent-blue)}
+.callout-label{font-family:'JetBrains Mono',monospace;font-size:11px;
+  font-weight:700;letter-spacing:2px;text-transform:uppercase;
+  color:var(--rust);margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.callout.tip .callout-label{color:var(--accent-green)}
+.callout.note .callout-label{color:var(--accent-blue)}
+.callout p:last-child{margin-bottom:0}
+.callout code{background:#fff;border-color:var(--line)}
+
+/* ==================== pattern cards ==================== */
+.pattern{background:var(--paper);border:2px solid var(--ink);border-radius:14px;
+  padding:28px 32px;margin:22px 0}
+.pattern-num{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;
+  letter-spacing:2px;text-transform:uppercase;color:var(--rust);margin-bottom:8px}
+.pattern h3{margin-top:0;margin-bottom:8px;font-size:24px;letter-spacing:-.012em}
+.pattern .rule{font-size:17px;line-height:1.5;color:var(--ink);font-weight:500;
+  font-style:italic;margin:0 0 18px;padding-left:14px;border-left:3px solid var(--rust)}
+.pattern .pattern-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:18px}
+.pattern .pattern-grid > div{background:#fff;border:1px solid var(--line);
+  border-radius:8px;padding:14px 18px}
+.pattern .pattern-grid h4{margin-top:0;font-size:13px;font-weight:700;
+  letter-spacing:1.5px;text-transform:uppercase;color:#666;margin-bottom:8px;
+  display:flex;align-items:center;gap:8px}
+.pattern .pattern-grid h4 .stack-tag{font-family:'JetBrains Mono',monospace;
+  font-size:10px;background:var(--ink);color:var(--bg);padding:2px 7px;
+  border-radius:3px;letter-spacing:1px}
+.pattern .pattern-grid p{font-size:14.5px;line-height:1.55;margin:0;color:#333}
+.pattern .pattern-grid ul{font-size:14.5px;line-height:1.55;margin:6px 0 0;padding-left:18px}
+.pattern .pattern-grid ul li{margin:3px 0}
+.pattern .when-not{font-size:13.5px;color:#666;margin-top:14px;padding-top:12px;
+  border-top:1px dashed var(--line);font-style:italic}
+.pattern .when-not strong{color:var(--ink);font-style:normal}
+
+/* ==================== stack cards ==================== */
+.stacks{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:24px 0}
+.stack{background:var(--paper);border:2px solid var(--ink);border-radius:12px;
+  padding:22px 24px}
+.stack-head{display:flex;justify-content:space-between;align-items:baseline;
+  margin-bottom:12px;gap:12px;flex-wrap:wrap}
+.stack-head h3{margin:0;font-size:18px}
+.stack-head .badge{font-family:'JetBrains Mono',monospace;font-size:10px;
+  font-weight:700;letter-spacing:1.5px;text-transform:uppercase;
+  background:var(--ink);color:var(--bg);padding:3px 8px;border-radius:4px}
+.stack-head .badge.web{background:var(--accent-blue)}
+.stack-head .badge.lean{background:#666}
+.stack p{font-size:14.5px;line-height:1.55;margin:0 0 10px;color:#333}
+.stack .stack-tools{font-family:'JetBrains Mono',monospace;font-size:12px;
+  background:#fff;padding:10px 12px;border-radius:6px;border:1px solid var(--line);
+  line-height:1.7;color:#444}
+.stack .stack-tools strong{color:var(--rust)}
+
+/* ==================== case study ==================== */
+.case{background:linear-gradient(180deg,var(--paper) 0%,#fff 100%);
+  border:2px solid var(--ink);border-radius:14px;padding:28px 32px;margin:22px 0}
+.case-head{display:flex;justify-content:space-between;align-items:baseline;
+  flex-wrap:wrap;gap:12px;margin-bottom:14px;border-bottom:1px solid var(--line);
+  padding-bottom:14px}
+.case-head h3{margin:0;font-size:22px}
+.case-head .meta{font-family:'JetBrains Mono',monospace;font-size:11px;
+  letter-spacing:1.5px;text-transform:uppercase;color:#888}
+.case .takeaway{margin-top:14px;padding:14px 18px;background:#fff7ec;
+  border:1px solid #e8dcc4;border-radius:8px;font-size:14.5px;line-height:1.55}
+.case .takeaway strong{color:var(--rust)}
+
+/* ==================== faq ==================== */
+.faq details{background:var(--paper);border:1.5px solid var(--ink);border-radius:10px;
+  padding:0;margin:10px 0;overflow:hidden;transition:border-color .15s}
+.faq details[open]{border-color:var(--rust)}
+.faq summary{padding:16px 22px;cursor:pointer;font-weight:700;font-size:15.5px;
+  list-style:none;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:'+';font-family:'JetBrains Mono',monospace;font-weight:400;
+  font-size:24px;color:var(--rust);transition:transform .15s;line-height:1}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq summary:hover{color:var(--rust)}
+.faq .faq-body{padding:0 22px 18px;font-size:15px;line-height:1.6;color:#333}
+.faq .faq-body p{margin:6px 0 8px}
+.faq .faq-body code{font-size:13px}
+
+/* ==================== tables ==================== */
+table{width:100%;border-collapse:collapse;margin:16px 0;font-size:14.5px}
+th,td{padding:10px 14px;text-align:left;border-bottom:1px solid var(--line);
+  vertical-align:top}
+th{font-weight:700;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;
+  color:#666;background:var(--paper)}
+tr:hover td{background:rgba(255,255,255,.4)}
+td code{font-size:12.5px;padding:1px 5px}
+
+/* ==================== downloads ==================== */
+.downloads{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;margin-top:18px}
+.dl{display:block;background:var(--paper);border:1.5px solid var(--ink);
+  border-radius:8px;padding:14px 18px;text-decoration:none;color:var(--ink);
+  transition:transform .12s,border-color .12s}
+.dl:hover{transform:translateY(-2px);border-color:var(--rust)}
+.dl .dl-name{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;
+  color:var(--rust);margin:0 0 4px}
+.dl .dl-desc{font-size:13px;color:#555;margin:0;line-height:1.45}
+
+/* ==================== diagrams + screenshots ==================== */
+figure.diagram{margin:18px 0 24px;text-align:center}
+figure.diagram svg{max-width:100%;height:auto}
+figcaption{font-size:13px;color:#666;margin-top:8px;font-style:italic;
+  line-height:1.45}
+
+figure.shot{margin:22px 0 28px;text-align:center}
+figure.shot img{max-width:100%;height:auto;display:block;margin:0 auto;
+  border:1.5px solid var(--ink);border-radius:10px;
+  box-shadow:0 12px 28px rgba(26,26,26,.10)}
+figure.shot.web img{border-color:#444}
+figure.shot.tight img{border-radius:6px}
+figure.shot figcaption{max-width:64ch;margin-left:auto;margin-right:auto}
+
+figure.shot-grid{margin:18px 0 24px}
+figure.shot-grid .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+figure.shot-grid .grid img{width:100%;height:auto;display:block;
+  border:1.5px solid var(--ink);border-radius:8px;
+  box-shadow:0 8px 20px rgba(26,26,26,.10)}
+figure.shot-grid .sub{font-size:12.5px;color:#666;margin-top:6px;
+  font-family:'JetBrains Mono',monospace;letter-spacing:.5px}
+@media (max-width:560px){
+  figure.shot-grid .grid{grid-template-columns:1fr}
+}
+
+/* ==================== footer ==================== */
+.foot{margin-top:80px;padding-top:32px;border-top:1px solid var(--line);
+  font-family:'JetBrains Mono',monospace;font-size:11px;color:#888;
+  letter-spacing:1.5px;text-transform:uppercase;
+  display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px}
+.foot a{color:var(--rust);text-decoration:none;font-weight:700}
+
+/* ==================== responsive ==================== */
+@media (max-width:980px){
+  .layout{grid-template-columns:1fr;gap:0;padding:24px 24px 96px}
+  nav.toc{position:relative;top:0;max-height:none;overflow-y:visible;
+    padding:14px 16px;background:var(--paper);border:1px solid var(--line);
+    border-radius:8px;margin-bottom:32px}
+  nav.toc ul ul{display:none}
+  .h1{font-size:42px}
+  section h2{font-size:30px}
+  .pattern .pattern-grid,.stacks{grid-template-columns:1fr}
+  .pattern{padding:22px 22px}
+  .case{padding:22px 22px}
+}
+@media (max-width:560px){
+  .h1{font-size:34px}
+  .lede{font-size:17px}
+  section h2{font-size:26px}
+  section h3{font-size:19px}
+  pre{font-size:12px;padding:14px 16px}
+}
+
+/* ==================== print ==================== */
+@media print{
+  .grid-bg,nav.toc{display:none}
+  .layout{grid-template-columns:1fr;padding:0;max-width:none}
+  body{background:#fff;font-size:11pt}
+  .hero{padding:0 0 16pt}
+  .h1{font-size:28pt}
+  section{margin:24pt 0;page-break-inside:avoid}
+  .pattern,.stack,.case,.callout{page-break-inside:avoid;break-inside:avoid}
+  pre{page-break-inside:avoid;break-inside:avoid;background:#f5f5f5;color:#111;
+    border:1px solid #ddd}
+  pre code{color:#111}
+  a{color:var(--ink);text-decoration:none}
+  a[href^="http"]::after{content:" (" attr(href) ")";font-size:9pt;color:#888}
+}
+</style>
+</head>
+<body>
+<div class="grid-bg"></div>
+
+<div class="layout">
+
+<nav class="toc" aria-label="Contents">
+  <p class="toc-title">On this page</p>
+  <ul>
+    <li><a href="#why">Why this guide</a></li>
+    <li><a href="#how-to-read">How to read it</a></li>
+    <li><a href="#quickstart">Quick start (20 min)</a></li>
+    <li><a href="#patterns">Pattern catalog</a>
+      <ul>
+        <li><a href="#p-plan-file">1 · Plan file as context</a></li>
+        <li><a href="#p-tool-check">2 · First-prompt tool check</a></li>
+        <li><a href="#p-domain-mcp">3 · Domain knowledge in an MCP</a></li>
+        <li><a href="#p-plan-mode">4 · Plan mode vs agent mode</a></li>
+        <li><a href="#p-screenshot-loop">5 · Screenshot validation loop</a></li>
+        <li><a href="#p-prefab">6 · Force prefab / entity spawns</a></li>
+        <li><a href="#p-ecs-mcp">7 · ECS-aware debugging MCP</a></li>
+        <li><a href="#p-telemetry">8 · Telemetry-first design</a></li>
+        <li><a href="#p-subskills">9 · Sub-skills for verbs</a></li>
+        <li><a href="#p-device-loop">10 · On-device verification</a></li>
+        <li><a href="#p-agent-review">11 · Agent reviewing agent</a></li>
+      </ul>
+    </li>
+    <li><a href="#stacks">Tooling spectrum</a></li>
+    <li><a href="#cases">Case studies</a>
+      <ul>
+        <li><a href="#case-dilmer">Unity · Basketball MR</a></li>
+        <li><a href="#case-vm">IWSDK · Virtual Makerspace</a></li>
+        <li><a href="#case-cp">IWSDK · Circuit Playground</a></li>
+      </ul>
+    </li>
+    <li><a href="#pitfalls">Common pitfalls</a></li>
+    <li><a href="#failure-modes">Agentic failure modes</a></li>
+    <li><a href="#researcher">Researcher-specific concerns</a></li>
+    <li><a href="#faq">FAQ</a></li>
+    <li><a href="#downloads">Downloads</a></li>
+    <li><a href="#refs">References</a></li>
+    <li><a href="#glossary">Glossary</a></li>
+  </ul>
+</nav>
+
+<main>
+
+<header class="hero">
+  <div class="kicker">Workflow guide · v1 · 2026-05-04</div>
+  <h1 class="h1">Agentic XR <span class="serif">development</span></h1>
+  <p class="lede">A practical pattern catalog for building VR/MR experiences with humans-in-the-loop and large language models — drawn from public Unity demos and the author&rsquo;s own IWSDK research projects. <strong>Pick the patterns that fit your stack; combine them.</strong></p>
+  <p class="byline">By Jewoong Moon · jmoon23@ua.edu · College of Education, The University of Alabama · Living document — <a href="https://github.com/Educatian/educatian.github.io">PRs welcome</a></p>
+
+  <figure class="shot">
+    <img src="images/vm/hero.png" alt="Virtual Makerspace running in WebXR — breadboard with grabbable circuit components, idle robot character, instruction HUD">
+    <figcaption>What an agentic-built WebXR research apparatus actually looks like — Virtual Makerspace running in IWSDK. The breadboard, the eight grabbable parts, the step HUD, and the idle robot were all assembled and tuned through the patterns in this guide.</figcaption>
+  </figure>
+</header>
+
+<!-- ============================================================ -->
+<section id="why">
+  <h2><span class="num">§ 1</span>Why this guide</h2>
+  <p>The agentic XR conversation has moved fast in 2026. Meta&rsquo;s DevRel ships full VR/MR games end-to-end with Claude Code + Unity AI Assistant. WebXR developers wire IWSDK&rsquo;s ECS into emulator MCPs and step through frames from the chat window. None of this is a single tool decision — it is a small set of <em>patterns</em> that show up in every successful workflow, regardless of engine.</p>
+  <p>This guide extracts those patterns. It is not a comparison between Unity and the web; it is a catalog of techniques you can mix and match. Every pattern is shown twice: once as it appears in a Unity-side demo (Dilmer Valecillos&rsquo; GDC 2026 basketball build) and once as it appears in the author&rsquo;s own IWSDK projects (Virtual Makerspace, Circuit Playground). The point is the underlying move, not the brand of the tool.</p>
+  <div class="callout note">
+    <div class="callout-label">scope</div>
+    <p>Practical onboarding for researchers and small-team developers who already know basic VR concepts and want to ship faster with LLMs in the loop. Not a substitute for Meta&rsquo;s official docs, IWSDK&rsquo;s reference, or Unity&rsquo;s manuals — those remain the source of truth for the APIs themselves.</p>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<section id="how-to-read">
+  <h2><span class="num">§ 2</span>How to read it</h2>
+  <p>Three reading paths depending on where you are starting from:</p>
+  <table>
+    <thead><tr><th>If you are…</th><th>Start at</th><th>Why</th></tr></thead>
+    <tbody>
+      <tr><td>New to agentic dev, picking a stack</td><td><a href="#stacks">§ 4 — Tooling spectrum</a></td><td>Decide which stack matches your deployment first; pattern details follow</td></tr>
+      <tr><td>Already on Unity, want to add LLM agents</td><td><a href="#case-dilmer">§ 5a — Basketball MR case</a></td><td>Ground patterns in a complete Unity workflow before generalizing</td></tr>
+      <tr><td>Already on WebXR / IWSDK</td><td><a href="#case-vm">§ 5b — Virtual Makerspace case</a></td><td>See the full IWSDK research-grade workflow before extracting patterns</td></tr>
+      <tr><td>Auditing your own workflow</td><td><a href="#patterns">§ 3 — Pattern catalog</a></td><td>Tick patterns you already use; flag ones you don&rsquo;t</td></tr>
+    </tbody>
+  </table>
+  <p>Each pattern card shows the <strong>rule</strong>, why it matters, and how it shows up in two stacks (Unity-side and IWSDK-side) — plus a &ldquo;when not to apply&rdquo; line so you don&rsquo;t over-engineer.</p>
+</section>
+
+<!-- ============================================================ -->
+<section id="quickstart">
+  <h2><span class="num">§ 3</span>Quick start &mdash; your first agentic XR session</h2>
+  <p>If you have already cloned an IWSDK project (e.g. the official scaffold or <a href="https://github.com/Educatian/virtual-makerspace">Virtual Makerspace</a>) and have Claude Code installed, the following 20-minute walkthrough exercises five of the patterns at once. Skip ahead to the catalog if you prefer to read first.</p>
+  <ol>
+    <li><strong>Open the project in Claude Code.</strong> Read <code>CLAUDE.md</code> if present &mdash; it encodes pitfalls and conventions for the project (<a href="#p-plan-file">pattern 01</a>).</li>
+    <li><strong>Run the tool check</strong> (<a href="#p-tool-check">pattern 02</a>) as your literal first message:
+      <div class="code-block"><pre><code>What custom tools do you have available?
+Group by MCP server. If any are missing,
+stop and tell me which.</code></pre></div>
+    </li>
+    <li><strong>Confirm the dev server.</strong> If the agent reports the IWER MCP is connected, the session is already running &mdash; do not start another. Otherwise <code>npm run dev</code> in a separate terminal and re-check.</li>
+    <li><strong>Smoke-test one MCP call</strong> (<a href="#p-tool-check">pattern 02</a> deepening): ask the agent to take a screenshot, then describe what it sees:
+      <div class="code-block"><pre><code>Call browser_screenshot. In one paragraph,
+describe what you see in the image and
+which entity is in the foreground.</code></pre></div>
+      Anything wrong here (missing tool, blank image, wrong scene) blocks every other pattern &mdash; fix it before continuing.
+    </li>
+    <li><strong>Attach a plan file.</strong> Pick a small task (&ldquo;add a new colour to the LED palette&rdquo;) and write a 5-line plan in <code>docs/plans/led-palette.md</code> with goal, components touched, telemetry events emitted. In chat: <em>&ldquo;Read docs/plans/led-palette.md and implement it; ask before editing the telemetry schema.&rdquo;</em></li>
+    <li><strong>Verify with a screenshot loop</strong> (<a href="#p-screenshot-loop">pattern 05</a>). After the agent reports done, ask for a fresh <code>browser_screenshot</code> and a one-sentence visual diff vs. the previous one.</li>
+    <li><strong>Stop and human-check.</strong> Read the diff yourself. If the change touched a system you weren&rsquo;t expecting (e.g. <code>scene.add</code> snuck in despite <code>CLAUDE.md</code>) revert and re-prompt with the rule made explicit.</li>
+  </ol>
+  <div class="callout tip">
+    <div class="callout-label">first-session goal</div>
+    <p>The point isn&rsquo;t to ship a feature. It&rsquo;s to confirm the loop runs end-to-end: project context loaded &rarr; tools available &rarr; small plan executed &rarr; visual verified &rarr; you reviewed the diff. Once that loop is reliable in 20 minutes, you can scale up to 2-hour features.</p>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<section id="patterns">
+  <h2><span class="num">§ 4</span>Pattern catalog</h2>
+  <p>Eleven patterns organized roughly from the start of a session to the end, with the meta-pattern (agent reviewing agent) closing the catalog. None is mandatory; each is independently useful. The first three are the highest-leverage if you are picking only a few; pattern 11 unlocks the next scale of work.</p>
+
+  <!-- ============== pattern 1 ============== -->
+  <article class="pattern" id="p-plan-file">
+    <div class="pattern-num">Pattern 01</div>
+    <h3>Plan file as context</h3>
+    <p class="rule">Iterate a markdown plan with the LLM first; pass it as a reference in the build prompt instead of describing the plan inline.</p>
+    <p>Complex structures — a basketball hoop with backboard, bracket, rim, and net, or a breadboard with 192 sockets and snap rules — produce inconsistent output when described in chat. Build the plan as a separate markdown file with the LLM in a quick session, save it, then in the build prompt say <em>&ldquo;implement this from the file.&rdquo;</em> The agent reads it as authoritative spec and builds the whole structure with internal consistency.</p>
+    <div class="pattern-grid">
+      <div>
+        <h4>Unity stack <span class="stack-tag">Dilmer demo</span></h4>
+        <p>Author iterated <code>basketball-hoop.md</code> with Claude in advance. Build prompt:</p>
+        <pre><code>Can you implement a basketball
+hoop using the details from
+this file?</code></pre>
+        <p>One pass — backboard, bracket, rim, and net all produced with consistent material style.</p>
+      </div>
+      <div>
+        <h4>IWSDK stack <span class="stack-tag">VM</span></h4>
+        <p>Plan files for <code>docs/mvp-scope.md</code> (telemetry schema, scene entities, interaction verbs) and <code>docs/pedagogy-charter.md</code> (theoretical commitments) are passed as context for new ECS components and systems. The pedagogy charter especially prevents agent-suggested gamification creep.</p>
+      </div>
+    </div>
+    <p class="when-not"><strong>When not to apply:</strong> trivial single-file changes; one-off bug fixes; UI tweaks where the plan would be longer than the change.</p>
+  </article>
+
+  <!-- ============== pattern 2 ============== -->
+  <article class="pattern" id="p-tool-check">
+    <div class="pattern-num">Pattern 02</div>
+    <h3>First-prompt tool check</h3>
+    <p class="rule">Open every working session by asking the agent which custom tools it can see. MCP registration silently fails more than you think.</p>
+    <p>MCP servers can register and yet their tools fail to appear in the agent&rsquo;s tool list — config drift, version mismatch, or server crash. The cheapest way to catch this is to make the first message of every session a tool inventory. If Meta&rsquo;s VR custom tools are missing on the Unity side, or IWER on the IWSDK side, fix it before writing one line of code.</p>
+    <div class="pattern-grid">
+      <div>
+        <h4>Unity stack <span class="stack-tag">Meta MCP</span></h4>
+        <p>First prompt of every session:</p>
+        <pre><code>What custom tools do you have
+available?</code></pre>
+        <p>Looking for: <code>create_camera_rig</code>, <code>open_xr_simulator</code>, <code>create_interaction_rig</code>, <code>add_grabbable</code>, <code>meta_assets_search</code>.</p>
+      </div>
+      <div>
+        <h4>IWSDK stack <span class="stack-tag">IWER</span></h4>
+        <p>Equivalent connectivity check before doing anything:</p>
+        <pre><code>mcp__iwsdk-dev-mcp__
+xr_get_session_status</code></pre>
+        <p>If this returns a successful connection, the dev server is already running — do not start another. If it errors, restart <code>npm run dev</code> and retry before any other action.</p>
+      </div>
+    </div>
+    <p class="when-not"><strong>When not to apply:</strong> read-only sessions where you only browse code or docs without invoking custom tools.</p>
+    <h4 style="margin-top:24px">Five-minute MCP smoke test</h4>
+    <p>Tools showing up in the inventory does not mean they work. Run a tiny end-to-end probe before trusting them on real work:</p>
+    <ol>
+      <li><strong>Connectivity</strong> — <code>xr_get_session_status</code> (or the equivalent on your stack). Should return a session object, not error.</li>
+      <li><strong>Read</strong> — <code>scene_get_hierarchy</code> or <code>browser_screenshot</code>. Should return a non-empty payload.</li>
+      <li><strong>Write</strong> — <code>xr_set_transform</code> moving the headset 0.1&nbsp;m, then <code>scene_get_hierarchy</code> to verify the scene didn&rsquo;t crash.</li>
+      <li><strong>Round-trip</strong> — set a known transform, read it back. Values should match within a tolerance.</li>
+      <li><strong>Cleanup</strong> — restore default state. Some MCPs leave the world in an experiment-specific pose otherwise.</li>
+    </ol>
+    <p>If any step fails, treat the MCP as unavailable for this session and log the failure for later. Continuing past a half-broken MCP gives you confident-looking results that don&rsquo;t reflect reality.</p>
+  </article>
+
+  <!-- ============== pattern 3 ============== -->
+  <article class="pattern" id="p-domain-mcp">
+    <div class="pattern-num">Pattern 03</div>
+    <h3>Domain knowledge in an MCP</h3>
+    <p class="rule">Don&rsquo;t spend context tokens making the LLM recall what your platform&rsquo;s docs already know — front it with an MCP that searches authoritative sources.</p>
+    <p>The model can guess how Quest passthrough works, but it will be wrong half the time and slow always. An MCP that semantically searches your platform docs gives the agent a primary source instead of a hallucinated one — better answers, faster session, fewer confidently-wrong rabbit holes. The same logic applies to your <em>own</em> domain knowledge (curriculum, experiment design, code conventions): expose it through an MCP rather than hoping context survives compaction.</p>
+    <div class="pattern-grid">
+      <div>
+        <h4>Unity stack <span class="stack-tag">HZDB</span></h4>
+        <p>Meta Horizon Developer Hub MCP exposes the entire Meta Quest documentation set plus connected-device inspection. Sample queries:</p>
+        <ul>
+          <li>&ldquo;How do I implement passthrough in Unity?&rdquo;</li>
+          <li>&ldquo;What is the Quest 3 battery level?&rdquo;</li>
+          <li>&ldquo;Search Meta&rsquo;s 3D model library for &lsquo;office chair&rsquo;&rdquo;</li>
+        </ul>
+      </div>
+      <div>
+        <h4>IWSDK stack <span class="stack-tag">IWSDK-RAG</span></h4>
+        <p>Semantic code search across <code>@iwsdk/core</code>, <code>elics</code>, and <code>super-three</code>. Returns actual source — not summaries — so the answer is verifiable.</p>
+        <pre><code>mcp__iwsdk-rag-local__
+search_code: "how to subscribe
+to query qualify events"</code></pre>
+        <p>For your own project: compile your codebook / R-script library / pedagogy charter into a small RAG MCP and expose it the same way.</p>
+      </div>
+    </div>
+    <p class="when-not"><strong>When not to apply:</strong> exploratory sessions where you want the model&rsquo;s best guess to challenge your assumptions; brainstorming.</p>
+    <figure class="shot web">
+      <img src="images/web/iwsdk-dev.png" alt="iwsdk.dev landing page showing the IWSDK headline, Get Started button, and three feature cards (Modern ECS Architecture, First-Class Spatial UI, Production-Ready XR Systems)">
+      <figcaption>The kind of source the agent should be reading from: <a href="https://iwsdk.dev">iwsdk.dev</a> with version, navigation, and feature cards. An MCP that semantically searches a site like this beats letting the model paraphrase from training data &mdash; especially because the SDK explicitly positions itself as <em>&ldquo;AI-native WebXR development.&rdquo;</em></figcaption>
+    </figure>
+    <h4 style="margin-top:24px">Building your own domain MCP</h4>
+    <p>Most readers want to expose <em>their own</em> domain knowledge &mdash; a curriculum, a codebook, a pedagogy charter, a research-protocol manual. The cheapest path:</p>
+    <ol>
+      <li><strong>Start with a directory of markdown.</strong> Even a flat <code>docs/</code> folder is enough to RAG.</li>
+      <li><strong>Use a generic local MCP server</strong> &mdash; e.g. an <code>fs-mcp</code> that exposes search across a path, or one of the open-source RAG MCP templates listed at the <a href="https://modelcontextprotocol.io/">Model Context Protocol</a> directory. Configure it to index your folder.</li>
+      <li><strong>Wire it into Claude Code</strong> via <code>~/.claude/mcp_servers.json</code>; the agent will list it under its tools after restart.</li>
+      <li><strong>Smoke-test</strong> with the inventory check (<a href="#p-tool-check">pattern 02</a>): the new tool should appear with a meaningful name.</li>
+      <li><strong>Quality-control the retrieval</strong>. Ask deliberately ambiguous questions; if the model invents a section that isn&rsquo;t in your docs, the indexer is too lossy &mdash; raise chunk size, lower top-k, or add structural metadata.</li>
+    </ol>
+    <p>For research projects: a small RAG over your <code>docs/pedagogy-charter.md</code> + experimental-protocol PDFs gives the agent reviewer-anchored constraints without re-pasting them every session. The author plans a follow-up guide on this; until then, the IWSDK-RAG implementation in <code>node_modules/@felixtz/iwsdk-rag-mcp</code> is a working public example to read.</p>
+  </article>
+
+  <!-- ============== pattern 4 ============== -->
+  <article class="pattern" id="p-plan-mode">
+    <div class="pattern-num">Pattern 04</div>
+    <h3>Plan mode vs agent mode</h3>
+    <p class="rule">Use plan mode for actions with large blast radius; use agent mode for additive, easily-reversible work.</p>
+    <p>Both Claude Code and Unity AI Assistant let you preview the planned actions before they execute. Use that for anything that touches build settings, audio managers, scene graph wiring, or the data schema — the cost of reviewing a plan is two minutes, the cost of unwinding a wrongly-applied refactor is an afternoon. For additive work like adding a new component to an entity, agent mode is fine.</p>
+    <div class="pattern-grid">
+      <div>
+        <h4>Unity stack</h4>
+        <p>Audio manager design (multi-source, BGM + SFX + event sounds with priority): plan mode → review → execute. Adding a single rotator script: agent mode.</p>
+      </div>
+      <div>
+        <h4>IWSDK stack</h4>
+        <p>Telemetry schema changes, ECS component refactors, manifest changes: plan mode. Spawning a new entity into an existing scene: agent mode. Anything that touches <code>World.create({ features })</code>: plan mode (a missing prerequisite drops you through the floor).</p>
+      </div>
+    </div>
+    <p class="when-not"><strong>When not to apply:</strong> obvious one-line fixes; plan mode adds latency and is annoying when the action is unambiguous.</p>
+    <h4 style="margin-top:24px">Three-question decision checklist</h4>
+    <p>If <em>any</em> of the following is yes, use plan mode:</p>
+    <ol>
+      <li><strong>Does this touch shared state</strong> &mdash; build settings, scene root, audio bus, environment components, the level entity?</li>
+      <li><strong>Does this change a contract</strong> &mdash; the telemetry schema, an ECS component definition, a manifest, a public API?</li>
+      <li><strong>Does this affect what the agent will do next?</strong> If the next prompt branches on whether this step happened (&ldquo;now wire that up to the audio manager you just built&rdquo;), reviewing the plan first prevents a chain of dependent mistakes.</li>
+    </ol>
+    <p>If all three are no, agent mode is fine.</p>
+  </article>
+
+  <!-- ============== pattern 5 ============== -->
+  <article class="pattern" id="p-screenshot-loop">
+    <div class="pattern-num">Pattern 05</div>
+    <h3>Screenshot validation loop</h3>
+    <p class="rule">After every visual change, take a screenshot and feed it back to the agent. Trust the eye, not the diff.</p>
+    <p>Code that compiles and runs can still produce wrong output: a misplaced anchor, a transparent material, a Z-fight. The fix is to give the agent vision in the loop. Unity AI Assistant captures the editor view automatically after each action; on the web you call <code>browser_screenshot</code> through the IWER MCP. Either way, the agent sees what you see and can correct without you typing the description.</p>
+    <figure class="diagram">
+      <svg viewBox="0 0 720 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Screenshot validation loop diagram">
+        <defs>
+          <marker id="arrow1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+            <path d="M0,0 L10,5 L0,10 Z" fill="#B5392A"/>
+          </marker>
+        </defs>
+        <rect x="20" y="60" width="140" height="80" rx="10" fill="#fffdf8" stroke="#1a1a1a" stroke-width="2"/>
+        <text x="90" y="95" text-anchor="middle" font-family="Inter" font-weight="700" font-size="13">Agent action</text>
+        <text x="90" y="115" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="#666">add component</text>
+        <rect x="200" y="60" width="140" height="80" rx="10" fill="#fffdf8" stroke="#1a1a1a" stroke-width="2"/>
+        <text x="270" y="95" text-anchor="middle" font-family="Inter" font-weight="700" font-size="13">Screenshot</text>
+        <text x="270" y="115" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="#666">scene / browser</text>
+        <rect x="380" y="60" width="140" height="80" rx="10" fill="#fffdf8" stroke="#1a1a1a" stroke-width="2"/>
+        <text x="450" y="95" text-anchor="middle" font-family="Inter" font-weight="700" font-size="13">Agent reads</text>
+        <text x="450" y="115" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="#666">image → critique</text>
+        <rect x="560" y="60" width="140" height="80" rx="10" fill="#B5392A" stroke="#1a1a1a" stroke-width="2"/>
+        <text x="630" y="95" text-anchor="middle" font-family="Inter" font-weight="700" font-size="13" fill="#fffdf8">Correction</text>
+        <text x="630" y="115" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="#fcd9d3">if needed</text>
+        <line x1="160" y1="100" x2="195" y2="100" stroke="#B5392A" stroke-width="2" marker-end="url(#arrow1)"/>
+        <line x1="340" y1="100" x2="375" y2="100" stroke="#B5392A" stroke-width="2" marker-end="url(#arrow1)"/>
+        <line x1="520" y1="100" x2="555" y2="100" stroke="#B5392A" stroke-width="2" marker-end="url(#arrow1)"/>
+        <path d="M 630 145 Q 630 175 360 175 Q 90 175 90 145" fill="none" stroke="#B5392A" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#arrow1)"/>
+        <text x="360" y="190" text-anchor="middle" font-family="Inter" font-style="italic" font-size="12" fill="#666">loop until visual passes</text>
+      </svg>
+      <figcaption>The closed loop is what makes agentic visual work feel different from chat-driven coding.</figcaption>
+    </figure>
+    <div class="pattern-grid">
+      <div>
+        <h4>Unity stack</h4>
+        <p>Unity AI Assistant captures the scene view automatically after each action and feeds the image back. No extra prompt needed.</p>
+      </div>
+      <div>
+        <h4>IWSDK stack</h4>
+        <p>Manual but cheap:</p>
+        <pre><code>mcp__iwsdk-dev-mcp__
+browser_screenshot</code></pre>
+        <p>Combine with <code>scene_get_hierarchy</code> for ground-truth entity positions when the screenshot is ambiguous.</p>
+      </div>
+    </div>
+    <p class="when-not"><strong>When not to apply:</strong> pure backend / data-pipeline work where there is no visual; performance tuning where you should be reading the profiler instead.</p>
+    <figure class="shot">
+      <img src="images/vm/in-progress.png" alt="Virtual Makerspace mid-assembly state — battery and a medium wire snapped onto the breadboard, an LED still in the tray, circuit not yet closed">
+      <figcaption>What the agent sees on a screenshot pass: mid-assembly state, partial connections visible, target circuit not yet closed. Combined with a hierarchy query (<code>scene_get_hierarchy</code>) the agent can reconcile visual ground truth with ECS state in one round trip.</figcaption>
+    </figure>
+    <div class="callout note">
+      <div class="callout-label">vision-model limits</div>
+      <p>LLM vision is reliable for <em>which entity is where</em> and <em>does the layout look broken</em>. It is unreliable for <strong>pixel-precise alignment</strong>, <strong>very small text</strong> (HUD timer at 8&nbsp;px), <strong>fast motion</strong> (frame between gestures), and <strong>colour accuracy in low light</strong>. For these, pair the screenshot with a structured query &mdash; <code>scene_get_object_transform</code>, <code>ecs_query_entity</code> &mdash; and treat the image as a sanity check, not as the source of truth.</p>
+    </div>
+  </article>
+
+  <!-- ============== pattern 6 ============== -->
+  <article class="pattern" id="p-prefab">
+    <div class="pattern-num">Pattern 06</div>
+    <h3>Force prefab / entity spawns</h3>
+    <p class="rule">Tell the agent explicitly to spawn from project assets, not to construct primitives at runtime. You will want to tweak it later.</p>
+    <p>Agents default to building from primitives because primitives need no asset dependency — but the resulting object is invisible to the inspector and impossible to edit by hand. Forcing prefab / entity-spawn semantics keeps every agent-generated artifact tweakable through the normal authoring path.</p>
+    <div class="pattern-grid">
+      <div>
+        <h4>Unity stack</h4>
+        <p>Default Dilmer build had ball launcher creating a primitive at runtime. Author corrected: <em>&ldquo;use the project prefab.&rdquo;</em> Result: ball mesh now editable in inspector, physics tunable without re-prompting.</p>
+      </div>
+      <div>
+        <h4>IWSDK stack</h4>
+        <p>Equivalent rule: prefer entity spawners with declared components, not <code>scene.add(mesh)</code>. The author&rsquo;s spawn-components.ts does the right thing — every part starts as a properly-componented entity, queryable by every system.</p>
+        <pre><code>world.createTransformEntity(
+  mesh, parentEntity);
+// not:
+// scene.add(mesh);</code></pre>
+      </div>
+    </div>
+    <p class="when-not"><strong>When not to apply:</strong> truly throwaway primitives for visual debugging (a red box marking a target).</p>
+    <figure class="shot">
+      <img src="images/vm/tray.png" alt="Virtual Makerspace component tray with all eight grabbable parts laid out: 2 LEDs, 2 resistors, 3 wires (short/medium/long), 1 battery">
+      <figcaption>VM&rsquo;s component tray &mdash; all eight parts spawned as proper entities (not runtime primitives). Each is independently inspectable, tunable in the editor, and queryable by every system. The agent was instructed to spawn from the components manifest, not to fabricate at runtime.</figcaption>
+    </figure>
+  </article>
+
+  <!-- ============== pattern 7 ============== -->
+  <article class="pattern" id="p-ecs-mcp">
+    <div class="pattern-num">Pattern 07</div>
+    <h3>ECS-aware debugging MCP</h3>
+    <p class="rule">For continuous behavior — physics, animation, frame-time bugs — give the agent a pause/step/snapshot/diff vocabulary, not just console logs.</p>
+    <p>You can&rsquo;t debug something that happens in 11&ndash;14 ms by reading after the fact. The IWER MCP exposes ECS pause / step / snapshot / diff so the agent can freeze the world, advance one frame, snapshot, advance another, and diff — finding which component changed where. Unity has equivalent runtime debugging through its profiler integration; the principle is the same.</p>
+    <div class="pattern-grid">
+      <div>
+        <h4>Unity stack</h4>
+        <p>Profiler + Unity AI agent can query frame stats, GC allocations, draw calls. Not as ECS-fine-grained as IWSDK but covers the perf use case.</p>
+      </div>
+      <div>
+        <h4>IWSDK stack <span class="stack-tag">Headline workflow</span></h4>
+        <p>Frame-by-frame physics debug:</p>
+        <pre><code>ecs_pause
+ecs_snapshot label="before"
+ecs_step count=1
+ecs_snapshot label="after"
+ecs_diff from="before" to="after"</code></pre>
+        <p>Find which system mutated which component field on a single frame. Compose with <code>ecs_toggle_system</code> to isolate the offender.</p>
+      </div>
+    </div>
+    <p class="when-not"><strong>When not to apply:</strong> bugs that reproduce reliably from a fresh load — print debugging is faster.</p>
+  </article>
+
+  <!-- ============== pattern 8 ============== -->
+  <article class="pattern" id="p-telemetry">
+    <div class="pattern-num">Pattern 08</div>
+    <h3>Telemetry-first design</h3>
+    <p class="rule">Decide what events are emitted before you decide what scenes look like. Agentic builds drift; the telemetry contract holds them in place.</p>
+    <p>If you don&rsquo;t commit to a telemetry schema early, the agent will happily add features that no measurement instrument captures. With a schema in <code>docs/</code> the agent treats it as an interface contract — every new interaction emits a known event, and quantitative analysis stays possible. This applies to research projects (the obvious case) and consumer products alike (analytics, A/B tests, telemetry-driven QA).</p>
+    <div class="pattern-grid">
+      <div>
+        <h4>Unity stack</h4>
+        <p>Equivalent: define a Unity Analytics event taxonomy or a custom event bus, document it in markdown, pass it to the agent. New gameplay features wire into the bus, not new bespoke logging.</p>
+      </div>
+      <div>
+        <h4>IWSDK stack <span class="stack-tag">VM example</span></h4>
+        <p>Schema lives in <code>docs/mvp-scope.md</code>. Every event shares one envelope (<code>event_id</code>, <code>session_id</code>, <code>frame_time_ms</code>, optional poses) &mdash; the schema specifies UUID&nbsp;v7 for time ordering, the implementation uses <code>crypto.randomUUID()</code> (v4) until a v7 library is wired in. Agent-added systems emit events from the existing catalog; <code>error_recovery</code> on undo, <code>socket_connect</code> on snap, <code>circuit_state_change</code> on topology delta. NDJSON export at <code>session_end</code>.</p>
+      </div>
+    </div>
+    <p class="when-not"><strong>When not to apply:</strong> throwaway prototypes you will not ship and not study.</p>
+    <figure class="shot">
+      <img src="images/vm/hover-preview.png" alt="Virtual Makerspace hover-preview state — green socket markers light up while a part is held within snapping distance of two valid sockets">
+      <figcaption><code>HoverPreviewSystem</code> in action: the green markers fire from the same telemetry hooks that emit <code>hover_target</code> events to the analysis log. Telemetry-first design means a learner-facing affordance and an analysis signal share one code path &mdash; no agent-added drift between what the participant sees and what gets measured.</figcaption>
+    </figure>
+    <h4 style="margin-top:24px">Telemetry &rarr; analysis bridge</h4>
+    <p>A schema is only useful if the analysis pipeline can read it. NDJSON exports drop straight into:</p>
+    <ul>
+      <li><strong>Sequence mining</strong> &mdash; treat <code>event_type</code> as the alphabet, <code>session_id</code> as the unit. See the author&rsquo;s <a href="../sequence-mining/">Sequence Mining Blueprint</a> (TNA, LSA, SPM, HMM) for end-to-end R templates.</li>
+      <li><strong>Ordered Network Analysis</strong> &mdash; group events by participant and condition, encode co-occurrence within a sliding window. The <a href="../ona/">ONA in Practice</a> guide covers the agentic-figure workflow.</li>
+      <li><strong>Knowledge tracing</strong> &mdash; if the task has scoreable steps, <code>step_advance</code> + correctness become the input; <a href="../knowledge-tracing/">Knowledge Tracing Blueprint</a> covers BKT / DKT / R / Python.</li>
+      <li><strong>Stealth assessment</strong> &mdash; backward-design from outcome to ECD evidence; see the <a href="../stealth-assessment/">Stealth Assessment</a> draft for the full pipeline.</li>
+    </ul>
+    <p>The point: design the telemetry schema once, then pick the analysis lens later. The four guides above all consume the same NDJSON shape.</p>
+  </article>
+
+  <!-- ============== pattern 9 ============== -->
+  <article class="pattern" id="p-subskills">
+    <div class="pattern-num">Pattern 09</div>
+    <h3>Sub-skills for verbs</h3>
+    <p class="rule">Make the recurring verbs of your stack into named slash commands. The agent stops re-deriving how to do common things.</p>
+    <p>If you frequently ask the agent to add a grab interaction, build a UI panel, or step through physics, those are verbs in your stack. Encode them as slash commands with their own SKILL.md describing when and how to use them. The agent loads the right context only when the right verb is invoked, and your prompt becomes a single token instead of a paragraph.</p>
+    <div class="pattern-grid">
+      <div>
+        <h4>Unity stack</h4>
+        <p>Encode the verbs you actually repeat as Claude Code slash commands &mdash; e.g.&nbsp;a camera-rig setup command, a grabbable-attachment command, a passthrough-toggle command. The Dilmer demo doesn&rsquo;t showcase user-defined slash commands directly, but the same Claude Code skill mechanism is available in any project; the encoded skills load context only when invoked.</p>
+      </div>
+      <div>
+        <h4>IWSDK stack <span class="stack-tag">VM uses 6</span></h4>
+        <p>Live in the project today (shipped with IWSDK&rsquo;s scaffolder):</p>
+        <ul>
+          <li><code>/iwsdk-planner</code> — feature planning + best practices</li>
+          <li><code>/iwsdk-grab</code> — One/Two-hand grab</li>
+          <li><code>/iwsdk-ray</code> — DistanceGrabbable + Interactable</li>
+          <li><code>/iwsdk-ui</code> — UIKitML + ScreenSpace</li>
+          <li><code>/iwsdk-debug</code> — pause/step/snapshot/diff</li>
+          <li><code>/iwsdk-physics</code> — PhysicsBody + PhysicsShape</li>
+        </ul>
+      </div>
+    </div>
+    <p class="when-not"><strong>When not to apply:</strong> one-time exploratory tasks that will not recur. Sub-skills that get used once a year are technical debt.</p>
+    <h4 style="margin-top:24px">Sample SKILL.md (one-page minimum)</h4>
+    <p>A workable Claude Code skill is shorter than people expect. The structure below is what the author uses for IWSDK sub-skills &mdash; copy, adapt, drop into <code>~/.claude/skills/&lt;skill-name&gt;/SKILL.md</code>:</p>
+    <div class="code-block"><pre><code>---
+description: One-line trigger for when this skill applies.
+  Used by Claude Code's matcher.
+argument-hint: "[optional positional arg]"
+---
+
+You are running the **/&lt;skill-name&gt;** workflow. The user typed
+`/&lt;skill-name&gt; $ARGUMENTS` because they want X.
+
+## Pipeline
+
+1. Confirm prerequisite: e.g. dev server running, MCP healthy.
+2. Read the relevant project files into context (list 2-3).
+3. Apply the verb: do exactly the recurring task this skill exists for.
+4. Verify with the standard check (screenshot, type-check, test).
+
+## House rules
+
+- Project conventions to enforce (e.g. "import Three from @iwsdk/core,
+  never from 'three'").
+- Anti-patterns to refuse.
+
+## Output contract
+
+What artifacts this skill produces, where they go, and how the user
+verifies success.</code></pre></div>
+    <p>Six lines of YAML, twenty lines of body, and the skill is reusable. Most of the value is the matcher description (so the right skill loads automatically) and the house-rule list (so the agent doesn&rsquo;t re-derive your conventions every session).</p>
+  </article>
+
+  <!-- ============== pattern 10 ============== -->
+  <article class="pattern" id="p-device-loop">
+    <div class="pattern-num">Pattern 10</div>
+    <h3>On-device verification</h3>
+    <p class="rule">Check the actual headset state from the chat window. The emulator agrees with reality less often than you hope.</p>
+    <p>Emulators (IWER for the web, XR Simulator for Unity) run a faithful approximation, but headsets routinely behave differently — battery, thermal throttling, hand-tracking quality, passthrough alignment. After every milestone build, query the connected Quest from the agent: battery, version, recent logcat. Catches a class of bugs that &ldquo;works on the laptop&rdquo; misses entirely.</p>
+    <div class="pattern-grid">
+      <div>
+        <h4>Unity stack <span class="stack-tag">HZDB</span></h4>
+        <pre><code>device_battery
+device_info
+get_device_logcat
+  --tag=Unity --level=W</code></pre>
+        <p>Same MCP exposes <code>push_file</code>/<code>pull_file</code> for build APKs and crash dumps.</p>
+      </div>
+      <div>
+        <h4>IWSDK stack</h4>
+        <p>Same HZDB tools work — IWSDK is browser-deployed, but the headset still runs the page in Quest Browser. <code>device_battery</code> tells you if you&rsquo;re about to burn the headset under thermals; <code>get_device_logcat</code> with <code>--tag=Browser</code> catches Chromium-side issues that don&rsquo;t surface in your dev console.</p>
+      </div>
+    </div>
+    <p class="when-not"><strong>When not to apply:</strong> non-immersive web mode work; every-frame iterations where stopping to check the headset would dominate the cycle.</p>
+  </article>
+
+  <!-- ============== pattern 11 ============== -->
+  <article class="pattern" id="p-agent-review">
+    <div class="pattern-num">Pattern 11</div>
+    <h3>Agent reviewing agent</h3>
+    <p class="rule">Once the work fits in one prompt, the next bottleneck is review. Make a second agent read the first agent&rsquo;s output against your spec.</p>
+    <p>Single-agent loops are fine for additive work. The moment the change touches the ECS schema, telemetry contract, or pedagogy charter, the most reliable next step is a different agent &mdash; with no investment in the implementation choice &mdash; reviewing the diff against the same spec the implementer was working from. The reviewer agent is more skeptical because it doesn&rsquo;t feel the sunk cost of the build.</p>
+    <div class="pattern-grid">
+      <div>
+        <h4>Unity stack</h4>
+        <p>Equivalent: spawn a sub-agent (Claude Code <code>Agent</code> tool) with the role &ldquo;senior Unity reviewer&rdquo;, feeding it the changed file list, the plan markdown, and the relevant CLAUDE.md sections. Ask it to flag deviations from house rules, performance footguns, and gameplay-feel regressions.</p>
+      </div>
+      <div>
+        <h4>IWSDK stack <span class="stack-tag">VM ships one</span></h4>
+        <p>Virtual Makerspace ships an <code>iwsdk-project-code-reviewer</code> sub-agent (declared in <code>CLAUDE.md</code>) that reviews changes for ECS patterns, the 11-14&nbsp;ms frame budget, the Three.js import rule, and adherence to the pedagogy charter. Invocation is one prompt:</p>
+        <div class="code-block"><pre><code>Use the iwsdk-project-code-reviewer agent
+to review the last commit against
+docs/pedagogy-charter.md.</code></pre></div>
+        <p>The reviewer either approves or returns a numbered list of issues; the implementer agent then takes only those in a follow-up turn.</p>
+      </div>
+    </div>
+    <h4 style="margin-top:18px">Parallel exploration with worktrees</h4>
+    <p>Same idea, broader scope: when there are <em>two plausible designs</em> (capsule avatars vs.&nbsp;humanoid; FCFS vs.&nbsp;tug-takeover for grab conflicts), spawn one agent per branch with <code>git worktree</code>, let each implement its branch in isolation, then have a third reviewer agent compare. The cost is roughly 2&times; tokens for the implementations + 1&times; for the comparison; the savings are weeks of human-mediated A/B prototyping.</p>
+    <p class="when-not"><strong>When not to apply:</strong> straightforward bug fixes; one-line changes; sessions where review latency would dominate (you&rsquo;ll be slower with the reviewer than without).</p>
+  </article>
+</section>
+
+<!-- ============================================================ -->
+<section id="stacks">
+  <h2><span class="num">§ 5</span>Tooling spectrum</h2>
+  <p>Five stacks with different deployment, license, and openness trade-offs. Pick by where the build needs to run and what you want to control directly.</p>
+  <div class="stacks">
+    <div class="stack">
+      <div class="stack-head">
+        <h3>Unity AI native</h3>
+        <span class="badge">Native</span>
+      </div>
+      <p>Unity AI Assistant in editor + Claude Code CLI + Meta MCP Extensions + HZDB. Highest agent productivity for native Quest builds; private beta licensing as of 2026-05.</p>
+      <div class="stack-tools">
+        <strong>Editor:</strong> Unity 2022 LTS+<br>
+        <strong>Agents:</strong> Unity AI · Claude Code<br>
+        <strong>MCPs:</strong> Meta MCP Ext · HZDB<br>
+        <strong>Deploy:</strong> Quest native APK (Horizon Store)
+      </div>
+    </div>
+    <div class="stack">
+      <div class="stack-head">
+        <h3>IWSDK</h3>
+        <span class="badge web">Web</span>
+      </div>
+      <p>Meta&rsquo;s open-source WebXR framework &mdash; ECS + signals + Three.js + IWER emulator + IWSDK-RAG MCP. Browser deployment, zero install for participants. Official self-description: <em>&ldquo;AI-native WebXR development&rdquo;</em> (<a href="https://iwsdk.dev">iwsdk.dev</a>). Used by Virtual Makerspace and Circuit Playground.</p>
+      <div class="stack-tools">
+        <strong>Framework:</strong> @iwsdk/core 0.3.x<br>
+        <strong>Agents:</strong> Claude Code<br>
+        <strong>MCPs:</strong> IWSDK-RAG · IWER · HZDB<br>
+        <strong>Deploy:</strong> any HTTPS host → Quest Browser
+      </div>
+    </div>
+    <div class="stack">
+      <div class="stack-head">
+        <h3>Three.js bare</h3>
+        <span class="badge lean">Lean</span>
+      </div>
+      <p>Direct Three.js + WebXRManager + custom scene graph. Most control, fewest dependencies, no opinions. Best for one-shot interactives and demos where IWSDK&rsquo;s ECS would be overkill.</p>
+      <div class="stack-tools">
+        <strong>Framework:</strong> three (vanilla)<br>
+        <strong>Agents:</strong> Claude Code<br>
+        <strong>MCPs:</strong> Playwright (custom)<br>
+        <strong>Deploy:</strong> any static host → Quest Browser
+      </div>
+    </div>
+  </div>
+  <p style="margin-top:24px;font-size:14.5px;color:#666;line-height:1.55"><strong>Other stacks the author has not deployed personally</strong> &mdash; included for orientation, not endorsement: <em>Three.js bare</em> (vanilla three + WebXRManager; trade IWSDK&rsquo;s ECS for full control); <em>Babylon.js</em> (built-in WebXR helpers, node-material editor; mature engine, but the IWSDK-equivalent ECS-aware MCP toolchain is not something the author has tested); <em>Unreal Engine</em> (high-fidelity VR; agentic tooling is less mature than Unity AI in 2026-05 and the author has no first-hand workflow data); <em>Unity authoring &rarr; web runtime</em> (Unity + Meta Spatial Editor for content, then glTF/GLXF export to IWSDK or Three.js for browser deploy &mdash; valid in principle, two stacks to maintain). For each of these, patterns 01&ndash;04 transfer; patterns 05, 07, 10 depend on stack-specific MCPs you would need to source or build yourself.</p>
+</section>
+
+<!-- ============================================================ -->
+<section id="cases">
+  <h2><span class="num">§ 6</span>Case studies</h2>
+  <p>Three end-to-end workflows showing the patterns combined. Pick the one closest to your project shape.</p>
+
+  <article class="case" id="case-dilmer">
+    <div class="case-head">
+      <h3>Unity · Basketball MR — Dilmer Valecillos demo (GDC 2026)</h3>
+      <span class="meta">17 min · public</span>
+    </div>
+    <p>Meta DevRel Dilmer Valecillos shipped a complete MR basketball game from scratch in roughly 17 video minutes using Unity AI Assistant + Claude Code (in-editor) + Meta MCP Extensions + HZDB. The whole flow is patterns 01, 02, 03, 05, 06 stacked.</p>
+    <h4>Build sequence</h4>
+    <ol>
+      <li><strong>Setup</strong>: Asset Store fetches Meta SDK, OpenXR Meta XR feature group, Oculus Touch profile, Android manifest.</li>
+      <li><strong>Tool check</strong> (<a href="#p-tool-check">pattern 02</a>): &ldquo;What custom tools are available?&rdquo; — confirms <code>create_camera_rig</code> et al are visible.</li>
+      <li><strong>Plan injection</strong> (<a href="#p-plan-file">pattern 01</a>): pre-iterated <code>basketball-hoop.md</code> passed as reference; backboard / bracket / rim / net produced consistently in one pass.</li>
+      <li><strong>Build loop</strong>: ball launcher prefab (<a href="#p-prefab">pattern 06</a> correction), trail renderer for fire effect, 30s game loop, scoreboard UI, audio manager, green grid line at score.</li>
+      <li><strong>Domain doc fallback</strong> (<a href="#p-domain-mcp">pattern 03</a>): for passthrough implementation, HZDB queries Meta&rsquo;s docs directly instead of letting the model guess.</li>
+      <li><strong>Visual loop</strong> (<a href="#p-screenshot-loop">pattern 05</a>): Unity AI screenshots the editor view after each action; corrections happen inside the same chat thread.</li>
+    </ol>
+    <div class="takeaway">
+      <strong>Takeaway:</strong> the agent isn&rsquo;t a one-shot generator. The author iterated on every artifact (UI rebuilt twice, audio policy negotiated). The leverage is that each iteration takes minutes not hours — the same patterns that make a single agent fast also make iteration fast.
+    </div>
+  </article>
+
+  <article class="case" id="case-vm">
+    <div class="case-head">
+      <h3>IWSDK · Virtual Makerspace — research-grade WebXR study apparatus</h3>
+      <span class="meta">Phase 1 implemented · 2026-05</span>
+    </div>
+    <p>Author&rsquo;s own project (<a href="https://github.com/Educatian/virtual-makerspace">github.com/Educatian/virtual-makerspace</a>) — a research-grade WebXR prototype investigating embodied Productive Failure across four maker modules. The agentic workflow keeps the implementation aligned with a non-negotiable pedagogy charter and a precise telemetry schema.</p>
+    <h4>Anchoring artifacts (pass them as context every session)</h4>
+    <ul>
+      <li><code>docs/pedagogy-charter.md</code> — Productive Failure / embodied cognition / GBL-not-gamification commitments. Prevents agent feature creep.</li>
+      <li><code>docs/mvp-scope.md</code> — telemetry schema (event types + payloads) and Phase 1/2/3 boundaries.</li>
+      <li><code>CLAUDE.md</code> — IWSDK pitfalls (LocomotionEnvironment, 11&ndash;14&nbsp;ms budget, Three.js import rule).</li>
+    </ul>
+    <h4>Tooling chain</h4>
+    <ul>
+      <li><strong>IWSDK-RAG MCP</strong> (<a href="#p-domain-mcp">pattern 03</a>) — semantic search across <code>@iwsdk/core</code> + elics + super-three returns actual source code for API questions.</li>
+      <li><strong>IWER MCP</strong> (<a href="#p-ecs-mcp">pattern 07</a>) — controls a WebXR session from the chat window: <code>xr_set_transform</code>, <code>xr_select</code>, <code>ecs_pause</code>, <code>ecs_step</code>, <code>ecs_snapshot</code>, <code>ecs_diff</code>, <code>browser_screenshot</code>.</li>
+      <li><strong>HZDB MCP</strong> (<a href="#p-device-loop">pattern 10</a>) — checks the connected Quest&rsquo;s battery / Android version / browser logcat.</li>
+      <li><strong>Six sub-skills</strong> (<a href="#p-subskills">pattern 09</a>) — <code>/iwsdk-planner</code> · <code>/iwsdk-grab</code> · <code>/iwsdk-ray</code> · <code>/iwsdk-ui</code> · <code>/iwsdk-debug</code> · <code>/iwsdk-physics</code>.</li>
+      <li><strong>Reviewer agent</strong> (<a href="#p-agent-review">pattern 11</a>) — <code>iwsdk-project-code-reviewer</code> declared in <code>CLAUDE.md</code>; reviews diffs against the pedagogy charter and IWSDK pitfall list.</li>
+    </ul>
+    <figure class="diagram">
+      <svg viewBox="0 0 720 360" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Virtual Makerspace tooling chain — Claude Code at the center, plan files to the left, three MCPs above, six sub-skills and reviewer below, IWSDK runtime on the right">
+        <defs>
+          <marker id="ar2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+            <path d="M0,0 L10,5 L0,10 Z" fill="#B5392A"/>
+          </marker>
+          <marker id="ar2g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+            <path d="M0,0 L10,5 L0,10 Z" fill="#3a7a4a"/>
+          </marker>
+        </defs>
+        <!-- center: Claude Code -->
+        <rect x="280" y="150" width="160" height="60" rx="10" fill="#1a1a1a" stroke="#1a1a1a" stroke-width="2"/>
+        <text x="360" y="178" text-anchor="middle" font-family="Inter" font-weight="800" font-size="15" fill="#fffdf8">Claude Code</text>
+        <text x="360" y="196" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#d76d5b" letter-spacing="1.5">SESSION ORCHESTRATOR</text>
+
+        <!-- left: plan files / CLAUDE.md -->
+        <rect x="20" y="150" width="180" height="60" rx="10" fill="#fffdf8" stroke="#1a1a1a" stroke-width="2"/>
+        <text x="110" y="173" text-anchor="middle" font-family="Inter" font-weight="700" font-size="13">Plan files</text>
+        <text x="110" y="190" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#666">pedagogy-charter.md</text>
+        <text x="110" y="202" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#666">mvp-scope.md · CLAUDE.md</text>
+        <line x1="200" y1="180" x2="278" y2="180" stroke="#B5392A" stroke-width="2" marker-end="url(#ar2)"/>
+
+        <!-- top: 3 MCPs -->
+        <rect x="60" y="20" width="160" height="55" rx="9" fill="#fffdf8" stroke="#2e5a87" stroke-width="2"/>
+        <text x="140" y="44" text-anchor="middle" font-family="Inter" font-weight="700" font-size="13">IWSDK-RAG</text>
+        <text x="140" y="62" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#666">code search</text>
+
+        <rect x="280" y="20" width="160" height="55" rx="9" fill="#fffdf8" stroke="#2e5a87" stroke-width="2"/>
+        <text x="360" y="44" text-anchor="middle" font-family="Inter" font-weight="700" font-size="13">IWER</text>
+        <text x="360" y="62" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#666">emulator + ECS</text>
+
+        <rect x="500" y="20" width="160" height="55" rx="9" fill="#fffdf8" stroke="#2e5a87" stroke-width="2"/>
+        <text x="580" y="44" text-anchor="middle" font-family="Inter" font-weight="700" font-size="13">HZDB</text>
+        <text x="580" y="62" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#666">device + Meta docs</text>
+
+        <line x1="160" y1="75" x2="320" y2="148" stroke="#2e5a87" stroke-width="2" marker-end="url(#ar2)"/>
+        <line x1="360" y1="75" x2="360" y2="148" stroke="#2e5a87" stroke-width="2" marker-end="url(#ar2)"/>
+        <line x1="560" y1="75" x2="400" y2="148" stroke="#2e5a87" stroke-width="2" marker-end="url(#ar2)"/>
+
+        <!-- bottom-left: 6 sub-skills -->
+        <rect x="60" y="270" width="200" height="70" rx="9" fill="#fffdf8" stroke="#1a1a1a" stroke-width="1.5"/>
+        <text x="160" y="290" text-anchor="middle" font-family="Inter" font-weight="700" font-size="13">6 sub-skills</text>
+        <text x="160" y="306" text-anchor="middle" font-family="JetBrains Mono" font-size="9.5" fill="#666">/iwsdk-planner · /iwsdk-grab</text>
+        <text x="160" y="318" text-anchor="middle" font-family="JetBrains Mono" font-size="9.5" fill="#666">/iwsdk-ray · /iwsdk-ui</text>
+        <text x="160" y="330" text-anchor="middle" font-family="JetBrains Mono" font-size="9.5" fill="#666">/iwsdk-debug · /iwsdk-physics</text>
+        <line x1="260" y1="285" x2="318" y2="210" stroke="#B5392A" stroke-width="2" marker-end="url(#ar2)"/>
+
+        <!-- bottom-right: reviewer agent -->
+        <rect x="280" y="270" width="180" height="70" rx="9" fill="#fffdf8" stroke="#3a7a4a" stroke-width="2"/>
+        <text x="370" y="290" text-anchor="middle" font-family="Inter" font-weight="700" font-size="13">Reviewer agent</text>
+        <text x="370" y="306" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#666">iwsdk-project-</text>
+        <text x="370" y="318" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#666">code-reviewer</text>
+        <text x="370" y="333" text-anchor="middle" font-family="JetBrains Mono" font-size="9.5" fill="#3a7a4a">reviews against charter</text>
+        <line x1="370" y1="270" x2="370" y2="212" stroke="#3a7a4a" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#ar2g)"/>
+
+        <!-- right: IWSDK runtime -->
+        <rect x="500" y="150" width="180" height="60" rx="10" fill="#fffdf8" stroke="#1a1a1a" stroke-width="2"/>
+        <text x="590" y="173" text-anchor="middle" font-family="Inter" font-weight="700" font-size="13">IWSDK runtime</text>
+        <text x="590" y="190" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#666">@iwsdk/core 0.3.1</text>
+        <text x="590" y="202" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#666">elics ECS · super-three</text>
+        <line x1="442" y1="180" x2="498" y2="180" stroke="#B5392A" stroke-width="2" marker-end="url(#ar2)"/>
+
+        <rect x="500" y="270" width="180" height="55" rx="9" fill="#fffdf8" stroke="#1a1a1a" stroke-width="1.5"/>
+        <text x="590" y="294" text-anchor="middle" font-family="Inter" font-weight="700" font-size="13">Telemetry &rarr; NDJSON</text>
+        <text x="590" y="312" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#666">IndexedDB &rarr; analysis</text>
+        <line x1="590" y1="270" x2="590" y2="212" stroke="#B5392A" stroke-width="2" marker-end="url(#ar2)"/>
+      </svg>
+      <figcaption>Virtual Makerspace tooling chain. Plan files anchor context (left). Three MCPs (top, blue) feed primary sources to Claude Code. Six sub-skills (bottom-left) shortcut recurring verbs. The reviewer agent (bottom-centre, dashed green) reviews diffs back to the orchestrator. The IWSDK runtime is the only thing that actually executes; everything else is scaffolding for the human-in-the-loop.</figcaption>
+    </figure>
+    <h4>Module 1 — Electronics Studio (representative slice)</h4>
+    <ul>
+      <li>Procedural breadboard: 16 cols &times; 12 rows = 192 sockets as a single <code>InstancedMesh</code>.</li>
+      <li>Eight grabbable parts (LEDs, resistors, wires, 9V battery) with magnetic snap-on-release within 27&nbsp;mm.</li>
+      <li>Live circuit evaluation: union-find on wires + resistors + LED leads vs battery terminals; LED <code>emissiveIntensity</code> jumps to 1.8 the moment a closed loop forms.</li>
+      <li>Telemetry: every grasp / release / snap / state change is a typed event in IndexedDB; gzipped NDJSON export on <code>session_end</code>.</li>
+    </ul>
+    <figure class="shot-grid">
+      <div class="grid">
+        <div>
+          <img src="images/vm/breadboard.png" alt="Breadboard with placement guide ghosts">
+          <p class="sub">Placement guides — toggleable with G</p>
+        </div>
+        <div>
+          <img src="images/vm/assembled.png" alt="Assembled circuit, LED lit">
+          <p class="sub">CircuitEvalSystem closes the loop, LED glows</p>
+        </div>
+        <div>
+          <img src="images/vm/wands.png" alt="Controller wands in XR session">
+          <p class="sub">Spectator-style 3rd-person view via IWER</p>
+        </div>
+        <div>
+          <img src="images/vm/module3-dataset.png" alt="Module 3 — Walk-Through Dataset prototype">
+          <p class="sub">M3 — embodied data labeling prototype</p>
+        </div>
+      </div>
+      <figcaption>Slices of Virtual Makerspace built and iterated through the patterns above. Source images live in the project repo at <code>docs/images/</code> &mdash; reused here so the same artifact serves both the public README and this guide.</figcaption>
+    </figure>
+
+    <h4>Walkthrough &mdash; one feature, end to end (HoverPreview, ~30&nbsp;min)</h4>
+    <p>To make the patterns concrete, here is the compressed actual session that produced the green-socket hover-preview shown above. Five exchanges total; each maps to a pattern.</p>
+    <ol style="font-size:15px">
+      <li>
+        <strong>Tool check &amp; context attach</strong> (<a href="#p-tool-check">02</a>, <a href="#p-plan-file">01</a>):
+        <div class="code-block"><pre><code>What custom tools do you have available?
+Then read these files into context:
+- docs/pedagogy-charter.md  (relevant section: §6 PF policy)
+- src/systems/snap-system.ts
+- src/components/snap.ts
+- CLAUDE.md  (relevant section: 11-14 ms budget, no-allocation rule)</code></pre></div>
+        Agent reports IWER + IWSDK-RAG + HZDB live, summarises each file in one sentence to confirm load. <em>Cost so far: ~3 min.</em>
+      </li>
+      <li>
+        <strong>Plan file</strong> (<a href="#p-plan-file">01</a>):
+        <div class="code-block"><pre><code>Draft docs/plans/hover-preview.md.
+Spec: while a part is held within 27 mm of two valid sockets,
+render two small green markers at the snap target so the
+participant can see the snap before committing.
+Constraints from the charter: must be GBL-compatible
+(world-as-feedback, not score-like). 200 ms duration max.
+Telemetry: emit hover_target { entity_id, target_sockets[2] }
+on enter; hover_target_clear on leave.
+Performance: zero allocation in update(); reuse Vector3.</code></pre></div>
+        Agent writes the plan in 12 lines. Author edits 2 lines (clarifies that markers are non-blocking visuals, not interactable entities). Plan committed to git before any code change. <em>Cost so far: ~10 min.</em>
+      </li>
+      <li>
+        <strong>Plan-mode build</strong> (<a href="#p-plan-mode">04</a>): the change touches a system (shared) and emits a new event type (schema), so plan mode wins both checklist questions.
+        <div class="code-block"><pre><code>Implement docs/plans/hover-preview.md in plan mode.
+Use findBestSnap() from snap-helpers.ts so the markers
+share one source-of-truth with SnapSystem.</code></pre></div>
+        Agent proposes: new <code>HoverPreviewSystem</code>, two new components (<code>HoverPreviewMarker</code>, <code>HoverPreviewState</code>), extends the telemetry event catalog. Author approves; agent applies. <em>Cost so far: ~17 min.</em>
+      </li>
+      <li>
+        <strong>Screenshot loop</strong> (<a href="#p-screenshot-loop">05</a>):
+        <div class="code-block"><pre><code>browser_screenshot. In one paragraph, describe the
+markers. Then ecs_query_entity for the held part and
+verify HoverPreviewState.targets is the same pair as
+the visual markers.</code></pre></div>
+        Agent reports markers visible at the predicted sockets, ECS state matches. <em>Cost so far: ~22 min.</em>
+      </li>
+      <li>
+        <strong>Reviewer agent</strong> (<a href="#p-agent-review">11</a>):
+        <div class="code-block"><pre><code>Use the iwsdk-project-code-reviewer agent. Review the
+hover-preview commit against docs/pedagogy-charter.md
+and CLAUDE.md. Flag charter violations and any update()
+allocations.</code></pre></div>
+        Reviewer flags one issue: the markers fade at 200&nbsp;ms but charter §6 specifies the neutral spatial-locator allowance is for <em>fail</em> markers, not <em>preview</em> markers &mdash; preview markers are continuously visible during hold (no time limit needed). Implementer agent removes the fade timer. <em>Cost so far: ~28 min. Done.</em>
+      </li>
+    </ol>
+    <p style="font-size:14.5px;color:#555;font-style:italic">The session shipped a feature in a third of an hour, but the substantive work happened in steps 2 and 5: the plan file forced the constraint set up front, and the reviewer caught a charter mis-read that would otherwise have shipped silently. Most of the leverage of agentic XR development is in the bookends, not in the implementation middle.</p>
+
+    <div class="takeaway">
+      <strong>Takeaway:</strong> the patterns that make agents productive (plan files, custom-tool checks, ECS-aware debugging) double as the controls that keep a research-grade build defensible. The pedagogy charter is both an LLM context document and a reviewer-facing artifact.
+    </div>
+  </article>
+
+  <article class="case" id="case-cp">
+    <div class="case-head">
+      <h3>IWSDK · Circuit Playground — sibling K-12 product</h3>
+      <span class="meta">Scaffolding stage · 2026-05</span>
+    </div>
+    <p>A learner-facing K-12 circuit-building VR experience built on the same IWSDK base as Virtual Makerspace, but with different optimization targets: classroom adoption, learner UX, English-only artifact, VR-only deployment.</p>
+    <h4>Hard project conventions (encoded in repo)</h4>
+    <ul>
+      <li><strong>Language</strong>: all user-facing strings, code, comments, commit messages, filenames, and docs in English. Dev conversation stays in Korean.</li>
+      <li><strong>Target</strong>: VR only — no AR, no MR, no <code>sceneUnderstanding</code>, no plane detection.</li>
+      <li><strong>Code</strong>: TypeScript, type-safe ECS components.</li>
+    </ul>
+    <p>These conventions are not preferences — they are encoded in <code>CLAUDE.md</code> as agent guardrails. Without them, the agent will helpfully suggest Korean TTS hints or MR plane detection that the project explicitly rejected.</p>
+    <div class="takeaway">
+      <strong>Takeaway:</strong> two projects on the same SDK can require radically different agent guardrails. The conventions belong in the repo, not in the user&rsquo;s memory — both for cross-team consistency and for surviving context compaction.
+    </div>
+  </article>
+</section>
+
+<!-- ============================================================ -->
+<section id="pitfalls">
+  <h2><span class="num">§ 7</span>Common pitfalls</h2>
+  <p>Things that consistently break agentic XR sessions, grouped by stack.</p>
+
+  <h3>Cross-stack</h3>
+  <div class="callout pitfall">
+    <div class="callout-label">pitfall · context drift</div>
+    <p>Long sessions compact context — the pedagogy charter, telemetry schema, and CLAUDE.md commitments fall out of attention. Re-attach them as files at the start of every working session, even when the agent says it remembers.</p>
+  </div>
+  <div class="callout pitfall">
+    <div class="callout-label">pitfall · agent ≠ autopilot</div>
+    <p>Every successful demo (including Dilmer&rsquo;s) shows the human still directing. UI rebuilt twice, audio policy negotiated, ball launcher corrected to use a prefab. Plan to direct, not to delegate fully.</p>
+  </div>
+  <div class="callout pitfall">
+    <div class="callout-label">pitfall · MCP silent fail</div>
+    <p>Tools register but don&rsquo;t appear. Pattern 02 (first-prompt tool check) catches this; without it you waste a half-session prompting around a broken tool.</p>
+  </div>
+
+  <h3>Unity-side</h3>
+  <div class="callout pitfall">
+    <div class="callout-label">pitfall · Unity AI Assistant access status</div>
+    <p>As of the Dilmer demo (2026-05-03), Unity AI Assistant was still in beta with credit-based access managed at <code>cloud.unity.com</code>. Verify current availability and licensing before committing a course assignment or research dependency to it &mdash; status here may be stale by the time you read this. Re-check Unity&rsquo;s docs.</p>
+  </div>
+  <div class="callout pitfall">
+    <div class="callout-label">pitfall · runtime primitive default</div>
+    <p>Without explicit instruction, the agent will create runtime primitives instead of using project prefabs. The created object becomes invisible to the inspector. <a href="#p-prefab">Pattern 06</a> exists because of this.</p>
+  </div>
+  <div class="callout pitfall">
+    <div class="callout-label">pitfall · plan files not in source control</div>
+    <p>Author&rsquo;s plan markdown files are valuable IP. Commit them to the repo (<code>docs/plans/</code>) — they are the only thing that lets a teammate or future-you reproduce the agentic build.</p>
+  </div>
+
+  <h3>IWSDK-side</h3>
+  <div class="callout pitfall">
+    <div class="callout-label">pitfall · LocomotionEnvironment missing</div>
+    <p><code>features: { locomotion: true }</code> without a <code>LocomotionEnvironment</code> on the floor entity drops the player through the world. Most common IWSDK setup bug. <code>CLAUDE.md</code> warns about it; pass that file as context every session.</p>
+  </div>
+  <div class="callout pitfall">
+    <div class="callout-label">pitfall · 11–14 ms frame budget</div>
+    <p>VR targets 72&ndash;90 FPS. <code>new Vector3()</code> in <code>update()</code> looks innocent and causes GC pauses. Every Vector / Quaternion that gets reused must be a class property allocated in <code>init()</code>.</p>
+  </div>
+  <div class="callout pitfall">
+    <div class="callout-label">pitfall · Three.js import from 'three'</div>
+    <p>Always import Three.js types from <code>@iwsdk/core</code>, never from <code>'three'</code> directly. The latter creates duplicate Three.js instances; symptoms are subtle (a mesh you added to a scene shows up as undefined for raycasting).</p>
+  </div>
+  <div class="callout pitfall">
+    <div class="callout-label">pitfall · scene.add() bypassing ECS</div>
+    <p>Use <code>world.createTransformEntity(mesh, parent)</code>. Direct <code>scene.add()</code> creates a Three.js node with no Transform component, no ECS lifecycle, and silently breaks systems that expect every visible thing to be queryable.</p>
+  </div>
+  <div class="callout pitfall">
+    <div class="callout-label">pitfall · no native multiplayer</div>
+    <p>IWSDK has no built-in networking. Phase 2 collaboration requires custom infrastructure (Colyseus + LiveKit in VM&rsquo;s case). Plan for it as a separate engineering track, not a flag flip.</p>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<section id="failure-modes">
+  <h2><span class="num">§ 8</span>Agentic failure modes</h2>
+  <p>The pitfalls in §&nbsp;7 are stack-specific. The failures below are intrinsic to the agent itself &mdash; the same patterns of error appear regardless of whether you&rsquo;re on Unity, IWSDK, or anything else. Naming them is half the defence.</p>
+  <div class="callout pitfall">
+    <div class="callout-label">failure · hallucinated APIs that compile</div>
+    <p>The agent invents a method name (<code>entity.attachComponent</code> instead of <code>addComponent</code>) that <em>does not exist</em> on the actual class &mdash; but the call resolves through TypeScript&rsquo;s structural typing, the bundler doesn&rsquo;t catch it, and runtime is silent until the field the call was supposed to set is read elsewhere. <strong>Defence:</strong> <code>npx tsc --noEmit</code> with <code>strict: true</code>; treat the agent&rsquo;s API choices as suspect and look them up in IWSDK-RAG (<a href="#p-domain-mcp">pattern 03</a>) before merging.</p>
+  </div>
+  <div class="callout pitfall">
+    <div class="callout-label">failure · plausible-but-wrong physics tuning</div>
+    <p>Asked to add a rigid body, the agent will pick <code>mass: 1.0</code>, <code>friction: 0.5</code>, <code>restitution: 0.3</code> &mdash; numbers that sound reasonable and produce visually-plausible motion that does not match any real-world reference. <strong>Defence:</strong> require numeric values to come from a referenced source (project plan, prior commit, published reference) and refuse magic constants. Add a comment explaining why each value was chosen, and treat the absence of that comment as a code smell.</p>
+  </div>
+  <div class="callout pitfall">
+    <div class="callout-label">failure · confident restatement of stale context</div>
+    <p>Long sessions compact. After compaction the agent often <em>summarises</em> what it remembers rather than re-reading the file. The summary may be subtly wrong but is delivered with the same confidence as the original. <strong>Defence:</strong> on any session over an hour, periodically re-attach the load-bearing files (<code>CLAUDE.md</code>, the relevant plan, the schema). When the agent&rsquo;s answer feels off, ask it to quote the file rather than describe it.</p>
+  </div>
+  <div class="callout pitfall">
+    <div class="callout-label">failure · success theatre</div>
+    <p>Agent reports &ldquo;done&rdquo; with green checkmarks while the actual artifact is broken &mdash; type-check failed but was buried in console output, the screenshot was the previous frame, the test was the wrong test. <strong>Defence:</strong> the screenshot loop (<a href="#p-screenshot-loop">pattern 05</a>) is the cheapest counter; for anything load-bearing, a second-agent review (<a href="#p-agent-review">pattern 11</a>) catches what the implementer missed.</p>
+  </div>
+  <div class="callout pitfall">
+    <div class="callout-label">failure · drift toward gamification</div>
+    <p>Specific to research and educational projects. Asked to &ldquo;improve engagement&rdquo;, the agent reaches for score, XP, streaks, badges &mdash; the genre defaults of the training data. <strong>Defence:</strong> a project-level anti-scope document (Virtual Makerspace&rsquo;s <code>pedagogy-charter.md</code> §&nbsp;6 explicitly forbids these) attached to every session. Without that anchor, the gamification creep arrives the second time you ask for &ldquo;a bit more polish.&rdquo;</p>
+  </div>
+  <div class="callout pitfall">
+    <div class="callout-label">failure · agent ≠ autopilot</div>
+    <p>Even Dilmer&rsquo;s end-to-end demo (the most polished public example as of 2026-05) shows the human still directing: UI rebuilt twice, audio policy negotiated, ball launcher corrected to use a prefab. Plan for ~1 hour of human direction per 1 hour of agent work, even on well-scoped tasks. The leverage is iteration speed, not autonomy.</p>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<section id="researcher">
+  <h2><span class="num">§ 9</span>Researcher-specific concerns</h2>
+  <p>Three concerns that don&rsquo;t apply to consumer dev but are load-bearing for anyone building a research apparatus, study stimulus, or instructional material with agents in the loop.</p>
+
+  <h3>Reproducibility</h3>
+  <p>An agentic build six months from now should produce the same artifact &mdash; otherwise the apparatus drifted between Wave 1 and Wave 2 of your study. <strong>Defence:</strong></p>
+  <ul>
+    <li>Commit the plan files (<a href="#p-plan-file">pattern 01</a>) into the repo, not the chat log.</li>
+    <li>Pin SDK versions explicitly (<code>@iwsdk/core: 0.3.1</code>, not <code>^0.3</code>).</li>
+    <li>Snapshot the agent build outputs (gltf hashes, ECS component lists) into <code>docs/build-receipts/</code> per release.</li>
+    <li>Record the model and revision used for each major build (<code>claude-opus-4-7</code>, date) in a release note. Model behaviour changes invisibly across revisions.</li>
+  </ul>
+
+  <h3>Pre-registration and IRB</h3>
+  <p>If your study&rsquo;s stimuli were partially shaped by an LLM, that fact is part of the methods section. For pre-registered studies:</p>
+  <ul>
+    <li>Pre-register the build artifact, not the build process &mdash; the participant interacts with a deterministic apparatus regardless of how it was made.</li>
+    <li>Record the prompts and plans that produced experimental stimuli, in the same way you would record the design rationale of a paper instrument.</li>
+    <li>If the agent helps tune sensitive parameters (difficulty curve, scaffolding density), treat those as pilot-derived parameters and lock them before main data collection.</li>
+  </ul>
+
+  <h3>Participant data near agent context</h3>
+  <div class="callout pitfall">
+    <div class="callout-label">privacy · participant data must NEVER enter agent context</div>
+    <p>Pasting raw event logs that contain participant identifiers, voice transcripts, or eye-tracking data into the chat &mdash; even &ldquo;just to debug&rdquo; &mdash; sends them to the model provider&rsquo;s servers. For IRB-covered studies this is almost certainly a protocol violation. <strong>Defence:</strong> scrub <code>participant_id</code>, <code>session_id</code>, audio, and gaze before any debugging session that involves the agent. Keep the participant-mapping table in encrypted storage outside the workspace the agent has access to. If the bug requires real data to reproduce, isolate to a manual debugging path (Python notebook + participant&rsquo;s consent for that specific debugging context).</p>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<section id="faq" class="faq">
+  <h2><span class="num">§ 10</span>FAQ</h2>
+
+  <details>
+    <summary>Do I need Unity to follow this guide?</summary>
+    <div class="faq-body">
+      <p>No. Every pattern is shown twice — once on Unity, once on IWSDK / WebXR. If you only run a browser stack you can skim the Unity columns and treat them as background. The patterns themselves are agnostic.</p>
+    </div>
+  </details>
+  <details>
+    <summary>Is Unity AI Assistant available for everyone yet?</summary>
+    <div class="faq-body">
+      <p>As of 2026-05, it is still private beta with credit-based pricing managed at <code>cloud.unity.com</code>. The Dilmer demo is reproducible only insofar as you have access. The patterns extracted here generalize to any LLM-in-editor workflow regardless of which beta you&rsquo;re in.</p>
+    </div>
+  </details>
+  <details>
+    <summary>Can I run IWSDK without owning a Quest?</summary>
+    <div class="faq-body">
+      <p>Yes. IWSDK ships IWER (Immersive Web Emulation Runtime) as a Vite plugin. Run <code>npm run dev</code>, open <code>https://localhost:8081/</code>, and you get an emulated WebXR session in desktop browser. Headset is needed only for final verification (<a href="#p-device-loop">pattern 10</a>).</p>
+    </div>
+  </details>
+  <details>
+    <summary>How much does this cost in API tokens?</summary>
+    <div class="faq-body">
+      <p>Highly variable. The cost drivers are (1) how often the agent re-reads large files after compaction, (2) whether plan files and CLAUDE.md context can substitute for re-explaining the project each session, and (3) how often the agent falls back to paraphrasing platform docs from memory. Domain MCPs (<a href="#p-domain-mcp">pattern 03</a>) help with that last one. Track real usage on the Anthropic console and set per-project budgets there. Reserve faster / larger models for hard refactors, not exploration.</p>
+    </div>
+  </details>
+  <details>
+    <summary>What happens when an MCP fails silently?</summary>
+    <div class="faq-body">
+      <p>You spend half the session prompting around a tool that isn&rsquo;t there. <a href="#p-tool-check">Pattern 02</a> exists because this is the most common time sink. Always start with <em>&ldquo;what tools are available?&rdquo;</em> If a tool you expect is missing, restart the relevant MCP server before any other action.</p>
+    </div>
+  </details>
+  <details>
+    <summary>Can the agent design my pedagogy / experiment?</summary>
+    <div class="faq-body">
+      <p>It can draft, but it cannot decide. The pedagogy charter for Virtual Makerspace exists precisely so the agent has a reviewer-anchored constraint set. Letting the agent &ldquo;suggest improvements&rdquo; without that anchor reliably produces gamification creep that violates the theory the study is trying to test. Keep the human in the design loop and the agent in the implementation loop.</p>
+    </div>
+  </details>
+  <details>
+    <summary>Does this work with hand tracking, not controllers?</summary>
+    <div class="faq-body">
+      <p>Yes for IWSDK (<code>xr_set_input_mode</code> = <code>hand</code>; the IWER emulator supports both). Yes for Unity once OpenXR&rsquo;s hand tracking subsystem is enabled. The patterns don&rsquo;t change — what changes is which gestures the agent should generate code for.</p>
+    </div>
+  </details>
+  <details>
+    <summary>Can I share a plan file across multiple repos?</summary>
+    <div class="faq-body">
+      <p>Yes — the pedagogy charter from Virtual Makerspace was reused (with modifications) for Circuit Playground&rsquo;s English-only / VR-only / TypeScript conventions. Treat plan files as portable: a project plan, a stack plan, a domain plan. Reference whichever is in scope.</p>
+    </div>
+  </details>
+  <details>
+    <summary>What about Vision Pro / Apple WebXR?</summary>
+    <div class="faq-body">
+      <p>WebXR Core on visionOS Safari is <em>behind a feature flag</em> as of the most recent <a href="https://immersiveweb.dev/">immersiveweb.dev</a> support table the author checked &mdash; you can enable it manually but it is not on by default for end users. AR-module support is incomplete. Native visionOS uses RealityKit / SwiftUI; agentic-editor tooling for that platform was not part of the workflows surveyed here. Patterns 01&ndash;04 (plan files, tool checks, domain MCPs, plan-vs-agent mode) are platform-agnostic and apply through Claude Code regardless of target. Patterns 05, 07, 10 depend on device-specific MCPs that, on visionOS as of 2026-05, the author has not surveyed in production use &mdash; treat any visionOS claims as &ldquo;needs verification on your device.&rdquo;</p>
+    </div>
+  </details>
+  <details>
+    <summary>Where do I report mistakes in this guide?</summary>
+    <div class="faq-body">
+      <p>Email <a href="mailto:jmoon23@ua.edu">jmoon23@ua.edu</a> or open a PR at <a href="https://github.com/Educatian/educatian.github.io">github.com/Educatian/educatian.github.io</a>. Mistakes about IWSDK behavior get prioritized; aesthetic disagreements stay open issues.</p>
+    </div>
+  </details>
+</section>
+
+<!-- ============================================================ -->
+<section id="downloads">
+  <h2><span class="num">§ 11</span>Downloads</h2>
+  <p>Public-safe templates and starter scripts you can drop into a new project. Nothing here contains client secrets, participant data, or non-public IP.</p>
+  <div class="downloads">
+    <a class="dl" href="downloads/plan-file-template.md">
+      <p class="dl-name">plan-file-template.md</p>
+      <p class="dl-desc">Empty markdown structure for the &ldquo;iterate-then-reference&rdquo; build pattern (Pattern 01).</p>
+    </a>
+    <a class="dl" href="downloads/first-prompt-templates.md">
+      <p class="dl-name">first-prompt-templates.md</p>
+      <p class="dl-desc">Tool-availability check prompts and MCP-restart playbook (Pattern 02).</p>
+    </a>
+    <a class="dl" href="downloads/iwsdk-claude-md-skeleton.md">
+      <p class="dl-name">iwsdk-claude-md-skeleton.md</p>
+      <p class="dl-desc">Bare-bones <code>CLAUDE.md</code> for a new IWSDK project — pitfalls, performance budget, sub-skill list.</p>
+    </a>
+    <a class="dl" href="downloads/telemetry-envelope.ts">
+      <p class="dl-name">telemetry-envelope.ts</p>
+      <p class="dl-desc">TypeScript envelope schema for XR telemetry events (Pattern 08); time-ordered IDs, frame_time_ms, optional poses. Defaults to <code>crypto.randomUUID()</code> (v4); swap in a UUID v7 library if you need lexicographic time ordering.</p>
+    </a>
+    <a class="dl" href="downloads/ecs-debug-cheatsheet.md">
+      <p class="dl-name">ecs-debug-cheatsheet.md</p>
+      <p class="dl-desc">IWER pause / step / snapshot / diff workflows for frame-by-frame physics debugging (Pattern 07).</p>
+    </a>
+    <a class="dl" href="downloads/agentic-xr-starter.zip">
+      <p class="dl-name">agentic-xr-starter.zip</p>
+      <p class="dl-desc">All five files bundled. Drop into a new repo as <code>docs/agentic/</code>.</p>
+    </a>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<section id="refs">
+  <h2><span class="num">§ 12</span>References</h2>
+  <h3>Official sources</h3>
+  <ul>
+    <li>IWSDK repo &mdash; <a href="https://github.com/facebook/immersive-web-sdk">github.com/facebook/immersive-web-sdk</a> &mdash; <em>&ldquo;WebXR made simple. Full-featured framework with interactions, locomotion, and spatial UI. Powered by Three.js.&rdquo;</em></li>
+    <li>IWSDK docs &mdash; <a href="https://iwsdk.dev">iwsdk.dev</a> &mdash; tagline: <em>&ldquo;AI-native WebXR development.&rdquo;</em></li>
+    <li>Unity AI Assistant &mdash; <a href="https://unity.com/ai">unity.com/ai</a> (verify current beta / pricing status before adopting)</li>
+    <li>Meta Quest Developer Hub &mdash; <a href="https://developer.oculus.com/">developer.oculus.com</a></li>
+    <li>Anthropic Claude Code &mdash; <a href="https://docs.claude.com/claude-code">docs.claude.com/claude-code</a></li>
+  </ul>
+  <h3>The Dilmer demo</h3>
+  <ul>
+    <li>YouTube: <a href="https://www.youtube.com/watch?v=bWxIF903t_I">&ldquo;How to Build Full VR/MR Games With Unity AI + Meta Agentic Tools!&rdquo;</a> (Dilmer Valecillos, Meta DevRel, 2026-05-03, 17:01).</li>
+    <li>Channel: <a href="https://www.youtube.com/channel/UCHM37DnT_QGJT5Zyl4EmqcA">Dilmer Valecillos</a></li>
+  </ul>
+  <figure class="shot web">
+    <img src="images/web/github-repo.png" alt="GitHub page for facebook/immersive-web-sdk showing 410 stars, 76 forks, MIT license, official one-line description, and recent commit activity">
+    <figcaption>The IWSDK repo at <a href="https://github.com/facebook/immersive-web-sdk">github.com/facebook/immersive-web-sdk</a> as of 2026-05-04: 410 stars, 76 forks, MIT licensed, active commits from <code>felixtrz</code> and <code>meta-codesync[bot]</code>. The official one-liner &mdash; <em>&ldquo;WebXR made simple. Full-featured framework with interactions, locomotion, and spatial UI. Powered by Three.js.&rdquo;</em> &mdash; is the canonical project description; the guide&rsquo;s framing of IWSDK does not deviate from it.</figcaption>
+  </figure>
+  <h3>Disclosures &amp; verification</h3>
+  <ul>
+    <li>This is a practical onboarding guide written by an external researcher; not affiliated with Meta, Unity, Anthropic, or any vendor mentioned.</li>
+    <li>IWSDK repo URL, package name, and one-liner verified at <a href="https://github.com/facebook/immersive-web-sdk">github.com/facebook/immersive-web-sdk</a> on 2026-05-04 (official description: <em>&ldquo;WebXR made simple. Full-featured framework with interactions, locomotion, and spatial UI. Powered by Three.js.&rdquo;</em>). Tagline at <a href="https://iwsdk.dev">iwsdk.dev</a>: <em>&ldquo;AI-native WebXR development.&rdquo;</em></li>
+    <li>Virtual Makerspace claims are from the author&rsquo;s own working repo at <a href="https://github.com/Educatian/virtual-makerspace">Educatian/virtual-makerspace</a>; the breadboard / 27&nbsp;mm snap / 192 sockets / Phase&nbsp;1&ndash;3 details are checked against <code>README.md</code>, <code>docs/mvp-scope.md</code>, and <code>docs/pedagogy-charter.md</code>.</li>
+    <li>Unity-side claims trace to the Dilmer Valecillos video and the author&rsquo;s study notes &mdash; not to direct hands-on Unity AI use. Take the Unity workflow as second-hand reporting, the IWSDK workflow as first-hand.</li>
+    <li>WebXR cross-platform support details (visionOS feature flag, etc.) cross-checked against <a href="https://immersiveweb.dev/">immersiveweb.dev</a> as of 2026-05-04.</li>
+  </ul>
+  <h3>Author projects</h3>
+  <ul>
+    <li><a href="https://github.com/Educatian/virtual-makerspace">Educatian / virtual-makerspace</a> &mdash; research-grade IWSDK study apparatus.</li>
+    <li>Circuit Playground &mdash; sibling K-12 product on IWSDK, in <code>PA_Research/circuit-playground/</code>.</li>
+  </ul>
+  <h3>Pedagogy / theory</h3>
+  <ul>
+    <li>Kapur, M. (2008, 2014). Productive failure in mathematical problem solving. <em>Cognition and Instruction</em>; <em>Educational Psychologist</em>.</li>
+    <li>Schneider, B., Pea, R., Sharma, K. (2017&ndash;2024). Gaze coupling in CSCL. <em>International Journal of Computer-Supported Collaborative Learning</em>.</li>
+    <li>Makransky, G., &amp; Petersen, G. B. (2021). The Cognitive-Affective Model of Immersive Learning (CAMIL). <em>Educational Psychology Review</em>.</li>
+  </ul>
+  <p style="margin-top:36px;font-style:italic;color:#666">All references current as of 2026-05-04. Agent stacks change quickly; treat the specific tool versions as illustrative, the patterns as durable.</p>
+</section>
+
+<!-- ============================================================ -->
+<section id="glossary">
+  <h2><span class="num">§ 13</span>Glossary</h2>
+  <p>Acronyms and shorthand used throughout this guide.</p>
+  <table>
+    <thead><tr><th>Term</th><th>Stands for / means</th><th>Where it appears</th></tr></thead>
+    <tbody>
+      <tr><td><code id="g-agent">Agent</code></td><td>An LLM with tool-use capability — Claude Code, Unity AI Assistant, Codex. Distinct from a chat bot because it can call functions, edit files, and operate over multiple turns toward a goal.</td><td>everywhere</td></tr>
+      <tr><td><code id="g-mcp">MCP</code></td><td>Model Context Protocol &mdash; a standard for exposing custom tools to an agent. <code>mcp__iwsdk-dev-mcp__*</code> means &ldquo;tools provided by the IWSDK dev MCP server.&rdquo;</td><td>patterns 02, 03, 07, 10</td></tr>
+      <tr><td><code id="g-ecs">ECS</code></td><td>Entity-Component-System &mdash; a data-oriented architecture where game objects are entity IDs, behavior is split into components (data) and systems (logic). IWSDK uses <code>elics</code> for ECS.</td><td>patterns 06, 07; case VM</td></tr>
+      <tr><td><code id="g-iwsdk">IWSDK</code></td><td>Immersive Web SDK &mdash; Meta&rsquo;s open-source WebXR framework at <a href="https://github.com/facebook/immersive-web-sdk">github.com/facebook/immersive-web-sdk</a>.</td><td>everywhere</td></tr>
+      <tr><td><code id="g-iwer">IWER</code></td><td>Immersive Web Emulation Runtime &mdash; the WebXR emulator + MCP bundled with IWSDK. Lets you control a session and inspect ECS from Claude Code without a headset.</td><td>patterns 02, 05, 07</td></tr>
+      <tr><td><code id="g-hzdb">HZDB</code></td><td>Meta Horizon Developer Hub MCP &mdash; exposes Meta Quest documentation search, connected-device tools, and the Meta 3D asset library.</td><td>patterns 03, 10</td></tr>
+      <tr><td><code id="g-webxr">WebXR</code></td><td>The W3C standard for AR/VR on the web. Implemented by Meta Quest Browser, Chrome on Android, etc. Status table at <a href="https://immersiveweb.dev/">immersiveweb.dev</a>.</td><td>case VM</td></tr>
+      <tr><td><code id="g-gltf">glTF / GLXF</code></td><td>JSON-based 3D asset formats. glTF is per-model; GLXF is per-scene with multiple glTFs. IWSDK loads both via <code>AssetManager</code>.</td><td>tooling spectrum</td></tr>
+      <tr><td><code id="g-ndjson">NDJSON</code></td><td>Newline-delimited JSON. Telemetry export format &mdash; one event per line, streamable, gzip-friendly.</td><td>pattern 08</td></tr>
+      <tr><td><code id="g-bvh">BVH</code></td><td>Bounding-volume hierarchy &mdash; an acceleration structure for raycasting. <code>Interactable</code> components in IWSDK use BVH-accelerated picking.</td><td>pitfalls (IWSDK)</td></tr>
+      <tr><td><code id="g-draco">DRACO / KTX2</code></td><td>3D mesh and texture compression codecs. <code>AssetManager</code> sets these up by default; raw <code>GLTFLoader</code> doesn&rsquo;t.</td><td>pitfalls (IWSDK)</td></tr>
+      <tr><td><code id="g-signal">Signal</code></td><td>Reactive value primitive from <code>@preact/signals-core</code>. <code>signal.value</code> subscribes; <code>signal.peek()</code> reads without subscribing.</td><td>pitfalls (IWSDK)</td></tr>
+      <tr><td><code id="g-pf">PF</code></td><td>Productive Failure &mdash; Kapur&rsquo;s learning-design framework where learners attempt a task without prior instruction; failure is required, then instruction consolidates the schema.</td><td>case VM, pedagogy charter</td></tr>
+      <tr><td><code id="g-camil">CAMIL</code></td><td>Cognitive-Affective Model of Immersive Learning (Makransky &amp; Petersen, 2021). One of the theoretical anchors for VR-learning research.</td><td>references</td></tr>
+      <tr><td><code id="g-ena-ona">ENA / ONA</code></td><td>Epistemic / Ordered Network Analysis &mdash; quantitative-ethnographic methods for analysing event sequences. See the author&rsquo;s <a href="../ona/">ONA guide</a>.</td><td>pattern 08</td></tr>
+      <tr><td><code id="g-ecd">ECD</code></td><td>Evidence-Centered Design (Mislevy) &mdash; assessment-design framework that maps construct claims to evidence to tasks. Companion to stealth assessment; see the <a href="../stealth-assessment/">Stealth Assessment guide</a>.</td><td>researcher concerns</td></tr>
+      <tr><td><code id="g-rag">RAG</code></td><td>Retrieval-Augmented Generation &mdash; pattern of pre-indexing documents and giving the agent a search tool over them. Used in IWSDK-RAG and HZDB.</td><td>pattern 03</td></tr>
+      <tr><td><code id="g-worktree">Worktree</code></td><td><code>git worktree</code> &mdash; multiple working trees off the same repo. Used for parallel-exploration agentic patterns where multiple branches build simultaneously.</td><td>pattern 11</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<footer class="foot">
+  <span>Educatian &middot; Open guides &middot; v1 2026-05-04</span>
+  <span><a href="../">&larr; back to all guides</a></span>
+  <span><a href="https://github.com/Educatian/educatian.github.io">github</a></span>
+</footer>
+
+</main>
+</div>
+
+<script>
+// ---------- TOC active highlighting (scroll spy) ----------
+(function(){
+  var tocLinks = Array.prototype.slice.call(document.querySelectorAll('nav.toc a'));
+  var sections = tocLinks.map(function(a){
+    var id = a.getAttribute('href').replace('#','');
+    return { link:a, target:document.getElementById(id) };
+  }).filter(function(s){ return s.target; });
+  function update(){
+    var y = window.scrollY + 120;
+    var current = null;
+    for (var i=0;i<sections.length;i++){
+      if (sections[i].target.offsetTop <= y) current = sections[i];
+    }
+    tocLinks.forEach(function(a){ a.classList.remove('active'); });
+    if (current) current.link.classList.add('active');
+  }
+  window.addEventListener('scroll', update, { passive:true });
+  window.addEventListener('resize', update);
+  update();
+})();
+</script>
+</body>
+</html>
