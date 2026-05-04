@@ -72,10 +72,19 @@ main{min-width:0}
 .lede{font-size:20px;line-height:1.55;color:#333;font-weight:300;
   max-width:60ch;margin:0 0 20px}
 .lede strong{font-weight:600;color:var(--ink)}
-.byline{font-family:'JetBrains Mono',monospace;font-size:11px;color:#888;
-  letter-spacing:1.5px;text-transform:uppercase;margin-top:36px;
-  padding-top:18px;border-top:1px solid var(--line)}
-.byline a{color:var(--rust);text-decoration:none;font-weight:700}
+.byline{font-family:'JetBrains Mono',monospace;font-size:11.5px;
+  letter-spacing:1.4px;text-transform:uppercase;margin-top:36px;
+  padding:14px 18px;background:var(--paper);
+  border:1.5px solid var(--ink);border-left:5px solid var(--rust);
+  border-radius:0 8px 8px 0;color:#1a1a1a;line-height:1.7;
+  display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center}
+.byline .by-author{color:var(--rust);font-weight:800;letter-spacing:1.6px}
+.byline .by-sep{color:var(--line);font-weight:400}
+.byline .by-affil{color:#444;font-weight:500}
+.byline a{color:var(--rust);text-decoration:underline;text-decoration-color:rgba(181,57,42,.4);
+  text-decoration-thickness:1px;text-underline-offset:3px;font-weight:700;
+  transition:color .12s,text-decoration-color .12s}
+.byline a:hover{color:var(--ink);text-decoration-color:var(--ink)}
 
 /* ==================== sections ==================== */
 section{margin:64px 0;scroll-margin-top:24px}
@@ -274,6 +283,22 @@ figure.video figcaption{max-width:64ch;margin-left:auto;margin-right:auto;
 .lite-yt .label .meta{font-family:'JetBrains Mono',monospace;font-size:10.5px;
   letter-spacing:1.5px;text-transform:uppercase;color:#ddd;white-space:nowrap}
 
+/* compact video grid for references */
+.video-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:16px 0 24px}
+.video-card{position:relative;padding-top:56.25%;border:1.5px solid var(--ink);
+  border-radius:8px;overflow:hidden;background:#000;
+  box-shadow:0 6px 16px rgba(26,26,26,.10);transition:transform .12s,box-shadow .12s}
+.video-card:hover{transform:translateY(-2px);box-shadow:0 12px 24px rgba(26,26,26,.15)}
+.video-card iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.video-card .lite-yt .play{width:60px;height:42px;border-radius:12px}
+.video-card .lite-yt .play::before{border-width:9px 0 9px 14px}
+.video-card .lite-yt .label{padding:12px 14px}
+.video-card .lite-yt .label .title{font-size:12.5px;line-height:1.3}
+.video-card .lite-yt .label .meta{font-size:9.5px}
+@media (max-width:560px){
+  .video-grid{grid-template-columns:1fr}
+}
+
 /* ==================== footer ==================== */
 .foot{margin-top:80px;padding-top:32px;border-top:1px solid var(--line);
   font-family:'JetBrains Mono',monospace;font-size:11px;color:#888;
@@ -369,7 +394,17 @@ figure.video figcaption{max-width:64ch;margin-left:auto;margin-right:auto;
   <div class="kicker">Workflow guide · v1 · 2026-05-04</div>
   <h1 class="h1">Agentic XR <span class="serif">development</span></h1>
   <p class="lede">A practical pattern catalog for building VR/MR experiences with humans-in-the-loop and large language models — drawn from public Unity demos and the author&rsquo;s own IWSDK research projects. <strong>Pick the patterns that fit your stack; combine them.</strong></p>
-  <p class="byline">By Jewoong Moon · jmoon23@ua.edu · College of Education, The University of Alabama · Living document — <a href="https://github.com/Educatian/educatian.github.io">PRs welcome</a></p>
+  <p class="byline">
+    <span class="by-author">Jewoong Moon</span>
+    <span class="by-sep">/</span>
+    <a href="mailto:jmoon19@ua.edu">jmoon19@ua.edu</a>
+    <span class="by-sep">/</span>
+    <span class="by-affil">College of Education &middot; The University of Alabama</span>
+    <span class="by-sep">/</span>
+    <span class="by-affil">Living document</span>
+    <span class="by-sep">/</span>
+    <a href="https://github.com/Educatian/educatian.github.io">PRs welcome</a>
+  </p>
 
   <figure class="shot">
     <img src="images/vm/hero.png" alt="Virtual Makerspace running in WebXR — breadboard with grabbable circuit components, idle robot character, instruction HUD">
@@ -730,6 +765,12 @@ ecs_diff from="before" to="after"</code></pre>
       </div>
     </div>
     <p class="when-not"><strong>When not to apply:</strong> one-time exploratory tasks that will not recur. Sub-skills that get used once a year are technical debt.</p>
+    <div class="callout tip">
+      <div class="callout-label">canonical bundle &middot; meta-quest/agentic-tools</div>
+      <p>Meta now ships an official Claude Code plugin: <a href="https://github.com/meta-quest/agentic-tools"><code>meta-quest/agentic-tools</code></a> &mdash; 13 agent skills + the <code>hzdb</code> MCP server (40+ tools). Skills cover scaffolding (Unity / Unreal / WebXR / Spatial Android), code review, performance profiling (Perfetto / simpleperf), VRC validation, store submission. One-line install:</p>
+      <div class="code-block"><pre><code>npx -y @meta-quest/hzdb mcp install claude-code</code></pre></div>
+      <p>Read this as the <em>canonical example</em> of pattern 09: a curated set of verbs encoded as slash commands so the agent stops re-deriving them. The IWSDK sub-skills bundled with VM are a smaller subset of the same idea, scoped to one project.</p>
+    </div>
     <h4 style="margin-top:24px">Sample SKILL.md (one-page minimum)</h4>
     <p>A workable Claude Code skill is shorter than people expect. The structure below is what the author uses for IWSDK sub-skills &mdash; copy, adapt, drop into <code>~/.claude/skills/&lt;skill-name&gt;/SKILL.md</code>:</p>
     <div class="code-block"><pre><code>---
@@ -905,6 +946,23 @@ docs/pedagogy-charter.md.</code></pre></div>
       <span class="meta">Phase 1 implemented · 2026-05</span>
     </div>
     <p>Author&rsquo;s own project (<a href="https://github.com/Educatian/virtual-makerspace">github.com/Educatian/virtual-makerspace</a>) — a research-grade WebXR prototype investigating embodied Productive Failure across four maker modules. The agentic workflow keeps the implementation aligned with a non-negotiable pedagogy charter and a precise telemetry schema.</p>
+
+    <figure class="video">
+      <div class="frame">
+        <button class="lite-yt" data-yt="d1PwLkvgP7A"
+          aria-label="Play: Your First Steps with Immersive Web SDK by Meta Developers">
+          <img src="https://i.ytimg.com/vi/d1PwLkvgP7A/maxresdefault.jpg"
+            alt="" loading="lazy"
+            onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/d1PwLkvgP7A/hqdefault.jpg'">
+          <span class="play" aria-hidden="true"></span>
+          <span class="label">
+            <span class="title">Your First Steps with Immersive Web SDK</span>
+            <span class="meta">Meta Developers</span>
+          </span>
+        </button>
+      </div>
+      <figcaption>Meta&rsquo;s official IWSDK onboarding walkthrough. Watch this once before reading the rest of this case study &mdash; it grounds the framework concepts (ECS / signals / Three.js integration) before we discuss how the agentic workflow sits on top of them.</figcaption>
+    </figure>
     <h4>Anchoring artifacts (pass them as context every session)</h4>
     <ul>
       <li><code>docs/pedagogy-charter.md</code> — Productive Failure / embodied cognition / GBL-not-gamification commitments. Prevents agent feature creep.</li>
@@ -1269,7 +1327,7 @@ allocations.</code></pre></div>
   <details>
     <summary>Where do I report mistakes in this guide?</summary>
     <div class="faq-body">
-      <p>Email <a href="mailto:jmoon23@ua.edu">jmoon23@ua.edu</a> or open a PR at <a href="https://github.com/Educatian/educatian.github.io">github.com/Educatian/educatian.github.io</a>. Mistakes about IWSDK behavior get prioritized; aesthetic disagreements stay open issues.</p>
+      <p>Email <a href="mailto:jmoon19@ua.edu">jmoon19@ua.edu</a> or open a PR at <a href="https://github.com/Educatian/educatian.github.io">github.com/Educatian/educatian.github.io</a>. Mistakes about IWSDK behaviour get prioritised; aesthetic disagreements stay open issues.</p>
     </div>
   </details>
 </section>
@@ -1345,6 +1403,98 @@ allocations.</code></pre></div>
     <li>Schneider, B., Pea, R., Sharma, K. (2017&ndash;2024). Gaze coupling in CSCL. <em>International Journal of Computer-Supported Collaborative Learning</em>.</li>
     <li>Makransky, G., &amp; Petersen, G. B. (2021). The Cognitive-Affective Model of Immersive Learning (CAMIL). <em>Educational Psychology Review</em>.</li>
   </ul>
+  <h3>Further viewing &mdash; videos</h3>
+  <p>Curated companion videos. Each is a click-to-load facade &mdash; no YouTube traffic until you start playback.</p>
+  <div class="video-grid">
+    <div class="video-card">
+      <button class="lite-yt" data-yt="d1PwLkvgP7A"
+        aria-label="Play: Your First Steps with Immersive Web SDK by Meta Developers">
+        <img src="https://i.ytimg.com/vi/d1PwLkvgP7A/maxresdefault.jpg" alt=""
+          loading="lazy" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/d1PwLkvgP7A/hqdefault.jpg'">
+        <span class="play" aria-hidden="true"></span>
+        <span class="label">
+          <span class="title">Your First Steps with Immersive Web SDK</span>
+          <span class="meta">Meta Developers</span>
+        </span>
+      </button>
+    </div>
+    <div class="video-card">
+      <button class="lite-yt" data-yt="4ioRoWZR0AM"
+        aria-label="Play: Deploy Your WebXR App with IWSDK and Submit as PWA to Meta Horizon">
+        <img src="https://i.ytimg.com/vi/4ioRoWZR0AM/maxresdefault.jpg" alt=""
+          loading="lazy" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/4ioRoWZR0AM/hqdefault.jpg'">
+        <span class="play" aria-hidden="true"></span>
+        <span class="label">
+          <span class="title">Deploy Your WebXR App with IWSDK + Submit as PWA</span>
+          <span class="meta">XR Bootcamp</span>
+        </span>
+      </button>
+    </div>
+    <div class="video-card">
+      <button class="lite-yt" data-yt="VWdFoANicIU"
+        aria-label="Play: Build World Model WebXR Experiences With Spark.js 2.0, LOD and IWSDK">
+        <img src="https://i.ytimg.com/vi/VWdFoANicIU/maxresdefault.jpg" alt=""
+          loading="lazy" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/VWdFoANicIU/hqdefault.jpg'">
+        <span class="play" aria-hidden="true"></span>
+        <span class="label">
+          <span class="title">World Model WebXR with Spark.js 2.0 + LOD + IWSDK</span>
+          <span class="meta">XR Bootcamp</span>
+        </span>
+      </button>
+    </div>
+    <div class="video-card">
+      <button class="lite-yt" data-yt="rlgEmd4afM8"
+        aria-label="Play: Build Your First VR/MR App with Dilmer Valecillos">
+        <img src="https://i.ytimg.com/vi/rlgEmd4afM8/maxresdefault.jpg" alt=""
+          loading="lazy" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/rlgEmd4afM8/hqdefault.jpg'">
+        <span class="play" aria-hidden="true"></span>
+        <span class="label">
+          <span class="title">Build Your First VR/MR App w/ Dilmer Valecillos (Meta)</span>
+          <span class="meta">Devpost &middot; Builder Sessions</span>
+        </span>
+      </button>
+    </div>
+    <div class="video-card">
+      <button class="lite-yt" data-yt="vnC9Sw6k5Ao"
+        aria-label="Play: Learn to Create WebXR, VR and AR Experiences with Three.js by Nik Lever">
+        <img src="https://i.ytimg.com/vi/vnC9Sw6k5Ao/maxresdefault.jpg" alt=""
+          loading="lazy" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/vnC9Sw6k5Ao/hqdefault.jpg'">
+        <span class="play" aria-hidden="true"></span>
+        <span class="label">
+          <span class="title">WebXR / VR / AR with Three.js (foundation series)</span>
+          <span class="meta">Nik Lever</span>
+        </span>
+      </button>
+    </div>
+    <div class="video-card">
+      <button class="lite-yt" data-yt="bWxIF903t_I"
+        aria-label="Play: How to Build Full VR/MR Games With Unity AI plus Meta Agentic Tools by Dilmer Valecillos">
+        <img src="https://i.ytimg.com/vi/bWxIF903t_I/maxresdefault.jpg" alt=""
+          loading="lazy" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/bWxIF903t_I/hqdefault.jpg'">
+        <span class="play" aria-hidden="true"></span>
+        <span class="label">
+          <span class="title">Full VR/MR Games with Unity AI + Meta Agentic Tools</span>
+          <span class="meta">Dilmer Valecillos &middot; 17:01</span>
+        </span>
+      </button>
+    </div>
+  </div>
+
+  <h3>Further reading &mdash; documentation &amp; tooling</h3>
+  <ul>
+    <li><strong>Meta IWSDK overview</strong> &mdash; <a href="https://developers.meta.com/horizon/documentation/web/iwsdk-overview/">developers.meta.com/horizon/documentation/web/iwsdk-overview</a></li>
+    <li><strong>IWSDK AI-Assisted Development Tooling</strong> (Meta official) &mdash; <a href="https://developers.meta.com/horizon/documentation/web/iwsdk-ai-assisted-dev-tooling/">developers.meta.com/.../iwsdk-ai-assisted-dev-tooling</a></li>
+    <li><strong>&ldquo;Accelerate VR Development with AI &amp; Immersive Web SDK&rdquo;</strong> (Meta blog) &mdash; <a href="https://developers.meta.com/horizon/blog/accelerate-vr-development-with-ai-and-immersive-web-sdk/">developers.meta.com/horizon/blog/...</a></li>
+    <li><strong><code>meta-quest/agentic-tools</code></strong> (Apache-2.0, 13 skills + hzdb MCP) &mdash; <a href="https://github.com/meta-quest/agentic-tools">github.com/meta-quest/agentic-tools</a></li>
+    <li><strong>Unity AI-powered Meta Quest setup</strong> (Meta tutorial) &mdash; <a href="https://developers.meta.com/horizon/documentation/unity/unity-tutorial-ai-vr-setup/">developers.meta.com/.../unity-tutorial-ai-vr-setup</a></li>
+    <li><strong>HZDB MCP setup for Meta Horizon OS</strong> &mdash; <a href="https://developers.meta.com/horizon/documentation/unity/ts-mqdh-mcp/">developers.meta.com/.../ts-mqdh-mcp</a></li>
+    <li><strong><code>CoplayDev/unity-mcp</code></strong> (community Unity MCP, MIT, 9.1k stars) &mdash; <a href="https://github.com/CoplayDev/unity-mcp">github.com/CoplayDev/unity-mcp</a></li>
+    <li><strong><code>IvanMurzak/Unity-MCP</code></strong> (alt community Unity MCP, 2.5k stars) &mdash; <a href="https://github.com/IvanMurzak/Unity-MCP">github.com/IvanMurzak/Unity-MCP</a></li>
+    <li><strong>Anthropic &mdash; Build an MCP server</strong> (official tutorial) &mdash; <a href="https://modelcontextprotocol.io/docs/develop/build-server">modelcontextprotocol.io/docs/develop/build-server</a></li>
+    <li><strong>Claude Code &mdash; MCP integration</strong> &mdash; <a href="https://code.claude.com/docs/en/mcp">code.claude.com/docs/en/mcp</a></li>
+    <li><strong><code>felixtrz/elixr</code></strong> (IWSDK&rsquo;s predecessor by the same author) &mdash; <a href="https://github.com/felixtrz/elixr">github.com/felixtrz/elixr</a></li>
+  </ul>
+
   <p style="margin-top:36px;font-style:italic;color:#666">All references current as of 2026-05-04. Agent stacks change quickly; treat the specific tool versions as illustrative, the patterns as durable.</p>
 </section>
 
