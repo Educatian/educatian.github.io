@@ -1,0 +1,51 @@
+<svg width="1400" height="900" viewBox="0 0 1400 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1400" height="900" rx="40" fill="#F4EFE8"/>
+  <rect x="58" y="58" width="1284" height="784" rx="28" fill="#FBF9F5" stroke="#C8BFB6" stroke-width="2"/>
+  <text x="92" y="128" fill="#9E1B32" font-family="Noto Sans KR, Arial, sans-serif" font-size="28" font-weight="700">Compressed Research Loop</text>
+  <text x="92" y="166" fill="#5B514A" font-family="Noto Sans KR, Arial, sans-serif" font-size="20">AI shifts early research tasks from slow craft to accelerated scaffolding.</text>
+
+  <defs>
+    <linearGradient id="softCrimson" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#B72842"/>
+      <stop offset="1" stop-color="#E2B5BC"/>
+    </linearGradient>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0 0L12 6L0 12Z" fill="#9E1B32"/>
+    </marker>
+  </defs>
+
+  <circle cx="282" cy="430" r="118" fill="#FFFDFC" stroke="#9E1B32" stroke-width="3"/>
+  <circle cx="562" cy="290" r="118" fill="#FFFDFC" stroke="#9E1B32" stroke-width="3"/>
+  <circle cx="874" cy="290" r="118" fill="#FFFDFC" stroke="#9E1B32" stroke-width="3"/>
+  <circle cx="1118" cy="430" r="118" fill="#FFFDFC" stroke="#9E1B32" stroke-width="3"/>
+  <circle cx="874" cy="610" r="118" fill="#FFFDFC" stroke="#9E1B32" stroke-width="3"/>
+  <circle cx="562" cy="610" r="118" fill="#FFFDFC" stroke="#9E1B32" stroke-width="3"/>
+
+  <path d="M388 380C435 350 468 328 500 312" stroke="#9E1B32" stroke-width="10" stroke-linecap="round" marker-end="url(#arrow)"/>
+  <path d="M676 290H748" stroke="#9E1B32" stroke-width="10" stroke-linecap="round" marker-end="url(#arrow)"/>
+  <path d="M980 324C1028 350 1052 370 1080 392" stroke="#9E1B32" stroke-width="10" stroke-linecap="round" marker-end="url(#arrow)"/>
+  <path d="M1086 496C1058 530 1028 553 980 576" stroke="#9E1B32" stroke-width="10" stroke-linecap="round" marker-end="url(#arrow)"/>
+  <path d="M768 610H694" stroke="#9E1B32" stroke-width="10" stroke-linecap="round" marker-end="url(#arrow)"/>
+  <path d="M474 574C418 546 380 512 342 482" stroke="#9E1B32" stroke-width="10" stroke-linecap="round" marker-end="url(#arrow)"/>
+
+  <text x="220" y="418" fill="#171616" font-family="Noto Sans KR, Arial, sans-serif" font-size="28" font-weight="800">Literature</text>
+  <text x="236" y="454" fill="#5B514A" font-family="Noto Sans KR, Arial, sans-serif" font-size="20">search</text>
+
+  <text x="500" y="278" fill="#171616" font-family="Noto Sans KR, Arial, sans-serif" font-size="28" font-weight="800">Summary</text>
+  <text x="506" y="314" fill="#5B514A" font-family="Noto Sans KR, Arial, sans-serif" font-size="20">synthesis</text>
+
+  <text x="820" y="278" fill="#171616" font-family="Noto Sans KR, Arial, sans-serif" font-size="28" font-weight="800">Draft</text>
+  <text x="798" y="314" fill="#5B514A" font-family="Noto Sans KR, Arial, sans-serif" font-size="20">first writing</text>
+
+  <text x="1065" y="418" fill="#171616" font-family="Noto Sans KR, Arial, sans-serif" font-size="28" font-weight="800">Code</text>
+  <text x="1030" y="454" fill="#5B514A" font-family="Noto Sans KR, Arial, sans-serif" font-size="20">scaffolding</text>
+
+  <text x="800" y="598" fill="#171616" font-family="Noto Sans KR, Arial, sans-serif" font-size="28" font-weight="800">Verify</text>
+  <text x="780" y="634" fill="#5B514A" font-family="Noto Sans KR, Arial, sans-serif" font-size="20">sources, facts</text>
+
+  <text x="488" y="598" fill="#171616" font-family="Noto Sans KR, Arial, sans-serif" font-size="28" font-weight="800">Defend</text>
+  <text x="474" y="634" fill="#5B514A" font-family="Noto Sans KR, Arial, sans-serif" font-size="20">judgment</text>
+
+  <rect x="92" y="722" width="1218" height="76" rx="18" fill="#9E1B3212" stroke="#9E1B32" stroke-width="2"/>
+  <text x="122" y="768" fill="#5B514A" font-family="Noto Sans KR, Arial, sans-serif" font-size="22">What accelerates is the loop. What cannot be outsourced is responsibility for verification, interpretation, and disclosure.</text>
+</svg>

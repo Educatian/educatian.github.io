@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ai-research-professor-era</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ua-crimson:#9e1b32;
+    --ua-crimson-soft:rgba(158,27,50,.10);
+    --paper:#faf6ef;
+    --paper-2:#f1e9dc;
+    --ink:#181512;
+    --ink-soft:#574f47;
+    --line:rgba(24,21,18,.12);
+    --line-strong:rgba(24,21,18,.24);
+    --white:#ffffff;
+    --shadow:0 18px 48px rgba(24,21,18,.08);
+    --sans:"Noto Sans KR","Inter",Arial,sans-serif;
+    --mono:"IBM Plex Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  body{
+    background:
+      radial-gradient(circle at top left, rgba(158,27,50,.07), transparent 28%),
+      radial-gradient(circle at 85% 20%, rgba(158,27,50,.05), transparent 24%),
+      linear-gradient(180deg, #fdfaf5, #f6efe4 68%, #f2ebde);
+  }
+
+  #deck{
+    position:fixed; inset:0;
+    width:100vw; height:100vh;
+    display:flex; flex-wrap:nowrap;
+    transition:transform .5s ease;
+  }
+  .slide{
+    width:100vw; height:100vh; flex:0 0 100vw;
+    padding:36px 42px 42px;
+    display:flex; flex-direction:column;
+    position:relative; overflow:hidden;
+  }
+  .slide::before{
+    content:"";
+    position:absolute;
+    inset:18px;
+    border-radius:28px;
+    pointer-events:none;
+    z-index:0;
+  }
+  .slide > .chrome,
+  .slide > .frame,
+  .slide > .foot{
+    position:relative;
+    z-index:1;
+  }
+  .slide.light{background:transparent; color:var(--ink)}
+  .slide.light::before{
+    background:linear-gradient(180deg, rgba(255,255,255,.84), rgba(251,246,239,.94));
+    border:1px solid rgba(24,21,18,.08);
+    box-shadow:0 18px 64px rgba(24,21,18,.08);
+  }
+  .slide.dark{
+    background:transparent;
+    color:#f5efe7;
+  }
+  .slide.dark::before{
+    background:linear-gradient(180deg, rgba(48,40,36,.96), rgba(23,20,18,.98));
+    border:1px solid rgba(255,255,255,.08);
+    box-shadow:0 26px 70px rgba(24,21,18,.18);
+  }
+  .slide.active{z-index:2}
+
+  .chrome,.foot{
+    display:flex; justify-content:space-between; align-items:center;
+    font-family:var(--mono); font-size:11px; letter-spacing:.14em;
+    text-transform:uppercase;
+  }
+  .chrome{opacity:.82}
+  .foot{margin-top:auto; opacity:.68}
+  .chrome-left,.chrome-right,.foot-left,.foot-right{display:flex; gap:16px; align-items:center}
+  .sep{width:36px;height:1px;background:var(--ua-crimson);opacity:.75}
+
+  .frame{flex:1; display:flex; flex-direction:column; min-height:0; padding:8px 10px 0}
+  .grid-two{display:grid; grid-template-columns:1.35fr .95fr; gap:36px; align-items:start}
+  .grid-even{display:grid; grid-template-columns:1fr 1fr; gap:28px; align-items:start}
+  .grid-three{display:grid; grid-template-columns:repeat(3,1fr); gap:22px}
+  .grid-six{display:grid; grid-template-columns:repeat(3,1fr); gap:18px}
+  .stack{display:flex; flex-direction:column; gap:16px}
+
+  .kicker{
+    font-family:var(--mono); font-size:11px; letter-spacing:.18em;
+    text-transform:uppercase; color:var(--ua-crimson); margin-bottom:16px;
+  }
+  .title-xl{font-size:66px; line-height:1.04; font-weight:900; letter-spacing:-.035em}
+  .title-lg{font-size:50px; line-height:1.08; font-weight:800; letter-spacing:-.025em}
+  .title-md{font-size:32px; line-height:1.16; font-weight:800}
+  .lead{font-size:26px; line-height:1.5; font-weight:600; color:inherit; opacity:.96; max-width:34ch}
+  .body{font-size:20px; line-height:1.68; color:var(--ink-soft)}
+  .dark .body{color:rgba(244,241,236,.84)}
+  .meta-row{
+    display:flex; flex-wrap:wrap; gap:12px;
+    font-family:var(--mono); font-size:11px; letter-spacing:.12em;
+    text-transform:uppercase; opacity:.68; margin-top:18px;
+  }
+
+  .card,.quote,.panel,.shot{
+    border:1px solid var(--line);
+    background:rgba(255,255,255,.78);
+    border-radius:18px;
+    box-shadow:var(--shadow);
+  }
+  .dark .card,.dark .quote,.dark .panel,.dark .shot{
+    background:rgba(255,255,255,.04);
+    border-color:rgba(255,255,255,.14);
+    box-shadow:none;
+  }
+  .card{padding:18px 18px 16px}
+  .quote{padding:22px 22px 20px; border-left:4px solid var(--ua-crimson)}
+  .panel{padding:16px}
+  .shot{padding:14px}
+  .diagram{
+    width:100%;
+    height:auto;
+    display:block;
+    border-radius:14px;
+    border:1px solid var(--line);
+    background:#fff;
+    box-shadow:var(--shadow);
+  }
+  .dark .diagram{
+    background:rgba(255,255,255,.04);
+    border-color:rgba(255,255,255,.14);
+    box-shadow:none;
+  }
+  .visual-wrap{
+    position:relative;
+    width:100%;
+  }
+  .visual-wrap .diagram{
+    max-height:460px;
+    object-fit:contain;
+    background:#f8f5ef;
+  }
+  .overlay-note{
+    position:absolute;
+    left:18px;
+    right:18px;
+    bottom:18px;
+    padding:16px 18px;
+    border-radius:16px;
+    background:rgba(255,253,252,.86);
+    border:1px solid rgba(23,22,22,.10);
+    box-shadow:0 10px 24px rgba(23,22,22,.10);
+    backdrop-filter:blur(8px);
+  }
+  .dark .overlay-note{
+    background:rgba(28,24,24,.78);
+    border-color:rgba(255,255,255,.14);
+    box-shadow:none;
+  }
+  .overlay-kicker{
+    font-family:var(--mono);
+    font-size:10px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--ua-crimson);
+    margin-bottom:8px;
+  }
+  .overlay-text{
+    font-size:20px;
+    line-height:1.5;
+    font-weight:700;
+    color:var(--ink);
+  }
+  .dark .overlay-text{color:#f4f1ec}
+
+  .shot-bar{
+    display:flex; justify-content:space-between; align-items:center;
+    margin-bottom:12px; font-family:var(--mono); font-size:10px;
+    letter-spacing:.12em; text-transform:uppercase; opacity:.62;
+  }
+  .dots{display:flex; gap:6px}
+  .dots span{width:7px;height:7px;border-radius:50%;background:currentColor;opacity:.34}
+  .shot-title{font-size:19px; font-weight:700; line-height:1.4}
+  .lines{display:grid; gap:8px; margin-top:12px}
+  .line{height:9px; border-radius:999px; background:rgba(23,22,22,.10)}
+  .dark .line{background:rgba(255,255,255,.14)}
+  .w90{width:90%}.w75{width:75%}.w65{width:65%}.w50{width:50%}
+
+  .pill{
+    display:inline-block; padding:5px 10px; border-radius:999px;
+    border:1px solid var(--ua-crimson); color:var(--ua-crimson);
+    font-family:var(--mono); font-size:10px; letter-spacing:.1em;
+    text-transform:uppercase;
+  }
+  .dark .pill{color:#ffccd3; border-color:rgba(255,204,211,.42)}
+
+  .stat-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:16px}
+  .stat{
+    padding:18px; border-top:3px solid var(--ua-crimson);
+    background:rgba(255,255,255,.76); border-radius:12px; border-left:1px solid var(--line); border-right:1px solid var(--line); border-bottom:1px solid var(--line);
+  }
+  .dark .stat{
+    background:rgba(255,255,255,.04); border-color:rgba(255,255,255,.14);
+  }
+  .stat-label{
+    font-family:var(--mono); font-size:10px; letter-spacing:.14em;
+    text-transform:uppercase; opacity:.62;
+  }
+  .stat-num{
+    font-size:64px; line-height:1; font-weight:900; margin:10px 0 10px;
+    letter-spacing:-.03em;
+  }
+  .stat-note{font-size:18px; line-height:1.56; color:var(--ink-soft)}
+  .dark .stat-note{color:rgba(244,241,236,.82)}
+
+  .pipeline{display:grid; grid-template-columns:repeat(5,1fr); gap:14px; margin-top:18px}
+  .step{
+    padding-top:14px; border-top:2px solid var(--ua-crimson-soft);
+  }
+  .step-no{font-family:var(--mono); font-size:10px; letter-spacing:.12em; text-transform:uppercase; color:var(--ua-crimson); margin-bottom:8px}
+  .step-title{font-size:21px; font-weight:800; margin-bottom:8px}
+  .step-desc{font-size:17px; line-height:1.5; color:var(--ink-soft)}
+  .dark .step-desc{color:rgba(244,241,236,.8)}
+
+  .mini-chart{display:grid; grid-template-columns:repeat(4,1fr); gap:10px; align-items:end; height:100px; margin-top:14px}
+  .mini-chart span{display:block; background:linear-gradient(180deg,var(--ua-crimson),rgba(158,27,50,.25)); border-radius:10px 10px 0 0}
+
+  .two-lane{display:grid; grid-template-columns:1fr 1fr; gap:14px}
+  .lane{padding:16px; border:1px solid var(--line); border-radius:12px; background:rgba(255,255,255,.72)}
+  .dark .lane{border-color:rgba(255,255,255,.14); background:rgba(255,255,255,.04)}
+  .lane h4{font-size:20px; font-weight:800; margin-bottom:8px}
+  .lane p{font-size:17px; line-height:1.55}
+
+  .source-chips{display:flex; flex-wrap:wrap; gap:10px; margin-top:12px}
+  .source-chips span{
+    border:1px solid var(--ua-crimson); color:var(--ua-crimson);
+    border-radius:999px; padding:5px 10px; font-family:var(--mono);
+    font-size:10px; letter-spacing:.1em; text-transform:uppercase;
+  }
+  .dark .source-chips span{color:#ffccd3; border-color:rgba(255,204,211,.42)}
+
+  #nav{
+    position:fixed; left:50%; bottom:18px; transform:translateX(-50%);
+    display:flex; gap:8px; padding:8px 12px; border-radius:999px;
+    background:rgba(255,255,255,.84); border:1px solid var(--line);
+    box-shadow:0 10px 30px rgba(24,21,18,.08);
+    z-index:30;
+  }
+  .dot{
+    width:9px; height:9px; border-radius:50%; border:0; padding:0;
+    background:rgba(23,22,22,.18); cursor:pointer; transition:all .2s ease;
+  }
+  .dot.active{width:24px; border-radius:999px; background:var(--ua-crimson)}
+  #hint{
+    position:fixed; right:18px; bottom:18px; z-index:30;
+    font-family:var(--mono); font-size:10px; letter-spacing:.1em;
+    color:#6d6660; text-transform:uppercase;
+  }
+
+  @media (max-width:1100px){
+    .title-xl{font-size:48px}
+    .title-lg{font-size:38px}
+    .lead{font-size:21px}
+    .grid-two,.grid-even,.grid-three,.grid-six,.two-lane,.stat-grid,.pipeline{grid-template-columns:1fr}
+    .slide{padding:34px 28px 44px}
+  }
+</style>
+</head>
+<body>
+<div id="deck">
+
+<section class="slide dark">
+  <div class="chrome">
+    <div class="chrome-left"><span>AI Era Faculty Survival</span><span class="sep"></span><span>15-minute talk</span></div>
+    <div class="chrome-right"><span>Jewoong Moon · The University of Alabama</span></div>
+  </div>
+  <div class="frame" style="justify-content:center; gap:22px;">
+    <div class="kicker">From knowledge gatekeeper to judgment designer</div>
+    <h1 class="title-xl" style="max-width:10ch;">AI 시대<br>교수들의<br>생존법</h1>
+    <div class="lead">이제 교수의 경쟁력은 많이 아는 것보다, 무엇을 믿고 무엇을 검증하며 무엇을 설계하게 할 것인지에 달려 있다.</div>
+    <div class="meta-row"><span>연구자·교수 관점</span><span>평가 재설계</span><span>지식 습득 질서의 재편</span><span>2026.05.03</span></div>
+  </div>
+  <div class="foot"><div class="foot-left"><span>AI 시대 교수들의 생존법</span></div><div class="foot-right"><span>01</span></div></div>
+</section>
+
+<section class="slide light">
+  <div class="chrome">
+    <div class="chrome-left"><span>Thesis</span><span class="sep"></span><span>Why now</span></div>
+    <div class="chrome-right"><span>Problem shift</span></div>
+  </div>
+  <div class="frame grid-two" style="margin-top:18px;">
+    <div class="stack">
+      <div class="kicker">한 줄 요약</div>
+      <h2 class="title-lg">교수는 더 이상<br>지식의 입구가 아니다.</h2>
+      <div class="lead">연구자는 이미 AI와 함께 논문을 찾고, 요약하고, 코드 초안을 만들고, 문장을 다듬고, 아이디어를 시험한다. 남는 질문은 “AI를 쓸 것인가”가 아니라 “어디까지 맡기고 어디서 인간 판단이 개입해야 하는가”다.</div>
+      <div class="quote">
+        <div class="title-md">생존의 핵심은 설명자가 아니라 <span style="color:var(--ua-crimson)">판단의 설계자</span>가 되는 것.</div>
+      </div>
+    </div>
+    <div class="stack">
+      <div class="shot">
+        <div class="shot-bar"><div class="dots"><span></span><span></span><span></span></div><span>role shift</span></div>
+        <div class="shot-title">Knowledge gatekeeper → judgment designer</div>
+        <div class="lines"><div class="line w90"></div><div class="line w75"></div><div class="line w50"></div></div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Old role</div>
+        <div class="stat-num">Know</div>
+        <div class="stat-note">희소한 지식과 접근권을 관리하는 사람</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">New role</div>
+        <div class="stat-num">Judge</div>
+        <div class="stat-note">질문, 과정, 증거, 책임의 구조를 설계하는 사람</div>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><div class="foot-left"><span>입구가 아닌 설계자</span></div><div class="foot-right"><span>02</span></div></div>
+</section>
+
+<section class="slide dark">
+  <div class="chrome">
+    <div class="chrome-left"><span>Before AI</span><span class="sep"></span><span>Academic training</span></div>
+    <div class="chrome-right"><span>Assumption stack</span></div>
+  </div>
+  <div class="frame stack" style="margin-top:18px;">
+    <div class="kicker">우리가 배웠던 정공법</div>
+    <h2 class="title-lg">연구자와 교수는<br>희소성과 지연의 세계에서 길러졌다</h2>
+    <div class="pipeline">
+      <div class="step"><div class="step-no">01</div><div class="step-title">읽기</div><div class="step-desc">핵심 텍스트와 정전을 오래 읽는다</div></div>
+      <div class="step"><div class="step-no">02</div><div class="step-title">훈련</div><div class="step-desc">방법론, 인용, 설계 규범을 공동체 안에서 익힌다</div></div>
+      <div class="step"><div class="step-no">03</div><div class="step-title">검증</div><div class="step-desc">동료평가와 느린 출판으로 지식을 통과시킨다</div></div>
+      <div class="step"><div class="step-no">04</div><div class="step-title">전달</div><div class="step-desc">강의실에서 구조화된 순서로 설명한다</div></div>
+      <div class="step"><div class="step-no">05</div><div class="step-title">평가</div><div class="step-desc">산출물로 개인 이해를 간접 판정한다</div></div>
+    </div>
+    <div class="grid-even">
+      <div class="grid-three">
+        <div class="card"><div class="pill">희소성</div><div class="body" style="margin-top:10px;">논문, 데이터, 전문가 피드백에 접근하는 데 비용과 시간이 컸다.</div></div>
+        <div class="card"><div class="pill">순차성</div><div class="body" style="margin-top:10px;">읽기, 이해, 쓰기, 토론의 순서가 비교적 안정적이었다.</div></div>
+        <div class="card"><div class="pill">안정성</div><div class="body" style="margin-top:10px;">지식의 권위는 느리지만 기관과 학회가 보장했다.</div></div>
+      </div>
+      <div class="stack">
+      <div class="panel" style="padding:22px;">
+        <div class="title-md">예전 연구 루프는 이렇게 느렸다</div>
+        <div class="grid-even" style="margin-top:18px;">
+          <div class="quote" style="padding:18px;">
+            <div class="title-md" style="font-size:24px;">문헌 찾기</div>
+            <div class="body" style="margin-top:10px;">도서관 DB, 키워드 조정, 참고문헌 역추적에 시간이 많이 들었다.</div>
+          </div>
+          <div class="quote" style="padding:18px;">
+            <div class="title-md" style="font-size:24px;">노트 정리</div>
+            <div class="body" style="margin-top:10px;">읽은 내용을 다시 요약하고 연결하며 스스로 이해를 만들었다.</div>
+          </div>
+          <div class="quote" style="padding:18px;">
+            <div class="title-md" style="font-size:24px;">초안 쓰기</div>
+            <div class="body" style="margin-top:10px;">문장 하나하나를 쓰는 과정 자체가 사고를 정리하는 시간이었다.</div>
+          </div>
+          <div class="quote" style="padding:18px;">
+            <div class="title-md" style="font-size:24px;">검토 받기</div>
+            <div class="body" style="margin-top:10px;">동료 피드백과 리뷰는 느렸지만, 그만큼 중간 점검의 의미가 컸다.</div>
+          </div>
+        </div>
+      </div>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><div class="foot-left"><span>희소성과 지연의 세계</span></div><div class="foot-right"><span>03</span></div></div>
+</section>
+
+<section class="slide light">
+  <div class="chrome">
+    <div class="chrome-left"><span>Shock</span><span class="sep"></span><span>Compressed loop</span></div>
+    <div class="chrome-right"><span>What AI changed</span></div>
+  </div>
+  <div class="frame stack" style="justify-content:center; gap:20px;">
+    <div class="kicker">AI가 압축한 것</div>
+    <h2 class="title-xl" style="max-width:10ch;">지식 습득의<br>중간 단계가<br>압축되었다</h2>
+    <div class="lead">이전에는 문헌 탐색, 첫 초안, 코드 스캐폴딩, 요약, 문장 정리가 연구 훈련의 일부였다. 지금은 그 상당 부분이 몇 초 안에 외주화된다.</div>
+    <div class="source-chips"><span>literature scan</span><span>drafting</span><span>coding</span><span>translation</span><span>review prep</span></div>
+    <div class="grid-even">
+      <div class="panel"><div class="pill">Before</div><div class="body" style="margin-top:10px;">찾기, 읽기, 정리, 쓰기, 코딩, 재검토가 연구자 훈련 자체였다.</div></div>
+      <div class="panel"><div class="pill">Now</div><div class="body" style="margin-top:10px;">탐색-요약-초안-코드 생성이 거의 동시화되면서 검증과 경계 설정이 더 중요해졌다.</div></div>
+    </div>
+  </div>
+  <div class="foot"><div class="foot-left"><span>압축된 학습 루프</span></div><div class="foot-right"><span>04</span></div></div>
+</section>
+
+<section class="slide light">
+  <div class="chrome">
+    <div class="chrome-left"><span>Collisions</span><span class="sep"></span><span>Confusions</span></div>
+    <div class="chrome-right"><span>Six tensions</span></div>
+  </div>
+  <div class="frame stack" style="margin-top:18px;">
+    <div class="kicker">지금 연구 현장이 부딪히는 것</div>
+    <h2 class="title-lg">AI와 함께 연구하는 과정은<br>여섯 가지 충돌을 만든다</h2>
+    <div class="grid-even">
+      <div class="grid-six">
+        <div class="card"><div class="pill">Truth</div><div class="body" style="margin-top:10px;">그럴듯한 문장과 검증된 사실이 분리된다</div></div>
+        <div class="card"><div class="pill">Authorship</div><div class="body" style="margin-top:10px;">누가 아이디어를 냈고 누가 문장을 만들었는지 흐려진다</div></div>
+        <div class="card"><div class="pill">Methods</div><div class="body" style="margin-top:10px;">코드와 분석이 빨라질수록 재현성과 점검 책임이 커진다</div></div>
+        <div class="card"><div class="pill">Review</div><div class="body" style="margin-top:10px;">peer review까지 자동화 압력을 받으며 판단의 질이 흔들린다</div></div>
+        <div class="card"><div class="pill">Tempo</div><div class="body" style="margin-top:10px;">생산 속도가 읽기와 숙고의 속도를 앞질러 과부하를 만든다</div></div>
+        <div class="card"><div class="pill">Confidentiality</div><div class="body" style="margin-top:10px;">민감한 데이터와 초고를 어디까지 넣어도 되는지 불분명하다</div></div>
+      </div>
+      <div class="stack">
+        <div class="shot">
+          <div class="shot-bar"><div class="dots"><span></span><span></span><span></span></div><span>tension map</span></div>
+          <div class="shot-title">truth / authorship / methods / review / tempo / confidentiality</div>
+          <div class="lines"><div class="line w90"></div><div class="line w75"></div><div class="line w65"></div><div class="line w50"></div></div>
+        </div>
+        <div class="panel"><div class="body">AI는 하나의 문제를 가져온 것이 아니라, 연구실이 따로 관리하던 문헌 탐색, 초안 작성, 코드, 데이터, 심사, 공개의 문제를 한 번에 겹쳐 놓았다.</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><div class="foot-left"><span>혼란의 구조</span></div><div class="foot-right"><span>05</span></div></div>
+</section>
+
+<section class="slide dark">
+  <div class="chrome">
+    <div class="chrome-left"><span>Evidence</span><span class="sep"></span><span>Research adoption</span></div>
+    <div class="chrome-right"><span>2023-2026</span></div>
+  </div>
+    <div class="frame grid-two" style="margin-top:18px; grid-template-columns:1.05fr 1.25fr;">
+    <div class="stack">
+      <div class="kicker">연구자는 이미 쓰고 있다. 다만 아직 안정적으로 제도화하지 못했다</div>
+      <h2 class="title-lg">연구 현장의 핵심 변수는<br>속도가 아니라 검증과 책임 배분이다</h2>
+      <div class="card body">Van Noorden &amp; Perkel (2023): Nature survey는 전 세계 1,600명 이상 연구자를 대상으로 AI 도구가 과학 연구에서 점점 보편화되고 있으며, 많은 연구자가 향후 핵심 인프라가 될 것으로 본다고 보고했다.</div>
+      <div class="card body">Nordling (2023): Nature의 글로벌 postdoc survey에서 약 3분의 1이 챗봇을 사용해 문장 다듬기, 코드 생성·편집, 문헌 정리를 하고 있다고 보고했다.</div>
+      <div class="card body">Besser, Jensen, &amp; Katz (2026): 한 연구중심대학 조사에서 29%가 최소 한 개 이상의 연구 작업에 GenAI를 쓰고 있었고, 주요 용도는 text refinement, code generation, rapid information retrieval였다.</div>
+    </div>
+    <div class="stack">
+      <div class="shot">
+        <div class="shot-bar"><div class="dots"><span></span><span></span><span></span></div><span>research dashboard</span></div>
+        <div class="shot-title">research workflows already shifting</div>
+        <div class="stat-num" style="margin-top:10px;">29%</div>
+        <div class="body">Besser et al. (2026): surveyed researchers using GenAI for at least one research task.</div>
+        <div class="mini-chart"><span style="height:78%"></span><span style="height:62%"></span><span style="height:84%"></span><span style="height:69%"></span></div>
+      </div>
+      <div class="source-chips"><span>nature survey</span><span>postdoc survey</span><span>open research europe</span></div>
+    </div>
+  </div>
+  <div class="foot"><div class="foot-left"><span>연구 채택은 이미 시작되었다</span></div><div class="foot-right"><span>06</span></div></div>
+</section>
+
+<section class="slide light">
+  <div class="chrome">
+    <div class="chrome-left"><span>Evidence</span><span class="sep"></span><span>Research governance</span></div>
+    <div class="chrome-right"><span>Policy lag</span></div>
+  </div>
+  <div class="frame stack" style="margin-top:18px;">
+    <div class="kicker">연구 거버넌스는 아직 뒤따라간다</div>
+    <h2 class="title-lg">연구실은 이미 AI를 쓰는데,<br>규범과 책임 구조는 아직 느리다</h2>
+    <div class="stat-grid">
+      <div class="stat"><div class="stat-label">AI and Ethics</div><div class="stat-num">30</div><div class="stat-note">Ganguly et al. (2025): 미국 R1 대학 30곳의 연구자용 GenAI 가이드라인을 분석했고, disclosure, privacy, attribution, external policy checking이 반복적으로 등장했다.</div></div>
+      <div class="stat"><div class="stat-label">Onus</div><div class="stat-num">1</div><div class="stat-note">같은 연구는 규정 준수의 부담이 결국 개별 연구자에게 귀속된다고 정리했다.</div></div>
+      <div class="stat"><div class="stat-label">UNESCO</div><div class="stat-num">2023</div><div class="stat-note">UNESCO는 인간중심 접근, 데이터 프라이버시 보호, researchers 역량 개발, coherent policy framework를 공식 권고했다.</div></div>
+      <div class="stat"><div class="stat-label">Peer review</div><div class="stat-num">2025</div><div class="stat-note">Naddaf (2025): AI가 peer review에 빠르게 스며들고 있고, 많은 과학자가 리뷰의 신뢰성과 책임성 약화를 우려한다고 보도했다.</div></div>
+    </div>
+  </div>
+  <div class="foot"><div class="foot-left"><span>실천은 앞서가고 규범은 늦다</span></div><div class="foot-right"><span>07</span></div></div>
+</section>
+
+<section class="slide dark">
+  <div class="chrome">
+    <div class="chrome-left"><span>Future</span><span class="sep"></span><span>What changes next</span></div>
+    <div class="chrome-right"><span>Past present future</span></div>
+  </div>
+  <div class="frame grid-two" style="margin-top:18px; grid-template-columns:1.08fr .92fr;">
+    <div class="stack">
+      <div class="kicker">미래는 누가 더 많이 아느냐보다 누가 더 잘 운영하느냐의 문제다</div>
+      <h2 class="title-lg">과거의 교수는 지식을 모았고,<br>현재의 교수는 속도와 충돌하고,<br>미래의 교수는 워크플로우를 설계한다</h2>
+      <div class="quote">
+        <div class="title-md">핵심 변화</div>
+        <div class="body" style="margin-top:12px;color:rgba(244,241,236,.9);">이제 경쟁력은 “내가 얼마나 많이 알고 있나”보다 <span style="color:#ffccd3;font-weight:800;">연구실이 어떤 규칙으로 AI를 쓰고 검증하는가</span>에 달린다.</div>
+      </div>
+      <div class="panel"><div class="body" style="color:rgba(244,241,236,.9);">메시지는 단순하다. AI를 금지할지 허용할지를 두고 머물지 말고, 연구실 차원의 `허용 범위`, `검증 절차`, `공개 방식`, `최종 책임`을 문서로 정해야 한다.</div></div>
+    </div>
+    <div class="stack">
+      <div class="quote">
+        <div class="title-md">Past</div>
+        <div class="body" style="margin-top:12px;color:rgba(244,241,236,.9);">희소한 지식에 접근하고, 오래 읽고, 늦게 검토받는 방식이 연구자 훈련의 기본이었다.</div>
+      </div>
+      <div class="quote">
+        <div class="title-md">Present</div>
+        <div class="body" style="margin-top:12px;color:rgba(244,241,236,.9);">탐색, 요약, 구조 잡기, 코드 스캐폴딩이 빨라지며 생산 속도와 검증 속도의 차이가 커졌다.</div>
+      </div>
+      <div class="quote">
+        <div class="title-md">Future</div>
+        <div class="body" style="margin-top:12px;color:rgba(244,241,236,.9);">교수는 더 많이 아는 사람보다, 무엇을 맡기고 무엇을 끝까지 사람이 책임질지 설계하는 사람에 가까워진다.</div>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><div class="foot-left"><span>과거 현재 미래</span></div><div class="foot-right"><span>08</span></div></div>
+</section>
+
+<section class="slide dark">
+  <img src="./assets/agentic-overview.png" alt="AI 시대 교수들의 생존법 overview image" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:0;">
+</section>
+
+<section class="slide dark">
+  <div class="chrome">
+    <div class="chrome-left"><span>Action</span><span class="sep"></span><span>What to change tomorrow</span></div>
+    <div class="chrome-right"><span>Lab rules</span></div>
+  </div>
+    <div class="frame grid-two" style="margin-top:18px; grid-template-columns:1.02fr 1.28fr;">
+    <div class="stack">
+      <div class="kicker">거창한 정책보다, 지금 쓰는 도구 안에 작은 습관을 심는 쪽이 더 현실적이다</div>
+      <h2 class="title-lg">내일부터 연구실에서<br>바꿔야 할 것은 다섯 가지다</h2>
+      <div class="pipeline">
+        <div class="step"><div class="step-no">01</div><div class="step-title">두 문장 적기</div><div class="step-desc">README나 lab wiki에 “우리는 AI를 어디에 쓰고, 어디에는 안 쓴다” 두 문장만 적어두기</div></div>
+        <div class="step"><div class="step-no">02</div><div class="step-title">이슈 네 개 만들기</div><div class="step-desc">`scan`, `counterexample`, `method`, `verify` 네 칸으로 일을 나눠보기</div></div>
+        <div class="step"><div class="step-no">03</div><div class="step-title">확인 세 개 넣기</div><div class="step-desc">초안 공유 전 `DOI 맞나`, `인용 맞나`, `주장 과한가` 세 가지만 보기</div></div>
+        <div class="step"><div class="step-no">04</div><div class="step-title">랩 미팅 질문 바꾸기</div><div class="step-desc">“무엇을 했나”에 더해 “AI를 어디에 썼고 무엇을 다시 봤나”를 묻기</div></div>
+        <div class="step"><div class="step-no">05</div><div class="step-title">한 번만 시험하기</div><div class="step-desc">모든 프로젝트에 적용하지 말고, 한 개에서만 2주 정도 시험해보기</div></div>
+      </div>
+    </div>
+    <div class="stack">
+      <div class="panel">
+        <div class="title-md">GitHub에서 바로 해볼 수 있는 예</div>
+        <div class="body" style="margin-top:12px;">예를 들어 issue를 네 개로 나눌 수 있다. `literature-scan`: 이번 주 새 논문 10개. `counterexample-check`: 내 주장에 반례 3개. `method-alternative`: 다른 분석 2개. `final-verification`: DOI, 인용, 표 숫자 다시 확인.</div>
+      </div>
+      <div class="panel"><div class="body">복잡한 시스템을 만드는 대신, 지금 쓰는 도구 안에 작은 확인 절차를 심는 쪽이 훨씬 유용하다. Notion이어도 좋고, GitHub여도 좋고, 그냥 lab notebook이어도 괜찮다.</div></div>
+    </div>
+  </div>
+  <div class="foot"><div class="foot-left"><span>내일부터 바꿀 다섯 가지</span></div><div class="foot-right"><span>10</span></div></div>
+</section>
+
+<section class="slide light">
+  <div class="chrome">
+    <div class="chrome-left"><span>Workflow</span><span class="sep"></span><span>Agentic design</span></div>
+    <div class="chrome-right"><span>Human oversight</span></div>
+  </div>
+  <div class="frame grid-two" style="margin-top:18px; grid-template-columns:1fr 1.04fr;">
+    <div class="grid-even">
+      <div class="card"><div class="pill">Scout</div><div class="body" style="margin-top:10px;"><strong>문헌 찾기</strong><br>놓친 키워드, 리뷰논문, 주변 분야를 더 가져오기</div></div>
+      <div class="card"><div class="pill">Challenge</div><div class="body" style="margin-top:10px;"><strong>반례 찾기</strong><br>내 주장에 대한 반례, 과한 일반화, 약한 연결 지적</div></div>
+      <div class="card"><div class="pill">Method</div><div class="body" style="margin-top:10px;"><strong>방법 다시 보기</strong><br>다른 분석, 빠진 변수, 더 나은 설계 가능성 보기</div></div>
+      <div class="card"><div class="pill">Verify</div><div class="body" style="margin-top:10px;"><strong>공유 전 확인</strong><br>DOI, 인용, 표 숫자, claim tone 다시 보기</div></div>
+    </div>
+    <div class="stack">
+      <div class="panel" style="padding:20px;">
+        <div class="title-md">바로 써먹는 구조</div>
+        <div class="body" style="margin-top:12px;">AI가 대신 써주는지보다, 연구자가 하던 일을 네 개의 작은 확인 흐름으로 나누는 편이 더 유용하다.</div>
+        <div class="grid-even" style="margin-top:16px;">
+          <div class="quote" style="padding:16px;">
+            <div class="title-md" style="font-size:22px;">좋은 질문</div>
+            <div class="body" style="margin-top:8px;">“놓친 키워드 5개만 더 줘.”</div>
+          </div>
+          <div class="quote" style="padding:16px;">
+            <div class="title-md" style="font-size:22px;">좋은 반론</div>
+            <div class="body" style="margin-top:8px;">“이 주장에 반례 3개만.”</div>
+          </div>
+          <div class="quote" style="padding:16px;">
+            <div class="title-md" style="font-size:22px;">좋은 점검</div>
+            <div class="body" style="margin-top:8px;">“DOI 없는 항목만 골라줘.”</div>
+          </div>
+          <div class="quote" style="padding:16px;">
+            <div class="title-md" style="font-size:22px;">사람이 할 일</div>
+            <div class="body" style="margin-top:8px;">질문 선택, 해석, 최종 공개</div>
+          </div>
+        </div>
+      </div>
+      <div class="grid-even">
+        <div class="panel"><div class="pill">GitHub</div><div class="body" style="margin-top:10px;">issue 4개 + PR 체크</div></div>
+        <div class="panel"><div class="pill">랩 운영</div><div class="body" style="margin-top:10px;">미팅 질문 1개만 추가</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><div class="foot-left"><span>제안 가능한 agentic workflow</span></div><div class="foot-right"><span>11</span></div></div>
+</section>
+
+<section class="slide light">
+  <div class="chrome">
+    <div class="chrome-left"><span>Visual</span><span class="sep"></span><span>Weekly lab workflow</span></div>
+    <div class="chrome-right"><span>Practical workflow</span></div>
+  </div>
+  <div style="position:absolute; left:20px; right:20px; top:68px; bottom:44px; z-index:0; display:flex; align-items:center; justify-content:center;">
+    <img src="./assets/weekly-lab-workflow.png" alt="연구실에서 바로 써먹는 주간 워크플로우 image" style="width:100%; height:100%; object-fit:contain;">
+  </div>
+  <div class="foot"><div class="foot-left"><span>연구실 주간 워크플로우</span></div><div class="foot-right"><span>12</span></div></div>
+</section>
+
+<section class="slide light">
+  <div class="chrome">
+    <div class="chrome-left"><span>Proposal</span><span class="sep"></span><span>30-day implementation</span></div>
+    <div class="chrome-right"><span>Concrete plan</span></div>
+  </div>
+  <div class="frame grid-two" style="margin-top:18px; grid-template-columns:1.02fr .98fr;">
+    <div class="stack">
+      <div class="kicker">제안</div>
+      <h2 class="title-lg">30일 안에 할 수 있는 일은<br>생각보다 작고, 그래서 더 현실적이다</h2>
+      <div class="quote">
+        <div class="title-md">Week 1</div>
+        <div class="body" style="margin-top:10px;">README나 lab wiki에 두 줄만 적는다: 어디에 쓰는지, 어디에는 안 쓰는지</div>
+      </div>
+      <div class="quote">
+        <div class="title-md">Week 2</div>
+        <div class="body" style="margin-top:10px;">랩 미팅 질문 하나만 바꾼다: “AI를 어디에 썼고, 무엇을 다시 확인했나요?”</div>
+      </div>
+      <div class="quote">
+        <div class="title-md">Week 3</div>
+        <div class="body" style="margin-top:10px;">초안 공유 전에 세 칸만 본다: citation, DOI, factual claim</div>
+      </div>
+      <div class="quote">
+        <div class="title-md">Week 4</div>
+        <div class="body" style="margin-top:10px;">한 프로젝트에서만 시험한다: scout, challenge, method, verify 네 단계로</div>
+      </div>
+    </div>
+    <div class="stack">
+      <div class="panel">
+        <div class="title-md">What success looks like</div>
+        <div class="body" style="margin-top:10px;">누가 많이 썼는지보다, 어디에 썼고 무엇을 다시 확인했는지 말할 수 있으면 충분하다.</div>
+      </div>
+      <div class="panel">
+        <div class="title-md">Message</div>
+        <div class="body" style="margin-top:10px;">거대한 선언보다 작은 워크플로우 수정이 더 중요하다. README 두 줄, 이슈 네 개, 체크리스트 세 칸, 파일럿 하나면 시작할 수 있다.</div>
+      </div>
+      <div class="source-chips"><span>2 README lines</span><span>4 issues</span><span>3 checks</span><span>1 pilot</span></div>
+    </div>
+  </div>
+  <div class="foot"><div class="foot-left"><span>제언</span></div><div class="foot-right"><span>13</span></div></div>
+</section>
+
+<section class="slide light">
+  <div class="chrome">
+    <div class="chrome-left"><span>Visual</span><span class="sep"></span><span>PR checklist</span></div>
+    <div class="chrome-right"><span>Draft review</span></div>
+  </div>
+  <div style="position:absolute; left:20px; right:20px; top:68px; bottom:44px; z-index:0; display:flex; align-items:center; justify-content:center;">
+    <img src="./assets/pr-checklist.png" alt="연구 초안 PR 체크리스트 image" style="width:100%; height:100%; object-fit:contain;">
+  </div>
+  <div class="foot"><div class="foot-left"><span>연구 초안 PR 체크리스트</span></div><div class="foot-right"><span>14</span></div></div>
+</section>
+
+<section class="slide light">
+  <div class="chrome">
+    <div class="chrome-left"><span>Visual</span><span class="sep"></span><span>AI prompts</span></div>
+    <div class="chrome-right"><span>Research use</span></div>
+  </div>
+  <div style="position:absolute; left:20px; right:20px; top:68px; bottom:44px; z-index:0; display:flex; align-items:center; justify-content:center;">
+    <img src="./assets/ai-prompts.png" alt="연구자에게 바로 유용한 AI 프롬프트 4종 image" style="width:100%; height:100%; object-fit:contain;">
+  </div>
+  <div class="foot"><div class="foot-left"><span>연구자용 AI 프롬프트 4종</span></div><div class="foot-right"><span>15</span></div></div>
+</section>
+
+<section class="slide dark">
+  <div class="chrome">
+    <div class="chrome-left"><span>References</span><span class="sep"></span><span>Fact-checked</span></div>
+    <div class="chrome-right"><span>Primary sources</span></div>
+  </div>
+  <div class="frame grid-two" style="margin-top:18px;">
+    <div class="stack" style="justify-content:center;">
+      <div class="kicker">마지막 질문</div>
+      <h2 class="title-lg">우리는 연구자에게<br>AI를 쓰지 말라고 말하는가,<br>아니면 AI를 써도 되는 경계와<br>검증 책임을 가르치고 있는가?</h2>
+    </div>
+    <div class="stack" style="justify-content:center;">
+      <div class="panel">
+        <div class="title-md">Full references</div>
+        <div class="body" style="margin-top:12px;font-size:13px;line-height:1.55;">
+          Van Noorden, R., &amp; Perkel, J. M. (2023). <em>AI and science: what 1,600 researchers think</em>. <em>Nature, 621</em>(7980), 672-675. https://doi.org/10.1038/d41586-023-02980-0<br><br>
+          Nordling, L. (2023). <em>How ChatGPT is transforming the postdoc experience</em>. <em>Nature, 622</em>(7983), 655-657. https://doi.org/10.1038/d41586-023-03235-8<br><br>
+          Besser, S. A., Jensen, E. A., &amp; Katz, D. S. (2026). <em>How generative AI is shaping research software development and maintenance at a research-intensive university</em>. <em>Open Research Europe, 6</em>, 56. https://doi.org/10.12688/openreseurope.22009.1<br><br>
+          Ganguly, A., Johri, A., Ali, A., et al. (2025). <em>Generative artificial intelligence for academic research: evidence from guidance issued for researchers by higher education institutions in the United States</em>. <em>AI and Ethics, 5</em>, 3917-3933. https://doi.org/10.1007/s43681-025-00688-7
+        </div>
+      </div>
+      <div class="panel">
+        <div class="body" style="font-size:13px;line-height:1.55;">
+          UNESCO. (2023). <em>Guidance for generative AI in education and research</em>. UNESCO. https://unesdoc.unesco.org/ark:/48223/pf0000386693<br><br>
+          Naddaf, M. (2025). <em>AI is transforming peer review — and many scientists are worried</em>. <em>Nature, 639</em>, 852-854. https://doi.org/10.1038/d41586-025-00894-7<br><br>
+          Parrilla, J. M. (2023). <em>ChatGPT use shows that the grant-application system is broken</em>. <em>Nature, 623</em>, 443. https://doi.org/10.1038/d41586-023-03238-5<br><br>
+          Desaire, H., Isom, M., &amp; Hua, D. (2024). <em>Almost nobody is using ChatGPT to write academic science papers (yet)</em>. <em>Big Data and Cognitive Computing, 8</em>(10), 133. https://doi.org/10.3390/bdcc8100133<br><br>
+          GitHub Docs. (n.d.). <em>About issue and pull request templates</em>; <em>About saved replies</em>. https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/about-issue-and-pull-request-templates ; https://docs.github.com/en/get-started/writing-on-github/working-with-saved-replies
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><div class="foot-left"><span>Q&amp;A</span></div><div class="foot-right"><span>16</span></div></div>
+</section>
+
+</div>
+
+<div id="nav"></div>
+<div id="hint">← → 이동 · ESC 처음으로</div>
+
+<script>
+const deck = document.getElementById("deck");
+const slides = Array.from(document.querySelectorAll(".slide"));
+const nav = document.getElementById("nav");
+let index = 0;
+let locked = false;
+
+const params = new URLSearchParams(location.search);
+const requestedSlide = Number(params.get("slide"));
+if (!Number.isNaN(requestedSlide) && requestedSlide >= 1) {
+  index = Math.min(slides.length - 1, requestedSlide - 1);
+}
+
+deck.style.width = `${slides.length * 100}vw`;
+
+slides.forEach((slide, i) => {
+  const dot = document.createElement("button");
+  dot.className = "dot";
+  dot.setAttribute("aria-label", `Slide ${i + 1}`);
+  dot.addEventListener("click", () => go(i));
+  nav.appendChild(dot);
+});
+
+function refresh() {
+  slides.forEach((slide, i) => slide.classList.toggle("active", i === index));
+  nav.querySelectorAll(".dot").forEach((dot, i) => dot.classList.toggle("active", i === index));
+  deck.style.transform = `translateX(-${index * 100}vw)`;
+}
+
+function go(next) {
+  if (locked) return;
+  index = Math.max(0, Math.min(slides.length - 1, next));
+  refresh();
+  locked = true;
+  setTimeout(() => { locked = false; }, 280);
+}
+
+addEventListener("keydown", (e) => {
+  if (e.key === "ArrowRight" || e.key === "PageDown" || e.key === " ") go(index + 1);
+  if (e.key === "ArrowLeft" || e.key === "PageUp") go(index - 1);
+  if (e.key === "Home" || e.key === "Escape") go(0);
+  if (e.key === "End") go(slides.length - 1);
+});
+
+let touchX = 0;
+let touchY = 0;
+addEventListener("touchstart", (e) => {
+  touchX = e.touches[0].clientX;
+  touchY = e.touches[0].clientY;
+}, { passive: true });
+addEventListener("touchend", (e) => {
+  const dx = e.changedTouches[0].clientX - touchX;
+  const dy = e.changedTouches[0].clientY - touchY;
+  if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) {
+    go(index + (dx < 0 ? 1 : -1));
+  }
+}, { passive: true });
+
+refresh();
+</script>
+</body>
+</html>

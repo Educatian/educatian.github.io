@@ -1,0 +1,26 @@
+<svg width="1400" height="900" viewBox="0 0 1400 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1400" height="900" rx="40" fill="#F4EFE8"/>
+  <rect x="64" y="64" width="1272" height="772" rx="28" fill="#FCFAF7" stroke="#C8BFB6" stroke-width="2"/>
+  <text x="96" y="128" fill="#9E1B32" font-family="Noto Sans KR, Arial, sans-serif" font-size="30" font-weight="700">Research Governance Stack</text>
+  <text x="96" y="168" fill="#5B514A" font-family="Noto Sans KR, Arial, sans-serif" font-size="20">A lab-level protocol for responsible GenAI use</text>
+
+  <rect x="168" y="240" width="1064" height="96" rx="24" fill="#9E1B32"/>
+  <text x="212" y="296" fill="#FFF8F7" font-family="Noto Sans KR, Arial, sans-serif" font-size="28" font-weight="800">1. Declare use cases</text>
+  <text x="520" y="296" fill="#F4D7DB" font-family="Noto Sans KR, Arial, sans-serif" font-size="22">search, drafting, coding, reviewing</text>
+
+  <rect x="220" y="364" width="960" height="92" rx="24" fill="#D6AAB1"/>
+  <text x="262" y="418" fill="#241E1E" font-family="Noto Sans KR, Arial, sans-serif" font-size="28" font-weight="800">2. Protect inputs</text>
+  <text x="488" y="418" fill="#473F3F" font-family="Noto Sans KR, Arial, sans-serif" font-size="22">privacy, IRB, unpublished drafts, confidential data</text>
+
+  <rect x="272" y="486" width="856" height="88" rx="24" fill="#E9D8D4"/>
+  <text x="312" y="538" fill="#241E1E" font-family="Noto Sans KR, Arial, sans-serif" font-size="28" font-weight="800">3. Keep audit trails</text>
+  <text x="586" y="538" fill="#473F3F" font-family="Noto Sans KR, Arial, sans-serif" font-size="22">prompt logs, revision notes, method memos</text>
+
+  <rect x="324" y="602" width="752" height="84" rx="24" fill="#F3EAE6"/>
+  <text x="362" y="652" fill="#241E1E" font-family="Noto Sans KR, Arial, sans-serif" font-size="28" font-weight="800">4. Verify externally</text>
+  <text x="640" y="652" fill="#5B514A" font-family="Noto Sans KR, Arial, sans-serif" font-size="22">citations, facts, tables, code outputs</text>
+
+  <rect x="376" y="712" width="648" height="76" rx="24" fill="#FFFDFC" stroke="#9E1B32" stroke-width="2"/>
+  <text x="414" y="758" fill="#241E1E" font-family="Noto Sans KR, Arial, sans-serif" font-size="28" font-weight="800">5. Own final judgment</text>
+  <text x="696" y="758" fill="#5B514A" font-family="Noto Sans KR, Arial, sans-serif" font-size="22">disclosure, interpretation, accountability</text>
+</svg>

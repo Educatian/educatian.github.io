@@ -1,0 +1,40 @@
+<svg width="1400" height="900" viewBox="0 0 1400 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1400" height="900" rx="40" fill="#F5F1EB"/>
+  <rect x="60" y="60" width="1280" height="780" rx="28" fill="#FBF9F5" stroke="#C8BFB6" stroke-width="2"/>
+  <text x="96" y="128" fill="#9E1B32" font-family="Noto Sans KR, Arial, sans-serif" font-size="30" font-weight="800">Past → Present → Future</text>
+  <text x="96" y="168" fill="#5B514A" font-family="Noto Sans KR, Arial, sans-serif" font-size="20">How the professor’s research role is being reorganized</text>
+
+  <line x1="170" y1="430" x2="1230" y2="430" stroke="#9E1B32" stroke-width="8" stroke-linecap="round"/>
+  <circle cx="300" cy="430" r="86" fill="#FFFDFC" stroke="#9E1B32" stroke-width="3"/>
+  <circle cx="700" cy="430" r="102" fill="#9E1B3214" stroke="#9E1B32" stroke-width="4"/>
+  <circle cx="1100" cy="430" r="86" fill="#FFFDFC" stroke="#9E1B32" stroke-width="3"/>
+
+  <text x="250" y="355" fill="#9E1B32" font-family="IBM Plex Mono, monospace" font-size="16" font-weight="600">PAST</text>
+  <text x="646" y="336" fill="#9E1B32" font-family="IBM Plex Mono, monospace" font-size="16" font-weight="600">PRESENT</text>
+  <text x="1040" y="355" fill="#9E1B32" font-family="IBM Plex Mono, monospace" font-size="16" font-weight="600">FUTURE</text>
+
+  <text x="236" y="420" fill="#171616" font-family="Noto Sans KR, Arial, sans-serif" font-size="28" font-weight="800">Scarcity</text>
+  <text x="248" y="456" fill="#5B514A" font-family="Noto Sans KR, Arial, sans-serif" font-size="20">slow reading</text>
+
+  <text x="620" y="420" fill="#171616" font-family="Noto Sans KR, Arial, sans-serif" font-size="32" font-weight="900">Compression</text>
+  <text x="628" y="460" fill="#5B514A" font-family="Noto Sans KR, Arial, sans-serif" font-size="22">delegated drafting</text>
+
+  <text x="1040" y="420" fill="#171616" font-family="Noto Sans KR, Arial, sans-serif" font-size="28" font-weight="800">Governance</text>
+  <text x="1044" y="456" fill="#5B514A" font-family="Noto Sans KR, Arial, sans-serif" font-size="20">auditable judgment</text>
+
+  <rect x="140" y="580" width="320" height="148" rx="22" fill="#FFFDFC" stroke="#D1C5BC" stroke-width="2"/>
+  <text x="170" y="626" fill="#171616" font-family="Noto Sans KR, Arial, sans-serif" font-size="24" font-weight="800">과거</text>
+  <text x="170" y="664" fill="#5B514A" font-family="Noto Sans KR, Arial, sans-serif" font-size="20">문헌 접근이 느렸고</text>
+  <text x="170" y="694" fill="#5B514A" font-family="Noto Sans KR, Arial, sans-serif" font-size="20">읽기와 쓰기가 곧 훈련이었다</text>
+
+  <rect x="540" y="560" width="320" height="188" rx="22" fill="#9E1B3212" stroke="#9E1B32" stroke-width="2"/>
+  <text x="570" y="606" fill="#171616" font-family="Noto Sans KR, Arial, sans-serif" font-size="24" font-weight="800">현재</text>
+  <text x="570" y="644" fill="#5B514A" font-family="Noto Sans KR, Arial, sans-serif" font-size="20">탐색, 요약, 초안, 코드가</text>
+  <text x="570" y="674" fill="#5B514A" font-family="Noto Sans KR, Arial, sans-serif" font-size="20">AI로 압축되며</text>
+  <text x="570" y="704" fill="#5B514A" font-family="Noto Sans KR, Arial, sans-serif" font-size="20">검증 책임이 남았다</text>
+
+  <rect x="940" y="580" width="320" height="148" rx="22" fill="#FFFDFC" stroke="#D1C5BC" stroke-width="2"/>
+  <text x="970" y="626" fill="#171616" font-family="Noto Sans KR, Arial, sans-serif" font-size="24" font-weight="800">미래</text>
+  <text x="970" y="664" fill="#5B514A" font-family="Noto Sans KR, Arial, sans-serif" font-size="20">교수는 금지자가 아니라</text>
+  <text x="970" y="694" fill="#5B514A" font-family="Noto Sans KR, Arial, sans-serif" font-size="20">경계와 책임의 설계자다</text>
+</svg>
