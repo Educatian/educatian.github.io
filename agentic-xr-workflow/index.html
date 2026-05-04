@@ -726,6 +726,35 @@ which entity is in the foreground.</code></pre></div>
   <h2><span class="num">§ 4</span>Pattern catalog</h2>
   <p>Eleven patterns organized roughly from the start of a session to the end, with the meta-pattern (agent reviewing agent) closing the catalog. None is mandatory; each is independently useful. The first three are the highest-leverage if you are picking only a few; pattern 11 unlocks the next scale of work.</p>
 
+  <h3>At a glance &mdash; pattern × stack matrix</h3>
+  <p>Where each pattern lands on the stacks covered in this guide. <strong>&#10003;&#10003;</strong> = native tooling exists, drop-in. <strong>&#10003;</strong> = works with manual setup. <strong>&#9675;</strong> = build it yourself. Use this to decide which patterns are quick wins on your stack and which require investment.</p>
+  <table>
+    <thead>
+      <tr>
+        <th style="text-align:left;min-width:18ch">Pattern</th>
+        <th style="text-align:center">Unity AI</th>
+        <th style="text-align:center">IWSDK</th>
+        <th style="text-align:center">Three.js bare</th>
+        <th style="text-align:center">Babylon.js</th>
+      </tr>
+    </thead>
+    <tbody style="font-size:14px">
+      <tr><td><a href="#p-plan-file">01 &middot; Plan file as context</a></td><td align="center">&#10003;&#10003;</td><td align="center">&#10003;&#10003;</td><td align="center">&#10003;&#10003;</td><td align="center">&#10003;&#10003;</td></tr>
+      <tr><td><a href="#p-tool-check">02 &middot; First-prompt tool check</a></td><td align="center">&#10003;&#10003;</td><td align="center">&#10003;&#10003;</td><td align="center">&#10003;&#10003;</td><td align="center">&#10003;&#10003;</td></tr>
+      <tr><td><a href="#p-domain-mcp">03 &middot; Domain knowledge in MCP</a></td><td align="center">&#10003;&#10003; <small>HZDB</small></td><td align="center">&#10003;&#10003; <small>IWSDK-RAG</small></td><td align="center">&#9675;</td><td align="center">&#9675;</td></tr>
+      <tr><td><a href="#p-plan-mode">04 &middot; Plan vs agent mode</a></td><td align="center">&#10003;&#10003;</td><td align="center">&#10003;&#10003;</td><td align="center">&#10003;&#10003;</td><td align="center">&#10003;&#10003;</td></tr>
+      <tr><td><a href="#p-screenshot-loop">05 &middot; Screenshot loop</a></td><td align="center">&#10003;&#10003; <small>auto</small></td><td align="center">&#10003;&#10003; <small>IWER</small></td><td align="center">&#10003; <small>Playwright</small></td><td align="center">&#10003; <small>Playwright</small></td></tr>
+      <tr><td><a href="#p-prefab">06 &middot; Force prefab/entity spawn</a></td><td align="center">&#10003;&#10003;</td><td align="center">&#10003;&#10003;</td><td align="center">&#10003; <small>convention</small></td><td align="center">&#10003;</td></tr>
+      <tr><td><a href="#p-ecs-mcp">07 &middot; ECS-aware debugging</a></td><td align="center">&#10003; <small>profiler</small></td><td align="center">&#10003;&#10003; <small>IWER ecs_*</small></td><td align="center">&#9675; <small>no native ECS</small></td><td align="center">&#9675;</td></tr>
+      <tr><td><a href="#p-telemetry">08 &middot; Telemetry-first design</a></td><td align="center">&#10003;&#10003;</td><td align="center">&#10003;&#10003;</td><td align="center">&#10003;&#10003;</td><td align="center">&#10003;&#10003;</td></tr>
+      <tr><td><a href="#p-subskills">09 &middot; Sub-skills for verbs</a></td><td align="center">&#10003;&#10003; <small>agentic-tools</small></td><td align="center">&#10003;&#10003; <small>6 ship&rsquo;d</small></td><td align="center">&#10003;</td><td align="center">&#10003;</td></tr>
+      <tr><td><a href="#p-device-loop">10 &middot; On-device verification</a></td><td align="center">&#10003;&#10003; <small>HZDB</small></td><td align="center">&#10003;&#10003; <small>HZDB</small></td><td align="center">&#10003; <small>HZDB partial</small></td><td align="center">&#10003;</td></tr>
+      <tr><td><a href="#p-agent-review">11 &middot; Agent reviewing agent</a></td><td align="center">&#10003;&#10003;</td><td align="center">&#10003;&#10003;</td><td align="center">&#10003;&#10003;</td><td align="center">&#10003;&#10003;</td></tr>
+      <tr style="background:rgba(0,0,0,0.04)"><td><a href="#blender"><strong>§ 6 Blender MCP asset pipeline</strong></a></td><td align="center">&#10003;&#10003;</td><td align="center">&#10003;&#10003;</td><td align="center">&#10003;&#10003;</td><td align="center">&#10003;&#10003;</td></tr>
+    </tbody>
+  </table>
+  <p style="font-size:14px;color:#666"><strong>Reading the table:</strong> patterns 01, 02, 04, 08, 11 are universal &mdash; portable across any stack with no setup cost. Pattern 03 (domain MCP) and pattern 07 (ECS-aware debugging) are where IWSDK&rsquo;s open-source MCP toolchain has the biggest head start in 2026-05. Three.js bare and Babylon.js builders pay a one-time setup cost on those two patterns but everything else transfers cleanly.</p>
+
   <!-- ============== pattern 1 ============== -->
   <article class="pattern" id="p-plan-file">
     <div class="pattern-num">Pattern 01</div>
@@ -935,6 +964,35 @@ browser_screenshot</code></pre>
       <img src="images/vm/tray.png" alt="Virtual Makerspace component tray with all eight grabbable parts laid out: 2 LEDs, 2 resistors, 3 wires (short/medium/long), 1 battery">
       <figcaption>VM&rsquo;s component tray &mdash; all eight parts spawned as proper entities (not runtime primitives). Each is independently inspectable, tunable in the editor, and queryable by every system. The agent was instructed to spawn from the components manifest, not to fabricate at runtime.</figcaption>
     </figure>
+
+    <h4 style="margin-top:24px">Input modality note &mdash; controllers, hands, voice, gaze</h4>
+    <p>The patterns in this guide assume controllers because that is where the agentic tooling matured first. Each alternative input modality changes one or more pattern semantics; design for it explicitly rather than letting the agent default.</p>
+    <table>
+      <thead><tr><th>Modality</th><th>What changes</th><th>Where it bites</th></tr></thead>
+      <tbody style="font-size:14px">
+        <tr>
+          <td><strong>Controllers</strong> (default)</td>
+          <td>Trigger / squeeze / thumbstick discrete events; <code>DistanceGrabbable</code> with ray; deterministic input.</td>
+          <td>Reliable. Use as the baseline experimental condition unless your study question is specifically about embodiment.</td>
+        </tr>
+        <tr>
+          <td><strong>Hand tracking</strong></td>
+          <td>No buttons &mdash; grab semantics shift to <em>proximity + pinch confidence</em>. <code>OneHandGrabbable</code> on IWSDK and Unity hand subsystems use closeness + finger-pose heuristics. Telemetry events fire on pinch-detect, not button-down, with non-zero false-positive rates.</td>
+          <td>Snap reliability drops; near-miss events become noisier. If your study reports manipulation precision, control for hand-tracking confidence in the analysis. The IWER MCP supports <code>xr_set_input_mode=&quot;hand&quot;</code> for emulator testing &mdash; use it before assuming hand parity with controllers.</td>
+        </tr>
+        <tr>
+          <td><strong>Voice</strong></td>
+          <td>Continuous input layer: STT &rarr; intent &rarr; agent response &rarr; spatial-audio TTS. Adds an LLM in the participant loop, not just the dev loop.</td>
+          <td><strong>Easily breaks Productive Failure designs.</strong> A voice agent that volunteers help during struggle collapses PF into guided practice. Pre-register the intervention policy (silence vs prompt) before any data collection. Voice introduces a second IRB consideration: audio capture and storage. See <a href="#researcher">§ 10 researcher concerns</a>.</td>
+        </tr>
+        <tr>
+          <td><strong>Gaze</strong></td>
+          <td>Quest Pro / Vision Pro / Pico 4 Enterprise expose eye-tracking. Gaze gives <em>attention allocation</em> as a continuous signal &mdash; an order of magnitude richer than controller telemetry.</td>
+          <td>Gaze is a strong debugging signal: <em>where did the participant look during failure?</em> It is also strong study evidence for theories that hinge on attention (CAMIL, joint-attention CSCL). Storage policy: gaze data may identify individuals; treat it like biometric PII per <a href="#researcher">§ 10</a>. Hardware availability is uneven &mdash; not on Quest 2 / 3 base.</td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="font-size:14.5px;color:#444"><strong>Practical rule:</strong> when an agent suggests &ldquo;add hand tracking&rdquo; or &ldquo;add voice&rdquo; mid-build, treat it as a <em>condition change</em>, not a feature. Both modalities shift what the same participant&rsquo;s telemetry means; introducing them after Phase 1 data collection breaks comparability with prior runs.</p>
   </article>
 
   <!-- ============== pattern 7 ============== -->
@@ -960,6 +1018,33 @@ ecs_diff from="before" to="after"</code></pre>
       </div>
     </div>
     <p class="when-not"><strong>When not to apply:</strong> bugs that reproduce reliably from a fresh load — print debugging is faster.</p>
+    <h4 style="margin-top:24px">Profiling: where do you actually measure frame time?</h4>
+    <p>The 11&ndash;14&nbsp;ms budget is meaningful only if you can <em>measure</em> it. The cheapest tools per stack:</p>
+    <table>
+      <thead><tr><th>Stack / context</th><th>Tool</th><th>What it shows</th></tr></thead>
+      <tbody style="font-size:14px">
+        <tr><td>IWSDK / WebXR (browser)</td><td>Chrome DevTools &rarr; Performance tab; record while in XR session</td><td>Per-frame breakdown: scripting / rendering / GPU; flame graph identifies hot functions in your <code>update()</code> code.</td></tr>
+        <tr><td>IWSDK / WebXR (in-engine)</td><td><code>renderer.info</code> from super-three; expose to a HUD overlay</td><td>Draw calls, triangles, textures, programs &mdash; lightweight readout you can leave on during dev.</td></tr>
+        <tr><td>IWSDK / Quest device</td><td><code>mcp__hzdb__get_device_logcat</code> filtered to <code>OVRPerfMetrics</code> tags</td><td>Real device frame timing (CPU / GPU / refresh rate) under thermal load.</td></tr>
+        <tr><td>Quest native (Unity / Unreal)</td><td>OVR Metrics Tool overlay; or hzdb perfetto trace</td><td>Heads-up frame time + thermal + memory; perfetto for deep traces.</td></tr>
+        <tr><td>Quest Browser specifically</td><td>Quest Browser internal flag <code>chrome://flags &rarr; WebXR runtime</code> performance HUD</td><td>WebXR-aware HUD overlay during a live session.</td></tr>
+        <tr><td>Unity AI in-editor</td><td>Built-in Profiler window + Unity AI &ldquo;explain this profile&rdquo; flow</td><td>Method-level cost; agent can summarise hot paths.</td></tr>
+      </tbody>
+    </table>
+    <h4>Standard agent-driven profiling loop</h4>
+    <ol>
+      <li><strong>Reproduce on device.</strong> Quest in active session; <code>device_battery</code> &gt; 50 % so thermal isn&rsquo;t corrupting the measurement.</li>
+      <li><strong>Capture a 5&ndash;10 s trace</strong> with the appropriate tool above.</li>
+      <li><strong>Pipe the summary to the agent.</strong> Either paste the top costs into chat, or for hzdb: <code>get_device_logcat --tag=OVRPerfMetrics --count=200</code> straight into the conversation.</li>
+      <li><strong>Hypothesise the suspect system.</strong> Ask the agent: <em>&ldquo;Given these per-frame costs, which ECS systems most likely contribute? What allocation would explain the GC spike?&rdquo;</em></li>
+      <li><strong>Isolate.</strong> <code>ecs_toggle_system name=&quot;SuspectSystem&quot; enabled=false</code>. Re-capture. Did the cost vanish? Yes &rarr; you found the offender. No &rarr; toggle the next suspect.</li>
+      <li><strong>Fix in-place.</strong> Apply the no-allocation rule (<a href="#g-iwsdk">§ 14 IWSDK pitfalls</a>): pre-allocate Vector3 / Quaternion in <code>init()</code>, use <code>signal.peek()</code> in hot paths, replace polling with query subscriptions.</li>
+      <li><strong>Re-capture and verify.</strong> Frame budget back under 14 ms. Document the fix in the project&rsquo;s perf log; future-you will want the receipt.</li>
+    </ol>
+    <div class="callout note">
+      <div class="callout-label">profiling pitfall &middot; emulator lies</div>
+      <p>Desktop browser frame timing is misleading because the desktop GPU is wildly faster than Quest&rsquo;s. A scene that runs at 144&nbsp;FPS in the IWER emulator can drop to 36&nbsp;FPS on Quest. <strong>Always profile on the target device for budget decisions</strong>; the emulator is for behavioural correctness, not perf.</p>
+    </div>
   </article>
 
   <!-- ============== pattern 8 ============== -->
