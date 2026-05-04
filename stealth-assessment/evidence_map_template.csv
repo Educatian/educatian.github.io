@@ -1,0 +1,5 @@
+claim_id,learning_goal,claim_statement,task_or_episode,candidate_indicator,evidence_strength_notes,candidate_model_family,use_for
+C01,causal reasoning,learner can test a causal hypothesis using controlled variation,simulation trial block,single-variable manipulation followed by comparison,stronger when paired with verbal or written explanation,Bayesian network or process model,feedback
+C02,misconception detection,learner still treats two variables as interchangeable,repeat task with coupled changes,multiple-variable changes across retries,needs context because confusion and exploration can look similar,CDM or explanatory IRT,diagnosis
+C03,sensemaking revision,learner updates explanation after mismatch,predict-run-inspect-revise loop,revision after failed expectation,stronger than final success alone,Bayesian network,dashboard
+C04,trait-like proficiency,learner shows stable performance across comparable tasks,item-like game episodes,consistent success under controlled task definitions,requires careful task comparability,IRT or explanatory IRT,reporting

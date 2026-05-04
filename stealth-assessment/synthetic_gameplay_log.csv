@@ -1,0 +1,15 @@
+session_id,player_id,task_id,event_order,event_type,event_value,evidence_flag,group
+S01,P01,T01,1,predict,ball_will_hit_target,claim_setup,A
+S01,P01,T01,2,change_variable,gravity_only,variable_control,A
+S01,P01,T01,3,run,success,observation,A
+S01,P01,T01,4,inspect_graph,velocity_curve,inspection,A
+S01,P01,T01,5,revise_explanation,gravity_affects_arc,revision,A
+S02,P02,T01,1,run,fail,none,B
+S02,P02,T01,2,retry,fail,none,B
+S02,P02,T01,3,hint,show_path,help_request,B
+S02,P02,T01,4,random_change,multiple_variables,unstructured_attempt,B
+S02,P02,T01,5,run,success,outcome_only,B
+S03,P03,T02,1,compare_cases,high_vs_low_mass,comparison,A
+S03,P03,T02,2,test_extreme,max_force,extreme_case,A
+S03,P03,T02,3,run,success,observation,A
+S03,P03,T02,4,explain,cause_effect_link,explanation,A

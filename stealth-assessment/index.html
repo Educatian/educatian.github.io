@@ -1,0 +1,2112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stealth Assessment for Educational Games — evidence, support, redesign</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,400..800,50&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap');
+:root{
+  --bg:#F6F0E8;
+  --bg2:#E8DCC8;
+  --ink:#23181A;
+  --ink2:#514247;
+  --ink3:#8B7A73;
+  --forest:#782F40;
+  --forest-soft:rgba(120,47,64,.10);
+  --forest-glow:rgba(120,47,64,.18);
+  --gold:#CEB888;
+  --clay:#9E6A3A;
+  --line:#D6C8B7;
+  --paper:#FFFAF4;
+  --code:#24181B;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:'Inter',sans-serif;
+  line-height:1.68;
+  -webkit-font-smoothing:antialiased;
+}
+.bg{
+  position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.35;
+  background:
+    radial-gradient(circle at 15% 18%, rgba(206,184,136,.18), transparent 28%),
+    radial-gradient(circle at 85% 12%, rgba(120,47,64,.14), transparent 22%),
+    linear-gradient(rgba(24,33,34,.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(24,33,34,.05) 1px, transparent 1px);
+  background-size:auto,auto,44px 44px,44px 44px;
+  mask-image:radial-gradient(ellipse at center, black 60%, transparent 95%);
+}
+.shell{
+  position:relative;z-index:1;
+  max-width:1400px;margin:0 auto;padding:56px 68px 84px;
+  display:grid;grid-template-columns:290px minmax(0,1fr);gap:56px;
+}
+@media (max-width:1100px){
+  .shell{grid-template-columns:1fr;padding:32px 24px 64px;gap:28px}
+}
+.toc{
+  position:sticky;top:24px;align-self:start;max-height:calc(100vh - 48px);
+  overflow:auto;background:rgba(255,253,248,.92);backdrop-filter:blur(10px);
+  border:2px solid var(--ink);border-radius:18px;padding:22px 20px;
+}
+@media (max-width:1100px){
+  .toc{position:relative;top:auto;max-height:none}
+}
+.toc-k{font-size:11px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:var(--forest);margin-bottom:10px}
+.toc h2{margin:0 0 10px;font-size:20px;line-height:1.2;font-weight:900}
+.toc ol{margin:0;padding:0;list-style:none;counter-reset:item}
+.toc li{counter-increment:item;border-top:1px solid var(--line)}
+.toc li:first-child{border-top:0}
+.toc a{
+  display:flex;gap:10px;align-items:baseline;padding:10px 10px;text-decoration:none;color:var(--ink);
+  border-radius:10px;font-size:13.5px;font-weight:550;line-height:1.35;transition:.15s ease;
+}
+.toc a::before{
+  content:counter(item, decimal-leading-zero);
+  width:20px;flex-shrink:0;color:var(--ink3);font-size:10px;font-family:'JetBrains Mono',monospace;font-weight:700;
+}
+.toc a:hover{background:var(--forest-soft);color:var(--forest)}
+.toc a.active{background:var(--forest);color:#fff;transform:translateX(4px);font-weight:700}
+.toc a.active::before{color:rgba(255,255,255,.72)}
+
+.hero{padding-bottom:52px;border-bottom:1px solid var(--line);margin-bottom:52px}
+.kicker{font-size:13px;font-weight:800;letter-spacing:4px;text-transform:uppercase;color:var(--forest);margin-bottom:16px}
+.h1{
+  margin:0 0 18px;font-size:68px;line-height:1.02;font-weight:900;letter-spacing:-.03em;
+}
+.h1 .serif{font-family:'Fraunces',serif;font-weight:550;color:var(--forest)}
+.lede{margin:0 0 26px;max-width:840px;font-size:21px;font-weight:320;line-height:1.58;color:var(--ink2)}
+.hero-meta{display:flex;gap:12px;flex-wrap:wrap}
+.chip{
+  border:1.5px solid var(--ink);border-radius:999px;padding:7px 12px;font-size:11px;
+  font-weight:800;letter-spacing:1.8px;text-transform:uppercase;background:rgba(255,255,255,.6)
+}
+.chip.accent{background:var(--forest);border-color:var(--forest);color:#fff}
+.insight{
+  margin-top:28px;display:grid;grid-template-columns:160px 1fr;gap:18px;
+  background:var(--paper);border:2px solid var(--ink);border-radius:18px;padding:22px 24px;
+}
+.insight-num{font-family:'Fraunces',serif;font-size:92px;line-height:.86;color:var(--gold);font-weight:700}
+.insight p{margin:0;font-size:15px;color:var(--ink2)}
+@media (max-width:700px){.h1{font-size:48px}.insight{grid-template-columns:1fr}}
+
+.section{margin-bottom:72px;scroll-margin-top:28px}
+.section-label{
+  margin:0 0 14px;font-size:11px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:var(--ink3);
+  display:flex;align-items:center;gap:14px
+}
+.section-label::after{content:'';height:1px;background:var(--line);flex:1}
+.h2{margin:0 0 14px;font-size:42px;line-height:1.08;font-weight:900;letter-spacing:-.02em}
+.h2 .accent{color:var(--forest)}
+.h3{margin:34px 0 10px;font-size:24px;line-height:1.2;font-weight:850}
+.body p{margin:0 0 14px;font-size:15.5px;color:#202B2D}
+.body ul,.body ol{margin:0 0 16px;padding-left:22px}
+.body li{margin-bottom:6px;font-size:15.5px;color:#202B2D}
+a.inline{color:var(--forest);text-decoration:none;border-bottom:1px solid currentColor;font-weight:650}
+
+.card{
+  background:var(--paper);border:2px solid var(--ink);border-radius:16px;padding:22px 24px;margin:18px 0;
+}
+.card.soft{background:var(--forest-soft);border-color:var(--forest)}
+.card .ct{font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--ink3);margin-bottom:8px}
+.card.soft .ct{color:var(--forest)}
+.compare{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:22px 0}
+.compare .panel{
+  background:var(--paper);border:2px solid var(--ink);border-radius:14px;padding:18px;min-height:180px;
+}
+.compare .panel.focus{background:var(--forest);border-color:var(--forest);color:#fff;box-shadow:0 10px 28px var(--forest-glow);transform:translateY(-8px)}
+.compare .n{font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:800;color:var(--ink3);margin-bottom:8px}
+.compare .focus .n{color:rgba(255,255,255,.72)}
+.compare .t{font-size:20px;font-weight:900;line-height:1.15;margin-bottom:8px}
+.compare .b{font-size:13px;line-height:1.56;color:var(--ink2)}
+.compare .focus .b{color:rgba(255,255,255,.92)}
+@media (max-width:900px){.compare{grid-template-columns:1fr 1fr}}
+@media (max-width:640px){.compare{grid-template-columns:1fr}}
+
+.schema{width:100%;border-collapse:collapse;background:var(--paper);border:2px solid var(--ink);border-radius:16px;overflow:hidden;margin:20px 0}
+.schema th{background:var(--ink);color:#fff;text-align:left;padding:14px 16px;font-size:11px;letter-spacing:1.5px;text-transform:uppercase}
+.schema td{padding:14px 16px;border-top:1px solid var(--line);vertical-align:top;font-size:14px}
+.schema td:first-child{width:160px;font-family:'JetBrains Mono',monospace;color:var(--forest);font-weight:700}
+
+.fusion-stage{
+  background:var(--paper);border:2px solid var(--ink);border-radius:18px;padding:20px 20px 16px;margin:22px 0;
+}
+.fusion-stage .head{
+  display:grid;grid-template-columns:1fr;gap:8px;margin-bottom:14px;
+}
+.fusion-stage .head h3{margin:0;font-size:22px;line-height:1.15}
+.fusion-stage .head p{margin:0;max-width:760px;font-size:13px;color:var(--ink2);line-height:1.6}
+.fusion-stage svg{margin-top:4px}
+.fusion-note{
+  margin-top:12px;font-size:13px;color:var(--ink2);line-height:1.65
+}
+.fusion-note strong{color:var(--forest)}
+.qviz{
+  background:var(--paper);border:2px solid var(--ink);border-radius:18px;padding:18px 18px 14px;margin:20px 0;
+}
+.qviz svg{display:block;width:100%}
+.qviz-note{margin-top:10px;font-size:13px;color:var(--ink2);line-height:1.6}
+.qviz-note strong{color:var(--forest)}
+
+.sim{
+  background:var(--paper);border:2px solid var(--ink);border-radius:18px;padding:22px 22px 18px;margin:24px 0;
+}
+.sim-head{display:flex;justify-content:space-between;gap:16px;align-items:end;margin-bottom:14px}
+.sim-head h3{margin:0;font-size:24px}
+.sim-head p{margin:0;font-size:13px;color:var(--ink2);max-width:520px}
+.btn-row{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:14px}
+.btn{
+  border:1.5px solid var(--ink);background:#fff;border-radius:999px;padding:10px 14px;cursor:pointer;
+  font-size:12px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--ink)
+}
+.btn.active,.btn:hover{background:var(--forest);border-color:var(--forest);color:#fff}
+.sim-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media (max-width:820px){.sim-grid{grid-template-columns:1fr}}
+.learner-card{
+  border:1.5px solid var(--line);border-radius:14px;padding:16px;background:#fff;
+}
+.learner-card .who{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:10px}
+.learner-card .who strong{font-size:18px}
+.badge{font-family:'JetBrains Mono',monospace;font-size:11px;padding:4px 8px;border-radius:999px;background:var(--forest-soft);color:var(--forest);font-weight:700}
+.seq{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 12px}
+.token{padding:7px 9px;border-radius:999px;background:#F1ECE6;border:1px solid #D7CBBE;font-size:11px;font-weight:800;letter-spacing:.6px;text-transform:uppercase}
+.token.warn{background:#F9EEE6;border-color:#D6B596;color:#8F5D32}
+.token.good{background:#F8EEF1;border-color:#D6B1BA;color:#782F40}
+.readout{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px
+}
+.metric{background:#FBF7EE;border:1.5px solid var(--line);border-radius:12px;padding:10px}
+.metric .k{font-size:10px;letter-spacing:1.4px;text-transform:uppercase;font-weight:800;color:var(--ink3);margin-bottom:4px}
+.metric .v{font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:700}
+.lesson{
+  margin-top:14px;padding:14px 16px;border-left:4px solid var(--forest);background:var(--forest-soft);border-radius:0 12px 12px 0;
+  font-size:14px
+}
+
+.mini-lab{
+  display:grid;grid-template-columns:320px 1fr;gap:18px;margin:24px 0
+}
+@media (max-width:920px){.mini-lab{grid-template-columns:1fr}}
+.controls,.stage{background:var(--paper);border:2px solid var(--ink);border-radius:18px;padding:18px}
+.control{margin-bottom:16px}
+.control label{display:flex;justify-content:space-between;gap:12px;font-size:13px;font-weight:700;margin-bottom:8px}
+.control output{font-family:'JetBrains Mono',monospace;color:var(--forest)}
+.control input[type=range]{width:100%}
+.stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}
+.note{font-size:13px;color:var(--ink2)}
+.faq-stack{display:grid;gap:12px;margin-top:18px}
+.faq{background:var(--paper);border:2px solid var(--ink);border-radius:16px;overflow:hidden;scroll-margin-top:28px}
+.faq[open]{border-color:var(--forest);box-shadow:0 10px 24px rgba(30,106,87,.10)}
+.faq summary{
+  list-style:none;cursor:pointer;padding:18px 20px;font-size:18px;font-weight:850;display:flex;justify-content:space-between;gap:14px
+}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:'+';font-family:'JetBrains Mono',monospace;color:var(--forest)}
+.faq[open] summary::after{content:'−'}
+.faq .answer{padding:0 20px 20px}
+.faq .answer p{margin:0 0 12px;font-size:15px}
+.faq .answer p:last-child{margin-bottom:0}
+
+.downloads{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:20px 0}
+@media (max-width:820px){.downloads{grid-template-columns:1fr}}
+.dl{display:block;text-decoration:none;color:var(--ink);background:var(--paper);border:2px solid var(--ink);border-radius:16px;padding:18px;transition:.15s ease}
+.dl:hover{transform:translateY(-4px);border-color:var(--forest);box-shadow:0 12px 24px rgba(30,106,87,.10)}
+.dl .k{font-size:10px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--forest);margin-bottom:8px}
+.dl .t{font-size:20px;font-weight:900;line-height:1.15;margin-bottom:8px}
+.dl .d{font-size:13px;color:var(--ink2)}
+
+.refs{columns:2;column-gap:28px}
+@media (max-width:900px){.refs{columns:1}}
+.refs p{break-inside:avoid;margin:0 0 12px;font-size:14px}
+.foot{margin-top:78px;padding-top:28px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3)}
+</style>
+<meta property="og:type" content="article">
+<meta property="og:title" content="Stealth Assessment for Educational Games">
+<meta property="og:description" content="A practical bridge from backward design to ECD, stealth assessment, and learning engineering for educational game analytics.">
+<meta property="og:url" content="https://educatian.github.io/stealth-assessment/">
+<link rel="canonical" href="https://educatian.github.io/stealth-assessment/">
+</head>
+<body>
+<div class="bg"></div>
+<div class="shell">
+  <nav class="toc">
+    <div class="toc-k">Guidebook · draft</div>
+    <h2>Stealth Assessment</h2>
+    <ol>
+      <li><a href="#why">Why This Guide Exists</a></li>
+      <li><a href="#start">Start Here</a></li>
+      <li><a href="#core">The Core Idea</a></li>
+      <li><a href="#design">Backward Design · ECD · Stealth</a></li>
+      <li><a href="#engineering">Learning Engineering</a></li>
+      <li><a href="#pipeline">Telemetry to Evidence</a></li>
+      <li><a href="#system">System Pipeline</a></li>
+      <li><a href="#fusion">Data Integration</a></li>
+      <li><a href="#multimodal-ecd">Multimodal ECD</a></li>
+      <li><a href="#models">Model Families</a></li>
+      <li><a href="#immersive">Immersive and Spatial Data</a></li>
+      <li><a href="#tools">Packages and Tutorials</a></li>
+      <li><a href="#gpt55">GPT-5.5 Integration</a></li>
+      <li><a href="#bn">Bayesian Networks for Stealth Assessment</a></li>
+      <li><a href="#irt">IRT for Stealth Assessment</a></li>
+      <li><a href="#cdm">CDM for Stealth Assessment</a></li>
+      <li><a href="#sim1">Simulation 1</a></li>
+      <li><a href="#sim2">Simulation 2</a></li>
+      <li><a href="#validity">Validity and Fairness</a></li>
+      <li><a href="#challenges">Challenges</a></li>
+      <li><a href="#research">Current Research</a></li>
+      <li><a href="#workflow">Practical Workflow</a></li>
+      <li><a href="#downloads">Downloads</a></li>
+      <li><a href="#faq">FAQ</a></li>
+      <li><a href="#refs">References</a></li>
+    </ol>
+  </nav>
+
+  <main>
+    <section class="hero">
+      <div class="kicker">Educational game analytics · onboarding guide</div>
+      <h1 class="h1">Stealth assessment for <span class="serif">educational games</span></h1>
+      <p class="lede">A practical bridge from <strong>backward design</strong> to <strong>evidence-centered design</strong>, then onward to <strong>embedded gameplay evidence</strong>, <strong>adaptive support</strong>, and <strong>learning-engineering iteration</strong>. The point is not just to score learners quietly. The point is to make gameplay evidence interpretable enough to support learning, feedback, and redesign.</p>
+      <div class="hero-meta">
+        <span class="chip accent">Beginner-friendly</span>
+        <span class="chip">Researcher-safe wording</span>
+        <span class="chip">Games · simulations · process data</span>
+        <span class="chip">ECD before IRT/CDM</span>
+        <span class="chip">pipeline to learner support</span>
+      </div>
+      <div class="insight">
+        <div class="insight-num">4</div>
+        <p><strong>The stable sequence is now clear:</strong> backward design sets learning goals, ECD specifies evidence, stealth assessment embeds that evidence logic into gameplay, and learning engineering wraps an iterative improvement loop around the whole system.</p>
+      </div>
+    </section>
+
+    <section id="why" class="section body">
+      <div class="section-label">Orientation</div>
+      <h2 class="h2">Why this guide <span class="accent">exists</span></h2>
+      <p>The original stealth assessment and ECD literature is strong, but newcomers usually enter the topic from the wrong side. They start with logs, dashboards, or model names, then try to work backward toward what those traces might mean. The literature moves in the opposite direction.</p>
+      <p>This guide reorganizes the field into an easier sequence for instructional designers, learning scientists, and educational game researchers. It keeps the foundational sources visible, but turns them into a workflow you can use when designing a game, instrumenting events, or deciding whether a given inference is actually defensible.</p>
+      <div class="card soft">
+        <div class="ct">Positioning</div>
+        <p>The original books and papers explain stealth assessment, ECD, and game-based assessment in depth. This page is a <strong>practical onboarding guide</strong> that reorders those ideas for people who need to move from concept to implementation without overclaiming what telemetry can do.</p>
+      </div>
+    </section>
+
+    <section id="core" class="section body">
+      <div class="section-label">Core Idea</div>
+      <h2 class="h2">The core idea: <span class="accent">telemetry is not assessment</span></h2>
+      <p>Gameplay logs are only raw traces of action until they are linked to a coherent interpretive argument. Stealth assessment begins when a game is deliberately designed so that learner actions can serve as evidence for claims about understanding, strategy, misconception, sensemaking, persistence, or other target constructs.</p>
+      <svg viewBox="0 0 980 268" style="width:100%;display:block;background:var(--paper);border:2px solid var(--ink);border-radius:18px;padding:18px;margin-top:18px">
+        <defs>
+          <marker id="arrowCore" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+            <path d="M0,0 L10,5 L0,10 z" fill="#1E6A57"></path>
+          </marker>
+        </defs>
+        <text x="28" y="28" font-size="12" font-weight="800" fill="#7B8893" letter-spacing="2">ECD LADDER</text>
+        <text x="28" y="48" font-size="15" font-weight="700" fill="#182122">
+          <tspan x="28" dy="0">Telemetry becomes assessment only after it enters a</tspan>
+          <tspan x="28" dy="18">claim, evidence, task, and inference structure.</tspan>
+        </text>
+        <rect x="24" y="74" width="190" height="136" rx="20" fill="#fff" stroke="#182122" stroke-width="2"></rect>
+        <rect x="258" y="74" width="190" height="136" rx="20" fill="#eef7f3" stroke="#1E6A57" stroke-width="2"></rect>
+        <rect x="492" y="74" width="190" height="136" rx="20" fill="#fff" stroke="#182122" stroke-width="2"></rect>
+        <rect x="726" y="74" width="220" height="136" rx="20" fill="#fff" stroke="#182122" stroke-width="2"></rect>
+        <text x="119" y="104" text-anchor="middle" font-size="14" font-weight="800" fill="#182122">Claim</text>
+        <text x="119" y="126" text-anchor="middle" font-size="12" fill="#465154">What do we want to say</text>
+        <text x="119" y="144" text-anchor="middle" font-size="12" fill="#465154">about the learner?</text>
+        <text x="119" y="170" text-anchor="middle" font-size="11" fill="#8C6927" font-weight="700">
+          <tspan x="119" dy="0">Without a claim, logs</tspan>
+          <tspan x="119" dy="15">stay descriptive.</tspan>
+        </text>
+        <text x="353" y="104" text-anchor="middle" font-size="14" font-weight="800" fill="#1E6A57">Evidence</text>
+        <text x="353" y="126" text-anchor="middle" font-size="12" fill="#465154">What observable pattern</text>
+        <text x="353" y="144" text-anchor="middle" font-size="12" fill="#465154">would support that claim?</text>
+        <text x="353" y="170" text-anchor="middle" font-size="11" fill="#8C6927" font-weight="700">
+          <tspan x="353" dy="0">This is where log</tspan>
+          <tspan x="353" dy="15">interpretation begins.</tspan>
+        </text>
+        <text x="587" y="104" text-anchor="middle" font-size="14" font-weight="800" fill="#182122">Task</text>
+        <text x="587" y="126" text-anchor="middle" font-size="12" fill="#465154">What situation should elicit</text>
+        <text x="587" y="144" text-anchor="middle" font-size="12" fill="#465154">that behavior?</text>
+        <text x="587" y="170" text-anchor="middle" font-size="11" fill="#8C6927" font-weight="700">
+          <tspan x="587" dy="0">Games do not automatically</tspan>
+          <tspan x="587" dy="15">produce useful evidence.</tspan>
+        </text>
+        <text x="836" y="104" text-anchor="middle" font-size="14" font-weight="800" fill="#182122">Inference</text>
+        <text x="836" y="126" text-anchor="middle" font-size="12" fill="#465154">How do observations become</text>
+        <text x="836" y="140" text-anchor="middle" font-size="11" fill="#465154">
+          <tspan x="836" dy="0">estimates, profiles,</tspan>
+          <tspan x="836" dy="14">or alerts?</tspan>
+        </text>
+        <text x="836" y="170" text-anchor="middle" font-size="11" fill="#8C6927" font-weight="700">
+          <tspan x="836" dy="0">Different models answer</tspan>
+          <tspan x="836" dy="15">different questions.</tspan>
+        </text>
+        <line x1="214" y1="142" x2="258" y2="142" stroke="#1E6A57" stroke-width="3" marker-end="url(#arrowCore)"></line>
+        <line x1="448" y1="142" x2="492" y2="142" stroke="#1E6A57" stroke-width="3" marker-end="url(#arrowCore)"></line>
+        <line x1="682" y1="142" x2="726" y2="142" stroke="#1E6A57" stroke-width="3" marker-end="url(#arrowCore)"></line>
+        <text x="489" y="238" text-anchor="middle" font-size="11" fill="#465154">
+          <tspan x="489" dy="0">Raw events become evidence only when each rung</tspan>
+          <tspan x="489" dy="15">is explicitly designed and defended.</tspan>
+        </text>
+      </svg>
+      <div class="card">
+        <div class="ct">What to avoid</div>
+        <p><strong>Do not</strong> treat “high click density,” “lots of retries,” or “fast completion” as self-evident indicators of learning. Those are candidate signals. Whether they count as evidence depends on the task structure, construct theory, dependence structure, and validation work around them.</p>
+      </div>
+    </section>
+
+    <section id="design" class="section body">
+      <div class="section-label">Design Spine</div>
+      <h2 class="h2">Backward design, ECD, and stealth assessment are <span class="accent">related but not identical</span></h2>
+      <div class="compare">
+        <div class="panel">
+          <div class="n">Layer 01</div>
+          <div class="t">Backward design</div>
+          <div class="b">Clarifies the desired understandings, transfer goals, and big ideas that matter instructionally.</div>
+        </div>
+        <div class="panel focus">
+          <div class="n">Layer 02</div>
+          <div class="t">Evidence-centered design</div>
+          <div class="b">Makes the evidentiary logic explicit: what observations would justify claims about those goals?</div>
+        </div>
+        <div class="panel">
+          <div class="n">Layer 03</div>
+          <div class="t">Stealth assessment</div>
+          <div class="b">Embeds that evidentiary logic inside gameplay so learners can be assessed without breaking flow.</div>
+        </div>
+        <div class="panel">
+          <div class="n">Layer 04</div>
+          <div class="t">Analytics implementation</div>
+          <div class="b">Adds event design, feature extraction, modeling, reporting, and feedback mechanisms.</div>
+        </div>
+      </div>
+      <p>The cleanest formulation is this: <strong>backward design clarifies what learners should understand and do; ECD clarifies what evidence would justify claims about that learning; stealth assessment embeds that evidentiary logic into gameplay.</strong></p>
+      <div class="card soft">
+        <div class="ct">Caution</div>
+        <p>Backward design and ECD both “keep the end in mind,” but they operate at different levels. Backward design is pedagogical and curricular. ECD is evidentiary and inferential. Treating them as interchangeable makes the guide too loose for researchers and too vague for designers.</p>
+      </div>
+    </section>
+
+    <section id="engineering" class="section body">
+      <div class="section-label">Learning Engineering</div>
+      <h2 class="h2">Learning engineering turns stealth assessment into a <span class="accent">design-and-improvement loop</span></h2>
+      <p>A stealth-assessment-only framing can make this topic sound like hidden scoring. A learning-engineering framing is broader. It asks how theory, design, instrumentation, feedback, and iteration can work together to improve learning experiences over time.</p>
+      <div class="card">
+        <div class="ct">Interpretation</div>
+        <p>Under a learning engineering lens, stealth assessment is an <strong>embedded evidence layer</strong> inside a learning system. Its value is not only that it estimates learner state. Its value is also that it helps teams improve tasks, revise feedback timing, compare design versions, detect stuck points, and redesign environments more intelligently.</p>
+      </div>
+      <svg viewBox="0 0 980 240" style="width:100%;display:block;background:var(--paper);border:2px solid var(--ink);border-radius:18px;padding:18px;margin-top:18px">
+        <defs>
+          <marker id="arrowA" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+            <path d="M0,0 L10,5 L0,10 z" fill="#1E6A57"></path>
+          </marker>
+        </defs>
+        <rect x="16" y="56" width="150" height="88" rx="18" fill="#fff" stroke="#182122" stroke-width="2"></rect>
+        <rect x="208" y="56" width="150" height="88" rx="18" fill="#eef7f3" stroke="#1E6A57" stroke-width="2"></rect>
+        <rect x="400" y="56" width="150" height="88" rx="18" fill="#fff" stroke="#182122" stroke-width="2"></rect>
+        <rect x="592" y="56" width="150" height="88" rx="18" fill="#fff" stroke="#182122" stroke-width="2"></rect>
+        <rect x="784" y="56" width="168" height="88" rx="18" fill="#1E6A57" stroke="#1E6A57" stroke-width="2"></rect>
+        <text x="91" y="92" text-anchor="middle" font-size="14" font-weight="800" fill="#182122">Learning goals</text>
+        <text x="91" y="114" text-anchor="middle" font-size="12" fill="#465154">backward design</text>
+        <text x="283" y="92" text-anchor="middle" font-size="14" font-weight="800" fill="#1E6A57">Evidence logic</text>
+        <text x="283" y="114" text-anchor="middle" font-size="12" fill="#465154">ECD / e-ECD</text>
+        <text x="475" y="92" text-anchor="middle" font-size="14" font-weight="800" fill="#182122">Gameplay tasks</text>
+        <text x="475" y="114" text-anchor="middle" font-size="12" fill="#465154">instrumented events</text>
+        <text x="667" y="92" text-anchor="middle" font-size="14" font-weight="800" fill="#182122">Inference + support</text>
+        <text x="667" y="108" text-anchor="middle" font-size="11" fill="#465154">
+          <tspan x="667" dy="0">feedback / dashboards /</tspan>
+          <tspan x="667" dy="14">adaptation</tspan>
+        </text>
+        <text x="868" y="92" text-anchor="middle" font-size="14" font-weight="800" fill="#fff">Redesign loop</text>
+        <text x="868" y="114" text-anchor="middle" font-size="12" fill="#e5f3ee">learning engineering</text>
+        <line x1="166" y1="100" x2="208" y2="100" stroke="#1E6A57" stroke-width="3" marker-end="url(#arrowA)"></line>
+        <line x1="358" y1="100" x2="400" y2="100" stroke="#1E6A57" stroke-width="3" marker-end="url(#arrowA)"></line>
+        <line x1="550" y1="100" x2="592" y2="100" stroke="#1E6A57" stroke-width="3" marker-end="url(#arrowA)"></line>
+        <line x1="742" y1="100" x2="784" y2="100" stroke="#1E6A57" stroke-width="3" marker-end="url(#arrowA)"></line>
+        <path d="M864 150 C864 205, 286 214, 90 152" fill="none" stroke="#B98327" stroke-width="3.5" stroke-dasharray="8 8" marker-end="url(#arrowA)"></path>
+        <text x="428" y="214" text-anchor="middle" font-size="11" fill="#8C6927" font-weight="700">
+          <tspan x="428" dy="0">Use evidence not only to infer learning,</tspan>
+          <tspan x="428" dy="15">but to improve the experience itself.</tspan>
+        </text>
+      </svg>
+    </section>
+
+    <section id="pipeline" class="section body">
+      <div class="section-label">Pipeline</div>
+      <h2 class="h2">From raw telemetry to <span class="accent">interpretable evidence</span></h2>
+      <p>The crucial move is not from logs to model, but from logs to <em>designed indicators</em>, then from indicators to evidence, then from evidence to inference, support, and revision.</p>
+      <p>This is also where sequence data enters. Ordered clicks, dialogue turns, action transitions, hint use, retries, and timing are not an optional sidecar. They are often the raw material from which episode-level evidence is built before any BN, IRT, CDM, or learner-facing support rule can do useful work.</p>
+      <svg viewBox="0 0 980 360" style="width:100%;display:block;background:var(--paper);border:2px solid var(--ink);border-radius:18px;padding:18px;margin-top:18px">
+        <defs>
+          <marker id="arrowPipe" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+            <path d="M0,0 L10,5 L0,10 z" fill="#1E6A57"></path>
+          </marker>
+        </defs>
+        <text x="26" y="30" font-size="12" font-weight="800" fill="#7B8893" letter-spacing="2">PIPELINE MAP</text>
+        <text x="26" y="50" font-size="15" font-weight="700" fill="#182122">
+          <tspan x="26" dy="0">Use the time-ordered trace first, then compress</tspan>
+          <tspan x="26" dy="18">only what the inference layer actually needs.</tspan>
+        </text>
+        <rect x="22" y="82" width="130" height="94" rx="18" fill="#fff" stroke="#182122" stroke-width="2"></rect>
+        <rect x="174" y="82" width="130" height="94" rx="18" fill="#fff" stroke="#182122" stroke-width="2"></rect>
+        <rect x="326" y="82" width="146" height="94" rx="18" fill="#eef7f3" stroke="#1E6A57" stroke-width="2"></rect>
+        <rect x="494" y="82" width="146" height="94" rx="18" fill="#fff" stroke="#182122" stroke-width="2"></rect>
+        <rect x="662" y="82" width="136" height="94" rx="18" fill="#fff" stroke="#182122" stroke-width="2"></rect>
+        <rect x="820" y="82" width="134" height="94" rx="18" fill="#1E6A57" stroke="#1E6A57" stroke-width="2"></rect>
+        <text x="87" y="112" text-anchor="middle" font-size="14" font-weight="800" fill="#182122">Raw events</text>
+        <text x="87" y="134" text-anchor="middle" font-size="12" fill="#465154">clicks, moves,</text>
+        <text x="87" y="151" text-anchor="middle" font-size="12" fill="#465154">turns, hints, timing</text>
+        <text x="239" y="112" text-anchor="middle" font-size="14" font-weight="800" fill="#182122">Segmentation</text>
+        <text x="239" y="134" text-anchor="middle" font-size="12" fill="#465154">sessionize and define</text>
+        <text x="239" y="151" text-anchor="middle" font-size="12" fill="#465154">comparable episodes</text>
+        <text x="399" y="112" text-anchor="middle" font-size="14" font-weight="800" fill="#1E6A57">Sequence integration</text>
+        <text x="399" y="134" text-anchor="middle" font-size="12" fill="#465154">motifs, transitions,</text>
+        <text x="399" y="151" text-anchor="middle" font-size="12" fill="#465154">latency windows, states</text>
+        <text x="567" y="112" text-anchor="middle" font-size="14" font-weight="800" fill="#182122">Indicator design</text>
+        <text x="567" y="134" text-anchor="middle" font-size="12" fill="#465154">revision, variable</text>
+        <text x="567" y="151" text-anchor="middle" font-size="12" fill="#465154">control, stuck loops</text>
+        <text x="730" y="112" text-anchor="middle" font-size="14" font-weight="800" fill="#182122">Inference</text>
+        <text x="730" y="134" text-anchor="middle" font-size="12" fill="#465154">BN, IRT, CDM,</text>
+        <text x="730" y="151" text-anchor="middle" font-size="12" fill="#465154">process models</text>
+        <text x="887" y="112" text-anchor="middle" font-size="14" font-weight="800" fill="#fff">Support</text>
+        <text x="887" y="134" text-anchor="middle" font-size="12" fill="#e5f3ee">hint, dashboard,</text>
+        <text x="887" y="151" text-anchor="middle" font-size="12" fill="#e5f3ee">adaptation, redesign</text>
+        <line x1="152" y1="130" x2="174" y2="130" stroke="#1E6A57" stroke-width="3" marker-end="url(#arrowPipe)"></line>
+        <line x1="304" y1="130" x2="326" y2="130" stroke="#1E6A57" stroke-width="3" marker-end="url(#arrowPipe)"></line>
+        <line x1="472" y1="130" x2="494" y2="130" stroke="#1E6A57" stroke-width="3" marker-end="url(#arrowPipe)"></line>
+        <line x1="640" y1="130" x2="662" y2="130" stroke="#1E6A57" stroke-width="3" marker-end="url(#arrowPipe)"></line>
+        <line x1="798" y1="130" x2="820" y2="130" stroke="#1E6A57" stroke-width="3" marker-end="url(#arrowPipe)"></line>
+        <rect x="38" y="218" width="276" height="104" rx="18" fill="#fff" stroke="#182122" stroke-width="2"></rect>
+        <rect x="350" y="218" width="276" height="104" rx="18" fill="#fff" stroke="#182122" stroke-width="2"></rect>
+        <rect x="662" y="218" width="276" height="104" rx="18" fill="#eef7f3" stroke="#1E6A57" stroke-width="2"></rect>
+        <text x="176" y="248" text-anchor="middle" font-size="14" font-weight="800" fill="#182122">Keep</text>
+        <text x="176" y="266" text-anchor="middle" font-size="11" fill="#465154">
+          <tspan x="176" dy="0">event order, timing, and local context</tspan>
+          <tspan x="176" dy="15">long enough to separate revision from churn</tspan>
+        </text>
+        <text x="488" y="248" text-anchor="middle" font-size="14" font-weight="800" fill="#182122">Avoid</text>
+        <text x="488" y="266" text-anchor="middle" font-size="11" fill="#465154">
+          <tspan x="488" dy="0">flattening time into totals too early or</tspan>
+          <tspan x="488" dy="15">picking a model before the question is clear</tspan>
+        </text>
+        <text x="800" y="248" text-anchor="middle" font-size="14" font-weight="800" fill="#1E6A57">Use</text>
+        <text x="800" y="266" text-anchor="middle" font-size="11" fill="#465154">
+          <tspan x="800" dy="0">sequence summaries as feeder evidence,</tspan>
+          <tspan x="800" dy="15">while some traces remain evidence themselves</tspan>
+        </text>
+      </svg>
+      <div class="card soft">
+        <div class="ct">Practical rule</div>
+        <p>If the game produces rich sequence data, do not ask whether sequence methods replace psychometric models. Ask which parts of the temporal trace should be summarized into evidence for BN, IRT, or CDM, and which parts should remain process evidence in their own right.</p>
+      </div>
+    </section>
+
+    <section id="system" class="section body">
+      <div class="section-label">System Pipeline</div>
+      <h2 class="h2">How data enters the game system, moves through models, and <span class="accent">returns to the learner</span></h2>
+      <p>A useful stealth-assessment guide needs more than model names. It needs an operational pipeline showing where telemetry is captured, how it is transformed, where inference happens, and what actually goes back to the learner, teacher, or design team.</p>
+      <svg viewBox="0 0 980 344" style="width:100%;display:block;background:var(--paper);border:2px solid var(--ink);border-radius:18px;padding:18px;margin-top:18px">
+        <defs>
+          <marker id="arrowB" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+            <path d="M0,0 L10,5 L0,10 z" fill="#1E6A57"></path>
+          </marker>
+        </defs>
+        <rect x="18" y="30" width="130" height="92" rx="18" fill="#fff" stroke="#182122" stroke-width="2"></rect>
+        <rect x="176" y="30" width="146" height="92" rx="18" fill="#fff" stroke="#182122" stroke-width="2"></rect>
+        <rect x="350" y="30" width="166" height="92" rx="18" fill="#eef7f3" stroke="#1E6A57" stroke-width="2"></rect>
+        <rect x="544" y="30" width="182" height="92" rx="18" fill="#fff" stroke="#182122" stroke-width="2"></rect>
+        <rect x="754" y="30" width="198" height="92" rx="18" fill="#1E6A57" stroke="#1E6A57" stroke-width="2"></rect>
+        <text x="83" y="66" text-anchor="middle" font-size="14" font-weight="800" fill="#182122">Game client</text>
+        <text x="83" y="88" text-anchor="middle" font-size="12" fill="#465154">player acts</text>
+        <text x="249" y="66" text-anchor="middle" font-size="14" font-weight="800" fill="#182122">Event store</text>
+        <text x="249" y="88" text-anchor="middle" font-size="12" fill="#465154">ordered logs</text>
+        <text x="433" y="66" text-anchor="middle" font-size="14" font-weight="800" fill="#1E6A57">Evidence layer</text>
+        <text x="433" y="88" text-anchor="middle" font-size="12" fill="#465154">episodes, features, motifs</text>
+        <text x="635" y="66" text-anchor="middle" font-size="14" font-weight="800" fill="#182122">Inference layer</text>
+        <text x="635" y="82" text-anchor="middle" font-size="11" fill="#465154">
+          <tspan x="635" dy="0">BN, IRT, CDM,</tspan>
+          <tspan x="635" dy="14">process models</tspan>
+        </text>
+        <text x="853" y="66" text-anchor="middle" font-size="14" font-weight="800" fill="#fff">Action layer</text>
+        <text x="853" y="82" text-anchor="middle" font-size="11" fill="#e5f3ee">
+          <tspan x="853" dy="0">hint, next task,</tspan>
+          <tspan x="853" dy="14">dashboard, redesign</tspan>
+        </text>
+        <line x1="148" y1="76" x2="176" y2="76" stroke="#1E6A57" stroke-width="3" marker-end="url(#arrowB)"></line>
+        <line x1="322" y1="76" x2="350" y2="76" stroke="#1E6A57" stroke-width="3" marker-end="url(#arrowB)"></line>
+        <line x1="516" y1="76" x2="544" y2="76" stroke="#1E6A57" stroke-width="3" marker-end="url(#arrowB)"></line>
+        <line x1="726" y1="76" x2="754" y2="76" stroke="#1E6A57" stroke-width="3" marker-end="url(#arrowB)"></line>
+        <rect x="74" y="176" width="232" height="124" rx="18" fill="#fff" stroke="#182122" stroke-width="2"></rect>
+        <text x="190" y="200" text-anchor="middle" font-size="13" font-weight="800" fill="#182122">
+          <tspan x="190" dy="0">Sequence-derived</tspan>
+          <tspan x="190" dy="15">evidence</tspan>
+        </text>
+        <text x="100" y="230" font-size="10.5" fill="#465154">predict -> test -> inspect -> revise</text>
+        <text x="100" y="250" font-size="10.5" fill="#465154">hint after repeated same-state failure</text>
+        <text x="100" y="270" font-size="10.5" fill="#465154">variable-control attempts per episode</text>
+        <rect x="352" y="176" width="256" height="124" rx="18" fill="#fff" stroke="#182122" stroke-width="2"></rect>
+        <text x="480" y="200" text-anchor="middle" font-size="13" font-weight="800" fill="#182122">
+          <tspan x="480" dy="0">Model-specific</tspan>
+          <tspan x="480" dy="15">outputs</tspan>
+        </text>
+        <text x="378" y="230" font-size="10.5" fill="#465154">BN: posterior belief over facets</text>
+        <text x="378" y="250" font-size="10.5" fill="#465154">IRT: proficiency-linked estimate</text>
+        <text x="378" y="270" font-size="10.5" fill="#465154">CDM: mastery profile over attributes</text>
+        <rect x="654" y="176" width="274" height="124" rx="18" fill="#eef7f3" stroke="#1E6A57" stroke-width="2"></rect>
+        <text x="791" y="200" text-anchor="middle" font-size="13" font-weight="800" fill="#1E6A57">
+          <tspan x="791" dy="0">Learner-facing</tspan>
+          <tspan x="791" dy="15">return path</tspan>
+        </text>
+        <text x="680" y="234" font-size="11" fill="#465154">next hint or scaffold</text>
+        <text x="680" y="254" font-size="11" fill="#465154">next task or difficulty shift</text>
+        <text x="680" y="274" font-size="11" fill="#465154">teacher or designer dashboard</text>
+        <path d="M880 122 C900 150, 912 168, 912 176" fill="none" stroke="#B98327" stroke-width="3" marker-end="url(#arrowB)"></path>
+        <path d="M790 302 C760 328, 400 328, 112 302" fill="none" stroke="#B98327" stroke-width="3" stroke-dasharray="8 8" marker-end="url(#arrowB)"></path>
+        <text x="470" y="330" text-anchor="middle" font-size="11" fill="#8C6927" font-weight="700">
+          <tspan x="470" dy="0">Use outputs to support the learner now</tspan>
+          <tspan x="470" dy="15">and improve the game later.</tspan>
+        </text>
+      </svg>
+      <table class="schema" style="margin-top:18px">
+        <tr><th>System layer</th><th>What goes in</th><th>What comes out</th><th>Who uses it</th></tr>
+        <tr><td>Telemetry capture</td><td>timestamped gameplay events, states, attempts, hints, dialogue</td><td>ordered raw event stream</td><td>data pipeline</td></tr>
+        <tr><td>Evidence layer</td><td>sequences, timings, episode boundaries, task metadata</td><td>scored indicators, motifs, episode labels, task responses</td><td>modeling layer</td></tr>
+        <tr><td>Inference layer</td><td>evidence-coded inputs</td><td>belief states, proficiency estimates, mastery profiles, strategy labels</td><td>support logic</td></tr>
+        <tr><td>Action layer</td><td>model outputs plus business rules</td><td>feedback, adaptive next step, dashboard flag, redesign insight</td><td>learner, teacher, designer</td></tr>
+      </table>
+    </section>
+
+    <section id="fusion" class="section body">
+      <div class="section-label">Data Integration</div>
+      <h2 class="h2">A practical guide to integrating <span class="accent">sequence, score, and network data</span></h2>
+      <p>Educational games often produce several data types at once: ordered action traces, scored task outcomes, hint and timing records, and sometimes social or network data from collaboration. The practical challenge is not collecting them. It is aligning them at the right unit and deciding which signals become direct evidence, which remain context, and which should stay in a parallel analytic track.</p>
+      <div class="fusion-stage">
+        <div class="head">
+          <h3>Animated Integration Map</h3>
+          <p>This D3-based diagram shows the recommended flow: keep modalities separate first, align them at the episode grain, transform each into meaningful evidence, and only then send them into model and support layers.</p>
+        </div>
+        <div id="fusionViz" aria-label="Animated data integration diagram"></div>
+        <div class="fusion-note"><strong>Why D3 here:</strong> D3 is the most appropriate package for this page because it is built for dynamic SVG visualization and its transition system is designed to animate changes in the DOM smoothly. That makes it a better fit than a static flowchart package for teaching how multimodal evidence moves through a system.</div>
+      </div>
+      <table class="schema">
+        <tr><th>Data type</th><th>Typical raw form</th><th>Best immediate transformation</th><th>Common downstream role</th></tr>
+        <tr><td>Sequence data</td><td>ordered events, actions, turns, transitions, dwell times</td><td>episodes, motifs, transition counts, state labels, revision indicators</td><td>process evidence or feeder features for BN, IRT, or CDM</td></tr>
+        <tr><td>Score data</td><td>correctness, level completion, rubric score, challenge result</td><td>task response table at item or episode level</td><td>IRT, CDM, growth models, reporting layer</td></tr>
+        <tr><td>Hint and support data</td><td>hint request, hint timing, scaffold exposure, feedback viewed</td><td>support-opportunity features and response-process flags</td><td>fairness checks, explanatory covariates, adaptation rules</td></tr>
+        <tr><td>SNA or collaboration data</td><td>who interacted with whom, reply network, help network, co-action graph</td><td>network measures, role labels, group-position indicators</td><td>context variables, team-level evidence, dashboard layer</td></tr>
+      </table>
+      <div class="card" style="margin-top:18px">
+        <div class="ct">The most practical architecture</div>
+        <p>Do not throw all modalities into one flat table immediately. Use a layered architecture instead: <strong>raw tables by modality</strong>, then <strong>a shared alignment key</strong>, then <strong>modality-specific evidence features</strong>, then <strong>an inference layer</strong>, then <strong>a learner-facing action layer</strong>. This keeps temporal and social meaning alive long enough to be useful.</p>
+      </div>
+      <table class="schema" style="margin-top:18px">
+        <tr><th>Step</th><th>What to do</th><th>Practical rule</th></tr>
+        <tr><td>1. Align keys</td><td>Make every source share learner ID, session ID, task or episode ID, and timestamp or order index.</td><td>If two sources cannot be aligned cleanly, do not pretend they belong in one model yet.</td></tr>
+        <tr><td>2. Pick the grain</td><td>Choose whether inference happens at event, episode, task, session, learner, or team level.</td><td>Most stealth-assessment systems work better at the episode or task level than at the raw click level.</td></tr>
+        <tr><td>3. Transform by modality</td><td>Build sequence features from traces, scored-response tables from outcomes, and contextual indicators from network data.</td><td>Each modality should be transformed according to what makes it meaningful, not according to what is easiest to merge.</td></tr>
+        <tr><td>4. Assign evidence roles</td><td>Mark each feature as direct evidence, explanatory covariate, opportunity variable, or contextual descriptor.</td><td>Network position often belongs in the context layer before it belongs in the direct competence layer.</td></tr>
+        <tr><td>5. Choose integration strategy</td><td>Fuse early, fuse late, or run parallel models with a decision layer.</td><td>When constructs are still uncertain, parallel modeling is often safer than one giant fused model.</td></tr>
+      </table>
+      <div class="compare" style="margin-top:18px">
+        <div class="panel">
+          <div class="n">Pattern 01</div>
+          <div class="t">Feature fusion</div>
+          <div class="b">Sequence, score, and network features are all summarized to the same episode or learner grain and sent into one inference model. This is compact, but it risks flattening temporal meaning too early.</div>
+        </div>
+        <div class="panel">
+          <div class="n">Pattern 02</div>
+          <div class="t">Evidence fusion</div>
+          <div class="b">Each modality is first turned into evidence-coded indicators, and only then combined. This is often the best fit for BN-style or ECD-grounded systems.</div>
+        </div>
+        <div class="panel">
+          <div class="n">Pattern 03</div>
+          <div class="t">Parallel models</div>
+          <div class="b">A score model, a sequence model, and a network model run separately, then a decision layer uses their outputs together. This is often the safest architecture early in design.</div>
+        </div>
+        <div class="panel">
+          <div class="n">Pattern 04</div>
+          <div class="t">Multilevel integration</div>
+          <div class="b">Individual evidence feeds learner-level inference while network or group measures remain team-level context. Use this when collaboration structure matters but should not be mistaken for the same construct as individual mastery.</div>
+        </div>
+      </div>
+      <table class="schema" style="margin-top:18px">
+        <tr><th>If your main goal is...</th><th>Use sequence data as...</th><th>Use score data as...</th><th>Use SNA data as...</th></tr>
+        <tr><td>skill diagnosis</td><td>evidence features such as revision, variable control, or stuck loops</td><td>primary task-response layer</td><td>context or opportunity structure</td></tr>
+        <tr><td>adaptive support</td><td>real-time state or trigger features</td><td>stability anchor for learner estimate</td><td>collaboration signal for who should help whom</td></tr>
+        <tr><td>team or CPS analysis</td><td>interaction sequences and turn-taking patterns</td><td>shared task outcome</td><td>primary structural layer</td></tr>
+        <tr><td>design iteration</td><td>where learners get stuck or revise</td><td>which tasks fail most often</td><td>who gets isolated or over-centralized</td></tr>
+      </table>
+      <div class="card soft" style="margin-top:18px">
+        <div class="ct">Best beginner rule</div>
+        <p>Integrate at the level of <strong>meaning</strong>, not just the level of rows. Sequence data tells you how the learner got somewhere. Score data tells you whether the task outcome was successful. Network data tells you the social position and interaction structure around that performance. A good stealth-assessment system keeps those roles distinct before bringing them together.</p>
+      </div>
+    </section>
+
+    <section id="multimodal-ecd" class="section body">
+      <div class="section-label">Multimodal ECD</div>
+      <h2 class="h2">When <span class="accent">multimodal ECD</span> is actually feasible</h2>
+      <p>Multimodality does not automatically improve stealth assessment. It becomes defensible only when each modality contributes something the construct argument genuinely needs, and when those signals can be aligned at a meaningful grain without collapsing into noise.</p>
+      <svg viewBox="0 0 980 320" style="width:100%;display:block;background:var(--paper);border:2px solid var(--ink);border-radius:18px;padding:18px;margin-top:18px">
+        <defs>
+          <marker id="arrowMm" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+            <path d="M0,0 L10,5 L0,10 z" fill="#1E6A57"></path>
+          </marker>
+        </defs>
+        <text x="28" y="28" font-size="12" font-weight="800" fill="#7B8893" letter-spacing="2">MULTIMODAL ECD FEASIBILITY</text>
+        <text x="28" y="48" font-size="15" font-weight="700" fill="#182122">Use more modalities only when each one adds construct-relevant evidence, not just more data volume.</text>
+        <rect x="24" y="82" width="210" height="146" rx="20" fill="#fff" stroke="#182122" stroke-width="2"></rect>
+        <rect x="266" y="82" width="210" height="146" rx="20" fill="#eef7f3" stroke="#1E6A57" stroke-width="2"></rect>
+        <rect x="508" y="82" width="210" height="146" rx="20" fill="#fff" stroke="#182122" stroke-width="2"></rect>
+        <rect x="750" y="82" width="196" height="146" rx="20" fill="#fff" stroke="#182122" stroke-width="2"></rect>
+        <text x="129" y="112" text-anchor="middle" font-size="14" font-weight="800" fill="#182122">Feasible when...</text>
+        <text x="52" y="140" font-size="11" fill="#465154">each modality maps to a</text>
+        <text x="52" y="156" font-size="11" fill="#465154">clear evidentiary role</text>
+        <text x="52" y="172" font-size="11" fill="#465154">alignment keys are stable</text>
+        <text x="52" y="188" font-size="11" fill="#465154">episode grain is defensible</text>
+        <text x="371" y="112" text-anchor="middle" font-size="14" font-weight="800" fill="#1E6A57">Design steps</text>
+        <text x="294" y="140" font-size="11" fill="#465154">1. define construct claim</text>
+        <text x="294" y="156" font-size="11" fill="#465154">2. assign modality roles</text>
+        <text x="294" y="172" font-size="11" fill="#465154">3. align at task or episode</text>
+        <text x="294" y="188" font-size="11" fill="#465154">4. validate each signal path</text>
+        <text x="613" y="112" text-anchor="middle" font-size="14" font-weight="800" fill="#182122">Not feasible when...</text>
+        <text x="536" y="140" font-size="11" fill="#465154">signals only weakly relate</text>
+        <text x="536" y="156" font-size="11" fill="#465154">to the construct</text>
+        <text x="536" y="172" font-size="11" fill="#465154">timing and IDs do not align</text>
+        <text x="536" y="188" font-size="11" fill="#465154">modalities are added “just in case”</text>
+        <text x="848" y="112" text-anchor="middle" font-size="14" font-weight="800" fill="#182122">What to report</text>
+        <text x="772" y="140" font-size="11" fill="#465154">why each modality exists</text>
+        <text x="772" y="156" font-size="11" fill="#465154">what it measures</text>
+        <text x="772" y="172" font-size="11" fill="#465154">how it is aligned</text>
+        <text x="772" y="188" font-size="11" fill="#465154">what remains only context</text>
+        <line x1="234" y1="154" x2="266" y2="154" stroke="#1E6A57" stroke-width="3" marker-end="url(#arrowMm)"></line>
+        <line x1="476" y1="154" x2="508" y2="154" stroke="#1E6A57" stroke-width="3" marker-end="url(#arrowMm)"></line>
+        <line x1="718" y1="154" x2="750" y2="154" stroke="#1E6A57" stroke-width="3" marker-end="url(#arrowMm)"></line>
+        <text x="490" y="282" text-anchor="middle" font-size="11" fill="#465154">The key ECD question is not “can I log this modality?” but “what claim would this modality help justify better than the others?”</text>
+      </svg>
+      <div class="fusion-stage" style="margin-top:18px">
+        <div class="head">
+          <h3>Chapter 09 · D3 multilayer evidentiary network</h3>
+          <p>This D3 view shows a recommended multilayer structure for multimodal stealth assessment: raw modality, transformed evidence, inference layer, and learner-facing action.</p>
+        </div>
+        <div id="multimodalNetworkViz" aria-label="D3 multilayer evidentiary network"></div>
+        <div class="fusion-note"><strong>How to read it:</strong> click a modality on the left to highlight its recommended path. This is intentionally selective, not a spaghetti map of every imaginable edge.</div>
+      </div>
+      <div class="card soft" style="margin-top:18px">
+        <div class="ct">Practical rule</div>
+        <p>In multimodal stealth assessment, every modality should have one of four roles: <strong>direct evidence</strong>, <strong>supporting evidence</strong>, <strong>context or opportunity structure</strong>, or <strong>design-diagnostic trace</strong>. If you cannot assign one of those roles, the modality is probably premature.</p>
+      </div>
+      <table class="schema" style="margin-top:18px">
+        <tr><th>Question</th><th>What to answer before building</th></tr>
+        <tr><td>Why this modality?</td><td>What construct-relevant evidence does it add that clickstream or score data does not?</td></tr>
+        <tr><td>At what grain?</td><td>Will it align at event, episode, task, learner, or team level?</td></tr>
+        <tr><td>Direct evidence or context?</td><td>Does it justify a claim about competence, or only describe exposure, opportunity, or coordination?</td></tr>
+        <tr><td>How will it be validated?</td><td>What response-process, external, or fairness evidence would support using it in assessment?</td></tr>
+      </table>
+    </section>
+
+    <section id="immersive" class="section body">
+      <div class="section-label">Immersive Learning</div>
+      <h2 class="h2">For <span class="accent">3D immersive learning</span>, spatial data changes the whole problem</h2>
+      <p>In VR, AR, MR, and other immersive environments, the assessment problem is not just what the learner clicked. It is where they looked, how they moved, what they approached or ignored, how they oriented their body, what objects were within reach, and how the environment itself constrained or afforded action. That makes spatial data a first-class evidence source, but also a major source of validity risk.</p>
+      <svg viewBox="0 0 980 360" style="width:100%;display:block;background:var(--paper);border:2px solid var(--ink);border-radius:18px;padding:18px;margin-top:18px">
+        <defs>
+          <marker id="arrowSpatial" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+            <path d="M0,0 L10,5 L0,10 z" fill="#1E6A57"></path>
+          </marker>
+        </defs>
+        <text x="28" y="30" font-size="12" font-weight="800" fill="#7B8893" letter-spacing="2">SPATIAL EVIDENCE MAP</text>
+        <text x="28" y="50" font-size="15" font-weight="700" fill="#182122">
+          <tspan x="28" dy="0">Do not infer from raw XYZ alone.</tspan>
+          <tspan x="28" dy="18">Translate movement into relations and episodes.</tspan>
+        </text>
+        <rect x="24" y="82" width="200" height="214" rx="20" fill="#fff" stroke="#182122" stroke-width="2"></rect>
+        <rect x="260" y="82" width="204" height="214" rx="20" fill="#eef7f3" stroke="#1E6A57" stroke-width="2"></rect>
+        <rect x="500" y="82" width="204" height="214" rx="20" fill="#fff" stroke="#182122" stroke-width="2"></rect>
+        <rect x="740" y="82" width="210" height="214" rx="20" fill="#fff" stroke="#182122" stroke-width="2"></rect>
+        <text x="124" y="112" text-anchor="middle" font-size="14" font-weight="800" fill="#182122">What the system logs</text>
+        <text x="48" y="142" font-size="12" fill="#465154">head/body XYZ</text>
+        <text x="48" y="164" font-size="12" fill="#465154">yaw, pitch, facing</text>
+        <text x="48" y="186" font-size="12" fill="#465154">gaze ray and dwell</text>
+        <text x="48" y="208" font-size="12" fill="#465154">grab, place, rotate</text>
+        <text x="48" y="230" font-size="12" fill="#465154">path, revisits, teleports</text>
+        <text x="48" y="262" font-size="11" fill="#8C6927" font-weight="700">
+          <tspan x="48" dy="0">Raw coordinates are noisy</tspan>
+          <tspan x="48" dy="15">and device-specific.</tspan>
+        </text>
+        <text x="362" y="112" text-anchor="middle" font-size="14" font-weight="800" fill="#1E6A57">What makes it meaningful</text>
+        <text x="284" y="142" font-size="12" fill="#465154">zones and AOIs</text>
+        <text x="284" y="164" font-size="12" fill="#465154">proximity to critical objects</text>
+        <text x="284" y="186" font-size="12" fill="#465154">shared orientation with peers</text>
+        <text x="284" y="208" font-size="12" fill="#465154">approach-avoid loops</text>
+        <text x="284" y="230" font-size="11" fill="#465154">return-after-feedback episodes</text>
+        <text x="284" y="262" font-size="11" fill="#8C6927" font-weight="700">
+          <tspan x="284" dy="0">Spatial meaning is relational,</tspan>
+          <tspan x="284" dy="15">not coordinate-based.</tspan>
+        </text>
+        <text x="602" y="112" text-anchor="middle" font-size="14" font-weight="800" fill="#182122">What the analyst should ask</text>
+        <text x="524" y="142" font-size="11" fill="#465154">Which region was visited?</text>
+        <text x="524" y="164" font-size="11" fill="#465154">What cue or collaborator mattered?</text>
+        <text x="524" y="186" font-size="11" fill="#465154">Was the route systematic?</text>
+        <text x="524" y="204" font-size="11" fill="#465154">
+          <tspan x="524" dy="0">Did support interrupt</tspan>
+          <tspan x="524" dy="14">productive exploration?</tspan>
+        </text>
+        <text x="524" y="262" font-size="11" fill="#8C6927" font-weight="700">
+          <tspan x="524" dy="0">Check opportunity structure</tspan>
+          <tspan x="524" dy="15">before comparing learners.</tspan>
+        </text>
+        <text x="845" y="112" text-anchor="middle" font-size="14" font-weight="800" fill="#182122">Evidence outputs</text>
+        <text x="766" y="142" font-size="11" fill="#465154">entered hazard zone first</text>
+        <text x="766" y="164" font-size="11" fill="#465154">looked at gauge after cue</text>
+        <text x="766" y="186" font-size="11" fill="#465154">returned to panel after hint</text>
+        <text x="766" y="208" font-size="11" fill="#465154">shared visual orientation</text>
+        <text x="766" y="262" font-size="11" fill="#8C6927" font-weight="700">
+          <tspan x="766" dy="0">Trigger support only after</tspan>
+          <tspan x="766" dy="15">multi-signal evidence accumulates.</tspan>
+        </text>
+        <line x1="224" y1="190" x2="260" y2="190" stroke="#1E6A57" stroke-width="3" marker-end="url(#arrowSpatial)"></line>
+        <line x1="464" y1="190" x2="500" y2="190" stroke="#1E6A57" stroke-width="3" marker-end="url(#arrowSpatial)"></line>
+        <line x1="704" y1="190" x2="740" y2="190" stroke="#1E6A57" stroke-width="3" marker-end="url(#arrowSpatial)"></line>
+        <path d="M846 296 C832 330, 166 332, 122 298" fill="none" stroke="#B98327" stroke-width="3" stroke-dasharray="8 8" marker-end="url(#arrowSpatial)"></path>
+        <text x="490" y="334" text-anchor="middle" font-size="11" fill="#465154">
+          <tspan x="490" dy="0">Spatial data becomes defensible when it is translated into</tspan>
+          <tspan x="490" dy="15">zones, relations, and comparable episodes.</tspan>
+        </text>
+      </svg>
+      <div class="card">
+        <div class="ct">Most realistic design pattern</div>
+        <p>Translate spatial traces into <strong>zones, relations, and episodes</strong>. For example: entered the hazard area before reading instructions, looked at the gauge after the anomaly cue, returned to the control panel after feedback, or maintained shared visual orientation with a collaborator. These are far more interpretable than raw x-y-z streams.</p>
+      </div>
+      <table class="schema" style="margin-top:18px">
+        <tr><th>Common spatial problem</th><th>Current practical solution</th><th>Example use</th></tr>
+        <tr><td>Raw gaze in a moving 3D scene is hard to interpret</td><td>map gaze rays to AOIs, objects, or social targets; use fixation and transition indicators</td><td>attention to teacher, peer, control panel, or hazard source in VR classrooms and simulations</td></tr>
+        <tr><td>Movement traces are too dense and device-specific</td><td>summarize into path length, dwell, entropy, revisits, or zone-transition motifs</td><td>distinguishing systematic exploration from aimless wandering</td></tr>
+        <tr><td>Collaboration is spatial as well as verbal</td><td>combine proximity, facing direction, and turn-taking with dialogue or network events</td><td>shared attention, co-navigation, and coordination analysis</td></tr>
+        <tr><td>Intervention timing is fragile</td><td>trigger support only after multi-signal evidence accumulates, not after one glance or one step</td><td>spatially aware hints that wait for repeated missed cues or return loops</td></tr>
+      </table>
+      <div class="card soft" style="margin-top:18px">
+        <div class="ct">Current research directions</div>
+        <p>Recent immersive-learning analytics reviews emphasize multimodal integration, stronger theoretical framing, and better use of spatial process data. Recent case work also shows more interest in gaze-based network analysis, head and hand movement as behavioral indicators, and eye-tracking plus VR for self-regulated learning. These are promising, but they still require careful evidence design before they become defensible assessment signals.</p>
+      </div>
+      <div class="card" style="margin-top:18px">
+        <div class="ct">Concrete cases to learn from</div>
+        <ul>
+          <li>VR classroom eye-tracking pipelines now map gaze to dynamic attention targets rather than treating eye points as isolated samples.</li>
+          <li>Immersive learning analytics reviews in 2025 point to weak theoretical integration and uneven multimodal practice, which means many systems still collect more spatial data than they can justify.</li>
+          <li>Recent VR studies are using hand and head movement features as indicators of curiosity, cognitive load, or self-regulated learning, but these signals are still best treated as evidence candidates rather than automatic construct measures.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="tools" class="section body">
+      <div class="section-label">Tools</div>
+      <h2 class="h2">Packages and tutorials worth <span class="accent">embedding into your workflow</span></h2>
+      <p>The goal is not to list every package. The goal is to match each data type or inference layer to a package that is mature, documented, and realistic for educational game analytics work.</p>
+      <table class="schema">
+        <tr><th>Need</th><th>Recommended package</th><th>Why it fits</th><th>Tutorial or docs</th></tr>
+        <tr><td>Bayesian networks</td><td><code>bnlearn</code> (R)</td><td>Structure learning, parameter learning, and inference in one mature package.</td><td><a class="inline" href="https://www.bnlearn.com/documentation/" target="_blank" rel="noreferrer">bnlearn documentation</a></td></tr>
+        <tr><td>IRT and explanatory IRT</td><td><code>mirt</code> (R)</td><td>Strong for unidimensional and multidimensional IRT, mixed designs, and item or person covariates.</td><td><a class="inline" href="https://philchalmers.github.io/mirt/" target="_blank" rel="noreferrer">mirt site</a> · <a class="inline" href="https://cran.r-universe.dev/mirt/doc/manual.html" target="_blank" rel="noreferrer">manual</a></td></tr>
+        <tr><td>CDM and Q-matrix work</td><td><code>GDINA</code> (R)</td><td>Broad CDM family support, Q-matrix validation tools, item fit, and diagnostic modeling.</td><td><a class="inline" href="https://wenchao-ma.github.io/GDINA/" target="_blank" rel="noreferrer">GDINA homepage</a></td></tr>
+        <tr><td>Sequence analysis</td><td><code>TraMineR</code> (R)</td><td>Well-established toolkit for state or event sequences, sequence visualization, distances, and subsequences.</td><td><a class="inline" href="https://traminer.unige.ch/index.shtml" target="_blank" rel="noreferrer">TraMineR site</a> · <a class="inline" href="https://traminer.unige.ch/install.shtml" target="_blank" rel="noreferrer">install guide</a></td></tr>
+        <tr><td>Network and SNA</td><td><code>igraph</code> and <code>ggraph</code>/<code>tidygraph</code> (R)</td><td>Fast graph computation with a flexible plotting layer for social, reply, help, or attention networks.</td><td><a class="inline" href="https://r.igraph.org/" target="_blank" rel="noreferrer">igraph docs</a> · <a class="inline" href="https://ggraph.data-imaginist.com/articles/tidygraph.html" target="_blank" rel="noreferrer">ggraph+t tidygraph vignette</a></td></tr>
+        <tr><td>Animated explanatory diagrams</td><td><code>D3</code> (JS)</td><td>Best fit for bespoke SVG teaching diagrams and pipeline animations inside this guide.</td><td><a class="inline" href="https://d3js.org/d3-transition" target="_blank" rel="noreferrer">d3-transition docs</a></td></tr>
+      </table>
+      <div class="card" style="margin-top:18px">
+        <div class="ct">Tested in this environment on May 3, 2026</div>
+        <table class="schema" style="margin:10px 0 0">
+          <tr><th>Package</th><th>Load status</th><th>Observed note</th></tr>
+          <tr><td><code>TraMineR</code></td><td>loaded</td><td>Available here, version 2.2.13.</td></tr>
+          <tr><td><code>igraph</code></td><td>loaded</td><td>Available here, version 2.2.1.</td></tr>
+          <tr><td><code>ggraph</code></td><td>loaded</td><td>Available here, version 2.2.2.</td></tr>
+          <tr><td><code>tidygraph</code></td><td>loaded</td><td>Available here, version 1.3.1.</td></tr>
+          <tr><td><code>bnlearn</code></td><td>loaded</td><td>Installed and loaded here, version 5.1.</td></tr>
+          <tr><td><code>mirt</code></td><td>loaded</td><td>Installed and loaded here, version 1.46.1.</td></tr>
+          <tr><td><code>GDINA</code></td><td>loaded</td><td>Installed and loaded here, version 2.9.12.</td></tr>
+          <tr><td><code>D3</code></td><td>embedded</td><td>Used successfully on this page for the animated integration map.</td></tr>
+        </table>
+      </div>
+      <div class="card soft" style="margin-top:18px">
+        <div class="ct">Practical starter stack</div>
+        <p>If you are building a first serious pipeline, a pragmatic stack is often enough: <code>TraMineR</code> for sequence summaries, <code>mirt</code> or <code>GDINA</code> for the scored diagnostic layer, <code>bnlearn</code> when you need explicit evidence networks, and <code>igraph</code>/<code>ggraph</code> when collaboration or attention structure matters.</p>
+      </div>
+      <div class="card soft" style="margin-top:18px">
+        <div class="ct">Troubleshooting notes</div>
+        <ul>
+          <li><strong>First check namespace loading:</strong> after installation, verify <code>requireNamespace()</code> before debugging model syntax. In this environment, <code>bnlearn</code>, <code>mirt</code>, and <code>GDINA</code> all loaded successfully after installation.</li>
+          <li><strong>For sequence and SNA work:</strong> this environment already has <code>TraMineR</code>, <code>igraph</code>, <code>ggraph</code>, and <code>tidygraph</code>, so those are the easiest places to prototype first.</li>
+          <li><strong>For Windows setups:</strong> record the exact R path and package versions before troubleshooting modeling errors. Here the tests were run from <code>C:\Program Files\R\R-4.5.2\bin\Rscript.exe</code> with user-library installs under the local R 4.5 library.</li>
+          <li><strong>If install succeeds but scripts still fail:</strong> check whether another R installation or another library path is being used by your pipeline, especially when scripts run from editors, schedulers, or separate shells.</li>
+          <li><strong>For immersive or multimodal pipelines:</strong> debug the data alignment layer before the modeling layer. Missing keys, inconsistent episode grains, and time-sync problems are more common than model-specific bugs.</li>
+          <li><strong>For D3-based explanations:</strong> if the animation does not appear, check whether external script loading is blocked. The diagram on this page depends on the D3 v7 CDN script rather than a bundled local copy.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="gpt55" class="section body">
+      <div class="section-label">AI Workflow</div>
+      <h2 class="h2">How to integrate <span class="accent">GPT-5.5 into game development</span> for stealth assessment</h2>
+      <p>GPT-5.5 is most useful here when it is treated as a workflow coordinator and specification engine, not as a magical black box that directly decides learner state. In game development, its strongest role is helping teams translate messy design goals into concrete telemetry plans, evidence maps, adaptation logic, and implementation artifacts that can be checked by humans and by the game system.</p>
+      <div class="card">
+        <div class="ct">Practical positioning</div>
+        <p>As of <strong>April 23, 2026</strong>, OpenAI announced GPT-5.5 rollout in ChatGPT and Codex. Official help also stated that GPT-5.5 and GPT-5.5 Pro were <strong>not launching to the API that same day</strong>. So the safest design assumption is this: use GPT-5.5 today for design, coding, and tool-assisted workflow orchestration in ChatGPT or Codex, and treat API deployment details as something to verify against current official platform docs before implementation.</p>
+      </div>
+      <table class="schema">
+        <tr><th>Game-dev stage</th><th>Good GPT-5.5 role</th><th>What to ask it for</th></tr>
+        <tr><td>Mechanic design</td><td>design translator</td><td>convert learning goals into tasks, failure states, evidence opportunities, and support triggers</td></tr>
+        <tr><td>Telemetry planning</td><td>schema generator</td><td>enumerate events, payload fields, IDs, timestamps, and episode boundaries</td></tr>
+        <tr><td>Evidence design</td><td>ECD assistant</td><td>map claims to indicators, and indicators to in-game actions or spatial relations</td></tr>
+        <tr><td>Implementation</td><td>agentic coding partner</td><td>write logging hooks, validation scripts, dashboards, and analysis starters</td></tr>
+        <tr><td>Adaptive support</td><td>rule author</td><td>draft support logic, but return structured rules rather than free-form pedagogical prose</td></tr>
+        <tr><td>Review and QA</td><td>skeptical auditor</td><td>check overclaiming, missing keys, fairness risks, and weak evidence mappings</td></tr>
+      </table>
+      <div class="compare" style="margin-top:18px">
+        <div class="panel">
+          <div class="n">Prompt Pattern 01</div>
+          <div class="t">Telemetry planner</div>
+          <div class="b">Ask GPT-5.5 to produce an event schema with event name, trigger condition, required fields, grain, and downstream evidence role.</div>
+        </div>
+        <div class="panel">
+          <div class="n">Prompt Pattern 02</div>
+          <div class="t">Evidence mapper</div>
+          <div class="b">Ask it to convert a mechanic into claims, indicators, and possible false interpretations, so the team can stress-test construct validity early.</div>
+        </div>
+        <div class="panel">
+          <div class="n">Prompt Pattern 03</div>
+          <div class="t">Adaptive rule writer</div>
+          <div class="b">Ask for support rules in structured fields such as trigger, confidence threshold, blocked conditions, learner-facing action, and teacher-facing note.</div>
+        </div>
+        <div class="panel">
+          <div class="n">Prompt Pattern 04</div>
+          <div class="t">Integration reviewer</div>
+          <div class="b">Ask it to inspect sequence, score, and network pipelines together and identify where alignment or episode-grain assumptions could break.</div>
+        </div>
+      </div>
+      <div class="card soft" style="margin-top:18px">
+        <div class="ct">Prompting rule</div>
+        <p>For stealth-assessment work, prefer prompts that ask GPT-5.5 for <strong>structured intermediate artifacts</strong> rather than final truth claims. Event schemas, JSON-like evidence maps, support-rule tables, AOI definitions, and test cases are far easier to validate than free-form interpretations.</p>
+      </div>
+      <table class="schema" style="margin-top:18px">
+        <tr><th>Use case</th><th>Prompt starter</th></tr>
+        <tr><td>Event schema</td><td><code>You are a telemetry architect for an educational game. Given the mechanic below, produce a table with event_name, trigger, required_fields, example_payload, unit_of_analysis, and evidence_role. Do not infer learner state yet.</code></td></tr>
+        <tr><td>Evidence map</td><td><code>You are an evidence-centered design assistant. Convert this gameplay loop into claims, direct evidence, alternative explanations, and missing observations we would still need before making an assessment claim.</code></td></tr>
+        <tr><td>Adaptive support rule</td><td><code>Write learner-support rules for this game mechanic. Return JSON fields for trigger, minimum_evidence, blocked_if, learner_action, teacher_signal, and redesign_note. Use conservative thresholds.</code></td></tr>
+        <tr><td>Spatial telemetry plan</td><td><code>Given this 3D immersive task, list the spatial variables worth logging, the AOIs or zones to define, and which features should remain context rather than direct evidence.</code></td></tr>
+        <tr><td>Pipeline audit</td><td><code>Review this multimodal pipeline. Identify any mismatches in learner ID, session ID, episode grain, time alignment, and opportunities for false causal interpretation.</code></td></tr>
+      </table>
+      <div class="card" style="margin-top:18px">
+        <div class="ct">Best current OpenAI-side practice</div>
+        <p>If you later move from ChatGPT or Codex prototyping into API deployment, use structured outputs or tool schemas so the model returns machine-readable artifacts instead of prose. That is especially important for event definitions, adaptation rules, and dashboard annotations that must flow into a game system without manual cleanup.</p>
+      </div>
+    </section>
+
+    <section id="models" class="section body">
+      <div class="section-label">Model Families</div>
+      <h2 class="h2">Different model families answer <span class="accent">different questions</span></h2>
+      <svg viewBox="0 0 980 338" style="width:100%;display:block;background:var(--paper);border:2px solid var(--ink);border-radius:18px;padding:18px;margin-top:18px">
+        <defs>
+          <marker id="arrowModel" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+            <path d="M0,0 L10,5 L0,10 z" fill="#1E6A57"></path>
+          </marker>
+        </defs>
+        <text x="28" y="30" font-size="12" font-weight="800" fill="#7B8893" letter-spacing="2">MODEL CHOOSER</text>
+        <text x="28" y="50" font-size="15" font-weight="700" fill="#182122">
+          <tspan x="28" dy="0">Choose the family by the question,</tspan>
+          <tspan x="28" dy="18">not by the model's prestige.</tspan>
+        </text>
+        <rect x="24" y="84" width="206" height="194" rx="20" fill="#eef7f3" stroke="#1E6A57" stroke-width="2"></rect>
+        <rect x="258" y="84" width="206" height="194" rx="20" fill="#fff" stroke="#182122" stroke-width="2"></rect>
+        <rect x="492" y="84" width="206" height="194" rx="20" fill="#fff" stroke="#182122" stroke-width="2"></rect>
+        <rect x="726" y="84" width="224" height="194" rx="20" fill="#fff" stroke="#182122" stroke-width="2"></rect>
+        <text x="127" y="114" text-anchor="middle" font-size="14" font-weight="800" fill="#1E6A57">Bayesian networks</text>
+        <text x="46" y="144" font-size="11" fill="#465154">Question: which facets are active?</text>
+        <text x="46" y="164" font-size="11" fill="#465154">Input: multiple evidence indicators</text>
+        <text x="46" y="184" font-size="11" fill="#465154">Output: posterior beliefs</text>
+        <text x="46" y="204" font-size="11" fill="#465154">Best fit: scaffold or alert</text>
+        <text x="361" y="114" text-anchor="middle" font-size="14" font-weight="800" fill="#182122">IRT</text>
+        <text x="280" y="144" font-size="11" fill="#465154">Question: where is the learner?</text>
+        <text x="280" y="164" font-size="11" fill="#465154">Input: scored task responses</text>
+        <text x="280" y="184" font-size="11" fill="#465154">Output: proficiency estimate</text>
+        <text x="280" y="204" font-size="11" fill="#465154">Best fit: matching and trends</text>
+        <text x="595" y="114" text-anchor="middle" font-size="14" font-weight="800" fill="#182122">CDM</text>
+        <text x="514" y="144" font-size="11" fill="#465154">Question: which skills are mastered?</text>
+        <text x="514" y="164" font-size="11" fill="#465154">Input: attribute-tagged outcomes</text>
+        <text x="514" y="184" font-size="11" fill="#465154">Output: mastery profile</text>
+        <text x="514" y="204" font-size="11" fill="#465154">Best fit: diagnostic feedback</text>
+        <text x="838" y="114" text-anchor="middle" font-size="14" font-weight="800" fill="#182122">Process-data models</text>
+        <text x="748" y="144" font-size="11" fill="#465154">Question: what strategy appears?</text>
+        <text x="748" y="164" font-size="11" fill="#465154">Input: ordered events and timings</text>
+        <text x="748" y="184" font-size="11" fill="#465154">Output: states and motifs</text>
+        <text x="748" y="204" font-size="11" fill="#465154">Best fit: stuck detection</text>
+        <path d="M230 208 C242 196, 248 196, 258 208" fill="none" stroke="#1E6A57" stroke-width="3" marker-end="url(#arrowModel)"></path>
+        <path d="M464 208 C476 196, 482 196, 492 208" fill="none" stroke="#1E6A57" stroke-width="3" marker-end="url(#arrowModel)"></path>
+        <path d="M698 208 C710 196, 716 196, 726 208" fill="none" stroke="#1E6A57" stroke-width="3" marker-end="url(#arrowModel)"></path>
+        <text x="488" y="304" text-anchor="middle" font-size="11" fill="#465154">
+          <tspan x="488" dy="0">Common rule: BN, IRT, and CDM usually consume transformed evidence.</tspan>
+          <tspan x="488" dy="15">Sequence fit differs: BN uses indicators, IRT uses scores, CDM uses Q-linked outcomes.</tspan>
+        </text>
+      </svg>
+      <div class="card soft">
+        <div class="ct">Framing rule</div>
+        <p>Do not write as if IRT/CDM is the whole of stealth assessment. Historically, the stealth-assessment literature is at least as strongly tied to Bayesian evidence models and ECD-based design as it is to psychometric latent-trait models.</p>
+      </div>
+      <div class="card" style="margin-top:18px">
+        <div class="ct">How sequence data integrates with these families</div>
+        <p>Sequence data can feed all four families, but not in the same way. For BN, temporal traces often become evidence indicators such as revision-after-mismatch or hint-after-repeat-failure. For IRT, sequences are usually compressed into scored episodes or explanatory process features. For CDM, sequences can help generate task-level evidence for specific attributes, such as variable control or representational switching. For process-data models, the sequence itself remains the main analytic object rather than a pre-compressed score.</p>
+      </div>
+      <div class="qviz">
+        <div class="head" style="display:grid;grid-template-columns:1fr;gap:8px;margin-bottom:12px">
+          <h3 style="margin:0;font-size:22px;line-height:1.15">Q-Matrix Visual</h3>
+          <p style="margin:0;max-width:760px;font-size:13px;color:var(--ink2);line-height:1.6">Instead of defining a Q-matrix only in prose, map each task to the attributes it truly requires. The highlighted row cycles to show how one task can load on one, two, or several attributes.</p>
+        </div>
+        <div id="qMatrixViz" aria-label="Animated Q-matrix diagram"></div>
+        <div class="qviz-note"><strong>Read it this way:</strong> rows are tasks or episodes, columns are attributes. Filled cells mean the task is intended to elicit evidence about that attribute. If too many cells are turned on without a theory, the Q-matrix becomes hard to defend.</div>
+      </div>
+      <div class="card soft" style="margin-top:18px">
+        <div class="ct">Minimal decision rule</div>
+        <p>Use BN when you need structured belief updates across facets. Use IRT when you need a comparable proficiency scale. Use CDM when you need a skill-by-skill diagnostic profile. Use process-data models when the time-ordered behavior is itself the substance of the inference, or when you need to build the evidence features that later feed BN, IRT, or CDM.</p>
+      </div>
+    </section>
+
+    <section id="bn" class="section body">
+      <div class="section-label">BN Path</div>
+      <h2 class="h2">Why <span class="accent">Bayesian networks</span> matter for stealth assessment</h2>
+      <p>Bayesian networks matter when stealth assessment needs a <strong>structured evidence argument</strong> about several related facets at once. Instead of reducing everything to one score, BN lets the system update beliefs about strategy, misconception, or subskill states as new evidence accumulates during play.</p>
+      <svg viewBox="0 0 980 300" style="width:100%;display:block;background:var(--paper);border:2px solid var(--ink);border-radius:18px;padding:18px;margin-top:18px">
+        <defs>
+          <marker id="arrowBn" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+            <path d="M0,0 L10,5 L0,10 z" fill="#1E6A57"></path>
+          </marker>
+        </defs>
+        <text x="28" y="28" font-size="12" font-weight="800" fill="#7B8893" letter-spacing="2">BN DATA FLOW</text>
+        <text x="28" y="48" font-size="15" font-weight="700" fill="#182122">Stealth assessment uses BN when multiple evidence indicators should update beliefs about several facets.</text>
+        <rect x="24" y="84" width="184" height="132" rx="20" fill="#fff" stroke="#182122" stroke-width="2"></rect>
+        <rect x="240" y="84" width="196" height="132" rx="20" fill="#eef7f3" stroke="#1E6A57" stroke-width="2"></rect>
+        <rect x="468" y="84" width="184" height="132" rx="20" fill="#fff" stroke="#182122" stroke-width="2"></rect>
+        <rect x="684" y="84" width="262" height="132" rx="20" fill="#fff" stroke="#182122" stroke-width="2"></rect>
+        <text x="116" y="114" text-anchor="middle" font-size="14" font-weight="800" fill="#182122">Gameplay evidence</text>
+        <text x="50" y="142" font-size="11" fill="#465154">revision after mismatch</text>
+        <text x="50" y="158" font-size="11" fill="#465154">hint after repeated failure</text>
+        <text x="50" y="174" font-size="11" fill="#465154">variable-control attempt</text>
+        <text x="338" y="114" text-anchor="middle" font-size="14" font-weight="800" fill="#1E6A57">Evidence network</text>
+        <text x="270" y="142" font-size="11" fill="#465154">map indicators to facets,</text>
+        <text x="270" y="158" font-size="11" fill="#465154">misconceptions, or states</text>
+        <text x="560" y="114" text-anchor="middle" font-size="14" font-weight="800" fill="#182122">BN update</text>
+        <text x="494" y="142" font-size="11" fill="#465154">posterior belief shifts</text>
+        <text x="494" y="158" font-size="11" fill="#465154">as evidence accumulates</text>
+        <text x="815" y="114" text-anchor="middle" font-size="14" font-weight="800" fill="#182122">Outputs for stealth assessment</text>
+        <text x="712" y="142" font-size="11" fill="#465154">facet-level probabilities</text>
+        <text x="712" y="158" font-size="11" fill="#465154">misconception flags</text>
+        <text x="712" y="174" font-size="11" fill="#465154">targeted scaffold or alert</text>
+        <line x1="208" y1="150" x2="240" y2="150" stroke="#1E6A57" stroke-width="3" marker-end="url(#arrowBn)"></line>
+        <line x1="436" y1="150" x2="468" y2="150" stroke="#1E6A57" stroke-width="3" marker-end="url(#arrowBn)"></line>
+        <line x1="652" y1="150" x2="684" y2="150" stroke="#1E6A57" stroke-width="3" marker-end="url(#arrowBn)"></line>
+        <text x="490" y="268" text-anchor="middle" font-size="11" fill="#465154">BN is strongest when the design question is about which hidden facets or misconception states are becoming more or less plausible during play.</text>
+      </svg>
+      <div class="card" style="margin-top:18px">
+        <div class="ct">What the BN dataframe usually looks like</div>
+        <svg viewBox="0 0 980 220" style="width:100%;display:block;margin-top:10px">
+          <rect x="20" y="18" width="940" height="170" rx="18" fill="#fff" stroke="#182122" stroke-width="2"></rect>
+          <rect x="20" y="18" width="940" height="34" rx="18" fill="#182122"></rect>
+          <text x="46" y="40" font-size="11" fill="#fff" font-weight="800">user_id</text>
+          <text x="140" y="40" font-size="11" fill="#fff" font-weight="800">episode_id</text>
+          <text x="272" y="40" font-size="11" fill="#fff" font-weight="800">rev_after_mismatch</text>
+          <text x="478" y="40" font-size="11" fill="#fff" font-weight="800">hint_after_repeat</text>
+          <text x="664" y="40" font-size="11" fill="#fff" font-weight="800">var_control</text>
+          <text x="814" y="40" font-size="11" fill="#fff" font-weight="800">graph_check</text>
+          <line x1="110" y1="18" x2="110" y2="188" stroke="#D8E0DE"></line>
+          <line x1="238" y1="18" x2="238" y2="188" stroke="#D8E0DE"></line>
+          <line x1="446" y1="18" x2="446" y2="188" stroke="#D8E0DE"></line>
+          <line x1="632" y1="18" x2="632" y2="188" stroke="#D8E0DE"></line>
+          <line x1="776" y1="18" x2="776" y2="188" stroke="#D8E0DE"></line>
+          <line x1="20" y1="86" x2="960" y2="86" stroke="#D8E0DE"></line>
+          <line x1="20" y1="120" x2="960" y2="120" stroke="#D8E0DE"></line>
+          <line x1="20" y1="154" x2="960" y2="154" stroke="#D8E0DE"></line>
+          <text x="46" y="74" font-size="11" fill="#465154">P01</text><text x="140" y="74" font-size="11" fill="#465154">E01</text><text x="302" y="74" font-size="11" fill="#465154">1</text><text x="506" y="74" font-size="11" fill="#465154">0</text><text x="684" y="74" font-size="11" fill="#465154">1</text><text x="836" y="74" font-size="11" fill="#465154">1</text>
+          <text x="46" y="108" font-size="11" fill="#465154">P01</text><text x="140" y="108" font-size="11" fill="#465154">E02</text><text x="302" y="108" font-size="11" fill="#465154">0</text><text x="506" y="108" font-size="11" fill="#465154">1</text><text x="684" y="108" font-size="11" fill="#465154">0</text><text x="836" y="108" font-size="11" fill="#465154">1</text>
+          <text x="46" y="142" font-size="11" fill="#465154">P02</text><text x="140" y="142" font-size="11" fill="#465154">E01</text><text x="302" y="142" font-size="11" fill="#465154">1</text><text x="506" y="142" font-size="11" fill="#465154">1</text><text x="684" y="142" font-size="11" fill="#465154">1</text><text x="836" y="142" font-size="11" fill="#465154">0</text>
+          <text x="46" y="176" font-size="11" fill="#465154">P02</text><text x="140" y="176" font-size="11" fill="#465154">E02</text><text x="302" y="176" font-size="11" fill="#465154">0</text><text x="506" y="176" font-size="11" fill="#465154">0</text><text x="684" y="176" font-size="11" fill="#465154">1</text><text x="836" y="176" font-size="11" fill="#465154">0</text>
+        </svg>
+      </div>
+      <div class="card soft" style="margin-top:18px">
+        <div class="ct">Why it connects to stealth assessment</div>
+        <p>Stealth assessment is often built around an evidence model rather than a single outcome variable. BN fits that logic well because it can encode how multiple gameplay indicators relate to several latent facets and then update those beliefs continuously as the learner acts.</p>
+      </div>
+      <table class="schema" style="margin-top:18px">
+        <tr><th>BN emphasis</th><th>What it assumes or needs</th><th>What to watch out for</th></tr>
+        <tr><td>facet-level belief update</td><td>explicit evidence model</td><td>weakly justified edges make the network look smarter than it is</td></tr>
+        <tr><td>multiple indicators per construct</td><td>theory-based mapping from events to evidence</td><td>do not confuse raw event frequency with diagnostic evidence</td></tr>
+        <tr><td>real-time support</td><td>posterior thresholds linked to action rules</td><td>support triggers need separate validation from model fit</td></tr>
+      </table>
+    </section>
+
+    <section id="irt" class="section body">
+      <div class="section-label">IRT Path</div>
+      <h2 class="h2">Why <span class="accent">IRT</span> can matter for stealth assessment</h2>
+      <p>IRT becomes relevant when stealth assessment needs a <strong>comparable proficiency scale</strong> rather than only a narrative process description. In that case, gameplay has to be translated into scored task or episode responses that behave enough like item responses to support a latent-trait interpretation.</p>
+      <svg viewBox="0 0 980 286" style="width:100%;display:block;background:var(--paper);border:2px solid var(--ink);border-radius:18px;padding:18px;margin-top:18px">
+        <defs>
+          <marker id="arrowIrt" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+            <path d="M0,0 L10,5 L0,10 z" fill="#1E6A57"></path>
+          </marker>
+        </defs>
+        <text x="28" y="28" font-size="12" font-weight="800" fill="#7B8893" letter-spacing="2">IRT DATA FLOW</text>
+        <text x="28" y="48" font-size="15" font-weight="700" fill="#182122">Stealth assessment uses IRT when gameplay can be converted into comparable scored responses.</text>
+        <rect x="24" y="82" width="186" height="126" rx="20" fill="#fff" stroke="#182122" stroke-width="2"></rect>
+        <rect x="248" y="82" width="186" height="126" rx="20" fill="#eef7f3" stroke="#1E6A57" stroke-width="2"></rect>
+        <rect x="472" y="82" width="186" height="126" rx="20" fill="#fff" stroke="#182122" stroke-width="2"></rect>
+        <rect x="696" y="82" width="250" height="126" rx="20" fill="#fff" stroke="#182122" stroke-width="2"></rect>
+        <text x="117" y="112" text-anchor="middle" font-size="14" font-weight="800" fill="#182122">Gameplay evidence</text>
+        <text x="52" y="140" font-size="11" fill="#465154">attempts, hints, timing,</text>
+        <text x="52" y="156" font-size="11" fill="#465154">episode outcomes</text>
+        <text x="341" y="112" text-anchor="middle" font-size="14" font-weight="800" fill="#1E6A57">Scoring layer</text>
+        <text x="276" y="140" font-size="11" fill="#465154">convert episodes into</text>
+        <text x="276" y="156" font-size="11" fill="#465154">0/1 or rubric responses</text>
+        <text x="565" y="112" text-anchor="middle" font-size="14" font-weight="800" fill="#182122">IRT model</text>
+        <text x="500" y="140" font-size="11" fill="#465154">response matrix +</text>
+        <text x="500" y="156" font-size="11" fill="#465154">task parameters</text>
+        <text x="821" y="112" text-anchor="middle" font-size="14" font-weight="800" fill="#182122">Outputs for stealth assessment</text>
+        <text x="726" y="140" font-size="11" fill="#465154">theta or growth trend</text>
+        <text x="726" y="156" font-size="11" fill="#465154">difficulty matching</text>
+        <text x="726" y="172" font-size="11" fill="#465154">progress dashboard</text>
+        <line x1="210" y1="144" x2="248" y2="144" stroke="#1E6A57" stroke-width="3" marker-end="url(#arrowIrt)"></line>
+        <line x1="434" y1="144" x2="472" y2="144" stroke="#1E6A57" stroke-width="3" marker-end="url(#arrowIrt)"></line>
+        <line x1="658" y1="144" x2="696" y2="144" stroke="#1E6A57" stroke-width="3" marker-end="url(#arrowIrt)"></line>
+        <text x="490" y="254" text-anchor="middle" font-size="11" fill="#465154">IRT is strongest when the main claim is about position on a scale, not about which exact subskills are on or off.</text>
+      </svg>
+      <div class="card" style="margin-top:18px">
+        <div class="ct">What the IRT dataframe usually looks like</div>
+        <svg viewBox="0 0 980 216" style="width:100%;display:block;margin-top:10px">
+          <rect x="20" y="18" width="940" height="164" rx="18" fill="#fff" stroke="#182122" stroke-width="2"></rect>
+          <rect x="20" y="18" width="940" height="34" rx="18" fill="#182122"></rect>
+          <text x="50" y="40" font-size="11" fill="#fff" font-weight="800">user_id</text>
+          <text x="180" y="40" font-size="11" fill="#fff" font-weight="800">item_01</text>
+          <text x="314" y="40" font-size="11" fill="#fff" font-weight="800">item_02</text>
+          <text x="448" y="40" font-size="11" fill="#fff" font-weight="800">item_03</text>
+          <text x="582" y="40" font-size="11" fill="#fff" font-weight="800">item_04</text>
+          <text x="716" y="40" font-size="11" fill="#fff" font-weight="800">item_05</text>
+          <text x="840" y="40" font-size="11" fill="#fff" font-weight="800">total or theta later</text>
+          <line x1="136" y1="18" x2="136" y2="182" stroke="#D8E0DE"></line>
+          <line x1="270" y1="18" x2="270" y2="182" stroke="#D8E0DE"></line>
+          <line x1="404" y1="18" x2="404" y2="182" stroke="#D8E0DE"></line>
+          <line x1="538" y1="18" x2="538" y2="182" stroke="#D8E0DE"></line>
+          <line x1="672" y1="18" x2="672" y2="182" stroke="#D8E0DE"></line>
+          <line x1="806" y1="18" x2="806" y2="182" stroke="#D8E0DE"></line>
+          <line x1="20" y1="86" x2="960" y2="86" stroke="#D8E0DE"></line>
+          <line x1="20" y1="120" x2="960" y2="120" stroke="#D8E0DE"></line>
+          <line x1="20" y1="154" x2="960" y2="154" stroke="#D8E0DE"></line>
+          <text x="50" y="74" font-size="11" fill="#465154">P01</text><text x="188" y="74" font-size="11" fill="#465154">1</text><text x="322" y="74" font-size="11" fill="#465154">0</text><text x="456" y="74" font-size="11" fill="#465154">1</text><text x="590" y="74" font-size="11" fill="#465154">1</text><text x="724" y="74" font-size="11" fill="#465154">0</text>
+          <text x="50" y="108" font-size="11" fill="#465154">P02</text><text x="188" y="108" font-size="11" fill="#465154">1</text><text x="322" y="108" font-size="11" fill="#465154">1</text><text x="456" y="108" font-size="11" fill="#465154">1</text><text x="590" y="108" font-size="11" fill="#465154">0</text><text x="724" y="108" font-size="11" fill="#465154">1</text>
+          <text x="50" y="142" font-size="11" fill="#465154">P03</text><text x="188" y="142" font-size="11" fill="#465154">0</text><text x="322" y="142" font-size="11" fill="#465154">0</text><text x="456" y="142" font-size="11" fill="#465154">1</text><text x="590" y="142" font-size="11" fill="#465154">0</text><text x="724" y="142" font-size="11" fill="#465154">0</text>
+          <text x="50" y="176" font-size="11" fill="#465154">P04</text><text x="188" y="176" font-size="11" fill="#465154">1</text><text x="322" y="176" font-size="11" fill="#465154">1</text><text x="456" y="176" font-size="11" fill="#465154">0</text><text x="590" y="176" font-size="11" fill="#465154">1</text><text x="724" y="176" font-size="11" fill="#465154">1</text>
+        </svg>
+      </div>
+      <div class="card soft" style="margin-top:18px">
+        <div class="ct">Why it connects to stealth assessment</div>
+        <p>Stealth assessment often needs a learner estimate that can be compared across tasks, times, or design variants. IRT supports that kind of inference when the evidence layer can be converted into reasonably comparable scored responses. The tradeoff is that temporal richness is usually compressed before estimation.</p>
+      </div>
+      <table class="schema" style="margin-top:18px">
+        <tr><th>IRT emphasis</th><th>What it assumes or needs</th><th>What to watch out for</th></tr>
+        <tr><td>latent trait scale</td><td>comparable scored tasks or episodes</td><td>do not pretend raw clicks are items</td></tr>
+        <tr><td>task response matrix</td><td>stable unit of analysis and scoring rule</td><td>repeated attempts can create local dependence</td></tr>
+        <tr><td>adaptive difficulty</td><td>link between theta and task challenge</td><td>support logic should not be confused with measurement itself</td></tr>
+      </table>
+    </section>
+
+    <section id="cdm" class="section body">
+      <div class="section-label">CDM Path</div>
+      <h2 class="h2">Why <span class="accent">CDM</span> can matter for stealth assessment</h2>
+      <p>CDM becomes relevant when stealth assessment needs a <strong>diagnostic mastery profile</strong> rather than one continuous score. Here the central design problem is not only scoring performance, but defining which tasks provide evidence for which attributes and defending that mapping with a Q-matrix.</p>
+      <svg viewBox="0 0 980 308" style="width:100%;display:block;background:var(--paper);border:2px solid var(--ink);border-radius:18px;padding:18px;margin-top:18px">
+        <defs>
+          <marker id="arrowCdm" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+            <path d="M0,0 L10,5 L0,10 z" fill="#1E6A57"></path>
+          </marker>
+        </defs>
+        <text x="28" y="28" font-size="12" font-weight="800" fill="#7B8893" letter-spacing="2">CDM DATA FLOW</text>
+        <text x="28" y="48" font-size="15" font-weight="700" fill="#182122">Stealth assessment uses CDM when gameplay evidence is meant to diagnose specific subskills.</text>
+        <rect x="24" y="84" width="170" height="138" rx="20" fill="#fff" stroke="#182122" stroke-width="2"></rect>
+        <rect x="224" y="84" width="184" height="138" rx="20" fill="#eef7f3" stroke="#1E6A57" stroke-width="2"></rect>
+        <rect x="438" y="84" width="164" height="138" rx="20" fill="#fff" stroke="#182122" stroke-width="2"></rect>
+        <rect x="632" y="84" width="314" height="138" rx="20" fill="#fff" stroke="#182122" stroke-width="2"></rect>
+        <text x="109" y="114" text-anchor="middle" font-size="14" font-weight="800" fill="#182122">Gameplay tasks</text>
+        <text x="48" y="142" font-size="11" fill="#465154">episodes designed to elicit</text>
+        <text x="48" y="158" font-size="11" fill="#465154">revision, variable control,</text>
+        <text x="48" y="174" font-size="11" fill="#465154">graph reading, explanation</text>
+        <text x="316" y="114" text-anchor="middle" font-size="14" font-weight="800" fill="#1E6A57">Q-matrix + scoring</text>
+        <text x="250" y="142" font-size="11" fill="#465154">which task maps to which</text>
+        <text x="250" y="158" font-size="11" fill="#465154">attributes?</text>
+        <text x="250" y="174" font-size="11" fill="#465154">task outcomes by attribute</text>
+        <text x="520" y="114" text-anchor="middle" font-size="14" font-weight="800" fill="#182122">CDM model</text>
+        <text x="462" y="142" font-size="11" fill="#465154">response matrix +</text>
+        <text x="462" y="158" font-size="11" fill="#465154">Q-matrix</text>
+        <text x="789" y="114" text-anchor="middle" font-size="14" font-weight="800" fill="#182122">Outputs for stealth assessment</text>
+        <text x="664" y="142" font-size="11" fill="#465154">attribute mastery profile</text>
+        <text x="664" y="158" font-size="11" fill="#465154">which subskill to support next</text>
+        <text x="664" y="174" font-size="11" fill="#465154">fine-grained diagnostic feedback</text>
+        <line x1="194" y1="150" x2="224" y2="150" stroke="#1E6A57" stroke-width="3" marker-end="url(#arrowCdm)"></line>
+        <line x1="408" y1="150" x2="438" y2="150" stroke="#1E6A57" stroke-width="3" marker-end="url(#arrowCdm)"></line>
+        <line x1="602" y1="150" x2="632" y2="150" stroke="#1E6A57" stroke-width="3" marker-end="url(#arrowCdm)"></line>
+        <text x="490" y="272" text-anchor="middle" font-size="11" fill="#465154">CDM is strongest when the design goal is to say which attributes appear mastered, partial, or missing, not only how high the learner scores overall.</text>
+      </svg>
+      <div class="card" style="margin-top:18px">
+        <div class="ct">What the CDM dataframes usually look like</div>
+        <svg viewBox="0 0 980 280" style="width:100%;display:block;margin-top:10px">
+          <rect x="20" y="18" width="448" height="214" rx="18" fill="#fff" stroke="#182122" stroke-width="2"></rect>
+          <rect x="20" y="18" width="448" height="34" rx="18" fill="#182122"></rect>
+          <text x="38" y="40" font-size="11" fill="#fff" font-weight="800">Response matrix</text>
+          <text x="52" y="74" font-size="11" fill="#465154">user_id</text><text x="170" y="74" font-size="11" fill="#465154">task_01</text><text x="266" y="74" font-size="11" fill="#465154">task_02</text><text x="362" y="74" font-size="11" fill="#465154">task_03</text>
+          <line x1="130" y1="52" x2="130" y2="232" stroke="#D8E0DE"></line><line x1="226" y1="52" x2="226" y2="232" stroke="#D8E0DE"></line><line x1="322" y1="52" x2="322" y2="232" stroke="#D8E0DE"></line>
+          <line x1="20" y1="86" x2="468" y2="86" stroke="#D8E0DE"></line><line x1="20" y1="120" x2="468" y2="120" stroke="#D8E0DE"></line><line x1="20" y1="154" x2="468" y2="154" stroke="#D8E0DE"></line><line x1="20" y1="188" x2="468" y2="188" stroke="#D8E0DE"></line>
+          <text x="52" y="108" font-size="11" fill="#465154">P01</text><text x="178" y="108" font-size="11" fill="#465154">1</text><text x="274" y="108" font-size="11" fill="#465154">0</text><text x="370" y="108" font-size="11" fill="#465154">1</text>
+          <text x="52" y="142" font-size="11" fill="#465154">P02</text><text x="178" y="142" font-size="11" fill="#465154">1</text><text x="274" y="142" font-size="11" fill="#465154">1</text><text x="370" y="142" font-size="11" fill="#465154">0</text>
+          <text x="52" y="176" font-size="11" fill="#465154">P03</text><text x="178" y="176" font-size="11" fill="#465154">0</text><text x="274" y="176" font-size="11" fill="#465154">1</text><text x="370" y="176" font-size="11" fill="#465154">1</text>
+          <rect x="512" y="18" width="448" height="214" rx="18" fill="#eef7f3" stroke="#1E6A57" stroke-width="2"></rect>
+          <rect x="512" y="18" width="448" height="34" rx="18" fill="#1E6A57"></rect>
+          <text x="530" y="40" font-size="11" fill="#fff" font-weight="800">Q-matrix</text>
+          <text x="544" y="74" font-size="11" fill="#465154">task</text><text x="652" y="74" font-size="11" fill="#465154">var_control</text><text x="768" y="74" font-size="11" fill="#465154">revision</text><text x="864" y="74" font-size="11" fill="#465154">graph</text>
+          <line x1="620" y1="52" x2="620" y2="232" stroke="#CFE0DA"></line><line x1="744" y1="52" x2="744" y2="232" stroke="#CFE0DA"></line><line x1="840" y1="52" x2="840" y2="232" stroke="#CFE0DA"></line>
+          <line x1="512" y1="86" x2="960" y2="86" stroke="#CFE0DA"></line><line x1="512" y1="120" x2="960" y2="120" stroke="#CFE0DA"></line><line x1="512" y1="154" x2="960" y2="154" stroke="#CFE0DA"></line><line x1="512" y1="188" x2="960" y2="188" stroke="#CFE0DA"></line>
+          <text x="544" y="108" font-size="11" fill="#465154">task_01</text><text x="686" y="108" font-size="11" fill="#465154">1</text><text x="792" y="108" font-size="11" fill="#465154">0</text><text x="886" y="108" font-size="11" fill="#465154">1</text>
+          <text x="544" y="142" font-size="11" fill="#465154">task_02</text><text x="686" y="142" font-size="11" fill="#465154">1</text><text x="792" y="142" font-size="11" fill="#465154">1</text><text x="886" y="142" font-size="11" fill="#465154">0</text>
+          <text x="544" y="176" font-size="11" fill="#465154">task_03</text><text x="686" y="176" font-size="11" fill="#465154">0</text><text x="792" y="176" font-size="11" fill="#465154">1</text><text x="886" y="176" font-size="11" fill="#465154">1</text>
+        </svg>
+      </div>
+      <div class="card soft" style="margin-top:18px">
+        <div class="ct">Why it connects to stealth assessment</div>
+        <p>Stealth assessment often aims to support learners in a targeted way during or after play. CDM is attractive when that support should be tied to <strong>specific component skills</strong>. The price is that the attribute model and Q-matrix have to be defended carefully; otherwise the diagnosis looks more precise than the evidence really is.</p>
+      </div>
+      <table class="schema" style="margin-top:18px">
+        <tr><th>CDM emphasis</th><th>What it assumes or needs</th><th>What to watch out for</th></tr>
+        <tr><td>skill-by-skill diagnosis</td><td>clear attribute definitions</td><td>vague attributes make the whole model unstable</td></tr>
+        <tr><td>Q-matrix mapping</td><td>defensible task-to-attribute links</td><td>overloading too many attributes per task weakens interpretation</td></tr>
+        <tr><td>targeted support</td><td>feedback tied to specific mastery gaps</td><td>diagnostic output still needs response-process validation</td></tr>
+      </table>
+    </section>
+
+    <section id="sim1" class="section body">
+      <div class="section-label">Simulation</div>
+      <h2 class="h2">Simulation 1: same score, <span class="accent">different process</span></h2>
+      <div class="sim">
+        <div class="sim-head">
+          <h3>Try two learners</h3>
+          <p>Both learners reach the same final outcome. Switch the scenario to see why gameplay process matters before you infer understanding.</p>
+        </div>
+        <div class="btn-row">
+          <button class="btn active" data-scenario="revision">Revision pattern</button>
+          <button class="btn" data-scenario="guessing">Guessing pattern</button>
+        </div>
+        <div class="sim-grid" id="scenarioGrid"></div>
+      </div>
+    </section>
+
+    <section id="sim2" class="section body">
+      <div class="section-label">Simulation</div>
+      <h2 class="h2">Simulation 2: streaming events are not the same as <span class="accent">stable inference</span></h2>
+      <div class="mini-lab">
+        <div class="controls">
+          <div class="control">
+            <label>Evidence threshold <output id="thresholdOut">4</output></label>
+            <input id="threshold" type="range" min="2" max="8" step="1" value="4">
+          </div>
+          <div class="control">
+            <label>Noise level <output id="noiseOut">0.30</output></label>
+            <input id="noise" type="range" min="0.10" max="0.70" step="0.05" value="0.30">
+          </div>
+          <div class="control">
+            <label>Support strength <output id="supportOut">0.62</output></label>
+            <input id="support" type="range" min="0.20" max="0.95" step="0.01" value="0.62">
+          </div>
+          <div class="stat-grid">
+            <div class="metric"><div class="k">raw stream</div><div class="v" id="rawCount">12</div></div>
+            <div class="metric"><div class="k">usable evidence</div><div class="v" id="evidenceCount">5</div></div>
+            <div class="metric"><div class="k">status</div><div class="v" id="statusText">tentative</div></div>
+          </div>
+          <p class="note">Move the sliders to see how many incoming events become usable evidence. The lesson is simple: a live event stream can grow quickly while defensible inference remains tentative.</p>
+        </div>
+        <div class="stage">
+          <svg id="streamSvg" viewBox="0 0 620 280" aria-label="Streaming evidence diagram"></svg>
+        </div>
+      </div>
+    </section>
+
+    <section id="validity" class="section body">
+      <div class="section-label">Validity</div>
+      <h2 class="h2">Validity and fairness need to stay <span class="accent">in the same frame</span></h2>
+      <p>Game-based evidence can be richer than conventional item scores, but it also creates more ways to overclaim. Unobtrusive measurement is not automatically valid measurement, and real-time traces are not automatically fair traces.</p>
+      <div class="card">
+        <div class="ct">Watch for these risks</div>
+        <ul>
+          <li><strong>Local dependence:</strong> repeated attempts by the same learner can inflate apparent information.</li>
+          <li><strong>Opportunity structure:</strong> some learners may encounter more or different tasks than others.</li>
+          <li><strong>Timing artifacts:</strong> speed may reflect interface friction or device constraints, not skill.</li>
+          <li><strong>Process ambiguity:</strong> the same action can mean exploration, confusion, or persistence depending on context.</li>
+          <li><strong>Construct drift:</strong> features that predict an outcome may still fail to map cleanly to the intended competence.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="challenges" class="section body">
+      <div class="section-label">Challenges</div>
+      <h2 class="h2">The field is moving forward, but several <span class="accent">hard problems remain open</span></h2>
+      <div class="compare">
+        <div class="panel">
+          <div class="n">Challenge 01</div>
+          <div class="t">Process validity</div>
+          <div class="b">Many systems can predict an outcome from log features, but that does not by itself prove those features are valid evidence of the intended construct. The mapping from behavior to competence still needs theory, task analysis, and validation.</div>
+        </div>
+        <div class="panel">
+          <div class="n">Challenge 02</div>
+          <div class="t">Dependence and opportunity</div>
+          <div class="b">Game data are rarely IID. Repeated attempts, unequal task exposure, branching paths, and collaborative contexts complicate inference and make naive comparisons risky.</div>
+        </div>
+        <div class="panel">
+          <div class="n">Challenge 03</div>
+          <div class="t">Fairness and bias</div>
+          <div class="b">As stealth assessment becomes more adaptive and more algorithmic, fairness moves from a side note to a design requirement. Bias can enter through tasks, evidence rules, model fitting, and support decisions.</div>
+        </div>
+        <div class="panel">
+          <div class="n">Challenge 04</div>
+          <div class="t">Actionability</div>
+          <div class="b">A score or mastery label is not yet useful support. The hard problem is turning inference into timely, instructionally sound interventions without overreacting to noisy evidence.</div>
+        </div>
+      </div>
+      <table class="schema" style="margin-top:18px">
+        <tr><th>Problem area</th><th>Why it matters now</th><th>What a stronger design does</th></tr>
+        <tr><td>Construct interpretation</td><td>Feature-rich logs encourage overclaiming.</td><td>Link each indicator back to a claim, task, and response-process rationale.</td></tr>
+        <tr><td>Temporal complexity</td><td>Sequences, latency, and branching paths are often where meaning lives.</td><td>Preserve time long enough to build evidence before flattening to totals.</td></tr>
+        <tr><td>Fairness</td><td>Adaptive systems can differentially misread groups or play styles.</td><td>Audit opportunity structure, response process, and differential algorithmic behavior.</td></tr>
+        <tr><td>Deployment</td><td>Research prototypes often stop at post hoc analysis.</td><td>Design explicit return paths to hints, next-task logic, teacher dashboards, and redesign loops.</td></tr>
+      </table>
+    </section>
+
+    <section id="research" class="section body">
+      <div class="section-label">Current Research</div>
+      <h2 class="h2">Current research is pushing toward <span class="accent">joint modeling, fairness, and actionable support</span></h2>
+      <p>Recent work is no longer asking only whether stealth assessment is possible. It is increasingly asking how process data can be integrated with psychometric models, how adaptive support should be triggered, how fairness should be audited, and how the whole system can operate as part of a learning-engineering loop.</p>
+      <div class="card">
+        <div class="ct">Active directions as of May 3, 2026</div>
+        <ul>
+          <li><strong>Joint modeling of outcomes and process data:</strong> recent work is combining gameplay process indicators with assessment outcomes rather than analyzing them separately.</li>
+          <li><strong>Adaptive feedback pipelines:</strong> explanatory IRT and related approaches are being used to connect diagnostic inference to concrete feedback decisions inside educational games.</li>
+          <li><strong>Goal-aware and sequence-aware inference:</strong> newer studies are treating immediate gameplay goals and temporal traces as evidence, not just background context.</li>
+          <li><strong>Fairness-centric stealth assessment:</strong> the field is starting to treat algorithmic bias and group-differential interpretation as central concerns rather than afterthoughts.</li>
+          <li><strong>Learning-engineering deployment:</strong> more work is framing stealth assessment as part of an iterative design system that feeds redesign, not just measurement.</li>
+        </ul>
+      </div>
+      <table class="schema" style="margin-top:18px">
+        <tr><th>Emerging direction</th><th>What is changing</th><th>Why it matters for this guide</th></tr>
+        <tr><td>Process plus psychometrics</td><td>Sequence/process indicators are being modeled together with item or outcome data.</td><td>This supports the guide's emphasis on an evidence layer between telemetry and inference.</td></tr>
+        <tr><td>Adaptive feedback</td><td>Models are increasingly judged by what support they trigger, not only by fit.</td><td>The pipeline must continue all the way back to the learner.</td></tr>
+        <tr><td>Goal recognition and richer state inference</td><td>Immediate intent, strategy, and local goals are being treated as evidence sources.</td><td>Sequence data should not be reduced too early.</td></tr>
+        <tr><td>Fairness auditing</td><td>Bias analysis is expanding from traditional score fairness to algorithmic decision behavior.</td><td>Support rules need as much scrutiny as model outputs.</td></tr>
+        <tr><td>From prototype to system</td><td>Research is moving from one-off validation studies toward deployable learning systems.</td><td>Backward design, ECD, modeling, and support logic need to stay connected.</td></tr>
+      </table>
+      <div class="card soft" style="margin-top:18px">
+        <div class="ct">New direction to watch</div>
+        <p>A notable shift in 2025-2026 is that stealth assessment is being discussed less as quiet measurement and more as a design problem involving ethical support, dynamic evidence accumulation, and system-level actionability. That is a better fit for educational game analytics and for learning engineering.</p>
+      </div>
+    </section>
+
+    <section id="workflow" class="section body">
+      <div class="section-label">Workflow</div>
+      <h2 class="h2">A practical workflow for a first <span class="accent">stealth-assessment design pass</span></h2>
+      <ol>
+        <li>Write the instructional goal in backward-design language: what should learners understand or be able to transfer?</li>
+        <li>Translate that into ECD language: what claim do you want to make and what observations would count as evidence?</li>
+        <li>Define comparable gameplay episodes rather than treating the whole log as one undifferentiated stream.</li>
+        <li>Build an evidence layer: decide which raw events, sequences, timings, or state changes become indicators, scored responses, motifs, or episode labels.</li>
+        <li>Choose an inference family only after you know whether you want a trait estimate, mastery profile, dynamic belief update, or process-pattern description.</li>
+        <li>Specify how outputs will be used: formative feedback, teacher dashboard, adaptation rule, next-task selection, or redesign insight.</li>
+        <li>Validate conservatively: response process, external relations, fairness, and dependence checks before promotional claims.</li>
+      </ol>
+      <div class="card soft">
+        <div class="ct">Best beginner rule</div>
+        <p>If you are not yet sure what evidence would justify your claim, you are not ready to choose between IRT, CDM, or any other model family.</p>
+      </div>
+    </section>
+
+    <section id="downloads" class="section body">
+      <div class="section-label">Downloads</div>
+      <h2 class="h2">Public-safe starter <span class="accent">materials</span></h2>
+      <div class="downloads">
+        <a class="dl" href="synthetic_gameplay_log.csv" download>
+          <div class="k">Synthetic data</div>
+          <div class="t">Gameplay log CSV</div>
+          <div class="d">A tiny public-safe event log showing sessions, tasks, retries, hints, and simple evidence flags.</div>
+        </a>
+        <a class="dl" href="evidence_map_template.csv" download>
+          <div class="k">Template</div>
+          <div class="t">Evidence map sheet</div>
+          <div class="d">A starter table for writing claims, indicators, tasks, and candidate interpretation rules.</div>
+        </a>
+        <a class="dl" href="q_matrix_starter.csv" download>
+          <div class="k">CDM starter</div>
+          <div class="t">Q-matrix CSV</div>
+          <div class="d">A public-safe starter showing how tasks can be linked to attributes such as variable control, revision, and graph interpretation.</div>
+        </a>
+        <a class="dl" href="bnlearn_starter.R" download>
+          <div class="k">BN starter</div>
+          <div class="t">bnlearn script</div>
+          <div class="d">A tiny Bayesian-network starter that fits a simple evidence model from episode-level indicators.</div>
+        </a>
+        <a class="dl" href="mirt_starter.R" download>
+          <div class="k">IRT starter</div>
+          <div class="t">mirt script</div>
+          <div class="d">A minimal IRT starter that builds a task-response matrix and estimates a 2PL model.</div>
+        </a>
+        <a class="dl" href="GDINA_starter.R" download>
+          <div class="k">CDM starter</div>
+          <div class="t">GDINA script</div>
+          <div class="d">A minimal cognitive-diagnosis starter that pairs a response matrix with the Q-matrix template.</div>
+        </a>
+        <a class="dl" href="TraMineR_starter.R" download>
+          <div class="k">Sequence starter</div>
+          <div class="t">TraMineR script</div>
+          <div class="d">A short sequence-analysis starter that converts task outcomes into symbolic sequences and summarizes them.</div>
+        </a>
+        <a class="dl" href="network_starter.R" download>
+          <div class="k">SNA starter</div>
+          <div class="t">igraph ggraph script</div>
+          <div class="d">A tiny network-analysis starter for help or collaboration ties with centrality and a simple graph plot.</div>
+        </a>
+        <a class="dl" href="reading_path.md" download>
+          <div class="k">Reading path</div>
+          <div class="t">Paper guide</div>
+          <div class="d">A short annotated reading path from ECD to stealth assessment and learning engineering.</div>
+        </a>
+      </div>
+    </section>
+
+    <section id="faq" class="section body">
+      <div class="section-label">FAQ</div>
+      <h2 class="h2">Practical <span class="accent">FAQ</span></h2>
+      <div class="faq-stack">
+        <details class="faq" id="faq-hidden-testing">
+          <summary>Is stealth assessment just hidden testing?</summary>
+          <div class="answer">
+            <p>No. Hiddenness is only one feature. The stronger definition is that assessment is <strong>embedded</strong> in a designed activity so that learner behavior can be interpreted without interrupting the experience. If a game quietly records actions but has no defensible evidence model, that is logging, not stealth assessment.</p>
+          </div>
+        </details>
+        <details class="faq" id="faq-irt-cdm">
+          <summary>Do I need IRT or CDM to do this well?</summary>
+          <div class="answer">
+            <p>Not necessarily. Those are important model families, but they are not the whole field. Bayesian networks, dynamic Bayesian networks, explanatory IRT, cross-classified IRT, and process-data approaches all have legitimate roles. The right question is not “which model is fashionable?” but “what inferential question am I actually trying to answer?”</p>
+          </div>
+        </details>
+        <details class="faq" id="faq-pipeline">
+          <summary>What exactly gets piped from the game into BN, IRT, CDM, or process models?</summary>
+          <div class="answer">
+            <p>Usually not raw clicks by themselves. The game emits timestamped events and task metadata first. Those are segmented into comparable episodes. Sequence features or rules then turn those events into evidence-coded inputs, such as scored task responses, revision indicators, hint-after-failure flags, state-transition counts, or attribute-tagged task outcomes.</p>
+            <p>From there, BN consumes structured evidence indicators, IRT consumes scored responses or explanatory task features, CDM consumes attribute-linked task outcomes plus a Q-matrix, and process-data models consume the ordered trace more directly. The outputs then feed a separate action layer: hints, next-task recommendations, dashboards, or redesign notes.</p>
+          </div>
+        </details>
+        <details class="faq" id="faq-streaming">
+          <summary>Can I infer learning in real time from a live event stream?</summary>
+          <div class="answer">
+            <p>Sometimes, but carefully. Real-time event capture is easier than real-time psychometric inference. A stream of actions may arrive instantly while stable evidence remains thin or noisy. Distinguish event capture, feature aggregation, evidence accumulation, inference, and recalibration.</p>
+          </div>
+        </details>
+        <details class="faq" id="faq-sequence">
+          <summary>Where do sequence methods fit if I also want BN, IRT, or CDM?</summary>
+          <div class="answer">
+            <p>Often at the evidence layer. Sequence mining, HMM-style state modeling, transition analysis, or hand-built motif rules can help define what counts as productive exploration, stuck behavior, revision, or variable control. Those sequence-derived features can then feed BN, IRT, or CDM instead of being discarded.</p>
+            <p>In other cases, sequence analysis remains a parallel analytic lens rather than a feeder model. One track supports psychometric inference, while the other helps interpret response processes, uncover strategy structure, or explain why the psychometric outputs behave as they do.</p>
+          </div>
+        </details>
+        <details class="faq" id="faq-multitype">
+          <summary>How do I combine sequence, score, and network data without making a mess?</summary>
+          <div class="answer">
+            <p>Start by aligning learner, session, task, and time keys across all sources. Then decide the inference grain, usually episode or task rather than raw click. After that, transform each modality separately: sequence data into motifs or state labels, score data into response tables, and network data into contextual indicators.</p>
+            <p>Only then decide whether to fuse them into one model or keep parallel models with a shared decision layer. In many early-stage stealth-assessment designs, parallel modeling is safer because it preserves interpretation and makes it easier to see which modality is actually carrying the evidence.</p>
+          </div>
+        </details>
+        <details class="faq" id="faq-learning-engineering">
+          <summary>What changes when I take a learning-engineering perspective?</summary>
+          <div class="answer">
+            <p>The question expands from “How do we infer learner state?” to “How do we improve a learning system over time?” In that frame, stealth assessment supports feedback, adaptation, and redesign, not just score reporting.</p>
+          </div>
+        </details>
+        <details class="faq" id="faq-reviewers">
+          <summary>What do reviewers usually challenge first?</summary>
+          <div class="answer">
+            <p>Usually one of five things: whether the task really elicits the claimed construct, whether the evidence mapping is theory-driven, whether dependence and repeated attempts were handled, whether fairness issues were considered, and whether the model output was overinterpreted as deeper understanding than the data justify.</p>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <section id="refs" class="section body">
+      <div class="section-label">References</div>
+      <h2 class="h2">Foundational and bridge <span class="accent">references</span></h2>
+      <div class="refs">
+        <p>Arieli-Attali, M., Ward, S., Thomas, J., Deonovic, B., &amp; von Davier, A. A. (2019). The expanded evidence-centered design (e-ECD) for learning and assessment systems. <em>Frontiers in Psychology, 10</em>, 853. https://doi.org/10.3389/fpsyg.2019.00853</p>
+        <p>Baker, R. S., Boser, U., &amp; Snow, E. L. (2022). Learning engineering: A view on where the field is at, where it’s going, and the research needed. <em>Technology, Mind, and Behavior, 3</em>(1). https://doi.org/10.1037/tmb0000058</p>
+        <p>Bley, S. (2017). Developing and validating a technology-based diagnostic assessment using the evidence-centered game design approach. <em>Empirical Research in Vocational Education and Training, 9</em>, 6. https://doi.org/10.1186/s40461-017-0049-0</p>
+        <p>Chen, F., Cui, Y., &amp; Chu, M.-W. (2020). Utilizing game analytics to inform and validate digital game-based assessment with evidence-centered game design. <em>International Journal of Artificial Intelligence in Education, 30</em>(3), 481–503. https://doi.org/10.1007/s40593-020-00202-6</p>
+        <p>Hansen, E. G. (2011). <em>Evidence-centered design for learning</em> (ETS RM-11-02). ETS.</p>
+        <p>Kim, Y. J., Almond, R. G., &amp; Shute, V. J. (2016). Applying evidence-centered design for the development of game-based assessments in Physics Playground. <em>International Journal of Testing, 16</em>(2), 142–163. https://doi.org/10.1080/15305058.2015.1108322</p>
+        <p>Kim, Y. J., &amp; Shute, V. J. (2015). The interplay of game elements with psychometric qualities, learning, and enjoyment in game-based assessment. <em>Computers &amp; Education, 87</em>, 340–356. https://doi.org/10.1016/j.compedu.2015.07.009</p>
+        <p>Kolodner, J. L. (2023). Learning engineering: What it is, why I’m involved, and why I think more of you should be. <em>Journal of the Learning Sciences, 32</em>(2), 305–323. https://doi.org/10.1080/10508406.2023.2190717</p>
+        <p>Lee, V. R. (2023). Learning sciences and learning engineering: A natural or artificial distinction? <em>Journal of the Learning Sciences, 32</em>(2), 288–304. https://doi.org/10.1080/10508406.2022.2100705</p>
+        <p>Levy, R. (2019). Dynamic Bayesian network modeling of game-based diagnostic assessments. <em>Multivariate Behavioral Research, 54</em>(6), 771–794. https://doi.org/10.1080/00273171.2019.1590794</p>
+        <p>Mislevy, R. J., Almond, R. G., &amp; Lukas, J. F. (2003). <em>A brief introduction to evidence-centered design</em>. ETS. https://doi.org/10.1002/j.2333-8504.2003.tb01908.x</p>
+        <p>Mislevy, R. J., Behrens, J. T., DiCerbo, K. E., &amp; Levy, R. (2012). Design and discovery in educational assessment. <em>Journal of Educational Data Mining, 4</em>(1), 11–48. https://doi.org/10.5281/zenodo.3554641</p>
+        <p>Rupp, A. A., Gushta, M., Mislevy, R. J., &amp; Shaffer, D. W. (2010). Evidence-centered design of epistemic games. <em>Journal of Technology, Learning, and Assessment, 8</em>(4). https://ejournals.bc.edu/index.php/jtla/article/view/1623</p>
+        <p>Shute, V. J., &amp; Ventura, M. (2013). <em>Stealth assessment: Measuring and supporting learning in video games</em>. MIT Press.</p>
+        <p>Shute, V. J., Wang, L., Greiff, S., Zhao, W., &amp; Moore, G. (2016). Measuring problem solving skills via stealth assessment in an engaging video game. <em>Computers in Human Behavior, 63</em>, 106–117. https://doi.org/10.1016/j.chb.2016.05.047</p>
+        <p>Udeozor, C., Chan, P., Russo Abegão, F., &amp; Glassey, J. (2023). Game-based assessment framework for virtual reality, augmented reality and digital game-based learning. <em>International Journal of Educational Technology in Higher Education, 20</em>, 36. https://doi.org/10.1186/s41239-023-00405-6</p>
+        <p>Anghel, E., Khorramdel, L., &amp; von Davier, M. (2024). The use of process data in large-scale assessments: A literature review. <em>Large-scale Assessments in Education, 12</em>, 13. https://doi.org/10.1186/s40536-024-00202-1</p>
+        <p>Bijl, A., Veldkamp, B. P., Wools, S., &amp; de Klerk, S. (2024). Serious games in high-stakes assessment contexts: A systematic literature review into the game design principles for valid game-based performance assessment. <em>Educational Technology Research and Development, 72</em>(4), 2041â€“2064. https://doi.org/10.1007/s11423-024-10362-0</p>
+        <p>Demedts, F., Said-Metwaly, S., Kiili, K., Ninaus, M., Lindstedt, A., Reynvoet, B., Sasanguie, D., &amp; Depaepe, F. (2025). Adaptive feedback in digital educational games: An explanatory item response theory approach. <em>Journal of Computer Assisted Learning, 41</em>(5), e70104. https://doi.org/10.1111/jcal.70104</p>
+        <p>Feng, T., &amp; Cai, L. (2024). Sensemaking of process data from evaluation studies of educational games: An application of cross-classified item response theory modeling. <em>Journal of Educational Measurement</em>. https://doi.org/10.1111/jedm.12396</p>
+        <p>Rahimi, S., Shute, V. J., &amp; Almond, R. G. (2026). Stealth assessments in digital learning environments: Current trends, new directions, and ethical considerations. <em>Journal of Research on Technology in Education, 58</em>(1), 1â€“10. https://doi.org/10.1080/15391523.2025.2587551</p>
+        <p>Rahimi, S., Shute, V. J., Khodabandelou, R., Kuba, R., Babaee, M., &amp; Esmaeiligoujar, S. (2023). Stealth assessment: A systematic review of the literature. In <em>Proceedings of the 17th International Conference of the Learning Sciences</em>. https://doi.org/10.22318/icls2023.395429</p>
+        <p>Sakr, A., &amp; Abdullah, T. (2024). Virtual, augmented reality and learning analytics impact on learners, and educators: A systematic review. <em>Education and Information Technologies, 29</em>, 19913â€“19962. https://doi.org/10.1007/s10639-024-12602-5</p>
+        <p>Tao, L., Cukurova, M., &amp; Song, Y. (2025). Learning analytics in immersive virtual learning environments: A systematic literature review. <em>Smart Learning Environments, 12</em>, 43. https://doi.org/10.1186/s40561-025-00381-6</p>
+        <p>Vanecek, D., Rehman, I. U., &amp; Dobias, M. (2026). Integrating virtual reality and eye-tracking as a gamified assessment tool for self-regulated learning. <em>Education and Information Technologies</em>. https://doi.org/10.1007/s10639-026-13967-5</p>
+        <p>Wiggins, G., &amp; McTighe, J. (2005). <em>Understanding by design</em> (Expanded 2nd ed.). ASCD.</p>
+      </div>
+    </section>
+
+    <footer class="foot">
+      <span>Educatian · stealth assessment draft</span>
+      <span>foundational sources · practical onboarding guide</span>
+    </footer>
+  </main>
+</div>
+
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script>
+function applyBrandPalette(root){
+  const colorMap={
+    '#1E6A57':'#782F40',
+    '#EEF7F3':'#F8EEF1',
+    '#E5F3EE':'#F7E8D2',
+    '#B98327':'#CEB888',
+    '#C6674E':'#9E6A3A',
+    '#FFF5E4':'#FBF1DE',
+    '#FFF1EB':'#F8ECE5',
+    '#A8CCBD':'#D3B4BC',
+    '#CBD7D2':'#D7CBBE',
+    '#EEF2F0':'#F1ECE6',
+    '#C8C1B4':'#D6C8B7'
+  };
+  function remap(el){
+    if(!(el instanceof Element)) return;
+    ['fill','stroke'].forEach(attr=>{
+      const v=el.getAttribute(attr);
+      if(v && colorMap[v]) el.setAttribute(attr,colorMap[v]);
+    });
+    if(el.hasAttribute('style')){
+      let style=el.getAttribute('style');
+      Object.entries(colorMap).forEach(([from,to])=>{
+        if(style.includes(from)) style=style.split(from).join(to);
+      });
+      el.setAttribute('style',style);
+    }
+    el.querySelectorAll?.('*').forEach(node=>{
+      ['fill','stroke'].forEach(attr=>{
+        const v=node.getAttribute(attr);
+        if(v && colorMap[v]) node.setAttribute(attr,colorMap[v]);
+      });
+      if(node.hasAttribute('style')){
+        let style=node.getAttribute('style');
+        Object.entries(colorMap).forEach(([from,to])=>{
+          if(style.includes(from)) style=style.split(from).join(to);
+        });
+        node.setAttribute('style',style);
+      }
+    });
+  }
+  remap(root || document.body);
+}
+applyBrandPalette(document.body);
+
+const sections=[...document.querySelectorAll('.section')];
+const tocLinks=[...document.querySelectorAll('.toc a')];
+const faqEls=[...document.querySelectorAll('.faq')];
+
+document.querySelectorAll('.refs p').forEach(p=>{
+  p.innerHTML=p.innerHTML.replace(/(https?:\/\/doi\.org\/[^\s<]+)/g,'<a class="inline" href="$1" target="_blank" rel="noreferrer">$1</a>');
+});
+
+function setActive(id){
+  tocLinks.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+id));
+}
+const observer=new IntersectionObserver((entries)=>{
+  const visible=entries.filter(e=>e.isIntersecting).sort((a,b)=>b.intersectionRatio-a.intersectionRatio);
+  if(visible[0]) setActive(visible[0].target.id);
+},{rootMargin:'-20% 0px -62% 0px',threshold:[0,.2,.4,.7]});
+sections.forEach(sec=>observer.observe(sec));
+
+tocLinks.forEach(link=>{
+  link.addEventListener('click',()=>{
+    const targetId=link.getAttribute('href').slice(1);
+    if(targetId.startsWith('faq-')){
+      const item=document.getElementById(targetId);
+      if(item) item.open=true;
+    }
+  });
+});
+
+// Simulation 1
+const scenarios={
+  revision:[
+    {
+      name:'Learner A',
+      tag:'same final score',
+      tokens:['predict','single-variable test','inspect graph','revise model','solve'],
+      metrics:{score:'5/5', evidence:'strong', interpretation:'sensemaking'},
+      lesson:'The final score is supported by a visible loop of prediction, targeted testing, inspection, and revision.'
+    },
+    {
+      name:'Learner B',
+      tag:'same final score',
+      tokens:['solve','solve','solve','solve','solve'],
+      metrics:{score:'5/5', evidence:'thin', interpretation:'outcome only'},
+      lesson:'The outcome looks equally good, but the log says much less about the reasoning process that produced it.'
+    }
+  ],
+  guessing:[
+    {
+      name:'Learner A',
+      tag:'same final score',
+      tokens:['retry','retry','hint','random change','solve'],
+      metrics:{score:'5/5', evidence:'mixed', interpretation:'uncertain'},
+      lesson:'Success after many unstructured retries may still reflect learning, but the inference is weaker and needs context.'
+    },
+    {
+      name:'Learner B',
+      tag:'same final score',
+      tokens:['compare cases','test extreme','revise explanation','solve','explain'],
+      metrics:{score:'5/5', evidence:'strong', interpretation:'productive exploration'},
+      lesson:'Here the same score is attached to clearer signs of strategy, comparison, and explanation.'
+    }
+  ]
+};
+const scenarioGrid=document.getElementById('scenarioGrid');
+function renderScenario(key){
+  scenarioGrid.innerHTML=scenarios[key].map((s,i)=>`
+    <div class="learner-card">
+      <div class="who"><strong>${s.name}</strong><span class="badge">${s.tag}</span></div>
+      <div class="seq">${s.tokens.map(t=>`<span class="token ${/revise|compare|test|inspect|explain/.test(t)?'good':''} ${/retry|random|hint/.test(t)?'warn':''}">${t}</span>`).join('')}</div>
+      <div class="readout">
+        <div class="metric"><div class="k">final score</div><div class="v">${s.metrics.score}</div></div>
+        <div class="metric"><div class="k">evidence</div><div class="v">${s.metrics.evidence}</div></div>
+        <div class="metric"><div class="k">reading</div><div class="v">${s.metrics.interpretation}</div></div>
+      </div>
+      <div class="lesson">${s.lesson}</div>
+    </div>
+  `).join('');
+}
+renderScenario('revision');
+document.querySelectorAll('[data-scenario]').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('[data-scenario]').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    renderScenario(btn.dataset.scenario);
+  });
+});
+
+// Simulation 2
+const threshold=document.getElementById('threshold');
+const noise=document.getElementById('noise');
+const support=document.getElementById('support');
+const svg=document.getElementById('streamSvg');
+function updateStream(){
+  const t=+threshold.value;
+  const n=+noise.value;
+  const s=+support.value;
+  document.getElementById('thresholdOut').textContent=t;
+  document.getElementById('noiseOut').textContent=n.toFixed(2);
+  document.getElementById('supportOut').textContent=s.toFixed(2);
+  const raw=12;
+  const evidence=Math.max(1,Math.round(raw*(1-n)*s));
+  const status=evidence>=t?'usable':'tentative';
+  document.getElementById('rawCount').textContent=raw;
+  document.getElementById('evidenceCount').textContent=evidence;
+  document.getElementById('statusText').textContent=status;
+  let circles='';
+  for(let i=0;i<raw;i++){
+    const x=40+i*44;
+    const isEvidence=i<evidence;
+    circles+=`<circle cx="${x}" cy="78" r="13" fill="${isEvidence?'#1E6A57':'#D8D5CC'}"></circle>`;
+    circles+=`<text x="${x}" y="82" text-anchor="middle" font-size="10" fill="${isEvidence?'#fff':'#6F7778'}" font-weight="800">e${i+1}</text>`;
+    circles+=`<line x1="${x}" y1="96" x2="${x}" y2="${isEvidence?154:132}" stroke="${isEvidence?'#1E6A57':'#A8AFB0'}" stroke-width="2" stroke-dasharray="${isEvidence?'0':'6 6'}"></line>`;
+  }
+  const fill=status==='usable'?'#EEF7F3':'#FFF2EC';
+  const stroke=status==='usable'?'#1E6A57':'#C6674E';
+  const label=status==='usable'?'enough structured evidence for a cautious update':'stream is active, but evidence remains thin';
+  svg.innerHTML=`
+    <text x="24" y="26" font-size="12" letter-spacing="2" font-weight="800" fill="#1E6A57">LIVE EVENT STREAM</text>
+    <text x="24" y="46" font-size="13" fill="#465154">
+      <tspan x="24" dy="0">Incoming events are abundant,</tspan>
+      <tspan x="24" dy="16">but only some become usable evidence.</tspan>
+    </text>
+    ${circles}
+    <rect x="26" y="168" width="560" height="72" rx="16" fill="${fill}" stroke="${stroke}" stroke-width="2"></rect>
+    <text x="48" y="197" font-size="12" letter-spacing="2" font-weight="800" fill="${stroke}">INTERPRETIVE STATE</text>
+    <text x="48" y="220" font-size="18" font-weight="900" fill="#182122">${status.toUpperCase()}</text>
+    <text x="182" y="220" font-size="14" fill="#465154">${label}</text>
+    <text x="48" y="147" font-size="12" fill="#6A7476">raw events</text>
+    <text x="490" y="147" font-size="12" fill="#6A7476">evidence threshold: ${t}</text>
+  `;
+  applyBrandPalette(svg);
+}
+[threshold,noise,support].forEach(el=>el.addEventListener('input',updateStream));
+updateStream();
+
+// Data integration visualization
+function initFusionViz(){
+  if(!window.d3) return;
+  const host=document.getElementById('fusionViz');
+  if(!host) return;
+  const width=920;
+  const height=360;
+  host.innerHTML='';
+  const svg=d3.select(host).append('svg')
+    .attr('viewBox',`0 0 ${width} ${height}`)
+    .style('width','100%')
+    .style('display','block')
+    .style('background','var(--paper)')
+    .style('border-radius','14px');
+
+  const lanes=[
+    {id:'sequence',y:72,color:'#1E6A57',label:'sequence data',sub:'ordered actions, turns, timing'},
+    {id:'score',y:152,color:'#B98327',label:'score data',sub:'correctness, rubric, level result'},
+    {id:'network',y:232,color:'#C6674E',label:'network data',sub:'reply ties, help ties, roles'}
+  ];
+
+  const columns={
+    raw:110,
+    align:320,
+    evidence:540,
+    model:740,
+    action:874
+  };
+
+  svg.append('text').attr('x',20).attr('y',24).attr('font-size',12).attr('font-weight',800).attr('letter-spacing',2).attr('fill','#1E6A57').text('MULTIMODAL STEALTH-ASSESSMENT PIPELINE');
+  svg.append('text').attr('x',20).attr('y',44).attr('font-size',13).attr('fill','#465154').text('Animate the logic: separate modalities first, align at the right grain, transform into evidence, then infer and act.');
+
+  const headers=[
+    {x:columns.raw,text:'raw modality'},
+    {x:columns.align,text:'shared grain'},
+    {x:columns.evidence,text:'evidence features'},
+    {x:columns.model,text:'model layer'},
+    {x:columns.action,text:'action layer'}
+  ];
+  headers.forEach(h=>{
+    svg.append('text')
+      .attr('x',h.x)
+      .attr('y',64)
+      .attr('text-anchor','middle')
+      .attr('font-size',10)
+      .attr('font-weight',800)
+      .attr('letter-spacing',2)
+      .attr('fill','#798487')
+      .text(h.text.toUpperCase());
+  });
+
+  lanes.forEach(lane=>{
+    svg.append('rect').attr('x',24).attr('y',lane.y-26).attr('width',172).attr('height',52).attr('rx',18).attr('fill','#fff').attr('stroke',lane.color).attr('stroke-width',2);
+    svg.append('text').attr('x',42).attr('y',lane.y-4).attr('font-size',14).attr('font-weight',800).attr('fill',lane.color).text(lane.label);
+    svg.append('text').attr('x',42).attr('y',lane.y+14).attr('font-size',11).attr('fill','#465154').text(lane.sub);
+
+    svg.append('line').attr('x1',196).attr('x2',columns.action-36).attr('y1',lane.y).attr('y2',lane.y)
+      .attr('stroke','#C8C1B4').attr('stroke-width',2).attr('stroke-dasharray','6 8');
+  });
+
+  const alignBox=svg.append('g');
+  alignBox.append('rect').attr('x',250).attr('y',92).attr('width',140).attr('height',164).attr('rx',22).attr('fill','#EEF7F3').attr('stroke','#1E6A57').attr('stroke-width',2);
+  alignBox.append('text').attr('x',320).attr('y',124).attr('text-anchor','middle').attr('font-size',16).attr('font-weight',900).attr('fill','#1E6A57').text('episode key');
+  alignBox.append('text').attr('x',320).attr('y',150).attr('text-anchor','middle').attr('font-size',11).attr('fill','#465154').text('learner + session');
+  alignBox.append('text').attr('x',320).attr('y',168).attr('text-anchor','middle').attr('font-size',11).attr('fill','#465154').text('+ task + order');
+  ['E01','E02','E03'].forEach((t,i)=>{
+    alignBox.append('rect').attr('x',278).attr('y',182+i*24).attr('width',84).attr('height',18).attr('rx',9).attr('fill','#fff').attr('stroke','#1E6A57').attr('stroke-width',1.5);
+    alignBox.append('text').attr('x',320).attr('y',195+i*24).attr('text-anchor','middle').attr('font-size',10).attr('font-weight',800).attr('fill','#1E6A57').text(t);
+  });
+
+  const evidenceBox=svg.append('g');
+  evidenceBox.append('rect').attr('x',458).attr('y',96).attr('width',164).attr('height',156).attr('rx',22).attr('fill','#fff').attr('stroke','#182122').attr('stroke-width',2);
+  evidenceBox.append('text').attr('x',540).attr('y',124).attr('text-anchor','middle').attr('font-size',16).attr('font-weight',900).attr('fill','#182122').text('evidence layer');
+  ['revision flag','task score','network role'].forEach((t,i)=>{
+    evidenceBox.append('rect').attr('class','fusion-evidence').attr('x',482).attr('y',144+i*30).attr('width',116).attr('height',20).attr('rx',10).attr('fill',i===0?'#EEF7F3':i===1?'#FFF5E4':'#FFF1EB').attr('stroke',i===0?'#1E6A57':i===1?'#B98327':'#C6674E').attr('stroke-width',1.5);
+    evidenceBox.append('text').attr('x',540).attr('y',158+i*30).attr('text-anchor','middle').attr('font-size',10).attr('font-weight',800).attr('fill','#182122').text(t);
+  });
+
+  const modelBox=svg.append('g');
+  modelBox.append('rect').attr('x',678).attr('y',98).attr('width',124).attr('height',152).attr('rx',22).attr('fill','#fff').attr('stroke','#182122').attr('stroke-width',2);
+  modelBox.append('text').attr('x',740).attr('y',126).attr('text-anchor','middle').attr('font-size',16).attr('font-weight',900).attr('fill','#182122').text('model');
+  ['BN','IRT','CDM'].forEach((t,i)=>{
+    modelBox.append('rect').attr('class','fusion-model').attr('x',705).attr('y',146+i*30).attr('width',70).attr('height',20).attr('rx',10).attr('fill','#F4F1E8').attr('stroke','#182122').attr('stroke-width',1.5);
+    modelBox.append('text').attr('x',740).attr('y',160+i*30).attr('text-anchor','middle').attr('font-size',10).attr('font-weight',800).attr('fill','#182122').text(t);
+  });
+
+  const actionBox=svg.append('g');
+  actionBox.append('rect').attr('x',826).attr('y',96).attr('width',86).attr('height',156).attr('rx',22).attr('fill','#1E6A57').attr('stroke','#1E6A57').attr('stroke-width',2);
+  actionBox.append('text').attr('x',869).attr('y',124).attr('text-anchor','middle').attr('font-size',15).attr('font-weight',900).attr('fill','#fff').text('support');
+  ['hint','next task','dashboard'].forEach((t,i)=>{
+    actionBox.append('text').attr('x',869).attr('y',156+i*28).attr('text-anchor','middle').attr('font-size',11).attr('font-weight',700).attr('fill','#E5F3EE').text(t);
+  });
+
+  const particles=[];
+  lanes.forEach(lane=>{
+    for(let i=0;i<3;i++){
+      particles.push({lane:lane.id,color:lane.color,y:lane.y,delay:i*240});
+    }
+  });
+  const tokenGroup=svg.append('g');
+  tokenGroup.selectAll('circle')
+    .data(particles)
+    .enter()
+    .append('circle')
+    .attr('class','fusion-token')
+    .attr('r',6)
+    .attr('cx',206)
+    .attr('cy',d=>d.y)
+    .attr('fill',d=>d.color)
+    .attr('opacity',0.28);
+
+  const caption=svg.append('text')
+    .attr('x',24)
+    .attr('y',320)
+    .attr('font-size',13)
+    .attr('font-weight',700)
+    .attr('fill','#465154')
+    .text('Step 1. Keep modalities separate while aligning them to a shared episode grain.');
+
+  function pulse(selection,color){
+    selection.transition().duration(350).attr('fill',color).attr('stroke',color).attr('opacity',1)
+      .transition().duration(650).attr('opacity',0.9);
+  }
+
+  function runCycle(){
+    caption.text('Step 1. Keep modalities separate while aligning them to a shared episode grain.');
+    tokenGroup.selectAll('circle')
+      .attr('cx',206)
+      .attr('opacity',0.28)
+      .transition()
+      .delay(d=>d.delay)
+      .duration(1200)
+      .attr('cx',320)
+      .attr('opacity',0.95)
+      .transition()
+      .delay(160)
+      .duration(1100)
+      .attr('cx',540)
+      .attr('opacity',0.95)
+      .transition()
+      .delay(180)
+      .duration(900)
+      .attr('cx',740)
+      .transition()
+      .duration(800)
+      .attr('cx',869)
+      .attr('opacity',0.18);
+
+    d3.selectAll('.fusion-evidence').transition().duration(350).attr('stroke-width',1.5);
+    d3.selectAll('.fusion-model').transition().duration(350).attr('stroke-width',1.5);
+
+    setTimeout(()=>{
+      caption.text('Step 2. Transform each modality into evidence features rather than dumping all rows into one flat table.');
+      d3.selectAll('.fusion-evidence').transition().duration(420).attr('stroke-width',3);
+    },1450);
+
+    setTimeout(()=>{
+      caption.text('Step 3. Send evidence into BN, IRT, or CDM, then return action as hints, next tasks, or dashboard signals.');
+      d3.selectAll('.fusion-model').transition().duration(420).attr('stroke-width',3);
+      actionBox.transition().duration(500).attr('transform','translate(0,-4)')
+        .transition().duration(700).attr('transform','translate(0,0)');
+    },2850);
+  }
+
+  runCycle();
+  applyBrandPalette(host);
+  window.clearInterval(window.__fusionVizTimer);
+  window.__fusionVizTimer=window.setInterval(runCycle,5200);
+}
+initFusionViz();
+
+function initMultimodalNetworkViz(){
+  if(!window.d3) return;
+  const host=document.getElementById('multimodalNetworkViz');
+  if(!host) return;
+  host.innerHTML='';
+  const width=980;
+  const height=360;
+  const svg=d3.select(host).append('svg')
+    .attr('viewBox',`0 0 ${width} ${height}`)
+    .style('width','100%')
+    .style('display','block')
+    .style('background','var(--paper)')
+    .style('border-radius','14px');
+
+  const layers=[
+    {key:'modality',x:110,nodes:[
+      {id:'sequence',label:'sequence',color:'#1E6A57'},
+      {id:'score',label:'score',color:'#B98327'},
+      {id:'gaze',label:'gaze',color:'#C6674E'},
+      {id:'network',label:'network',color:'#6E7E99'}
+    ]},
+    {key:'evidence',x:360,nodes:[
+      {id:'revision',label:'revision flag'},
+      {id:'taskscore',label:'task score'},
+      {id:'aoi',label:'AOI dwell'},
+      {id:'help',label:'help role'}
+    ]},
+    {key:'model',x:610,nodes:[
+      {id:'bn',label:'BN'},
+      {id:'irt',label:'IRT'},
+      {id:'cdm',label:'CDM'}
+    ]},
+    {key:'action',x:860,nodes:[
+      {id:'hint',label:'hint'},
+      {id:'nexttask',label:'next task'},
+      {id:'dashboard',label:'dashboard'}
+    ]}
+  ];
+
+  const yMap={
+    sequence:78,score:138,gaze:198,network:258,
+    revision:78,taskscore:138,aoi:198,help:258,
+    bn:96,irt:168,cdm:240,
+    hint:96,nexttask:168,dashboard:240
+  };
+
+  const links=[
+    ['sequence','revision'],['sequence','taskscore'],['score','taskscore'],
+    ['gaze','aoi'],['network','help'],
+    ['revision','bn'],['aoi','bn'],['help','bn'],
+    ['taskscore','irt'],['taskscore','cdm'],['revision','cdm'],
+    ['bn','hint'],['irt','nexttask'],['cdm','dashboard']
+  ];
+
+  const paths={
+    sequence:['sequence','revision','bn','hint'],
+    score:['score','taskscore','irt','nexttask'],
+    gaze:['gaze','aoi','bn','hint'],
+    network:['network','help','bn','dashboard']
+  };
+
+  svg.append('text').attr('x',20).attr('y',24).attr('font-size',12).attr('font-weight',800).attr('letter-spacing',2).attr('fill','#1E6A57').text('MULTILAYER EVIDENTIARY NETWORK');
+  svg.append('text').attr('x',20).attr('y',44).attr('font-size',13).attr('fill','#465154').text('Click a modality to highlight one recommended evidentiary path through the system.');
+
+  layers.forEach(layer=>{
+    svg.append('text')
+      .attr('x',layer.x)
+      .attr('y',64)
+      .attr('text-anchor','middle')
+      .attr('font-size',10)
+      .attr('font-weight',800)
+      .attr('letter-spacing',2)
+      .attr('fill','#798487')
+      .text(layer.key.toUpperCase());
+  });
+
+  const linkGroup=svg.append('g');
+  links.forEach(([a,b])=>{
+    const ax=layers.find(l=>l.nodes.some(n=>n.id===a)).x;
+    const bx=layers.find(l=>l.nodes.some(n=>n.id===b)).x;
+    linkGroup.append('line')
+      .attr('class',`mm-link mm-${a} mm-${b}`)
+      .attr('x1',ax+52).attr('y1',yMap[a])
+      .attr('x2',bx-52).attr('y2',yMap[b])
+      .attr('stroke','#D1CEC4')
+      .attr('stroke-width',2)
+      .attr('opacity',0.7);
+  });
+
+  const nodeGroup=svg.append('g');
+  layers.forEach(layer=>{
+    layer.nodes.forEach(node=>{
+      const color=node.color || '#182122';
+      const fill=node.color ? '#fff' : '#F4F1E8';
+      nodeGroup.append('rect')
+        .attr('class',`mm-node mm-node-${node.id}`)
+        .attr('x',layer.x-50).attr('y',yMap[node.id]-18)
+        .attr('width',100).attr('height',36).attr('rx',16)
+        .attr('fill',fill)
+        .attr('stroke',color)
+        .attr('stroke-width',2)
+        .style('cursor',layer.key==='modality'?'pointer':'default');
+      nodeGroup.append('text')
+        .attr('class',`mm-label mm-label-${node.id}`)
+        .attr('x',layer.x).attr('y',yMap[node.id]+4)
+        .attr('text-anchor','middle')
+        .attr('font-size',12)
+        .attr('font-weight',800)
+        .attr('fill',color)
+        .style('pointer-events','none')
+        .text(node.label);
+    });
+  });
+
+  const caption=svg.append('text')
+    .attr('x',20).attr('y',330)
+    .attr('font-size',13)
+    .attr('font-weight',700)
+    .attr('fill','#465154')
+    .text('Default view: keep modalities separated until they have been transformed into interpretable evidence.');
+
+  function resetNetwork(){
+    svg.selectAll('.mm-link')
+      .attr('stroke','#D1CEC4')
+      .attr('stroke-width',2)
+      .attr('opacity',0.55);
+    svg.selectAll('.mm-node')
+      .attr('opacity',0.9)
+      .attr('stroke-width',2);
+  }
+
+  function highlightPath(modality){
+    resetNetwork();
+    const path=paths[modality];
+    if(!path) return;
+    for(let i=0;i<path.length-1;i++){
+      svg.selectAll(`.mm-${path[i]}.mm-${path[i+1]}`)
+        .attr('stroke','#1E6A57')
+        .attr('stroke-width',4)
+        .attr('opacity',1);
+    }
+    path.forEach(id=>{
+      svg.selectAll(`.mm-node-${id}`).attr('stroke-width',4).attr('opacity',1);
+    });
+    const notes={
+      sequence:'Sequence path: ordered actions become revision evidence, then BN can trigger a scaffold.',
+      score:'Score path: scored outcomes feed IRT most directly and often support next-task matching.',
+      gaze:'Gaze path: attention traces usually need AOI transformation before they can support inference.',
+      network:'Network path: network traces often stay contextual unless a strong evidence role is justified.'
+    };
+    caption.text(notes[modality]);
+  }
+
+  ['sequence','score','gaze','network'].forEach(id=>{
+    svg.selectAll(`.mm-node-${id}`).on('click',()=>highlightPath(id));
+  });
+
+  resetNetwork();
+  applyBrandPalette(host);
+}
+initMultimodalNetworkViz();
+
+function initQMatrixViz(){
+  const host=document.getElementById('qMatrixViz');
+  if(!host) return;
+  host.innerHTML='';
+  const width=920;
+  const height=320;
+  const rows=[
+    {task:'T01 prediction prompt', attrs:[0,0,0,1], note:'A prediction prompt may mainly target causal explanation.'},
+    {task:'T02 single-variable test', attrs:[1,0,0,1], note:'A controlled test can require both variable control and causal interpretation.'},
+    {task:'T03 compare graph output', attrs:[0,0,1,1], note:'A graph-comparison task often loads on graph reading plus causal explanation.'},
+    {task:'T04 revise after mismatch', attrs:[0,1,1,1], note:'Revision after mismatch is usually multicomponential rather than one-skill only.'},
+    {task:'T05 transfer challenge', attrs:[1,1,1,1], note:'Transfer tasks often combine several attributes and should be justified carefully.'}
+  ];
+  const cols=['variable control','revision','graph interpretation','causal explanation'];
+  const svg=d3.select(host).append('svg')
+    .attr('viewBox',`0 0 ${width} ${height}`);
+
+  svg.append('text').attr('x',24).attr('y',24).attr('font-size',12).attr('font-weight',800).attr('letter-spacing',2).attr('fill','#1E6A57').text('Q-MATRIX AS TASK-ATTRIBUTE DESIGN');
+  svg.append('text').attr('x',24).attr('y',44).attr('font-size',13).attr('fill','#465154').text('Do not ask whether a learner has a skill in the abstract; ask which tasks are supposed to carry evidence for which attributes.');
+
+  const startX=300, startY=88, cellW=130, cellH=34;
+  cols.forEach((c,i)=>{
+    svg.append('text')
+      .attr('x',startX + i*cellW + cellW/2)
+      .attr('y',78)
+      .attr('text-anchor','middle')
+      .attr('font-size',11)
+      .attr('font-weight',800)
+      .attr('fill','#798487')
+      .text(c.toUpperCase());
+  });
+
+  rows.forEach((r,ri)=>{
+    svg.append('text')
+      .attr('x',26)
+      .attr('y',startY + ri*cellH + 22)
+      .attr('font-size',13)
+      .attr('font-weight',ri===0?800:700)
+      .attr('fill','#182122')
+      .attr('class',`q-row-label q-row-label-${ri}`)
+      .text(r.task);
+    r.attrs.forEach((v,ci)=>{
+      svg.append('rect')
+        .attr('x',startX + ci*cellW)
+        .attr('y',startY + ri*cellH)
+        .attr('width',cellW-10)
+        .attr('height',26)
+        .attr('rx',10)
+        .attr('fill',v ? '#EEF7F3' : '#F1EEE6')
+        .attr('stroke',v ? '#1E6A57' : '#C8C1B4')
+        .attr('stroke-width',1.5)
+        .attr('class',`q-cell q-row-${ri} ${v ? 'q-on' : 'q-off'}`);
+      svg.append('text')
+        .attr('x',startX + ci*cellW + (cellW-10)/2)
+        .attr('y',startY + ri*cellH + 18)
+        .attr('text-anchor','middle')
+        .attr('font-size',11)
+        .attr('font-weight',800)
+        .attr('fill',v ? '#1E6A57' : '#A1A8A9')
+        .attr('class',`q-mark q-row-${ri}`)
+        .text(v ? '1' : '0');
+    });
+  });
+
+  svg.append('rect')
+    .attr('x',24)
+    .attr('y',274)
+    .attr('width',width-48)
+    .attr('height',28)
+    .attr('rx',12)
+    .attr('fill','#fff')
+    .attr('stroke','#182122')
+    .attr('stroke-width',1.5);
+
+  const note=svg.append('text')
+    .attr('x',40)
+    .attr('y',293)
+    .attr('font-size',13)
+    .attr('font-weight',700)
+    .attr('fill','#465154')
+    .text(rows[0].note);
+
+  function highlightRow(index){
+    d3.selectAll('.q-cell').transition().duration(260).attr('stroke-width',1.5).attr('opacity',0.62);
+    d3.selectAll('.q-row-label').transition().duration(260).attr('fill','#798487');
+    d3.selectAll(`.q-row-${index}`).transition().duration(320).attr('opacity',1);
+    d3.selectAll(`.q-cell.q-row-${index}`).transition().duration(320).attr('stroke-width',3).attr('opacity',1);
+    d3.select(`.q-row-label-${index}`).transition().duration(320).attr('fill','#1E6A57');
+    note.text(rows[index].note);
+  }
+
+  let idx=0;
+  highlightRow(idx);
+  applyBrandPalette(host);
+  window.clearInterval(window.__qMatrixTimer);
+  window.__qMatrixTimer=window.setInterval(()=>{
+    idx=(idx+1)%rows.length;
+    highlightRow(idx);
+  },2200);
+}
+initQMatrixViz();
+
+// open FAQ via hash
+function syncHash(){
+  const id=location.hash.slice(1);
+  if(id.startsWith('faq-')){
+    const item=document.getElementById(id);
+    if(item) item.open=true;
+  }
+}
+window.addEventListener('hashchange',syncHash);
+syncHash();
+</script>
+</body>
+</html>

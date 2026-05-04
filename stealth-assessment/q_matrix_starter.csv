@@ -1,0 +1,6 @@
+task_id,task_label,variable_control,revision,graph_interpretation,causal_explanation
+T01,Baseline prediction prompt,0,0,0,1
+T02,Single-variable test run,1,0,0,1
+T03,Compare graph after run,0,0,1,1
+T04,Revise model after mismatch,0,1,1,1
+T05,Transfer challenge with new values,1,1,1,1
