@@ -1,0 +1,1408 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Blackboard CXP Modify &amp; Re-Import Workflow — Anonymized (English)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&family=Noto+Serif+KR:wght@500;600;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  /* ──────────────────────────────────────────────────
+     Monocle Editorial × Lab/Reference — open-design
+     ink/paper palette (warm pure-black + bone paper)
+     Serif headers (Playfair) · Sans body (Inter)
+     IBM Plex Mono for kickers / metadata / code
+     ────────────────────────────────────────────────── */
+  :root{
+    /* Monocle ink-classic palette */
+    --ink:#0a0a0b;
+    --ink-rgb:10,10,11;
+    --ink-tint:#1c1c1e;
+    --paper:#f1efea;
+    --paper-rgb:241,239,234;
+    --paper-tint:#e6e3dc;
+    --paper-deep:#fafaf6;
+
+    /* Accent — Forest Ink touch (deep green) for editorial detail */
+    --accent:#1f3a2a;
+    --accent-soft:#5b7a68;
+    --crimson:#7a1426;          /* archival warm-red, not signal red */
+    --crimson-soft:#c95a6f;
+    --line:#d6d2c5;
+    --line-soft:#e6e2d4;
+    --muted:#5b574e;
+    --accent-blue:#1a4571;
+
+    /* Status (kept for callouts, but desaturated to fit editorial rhythm) */
+    --pass:#3d6b3e;
+    --warn:#8a5a13;
+    --fail:#7a1426;
+
+    /* Typography */
+    --serif:'Playfair Display','Noto Serif KR','Source Serif 4',Georgia,serif;
+    --sans:'Inter','Noto Sans KR',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    --mono:'IBM Plex Mono','JetBrains Mono','SF Mono',Menlo,Consolas,monospace;
+
+    /* Code panels — softer than v1 */
+    --code-bg:#15171a;
+    --code-fg:#ebe7d9;
+    --code-border:#252830;
+    --code-inline-bg:#e6e3dc;
+    --code-inline-fg:#1f1d1a;
+
+    --shadow-sm:0 1px 2px rgba(10,10,11,.04);
+    --shadow-md:0 6px 18px rgba(10,10,11,.06);
+    --shadow-lg:0 16px 40px rgba(10,10,11,.08);
+
+    --content-max:780px;
+    --layout-max:1280px;
+  }
+  [data-theme="dark"]{
+    --ink:#ebe7d9;
+    --ink-tint:#d3cfc1;
+    --paper:#0e0f10;
+    --paper-tint:#15171a;
+    --paper-deep:#1a1c20;
+    --accent:#a8c8b0;
+    --accent-soft:#7a9a85;
+    --crimson:#e08596;
+    --crimson-soft:#c95a6f;
+    --line:#2a2d34;
+    --line-soft:#1f2228;
+    --muted:#9a978b;
+    --accent-blue:#7eb1e8;
+    --pass:#7ab17a;
+    --warn:#d4a25b;
+    --fail:#e08596;
+    --code-bg:#08090b;
+    --code-fg:#ebe7d9;
+    --code-border:#1a1c20;
+    --code-inline-bg:#1a1c20;
+    --code-inline-fg:#ebe7d9;
+    --shadow-sm:0 1px 2px rgba(0,0,0,.5);
+    --shadow-md:0 6px 18px rgba(0,0,0,.45);
+    --shadow-lg:0 16px 40px rgba(0,0,0,.5);
+  }
+  [data-theme="dark"]{
+    --crimson:#e36678;
+    --crimson-soft:#c84a5e;
+    --ink:#e7e5dc;
+    --paper:#0e1014;
+    --paper-2:#161922;
+    --paper-3:#1c2030;
+    --line:#2a2f3b;
+    --line-soft:#1f2330;
+    --muted:#9ca0ab;
+    --accent-blue:#7eb1e8;
+    --code-bg:#0a0c10;
+    --code-fg:#e7e5dc;
+    --code-border:#1f2330;
+    --code-inline-bg:#1c2030;
+    --shadow-sm:0 1px 2px rgba(0,0,0,.5);
+    --shadow-md:0 4px 12px rgba(0,0,0,.45);
+    --shadow-lg:0 10px 30px rgba(0,0,0,.5);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:var(--sans);background:var(--paper);color:var(--ink);line-height:1.7;font-size:16px;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;font-feature-settings:"ss01","ss02","cv11","cv02";letter-spacing:-.005em;transition:background-color .3s ease,color .3s ease}
+  a{color:var(--accent);text-decoration:none;border-bottom:1px solid var(--line);transition:border-color .15s,color .15s}
+  a:hover{border-bottom-color:var(--accent);color:var(--accent)}
+  code{font-family:var(--mono);font-size:.84em;background:var(--code-inline-bg);color:var(--code-inline-fg);padding:2px 7px;border-radius:3px;font-variant-ligatures:none;font-weight:400}
+  pre{font-family:var(--mono);font-size:.84em;background:var(--code-bg);color:var(--code-fg);padding:22px 24px;border-radius:0;overflow-x:auto;line-height:1.65;margin:20px 0;border:none;border-left:3px solid var(--accent);box-shadow:none;font-variant-ligatures:none}
+  pre code{background:transparent;padding:0;color:inherit;font-size:1em}
+
+  /* Selection */
+  ::selection{background:var(--accent);color:var(--paper)}
+
+  /* Scroll progress bar — thin charcoal */
+  .progress-bar{position:fixed;top:0;left:0;height:2px;width:0;background:var(--ink);z-index:100;transition:width .08s linear;opacity:.85}
+
+  /* Theme toggle — minimalist pill */
+  .theme-toggle{position:fixed;top:18px;right:22px;z-index:101;display:flex;align-items:center;gap:8px;padding:8px 13px;border:1px solid rgba(255,255,255,.4);background:transparent;color:#fff;border-radius:0;font-family:var(--mono);font-size:.7em;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;backdrop-filter:blur(8px);transition:all .2s;font-weight:500}
+  .theme-toggle:hover{background:rgba(255,255,255,.12);letter-spacing:.18em}
+  [data-theme="dark"] .theme-toggle{border-color:var(--line);background:transparent;color:var(--ink)}
+  [data-theme="dark"] .theme-toggle:hover{background:var(--paper-tint)}
+  .theme-toggle .icon{font-size:12px;line-height:1}
+  .lang-toggle{position:fixed;top:18px;right:130px;z-index:101;display:flex;align-items:center;gap:0;padding:6px 10px;border:1px solid rgba(255,255,255,.4);background:transparent;border-radius:0;font-family:var(--mono);font-size:.7em;letter-spacing:.12em;text-transform:uppercase;backdrop-filter:blur(8px);font-weight:500}
+  .lang-toggle a{color:rgba(255,255,255,.65);border:none;padding:2px 8px;text-decoration:none;transition:color .15s,background .15s}
+  .lang-toggle a:hover{color:#fff;background:rgba(255,255,255,.1)}
+  .lang-toggle a.active{color:#fff;background:rgba(255,255,255,.16);font-weight:600;letter-spacing:.16em}
+  .lang-toggle .sep{color:rgba(255,255,255,.3);padding:0 2px}
+  [data-theme="dark"] .lang-toggle{border-color:var(--line)}
+  [data-theme="dark"] .lang-toggle a{color:var(--muted)}
+  [data-theme="dark"] .lang-toggle a:hover{color:var(--ink);background:var(--paper-tint)}
+  [data-theme="dark"] .lang-toggle a.active{color:var(--ink);background:var(--paper-tint)}
+  @media(max-width:640px){.lang-toggle{right:auto;left:18px;top:auto;bottom:18px}}
+
+  /* Headers — Playfair Display, true editorial weight */
+  h1,h2,h3,h4{font-family:var(--serif);line-height:1.18;font-weight:600;color:var(--ink);letter-spacing:-.015em}
+  h1{font-size:3.4em;margin:0 0 14px;letter-spacing:-.025em;font-weight:700}
+  h2{font-size:2.1em;margin:64px 0 20px;font-weight:600;letter-spacing:-.02em}
+  h2::before{content:"";display:block;width:32px;height:2px;background:var(--ink);margin-bottom:18px}
+  h3{font-size:1.42em;margin:36px 0 12px;font-weight:600}
+  h4{font-size:.84em;margin:22px 0 10px;font-family:var(--mono);text-transform:uppercase;letter-spacing:.14em;font-weight:500;color:var(--muted)}
+  p{margin:0 0 16px}
+  ul,ol{margin:0 0 16px;padding-left:26px}
+  li{margin:6px 0}
+  li::marker{color:var(--accent-soft)}
+  strong{font-weight:600;color:var(--ink)}
+  em{color:var(--ink-tint);font-style:italic}
+
+  /* Magazine kicker — small caps mono label */
+  .kicker{font-family:var(--mono);font-size:.68em;text-transform:uppercase;letter-spacing:.18em;color:var(--accent);font-weight:500;margin-bottom:8px;display:block}
+
+  /* Section meta line */
+  .section-meta{font-family:var(--mono);font-size:.7em;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:30px 0 -10px;display:flex;gap:22px;flex-wrap:wrap;align-items:center;padding-top:24px;border-top:1px solid var(--line)}
+  .section-meta span::before{content:"§";opacity:.5;margin-right:6px}
+
+  /* Drop cap on first paragraph after each h2 */
+  section > p:first-of-type::first-letter{font-family:var(--serif);font-size:3.4em;line-height:.9;float:left;margin:6px 10px -2px 0;font-weight:700;color:var(--ink)}
+
+  /* Hero — Monocle cover treatment */
+  .hero{background:var(--ink);color:var(--paper);padding:120px 40px 90px;border-bottom:none;position:relative;overflow:hidden}
+  .hero::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 80% 30%,rgba(255,239,200,.04) 0%,transparent 60%);pointer-events:none}
+  .hero::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:linear-gradient(90deg,transparent 0%,var(--paper) 30%,var(--paper) 70%,transparent 100%);opacity:.2}
+  .hero-inner{max-width:var(--layout-max);margin:0 auto;padding:0 24px;position:relative}
+  .hero .pretitle{display:flex;gap:18px;align-items:center;margin-bottom:42px;font-family:var(--mono);font-size:.72em;letter-spacing:.22em;text-transform:uppercase;color:var(--paper);opacity:.85;font-weight:500}
+  .hero .pretitle::before{content:"";width:50px;height:1px;background:var(--paper);opacity:.5}
+  .hero h1{color:var(--paper);font-size:4.2em;margin:0 0 28px;letter-spacing:-.03em;line-height:1.05;font-weight:700;max-width:1000px}
+  .hero .sub{font-size:1.18em;opacity:.85;max-width:780px;line-height:1.6;font-weight:300;font-family:var(--sans);color:var(--paper)}
+  .hero .sub strong{color:var(--paper);font-weight:500}
+  .hero .meta{margin-top:60px;padding-top:28px;border-top:1px solid rgba(241,239,234,.18);font-family:var(--mono);font-size:.74em;letter-spacing:.06em;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;color:var(--paper);opacity:.8}
+  .hero .meta span{display:block;padding-right:0;border:none}
+  .hero .meta span::before{content:attr(data-label);display:block;font-size:.78em;letter-spacing:.18em;text-transform:uppercase;color:var(--paper);opacity:.55;margin-bottom:4px}
+
+  /* Layout */
+  .layout{max-width:var(--layout-max);margin:0 auto;padding:60px 24px 40px;display:grid;grid-template-columns:240px 1fr;gap:60px}
+  @media (max-width:880px){.layout{grid-template-columns:1fr;gap:30px;padding:40px 24px}.toc-wrap{position:static!important;max-height:none!important}}
+
+  /* TOC — magazine sidebar */
+  .toc-wrap{position:sticky;top:30px;align-self:start;max-height:calc(100vh - 60px);overflow-y:auto;font-size:.85em;font-family:var(--mono)}
+  .toc-wrap::-webkit-scrollbar{width:3px}
+  .toc-wrap::-webkit-scrollbar-thumb{background:var(--line)}
+  .toc-wrap h4{margin:0 0 18px;font-size:.66em;letter-spacing:.18em;text-transform:uppercase;color:var(--ink);font-family:var(--mono);font-weight:500;padding-bottom:12px;border-bottom:1px solid var(--ink)}
+  .toc{list-style:none;padding:0;margin:0;border:none}
+  .toc li{margin:0;list-style:none}
+  .toc a{display:block;padding:7px 0;color:var(--muted);border:none;letter-spacing:.04em;transition:color .15s,padding .15s;font-size:.86em}
+  .toc a:hover{color:var(--ink);padding-left:6px}
+  .toc a.active{color:var(--ink);font-weight:600}
+  .toc a.active::before{content:"▶ ";color:var(--accent);font-size:.7em;margin-right:4px}
+  .toc .sub{padding-left:18px;border-left:1px solid var(--line);margin-left:0;margin-top:4px;margin-bottom:8px}
+  .toc .sub a{font-size:.82em;padding:4px 0}
+
+  /* Content */
+  .content{max-width:var(--content-max);min-width:0;font-size:1.02em}
+
+  /* Callouts */
+  .callout{border-left:4px solid;padding:16px 18px;border-radius:6px;margin:20px 0;background:var(--paper-3);box-shadow:var(--shadow-sm)}
+  .callout strong{display:block;margin-bottom:6px;font-size:.95em;letter-spacing:.01em}
+  .callout.warn{border-color:var(--warn);background:color-mix(in srgb,var(--warn) 6%,var(--paper-3))}
+  .callout.fail{border-color:var(--fail);background:color-mix(in srgb,var(--fail) 6%,var(--paper-3))}
+  .callout.pass{border-color:var(--pass);background:color-mix(in srgb,var(--pass) 6%,var(--paper-3))}
+  .callout.info{border-color:var(--accent-blue);background:color-mix(in srgb,var(--accent-blue) 6%,var(--paper-3))}
+  [data-theme="dark"] .callout.warn{background:color-mix(in srgb,var(--warn) 14%,var(--paper-3))}
+  [data-theme="dark"] .callout.fail{background:color-mix(in srgb,var(--fail) 14%,var(--paper-3))}
+  [data-theme="dark"] .callout.pass{background:color-mix(in srgb,var(--pass) 14%,var(--paper-3))}
+  [data-theme="dark"] .callout.info{background:color-mix(in srgb,var(--accent-blue) 14%,var(--paper-3))}
+  /* Diagrams */
+  figure.diagram{margin:36px 0;display:flex;flex-direction:column;align-items:center;gap:12px}
+  figure.diagram img{max-width:100%;width:100%;height:auto;border:1px solid var(--line);border-radius:4px;box-shadow:var(--shadow-sm);background:var(--paper-2)}
+  figure.diagram figcaption{font-family:var(--mono);font-size:.74em;color:var(--muted);text-align:center;letter-spacing:.06em;text-transform:uppercase;line-height:1.5}
+  figure.diagram figcaption .label{font-weight:600;color:var(--ink);margin-right:6px;letter-spacing:.1em}
+
+
+  /* Skill bundle CTA */
+  .skill-cta{margin:24px 0 32px;padding:24px 28px;background:var(--paper-3);border:1px solid var(--accent);border-radius:6px;display:grid;grid-template-columns:1fr auto;gap:24px;align-items:center;box-shadow:var(--shadow-sm)}
+  .skill-cta .meta{font-family:var(--mono);font-size:.7em;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);font-weight:600;margin-bottom:6px}
+  .skill-cta h3{margin:0 0 8px;font-family:var(--serif);font-size:1.4em;letter-spacing:-.01em}
+  .skill-cta p{margin:0;font-size:.95em;color:var(--muted);line-height:1.55;max-width:580px}
+  .skill-cta .install{margin-top:14px;font-family:var(--mono);font-size:.78em;background:var(--code-bg);color:var(--code-fg);padding:10px 14px;border-radius:3px;display:inline-block;border-left:2px solid var(--accent)}
+  .skill-cta .install code{background:none;padding:0;color:inherit;font-size:1em}
+  .skill-cta .actions{display:flex;flex-direction:column;gap:10px;align-items:stretch}
+  .skill-cta .btn{display:inline-block;padding:11px 18px;border:1px solid var(--ink);border-radius:3px;text-align:center;font-family:var(--mono);font-size:.78em;letter-spacing:.1em;text-transform:uppercase;font-weight:600;background:var(--ink);color:var(--paper);transition:transform .15s,box-shadow .15s}
+  .skill-cta .btn:hover{transform:translateY(-1px);box-shadow:0 4px 10px rgba(10,10,11,.18)}
+  .skill-cta .btn-ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+  [data-theme="dark"] .skill-cta .btn{background:var(--paper);color:var(--ink)}
+  [data-theme="dark"] .skill-cta .btn-ghost{background:transparent;color:var(--paper);border-color:var(--line)}
+  @media (max-width:720px){.skill-cta{grid-template-columns:1fr}}
+  /* Author block */
+  address.author-card{font-style:normal;font-family:var(--sans);background:var(--paper-3);border-left:3px solid var(--accent);padding:18px 22px;margin:18px 0;line-height:1.7;border-radius:0 4px 4px 0;font-size:.96em}
+  address.author-card strong{font-family:var(--serif);font-size:1.15em;letter-spacing:-.01em}
+  address.author-card a{font-family:var(--mono);font-size:.95em}
+
+
+  /* Defect cards */
+  .defect-grid{display:grid;grid-template-columns:1fr;gap:20px;margin:24px 0}
+  .defect{border:1px solid var(--line);border-radius:8px;background:var(--paper-3);overflow:hidden;box-shadow:var(--shadow-sm);transition:box-shadow .2s,transform .2s}
+  .defect:hover{box-shadow:var(--shadow-md);transform:translateY(-1px)}
+  .defect-head{display:flex;align-items:center;gap:14px;padding:16px 20px;background:var(--paper-2);border-bottom:1px solid var(--line)}
+  .defect-num{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,var(--crimson) 0%,#5e0e1c 100%);color:#fff;font-weight:700;font-family:var(--serif);font-size:1.15em;flex-shrink:0;box-shadow:0 2px 6px rgba(158,27,50,.3)}
+  [data-theme="dark"] .defect-num{box-shadow:0 2px 8px rgba(227,102,120,.4)}
+  .defect-title{font-family:var(--serif);font-size:1.2em;font-weight:600;flex:1;letter-spacing:-.2px}
+  .defect-tag{font-size:.74em;text-transform:uppercase;letter-spacing:.1em;padding:4px 10px;border-radius:999px;font-weight:600}
+  .tag-convert{background:#fbe9b8;color:#7a4a00}
+  .tag-runtime{background:#e8d4ed;color:#5b1f6b}
+  .tag-tooling{background:#cfe1f3;color:#1f4670}
+  [data-theme="dark"] .tag-convert{background:#5a3d10;color:#f7c977}
+  [data-theme="dark"] .tag-runtime{background:#3e1a4d;color:#d6a3e2}
+  [data-theme="dark"] .tag-tooling{background:#143052;color:#a8c8eb}
+  .defect-body{padding:20px}
+  .defect-body h4{margin:16px 0 8px;font-family:var(--sans);font-size:.78em;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);font-weight:700}
+
+  /* Tables */
+  table{width:100%;border-collapse:collapse;margin:16px 0;font-size:.92em;background:var(--paper-3);border:1px solid var(--line);border-radius:6px;overflow:hidden}
+  th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line)}
+  tbody tr:last-child td{border-bottom:none}
+  th{background:var(--paper-2);font-weight:600;font-size:.88em;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+  tbody tr:hover{background:var(--paper-2)}
+
+  /* Code header */
+  .code-block{margin:18px 0;border:1px solid var(--code-border);border-radius:8px;overflow:hidden;box-shadow:var(--shadow-sm)}
+  .code-block .header{display:flex;justify-content:space-between;align-items:center;background:#1d1f24;color:#9aa;padding:9px 16px;font-family:var(--mono);font-size:.76em;letter-spacing:.03em;margin-bottom:0;border-bottom:1px solid var(--code-border)}
+  .code-block .header a{color:#7eb;border:none;font-weight:500}
+  .code-block .header a:hover{color:#9fd}
+  .code-block pre{margin:0;border-radius:0;border:none;box-shadow:none}
+
+  /* Decision tree SVG */
+  .flowchart{background:var(--paper-3);border:1px solid var(--line);border-radius:8px;padding:24px;margin:22px 0;overflow-x:auto;box-shadow:var(--shadow-sm)}
+  .flowchart svg{display:block;margin:0 auto;max-width:100%;height:auto}
+  [data-theme="dark"] .flowchart svg text{fill:var(--ink)!important}
+  [data-theme="dark"] .flowchart svg rect[fill="#9E1B32"]{fill:#5e0e1c}
+  [data-theme="dark"] .flowchart svg rect[fill="#fff"]{fill:var(--paper-2)}
+  [data-theme="dark"] .flowchart svg rect[fill="#fbeae8"]{fill:#3a1817}
+  [data-theme="dark"] .flowchart svg rect[fill="#fdf6ec"]{fill:#3a2a14}
+  [data-theme="dark"] .flowchart svg rect[fill="#eaf2fa"]{fill:#162434}
+  [data-theme="dark"] .flowchart svg rect[fill="#eaf6ea"]{fill:#16341e}
+  [data-theme="dark"] .flowchart svg line,[data-theme="dark"] .flowchart svg path{stroke:var(--muted)!important}
+
+  /* FAQ collapsible */
+  .faq{border:1px solid var(--line);border-radius:6px;margin:12px 0;background:var(--paper-3);transition:box-shadow .2s}
+  .faq:hover{box-shadow:var(--shadow-sm)}
+  .faq summary{padding:14px 18px;cursor:pointer;font-weight:600;font-family:var(--serif);list-style:none;position:relative;font-size:1.02em}
+  .faq summary::-webkit-details-marker{display:none}
+  .faq summary::after{content:"+";position:absolute;right:20px;top:50%;transform:translateY(-50%);color:var(--muted);transition:transform .2s;font-size:1.4em;font-weight:300;line-height:1}
+  .faq[open] summary::after{content:"−"}
+  .faq[open] summary{border-bottom:1px solid var(--line-soft)}
+  .faq .body{padding:14px 18px;color:var(--muted);font-size:.95em}
+  .faq .body code{font-size:.85em}
+
+  /* Downloads */
+  .download-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;margin:20px 0}
+  .download{border:1px solid var(--line);border-radius:8px;padding:16px;background:var(--paper-3);display:block;color:var(--ink);transition:all .2s;box-shadow:var(--shadow-sm)}
+  .download:hover{border-color:var(--crimson);transform:translateY(-2px);box-shadow:var(--shadow-md);border-bottom:1px solid var(--crimson)}
+  .download .filename{font-family:var(--mono);font-size:.86em;color:var(--crimson);font-weight:600;display:block;margin-bottom:6px}
+  .download .desc{font-size:.85em;color:var(--muted);line-height:1.5}
+
+  /* Status badges */
+  .badge{display:inline-block;padding:2px 8px;border-radius:3px;font-size:.78em;font-weight:700;letter-spacing:.05em;text-transform:uppercase;margin:0 2px}
+  .badge.pass{background:#dceedb;color:var(--pass)}
+  .badge.warn{background:#fbeacd;color:var(--warn)}
+  .badge.fail{background:#fbd5d2;color:var(--fail)}
+  .badge.info{background:#d4e2f1;color:#1f4670}
+
+  /* KO blocks */
+  .ko{font-style:normal}
+  .ko::before{content:"KO ";font-weight:700;color:var(--crimson);font-size:.78em;letter-spacing:.05em;margin-right:4px}
+
+  /* Footer */
+  footer{max-width:1280px;margin:60px auto 30px;padding:24px;border-top:1px solid var(--line);font-size:.85em;color:var(--muted)}
+  footer a{color:var(--muted)}
+
+  /* Print */
+  @media print{
+    .toc-wrap,.hero{display:none}
+    .layout{display:block}
+    pre{font-size:.7em;page-break-inside:avoid}
+    .defect{page-break-inside:avoid}
+  }
+</style>
+</head>
+<body>
+<div style="background:#fef3c7;border-bottom:2px solid #f59e0b;padding:10px 20px;font-size:.85em;color:#78350f;text-align:center"><strong>Anonymized version</strong> — course numbers, institution, tool names, and author have all been replaced with neutral aliases for public sharing.</div>
+
+<div class="progress-bar" id="progressBar"></div>
+<div class="lang-toggle" role="navigation" aria-label="Language">
+  <a href="./" class="active" data-lang="en">EN</a>
+  <span class="sep">·</span>
+  <a href="ko/" data-lang="ko">한글</a>
+</div>
+<button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+  <span class="icon" id="themeIcon">☾</span>
+  <span id="themeLabel">Dark</span>
+</button>
+
+<div class="hero">
+  <div class="hero-inner">
+    <span class="pretitle">Field Notes · Vol. I · § Practical Onboarding</span>
+    <h1>Blackboard CXP — Modify &amp; Re-Import Workflow</h1>
+    <div class="sub">Every import-failure pattern and the fix recipe for modifying and re-importing a Blackboard CXP course package. Distilled from the 2026-05-04 [Summer Term] fix marathon — <strong>8-point recipe</strong> + all successful Python scripts + troubleshooting procedure included.</div>
+    <div class="meta">
+      <span data-label="Author">[Author]</span>
+      <span data-label="Affiliation">[Institution] · [Department]</span>
+      <span data-label="Email"><a href="mailto:[author@institution]">[author@institution]</a></span>
+      <span data-label="Distilled">2026-05-04</span>
+      <span data-label="Source incidents">DOCT-α v1→v11 / UND-β v1→v6 / GRAD-γ v1→v5</span>
+      <span data-label="License">Free use w/ attribution</span>
+    </div>
+  </div>
+</div>
+
+<div class="layout">
+
+<aside class="toc-wrap">
+  <h4>Contents</h4>
+  <ul class="toc">
+    <li><a href="#intro">0. About this guide</a></li>
+    <li><a href="#anatomy">1. CXP package anatomy</a>
+      <ul class="toc sub">
+        <li><a href="#anatomy-files">1.1 Files in the ZIP</a></li>
+        <li><a href="#anatomy-manifest">1.2 imsmanifest.xml</a></li>
+        <li><a href="#anatomy-link">1.3 The LINK chain</a></li>
+      </ul>
+    </li>
+    <li><a href="#workflow">2. Standard workflow</a></li>
+    <li><a href="#defects">3. 8-Point Defect Catalog</a>
+      <ul class="toc sub">
+        <li><a href="#defect-1">D1 Orphan manifest</a></li>
+        <li><a href="#defect-2">D2 Retired tools</a></li>
+        <li><a href="#defect-3">D3 Wrong-type</a></li>
+        <li><a href="#defect-4">D4 Empty leaves</a></li>
+        <li><a href="#defect-5">D5 Disabled LINKs</a></li>
+        <li><a href="#defect-6">D6 Missing LINKs</a></li>
+        <li><a href="#defect-7">D7 ULTRA × QTI</a></li>
+        <li><a href="#defect-8">D8 Whitespace</a></li>
+      </ul>
+    </li>
+    <li><a href="#diagnostics">4. Diagnostic tool</a></li>
+    <li><a href="#troubleshoot">5. Troubleshooting Tree</a></li>
+    <li><a href="#never">6. What NOT to do</a></li>
+    <li><a href="#cases">7. Real cases</a></li>
+    <li><a href="#extras">8. Extras</a>
+      <ul class="toc sub">
+        <li><a href="#extras-image">Image embed</a></li>
+        <li><a href="#extras-body">Body replace</a></li>
+        <li><a href="#extras-dates">Date update</a></li>
+        <li><a href="#extras-slim">Slim package</a></li>
+      </ul>
+    </li>
+    <li><a href="#packaging">9. Packaging &amp; verify</a></li>
+    <li><a href="#faq">10. FAQ</a></li>
+    <li><a href="#downloads">11. Downloads</a></li>
+    <li><a href="#refs">12. References</a></li>
+  </ul>
+</aside>
+
+<main class="content">
+
+<section id="intro">
+<h2 id="intro">0. About this guidebook</h2>
+
+<p>This guide is a practical workflow for diagnosing and fixing the import failures and runtime errors that occur when you take a CXP package exported from Blackboard (<code>ArchiveExFile_*.zip</code>), edit it locally, and re-import it into the same or a different course. It collects in one place the 8-point recipe distilled during the 2026-05-04 [Summer Term] fix marathon (DOCT-α v1→v11, UND-β v1→v6, GRAD-γ v1→v5), every successful Python script, and the absolute do-not-do list.</p>
+
+<div class="callout info">
+<strong>Audience</strong>
+<ul style="margin:0">
+  <li><strong>instructors / TAs</strong> who revise and re-import a course each term</li>
+  <li>anyone who needs a <strong>recipe to point a Codex/Claude Code-style coding agent at</strong></li>
+  <li><strong>new PMs / instructional designers</strong> migrating a course to Blackboard ULTRA for the first time</li>
+</ul>
+</div>
+
+<div class="callout warn">
+<strong>Scope conservatism</strong>
+This is a <strong>practical onboarding guide based on Blackboard ULTRA behavior observed on 2026-05-04</strong>. Blackboard internals change over time. Validate every fix in a <strong>sandbox course first</strong> before applying to production. The 8 defect classes are limited to those reproduced and resolved in this session; other failure modes require separate investigation.
+</div>
+
+<h3>Use cases this guide solves</h3>
+<ul>
+  <li>You received a course export ZIP and on import see a <em>"content item failed to convert"</em> error.</li>
+  <li>Import succeeded but students click an <strong>assignment / discussion</strong> and nothing opens (silent runtime failure).</li>
+  <li>Each click appends a base64 access-code log reference like <code>MjYwNTA0L*</code>.</li>
+  <li>Due dates are still those of an older term.</li>
+  <li>You want to naturally add new content / images / URLs to a module.</li>
+  <li>You want to selectively import only one section for a quick update.</li>
+</ul>
+
+<h3>Scope limits</h3>
+<ul>
+  <li>Blackboard's <strong>UI-side import dialog</strong> is not covered (varies by institution).</li>
+  <li>Building Block / LTI tool registration must be done by an admin.</li>
+  <li>The 8 defect classes here are limited to this session's incidents; other failure modes (LDAP, gradebook calculation columns, external-tool OAuth, etc.) require separate investigation.</li>
+</ul>
+</section>
+
+<section id="anatomy">
+<h2 id="anatomy">1. Anatomy of a CXP package</h2>
+
+<h3 id="anatomy-files">1.1 Files in the ZIP</h3>
+
+<p>Unzipping an archive ZIP exported from Blackboard yields the following structure:</p>
+
+<pre><code>After unzipping ArchiveExFile_*.zip:
+├─ imsmanifest.xml          <- package index (must be valid)
+├─ .bb-package-info         <- Blackboard system metadata
+├─ .bb-log-info             <- package build log (informational)
+├─ .bb-package-sig          <- signature (no need to recompute after edits — Blackboard ignores it)
+├─ res00001.dat             <- first resource (XML)
+├─ res00002.dat
+├─ ...
+├─ resNNNNNN.dat            <- Nth resource
+└─ csfiles/
+   └─ home_dir/
+      └─ __xid-NNNNNN_1.png <- embedded image / PDF / Word / Excel etc.
+         __xid-NNNNNN_1.png.xml <- sidecar metadata
+</code></pre>
+
+<figure class="diagram" id="figure-1">
+  <img src="figures/fig1_zip_anatomy.png" alt="Anatomy of a Blackboard CXP archive ZIP file">
+  <figcaption><span class="label">Fig. 1</span>Anatomy of a Blackboard CXP archive ZIP and how the parts fit together</figcaption>
+</figure>
+
+<div class="callout info">
+<strong>Core principle</strong>
+Every package change must keep <strong>(1) the file system (.dat files + csfiles/)</strong> and <strong>(2) the imsmanifest.xml declarations</strong> in sync. Editing only one side causes either a silent failure or an explicit error at import time.
+</div>
+
+<h3 id="anatomy-manifest">1.2 imsmanifest.xml — the package index</h3>
+
+<p><code>imsmanifest.xml</code> follows the IMS Common Cartridge standard manifest format, with Blackboard extension attributes (<code>bb:file</code>, <code>bb:title</code>, <code>bb:type</code>) added. Two key blocks:</p>
+
+<pre><code>&lt;manifest ...&gt;
+  &lt;metadata&gt;...&lt;/metadata&gt;
+
+  &lt;organizations default="toc00001"&gt;
+    &lt;organization identifier="toc00001"&gt;
+      &lt;item identifier="itm00001" identifierref="res00007"&gt;
+        &lt;title&gt;ROOT&lt;/title&gt;
+        &lt;item identifier="itm00016" identifierref="res00047"&gt;
+          &lt;title&gt;Module 6: Capstone&lt;/title&gt;
+          ...
+        &lt;/item&gt;
+      &lt;/item&gt;
+    &lt;/organization&gt;
+  &lt;/organizations&gt;
+
+  &lt;resources&gt;
+    &lt;resource bb:file="res00001.dat" bb:title="Child Courses"
+              identifier="res00001" type="course/x-bb-childcourses"
+              xml:base="res00001"/&gt;
+    &lt;resource bb:file="res00047.dat" bb:title="Module 6: Capstone"
+              identifier="res00047" type="resource/x-bb-document"
+              xml:base="res00047"/&gt;
+    ...
+  &lt;/resources&gt;
+&lt;/manifest&gt;
+</code></pre>
+
+<ul>
+  <li><code>&lt;organizations&gt;</code> = The tree the student sees (Module → Lesson → Item structure)</li>
+  <li><code>&lt;resources&gt;</code> = Declarations for every .dat file and csfile</li>
+  <li>Each <code>&lt;item&gt;</code>'s <code>identifierref</code> must match a <code>&lt;resource&gt;</code>'s <code>identifier</code></li>
+  <li>Each <code>&lt;resource&gt;</code>'s <code>bb:file</code> must match the actual file</li>
+</ul>
+
+<h3 id="anatomy-link">1.3 The LINK chain — how visible items connect to underlying data</h3>
+
+<p>asmt-test-link / forumlink / courselink CONTENT items <strong>do NOT carry their data directly</strong>. a separate LINK resource binds the wrapper to the underlying data:</p>
+
+<pre><code>res00071 (CONTENT, asmt-test-link, ULTRA marker)  ← visible item clicked by the student
+   │
+   ↓ (LINK is walked)
+   │
+res00118 (LINK, ISAVAILABLE=true)                  ← binding
+   │
+   ↓ (REFERREDTO)
+   │
+res00100 (COURSE_ASSESSMENT)                       ← assignment metadata
+   │
+   ↓ (ASMTID)
+   │
+res00015 (questestinterop)                         ← actual assessment data
+</code></pre>
+
+<figure class="diagram" id="figure-2">
+  <img src="figures/fig2_link_chain.png" alt="LINK chain — normal flow vs broken flow">
+  <figcaption><span class="label">Fig. 2</span>Normal vs broken LINK chain — silent runtime failure surfaces only on click</figcaption>
+</figure>
+
+<div class="callout fail">
+<strong>Most common pitfall</strong>
+If any link in this 4-step chain is broken (missing LINK, ISAVAILABLE=false, COURSE_ASSESSMENT gone, ASMTID pointing to the wrong target) <strong>nothing happens</strong> when the student clicks. No convert-time error; the failure surfaces only at runtime.
+</div>
+</section>
+
+<section id="workflow">
+<h2 id="workflow">2. Standard workflow</h2>
+
+<figure class="diagram" id="figure-5">
+  <img src="figures/fig5_workflow_timeline.png" alt="9-step Blackboard CXP modify-and-reimport workflow timeline">
+  <figcaption><span class="label">Fig. 5</span>Nine-step modify-and-reimport workflow with the v(N) iteration loop</figcaption>
+</figure>
+
+<p>Course revision proceeds in the following order:</p>
+
+<ol>
+  <li><strong>Export</strong> — archive from the original course (Blackboard UI: <em>Packages and Utilities → Export Course</em>).</li>
+  <li><strong>Backup</strong> — store the exported ZIP separately under e.g. <code>03_Original-ZIPs-Backup/</code>. <strong>Never modify this file.</strong></li>
+  <li><strong>Extract</strong> — unzip into a working directory.</li>
+  <li><strong>Audit (sec. 4)</strong> — run the 8-point recipe to surface baseline defects.</li>
+  <li><strong>Modify</strong> — edit content, add new material, update dates.</li>
+  <li><strong>Re-audit</strong> — run the 8-point again after editing. <strong>Edits themselves can introduce new defects.</strong></li>
+  <li><strong>Repackage</strong> — compress back to a ZIP (sec. 9).</li>
+  <li><strong>Sandbox import</strong> — actually import into the student-facing sandbox course and <strong>click every clickable item to verify</strong>. Inspect both convert-time logs and runtime behavior.</li>
+  <li><strong>Production import</strong> — once sandbox passes, push to production.</li>
+</ol>
+
+<div class="callout warn">
+<strong>Version numbering</strong>
+Don't fix everything at once for production. Save each fix attempt as a separate ZIP (<code>v1</code>, <code>v2</code>, …) — that guarantees rollback and a paper trail. DOCT-α went all the way from v1 to v11.
+</div>
+</section>
+
+<section id="defects">
+<h2 id="defects">3. The 8-Point Defect Catalog</h2>
+
+<figure class="diagram" id="figure-3">
+  <img src="figures/fig3_defect_catalog.png" alt="CXP 8 — defect catalog at a glance">
+  <figcaption><span class="label">Fig. 3</span>The eight defect classes — convert-time (4), runtime (3), tooling (1)</figcaption>
+</figure>
+
+<p>The 8 defect classes below were observed and resolved directly in this session. <span class="badge fail">FAIL</span> = user impact, <span class="badge warn">WARN</span> = informational, <span class="badge info">INFO</span> = meta. Tag:</p>
+
+<ul>
+  <li><span class="badge" style="background:#fbe9b8;color:#7a4a00">CONVERT</span> — Fails with explicit error at Blackboard import time</li>
+  <li><span class="badge" style="background:#e8d4ed;color:#5b1f6b">RUNTIME</span> — Imports cleanly but breaks when the user clicks / uses it</li>
+  <li><span class="badge" style="background:#cfe1f3;color:#1f4670">TOOLING</span> — Common pitfalls when writing fixes</li>
+</ul>
+
+<div class="defect-grid">
+
+<div class="defect" id="defect-1">
+  <div class="defect-head">
+    <span class="defect-num">1</span>
+    <span class="defect-title">Orphan manifest declarations</span>
+    <span class="defect-tag tag-convert">CONVERT</span>
+  </div>
+  <div class="defect-body">
+    <p>Manifest declares it but the actual .dat file is missing from the ZIP, or vice versa. Fails at convert time with a <em>"missing referenced file"</em>-style error, or silently skipped.</p>
+    <h4>Diagnostic</h4>
+<pre><code class="language-bash">comm -23 \
+  &lt;(grep -oE 'identifier="res[0-9]+"' imsmanifest.xml | sort -u) \
+  &lt;(ls *.dat | sed 's/\.dat$//' | sort -u)
+</code></pre>
+    <h4>Fix</h4>
+    <ul>
+      <li>If the file should exist: copy from the original archive</li>
+      <li>If it should not exist: remove the <code>&lt;resource&gt;</code> declaration from the manifest</li>
+    </ul>
+    <h4>Real case</h4>
+    <p>DOCT-α v1: Codex stripped res00104~126 (23 LINKs) + res00022~25 (4 announcements) from the .dat files but left the declarations in the manifest. 27 orphan declarations → package integrity broken.</p>
+  </div>
+</div>
+
+<div class="defect" id="defect-2">
+  <div class="defect-head">
+    <span class="defect-num">2</span>
+    <span class="defect-title">Retired-tool handlers (Journal / Blog / Wiki)</span>
+    <span class="defect-tag tag-convert">CONVERT</span>
+  </div>
+  <div class="defect-body">
+    <p>Blackboard ULTRA does not support Journal, Blog, Wiki tools. <code>&lt;CONTENTHANDLER value="resource/x-bb-journallink"/&gt;</code> using such a retired handler causes explicit import failure.</p>
+    <h4>Symptom (import log)</h4>
+<pre><code>[Journal Item] — Blogs aren't supported at this time and were removed.
+[Journal Item] — The content item failed to convert.</code></pre>
+    <h4>Cascade chain</h4>
+    <ol>
+      <li>Blackboard sees <code>res00013</code> (<code>x-bb-blog</code>) → "Blogs aren't supported, removed" → drops res00013</li>
+      <li>res00122 LINK points to res00013 (now gone) → orphan LINK silently dropped</li>
+      <li>res00068 CONTENT has <code>journallink</code> handler expecting target → can't convert</li>
+    </ol>
+    <h4>Fix (3 things together)</h4>
+    <ol>
+      <li>Change the visible CONTENT's <code>CONTENTHANDLER</code> to <code>resource/x-bb-document</code> + change <code>RENDERTYPE</code> to <code>REGULAR</code></li>
+      <li>Delete the tool-data resource file (BLOG, JOURNAL, WIKI payload)</li>
+      <li>Delete the LINK file that connected them</li>
+      <li>Strip both deletions' <code>&lt;resource&gt;</code> declarations from the manifest</li>
+    </ol>
+    <p>📝 Script: <a href="scripts/fix_journal_blog_dependency.py">fix_journal_blog_dependency.py</a></p>
+  </div>
+</div>
+
+<div class="defect" id="defect-3">
+  <div class="defect-head">
+    <span class="defect-num">3</span>
+    <span class="defect-title">Wrong-type substitution</span>
+    <span class="defect-tag tag-convert">CONVERT</span>
+  </div>
+  <div class="defect-body">
+    <p>The manifest's declared <code>bb:type</code> does not match the actual root XML element of the .dat file.</p>
+    <h4>Canonical example</h4>
+    <table>
+      <tr><th>res ID</th><th>Manifest <code>bb:type</code></th><th>Actual root</th><th>Result</th></tr>
+      <tr><td>res00128</td><td><code>course/x-bb-coursemessagefolder</code></td><td><code>&lt;questestinterop&gt;</code></td><td><span class="badge fail">FAIL</span></td></tr>
+    </table>
+    <h4>How it happens</h4>
+    <p>A coding agent decides 'let's put a new assessment here' and overwrites an existing res ID with a different-type payload. The manifest is not touched → mismatch.</p>
+    <h4>Fix</h4>
+    <p>Restore the .dat file from the original. <strong>Never overwrite an existing resource ID with a different type</strong>; add a new resource with a fresh ID instead.</p>
+  </div>
+</div>
+
+<div class="defect" id="defect-4">
+  <div class="defect-head">
+    <span class="defect-num">4</span>
+    <span class="defect-title">Empty leaf content items</span>
+    <span class="defect-tag tag-convert">CONVERT</span>
+  </div>
+  <div class="defect-body">
+    <p>A student-visible <code>&lt;CONTENT&gt;</code> item that has:</p>
+    <ul>
+      <li><code>&lt;DESCRIPTION value=""/&gt;</code> (empty description) AND</li>
+      <li><code>&lt;TEXT/&gt;</code> (empty body) AND</li>
+      <li><code>ISFOLDER value="false"</code> (not a folder) AND</li>
+      <li><code>&lt;FILES&gt;&lt;FILE</code> absent (no file attachment either)</li>
+    </ul>
+    <p>Blackboard converter rejects it.</p>
+    <h4>False positives — be careful</h4>
+    <ul>
+      <li><code>asmt-test-link</code> / <code>forumlink</code> / <code>courselink</code> wrappers are intentionally empty (they point to a target via LINK) — skip</li>
+      <li><code>ULTRA_ASSESSMENT_MARKER=true</code> on an ULTRA assignment surface — skip (see defect 7)</li>
+      <li><code>resource/x-bb-folder</code> / <code>x-bb-lesson</code> — folder itself — skip</li>
+    </ul>
+    <h4>Fix</h4>
+    <ul>
+      <li>Restore description + body from the original archive</li>
+      <li>Or change type to folder</li>
+      <li>Or add minimum content directly (e.g., use TITLE alone as the message)</li>
+    </ul>
+  </div>
+</div>
+
+<div class="defect" id="defect-5">
+  <div class="defect-head">
+    <span class="defect-num">5</span>
+    <span class="defect-title">Disabled LINK resources</span>
+    <span class="defect-tag tag-runtime">RUNTIME</span>
+  </div>
+  <div class="defect-body">
+    <figure class="diagram" id="figure-7">
+  <img src="figures/fig7_disabled_link_toggle.png" alt="Disabled vs enabled LINK — before and after fix_disabled_links.py">
+  <figcaption><span class="label">Fig. 7</span>Disabled vs enabled LINK — fix_disabled_links.py turns the silent failure back into a working click</figcaption>
+</figure>
+    <p>The <code>&lt;LINK&gt;</code> connecting a visible click-target (asmt-test-link / forumlink / courselink) to its underlying assessment/forum is set to <code>&lt;ISAVAILABLE value="false"/&gt;</code>. Clicking does nothing.</p>
+    <h4>Symptom</h4>
+    <p>No convert-time error. Gradebook column is created. Clicking does nothing or <code>MjYwNTA0L*</code> -style base64 access-code reference appears (decoded: <code>260504/_666818_1/2.log</code> — a server log path, not the actual error message).</p>
+    <h4>Origin (Spring archive carryover)</h4>
+    <p>An instructor pre-built assignments and disabled them until release in a prior term; the disabled flag carries over on export.</p>
+    <h4>Fix</h4>
+<pre><code class="language-python">import re
+c = re.sub(
+    r'&lt;ISAVAILABLE\s+value="false"\s*/&gt;',
+    '&lt;ISAVAILABLE value="true"/&gt;',
+    c,
+)</code></pre>
+    <p>📝 Script: <a href="scripts/fix_disabled_links.py">fix_disabled_links.py</a></p>
+    <h4>Real case</h4>
+    <p>DOCT-α v5: 6 core assignments ([User Testing Assignment], [Final Capstone Submission], [Storyboard Challenge], [Design Draft], [Usability Plan], [Case Study]) all blocked by disabled LINKs.</p>
+  </div>
+</div>
+
+<div class="defect" id="defect-6">
+  <div class="defect-head">
+    <span class="defect-num">6</span>
+    <span class="defect-title">Missing LINK resources</span>
+    <span class="defect-tag tag-runtime">RUNTIME</span>
+  </div>
+  <div class="defect-body">
+    <p>More severe than defect 5: both the LINK file AND its manifest declaration were stripped together. The package stays internally consistent (no orphan declarations) → defect 1's audit cannot detect it.</p>
+    <h4>Diagnostic</h4>
+    <p>Find any visible click-target CONTENT (handler = asmt-test-link / forumlink / courselink) that has <strong>no available LINK pointing to it as REFERRER</strong>.</p>
+    <h4>Fix</h4>
+    <p>Restore the LINK file from the original archive, flip <code>ISAVAILABLE=true</code>, add the declaration to the manifest.</p>
+    <p>📝 Script: <a href="scripts/restore_missing_links.py">restore_missing_links.py</a></p>
+    <h4>Real case</h4>
+    <ul>
+      <li>UND-β: Original 31 LINKs → current 24. 7 stripped (all of them were disabled and Codex decided they were "useless" and removed them). 7 assignments fail to open.</li>
+      <li>GRAD-γ: Original 17 LINKs → current <strong>0</strong>. All deleted during the Option A restructure. 14 assignments + 2 discussion/courselinks fail to open.</li>
+    </ul>
+    <div class="callout fail">
+    <strong>Why convert-time audit (defect 1) cannot catch this</strong>
+    If manifest declaration and .dat file disappear <strong>together</strong>, internal consistency holds and defect 1 misses it. Only a separate visible-click-target ↔ LINK match check surfaces it.
+    </div>
+  </div>
+</div>
+
+<div class="defect" id="defect-7">
+  <div class="defect-head">
+    <span class="defect-num">7</span>
+    <span class="defect-title">ULTRA marker × classic-QTI conflict</span>
+    <span class="defect-tag tag-runtime">RUNTIME</span>
+  </div>
+  <div class="defect-body">
+    <figure class="diagram" id="figure-4">
+  <img src="figures/fig4_ultra_qti_conflict.png" alt="ULTRA × classic-QTI conflict and the empty-section fix">
+  <figcaption><span class="label">Fig. 4</span>ULTRA assignment surface vs classic QTI body — friction zone and the empty-section fix</figcaption>
+</figure>
+    <p>The hardest case. Occurs when an asmt-test-link item carries <code>&lt;EXTENDEDDATA&gt;&lt;ENTRY key="ULTRA_ASSESSMENT_MARKER"&gt;true&lt;/ENTRY&gt;&lt;/EXTENDEDDATA&gt;</code> AND the questestinterop file at the end of the LINK chain has <code>&lt;item&gt;</code> content inside its <code>&lt;section&gt;</code>.</p>
+    <h4>Symptom</h4>
+    <p>The item opens normally. But <strong>each render appends a sequential entry to the server log</strong>: <code>260504/_666818_1/3.log</code>, <code>4.log</code>, <code>5.log</code>, ...</p>
+    <h4>Root cause</h4>
+    <p>The marker tells ULTRA, "render this as a ULTRA-native assignment surface (file upload + text submission)." But the underlying QTI is in the classic Blackboard test format (<code>&lt;questestinterop&gt;&lt;assessment&gt;&lt;section&gt;&lt;item&gt;</code>). Every render, ULTRA bridges the two models and emits a conversion-trace log entry.</p>
+    <h4>Fix — empty section preservation</h4>
+    <p>Remove every <code>&lt;item&gt;</code> from inside the QTI body's <code>&lt;section&gt;</code>. Keep the marker. Empty section = "this is a ULTRA assignment; don't try to convert classic questions."</p>
+<pre><code class="language-xml">&lt;questestinterop&gt;
+  &lt;assessment title="..."&gt;
+    &lt;assessmentmetadata&gt;...&lt;/assessmentmetadata&gt;
+    &lt;rubric&gt;...&lt;/rubric&gt;
+    &lt;presentation_material&gt;...&lt;/presentation_material&gt;
+    &lt;section&gt;
+      &lt;sectionmetadata&gt;...&lt;/sectionmetadata&gt;
+      <span style="background:#3a8a3a;color:#fff;padding:2px 4px">&lt;!-- Must be empty; no &lt;item&gt; --&gt;</span>
+    &lt;/section&gt;
+  &lt;/assessment&gt;
+&lt;/questestinterop&gt;</code></pre>
+    <div class="callout fail">
+    <strong>Important — do NOT apply this to real quizzes</strong>
+    Apply this fix only when the wrapper is <code>asmt-test-link</code> + has a ULTRA marker + the intent is a ULTRA assignment (file upload). If real multiple-choice quiz items live inside (e.g., GRAD-γ's Module 1-6 Quizzes), <strong>never delete the <code>&lt;item&gt;</code>s</strong> (the quiz breaks).
+    </div>
+    <p>📝 Script: <a href="scripts/fix_ultra_qti_conflict.py">fix_ultra_qti_conflict.py</a></p>
+    <h4>v6 failure case (DO NOT REPEAT)</h4>
+    <p>If you try to silence this log by removing the ULTRA marker itself → the item stops opening in ULTRA. The marker is the trigger for ULTRA rendering. <strong>Emptying the QTI body is the right answer, not removing the marker.</strong></p>
+  </div>
+</div>
+
+<div class="defect" id="defect-8">
+  <div class="defect-head">
+    <span class="defect-num">8</span>
+    <span class="defect-title">Whitespace-tolerant ISAVAILABLE replace</span>
+    <span class="defect-tag tag-tooling">TOOLING</span>
+  </div>
+  <div class="defect-body">
+    <figure class="diagram" id="figure-8">
+  <img src="figures/fig8_multiline_regex_trap.png" alt="Multi-line FLAGS regex trap">
+  <figcaption><span class="label">Fig. 8</span>Single-line literal replace silently misses multi-line FLAGS — the whitespace-tolerant regex catches both</figcaption>
+</figure>
+    <p>The most common trap when writing fix scripts for defects 5/6.</p>
+    <h4>The trap</h4>
+    <p>Blackboard's LINK XML appears in two formats:</p>
+<pre><code>Single-line:
+&lt;FLAGS&gt;&lt;ISAVAILABLE value="false"/&gt;&lt;/FLAGS&gt;
+
+Multi-line:
+&lt;FLAGS&gt;&lt;ISAVAILABLE
+  value="false"/&gt;&lt;/FLAGS&gt;
+</code></pre>
+    <p>Both formats can co-exist within the same archive. A naive single-line literal replace silently misses the multi-line case.</p>
+    <h4>Wrong (single-line literal)</h4>
+<pre><code class="language-python">c = c.replace(
+    '&lt;ISAVAILABLE value="false"/&gt;',
+    '&lt;ISAVAILABLE value="true"/&gt;'
+)
+# Misses 5 of 7 multi-line cases</code></pre>
+    <h4>Right (regex with whitespace tolerance)</h4>
+<pre><code class="language-python">import re
+c = re.sub(
+    r'&lt;ISAVAILABLE\s+value="false"\s*/&gt;',
+    '&lt;ISAVAILABLE value="true"/&gt;',
+    c
+)
+# Matches every case</code></pre>
+    <h4>Real case</h4>
+    <p>UND-β v2 fix: only 2 of 7 disabled LINKs were fixed; 5 remained. Discovered during the v4 audit → reapplied with a multi-line-tolerant regex.</p>
+  </div>
+</div>
+
+</div><!-- /defect-grid -->
+</section>
+
+<section id="diagnostics">
+<h2 id="diagnostics">4. Diagnostic Tool — 8-Point Audit Script</h2>
+
+<p>The script below audits all 8 defect classes in a single pass. Extract the package to a folder, pass that path as an argument, and it prints a PASS/FAIL report. Exit code 0 = clean, 1 = needs work.</p>
+
+<div class="code-block">
+<div class="header"><span>scripts/audit_8point.py</span><a href="scripts/audit_8point.py" download>Download</a></div>
+<pre><code class="language-bash">python audit_8point.py /path/to/extracted/package</code></pre>
+</div>
+
+<p>Example output (all PASS):</p>
+
+<pre><code>======================================================================
+8-Point Blackboard ULTRA Import Recipe Audit  --  /tmp/cat100_audit
+======================================================================
+  [PASS] 1. Orphan manifest decls
+         decls=211 files=211 missing=0 orphan=0
+  [PASS] 2. Retired-tool handlers in CONTENT
+         hits=0 []
+  [PASS] 3. Wrong-type substitution
+         violations=0 []
+  [PASS] 4. Empty leaf content items
+         leaves=0 []
+  [PASS] 5. Disabled LINKs blocking visible items
+         disabled=0 []
+  [PASS] 6. Click-targets without available LINK
+         orphan_clicks=0 []
+  [PASS] 7. ULTRA-marker x classic-QTI conflict
+         conflicts=0
+  [PASS] 8. Whitespace-tolerant ISAVAILABLE coverage
+         multiline_misses=0
+
+Overall: ALL PASS
+</code></pre>
+
+<div class="callout pass">
+<strong>Operating rule</strong>
+This script <strong>should be run automatically right before every packaging</strong>. Edits can introduce new defects (e.g., body replacement breaking manifest integrity, file deletion creating orphans). Audit every time → if all PASS, package.
+</div>
+</section>
+
+<section id="troubleshoot">
+<h2 id="troubleshoot">5. Troubleshooting Decision Tree</h2>
+
+<p>Trace sandbox-import results in the following order:</p>
+
+<div class="flowchart">
+<svg viewBox="0 0 900 720" xmlns="http://www.w3.org/2000/svg" font-family="Inter,sans-serif" font-size="13">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#5d5b53"/>
+    </marker>
+  </defs>
+  <!-- Start -->
+  <rect x="350" y="20" width="200" height="50" rx="6" fill="#9E1B32" stroke="#7a1426"/>
+  <text x="450" y="50" text-anchor="middle" fill="#fff" font-weight="600">Sandbox import outcome?</text>
+
+  <!-- Branch 1: Convert error -->
+  <line x1="450" y1="70" x2="200" y2="120" stroke="#5d5b53" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="320" y="98" fill="#5d5b53" font-style="italic">A. Convert error</text>
+  <rect x="50" y="130" width="300" height="60" rx="6" fill="#fbeae8" stroke="#b3261e"/>
+  <text x="200" y="155" text-anchor="middle" font-weight="600">Inspect the error message type</text>
+  <text x="200" y="175" text-anchor="middle" font-size="11" fill="#5d5b53">"X aren't supported, removed" → D2</text>
+
+  <!-- Branch 2: Import OK, item won't open -->
+  <line x1="450" y1="70" x2="450" y2="120" stroke="#5d5b53" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="455" y="98" fill="#5d5b53" font-style="italic">B. Import OK, click does nothing</text>
+  <rect x="320" y="130" width="260" height="60" rx="6" fill="#fdf6ec" stroke="#c47c20"/>
+  <text x="450" y="155" text-anchor="middle" font-weight="600">Verify the LINK chain</text>
+  <text x="450" y="175" text-anchor="middle" font-size="11" fill="#5d5b53">D5 (disabled) → D6 (missing)</text>
+
+  <!-- Branch 3: Import OK, opens, but log appears -->
+  <line x1="450" y1="70" x2="700" y2="120" stroke="#5d5b53" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="600" y="98" fill="#5d5b53" font-style="italic">C. Opens, but access-code log appears</text>
+  <rect x="550" y="130" width="300" height="60" rx="6" fill="#eaf2fa" stroke="#3266a8"/>
+  <text x="700" y="155" text-anchor="middle" font-weight="600">D7 ULTRA × QTI conflict suspected</text>
+  <text x="700" y="175" text-anchor="middle" font-size="11" fill="#5d5b53">Empty the QTI section (assignment only)</text>
+
+  <!-- D2 path -->
+  <line x1="200" y1="190" x2="200" y2="240" stroke="#5d5b53" stroke-width="1.5" marker-end="url(#arr)"/>
+  <rect x="50" y="250" width="300" height="60" rx="6" fill="#fff" stroke="#dcdad1"/>
+  <text x="200" y="275" text-anchor="middle" font-weight="600">fix_journal_blog_dependency.py</text>
+  <text x="200" y="293" text-anchor="middle" font-size="11" fill="#5d5b53">handler→document, RENDERTYPE→REGULAR</text>
+
+  <!-- D5/D6 path -->
+  <line x1="450" y1="190" x2="450" y2="240" stroke="#5d5b53" stroke-width="1.5" marker-end="url(#arr)"/>
+  <rect x="320" y="250" width="260" height="80" rx="6" fill="#fff" stroke="#dcdad1"/>
+  <text x="450" y="275" text-anchor="middle" font-weight="600">D5: fix_disabled_links.py</text>
+  <text x="450" y="295" text-anchor="middle" font-size="11" fill="#5d5b53">→ if that fails, D6: restore_missing_links.py</text>
+  <text x="450" y="315" text-anchor="middle" font-size="11" fill="#5d5b53">orig archive required</text>
+
+  <!-- D7 path -->
+  <line x1="700" y1="190" x2="700" y2="240" stroke="#5d5b53" stroke-width="1.5" marker-end="url(#arr)"/>
+  <rect x="550" y="250" width="300" height="80" rx="6" fill="#fff" stroke="#dcdad1"/>
+  <text x="700" y="275" text-anchor="middle" font-weight="600">fix_ultra_qti_conflict.py</text>
+  <text x="700" y="295" text-anchor="middle" font-size="11" fill="#5d5b53">⚠ skip if real quiz</text>
+  <text x="700" y="315" text-anchor="middle" font-size="11" fill="#5d5b53">never remove the marker</text>
+
+  <!-- All converge to audit -->
+  <line x1="200" y1="310" x2="450" y2="380" stroke="#5d5b53" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="450" y1="330" x2="450" y2="380" stroke="#5d5b53" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="700" y1="330" x2="450" y2="380" stroke="#5d5b53" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <rect x="320" y="390" width="260" height="60" rx="6" fill="#9E1B32" stroke="#7a1426"/>
+  <text x="450" y="415" text-anchor="middle" fill="#fff" font-weight="600">run audit_8point.py again</text>
+  <text x="450" y="433" text-anchor="middle" fill="#fff" font-size="11" opacity=".9">All PASS?</text>
+
+  <!-- Loop back -->
+  <line x1="320" y1="420" x2="200" y2="420" stroke="#5d5b53" stroke-width="1.5" stroke-dasharray="4 3"/>
+  <line x1="200" y1="420" x2="200" y2="190" stroke="#5d5b53" stroke-width="1.5" stroke-dasharray="4 3"/>
+  <line x1="200" y1="190" x2="200" y2="190" stroke="#5d5b53" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#arr)"/>
+  <text x="120" y="305" fill="#5d5b53" font-size="11" font-style="italic">FAIL → diagnose again</text>
+
+  <!-- Pass path to packaging -->
+  <line x1="450" y1="450" x2="450" y2="490" stroke="#5d5b53" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="465" y="475" fill="#3a8a3a" font-weight="600">PASS</text>
+
+  <rect x="320" y="500" width="260" height="60" rx="6" fill="#eaf6ea" stroke="#3a8a3a"/>
+  <text x="450" y="525" text-anchor="middle" font-weight="600">PowerShell Compress-Archive</text>
+  <text x="450" y="543" text-anchor="middle" font-size="11" fill="#5d5b53">save as a new version v(N+1).zip</text>
+
+  <!-- Final test -->
+  <line x1="450" y1="560" x2="450" y2="600" stroke="#5d5b53" stroke-width="1.5" marker-end="url(#arr)"/>
+  <rect x="320" y="610" width="260" height="80" rx="6" fill="#9E1B32" stroke="#7a1426"/>
+  <text x="450" y="635" text-anchor="middle" fill="#fff" font-weight="600">sandbox re-import + click verification</text>
+  <text x="450" y="655" text-anchor="middle" fill="#fff" font-size="11" opacity=".9">click every visible item</text>
+  <text x="450" y="673" text-anchor="middle" fill="#fff" font-size="11" opacity=".9">on pass → production</text>
+</svg>
+</div>
+</section>
+
+<section id="never">
+<h2 id="never">6. What NOT to do</h2>
+
+<p>Either broken in this session or expensive to recover from when made:</p>
+
+<div class="callout fail">
+<strong>1. Modify the original archive ZIP</strong>
+<code>03_Original-ZIPs-Backup/ArchiveExFile_*.zip</code> Never modify this file. All fixes happen on the working copy. The original is ground truth + rollback material.
+</div>
+
+<div class="callout fail">
+<strong>2. Overwrite an existing res ID with a different-type payload</strong>
+Don't reason "this slot is empty, let's put a new assessment here." The manifest's <code>bb:type</code> and the .dat file's root XML element must match. If you need new content, issue a fresh res ID and add a new declaration.
+</div>
+
+<div class="callout fail">
+<strong>3. Removing ULTRA_ASSESSMENT_MARKER</strong>
+Removing the marker to silence the access-code log → the item stops opening in ULTRA (DOCT-α v6 failure case). The marker is the trigger for ULTRA rendering. The true fix is emptying the QTI body's <code>&lt;item&gt;</code>.
+</div>
+
+<div class="callout fail">
+<strong>4. Removing &lt;item&gt; from a real Quiz QTI</strong>
+Defect 7 fix is correct only when ULTRA assignment surface (file upload) is the intent. Removing items from a real multi-choice quiz (e.g., GRAD-γ Module 1-6 Quizzes with <code>&lt;response_lid&gt;</code>) destroys the entire quiz.
+</div>
+
+<div class="callout fail">
+<strong>5. Deleting a disabled LINK outright</strong>
+Deleting LINKs because "this LINK is disabled, useless" creates defect 6 (missing LINK). Even if disabled, the LINK file must remain so the chain between visible click-target and underlying data holds. <strong>Flipping is the right answer; deleting is not.</strong>
+</div>
+
+<div class="callout fail">
+<strong>6. Replacing ISAVAILABLE with a single-line literal</strong>
+A literal-string replace like <code>c.replace('&lt;ISAVAILABLE value="false"/&gt;', ...)</code> silently misses multi-line FLAGS XML cases. Always use <code>re.sub(r'&lt;ISAVAILABLE\s+value="false"\s*/&gt;', ...)</code>.
+</div>
+
+<div class="callout fail">
+<strong>7. Building new FORUM resources by hand</strong>
+Adding a module-specific Discussion forum requires <code>&lt;FORUM&gt;</code> data + <code>forumlink</code> wrapper + LINK + manifest declaration + item-tree placement — all five. Doing this by hand risks ID collisions and broken chains. Reusing an existing generic Discussion board with subject-prefix conventions (<code>[M1 [Tension Mapper]]</code> etc.) is much safer.
+</div>
+
+<div class="callout fail">
+<strong>8. Bundle every fix into a single package</strong>
+Fixing every defect at once in v1 makes it impossible to trace what broke. <strong>One defect = one version</strong>. DOCT-α v1→v11 looks long, but each step lets you diagnose and record exactly what broke.
+</div>
+
+<div class="callout fail">
+<strong>9. Ignore CDT/CST timezone</strong>
+DUE date format: <code>2026-05-30 23:59:00 CDT</code>. From May to the first Sunday of November = CDT (Central Daylight Time, UTC-5); otherwise CST (UTC-6). Summer term is all CDT. Blackboard's parser doesn't validate the timezone string but consistency is still better.
+</div>
+
+<div class="callout fail">
+<strong>10. Try to recompute <code>.bb-package-sig</code></strong>
+This signature file can be ignored (Blackboard import does not validate it). Recomputing is impossible anyway (it would need Blackboard's private key). Leave it as-is and ZIP.
+</div>
+</section>
+
+<section id="cases">
+<h2 id="cases">7. Real Cases — [Summer Term] Fix Marathon</h2>
+
+<p>The distillation source for this guide. 11+ iterations across three courses recorded in a single day (2026-05-04).</p>
+
+<h3>DOCT-α (LXD doctoral capstone) — 11 iterations</h3>
+
+<table>
+<tr><th>Build</th><th>Defect / change</th><th>Result</th></tr>
+<tr><td><code>v1</code></td><td>baseline (Codex 5/3 build)</td><td>D6 + D5 latent</td></tr>
+<tr><td><code>v2</code></td><td>[Journal Item] payload restored</td><td>D2 surfaced</td></tr>
+<tr><td><code>v3</code></td><td>D2 fix (Journal/Blog dependency removed)</td><td>discussions work, assignments do not open</td></tr>
+<tr><td><code>v4</code></td><td>content reorganization (AI Coding Assistants section nested under Module 6)</td><td>still does not open</td></tr>
+<tr><td><code>v5</code></td><td>D5 fix (6 disabled LINK flip)</td><td>opens, but access-code log appears</td></tr>
+<tr><td><code>v6</code></td><td><strong>Failed</strong> — attempted to remove the ULTRA marker</td><td>items stopped opening (reverted)</td></tr>
+<tr><td><code>v7/v8</code></td><td>byte-exact restore from v5</td><td>returned to v5 state</td></tr>
+<tr><td><code>v9</code></td><td>D7 fix verified on 2 items</td><td>access-code log disappeared</td></tr>
+<tr><td><code>v10</code></td><td>D7 fix applied to all 6 ULTRA items</td><td>all pass</td></tr>
+<tr><td><code>v11</code></td><td>embedded 3 generated diagrams (design.md, 7-step, guardrails)</td><td>final / 25.2 MB</td></tr>
+</table>
+
+<h3>UND-β (Communication, undergrad 1-2) — 6 iterations</h3>
+
+<table>
+<tr><th>Build</th><th>Defect / change</th></tr>
+<tr><td>baseline</td><td>5/2 build</td></tr>
+<tr><td><code>v2</code></td><td>D6 fix (7 missing LINKs restored + COURSE_ASSESSMENT verified)</td></tr>
+<tr><td><code>v3</code></td><td>all 17 graded items updated to [Summer Term] dates (no Sundays, no Juneteenth, ENFORCE_DUE_DATE matched to baseline)</td></tr>
+<tr><td><code>v4</code></td><td>Module 6 Lesson 6.2 — AI + GitHub Pages content + Playwright screenshots; D8 fix (5 additional multi-line ISAVAILABLE cases found)</td></tr>
+<tr><td><code>v5</code></td><td>rewritten in undergrad-1/2 tone + curated YouTube / Medium / GitHub Blog links</td></tr>
+<tr><td><code>v6</code></td><td>embedded 7 ChatGPT-generated diagrams, M5 dual-path AI avatar (SadTalker + ElevenLabs vs PowerPoint Recording + Gemini Live), [Teaching Sim]→[Teaching Sim] naming unified, M1 [Tension Mapper]+[Ethics Tutor] URL+screenshot, M2 "GitHub Codex" wording clarified. <strong>final / 18.3 MB</strong></td></tr>
+</table>
+
+<h3>GRAD-γ (Critical/Cultural Aspects of Tech, master's) — 5 iterations</h3>
+
+<table>
+<tr><th>Build</th><th>Defect / change</th></tr>
+<tr><td>baseline</td><td>5/2 Option A restructure</td></tr>
+<tr><td><code>v2</code></td><td>D6 fix — restored all 17 LINKs that had been stripped (the most severe case)</td></tr>
+<tr><td><code>v3</code></td><td>M1 [Tension Mapper] / M2 [Teaching Sim] / M4 [Ethics Tutor] guidance + Playwright screenshots + [Discussion Board] prefix-tagged discussion pattern</td></tr>
+<tr><td><code>v4</code></td><td>17 graded items updated to [Summer Term] dates</td></tr>
+<tr><td><code>v5</code></td><td>added 2 generated concept diagrams ([Tension Mapper] + [Ethics Tutor] anchors). <strong>final / 38.9 MB</strong></td></tr>
+</table>
+
+<div class="callout warn">
+<strong>D7 known limitation in GRAD-γ</strong>
+6 module quizzes show the ULTRA marker × classic-QTI MC content conflict pattern, but they are real multi-choice quizzes — <code>&lt;item&gt;</code> cannot be removed. Functional impact zero (students take quizzes normally), the runtime telemetry log accumulation is ignored. Documented caveat.
+</div>
+</section>
+
+<section id="extras">
+<h2 id="extras">8. Beyond defect fixes</h2>
+
+<h3 id="extras-image">8.1 Image / media embedding</h3>
+<p>To inline-render a slide, infographic, or screenshot in a content page, three things must happen together:</p>
+<ol>
+  <li><code>csfiles/home_dir/</code> with the <code>__xid-NNNNNN_1.&lt;ext&gt;</code> filename (xid ≥ 990000 recommended to avoid collisions)</li>
+  <li>Generate a same-named sidecar XML (<code>__xid-NNNNNN_1.&lt;ext&gt;.xml</code>)</li>
+  <li><code>imsmanifest.xml</code>'s <code>&lt;resources&gt;</code> block — add the <code>&lt;resource&gt;</code> declaration</li>
+</ol>
+<p>Then reference it in the content page's body HTML via Blackboard's embed syntax:</p>
+<pre><code class="language-html">&lt;a data-bbid="img-NNNNNN_1"
+   data-bbfile="{&amp;quot;linkName&amp;quot;:&amp;quot;diagram.png&amp;quot;,
+     &amp;quot;mimeType&amp;quot;:&amp;quot;image/png&amp;quot;,
+     &amp;quot;alternativeText&amp;quot;:&amp;quot;Description&amp;quot;,
+     &amp;quot;isDecorative&amp;quot;:false,
+     &amp;quot;render&amp;quot;:&amp;quot;inline&amp;quot;}"
+   href="@X@EmbeddedFile.requestUrlStub@X@bbcswebdav/xid-NNNNNN_1"&gt;
+&lt;/a&gt;</code></pre>
+<p>📝 Script: <a href="scripts/embed_image.py">embed_image.py</a> — all three steps in one.</p>
+
+<h3 id="extras-body">8.2 Replacing content page body HTML</h3>
+<p>Blackboard stores content-page bodies as entity-encoded HTML inside <code>&lt;CONTENT&gt;...&lt;BODY&gt;&lt;TEXT&gt;<em>HTML</em>&lt;/TEXT&gt;&lt;/BODY&gt;</code>. <code>&lt;</code> → <code>&amp;lt;</code>, <code>&gt;</code> → <code>&amp;gt;</code>, etc.</p>
+<p>📝 Script: <a href="scripts/replace_body.py">replace_body.py</a> — Replaces only the body; everything else (DATES, FLAGS, CONTENTHANDLER, PARENTID...)is preserved.</p>
+<pre><code class="language-bash">python replace_body.py res00157.dat new_body.html \
+    --updated "2026-05-04 04:00:00 CDT"</code></pre>
+
+<h3 id="extras-dates">8.3 Bulk due-date update</h3>
+<p>Gradebook resource's <code>&lt;OUTCOMEDEFINITION&gt;</code> blocks contain <code>&lt;DUE&gt;</code> fields. Define the schedule in JSON and apply in bulk:</p>
+<pre><code class="language-json">{
+  "Module 1: Quiz": "2026-05-27 23:59:00 CDT",
+  "Module 1: Assess - [Tension Rationale]": "2026-05-30 23:59:00 CDT",
+  ...
+}</code></pre>
+<p>📝 Script: <a href="scripts/update_due_dates.py">update_due_dates.py</a></p>
+<p>Constraints: no Sundays, no Juneteenth (2026-06-19), within the term window. ENFORCE_DUE_DATE stays at baseline (the instructor decides item-by-item in the UI).</p>
+
+<h3 id="extras-slim">8.4 Slim package — selective import</h3>
+<p>When you want to update just one module without re-importing the whole course.</p>
+<p>Strategy: build a slim ZIP containing just the Module's item subtree + system resources (<code>res00001</code> Child Courses + <code>res00010</code> Content Handler Data + <code>.bb-package-info</code> / <code>.bb-log-info</code> / <code>.bb-package-sig</code>). DOCT-α example: 20MB → 294KB.</p>
+<p>Or more simply: in the Blackboard UI's selective import dialog, import the full package but check only the desired module.</p>
+
+<h3>8.5 Discussion-board connection — without adding new FORUMs</h3>
+<p>Adding a new <code>&lt;FORUM&gt;</code> resource for module-specific discussions is high-risk (ID collisions, item-tree breakage). The safe pattern:</p>
+<ul>
+  <li>Reuse the existing course-wide Discussion board (e.g., "[Course Discussion Board]")</li>
+  <li>Agree on a subject-prefix convention in each module's Explore page (<code>[M1 [Tension Mapper]]</code>, <code>[M2 [Teaching Sim]]</code>, <code>[M4 [Ethics Tutor]]</code>)</li>
+  <li>Specify the post format (e.g., 100–150 words, ≥ 1 peer reply)</li>
+</ul>
+<p>Discussion connection without structural change. The pattern used in GRAD-γ.</p>
+</section>
+
+<section id="packaging">
+<h2 id="packaging">9. Packaging &amp; verification</h2>
+
+<h3>9.1 PowerShell Compress-Archive</h3>
+<p>Safest way on Windows:</p>
+<pre><code class="language-powershell">$src = "C:\path\to\extracted_package_dir"
+$dst = "C:\path\to\output\package_v6.zip"
+if (Test-Path $dst) { Remove-Item $dst }
+Compress-Archive -Path "$src\*" -DestinationPath $dst -CompressionLevel Optimal
+$hash = (Get-FileHash $dst -Algorithm SHA256).Hash
+$size = (Get-Item $dst).Length
+Write-Output "Packaged: $size bytes / SHA256 $hash"</code></pre>
+
+<div class="callout warn">
+<strong>Path separator note</strong>
+PowerShell's <code>Compress-Archive</code> may write backslash separators in the ZIP. unzip warns (<em>"appears to use backslashes as path separators"</em>) but Blackboard import works fine. Ignorable.
+</div>
+
+<h3>9.2 Bash zip (Linux / Git Bash)</h3>
+<pre><code class="language-bash">cd /path/to/extracted_package_dir
+zip -r ../package_v6.zip . -x "*.DS_Store"</code></pre>
+
+<h3>9.3 Verification checklist</h3>
+<ol>
+  <li>Re-extract the package and run the 8-point audit (verify no corruption from compression)</li>
+  <li>Manifest declared count == .dat file count</li>
+  <li>SHA-256 recorded (rollback + reproducibility)</li>
+  <li>Import into the sandbox course → check the convert log</li>
+  <li><strong>Click every visible item personally and verify it opens correctly</strong></li>
+  <li>Gradebook column creation + due-date correctness</li>
+  <li>Verify once more from the student view (or instructor preview)</li>
+</ol>
+</section>
+
+<section id="faq">
+<h2 id="faq">10. FAQ</h2>
+
+<details class="faq">
+<summary>What is the <code>MjYwNTA0L*</code> access-code log?</summary>
+<div class="body">A base64-encoded path. Decoded, it is a server-side log file path like <code>260504/_666818_1/2.log</code>. <strong>It is not the actual error message</strong> — the contents live in the log file at that path. To inspect, give the path to your Blackboard admin and ask them to pull the file. It is not shown in the student view, so there may be no functional impact.</div>
+</details>
+
+<details class="faq">
+<summary>Why does a ULTRA assignment surface end up with <code>&lt;item&gt;</code>s in its underlying QTI?</summary>
+<div class="body">Two paths:
+<ol>
+  <li>The original course started in classic Blackboard, and when migrated to ULTRA only the marker was added — the body's questestinterop structure remained as-is.</li>
+  <li>Someone (e.g., Codex) hand-added <code>&lt;item&gt;</code>s to silence a convert-time warning like "Empty assessments converted to Question Banks." </li>
+</ol>
+Both cases produce a ULTRA marker + non-empty section conflict → defect 7. The right answer is to empty the <code>&lt;item&gt;</code>s (when the intent is an assignment).</div>
+</details>
+
+<details class="faq">
+<summary>My fix script produced two <code>&lt;organizations&gt;</code> blocks in the manifest</summary>
+<div class="body">Common pitfall when building a slim package. A single-string find like <code>find('&lt;organizations&gt;')</code> misses the multi-line attribute case (e.g. <code>&lt;organizations\n   default="..."&gt;</code>). Match with a regex like <code>r'&lt;organizations\b.*?&lt;/organizations&gt;'</code> to fix.</div>
+</details>
+
+<details class="faq">
+<summary>I only want to update one module — selective import vs slim package, which is better?</summary>
+<div class="body">Selective import is safer — Blackboard handles dependencies automatically. The slim package requires system-resource dependencies like <code>res00001</code> + <code>res00010</code> plus a freshly built manifest, which is hand-intensive. If the package is very large (tens of MB) or your institution has disabled selective import, slim is the only option.</div>
+</details>
+
+<details class="faq">
+<summary>How do I pick xid numbers consistently?</summary>
+<div class="body">Existing archive xids are usually 8 digits (e.g., <code>__xid-190865580_1</code>). When adding new media, use a <strong>much larger prefix</strong> to avoid collisions. This session used the 990000~999999 range (992xxx, 993xxx, 994xxx per course). Check the existing course's xid distribution first, then pick a range clearly above it.</div>
+</details>
+
+<details class="faq">
+<summary>Why do I not need to rebuild .bb-package-sig?</summary>
+<div class="body">Blackboard import <strong>does not validate</strong> this signature file (and you couldn't recompute it anyway — it would need Blackboard's private key). Just including it in the ZIP as-is is enough. Verified across DOCT-α v1→v11 (all using the same .bb-package-sig) — no issues.</div>
+</details>
+
+<details class="faq">
+<summary>I want students to submit a file via the ULTRA assignment surface — how?</summary>
+<div class="body">All three conditions must hold:
+<ol>
+  <li>The wrapper's <code>CONTENTHANDLER</code> is <code>resource/x-bb-asmt-test-link</code></li>
+  <li>EXTENDEDDATA carries <code>&lt;ENTRY key="ULTRA_ASSESSMENT_MARKER"&gt;true&lt;/ENTRY&gt;</code></li>
+  <li>The questestinterop file at the end of the LINK chain has an <strong>empty</strong> <code>&lt;section&gt;</code> (only <code>&lt;sectionmetadata&gt;</code>, no <code>&lt;item&gt;</code>)</li>
+</ol>
+When all three hold, ULTRA renders the file upload + text submission UI. The defect 7 fix exists precisely to guarantee condition (3).</div>
+</details>
+
+<details class="faq">
+<summary>Student data (submissions, grades) is mixed into the package</summary>
+<div class="body"><strong>Dangerous.</strong> If the export options include a checkbox like "Include student records," uncheck it and re-export. If such data is already present, search for and delete the following before importing:
+<ul>
+  <li><code>res*ATTEMPT*.dat</code></li>
+  <li><code>res*SUBMISSION*.dat</code></li>
+  <li><code>users.xml</code></li>
+  <li><code>csfiles/home_dir/users/</code></li>
+  <li><code>&lt;ATTEMPT&gt;</code> blocks inside the Gradebook</li>
+</ul>
+FERPA compliance — there is a risk of exposing student PII.</div>
+</details>
+
+<details class="faq">
+<summary>Can these fix scripts be applied to other LMSes (Canvas, Moodle)?</summary>
+<div class="body">No. These scripts are specifically tied to <strong>Blackboard's IMS Common Cartridge + Blackboard extension attributes (<code>bb:file</code>, <code>bb:title</code>, <code>bb:type</code>)</strong>. Canvas and Moodle use their own export formats with different manifest structures. The 8-point recipe's <em>concepts</em> transfer (orphan declarations, retired tools, disabled flags, …) but the <em>code</em> does not.</div>
+</details>
+</section>
+
+<section id="downloads">
+<h2 id="downloads">11. Downloads</h2>
+
+<div class="skill-cta">
+  <div>
+    <div class="meta">▶ Reusable Skill Bundle</div>
+    <h3>Blackboard CXP Fix Skill — for Claude Code / Codex CLI</h3>
+    <p>The 8-point recipe + all fix scripts + reference notes packaged as an auto-invocable agent skill. No personal information — pure skill registration. Any instructor / TA / coding agent can drop it in and use it.</p>
+    <div class="install"><code>unzip blackboard-cxp-fix-skill.zip -d ~/.claude/skills/</code></div>
+  </div>
+  <div class="actions">
+    <a class="btn" href="blackboard-cxp-fix-skill.zip" download>📦 Download ZIP</a>
+    <a class="btn btn-ghost" href="blackboard-cxp-fix-skill/SKILL.md">Preview SKILL.md</a>
+    <a class="btn btn-ghost" href="blackboard-cxp-fix-skill/README.md">Install / Usage</a>
+    <a class="btn btn-ghost" href="blackboard-cxp-fix-skill/">Open directory</a>
+  </div>
+</div>
+
+<p>All scripts — MIT-style ("use freely with attribution"). Python 3.8+ with standard library only.</p>
+
+<div class="download-grid">
+
+<a class="download" href="scripts/audit_8point.py" download>
+  <span class="filename">audit_8point.py</span>
+  <span class="desc">8-point recipe diagnostic script. Audits every defect class in one pass. PASS/FAIL report + exit code.</span>
+</a>
+
+<a class="download" href="scripts/fix_disabled_links.py" download>
+  <span class="filename">fix_disabled_links.py</span>
+  <span class="desc">Defect 5 fix — flip disabled LINKs to active. Uses a multi-line-tolerant regex.</span>
+</a>
+
+<a class="download" href="scripts/restore_missing_links.py" download>
+  <span class="filename">restore_missing_links.py</span>
+  <span class="desc">Defect 6 fix — restore missing LINKs from the original archive + update the manifest. Compares two directories (orig + cur).</span>
+</a>
+
+<a class="download" href="scripts/fix_journal_blog_dependency.py" download>
+  <span class="filename">fix_journal_blog_dependency.py</span>
+  <span class="desc">Defect 2 fix — remove Journal/Blog/Wiki dependencies. CONTENTHANDLER → document, drop tool data + LINK, clean up the manifest.</span>
+</a>
+
+<a class="download" href="scripts/fix_ultra_qti_conflict.py" download>
+  <span class="filename">fix_ultra_qti_conflict.py</span>
+  <span class="desc">Defect 7 fix — restore the QTI section of ULTRA-marker assignments to its empty form. ⚠ Real quizzes are auto-skipped.</span>
+</a>
+
+<a class="download" href="scripts/update_due_dates.py" download>
+  <span class="filename">update_due_dates.py</span>
+  <span class="desc">Bulk-update DUE dates inside Gradebook OUTCOMEDEFINITION blocks. JSON schedule input. Sundays/Juneteenth auto-warned.</span>
+</a>
+
+<a class="download" href="scripts/embed_image.py" download>
+  <span class="filename">embed_image.py</span>
+  <span class="desc">Image → csfiles + sidecar + manifest in one shot. Also prints the embed snippet.</span>
+</a>
+
+<a class="download" href="scripts/replace_body.py" download>
+  <span class="filename">replace_body.py</span>
+  <span class="desc">Replace CONTENT body. HTML entity encoding handled automatically. DATES/FLAGS/CONTENTHANDLER preserved.</span>
+</a>
+</div>
+
+<h3>Recommended workflow</h3>
+<ol>
+  <li><code>audit_8point.py</code> baseline</li>
+  <li>Defect found → apply the corresponding fix script</li>
+  <li><code>audit_8point.py</code> re-verify</li>
+  <li>all PASS → packaging</li>
+</ol>
+</section>
+
+<section id="refs">
+<h2 id="refs">12. References</h2>
+
+<h3>Primary session record</h3>
+<ul>
+  <li><code>Desktop\24_Teaching\Summer2026_CourseRevisions_2026-05-01\AIL606_IMPORT_FIX_RECORD_2026-05-04.md</code> — full v1→v11 incident record</li>
+  <li><code>~\.claude\projects\C--Users-jewoo\memory\reference_blackboard_ultra_import_fixes.md</code> — auto-memory recipe</li>
+  <li><code>ObsidianVault\wiki\sources\[Summer Term] Course Prep Import Fix Marathon 2026-05-04.md</code> — vault session record</li>
+</ul>
+
+<h3>Standards</h3>
+<ul>
+  <li><a href="https://www.imsglobal.org/cc/index.html" target="_blank">IMS Common Cartridge</a> — manifest standard base</li>
+  <li><a href="https://help.blackboard.com/Learn/Instructor/Ultra/Course_Content/Course_Materials" target="_blank">Blackboard ULTRA Course Materials</a> — ULTRA-supported content types</li>
+  <li><a href="https://www.w3.org/WAI/WCAG22/quickref/" target="_blank">WCAG 2.2 Quick Reference</a> — accessibility</li>
+</ul>
+
+<h3>Related entity pages (vault)</h3>
+<ul>
+  <li><code>wiki/entities/[Summer Term] UA Course Prep.md</code></li>
+  <li><code>wiki/entities/[Tension Mapping App].md</code></li>
+  <li><code>wiki/entities/[Ethics Tutor].md</code></li>
+</ul>
+
+<h3>Auto-memory entries</h3>
+<ul>
+  <li><code>project_summer2026_courses.md</code></li>
+  <li><code>reference_blackboard_ultra_import_fixes.md</code> ← <strong>distillation source for this guide</strong></li>
+  <li><code>feedback_html_guides.md</code> — HTML guidebook pattern (the format this page follows)</li>
+</ul>
+
+<h3>Author</h3>
+<address class="author-card">
+  <strong>[Author]</strong><br>
+  Faculty Member, Instructional Technology<br>
+  [Department]<br>
+  [Institution]<br>
+  <a href="mailto:[author@institution]">[author@institution]</a>
+</address>
+
+<h3>Disclosure</h3>
+<p>This is a practical onboarding guide based on Blackboard ULTRA behavior observed on 2026-05-04. Blackboard internals change over time, and this guide covers only the 8 defect classes reproduced in this session. Other failure modes (LDAP integration, gradebook calculation columns, external-tool OAuth) require separate investigation. Validate every fix in a sandbox before applying to production.</p>
+
+</section>
+
+</main>
+</div>
+
+<footer>
+  <p>Blackboard CXP — Modify &amp; Re-Import Workflow Guidebook · [Summer Term] fix marathon distillation · Author [Author] ([Institution] · [Department] · <a href="mailto:[author@institution]">[author@institution]</a>) · Built 2026-05-04</p>
+  <p>Companion materials: <a href="scripts/">scripts/</a> directory · <a href="../">guidebooks index</a></p>
+  <p style="margin-top:14px">License: free to use with attribution. No warranty for production environments — always sandbox-test first.</p>
+</footer>
+
+<script>
+// Active TOC highlighting + scroll progress bar
+(function(){
+  const tocLinks = document.querySelectorAll('.toc a');
+  const sections = Array.from(document.querySelectorAll('section[id]'));
+  const progressBar = document.getElementById('progressBar');
+  function onScroll(){
+    let cur = null;
+    const scrollY = window.scrollY + 120;
+    for (const s of sections){
+      if (s.offsetTop <= scrollY) cur = s;
+    }
+    if (cur){
+      tocLinks.forEach(a => {
+        const href = a.getAttribute('href');
+        a.classList.toggle('active', href === '#' + cur.id);
+      });
+    }
+    // progress bar
+    const docH = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = docH > 0 ? (window.scrollY / docH) * 100 : 0;
+    if (progressBar) progressBar.style.width = pct + '%';
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+})();
+
+// Theme toggle (light / dark) with localStorage persistence
+(function(){
+  const btn = document.getElementById('themeToggle');
+  const icon = document.getElementById('themeIcon');
+  const label = document.getElementById('themeLabel');
+  function applyTheme(theme){
+    if (theme === 'dark'){
+      document.documentElement.setAttribute('data-theme', 'dark');
+      if (icon) icon.textContent = '☼';
+      if (label) label.textContent = 'Light';
+    } else {
+      document.documentElement.removeAttribute('data-theme');
+      if (icon) icon.textContent = '☾';
+      if (label) label.textContent = 'Dark';
+    }
+  }
+  // Load saved theme or use system preference
+  const saved = localStorage.getItem('guidebook-theme');
+  if (saved){
+    applyTheme(saved);
+  } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches){
+    applyTheme('dark');
+  }
+  if (btn){
+    btn.addEventListener('click', () => {
+      const cur = document.documentElement.getAttribute('data-theme');
+      const next = cur === 'dark' ? 'light' : 'dark';
+      applyTheme(next);
+      localStorage.setItem('guidebook-theme', next);
+    });
+  }
+})();
+
+(function(){
+  // Remember chosen language; on subsequent visits to a different lang, follow the saved one if user prefers.
+  var links = document.querySelectorAll('.lang-toggle a');
+  links.forEach(function(a){
+    a.addEventListener('click', function(){
+      try { localStorage.setItem('guidebook-lang', a.getAttribute('data-lang')); } catch(_){}
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
