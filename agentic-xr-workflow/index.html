@@ -249,6 +249,31 @@ figure.video figcaption{max-width:64ch;margin-left:auto;margin-right:auto;
   font-size:13px;color:#666;margin-top:8px;font-style:italic;line-height:1.45;
   text-align:center}
 
+/* lite YouTube facade — load iframe only on click */
+.lite-yt{position:absolute;inset:0;cursor:pointer;border:0;padding:0;
+  background:#000;display:flex;align-items:center;justify-content:center;
+  overflow:hidden}
+.lite-yt img{position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;opacity:.92;transition:opacity .15s}
+.lite-yt:hover img{opacity:1}
+.lite-yt .play{position:relative;z-index:2;width:88px;height:62px;
+  background:rgba(20,20,20,.82);border-radius:18px;display:flex;
+  align-items:center;justify-content:center;
+  transition:background .15s,transform .15s}
+.lite-yt:hover .play{background:#cc0000;transform:scale(1.04)}
+.lite-yt .play::before{content:'';display:block;width:0;height:0;
+  border-style:solid;border-width:14px 0 14px 22px;
+  border-color:transparent transparent transparent #fff;margin-left:5px}
+.lite-yt .label{position:absolute;left:0;right:0;bottom:0;z-index:2;
+  padding:18px 22px;color:#fff;font-family:'Inter',sans-serif;
+  background:linear-gradient(180deg,transparent,rgba(0,0,0,.78));
+  display:flex;justify-content:space-between;align-items:flex-end;
+  gap:14px;flex-wrap:wrap}
+.lite-yt .label .title{font-size:14px;font-weight:600;line-height:1.3;
+  max-width:60ch}
+.lite-yt .label .meta{font-family:'JetBrains Mono',monospace;font-size:10.5px;
+  letter-spacing:1.5px;text-transform:uppercase;color:#ddd;white-space:nowrap}
+
 /* ==================== footer ==================== */
 .foot{margin-top:80px;padding-top:32px;border-top:1px solid var(--line);
   font-family:'JetBrains Mono',monospace;font-size:11px;color:#888;
@@ -846,14 +871,19 @@ docs/pedagogy-charter.md.</code></pre></div>
     <p>Meta DevRel Dilmer Valecillos shipped a complete MR basketball game from scratch in roughly 17 video minutes using Unity AI Assistant + Claude Code (in-editor) + Meta MCP Extensions + HZDB. The whole flow is patterns 01, 02, 03, 05, 06 stacked.</p>
     <figure class="video">
       <div class="frame">
-        <iframe src="https://www.youtube-nocookie.com/embed/bWxIF903t_I"
-          title="How to Build Full VR/MR Games With Unity AI + Meta Agentic Tools — Dilmer Valecillos"
-          loading="lazy"
-          referrerpolicy="strict-origin-when-cross-origin"
-          allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen></iframe>
+        <button class="lite-yt" data-yt="bWxIF903t_I"
+          aria-label="Play: How to Build Full VR/MR Games With Unity AI + Meta Agentic Tools by Dilmer Valecillos">
+          <img src="https://i.ytimg.com/vi/bWxIF903t_I/maxresdefault.jpg"
+            alt="" loading="lazy"
+            onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/bWxIF903t_I/hqdefault.jpg'">
+          <span class="play" aria-hidden="true"></span>
+          <span class="label">
+            <span class="title">How to Build Full VR/MR Games With Unity AI + Meta Agentic Tools</span>
+            <span class="meta">Dilmer Valecillos &middot; 17:01</span>
+          </span>
+        </button>
       </div>
-      <figcaption>&ldquo;How to Build Full VR/MR Games With Unity AI + Meta Agentic Tools&rdquo; &mdash; Dilmer Valecillos (Meta DevRel), 17:01, published 2026-05-03. Watch this once before reading the build-sequence breakdown below; the rhythm of the agentic workflow is hard to capture in prose.</figcaption>
+      <figcaption>&ldquo;How to Build Full VR/MR Games With Unity AI + Meta Agentic Tools&rdquo; &mdash; Dilmer Valecillos (Meta DevRel), 17:01, published 2026-05-03. Click to load the embedded player; nothing is sent to YouTube until you do. Watch this once before reading the build-sequence breakdown below.</figcaption>
     </figure>
     <h4>Build sequence</h4>
     <ol>
@@ -1357,6 +1387,24 @@ allocations.</code></pre></div>
 </div>
 
 <script>
+// ---------- lite YouTube facade — replace thumbnail with iframe on click ----------
+document.addEventListener('click', function(e){
+  var btn = e.target.closest('.lite-yt');
+  if (!btn) return;
+  e.preventDefault();
+  var id = btn.getAttribute('data-yt');
+  if (!id) return;
+  var iframe = document.createElement('iframe');
+  iframe.setAttribute('src',
+    'https://www.youtube-nocookie.com/embed/' + id + '?autoplay=1&rel=0');
+  iframe.setAttribute('title', btn.getAttribute('aria-label') || 'YouTube video');
+  iframe.setAttribute('allow',
+    'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture');
+  iframe.setAttribute('allowfullscreen', '');
+  iframe.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
+  btn.replaceWith(iframe);
+});
+
 // ---------- TOC active highlighting (scroll spy) ----------
 (function(){
   var tocLinks = Array.prototype.slice.call(document.querySelectorAll('nav.toc a'));
