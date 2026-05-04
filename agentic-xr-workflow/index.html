@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Agentic XR Development — Workflow Guide</title>
-<meta name="description" content="A practical pattern catalog for building VR/MR with humans-in-the-loop and large language models. Eleven patterns, agentic failure modes, researcher-specific concerns, IWSDK + Unity case studies, glossary, and starter templates.">
+<meta name="description" content="A practical pattern catalog for building VR/MR with humans-in-the-loop and large language models. Eleven patterns, Blender MCP asset pipeline, agentic failure modes, researcher-specific concerns, four case studies (IWSDK + Unity + Three.js game dev), glossary, and starter templates.">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Agentic XR Development — Workflow Guide">
 <meta property="og:description" content="Eleven patterns for building VR/MR with LLM agents — plan files, custom tools, domain MCPs, screenshot loops, ECS-aware debugging, agent-reviewing-agent — with Unity and IWSDK case studies, failure-mode catalogue, and researcher-specific concerns.">
@@ -327,6 +327,22 @@ figure.video figcaption{max-width:64ch;margin-left:auto;margin-right:auto;
   pre{font-size:12px;padding:14px 16px}
 }
 
+/* ==================== floating 3D hero object ==================== */
+.hero-3d{position:fixed;top:-40px;right:-40px;width:560px;height:560px;
+  pointer-events:none;z-index:0;opacity:0;
+  transition:opacity .4s ease}
+.hero-3d canvas{width:100%;height:100%;display:block}
+:root.theme-vr .hero-3d{opacity:1}
+@media (max-width:980px){
+  .hero-3d{width:340px;height:340px;top:-30px;right:-30px}
+}
+@media (max-width:560px){
+  .hero-3d{display:none}
+}
+@media (prefers-reduced-motion: reduce){
+  .hero-3d{opacity:.4 !important}
+}
+
 /* ==================== theme toggle button ==================== */
 .theme-toggle{position:fixed;top:18px;right:18px;z-index:100;
   font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;
@@ -578,6 +594,7 @@ figure.video figcaption{max-width:64ch;margin-left:auto;margin-right:auto;
 </head>
 <body>
 <div class="grid-bg"></div>
+<div class="hero-3d" aria-hidden="true"><canvas id="hero-3d-canvas"></canvas></div>
 
 <div class="layout">
 
@@ -603,11 +620,13 @@ figure.video figcaption{max-width:64ch;margin-left:auto;margin-right:auto;
       </ul>
     </li>
     <li><a href="#stacks">Tooling spectrum</a></li>
+    <li><a href="#blender">Asset pipeline · Blender MCP</a></li>
     <li><a href="#cases">Case studies</a>
       <ul>
         <li><a href="#case-dilmer">Unity · Basketball MR</a></li>
         <li><a href="#case-vm">IWSDK · Virtual Makerspace</a></li>
         <li><a href="#case-cp">IWSDK · Circuit Playground</a></li>
+        <li><a href="#case-games">Three.js · Browser game dev</a></li>
       </ul>
     </li>
     <li><a href="#pitfalls">Common pitfalls</a></li>
@@ -1132,9 +1151,95 @@ docs/pedagogy-charter.md.</code></pre></div>
 </section>
 
 <!-- ============================================================ -->
+<section id="blender">
+  <h2><span class="num">§ 6</span>Asset pipeline &mdash; Blender MCP</h2>
+  <p>Code is half the agentic XR build; the other half is 3D assets. Once the agent can <em>generate</em> meshes, search asset libraries, and run Blender scripts on your behalf, the bottleneck shifts decisively from authoring to direction. Blender&rsquo;s MCP server is the cleanest way to give an agent that capability today &mdash; it lets Claude Code call <code>execute_blender_code</code>, search Polyhaven and Sketchfab, generate via Meshy or Hunyuan3D, and import the result straight into the scene without leaving the chat.</p>
+
+  <h3>What the Blender MCP exposes</h3>
+  <p>A representative tool surface (this section&rsquo;s code blocks use the same prefix the author&rsquo;s MCP exposes &mdash; yours may differ slightly):</p>
+  <table>
+    <thead><tr><th>Tool</th><th>Purpose</th></tr></thead>
+    <tbody>
+      <tr><td><code>get_scene_info</code></td><td>Read current scene contents — objects, materials, collections, active camera.</td></tr>
+      <tr><td><code>get_object_info</code></td><td>Inspect a single object — transform, geometry, modifiers, custom properties.</td></tr>
+      <tr><td><code>get_viewport_screenshot</code></td><td>Capture the current viewport. Pair with <a href="#p-screenshot-loop">pattern 05</a> to validate visual changes before exporting.</td></tr>
+      <tr><td><code>execute_blender_code</code></td><td>Run a Python snippet inside Blender. The escape hatch when no purpose-built tool fits.</td></tr>
+      <tr><td><code>set_texture</code></td><td>Apply a texture to a material slot. Useful when assets arrive untextured.</td></tr>
+      <tr><td><code>search_polyhaven_assets</code> + <code>download_polyhaven_asset</code> + <code>get_polyhaven_categories</code></td><td>Browse and pull free CC0 assets (HDRI, models, textures) from Polyhaven.</td></tr>
+      <tr><td><code>search_sketchfab_models</code> + <code>get_sketchfab_model_preview</code> + <code>download_sketchfab_model</code></td><td>Sketchfab&rsquo;s catalogue (mixed licenses &mdash; verify each).</td></tr>
+      <tr><td><code>generate_hyper3d_model_via_text</code> / <code>generate_hyper3d_model_via_images</code> + <code>poll_rodin_job_status</code> + <code>import_generated_asset</code></td><td>Meshy (Hyper3D / Rodin) text-to-3D and image-to-3D workflow.</td></tr>
+      <tr><td><code>generate_hunyuan3d_model</code> + <code>get_hunyuan3d_status</code> + <code>poll_hunyuan_job_status</code> + <code>import_generated_asset_hunyuan</code></td><td>Tencent Hunyuan3D pipeline — alternative text-to-3D backend.</td></tr>
+      <tr><td><code>get_polyhaven_status</code> / <code>get_sketchfab_status</code> / <code>get_hyper3d_status</code></td><td>Health probes for the upstream services.</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Install workflow (10 minutes)</h3>
+  <ol>
+    <li><strong>Blender 4.x</strong> &mdash; download from <a href="https://www.blender.org/download/">blender.org</a>. The MCP server runs as a Blender add-on, so you need a working install before anything else.</li>
+    <li><strong>Get the Blender MCP add-on.</strong> The most active community implementation as of 2026-05 is <a href="https://github.com/ahujasid/blender-mcp">ahujasid/blender-mcp</a>. Clone it and follow its README — typically: copy the add-on folder into Blender&rsquo;s <code>scripts/addons/</code> directory, enable in <em>Edit &rarr; Preferences &rarr; Add-ons</em>, then start the MCP server from the add-on&rsquo;s panel.
+      <div class="code-block"><pre><code># macOS / Linux example — adapt for your OS
+git clone https://github.com/ahujasid/blender-mcp ~/blender-mcp
+ln -s ~/blender-mcp/addon ~/Library/Application\ Support/Blender/4.2/scripts/addons/blender_mcp
+# then in Blender: Preferences → Add-ons → search "MCP" → enable → "Start MCP Server"</code></pre></div>
+    </li>
+    <li><strong>Wire the server into Claude Code.</strong> Add an entry to your Claude Code MCP config (typically <code>~/.claude/mcp_servers.json</code> or via <code>claude mcp add</code>). The add-on README has the exact command and stdio/SSE transport choice; follow it verbatim.</li>
+    <li><strong>Restart Claude Code.</strong> The Blender tools should appear in the inventory.</li>
+    <li><strong>API keys</strong> for Meshy / Hunyuan3D / Sketchfab go in the add-on&rsquo;s preferences panel inside Blender, not in Claude Code config &mdash; the agent never sees them.</li>
+    <li><strong>Smoke test</strong> (<a href="#p-tool-check">pattern 02</a>) the new server right away:
+      <div class="code-block"><pre><code>List the Blender MCP tools you can call.
+Then call get_scene_info.
+Then call get_polyhaven_status.</code></pre></div>
+      Three results, each non-empty &rarr; you&rsquo;re live.
+    </li>
+  </ol>
+  <div class="callout pitfall">
+    <div class="callout-label">pitfall · headless vs interactive</div>
+    <p>The Blender MCP server only runs while a Blender process is open <em>and</em> the add-on panel&rsquo;s &ldquo;Start MCP Server&rdquo; button has been pressed. It is not a background service. If your tools disappear mid-session, check that the Blender window is still open and the server status reads &ldquo;Running.&rdquo;</p>
+  </div>
+
+  <h3>Standard agentic asset workflow</h3>
+  <p>The recipe below is the one that works most reliably across XR projects. Plug in your stack&rsquo;s import path at the end:</p>
+  <ol>
+    <li><strong>Search first</strong> &mdash; <code>search_polyhaven_assets("breadboard")</code> or <code>search_sketchfab_models("low-poly basketball")</code>. Free CC0 from Polyhaven beats anything you generate; only fall through to text-to-3D if nothing matches.</li>
+    <li><strong>Generate fallback</strong> &mdash; if no good search result, <code>generate_hyper3d_model_via_text</code> with a constrained prompt (&ldquo;Single low-poly object on neutral background, real-world scale, single material slot&rdquo;). Poll the job status; import on success.</li>
+    <li><strong>Inspect in Blender</strong> &mdash; <code>get_viewport_screenshot</code>. Eyeball it. <a href="#p-screenshot-loop">Pattern 05</a> applies inside Blender too.</li>
+    <li><strong>Cleanup pass</strong> &mdash; <code>execute_blender_code</code> with a small Python snippet to: decimate to a target poly count, rotate to your axis convention (Y-up vs Z-up), centre the origin, apply scale. The agent can write this snippet from your project conventions.</li>
+    <li><strong>Texture</strong> &mdash; <code>set_texture</code> with a Polyhaven HDRI for environment, or attach project-specific PBR maps.</li>
+    <li><strong>Export</strong> &mdash; <code>execute_blender_code</code> running <code>bpy.ops.export_scene.gltf(filepath=&quot;public/gltf/asset.glb&quot;)</code>. Glb because IWSDK and Three.js consume it natively.</li>
+    <li><strong>Wire into the scene</strong> &mdash; declare in your <code>AssetManifest</code> (IWSDK) or <code>GLTFLoader</code> (vanilla Three.js); spawn entities as the project conventions dictate (<a href="#p-prefab">pattern 06</a>).</li>
+  </ol>
+
+  <h3>Where Blender MCP fits in the pattern catalog</h3>
+  <ul>
+    <li>It <em>is</em> a domain MCP (<a href="#p-domain-mcp">pattern 03</a>) &mdash; the &ldquo;domain&rdquo; here is 3D content creation rather than platform docs.</li>
+    <li>It pairs with the screenshot loop (<a href="#p-screenshot-loop">pattern 05</a>) via <code>get_viewport_screenshot</code>, so the agent sees the result of every modelling step.</li>
+    <li>It survives the prefab rule (<a href="#p-prefab">pattern 06</a>) only if you set up a project-specific export script that targets the runtime asset folder; otherwise the agent will save to <code>/tmp</code>.</li>
+    <li>It is <em>not</em> a substitute for a 3D artist on production work. For research-grade or commercial deliverables, treat agent-generated meshes as fast scaffolding that an artist will replace before launch.</li>
+  </ul>
+
+  <h3>Common failures (specific to asset pipelines)</h3>
+  <div class="callout pitfall">
+    <div class="callout-label">pitfall · poly-count creep</div>
+    <p>Text-to-3D output regularly returns 80&ndash;200k triangle meshes for objects that need 2&ndash;5k for VR. The agent will not flag this unless asked. Add a step to your workflow that runs <code>get_object_info</code> and refuses to export if the polygon count exceeds a budget (e.g. 8k for a hand-held prop, 20k for a hero asset).</p>
+  </div>
+  <div class="callout pitfall">
+    <div class="callout-label">pitfall · licence noise</div>
+    <p>Polyhaven is uniformly CC0 &mdash; no compliance work. Sketchfab is a mix of CC-BY, CC-BY-NC, CC-BY-SA, and full-paid &mdash; the agent will happily download an NC asset for a commercial project unless your prompt restricts the licence filter. Hunyuan3D and Meshy outputs follow their own service terms; check before shipping.</p>
+  </div>
+  <div class="callout pitfall">
+    <div class="callout-label">pitfall · UV / topology debt</div>
+    <p>Generated meshes ship with bad UVs and ngons. They will texture-bake oddly and animate badly. For one-off props this is fine; for anything the camera looks at for &gt; 5 seconds, plan a Blender retopo step (manual or via the <code>QuadRemesher</code> add-on) before considering the asset done.</p>
+  </div>
+  <div class="callout pitfall">
+    <div class="callout-label">pitfall · credits drift</div>
+    <p>Meshy, Hunyuan3D, and similar text-to-3D services are credit-metered. An agentic loop that re-generates on every iteration burns credits silently. Cache successful results by prompt hash and refuse regenerations of the same prompt &mdash; either via a wrapping skill or a manual policy.</p>
+  </div>
+</section>
+
+<!-- ============================================================ -->
 <section id="cases">
-  <h2><span class="num">§ 6</span>Case studies</h2>
-  <p>Three end-to-end workflows showing the patterns combined. Pick the one closest to your project shape.</p>
+  <h2><span class="num">§ 7</span>Case studies</h2>
+  <p>Four end-to-end workflows showing the patterns combined. Pick the one closest to your project shape.</p>
 
   <article class="case" id="case-dilmer">
     <div class="case-head">
@@ -1381,11 +1486,79 @@ allocations.</code></pre></div>
       <strong>Takeaway:</strong> two projects on the same SDK can require radically different agent guardrails. The conventions belong in the repo, not in the user&rsquo;s memory — both for cross-team consistency and for surviving context compaction.
     </div>
   </article>
+
+  <article class="case" id="case-games">
+    <div class="case-head">
+      <h3>Three.js &middot; Browser game development across four projects</h3>
+      <span class="meta">prototype &rarr; release-candidate &middot; 2026</span>
+    </div>
+    <p>The patterns transfer beyond research apparatus. The author has been running the same agentic loop across a small portfolio of Three.js browser games &mdash; each at a different stage of polish, each leaning on a different subset of patterns. They are useful as a sanity check: <em>do these workflows survive when the artifact is meant to be played, not measured?</em></p>
+
+    <h4>Four projects on the same loop</h4>
+    <table>
+      <thead><tr><th>Project</th><th>Genre / mechanic</th><th>Stage</th><th>Patterns leaned on</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><a href="#"><strong>AI Ethics Voyage</strong></a></td>
+          <td>Age-of-Sail browser game; harbor exploration + branching council decisions; AI-ethics tradeoffs framed in nautical metaphors</td>
+          <td>active prototype</td>
+          <td>01 plan&middot;05 screenshot&middot;06 prefab&middot;08 telemetry (ECD-aligned)</td>
+        </tr>
+        <tr>
+          <td><strong>Cyber_Grid</strong></td>
+          <td>3D isometric cybersecurity puzzle; packet trace, port awareness, quarantine, root-access synthesis</td>
+          <td>release candidate (10 levels, 28 Playwright checks)</td>
+          <td>05 screenshot&middot;06 prefab&middot;09 sub-skills&middot;11 reviewer&middot;asset MCP</td>
+        </tr>
+        <tr>
+          <td><strong>Shadow Packet Mysteries</strong></td>
+          <td>Cybersecurity-education RPG; Phishing Inn vertical slice; evidence tokens, smooth movement, tutorial trail</td>
+          <td>vertical slice + accessibility loop</td>
+          <td>01 plan&middot;05 screenshot&middot;08 telemetry</td>
+        </tr>
+        <tr>
+          <td><strong>Cyber_Cadet_Academy</strong></td>
+          <td>Commercial-polish cyber game; campaign arc, progression systems, mission terminal, character portraits</td>
+          <td>commercial-polish pass complete</td>
+          <td>01 plan&middot;05 screenshot&middot;06 prefab&middot;asset MCP&middot;11 reviewer</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h4>Common stack</h4>
+    <ul>
+      <li><strong>Engine</strong>: Three.js (3D scene, lighting, shadows; ACES tone mapping in the polished projects).</li>
+      <li><strong>Build</strong>: Vite + TypeScript across the board.</li>
+      <li><strong>UI</strong>: vanilla TS DOM HUDs (no React for any of these &mdash; keeps the bundle thin).</li>
+      <li><strong>Audio</strong>: WebAudio synthesised SFX; layered cues for click / rotate / run / blocked / success.</li>
+      <li><strong>Tests</strong>: Playwright e2e + a logic-solvability check. Cyber_Grid has 28 checks covering mission-handler portrait fit, briefing flow, Tutorial Uplink HUD, reachable-neighbour preview, WebGL non-blank canvas, generated-asset presence, desktop / mobile screenshots, hover/select/undo, sound toggle, adaptive hints, camera controls, drag pan, and rotation-budget solvability per mission.</li>
+      <li><strong>Assets</strong>: imagegen2 for HUD / icons / portraits; Meshy / Hunyuan3D via the Blender MCP (<a href="#blender">§ 6</a>) when 3D meshes are needed beyond procedural primitives.</li>
+    </ul>
+
+    <h4>What changed when agents joined the loop</h4>
+    <p>Three concrete shifts the author noticed across these four projects:</p>
+    <ol>
+      <li><strong>Visual iteration cycle dropped from days to minutes.</strong> Cyber_Grid&rsquo;s 2026-05-02 commercial-polish pass &mdash; cockpit overlay, mission terminal sidebar, command icon buttons, animated rotor rings, character portrait atlas &mdash; was a single afternoon. The same scope without an agent would have been a fortnight of imagegen prompting, Photoshop, and CSS. Most of the win came from <a href="#p-screenshot-loop">pattern 05</a> letting the agent see what the player would see.</li>
+      <li><strong>Test count became a habit, not a chore.</strong> 28 Playwright checks in Cyber_Grid weren&rsquo;t written ahead of time; they accreted as <a href="#p-agent-review">reviewer-agent</a> findings turned into regression guards. The reviewer cared about portrait clipping and HUD readability long before the human did, because the human was busy designing levels.</li>
+      <li><strong>Tutorial / narrative flows became cheap to add.</strong> Shadow Packet Mysteries&rsquo; tutorial trail and Cyber_Grid&rsquo;s Tutorial Uplink HUD are both downstream of one prompt: <em>&ldquo;before play, surface the goal in 3 beats.&rdquo;</em> A pre-agent version of either project would have skipped tutorialising entirely (cost too high vs. perceived benefit). Agents flipped the calculation.</li>
+    </ol>
+
+    <h4>Where the patterns showed cracks</h4>
+    <ul>
+      <li><strong>Telemetry-first</strong> (<a href="#p-telemetry">pattern 08</a>) feels heavyweight when the project is an entertainment game, not a study apparatus. AI Ethics Voyage kept ECD-aligned telemetry from day one because it is a research game; the cyber-game suite has lighter event capture (just enough for QA replay), and that has been fine.</li>
+      <li><strong>Screenshot loop</strong> hits a ceiling for game-feel tuning. Knowing whether a 3-second mission-success animation feels punchy is something the human has to play through; the agent can verify <em>that it plays</em>, not <em>that it lands</em>.</li>
+      <li><strong>Reviewer agent</strong> (<a href="#p-agent-review">pattern 11</a>) sometimes tries to flatten difficulty (a learned-helpfulness drift). For a puzzle game that depends on a frustration curve, the reviewer&rsquo;s suggestions need to be filtered against the design pillar: <em>&ldquo;does this preserve the productive struggle, or substitute for it?&rdquo;</em> &mdash; the same line that anchors Virtual Makerspace&rsquo;s pedagogy charter.</li>
+    </ul>
+
+    <div class="takeaway">
+      <strong>Takeaway:</strong> the agentic XR pattern set transfers cleanly to browser game dev. The patterns that need translation are the <em>research-grade</em> ones (telemetry, pedagogy charter): for entertainment games, replace them with the <em>design-grade</em> equivalents (analytics-just-enough, design-pillar document) and the rest of the loop is unchanged. The 3D-asset pipeline (<a href="#blender">§ 6 Blender MCP</a>) earns its place fastest in this category &mdash; games eat assets at a rate research apparatus do not.
+    </div>
+  </article>
 </section>
 
 <!-- ============================================================ -->
 <section id="pitfalls">
-  <h2><span class="num">§ 7</span>Common pitfalls</h2>
+  <h2><span class="num">§ 8</span>Common pitfalls</h2>
   <p>Things that consistently break agentic XR sessions, grouped by stack.</p>
 
   <h3>Cross-stack</h3>
@@ -1441,7 +1614,7 @@ allocations.</code></pre></div>
 
 <!-- ============================================================ -->
 <section id="failure-modes">
-  <h2><span class="num">§ 8</span>Agentic failure modes</h2>
+  <h2><span class="num">§ 9</span>Agentic failure modes</h2>
   <p>The pitfalls in §&nbsp;7 are stack-specific. The failures below are intrinsic to the agent itself &mdash; the same patterns of error appear regardless of whether you&rsquo;re on Unity, IWSDK, or anything else. Naming them is half the defence.</p>
   <div class="callout pitfall">
     <div class="callout-label">failure · hallucinated APIs that compile</div>
@@ -1471,7 +1644,7 @@ allocations.</code></pre></div>
 
 <!-- ============================================================ -->
 <section id="researcher">
-  <h2><span class="num">§ 9</span>Researcher-specific concerns</h2>
+  <h2><span class="num">§ 10</span>Researcher-specific concerns</h2>
   <p>Three concerns that don&rsquo;t apply to consumer dev but are load-bearing for anyone building a research apparatus, study stimulus, or instructional material with agents in the loop.</p>
 
   <h3>Reproducibility</h3>
@@ -1500,7 +1673,7 @@ allocations.</code></pre></div>
 
 <!-- ============================================================ -->
 <section id="faq" class="faq">
-  <h2><span class="num">§ 10</span>FAQ</h2>
+  <h2><span class="num">§ 11</span>FAQ</h2>
 
   <details>
     <summary>Do I need Unity to follow this guide?</summary>
@@ -1566,7 +1739,7 @@ allocations.</code></pre></div>
 
 <!-- ============================================================ -->
 <section id="downloads">
-  <h2><span class="num">§ 11</span>Downloads</h2>
+  <h2><span class="num">§ 12</span>Downloads</h2>
   <p>Public-safe templates and starter scripts you can drop into a new project. Nothing here contains client secrets, participant data, or non-public IP.</p>
   <div class="downloads">
     <a class="dl" href="downloads/plan-file-template.md">
@@ -1598,7 +1771,7 @@ allocations.</code></pre></div>
 
 <!-- ============================================================ -->
 <section id="refs">
-  <h2><span class="num">§ 12</span>References</h2>
+  <h2><span class="num">§ 13</span>References</h2>
   <h3>Official sources</h3>
   <ul>
     <li>IWSDK repo &mdash; <a href="https://github.com/facebook/immersive-web-sdk">github.com/facebook/immersive-web-sdk</a> &mdash; <em>&ldquo;WebXR made simple. Full-featured framework with interactions, locomotion, and spatial UI. Powered by Three.js.&rdquo;</em></li>
@@ -1732,7 +1905,7 @@ allocations.</code></pre></div>
 
 <!-- ============================================================ -->
 <section id="glossary">
-  <h2><span class="num">§ 13</span>Glossary</h2>
+  <h2><span class="num">§ 14</span>Glossary</h2>
   <p>Acronyms and shorthand used throughout this guide.</p>
   <table>
     <thead><tr><th>Term</th><th>Stands for / means</th><th>Where it appears</th></tr></thead>
@@ -1755,6 +1928,11 @@ allocations.</code></pre></div>
       <tr><td><code id="g-ecd">ECD</code></td><td>Evidence-Centered Design (Mislevy) &mdash; assessment-design framework that maps construct claims to evidence to tasks. Companion to stealth assessment; see the <a href="../stealth-assessment/">Stealth Assessment guide</a>.</td><td>researcher concerns</td></tr>
       <tr><td><code id="g-rag">RAG</code></td><td>Retrieval-Augmented Generation &mdash; pattern of pre-indexing documents and giving the agent a search tool over them. Used in IWSDK-RAG and HZDB.</td><td>pattern 03</td></tr>
       <tr><td><code id="g-worktree">Worktree</code></td><td><code>git worktree</code> &mdash; multiple working trees off the same repo. Used for parallel-exploration agentic patterns where multiple branches build simultaneously.</td><td>pattern 11</td></tr>
+      <tr><td><code id="g-blender-mcp">Blender MCP</code></td><td>Model Context Protocol server that runs as a Blender add-on. Exposes <code>execute_blender_code</code>, scene introspection, asset-library search (Polyhaven / Sketchfab), text-to-3D generation (Meshy / Hunyuan3D), and viewport screenshots so an agent can drive Blender from the chat window.</td><td>§ 6, case games</td></tr>
+      <tr><td><code id="g-polyhaven">Polyhaven</code></td><td>Free CC0 asset library &mdash; HDRIs, textures, 3D models. Uniformly public-domain licensed; no attribution needed. The cleanest first stop in any agentic asset workflow.</td><td>§ 6</td></tr>
+      <tr><td><code id="g-sketchfab">Sketchfab</code></td><td>Massive 3D model marketplace and community. Mixed licences (CC-BY, CC-BY-NC, CC-BY-SA, paid). Verify each asset before commercial use.</td><td>§ 6</td></tr>
+      <tr><td><code id="g-meshy">Meshy / Hyper3D / Rodin</code></td><td>Text-to-3D and image-to-3D generation services. Credit-metered. Useful for fast scaffolding when no library asset matches; usually needs cleanup before VR-grade use.</td><td>§ 6, case games</td></tr>
+      <tr><td><code id="g-hunyuan3d">Hunyuan3D</code></td><td>Tencent&rsquo;s text-to-3D model generation service. Alternative backend to Meshy via the Blender MCP&rsquo;s <code>generate_hunyuan3d_model</code> tools.</td><td>§ 6</td></tr>
     </tbody>
   </table>
 </section>
@@ -1767,6 +1945,102 @@ allocations.</code></pre></div>
 
 </main>
 </div>
+
+<script type="module">
+// ---------- floating 3D hero object (VR theme only) ----------
+// Idle wireframe icosahedron + soft inner orb. Slow auto-rotation,
+// gentle mouse parallax, scroll-tied position drift. No-op on small
+// screens (CSS hides), pauses when tab hidden, respects reduced-motion.
+(async function(){
+  if (!window.matchMedia('(min-width:561px)').matches) return;
+  let THREE;
+  try {
+    THREE = await import('https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.min.js');
+  } catch (e) { return; /* CDN blocked → degrade gracefully */ }
+
+  const canvas = document.getElementById('hero-3d-canvas');
+  if (!canvas) return;
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
+  camera.position.z = 4.2;
+
+  const renderer = new THREE.WebGLRenderer({
+    canvas, alpha: true, antialias: true, powerPreference: 'low-power'
+  });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+  function resize(){
+    const r = canvas.parentElement.getBoundingClientRect();
+    renderer.setSize(r.width, r.height, false);
+    camera.aspect = r.width / r.height;
+    camera.updateProjectionMatrix();
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  const group = new THREE.Group();
+  scene.add(group);
+
+  // Outer wireframe shell — cyan, subdivided icosahedron
+  const baseGeo = new THREE.IcosahedronGeometry(1.45, 1);
+  const wire = new THREE.LineSegments(
+    new THREE.WireframeGeometry(baseGeo),
+    new THREE.LineBasicMaterial({ color: 0x4cc9f0, transparent: true, opacity: 0.55 })
+  );
+  group.add(wire);
+
+  // Glass fill behind wireframe
+  const fill = new THREE.Mesh(
+    baseGeo,
+    new THREE.MeshBasicMaterial({
+      color: 0x0d1a30, transparent: true, opacity: 0.35,
+      polygonOffset: true, polygonOffsetFactor: 1, polygonOffsetUnits: 1
+    })
+  );
+  group.add(fill);
+
+  // Violet inner orb for visual depth
+  const orb = new THREE.Mesh(
+    new THREE.SphereGeometry(0.46, 32, 20),
+    new THREE.MeshBasicMaterial({ color: 0xb14aff, transparent: true, opacity: 0.78 })
+  );
+  group.add(orb);
+
+  // Soft halo using a slightly bigger faded sphere
+  const halo = new THREE.Mesh(
+    new THREE.SphereGeometry(0.62, 32, 20),
+    new THREE.MeshBasicMaterial({ color: 0xb14aff, transparent: true, opacity: 0.10 })
+  );
+  group.add(halo);
+
+  // Mouse parallax
+  let mx = 0, my = 0;
+  window.addEventListener('mousemove', (e) => {
+    mx = (e.clientX / window.innerWidth - 0.5) * 0.5;
+    my = (e.clientY / window.innerHeight - 0.5) * 0.3;
+  }, { passive: true });
+
+  let sy = 0;
+  window.addEventListener('scroll', () => { sy = window.scrollY; }, { passive: true });
+
+  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const start = performance.now();
+  function tick(){
+    if (document.hidden){ requestAnimationFrame(tick); return; }
+    const t = (performance.now() - start) / 1000;
+    if (!reduceMotion){
+      group.rotation.y = t * 0.18 + mx * 0.4;
+      group.rotation.x = Math.sin(t * 0.13) * 0.20 + my * 0.30;
+      group.position.y = Math.sin(t * 0.40) * 0.08 - Math.min(sy, 800) * 0.0010;
+      orb.rotation.y = -t * 0.25;
+    }
+    renderer.render(scene, camera);
+    requestAnimationFrame(tick);
+  }
+  tick();
+})();
+</script>
 
 <script>
 // ---------- theme toggle ----------
