@@ -33,7 +33,10 @@ with sync_playwright() as p:
     page = ctx.new_page()
     page.goto(URL)
     page.wait_for_load_state("networkidle")
-    page.screenshot(path=str(OUT / "page_full_1280.png"), full_page=True)
+    try:
+        page.screenshot(path=str(OUT / "page_full_1280.png"), full_page=True)
+    except Exception as e:
+        print(f"  page_full_1280.png       FAILED: {e}")
     ctx.close()
 
     # ---------- pattern catalog section excerpt ----------
@@ -43,6 +46,33 @@ with sync_playwright() as p:
     page.goto(URL + "#patterns")
     page.wait_for_load_state("networkidle")
     page.screenshot(path=str(OUT / "patterns_section_1280.png"))
+    ctx.close()
+
+    # ---------- adjacent-work section excerpt ----------
+    ctx = browser.new_context(viewport={"width": 1280, "height": 900},
+                              device_scale_factor=2)
+    page = ctx.new_page()
+    page.goto(URL + "#adjacent")
+    page.wait_for_load_state("networkidle")
+    try:
+        page.locator("#adjacent").scroll_into_view_if_needed()
+        page.locator("#adjacent").screenshot(
+            path=str(OUT / "adjacent-work-1280.png"))
+    except Exception as e:
+        print(f"  adjacent-work-1280.png  FAILED: {e}")
+    ctx.close()
+
+    ctx = browser.new_context(viewport={"width": 420, "height": 800},
+                              device_scale_factor=2)
+    page = ctx.new_page()
+    page.goto(URL + "#adjacent")
+    page.wait_for_load_state("networkidle")
+    try:
+        page.locator("#adjacent").scroll_into_view_if_needed()
+        page.locator("#adjacent").screenshot(
+            path=str(OUT / "adjacent-work-mobile.png"))
+    except Exception as e:
+        print(f"  adjacent-work-mobile.png FAILED: {e}")
     ctx.close()
 
     # ---------- mobile rendering ----------
