@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Agentic XR Development — Workflow Guide</title>
-<meta name="description" content="A practical pattern catalog for building VR/MR with humans-in-the-loop and large language models. Eleven patterns, Blender MCP asset pipeline, agentic failure modes, researcher-specific concerns, four case studies (IWSDK + Unity + Three.js game dev), glossary, and starter templates.">
+<meta name="description" content="A practical pattern catalog for building VR/MR with humans-in-the-loop and large language models. Eleven patterns, Blender MCP asset pipeline, agentic failure modes, researcher-specific concerns, five case studies (IWSDK + Unity + Three.js game dev + GPT-5.5 community wave), glossary, and starter templates.">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Agentic XR Development — Workflow Guide">
 <meta property="og:description" content="Eleven patterns for building VR/MR with LLM agents — plan files, custom tools, domain MCPs, screenshot loops, ECS-aware debugging, agent-reviewing-agent — with Unity and IWSDK case studies, failure-mode catalogue, and researcher-specific concerns.">
@@ -682,10 +682,12 @@ figure.video figcaption{max-width:64ch;margin-left:auto;margin-right:auto;
   <table>
     <thead><tr><th>If you are…</th><th>Start at</th><th>Why</th></tr></thead>
     <tbody>
-      <tr><td>New to agentic dev, picking a stack</td><td><a href="#stacks">§ 4 — Tooling spectrum</a></td><td>Decide which stack matches your deployment first; pattern details follow</td></tr>
-      <tr><td>Already on Unity, want to add LLM agents</td><td><a href="#case-dilmer">§ 5a — Basketball MR case</a></td><td>Ground patterns in a complete Unity workflow before generalizing</td></tr>
-      <tr><td>Already on WebXR / IWSDK</td><td><a href="#case-vm">§ 5b — Virtual Makerspace case</a></td><td>See the full IWSDK research-grade workflow before extracting patterns</td></tr>
-      <tr><td>Auditing your own workflow</td><td><a href="#patterns">§ 3 — Pattern catalog</a></td><td>Tick patterns you already use; flag ones you don&rsquo;t</td></tr>
+      <tr><td>New to agentic dev, picking a stack</td><td><a href="#stacks">§ 5 &mdash; Tooling spectrum</a></td><td>Decide which stack matches your deployment first; pattern details follow</td></tr>
+      <tr><td>Already on Unity, want to add LLM agents</td><td><a href="#case-dilmer">§ 7a &mdash; Basketball MR case</a></td><td>Ground patterns in a complete Unity workflow before generalizing</td></tr>
+      <tr><td>Already on WebXR / IWSDK</td><td><a href="#case-vm">§ 7b &mdash; Virtual Makerspace case</a></td><td>See the full IWSDK research-grade workflow before extracting patterns</td></tr>
+      <tr><td>Looking for asset / 3D-model workflows</td><td><a href="#blender">§ 6 &mdash; Blender MCP</a></td><td>Install the Blender MCP server and run the standard agentic asset pipeline end-to-end</td></tr>
+      <tr><td>Curious about the GPT-5.5 / vibe-coding wave</td><td><a href="#case-community">§ 7e &mdash; Community case</a></td><td>Verified prompts, screenshots, and links to the viral X examples</td></tr>
+      <tr><td>Auditing your own workflow</td><td><a href="#patterns">§ 4 &mdash; Pattern catalog</a></td><td>Tick patterns you already use; flag ones you don&rsquo;t</td></tr>
     </tbody>
   </table>
   <p>Each pattern card shows the <strong>rule</strong>, why it matters, and how it shows up in two stacks (Unity-side and IWSDK-side) — plus a &ldquo;when not to apply&rdquo; line so you don&rsquo;t over-engineer.</p>
