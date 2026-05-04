@@ -61,9 +61,26 @@ body{
 }
 .toc-k{font-size:11px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:var(--forest);margin-bottom:10px}
 .toc h2{margin:0 0 10px;font-size:20px;line-height:1.2;font-weight:900}
+.toc .toc-group{
+  margin-top:16px;
+  padding-top:14px;
+  border-top:1px solid var(--line);
+}
+.toc .toc-group:first-of-type{
+  margin-top:0;
+  padding-top:0;
+  border-top:0;
+}
+.toc .toc-group-title{
+  margin:0 0 8px;
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:2.2px;
+  text-transform:uppercase;
+  color:var(--ink3);
+}
 .toc ol{margin:0;padding:0;list-style:none;counter-reset:item}
-.toc li{counter-increment:item;border-top:1px solid var(--line)}
-.toc li:first-child{border-top:0}
+.toc li{counter-increment:item}
 .toc a{
   display:flex;gap:10px;align-items:baseline;padding:10px 10px;text-decoration:none;color:var(--ink);
   border-radius:10px;font-size:13.5px;font-weight:550;line-height:1.35;transition:.15s ease;
@@ -84,6 +101,14 @@ body{
 .h1 .serif{font-family:'Fraunces',serif;font-weight:550;color:var(--forest)}
 .lede{margin:0 0 26px;max-width:840px;font-size:21px;font-weight:320;line-height:1.58;color:var(--ink2)}
 .hero-meta{display:flex;gap:12px;flex-wrap:wrap}
+.byline{
+  margin:0 0 18px;
+  font-size:13px;
+  font-weight:700;
+  letter-spacing:1.3px;
+  text-transform:uppercase;
+  color:var(--ink3);
+}
 .chip{
   border:1.5px solid var(--ink);border-radius:999px;padding:7px 12px;font-size:11px;
   font-weight:800;letter-spacing:1.8px;text-transform:uppercase;background:rgba(255,255,255,.6)
@@ -239,39 +264,62 @@ a.inline{color:var(--forest);text-decoration:none;border-bottom:1px solid curren
   <nav class="toc">
     <div class="toc-k">Guidebook · draft</div>
     <h2>Stealth Assessment</h2>
-    <ol>
-      <li><a href="#why">Why This Guide Exists</a></li>
-      <li><a href="#start">Start Here</a></li>
-      <li><a href="#core">The Core Idea</a></li>
-      <li><a href="#design">Backward Design · ECD · Stealth</a></li>
-      <li><a href="#engineering">Learning Engineering</a></li>
-      <li><a href="#pipeline">Telemetry to Evidence</a></li>
-      <li><a href="#system">System Pipeline</a></li>
-      <li><a href="#fusion">Data Integration</a></li>
-      <li><a href="#multimodal-ecd">Multimodal ECD</a></li>
-      <li><a href="#models">Model Families</a></li>
-      <li><a href="#immersive">Immersive and Spatial Data</a></li>
-      <li><a href="#tools">Packages and Tutorials</a></li>
-      <li><a href="#gpt55">GPT-5.5 Integration</a></li>
-      <li><a href="#bn">Bayesian Networks for Stealth Assessment</a></li>
-      <li><a href="#irt">IRT for Stealth Assessment</a></li>
-      <li><a href="#cdm">CDM for Stealth Assessment</a></li>
-      <li><a href="#sim1">Simulation 1</a></li>
-      <li><a href="#sim2">Simulation 2</a></li>
-      <li><a href="#validity">Validity and Fairness</a></li>
-      <li><a href="#challenges">Challenges</a></li>
-      <li><a href="#research">Current Research</a></li>
-      <li><a href="#workflow">Practical Workflow</a></li>
-      <li><a href="#downloads">Downloads</a></li>
-      <li><a href="#faq">FAQ</a></li>
-      <li><a href="#refs">References</a></li>
-    </ol>
+    <div class="toc-group">
+      <div class="toc-group-title">Orientation</div>
+      <ol>
+        <li><a href="#why">Why This Guide Exists</a></li>
+        <li><a href="#core">The Core Idea</a></li>
+        <li><a href="#design">Backward Design &middot; ECD &middot; Stealth</a></li>
+        <li><a href="#engineering">Learning Engineering</a></li>
+      </ol>
+    </div>
+    <div class="toc-group">
+      <div class="toc-group-title">Data and Evidence</div>
+      <ol>
+        <li><a href="#pipeline">Telemetry to Evidence</a></li>
+        <li><a href="#system">System Pipeline</a></li>
+        <li><a href="#fusion">Data Integration</a></li>
+        <li><a href="#multimodal-ecd">Multimodal ECD</a></li>
+        <li><a href="#immersive">Immersive and Spatial Data</a></li>
+      </ol>
+    </div>
+    <div class="toc-group">
+      <div class="toc-group-title">Model Choices</div>
+      <ol>
+        <li><a href="#models">Model Families</a></li>
+        <li><a href="#bn">Bayesian Networks for Stealth Assessment</a></li>
+        <li><a href="#irt">IRT for Stealth Assessment</a></li>
+        <li><a href="#cdm">CDM for Stealth Assessment</a></li>
+      </ol>
+    </div>
+    <div class="toc-group">
+      <div class="toc-group-title">Build and Try</div>
+      <ol>
+        <li><a href="#sim1">Simulation 1</a></li>
+        <li><a href="#sim2">Simulation 2</a></li>
+        <li><a href="#tools">Packages and Tutorials</a></li>
+        <li><a href="#gpt55">GPT-5.5 Integration</a></li>
+        <li><a href="#workflow">Practical Workflow</a></li>
+        <li><a href="#downloads">Downloads</a></li>
+      </ol>
+    </div>
+    <div class="toc-group">
+      <div class="toc-group-title">Review and Limits</div>
+      <ol>
+        <li><a href="#validity">Validity and Fairness</a></li>
+        <li><a href="#challenges">Challenges</a></li>
+        <li><a href="#research">Current Research</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="#refs">References</a></li>
+      </ol>
+    </div>
   </nav>
 
   <main>
     <section class="hero">
       <div class="kicker">Educational game analytics · onboarding guide</div>
       <h1 class="h1">Stealth assessment for <span class="serif">educational games</span></h1>
+      <p class="byline">Guide author: <strong>Jewoong Moon</strong> (The University of Alabama, <a class="inline" href="mailto:jmoon19@ua.edu">jmoon19@ua.edu</a>)</p>
       <p class="lede">A practical bridge from <strong>backward design</strong> to <strong>evidence-centered design</strong>, then onward to <strong>embedded gameplay evidence</strong>, <strong>adaptive support</strong>, and <strong>learning-engineering iteration</strong>. The point is not just to score learners quietly. The point is to make gameplay evidence interpretable enough to support learning, feedback, and redesign.</p>
       <div class="hero-meta">
         <span class="chip accent">Beginner-friendly</span>
