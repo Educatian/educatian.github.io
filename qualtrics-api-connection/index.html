@@ -155,6 +155,24 @@
     padding: 12px 16px; border-radius: 4px; margin: 18px 0; font-size: 14px;
   }
   .callout b { color: var(--crimson); }
+  .callout.security {
+    background: #fff8e6; border-left-color: #b8860b;
+    border: 1px solid #f0d97a; border-left-width: 4px;
+  }
+  .callout.security b { color: #7a5a05; }
+  .callout.security .sec-h {
+    display: block; font-size: 11px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: #7a5a05; font-weight: 800;
+    margin-bottom: 6px;
+  }
+  .callout.security .paste {
+    margin-top: 10px; padding: 10px 12px; background: #fffdf5;
+    border: 1px dashed #d8b25a; border-radius: 4px;
+    font-family: 'SF Mono', Menlo, Consolas, monospace; font-size: 12.5px;
+    line-height: 1.55; color: #2c2a29; white-space: pre-wrap;
+  }
+  .callout.security ul { margin: 6px 0 0; padding-left: 20px; }
+  .callout.security li { margin: 3px 0; }
 
   /* TABLES */
   table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 14px; }
@@ -236,6 +254,26 @@
   response stack (right) is what you analyze. Steps 02&ndash;08 repeat for
   every new survey or cohort.</figcaption>
 </figure>
+
+<!-- ============== SECURITY NOTE ============== -->
+<div class="callout security">
+  <span class="sec-h">Note &middot; Read before Step 01</span>
+  <p style="margin:0 0 8px;"><b>This workflow is appropriate when</b> all of the following hold:</p>
+  <ul>
+    <li>You (or a research team you belong to) have <b>legitimate access</b> to the Qualtrics account in question.</li>
+    <li>You are using the API token to <b>build surveys, download responses, organize metadata, or write automation scripts</b> &mdash; not to circumvent access controls.</li>
+    <li>Claude Code is being used to <b>write code or run API-call scripts locally</b> on your own machine.</li>
+    <li>Any response data is <b>anonymized / de-identified</b> and handled within the scope of your <b>IRB approval</b> (or equivalent ethics oversight).</li>
+  </ul>
+  <p style="margin:14px 0 6px;"><b>Hard rules (paste these to Claude Code at the start of every session):</b></p>
+  <div class="paste">You are helping me automate Qualtrics work. Follow these rules strictly:
+
+1. NEVER print, echo, log, or display the Qualtrics API token in chat, terminal output, comments, or commit messages. Refer to it only as $QUALTRICS_API_TOKEN.
+2. NEVER hardcode the token (or datacenter ID) into source files. Read it from a local .env file or an environment variable.
+3. Add .env (and any token files) to .gitignore before writing any code that reads them. If .gitignore is missing or doesn't list .env, fix that first.
+4. Do NOT send raw response data, participant text, or any PII back to me in this chat. Process responses locally and only summarize aggregate, de-identified results.
+5. If you need example data to develop or debug, generate de-identified synthetic samples &mdash; do not use real participant rows.</div>
+</div>
 
 <!-- ============================================================ -->
 <!-- ============   PART 1 — EIGHT PROMPTS                ======== -->
