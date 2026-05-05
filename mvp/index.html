@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Educatian — MVPs</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,800;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
+:root{
+  --bg:#F0EAE0;
+  --paper:#fffdf8;
+  --ink:#1a1a1a;
+  --soft:#5c544d;
+  --rust:#B5392A;
+  --maroon:#6e0f2a;
+  --line:#cec8be;
+  --shadow:0 20px 60px rgba(23,20,17,.10);
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);
+  font-family:'Inter',sans-serif;line-height:1.6}
+a{color:inherit}
+.grid-bg{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.30;
+  background-image:linear-gradient(rgba(26,26,26,.06) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(26,26,26,.06) 1px,transparent 1px);
+  background-size:48px 48px;
+  mask-image:radial-gradient(ellipse at 30% 20%,black 30%,transparent 80%)}
+.shell{position:relative;z-index:1;max-width:1080px;margin:0 auto;padding:96px 32px}
+.kicker{font-size:13px;font-weight:800;letter-spacing:4px;text-transform:uppercase;
+  color:var(--rust);margin-bottom:18px}
+.h1{font-size:clamp(48px,7vw,72px);font-weight:900;line-height:1.05;
+  letter-spacing:-.025em;margin:0 0 22px}
+.h1 .serif{font-family:'Playfair Display',Georgia,serif;font-style:italic;font-weight:400}
+.lede{font-size:19px;line-height:1.55;color:#444;font-weight:300;
+  max-width:640px;margin:0 0 56px}
+
+.legend{display:flex;gap:18px;flex-wrap:wrap;margin-bottom:32px;
+  font:600 11px/1 'JetBrains Mono',monospace;letter-spacing:.16em;
+  text-transform:uppercase;color:#666}
+.legend span{display:inline-flex;align-items:center;gap:8px}
+.legend i{width:10px;height:10px;border-radius:50%;display:inline-block;
+  border:1px solid rgba(0,0,0,.25)}
+.legend i.live{background:#2f7546}
+.legend i.alpha{background:#B5392A}
+.legend i.draft{background:#999}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(380px,1fr));
+  gap:22px;margin-top:8px}
+.mvp{display:flex;flex-direction:column;background:var(--paper);
+  border:2px solid var(--ink);border-radius:14px;overflow:hidden;
+  text-decoration:none;color:var(--ink);
+  transition:transform .18s,box-shadow .18s,border-color .18s}
+.mvp:hover{transform:translateY(-4px);box-shadow:var(--shadow);
+  border-color:var(--rust)}
+.thumb{aspect-ratio:16/9;background:linear-gradient(135deg,#fbf7f0 0%,#eee6d8 100%);
+  border-bottom:2px solid var(--ink);position:relative;display:flex;
+  align-items:flex-end;padding:20px;font:700 12px/1 'JetBrains Mono',monospace;
+  letter-spacing:.16em;text-transform:uppercase;color:#999}
+.thumb.maroon{background:
+  radial-gradient(circle at 70% 35%,rgba(110,15,42,.16),transparent 50%),
+  linear-gradient(135deg,#fbf7f0 0%,#f0d6d6 100%)}
+.body{padding:22px 24px 24px}
+.meta{font:700 10.5px/1 'JetBrains Mono',monospace;letter-spacing:.18em;
+  text-transform:uppercase;color:#888;margin-bottom:8px;display:flex;
+  gap:8px;align-items:center}
+.meta .dot{width:8px;height:8px;border-radius:50%;background:#2f7546;
+  display:inline-block;flex-shrink:0}
+.meta .dot.alpha{background:var(--rust)}
+.meta .dot.draft{background:#999}
+.title{font-size:22px;font-weight:900;margin:0 0 10px;line-height:1.18;
+  letter-spacing:-.01em}
+.title .arrow{color:var(--rust)}
+.desc{font-size:14px;line-height:1.55;color:#444;margin:0}
+.tags{margin-top:14px;display:flex;flex-wrap:wrap;gap:6px}
+.tag{font:600 10.5px/1 'JetBrains Mono',monospace;letter-spacing:.06em;
+  padding:4px 8px;border:1px solid var(--line);border-radius:3px;
+  color:#666;background:rgba(0,0,0,.02)}
+
+.foot{margin-top:80px;padding-top:32px;border-top:1px solid var(--line);
+  font-size:12px;color:#888;letter-spacing:.12em;text-transform:uppercase;
+  display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px}
+.foot a{color:var(--rust);text-decoration:none;font-weight:700}
+
+.empty{padding:60px 32px;text-align:center;color:#888;font-style:italic;
+  border:2px dashed var(--line);border-radius:14px}
+</style>
+<meta property="og:type" content="website">
+<meta property="og:title" content="Educatian — MVPs">
+<meta property="og:description" content="Working prototypes of research instruments and learning tools.">
+<meta property="og:url" content="https://educatian.github.io/mvp/">
+</head>
+<body>
+<div class="grid-bg"></div>
+<div class="shell">
+  <div class="kicker">Educatian · MVPs</div>
+  <h1 class="h1">Working <span class="serif">prototypes</span></h1>
+  <p class="lede">Functional research instruments and learning tools — small enough to read end-to-end, large enough to use. Each MVP is a self-contained app under <code style="font-family:'JetBrains Mono',monospace;font-size:.92em">/mvp/&lt;slug&gt;/</code>.</p>
+
+  <div class="legend">
+    <span><i class="live"></i> Live</span>
+    <span><i class="alpha"></i> Alpha</span>
+    <span><i class="draft"></i> Draft</span>
+  </div>
+
+  <div class="grid">
+
+    <a class="mvp" href="databrief/">
+      <div class="thumb maroon">DATABRIEF · DASHBOARD STUDIO</div>
+      <div class="body">
+        <div class="meta"><span class="dot alpha"></span> Alpha · v0.1 · 2026</div>
+        <h2 class="title">databrief — dashboard authoring for HRD <span class="arrow">→</span></h2>
+        <p class="desc">A Vega-Lite chart studio with bidirectional R (ggplot2) editing, a 3-stakeholder AI critic that scores Equity / Interpretability / Actionability / Reflexivity, an equity-audit ribbon, a 3-second misread simulator, and a Decision Trace that records every authoring micro-action with ECD evidence tags. Built for Yeonji Jung's TAMU EHRD 689 Fall 2026 LA module.</p>
+        <div class="tags">
+          <span class="tag">Next.js 15</span>
+          <span class="tag">Vega-Lite</span>
+          <span class="tag">R / ggplot2</span>
+          <span class="tag">DBR-ready</span>
+          <span class="tag">EHRD 689</span>
+        </div>
+      </div>
+    </a>
+
+  </div>
+
+  <div class="foot">
+    <span>Educatian / MVP shelf</span>
+    <a href="../">← back to all guides</a>
+  </div>
+</div>
+</body>
+</html>
