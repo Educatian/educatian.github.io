@@ -1,0 +1,141 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 750"
+     font-family="Inter, -apple-system, 'Segoe UI', Roboto, sans-serif">
+  <rect width="1200" height="750" fill="#fdf8f5"/>
+
+  <!-- title -->
+  <text x="100" y="60" font-size="13" font-weight="700"
+        letter-spacing="0.16em" fill="#9E1B32" text-transform="uppercase">FIGURE · STEP 06</text>
+  <text x="100" y="92" font-size="22" font-weight="700" fill="#2c2a29">
+    22-item budget — five blocks, every construct ≥ 3 to keep alpha estimable
+  </text>
+
+  <!-- definitions -->
+  <defs>
+    <g id="card-shape">
+      <rect x="0" y="0" width="200" height="430" rx="6" fill="#fefcfa" stroke="#ebe5e0" stroke-width="1"/>
+      <rect x="0" y="0" width="4" height="430" fill="#9E1B32"/>
+    </g>
+  </defs>
+
+  <!-- 5 cards, x = 100 + i * 200 + i * 18 -->
+  <!-- gap = 18 -->
+
+  <!-- Card 1: UMUX -->
+  <g transform="translate(100,140)">
+    <use href="#card-shape"/>
+    <text x="20" y="40" font-size="10" font-weight="800" letter-spacing="0.16em"
+          fill="#9E1B32" text-transform="uppercase">BLOCK 01</text>
+    <text x="20" y="76" font-size="14" font-weight="700" fill="#2c2a29">UMUX</text>
+    <text x="20" y="94" font-size="13" font-weight="600" fill="#2c2a29">Usability</text>
+
+    <text x="100" y="220" font-size="68" font-weight="800" fill="#9E1B32" text-anchor="middle">4</text>
+    <text x="100" y="245" font-size="11" fill="#6e6967" text-anchor="middle">items · agree-Likert</text>
+
+    <line x1="20" y1="290" x2="180" y2="290" stroke="#ebe5e0" stroke-width="1"/>
+
+    <text x="20" y="315" font-size="11" fill="#8a8278">Reliability</text>
+    <text x="180" y="315" font-size="13" font-weight="700" fill="#2c2a29" text-anchor="end">α  .79–.83</text>
+
+    <text x="20" y="345" font-size="11" fill="#8a8278">Pairing</text>
+    <text x="180" y="345" font-size="11" fill="#6e6967" text-anchor="end">Post only</text>
+
+    <text x="20" y="395" font-size="10" fill="#8a8278" font-style="italic">Lewis, Utesch &amp; Maher 2013</text>
+  </g>
+
+  <!-- Card 2: AI-use SE -->
+  <g transform="translate(318,140)">
+    <use href="#card-shape"/>
+    <text x="20" y="40" font-size="10" font-weight="800" letter-spacing="0.16em"
+          fill="#9E1B32" text-transform="uppercase">BLOCK 02</text>
+    <text x="20" y="76" font-size="14" font-weight="700" fill="#2c2a29">AI-use SE</text>
+    <text x="20" y="94" font-size="13" font-weight="600" fill="#2c2a29">Self-efficacy</text>
+
+    <text x="100" y="220" font-size="68" font-weight="800" fill="#9E1B32" text-anchor="middle">4</text>
+    <text x="100" y="245" font-size="11" fill="#6e6967" text-anchor="middle">items · confidence-Likert</text>
+
+    <line x1="20" y1="290" x2="180" y2="290" stroke="#ebe5e0" stroke-width="1"/>
+
+    <text x="20" y="315" font-size="11" fill="#8a8278">Reliability</text>
+    <text x="180" y="315" font-size="13" font-weight="700" fill="#2c2a29" text-anchor="end">α  .84+</text>
+
+    <text x="20" y="345" font-size="11" fill="#8a8278">Pairing</text>
+    <text x="180" y="345" font-size="11" font-weight="700" fill="#9E1B32" text-anchor="end">Pre ⇄ Post</text>
+
+    <text x="20" y="395" font-size="10" fill="#8a8278" font-style="italic">Bandura · Wang et al. 2023</text>
+  </g>
+
+  <!-- Card 3: Credential Value -->
+  <g transform="translate(536,140)">
+    <use href="#card-shape"/>
+    <text x="20" y="40" font-size="10" font-weight="800" letter-spacing="0.16em"
+          fill="#9E1B32" text-transform="uppercase">BLOCK 03</text>
+    <text x="20" y="76" font-size="14" font-weight="700" fill="#2c2a29">Credential Value</text>
+    <text x="20" y="94" font-size="13" font-weight="600" fill="#2c2a29">Perception</text>
+
+    <text x="100" y="220" font-size="68" font-weight="800" fill="#9E1B32" text-anchor="middle">4</text>
+    <text x="100" y="245" font-size="11" fill="#6e6967" text-anchor="middle">items · agree-Likert</text>
+
+    <line x1="20" y1="290" x2="180" y2="290" stroke="#ebe5e0" stroke-width="1"/>
+
+    <text x="20" y="315" font-size="11" fill="#8a8278">Reliability</text>
+    <text x="180" y="315" font-size="13" font-weight="700" fill="#2c2a29" text-anchor="end">α  .78+</text>
+
+    <text x="20" y="345" font-size="11" fill="#8a8278">Pairing</text>
+    <text x="180" y="345" font-size="11" font-weight="700" fill="#9E1B32" text-anchor="end">Pre → Post</text>
+
+    <text x="20" y="395" font-size="10" fill="#8a8278" font-style="italic">Phillips &amp; Cohen 2023 MVS</text>
+  </g>
+
+  <!-- Card 4: Designer Identity -->
+  <g transform="translate(754,140)">
+    <use href="#card-shape"/>
+    <text x="20" y="40" font-size="10" font-weight="800" letter-spacing="0.16em"
+          fill="#9E1B32" text-transform="uppercase">BLOCK 04</text>
+    <text x="20" y="76" font-size="14" font-weight="700" fill="#2c2a29">Designer Identity</text>
+    <text x="20" y="94" font-size="13" font-weight="600" fill="#2c2a29">Identity</text>
+
+    <text x="100" y="220" font-size="68" font-weight="800" fill="#9E1B32" text-anchor="middle">4</text>
+    <text x="100" y="245" font-size="11" fill="#6e6967" text-anchor="middle">items · agree-Likert</text>
+
+    <line x1="20" y1="290" x2="180" y2="290" stroke="#ebe5e0" stroke-width="1"/>
+
+    <text x="20" y="315" font-size="11" fill="#8a8278">Reliability</text>
+    <text x="180" y="315" font-size="13" font-weight="700" fill="#2c2a29" text-anchor="end">α  .85</text>
+
+    <text x="20" y="345" font-size="11" fill="#8a8278">Pairing</text>
+    <text x="180" y="345" font-size="11" font-weight="700" fill="#9E1B32" text-anchor="end">Pre ⇄ Post</text>
+
+    <text x="20" y="395" font-size="10" fill="#8a8278" font-style="italic">Kafai &amp; Fields 2018</text>
+  </g>
+
+  <!-- Card 5: TSE Contagion -->
+  <g transform="translate(972,140)">
+    <use href="#card-shape"/>
+    <text x="20" y="40" font-size="10" font-weight="800" letter-spacing="0.16em"
+          fill="#9E1B32" text-transform="uppercase">BLOCK 05</text>
+    <text x="20" y="76" font-size="14" font-weight="700" fill="#2c2a29">TSE Contagion</text>
+    <text x="20" y="94" font-size="13" font-weight="600" fill="#2c2a29">Teaching efficacy</text>
+
+    <text x="100" y="220" font-size="68" font-weight="800" fill="#9E1B32" text-anchor="middle">3</text>
+    <text x="100" y="245" font-size="11" fill="#6e6967" text-anchor="middle">items · confidence-Likert</text>
+
+    <line x1="20" y1="290" x2="180" y2="290" stroke="#ebe5e0" stroke-width="1"/>
+
+    <text x="20" y="315" font-size="11" fill="#8a8278">Reliability</text>
+    <text x="180" y="315" font-size="13" font-weight="700" fill="#2c2a29" text-anchor="end">α  .80+</text>
+
+    <text x="20" y="345" font-size="11" fill="#8a8278">Pairing</text>
+    <text x="180" y="345" font-size="11" fill="#6e6967" text-anchor="end">Post only</text>
+
+    <text x="20" y="395" font-size="10" fill="#8a8278" font-style="italic">Tschannen-Moran adapted</text>
+  </g>
+
+  <!-- bottom summary bar -->
+  <g transform="translate(100,615)">
+    <rect width="1000" height="48" fill="#fbf6f7" stroke="#9E1B32" stroke-width="1"/>
+    <text x="20" y="30" font-size="13" fill="#2c2a29">
+      <tspan font-weight="700" fill="#9E1B32">22 substantive items</tspan>
+      <tspan>  +  4 tag/match items  =  Post total 22 + 3 tag · Pre total 17 + 3 tag &amp; demographic   ·   ~6 min · Pilot N caveat: report α ± 95% CI, defer CFA to N ≥ 150</tspan>
+    </text>
+  </g>
+</svg>
