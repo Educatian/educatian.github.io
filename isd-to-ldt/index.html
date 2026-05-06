@@ -288,6 +288,30 @@ svg{max-width:100%;height:auto;display:block}
 .field-readout h3{font-size:22px;margin:0 0 6px;color:#fff}
 .field-readout p{font-size:13.5px;line-height:1.5;color:#E7F0F2;margin:0}
 .field-readout b{color:#F4C95D}
+.decision-tree{
+  background:var(--paper);border:2px solid var(--ink);border-radius:15px;padding:18px;margin:22px 0;
+  box-shadow:0 9px 24px rgba(31,42,46,.06);
+}
+.decision-tree h3,.evidence-map h3{font-size:22px;line-height:1.12;margin:0 0 8px}
+.decision-tree p,.evidence-map p{font-size:13.5px;line-height:1.5;color:var(--ink2);margin:0 0 14px}
+.decision-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.decision-card{
+  border:1.7px solid var(--line);border-radius:12px;background:#fff;padding:14px;min-width:0;
+}
+.decision-card .q{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:900;letter-spacing:1px;text-transform:uppercase;color:var(--rust);margin-bottom:7px}
+.decision-card h4{font-size:16px;line-height:1.18;margin:0 0 7px;color:var(--ink)}
+.decision-card p{font-size:12.7px;margin:0;color:var(--ink2)}
+.decision-card b{color:var(--blueprint)}
+.evidence-map{
+  background:#FFF9EE;border:2px solid var(--ink);border-radius:15px;padding:18px;margin:22px 0;
+  box-shadow:0 9px 24px rgba(31,42,46,.06);
+}
+.evidence-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.evidence-card{background:#fff;border:1.7px solid var(--line);border-radius:12px;padding:14px;min-width:0}
+.evidence-card h4{font-size:16px;line-height:1.18;margin:0 0 8px;color:var(--blueprint)}
+.evidence-card ul{margin:0;padding-left:18px}
+.evidence-card li{font-size:12.5px;line-height:1.42;margin-bottom:4px;color:var(--ink2)}
+@media (max-width:860px){.decision-grid,.evidence-grid{grid-template-columns:1fr}}
 .trend-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:18px 0}
 .trend{
   background:#fff;border:1.7px solid var(--line);border-radius:12px;padding:15px;min-width:0;
@@ -1014,6 +1038,28 @@ details[open] summary::after{content:"-"}
           <div class="label">Selected field orientation</div>
           <h3 id="fieldTitle">ISD</h3>
           <p id="fieldBody"><b>Center of gravity:</b> analysis, alignment, development, implementation, evaluation, and revision of instruction as a system.</p>
+        </div>
+      </div>
+      <div class="decision-tree" aria-label="Decision tree for adjacent learning-design fields">
+        <h3>Which field are you actually asking about?</h3>
+        <p>This is a quick sorting guide, not a boundary police tool. Many projects sit across fields, but the first question usually reveals the center of gravity.</p>
+        <div class="decision-grid">
+          <div class="decision-card"><div class="q">If your question is...</div><h4>How do teachers, programs, or schools adopt and use technology?</h4><p>Start with <b>technology integration</b>, implementation, teacher practice, organizational conditions, or change research.</p></div>
+          <div class="decision-card"><div class="q">If your question is...</div><h4>How does learning happen in context?</h4><p>Start with <b>learning sciences</b>: cognition, social interaction, tools, discourse, culture, identity, and designed environments.</p></div>
+          <div class="decision-card"><div class="q">If your question is...</div><h4>What should we design, develop, implement, and evaluate?</h4><p>Start with <b>ISD/LDT</b>: needs, learners, goals, tasks, strategies, media, products, accessibility, implementation, and revision.</p></div>
+          <div class="decision-card"><div class="q">If your question is...</div><h4>What can traces and evidence loops tell us?</h4><p>Start with <b>learning analytics</b> or <b>learning engineering</b>, depending on whether the emphasis is analysis/insight or continuous system improvement.</p></div>
+        </div>
+      </div>
+      <div class="evidence-map" aria-label="Evidence types across adjacent fields">
+        <h3>What counts as evidence?</h3>
+        <p>Fields differ not only by vocabulary but by the evidence they trust. This helps beginners understand why the same project can be reviewed differently by different communities.</p>
+        <div class="evidence-grid">
+          <div class="evidence-card"><h4>ISD / IDT</h4><ul><li>Needs and task analysis</li><li>Goal-assessment alignment</li><li>Formative evaluation data</li><li>Usability and implementation evidence</li><li>Revision rationale</li></ul></div>
+          <div class="evidence-card"><h4>LDT</h4><ul><li>Prototype and design rationale</li><li>Learner experience and access</li><li>Learning outcomes and transfer</li><li>Technology affordance evidence</li><li>Program or product implementation</li></ul></div>
+          <div class="evidence-card"><h4>Learning Sciences</h4><ul><li>Mechanisms of learning</li><li>Discourse and interaction</li><li>Conceptual change</li><li>Situated activity and culture</li><li>Design-based theory refinement</li></ul></div>
+          <div class="evidence-card"><h4>Learning Analytics</h4><ul><li>Trace-data validity</li><li>Model fit and uncertainty</li><li>Dashboard interpretation</li><li>Actionability for learners/instructors</li><li>Ethical data use</li></ul></div>
+          <div class="evidence-card"><h4>Learning Engineering</h4><ul><li>Instrumented improvement cycles</li><li>A/B or quasi-experimental evidence</li><li>Learning-science alignment</li><li>Operational metrics</li><li>Scalable revision infrastructure</li></ul></div>
+          <div class="evidence-card"><h4>Technology Integration</h4><ul><li>Teacher practice and beliefs</li><li>Adoption conditions</li><li>Organizational support</li><li>Classroom implementation</li><li>Equity and access in use</li></ul></div>
         </div>
       </div>
       <div class="trend-grid">
@@ -2357,6 +2403,20 @@ const lsPrograms=[
     evidence:'Official Northwestern learning sciences program pages / NAPLeS-style LS network listing.',
     why:'Core US learning-sciences program for comparison with ISD/LDT traditions.',
     url:'https://www.sesp.northwestern.edu/learning-sciences/'
+  },
+  {
+    id:'uiuc-ls', lon:-88.2272, lat:40.102, label:'UIUC-LS', naples:false,
+    name:'University of Illinois Urbana-Champaign Learning Sciences',
+    summary:'Learning sciences layer for UIUC, separate from the learning design / educational technology training marker already shown in the IDT/LDT layer.',
+    lineage:'Learning sciences / education research ecology alongside learning design and educational technology',
+    identityLabel:'Learning sciences layer plus learning design / edtech ecology',
+    shiftLabel:'Dual-layer case: UIUC appears in both IDT/LDT training and LS-oriented layers; this is not a single uninterrupted lineage claim.',
+    start:'Current LS-oriented layer; older lineage not evaluated here',
+    people:'UIUC learning sciences, learning design, educational psychology, and educational technology faculty communities',
+    peopleRole:'R1 learning sciences / learning design program anchor',
+    evidence:'Official UIUC education-school pages identify learning design / educational technology routes; LS-specific archive confirmation needs a deeper pass.',
+    why:'User-specified LS map addition and important Illinois case given PLATO/educational technology history plus current learning design/LS ecology.',
+    url:'https://education.illinois.edu/'
   },
   {
     id:'upenn-ls', lon:-75.1932, lat:39.9522, label:'PENN', naples:true,
