@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760" role="img" aria-labelledby="title desc">
+  <title id="title">AI data flow register for IRB amendments</title>
+  <desc id="desc">A visual data-flow register for an AI-enhanced education platform showing participant data, platform database, AI service boundary, research export, and public reporting boundary.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L9,3 z" fill="#284c63"/></marker>
+    <style>
+      .bg{fill:#fffdf8}.zone{fill:#f2eadc;stroke:#cfc4b1;stroke-width:2;rx:22}.safe{fill:#f4f8ee;stroke:#596f4f;stroke-width:3;rx:16}.risk{fill:#fff1ed;stroke:#9d2d2d;stroke-width:3;rx:16}.sys{fill:#eef4f6;stroke:#284c63;stroke-width:3;rx:16}.line{stroke:#284c63;stroke-width:3.5;fill:none;marker-end:url(#arrow)}.dash{stroke:#9d2d2d;stroke-width:3;fill:none;stroke-dasharray:8 8;marker-end:url(#arrow)}.h{font:900 34px Inter,Arial,sans-serif;fill:#182126}.t{font:850 20px Inter,Arial,sans-serif;fill:#182126}.s{font:500 14px Inter,Arial,sans-serif;fill:#536168}.m{font:800 12px 'JetBrains Mono',Consolas,monospace;letter-spacing:1.4px;fill:#284c63}.r{font:800 12px 'JetBrains Mono',Consolas,monospace;letter-spacing:1.4px;fill:#9d2d2d}
+    </style>
+  </defs>
+  <rect width="1200" height="760" class="bg"/>
+  <text x="56" y="72" class="h">AI data-flow register</text>
+  <text x="56" y="104" class="s">The amendment should name what crosses each boundary, not just the product names.</text>
+
+  <rect x="54" y="145" width="500" height="510" class="zone"/>
+  <text x="82" y="184" class="m">INSTRUCTIONAL SYSTEM</text>
+  <rect x="96" y="230" width="350" height="92" class="sys"/>
+  <text x="124" y="265" class="m">PARTICIPANT</text>
+  <text x="124" y="294" class="t">Learner action</text>
+  <text x="124" y="316" class="s">Survey, artifact, quiz, page use</text>
+  <rect x="96" y="382" width="350" height="100" class="sys"/>
+  <text x="124" y="417" class="m">TEACHPLAY</text>
+  <text x="124" y="446" class="t">Platform records</text>
+  <text x="124" y="468" class="s">Progress, artifact status, telemetry</text>
+
+  <rect x="646" y="145" width="500" height="510" class="zone"/>
+  <text x="674" y="184" class="m">RESEARCH / SERVICE BOUNDARIES</text>
+  <rect x="720" y="230" width="350" height="92" class="risk"/>
+  <text x="748" y="265" class="r">AI/API BOUNDARY</text>
+  <text x="748" y="294" class="t">External or local model</text>
+  <text x="748" y="316" class="s">Prompt text, feedback, metadata</text>
+  <rect x="720" y="382" width="350" height="92" class="safe"/>
+  <text x="748" y="417" class="m">RESEARCH EXPORT</text>
+  <text x="748" y="446" class="t">Analysis dataset</text>
+  <text x="748" y="468" class="s">De-identified or coded records</text>
+  <rect x="720" y="534" width="350" height="72" class="safe"/>
+  <text x="748" y="573" class="t">Aggregate reporting</text>
+  <text x="748" y="596" class="s">No direct identifiers in public outputs</text>
+
+  <path d="M271 322 C271 350 271 360 271 382" class="line"/>
+  <path d="M446 432 C560 430 620 292 720 276" class="dash"/>
+  <path d="M446 432 C560 430 620 430 720 428" class="line"/>
+  <path d="M895 474 C895 500 895 512 895 534" class="line"/>
+
+  <text x="468" y="286" class="r">free text?</text>
+  <text x="468" y="308" class="r">identifiers?</text>
+  <text x="468" y="454" class="m">coded export</text>
+  <text x="84" y="696" class="s">Consent language should match this register: collected data, optionality, AI/API boundary, storage, access, retention, and reporting.</text>
+</svg>

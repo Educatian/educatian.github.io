@@ -133,15 +133,19 @@ footer{position:relative;z-index:1;border-top:1px solid var(--line);padding:28px
     <h2>Vault to amendment drafts</h2>
     <ol>
       <li><a href="#purpose">What this guide builds</a></li>
+      <li><a href="#obsidian-start">Start with Obsidian</a></li>
       <li><a href="#architecture">Connected architecture</a></li>
       <li><a href="#inputs">Input bundle</a></li>
       <li><a href="#reviewer-logic">Reviewer logic</a></li>
+      <li><a href="#route">Route decision tree</a></li>
       <li><a href="#teachplay">TeachPlay worked case</a></li>
+      <li><a href="#data-flow">AI data-flow register</a></li>
       <li><a href="#prompts">Prompt sequence</a></li>
       <li><a href="#packet">Packet outputs</a></li>
       <li><a href="#security">AI and data-security language</a></li>
       <li><a href="#review">Human review loop</a></li>
       <li><a href="#downloads">Starter downloads</a></li>
+      <li><a href="#playwright">Playwright verification</a></li>
       <li><a href="#faq">FAQ</a></li>
       <li><a href="#references">References</a></li>
     </ol>
@@ -150,6 +154,10 @@ footer{position:relative;z-index:1;border-top:1px solid var(--line);padding:28px
       <a href="templates/protocol-delta-table.csv">Download delta table</a>
       <a href="templates/consent-ai-language.md">Download consent snippets</a>
       <a href="templates/data-security-checklist.md">Download security checklist</a>
+      <a href="templates/reviewer-crosswalk.md">Download crosswalk</a>
+      <a href="templates/ai-data-flow-register.csv">Download data-flow register</a>
+      <a href="templates/obsidian-vault-starter.md">Download vault starter</a>
+      <a href="templates/playwright-irb-guide-smoke.mjs">Download smoke test</a>
     </div>
   </aside>
 
@@ -181,8 +189,37 @@ footer{position:relative;z-index:1;border-top:1px solid var(--line);padding:28px
       </div>
     </section>
 
+    <section id="obsidian-start">
+      <div class="section-kicker">02 / Obsidian setup</div>
+      <h2>Start slowly: install Obsidian, then make a public-safe research vault</h2>
+      <p>The packet builder works best when Obsidian is not treated as a writing app, but as the research control room. Install Obsidian, create a local vault, then add only project metadata, decisions, links, and drafting notes. Keep raw participant data, private consent forms, and sensitive IRB correspondence in approved institutional storage.</p>
+      <figure class="image-frame">
+        <img src="assets/obsidian-vault-setup.svg" alt="Obsidian vault setup showing install, vault folders, TeachPlay project note, private IRB baseline pointers, GitHub link, and amendment packet output">
+        <figcaption>New setup image: begin with a local Obsidian vault, then connect TeachPlay's project note, private IRB baseline pointers, GitHub evidence, and amendment packet drafts.</figcaption>
+      </figure>
+      <table>
+        <thead><tr><th>Step</th><th>Action</th><th>Why it matters for IRB amendments</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>Install Obsidian from the official download page.</td><td>Use a local-first workspace that can hold linked project notes without forcing private data into a public repo.</td></tr>
+          <tr><td>2</td><td>Create a new vault such as <code>ResearchVault</code> or use an existing private vault.</td><td>The vault becomes the index for study purpose, status, instruments, and amendment decisions.</td></tr>
+          <tr><td>3</td><td>Create folders: <code>wiki/entities</code>, <code>wiki/irb/approved-baselines</code>, <code>wiki/irb/amendment-packets</code>, and <code>wiki/sources</code>.</td><td>Separates public-safe project memory from controlled baseline documents and generated packet drafts.</td></tr>
+          <tr><td>4</td><td>Create a TeachPlay project note using the starter template.</td><td>Gives Claude Code or Codex a stable place to read study purpose, participant population, data categories, and repo evidence.</td></tr>
+          <tr><td>5</td><td>Add pointers to private approved IRB docs instead of copying sensitive content into public notes.</td><td>Preserves review traceability without leaking protocol language, consent forms, or participant information.</td></tr>
+        </tbody>
+      </table>
+      <div class="codeblock">wiki/
+  entities/
+    TeachPlay.md
+  irb/
+    approved-baselines/
+    amendment-packets/
+    templates/
+  sources/</div>
+      <p>Download the <a href="templates/obsidian-vault-starter.md">Obsidian vault starter</a> and paste it into the first TeachPlay project note, then replace placeholders with verified project facts.</p>
+    </section>
+
     <section id="architecture">
-      <div class="section-kicker">02 / Architecture</div>
+      <div class="section-kicker">03 / Architecture</div>
       <h2>Connect the research memory you already have</h2>
       <p>The strongest version of the workflow connects four sources that researchers often keep separate: a knowledge vault, project repositories, existing IRB documents, and live research instruments.</p>
       <div class="workflow" role="img" aria-label="IRB amendment packet builder architecture">
@@ -239,7 +276,7 @@ footer{position:relative;z-index:1;border-top:1px solid var(--line);padding:28px
     </section>
 
     <section id="inputs">
-      <div class="section-kicker">03 / Inputs</div>
+      <div class="section-kicker">04 / Inputs</div>
       <h2>Build an amendment input bundle before asking for prose</h2>
       <p>A reliable packet starts with an input bundle. Do not start by asking the assistant to "write the IRB." Start by asking it to inventory the project change and mark what evidence it used.</p>
       <table>
@@ -255,7 +292,7 @@ footer{position:relative;z-index:1;border-top:1px solid var(--line);padding:28px
     </section>
 
     <section id="reviewer-logic">
-      <div class="section-kicker">04 / Deep research layer</div>
+      <div class="section-kicker">05 / Deep research layer</div>
       <h2>Draft around the determinations reviewers must make</h2>
       <p>The amendment packet should not be organized around whatever the assistant can write fastest. It should be organized around the questions an IRB reviewer must answer. For AI-enhanced education research, the most reusable anchors are the Common Rule approval criteria, informed-consent elements, documentation/waiver rules, and exemption or limited-review conditions.</p>
       <figure class="image-frame">
@@ -275,8 +312,27 @@ footer{position:relative;z-index:1;border-top:1px solid var(--line);padding:28px
       <div class="callout"><b>Deep-research conclusion.</b> The public guide should avoid saying "HRP-502/503 are universal." Institutions use different numbering and revise templates over time. The safer, accurate phrase is <code>HRP-502/503-style</code>: consent, protocol, recruitment, data security, and appendix language mapped to the user's current local forms.</div>
     </section>
 
+    <section id="route">
+      <div class="section-kicker">06 / Route decision tree</div>
+      <h2>Decide the amendment route before drafting the packet</h2>
+      <p>One common failure mode is drafting a full packet when the change is only an administrative record update, or treating a substantive data-flow change like a minor edit. Before writing the HRP-502/503-style language, ask what route the change belongs to.</p>
+      <figure class="image-frame">
+        <img src="assets/amendment-route-decision-tree.svg" alt="Decision tree for deciding whether a project change is a record update, minor amendment, or needs IRB consultation">
+        <figcaption>New workflow image: a quick decision tree for separating record updates from amendment-worthy changes and consultation-first changes.</figcaption>
+      </figure>
+      <table>
+        <thead><tr><th>Route</th><th>Typical trigger</th><th>Packet depth</th></tr></thead>
+        <tbody>
+          <tr><td>Record update</td><td>Non-substantive typo, contact update, public URL correction with no participant-facing procedure change</td><td>Vault/IRB log note; no full amendment packet unless local policy says otherwise</td></tr>
+          <tr><td>Minor amendment draft</td><td>New survey items, refined recruitment wording, small logging dictionary clarification, added artifact appendix</td><td>Protocol delta, consent check, revised attachment, reviewer crosswalk</td></tr>
+          <tr><td>Consultation first</td><td>New AI/API boundary, new identifiable free text, new participant population, new sensitive data, changed risk profile</td><td>Short consult memo before drafting final language</td></tr>
+        </tbody>
+      </table>
+      <div class="callout warn"><b>Practical rule.</b> If participants experience a new procedure, if new data are collected, or if data cross a new AI/API boundary, do not treat it as a cosmetic edit.</div>
+    </section>
+
     <section id="teachplay">
-      <div class="section-kicker">05 / Worked example</div>
+      <div class="section-kicker">07 / Worked example</div>
       <h2>TeachPlay: AI microcredential study amendment scenario</h2>
       <p>The public example uses TeachPlay because it combines the recurring ingredients that trigger amendment work: a live learning site, AI-use guidance, survey evaluation, portfolio artifacts, and potential learner interaction traces.</p>
       <div class="card-grid">
@@ -299,8 +355,28 @@ footer{position:relative;z-index:1;border-top:1px solid var(--line);padding:28px
       </figure>
     </section>
 
+    <section id="data-flow">
+      <div class="section-kicker">08 / Data-flow register</div>
+      <h2>Make the AI boundary visible</h2>
+      <p>For AI-enhanced education projects, the data-flow register is often more useful than a paragraph. It forces the team to name each data element, identify whether it crosses an AI/API boundary, and decide whether consent language needs to change.</p>
+      <figure class="image-frame">
+        <img src="assets/ai-data-flow-register.svg" alt="AI data-flow register showing participant actions, TeachPlay platform records, AI API boundary, research export, and aggregate reporting">
+        <figcaption>New example image: a TeachPlay-style AI data-flow register. The dashed line marks the boundary reviewers usually care about most: participant text or metadata leaving the instructional system for AI/API processing.</figcaption>
+      </figure>
+      <table>
+        <thead><tr><th>Register field</th><th>Why it matters</th><th>Example</th></tr></thead>
+        <tbody>
+          <tr><td><code>contains_free_text</code></td><td>Free text may accidentally include identifiers or sensitive context.</td><td>AI feedback prompt, reflection note, artifact title</td></tr>
+          <tr><td><code>crosses_ai_or_api_boundary</code></td><td>Consent and security language should say whether data are sent outside the local research system.</td><td>External AI feedback request</td></tr>
+          <tr><td><code>stored_in_research_export</code></td><td>Some data are processed transiently but not retained; others become research data.</td><td>Telemetry event vs retained artifact metadata</td></tr>
+          <tr><td><code>consent_sentence_needed</code></td><td>Flags whether participant-facing language must be revised.</td><td>Yes for AI text retention; often yes for new logs</td></tr>
+        </tbody>
+      </table>
+      <p>Downloadable starters: <a href="templates/ai-data-flow-register.csv">AI data-flow register</a> and <a href="templates/telemetry-dictionary.csv">telemetry dictionary</a>.</p>
+    </section>
+
     <section id="prompts">
-      <div class="section-kicker">06 / Prompt sequence</div>
+      <div class="section-kicker">09 / Prompt sequence</div>
       <h2>Use Claude Code like a change-control assistant</h2>
       <div class="turn user">
         <div class="who">Prompt 1 - inventory</div>
@@ -322,10 +398,14 @@ footer{position:relative;z-index:1;border-top:1px solid var(--line);padding:28px
         <div class="who">Prompt 4 - reviewer crosswalk</div>
         <div class="prompt">Create a reviewer-facing crosswalk that explains the change in plain language: what changed, why the change is minimal risk, what participants will be told, and what new attachments are included.</div>
       </div>
+      <div class="turn user">
+        <div class="who">Prompt 5 - adversarial check</div>
+        <div class="prompt">Review the draft like an IRB reviewer. Find places where the consent language promises less than the data-flow register shows, where a new data element lacks a retention/access statement, or where an AI/API boundary is hidden behind generic wording.</div>
+      </div>
     </section>
 
     <section id="packet">
-      <div class="section-kicker">07 / Packet outputs</div>
+      <div class="section-kicker">10 / Packet outputs</div>
       <h2>The packet should be reviewable as a folder</h2>
       <p>The output is not a single document. It is a small amendment packet that a PI can inspect, edit, and paste into the institution's current system.</p>
       <div class="codeblock">amendment_packet/
@@ -341,12 +421,15 @@ footer{position:relative;z-index:1;border-top:1px solid var(--line);padding:28px
     post_survey_items.md
     telemetry_dictionary.csv
     artifact_collection_note.md
-  08_reviewer_crosswalk.md</div>
+  08_ai_data_flow_register.csv
+  09_reviewer_crosswalk.md
+  10_pi_review_checklist.md
+  11_playwright_smoke_report.png</div>
       <div class="callout danger"><b>Do not automate final submission.</b> The final paste into Cayuse, Kuali, VERA, eRA, or another IRB system should remain human-controlled. The packet is a drafting and consistency tool.</div>
     </section>
 
     <section id="security">
-      <div class="section-kicker">08 / Sensitive language</div>
+      <div class="section-kicker">11 / Sensitive language</div>
       <h2>AI/data-security language must be concrete</h2>
       <p>IRB reviewers do not need vague claims that an AI tool is "secure." They need to know what data moves where, whether identifiers are included, whether raw text is stored, and who can access outputs.</p>
       <table>
@@ -362,7 +445,7 @@ footer{position:relative;z-index:1;border-top:1px solid var(--line);padding:28px
     </section>
 
     <section id="review">
-      <div class="section-kicker">09 / Human review</div>
+      <div class="section-kicker">12 / Human review</div>
       <h2>Build a reviewer loop into the workflow</h2>
       <p>The most useful automation is not more prose. It is a checklist that forces the PI to approve or reject each change before submission.</p>
       <div class="card-grid">
@@ -370,10 +453,20 @@ footer{position:relative;z-index:1;border-top:1px solid var(--line);padding:28px
         <div class="card"><strong>Data review</strong><p>Checks whether the draft accurately names identifiers, logs, survey fields, artifacts, AI services, and retention.</p></div>
         <div class="card"><strong>Template review</strong><p>Moves language into the institution's current HRP-502/503-style form without preserving stale template text.</p></div>
       </div>
+      <h3>Red flags worth fixing before submission</h3>
+      <table>
+        <thead><tr><th>Red flag</th><th>Why it matters</th><th>Fix</th></tr></thead>
+        <tbody>
+          <tr><td>Consent says "survey data" but the platform also logs telemetry.</td><td>Participant-facing language under-describes the data collected.</td><td>Add a clear interaction-log sentence and attach telemetry dictionary.</td></tr>
+          <tr><td>AI feedback is described, but no data-flow boundary is named.</td><td>Reviewers cannot assess privacy/confidentiality.</td><td>State whether prompts, artifacts, or metadata leave the local system.</td></tr>
+          <tr><td>Artifacts might contain names or faces.</td><td>Uploaded work products can include identifiers even if the form does not ask for them.</td><td>Add artifact de-identification instructions and review workflow.</td></tr>
+          <tr><td>Recruitment language implies program requirement.</td><td>Voluntariness can be unclear in course or credential settings.</td><td>Separate instructional participation from research data use.</td></tr>
+        </tbody>
+      </table>
     </section>
 
     <section id="downloads">
-      <div class="section-kicker">10 / Starter downloads</div>
+      <div class="section-kicker">13 / Starter downloads</div>
       <h2>Public-safe templates</h2>
       <p>These files are intentionally generic. They are meant to scaffold thinking, not to carry private protocol language or participant data.</p>
       <div class="downloads">
@@ -383,21 +476,51 @@ footer{position:relative;z-index:1;border-top:1px solid var(--line);padding:28px
         <a class="download" href="templates/recruitment-script-shell.md"><b>Recruitment script shell</b><span>Neutral language for email, flyer, and LMS announcement drafts.</span></a>
         <a class="download" href="templates/data-security-checklist.md"><b>Data-security checklist</b><span>Fields to verify before drafting storage and access language.</span></a>
         <a class="download" href="templates/instrument-appendix-manifest.md"><b>Instrument appendix manifest</b><span>Survey, interview, telemetry, and artifact attachment checklist.</span></a>
+        <a class="download" href="templates/reviewer-crosswalk.md"><b>Reviewer crosswalk</b><span>Plain-language map from change request to reviewer determinations.</span></a>
+        <a class="download" href="templates/ai-data-flow-register.csv"><b>AI data-flow register</b><span>CSV starter for tracking data elements and AI/API boundaries.</span></a>
+        <a class="download" href="templates/telemetry-dictionary.csv"><b>Telemetry dictionary</b><span>Event-name starter for page, artifact, and AI-feedback logs.</span></a>
+        <a class="download" href="templates/obsidian-vault-starter.md"><b>Obsidian vault starter</b><span>Folder layout and TeachPlay project-note scaffold.</span></a>
+        <a class="download" href="templates/playwright-irb-guide-smoke.mjs"><b>Playwright smoke test</b><span>Browser check for headings, images, template links, and screenshot output.</span></a>
       </div>
     </section>
 
+    <section id="playwright">
+      <div class="section-kicker">14 / Playwright verification</div>
+      <h2>Use Playwright to check the guide and the packet like a real page</h2>
+      <p>After the amendment guide or project packet changes, verify it in a browser rather than trusting static file inspection. Playwright catches missing anchors, broken template links, invisible images, and layout regressions that a markdown-only workflow misses.</p>
+      <div class="codeblock"># from the GitHub Pages repository root
+python -m http.server 8765 --bind 127.0.0.1
+
+# in another terminal
+npm install -D playwright
+npx playwright install chromium
+$env:BASE_URL="http://127.0.0.1:8765/irb-amendment-packet-builder/"
+node irb-amendment-packet-builder/templates/playwright-irb-guide-smoke.mjs</div>
+      <table>
+        <thead><tr><th>Check</th><th>What the smoke test verifies</th><th>Why it belongs in the workflow</th></tr></thead>
+        <tbody>
+          <tr><td>Visible headings</td><td>IRB Amendment, Obsidian, TeachPlay, HRP-502/503-style, 45 CFR 46.111, and AI data-flow register text.</td><td>Confirms the page still carries the intended reviewer-facing frame.</td></tr>
+          <tr><td>Workflow images</td><td>At least five embedded images render with non-trivial visible dimensions.</td><td>Prevents broken SVG/image paths after publishing.</td></tr>
+          <tr><td>Template links</td><td>Every <code>templates/</code> download returns a successful response.</td><td>Protects the practical value of the guide.</td></tr>
+          <tr><td>Screenshot</td><td>Writes <code>irb-amendment-packet-builder-smoke.png</code>.</td><td>Gives a quick visual artifact for release checks or GitHub issue comments.</td></tr>
+        </tbody>
+      </table>
+      <div class="callout"><b>Why this matters for IRB automation.</b> The same pattern can test a generated amendment packet page: check that consent snippets, data-flow registers, telemetry dictionaries, and PI review prompts are present before anyone moves text into the live IRB system.</div>
+    </section>
+
     <section id="faq">
-      <div class="section-kicker">11 / FAQ</div>
+      <div class="section-kicker">15 / FAQ</div>
       <h2>Common reviewer-facing questions</h2>
       <details><summary>Can the assistant fill HRP-502 or HRP-503 directly?</summary><p>It can draft text for the relevant sections, but the investigator should paste into the current institutional form. Template versions and required fields vary by institution and date.</p></details>
       <details><summary>Should the vault contain raw consent forms or participant data?</summary><p>No. Use the vault for project metadata, decisions, and pointers. Keep raw participant data and sensitive IRB documents in controlled local or institutional storage.</p></details>
       <details><summary>What makes TeachPlay a good example?</summary><p>It has a public instructional site, AI-use guidance, survey evaluation, portfolio artifact surfaces, and possible usage logs. Those are exactly the surfaces that require clear amendment language.</p></details>
       <details><summary>Is this only for education research?</summary><p>No. The same pattern works for many social, behavioral, and educational studies, especially when a digital platform changes after initial approval.</p></details>
       <details><summary>What should never be automated?</summary><p>Risk judgment, final consent promises, institutional policy interpretation, and final IRB submission. The workflow drafts and checks consistency; it does not approve research.</p></details>
+      <details><summary>Why add another data-flow image if the protocol already describes data?</summary><p>Because AI-enhanced systems often mix instruction, platform analytics, survey instruments, and optional text/artifacts. A diagram makes it harder to hide an API boundary or accidentally omit a retained data element.</p></details>
     </section>
 
     <section id="references">
-      <div class="section-kicker">12 / References</div>
+      <div class="section-kicker">16 / References</div>
       <h2>Official and template references</h2>
       <ul class="refs">
         <li>Electronic Code of Federal Regulations. 45 CFR 46.104, exempt research categories, including educational tests, surveys, interviews, public observation, and limited IRB review conditions. <a href="https://ecfr.io/Title-45/Section-46.104">https://ecfr.io/Title-45/Section-46.104</a></li>
@@ -409,6 +532,10 @@ footer{position:relative;z-index:1;border-top:1px solid var(--line);padding:28px
         <li>University of Colorado Boulder Research &amp; Innovation Office. Templates and resources for human research IRB, including HRP-502 consent and HRP-503a/503b protocol templates. <a href="https://www.colorado.edu/researchinnovation/node/8496/human-research-irb/templates-resources">https://www.colorado.edu/researchinnovation/node/8496/human-research-irb/templates-resources</a></li>
         <li>University of Wisconsin-Madison Human Research Protection Program. Informed consent document guidance and HRP-502 reference. <a href="https://irb.wisc.edu/manual/investigator-manual/conducting-human-participant-research/consent-processes-and-documentation/informed-consent-document/">https://irb.wisc.edu/...</a></li>
         <li>University of Illinois Chicago Office of the Vice Chancellor for Research. HRP-503a Social, Behavioral, and Educational Research Template update notice. <a href="https://research.uic.edu/news-stories/protocol-social-behavioral-and-educational-research-template-hrp-503a-has-been-revised/">https://research.uic.edu/...</a></li>
+        <li>Obsidian. Download Obsidian. <a href="https://obsidian.md/download">https://obsidian.md/download</a></li>
+        <li>Obsidian Help. Manage vaults. <a href="https://help.obsidian.md/files-and-folders/manage-vaults">https://help.obsidian.md/files-and-folders/manage-vaults</a></li>
+        <li>Playwright. Getting started and browser installation. <a href="https://playwright.dev/docs/intro">https://playwright.dev/docs/intro</a></li>
+        <li>Playwright. Screenshots. <a href="https://playwright.dev/docs/screenshots">https://playwright.dev/docs/screenshots</a></li>
         <li>Qualtrics. API documentation overview for survey creation, exporting responses, and event subscriptions. <a href="https://api.qualtrics.com/">https://api.qualtrics.com/</a></li>
         <li>GitHub Docs. GitHub REST API documentation for repository metadata and workflow automation. <a href="https://docs.github.com/rest/reference">https://docs.github.com/rest/reference</a></li>
       </ul>

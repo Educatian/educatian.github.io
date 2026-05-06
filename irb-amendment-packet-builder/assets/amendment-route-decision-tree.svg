@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760" role="img" aria-labelledby="title desc">
+  <title id="title">IRB amendment route decision tree</title>
+  <desc id="desc">A decision tree for determining whether a digital education project change is only a record update, a minor amendment, a substantive amendment, or requires IRB consultation.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#284c63"/>
+    </marker>
+    <style>
+      .bg{fill:#f2eadc}.box{fill:#fffdf8;stroke:#182126;stroke-width:3;rx:18}.q{fill:#eef4f6;stroke:#284c63;stroke-width:3;rx:18}.ok{fill:#f4f8ee;stroke:#596f4f;stroke-width:3;rx:18}.warn{fill:#fff7df;stroke:#b4862e;stroke-width:3;rx:18}.stop{fill:#fff1ed;stroke:#9d2d2d;stroke-width:3;rx:18}.line{stroke:#284c63;stroke-width:3.5;fill:none;marker-end:url(#arrow)}.h{font:900 32px Inter,Arial,sans-serif;fill:#182126}.t{font:850 20px Inter,Arial,sans-serif;fill:#182126}.s{font:500 14px Inter,Arial,sans-serif;fill:#536168}.m{font:800 12px 'JetBrains Mono',Consolas,monospace;letter-spacing:1.4px;fill:#284c63}.yn{font:900 12px Inter,Arial,sans-serif;fill:#284c63}
+    </style>
+  </defs>
+  <rect width="1200" height="760" class="bg"/>
+  <text x="56" y="70" class="h">Amendment route decision tree</text>
+  <text x="56" y="100" class="s">Use before drafting: the packet changes depending on the route.</text>
+
+  <rect x="410" y="138" width="380" height="92" class="q"/>
+  <text x="442" y="175" class="m">START</text>
+  <text x="442" y="204" class="t">What changed in the live project?</text>
+  <text x="442" y="226" class="s">AI, survey, recruitment, logs, artifacts, access</text>
+
+  <rect x="98" y="298" width="300" height="118" class="q"/>
+  <text x="128" y="335" class="m">QUESTION 1</text>
+  <text x="128" y="364" class="t">Only admin metadata?</text>
+  <text x="128" y="390" class="s">Contact, typo, non-substantive</text>
+
+  <rect x="450" y="298" width="300" height="118" class="q"/>
+  <text x="480" y="335" class="m">QUESTION 2</text>
+  <text x="480" y="364" class="t">New data or population?</text>
+  <text x="480" y="390" class="s">Survey, logs, artifacts, eligibility</text>
+
+  <rect x="802" y="298" width="300" height="118" class="q"/>
+  <text x="832" y="335" class="m">QUESTION 3</text>
+  <text x="832" y="364" class="t">New privacy or AI flow?</text>
+  <text x="832" y="390" class="s">External API, free text, identifiers</text>
+
+  <rect x="98" y="510" width="300" height="120" class="ok"/>
+  <text x="128" y="548" class="m">ROUTE A</text>
+  <text x="128" y="578" class="t">Record update</text>
+  <text x="128" y="604" class="s">Track in vault and IRB log.</text>
+
+  <rect x="450" y="510" width="300" height="120" class="warn"/>
+  <text x="480" y="548" class="m">ROUTE B</text>
+  <text x="480" y="578" class="t">Minor amendment draft</text>
+  <text x="480" y="604" class="s">Delta table + revised attachments.</text>
+
+  <rect x="802" y="510" width="300" height="120" class="stop"/>
+  <text x="832" y="548" class="m">ROUTE C</text>
+  <text x="832" y="578" class="t">IRB consultation first</text>
+  <text x="832" y="604" class="s">Clarify review level before prose.</text>
+
+  <path d="M600 230 C545 260 372 278 248 298" class="line"/>
+  <path d="M600 230 C600 260 600 278 600 298" class="line"/>
+  <path d="M600 230 C655 260 828 278 952 298" class="line"/>
+  <path d="M248 416 C248 456 248 480 248 510" class="line"/>
+  <path d="M600 416 C600 456 600 480 600 510" class="line"/>
+  <path d="M952 416 C952 456 952 480 952 510" class="line"/>
+
+  <text x="208" y="468" class="yn">YES</text>
+  <text x="562" y="468" class="yn">YES</text>
+  <text x="914" y="468" class="yn">YES / UNSURE</text>
+  <text x="92" y="688" class="s">Rule of thumb: if participants see a new procedure, if new data are collected, or if AI/data routing changes, make a packet.</text>
+</svg>

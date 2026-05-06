@@ -1,0 +1,4 @@
+event_name,event_description,trigger,fields_collected,identifier_risk,research_use,participant_visible,retention_note
+module_view,"Participant opens a module/session page","page load","participant_code, module_id, timestamp","coded identifier","engagement/process analysis","no","[TBD]"
+artifact_submit,"Participant submits or marks a portfolio artifact","button/form submit","participant_code, artifact_type, timestamp, status","coded identifier plus possible artifact metadata","artifact completion and revision analysis","yes","[TBD]"
+ai_feedback_request,"Participant requests AI-assisted feedback","AI support action","participant_code, artifact_type, timestamp, prompt_metadata","possible free-text risk if prompt retained","support-use analysis","yes","[TBD]"

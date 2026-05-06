@@ -1,0 +1,4 @@
+data_element,source_system,participant_visible,contains_direct_identifier,contains_free_text,crosses_ai_or_api_boundary,stored_in_research_export,retention_period,access_group,consent_sentence_needed
+"Example: portfolio artifact title","TeachPlay portfolio","yes","no","yes","no","yes","[TBD]","approved study team","yes"
+"Example: AI feedback prompt","TeachPlay AI support","yes","possible","yes","yes","[TBD]","[TBD]","yes"
+"Example: page view event","TeachPlay web app","no","possible indirect","no","no","yes","[TBD]","approved study team","yes"
