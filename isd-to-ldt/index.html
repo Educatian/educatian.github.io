@@ -1,0 +1,2393 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>From ISD to LDT - a beginner snapshot guide</title>
+<meta name="description" content="A beginner-friendly visual guide to the history of instructional design from ISD origins to contemporary Learning Design and Technology.">
+<meta property="og:title" content="From ISD to LDT - a beginner snapshot guide">
+<meta property="og:description" content="Interactive lineage graph, model/theory decoder, DDR/DBR distinction, job-role visualization, and institutional lineage map.">
+<meta property="og:image" content="https://educatian.github.io/isd-to-ldt/thumbnails/hero_og_1200x630.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://educatian.github.io/isd-to-ldt/thumbnails/hero_og_1200x630.png">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap');
+:root{
+  --bg:#F2EBDD;
+  --paper:#FFF9EE;
+  --ink:#161615;
+  --ink2:#3E3A34;
+  --muted:#84796C;
+  --line:#D3C7B8;
+  --blueprint:#1F4D5E;
+  --blueprint2:#2B6A7A;
+  --rust:#A9472F;
+  --gold:#C9A14A;
+  --green:#536B45;
+  --soft-blue:rgba(31,77,94,.10);
+  --soft-rust:rgba(169,71,47,.10);
+  --shadow:0 18px 48px rgba(31,42,46,.13);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+}
+.blueprint-bg{
+  position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.42;
+  background:
+    linear-gradient(rgba(31,77,94,.07) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(31,77,94,.07) 1px,transparent 1px),
+    linear-gradient(rgba(31,77,94,.035) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(31,77,94,.035) 1px,transparent 1px);
+  background-size:64px 64px,64px 64px,16px 16px,16px 16px;
+  mask-image:radial-gradient(ellipse at 45% 18%,black 25%,rgba(0,0,0,.75) 52%,transparent 96%);
+}
+.blueprint-bg::after{
+  content:"";position:absolute;inset:0;
+  background:
+    radial-gradient(circle at 14% 14%,rgba(169,71,47,.18),transparent 23%),
+    radial-gradient(circle at 84% 8%,rgba(201,161,74,.16),transparent 22%),
+    linear-gradient(135deg,transparent 0 46%,rgba(31,77,94,.10) 46% 46.5%,transparent 46.5% 100%);
+}
+.shell{
+  position:relative;z-index:1;
+  display:grid;grid-template-columns:286px minmax(0,1fr);
+  gap:56px;max-width:1420px;margin:0 auto;padding:58px 70px 86px;
+}
+@media (max-width:1080px){
+  .shell{grid-template-columns:1fr;padding:34px 24px 70px;gap:30px}
+}
+.toc{
+  position:sticky;top:28px;align-self:start;max-height:calc(100vh - 56px);overflow:auto;
+  background:rgba(255,249,238,.94);backdrop-filter:blur(10px);
+  border:2px solid var(--ink);border-radius:14px;padding:22px 20px;box-shadow:var(--shadow);
+}
+@media (max-width:1080px){.toc{position:relative;top:auto;max-height:none}}
+.toc-k{font-size:11px;font-weight:900;letter-spacing:3.2px;text-transform:uppercase;color:var(--rust);margin-bottom:9px}
+.toc h2{margin:0 0 13px;font-size:20px;line-height:1.15;font-weight:900}
+.toc ol{list-style:none;margin:0;padding:0;counter-reset:item}
+.toc li{counter-increment:item;border-top:1px solid var(--line)}
+.toc li:first-child{border-top:0}
+.toc a{
+  display:flex;gap:10px;align-items:baseline;text-decoration:none;color:var(--ink);
+  padding:10px 8px;border-radius:9px;font-size:13.5px;line-height:1.35;font-weight:600;
+  transition:.14s ease;
+}
+.toc a::before{
+  content:counter(item,decimal-leading-zero);
+  width:20px;flex-shrink:0;
+  font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);font-weight:700;
+}
+.toc a:hover{background:var(--soft-blue);color:var(--blueprint)}
+.toc a.active{background:var(--blueprint);color:#fff;transform:translateX(4px)}
+.toc a.active::before{color:rgba(255,255,255,.72)}
+.main{min-width:0}
+.hero{padding:8px 0 50px;border-bottom:1px solid var(--line);margin-bottom:54px}
+.kicker{font-size:13px;font-weight:900;letter-spacing:4px;text-transform:uppercase;color:var(--rust);margin-bottom:16px}
+.h1{
+  margin:0 0 18px;
+  font-size:clamp(48px,6vw,76px);
+  line-height:1.02;font-weight:900;letter-spacing:-.035em;
+}
+.h1 .serif{font-family:'Playfair Display',Georgia,serif;font-style:italic;font-weight:400;color:var(--blueprint)}
+.lede{max-width:850px;margin:0 0 25px;font-size:21px;line-height:1.56;color:var(--ink2);font-weight:330}
+.byline{margin:0 0 18px;font-size:12px;font-weight:800;letter-spacing:1.8px;text-transform:uppercase;color:var(--muted)}
+.chips{display:flex;gap:12px;flex-wrap:wrap}
+.chip{
+  border:1.7px solid var(--ink);border-radius:999px;padding:7px 12px;background:rgba(255,249,238,.78);
+  font-size:11px;font-weight:900;letter-spacing:1.6px;text-transform:uppercase;
+}
+.chip.accent{background:var(--blueprint);border-color:var(--blueprint);color:#fff}
+.hero-board{
+  margin-top:32px;background:var(--paper);border:2px solid var(--ink);border-radius:16px;
+  padding:28px;box-shadow:var(--shadow);overflow:visible;
+}
+@media (max-width:720px){
+  .hero-board{padding:16px;overflow-x:auto}
+  .hero-board svg{min-width:860px}
+}
+.section{margin-bottom:76px;scroll-margin-top:30px}
+.section-label{
+  display:flex;align-items:center;gap:14px;margin:0 0 14px;
+  font-size:11px;font-weight:900;letter-spacing:3.2px;text-transform:uppercase;color:var(--muted);
+}
+.section-label::after{content:"";height:1px;background:var(--line);flex:1}
+.h2{margin:0 0 14px;font-size:42px;line-height:1.08;font-weight:900;letter-spacing:-.025em}
+.h2 .accent{color:var(--blueprint)}
+.h3{margin:32px 0 10px;font-size:24px;line-height:1.2;font-weight:900}
+.body p{margin:0 0 14px;font-size:15.8px;color:#29251F}
+.body ul,.body ol{margin:0 0 16px;padding-left:22px}
+.body li{font-size:15.6px;margin-bottom:6px;color:#29251F}
+.card{
+  background:var(--paper);border:2px solid var(--ink);border-radius:14px;padding:22px 24px;margin:18px 0;
+  box-shadow:0 9px 24px rgba(31,42,46,.06);
+}
+.card.blue{background:var(--soft-blue);border-color:var(--blueprint)}
+.card.rust{background:var(--soft-rust);border-color:var(--rust)}
+.card-title{font-size:11px;font-weight:900;letter-spacing:2.4px;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.card.blue .card-title{color:var(--blueprint)}
+.card.rust .card-title{color:var(--rust)}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:20px 0}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:20px 0}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:20px 0}
+@media (max-width:880px){.grid-2,.grid-3,.grid-4{grid-template-columns:1fr}}
+.mini{
+  background:var(--paper);border:2px solid var(--ink);border-radius:13px;padding:18px;min-height:150px;
+}
+.mini .num{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;color:var(--rust);letter-spacing:1.8px;text-transform:uppercase;margin-bottom:8px}
+.mini h3{margin:0 0 8px;font-size:19px;line-height:1.18}
+.mini p{margin:0;font-size:13.5px;color:var(--ink2);line-height:1.55}
+.figure{
+  background:var(--paper);border:2px solid var(--ink);border-radius:15px;padding:18px;margin:24px 0;overflow:hidden;
+}
+.image-panel{
+  background:var(--paper);border:2px solid var(--ink);border-radius:15px;padding:12px;margin:22px 0;
+  box-shadow:0 9px 24px rgba(31,42,46,.06);overflow:hidden;
+}
+.image-panel img{
+  display:block;width:100%;height:auto;max-height:520px;object-fit:cover;border-radius:9px;
+}
+.image-panel.contain img{object-fit:contain;background:#FFF9EE}
+.figcap{
+  display:flex;justify-content:space-between;gap:16px;align-items:baseline;margin-top:12px;padding-top:10px;border-top:1px solid var(--line);
+  font-size:13px;color:var(--ink2);
+}
+.figcap strong{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1.8px;text-transform:uppercase;color:var(--blueprint)}
+svg{max-width:100%;height:auto;display:block}
+.hero-board svg,.figure svg{overflow:visible}
+.timeline{
+  display:grid;grid-auto-flow:column;grid-auto-columns:minmax(190px,1fr);gap:12px;overflow-x:auto;padding-bottom:10px;margin:22px 0;
+}
+.era{
+  min-height:230px;background:var(--paper);border:2px solid var(--ink);border-radius:13px;padding:15px;display:flex;flex-direction:column;
+}
+.era .year{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:800;color:var(--rust);margin-bottom:8px}
+.era h3{font-size:17px;line-height:1.15;margin:0 0 8px}
+.era p{font-size:12.8px;line-height:1.48;color:var(--ink2);margin:0 0 8px}
+.era .anchor{margin-top:auto;border-top:1px solid var(--line);padding-top:9px;font-size:11px;font-weight:900;letter-spacing:1.2px;text-transform:uppercase;color:var(--blueprint)}
+.history-graph{
+  background:var(--paper);border:2px solid var(--ink);border-radius:15px;padding:18px;margin:22px 0;
+  box-shadow:0 9px 24px rgba(31,42,46,.06);overflow:hidden;
+}
+.history-graph svg{width:100%;min-width:860px}
+.history-wrap{overflow-x:auto;padding-bottom:4px}
+.history-node{cursor:pointer}
+.history-node circle{transition:.15s ease}
+.history-node:hover circle,.history-node.active circle{r:13;stroke-width:4}
+.history-node text{font-size:11px;font-weight:850;fill:var(--ink)}
+.history-node .node-year{font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:900;fill:var(--muted)}
+.history-line{fill:none;stroke-width:5;stroke-linecap:round;opacity:.45}
+.history-line.active{opacity:.95;stroke-width:7}
+.history-axis{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:900;fill:#84796C}
+.history-lane{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.8px}
+.history-readout{
+  display:grid;grid-template-columns:140px 1fr;gap:14px;align-items:start;background:#162429;color:#fff;border:2px solid var(--ink);
+  border-radius:13px;padding:16px;margin-top:14px;
+}
+.history-readout .year{font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:900;color:#F4C95D}
+.history-readout h3{font-size:21px;margin:0 0 6px;color:#fff}
+.history-readout p{font-size:13.5px;line-height:1.5;color:#E7F0F2;margin:0}
+.history-readout .anchor{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:900;letter-spacing:1px;text-transform:uppercase;color:#BFE2EA;margin-top:9px}
+@media (max-width:700px){.history-readout{grid-template-columns:1fr}}
+.ladder{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:22px 0}
+.rung{
+  background:var(--paper);border:2px solid var(--ink);border-radius:14px;padding:17px;min-height:160px;position:relative;overflow:hidden;
+}
+.rung::before{content:"";position:absolute;inset:0 0 auto 0;height:8px;background:var(--blueprint);opacity:calc(.25 + var(--i)*.08)}
+.rung .step{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);font-weight:800;letter-spacing:1.6px;text-transform:uppercase;margin:5px 0 9px}
+.rung h3{margin:0 0 8px;font-size:17px}
+.rung p{margin:0;font-size:13px;color:var(--ink2)}
+@media (max-width:960px){.ladder{grid-template-columns:1fr 1fr}}
+@media (max-width:620px){.ladder{grid-template-columns:1fr}}
+.tools{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:20px 0}
+.tool{
+  background:var(--paper);border:2px solid var(--ink);border-radius:13px;padding:16px;cursor:pointer;transition:.15s ease;min-height:162px;
+}
+.tool:hover,.tool.active{background:var(--blueprint);color:#fff;transform:translateY(-4px);box-shadow:var(--shadow)}
+.tool .tag{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--rust);margin-bottom:8px}
+.tool:hover .tag,.tool.active .tag{color:rgba(255,255,255,.75)}
+.tool h3{margin:0 0 8px;font-size:18px}
+.tool p{margin:0;font-size:12.8px;line-height:1.48;color:var(--ink2)}
+.tool:hover p,.tool.active p{color:rgba(255,255,255,.9)}
+@media (max-width:940px){.tools{grid-template-columns:1fr 1fr}}
+@media (max-width:620px){.tools{grid-template-columns:1fr}}
+.readout{
+  margin:16px 0 0;background:#162429;color:#fff;border:2px solid var(--ink);border-radius:14px;padding:20px;
+}
+.readout .label{font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:900;color:#BBD4DD;margin-bottom:8px}
+.readout h3{margin:0 0 8px;font-size:22px}
+.readout p{margin:0;color:#E7F0F2;font-size:14px}
+.matrix-wrap{
+  background:var(--paper);border:2px solid var(--ink);border-radius:15px;padding:18px;margin:22px 0;overflow-x:auto;
+  box-shadow:0 9px 24px rgba(31,42,46,.06);
+}
+.chooser-matrix{min-width:820px}
+.matrix-title{display:flex;justify-content:space-between;gap:18px;align-items:end;margin-bottom:12px}
+.matrix-title h3{font-size:22px;line-height:1.1;margin:0}
+.matrix-title p{font-size:12.5px;color:var(--ink2);margin:0;max-width:440px;line-height:1.42}
+.matrix-grid{display:grid;grid-template-columns:160px repeat(7,1fr);border:2px solid var(--ink);border-radius:12px;overflow:hidden}
+.matrix-cell{
+  min-height:58px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);background:#fff;padding:10px;
+  display:flex;align-items:center;justify-content:center;text-align:center;font-size:12px;line-height:1.2;color:var(--ink2);
+}
+.matrix-cell:nth-child(8n){border-right:0}
+.matrix-cell.header,.matrix-cell.rowhead{
+  background:#FFF3D2;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.9px;color:var(--ink);
+}
+.matrix-cell.rowhead{justify-content:flex-start;text-align:left;background:#F6F0E5}
+.matrix-dot{width:24px;height:24px;border-radius:50%;border:2px solid var(--ink);background:#fff;display:inline-flex;align-items:center;justify-content:center}
+.matrix-dot::after{content:"";width:11px;height:11px;border-radius:50%;background:var(--line)}
+.matrix-dot.strong::after{background:var(--blueprint)}
+.matrix-dot.medium::after{background:var(--rust);width:9px;height:9px}
+.matrix-dot.light::after{background:#C9A14A;width:7px;height:7px}
+.matrix-legend{display:flex;flex-wrap:wrap;gap:12px;margin-top:12px;font-size:12px;color:var(--ink2)}
+.matrix-legend span{display:inline-flex;align-items:center;gap:6px}
+.studio{
+  display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:22px 0;
+}
+.desk{background:var(--paper);border:2px solid var(--ink);border-radius:14px;padding:20px}
+.desk h3{margin:0 0 14px;font-size:24px}
+.desk ul{list-style:none;margin:0;padding:0;display:grid;gap:9px}
+.desk li{border:1.5px solid var(--line);border-radius:10px;padding:10px 11px;font-size:13px;background:#fff}
+.desk.modern{background:var(--soft-blue);border-color:var(--blueprint)}
+@media (max-width:760px){.studio{grid-template-columns:1fr}}
+.trend-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:18px 0}
+.trend{
+  background:#fff;border:1.7px solid var(--line);border-radius:12px;padding:15px;min-width:0;
+}
+.trend .tag{
+  display:inline-flex;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:900;
+  letter-spacing:1.2px;text-transform:uppercase;color:var(--blueprint);margin-bottom:8px;
+}
+.trend h3{margin:0 0 7px;font-size:16px;line-height:1.18}
+.trend p{margin:0;font-size:12.8px;line-height:1.5;color:var(--ink2)}
+@media (max-width:940px){.trend-grid{grid-template-columns:1fr 1fr}}
+@media (max-width:620px){.trend-grid{grid-template-columns:1fr}}
+.job-snapshot{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:20px 0}
+.job-snap{
+  background:var(--paper);border:2px solid var(--ink);border-radius:13px;padding:15px;min-width:0;
+  box-shadow:0 7px 18px rgba(31,42,46,.05);
+}
+.job-snap strong{display:block;font-size:26px;line-height:1;color:var(--blueprint);margin-bottom:6px}
+.job-snap span{display:block;font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:1px;color:var(--muted);line-height:1.25}
+.job-snap.rust strong{color:var(--rust)}
+.job-snap.green strong{color:var(--green)}
+.job-board{
+  display:grid;grid-template-columns:minmax(0,1.15fr) minmax(300px,.85fr);gap:18px;margin:18px 0;align-items:start;
+}
+.job-panel,.job-side{
+  background:var(--paper);border:2px solid var(--ink);border-radius:15px;padding:18px;min-width:0;
+  box-shadow:0 9px 24px rgba(31,42,46,.06);
+}
+.job-controls{display:flex;flex-wrap:wrap;gap:9px;margin:0 0 14px}
+.job-btn{
+  border:1.7px solid var(--ink);background:#fff;color:var(--ink);border-radius:999px;
+  padding:8px 11px;font-size:10.5px;font-weight:900;letter-spacing:1px;text-transform:uppercase;cursor:pointer;
+}
+.job-btn.active,.job-btn:hover{background:var(--blueprint);border-color:var(--blueprint);color:#fff}
+.job-chart{display:grid;gap:10px;margin:10px 0 0}
+.job-row{display:grid;grid-template-columns:minmax(170px,.9fr) minmax(180px,1.4fr) 44px;gap:10px;align-items:center}
+.job-label{font-size:13px;font-weight:800;line-height:1.22;color:var(--ink)}
+.job-bar{height:18px;background:#EFE7D9;border:1.4px solid var(--line);border-radius:999px;overflow:hidden}
+.job-fill{height:100%;background:linear-gradient(90deg,var(--blueprint),#79A8B4);border-radius:999px}
+.job-score{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:900;color:var(--rust);text-align:right}
+.job-curve{
+  background:#FFF9EE;border:1.7px solid var(--line);border-radius:13px;padding:13px;margin:14px 0 0;overflow:hidden;
+}
+.job-curve svg{width:100%;min-height:190px}
+.curve-label{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:900;fill:#84796C}
+.curve-value{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:900;fill:var(--rust)}
+.curve-title{font-size:14px;font-weight:900;fill:var(--ink)}
+.job-side h3{font-size:20px;line-height:1.15;margin:0 0 10px}
+.job-compare{display:grid;gap:9px;margin:12px 0}
+.job-compare-row{display:grid;grid-template-columns:86px 1fr 62px;gap:8px;align-items:center}
+.job-compare-row b{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.7px}
+.job-compare-track{height:16px;border:1.3px solid var(--line);border-radius:999px;background:#EFE7D9;overflow:hidden}
+.job-compare-fill{height:100%;background:var(--rust);border-radius:999px}
+.job-compare-fill.net{background:var(--green)}
+.job-compare-row span{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:900;color:var(--ink);text-align:right}
+.job-note{font-size:12.8px;line-height:1.52;color:var(--ink2);margin:12px 0 0}
+.role-composition{
+  background:#FFF9EE;border:1.7px solid var(--line);border-radius:13px;padding:14px;margin:14px 0 0;
+}
+.role-composition h3{font-size:18px;margin:0 0 6px}
+.role-composition p{font-size:12.5px;line-height:1.45;color:var(--ink2);margin:0 0 12px}
+.role-stack{height:30px;border:2px solid var(--ink);border-radius:999px;overflow:hidden;display:flex;background:#fff}
+.role-seg{height:100%;min-width:4%;position:relative}
+.role-seg.analysis{background:#1F4D5E}
+.role-seg.collaboration{background:#A9472F}
+.role-seg.curriculum{background:#C9A14A}
+.role-seg.technology{background:#5C3D91}
+.role-seg.evaluation{background:#477A53}
+.role-seg.support{background:#7AA6B2}
+.role-seg.media{background:#D9B36B}
+.role-legend{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 12px;margin-top:12px}
+.role-legend span{display:grid;grid-template-columns:12px 1fr auto;gap:7px;align-items:center;font-size:12px;color:var(--ink2)}
+.role-swatch{width:12px;height:12px;border-radius:50%;border:1px solid var(--ink)}
+.role-swatch.analysis{background:#1F4D5E}
+.role-swatch.collaboration{background:#A9472F}
+.role-swatch.curriculum{background:#C9A14A}
+.role-swatch.technology{background:#5C3D91}
+.role-swatch.evaluation{background:#477A53}
+.role-swatch.support{background:#7AA6B2}
+.role-swatch.media{background:#D9B36B}
+.role-legend b{font-size:12px;color:var(--ink)}
+.role-legend em{font-family:'JetBrains Mono',monospace;font-style:normal;font-size:10px;font-weight:900;color:var(--muted)}
+.qual-grid{display:grid;grid-template-columns:1fr;gap:10px;margin:12px 0}
+.qual-card{border:1.5px solid var(--line);border-radius:12px;background:#fff;padding:12px}
+.qual-card strong{display:block;font-size:15px;line-height:1.15;color:var(--blueprint);margin-bottom:5px}
+.qual-card span{font-size:12px;line-height:1.42;color:var(--ink2)}
+.source-disclosure{
+  margin:14px 0 0;background:#FFF9EE;border:1.7px solid var(--line);border-radius:12px;overflow:hidden;
+}
+.source-disclosure summary{font-size:13px;padding:12px 14px}
+.source-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;padding:0 14px 14px}
+.source-chip{background:#fff;border:1.3px solid var(--line);border-radius:10px;padding:10px}
+.source-chip strong{display:block;font-size:13px;margin-bottom:4px}
+.source-chip span{font-size:12px;line-height:1.38;color:var(--ink2)}
+@media (max-width:980px){.job-snapshot{grid-template-columns:1fr 1fr}.job-board{grid-template-columns:1fr}.job-row{grid-template-columns:1fr}.job-score{text-align:left}.source-grid{grid-template-columns:1fr}}
+@media (max-width:620px){.job-snapshot{grid-template-columns:1fr}}
+.map-wrap{
+  display:grid;grid-template-columns:1fr;
+  gap:18px;margin:24px 0;align-items:start;
+}
+.map-panel,.map-readout{
+  background:var(--paper);border:2px solid var(--ink);border-radius:15px;padding:18px;
+  box-shadow:0 9px 24px rgba(31,42,46,.06);
+  min-width:0;
+}
+.map-panel{overflow-x:auto;overflow-y:visible}
+.map-panel svg{width:100%;min-width:720px;min-height:500px}
+@media (max-width:720px){.map-panel svg{min-width:760px}}
+.map-controls{display:flex;flex-wrap:wrap;gap:9px;margin:0 0 14px}
+.map-btn{
+  border:1.7px solid var(--ink);background:#fff;color:var(--ink);
+  border-radius:999px;padding:8px 11px;font-size:10.5px;font-weight:900;
+  letter-spacing:1.1px;text-transform:uppercase;cursor:pointer;
+}
+.map-btn.active,.map-btn:hover{background:var(--rust);border-color:var(--rust);color:#fff}
+.map-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:18px 0}
+.map-stat{background:var(--paper);border:2px solid var(--ink);border-radius:13px;padding:14px;min-width:0}
+.map-stat strong{display:block;font-size:25px;line-height:1;color:var(--blueprint);margin-bottom:6px}
+.map-stat span{display:block;font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:1px;color:var(--muted);line-height:1.25}
+.map-principle{
+  background:#162429;color:#F2FBFD;border:3px solid var(--ink);border-left:12px solid var(--rust);
+  border-radius:15px;padding:20px 22px;margin:22px 0;box-shadow:var(--shadow);
+}
+.map-principle .card-title{color:#BFE2EA}
+.map-principle p{font-size:18px;line-height:1.55;color:#F2FBFD;margin:0}
+.map-principle mark{
+  background:linear-gradient(transparent 54%, rgba(201,161,74,.7) 54%);
+  color:#fff;font-weight:900;padding:0 2px;
+}
+.map-principle .underline{
+  text-decoration:underline;text-decoration-color:var(--gold);text-decoration-thickness:4px;text-underline-offset:4px;
+}
+.identity-river{
+  background:var(--paper);border:2px solid var(--ink);border-radius:15px;padding:18px;margin:22px 0;
+  box-shadow:0 9px 24px rgba(31,42,46,.06);overflow-x:auto;
+}
+.identity-river svg{min-width:880px}
+.river-label{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:900;letter-spacing:1px;text-transform:uppercase}
+.river-school{font-size:12px;font-weight:850;fill:#161615}
+.river-note{font-size:11px;fill:#5F564C}
+.dna-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:18px 0 0}
+.dna-card{background:#fff;border:1.7px solid var(--line);border-radius:12px;padding:13px;min-width:0}
+.dna-card h3{font-size:15px;line-height:1.15;margin:0 0 8px;overflow-wrap:anywhere}
+.dna-bars{display:grid;gap:6px}
+.dna-row{display:grid;grid-template-columns:42px 1fr;gap:8px;align-items:center}
+.dna-row b{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted)}
+.dna-track{height:9px;border-radius:999px;background:#EFE7D9;overflow:hidden}
+.dna-fill{height:100%;border-radius:999px}
+.dna-fill.isd{background:#1F4D5E}.dna-fill.it{background:#C9A14A}.dna-fill.ldt{background:#A9472F}.dna-fill.ls{background:#5C3D91}
+@media (max-width:980px){.dna-grid{grid-template-columns:1fr 1fr}}
+@media (max-width:620px){.dna-grid{grid-template-columns:1fr}}
+@media (max-width:760px){.map-stats{grid-template-columns:1fr}}
+.pin{cursor:pointer}
+.pin circle.outer{fill:#FFF9EE;stroke:#161615;stroke-width:2.4}
+.pin circle.inner{fill:var(--rust)}
+.pin.verified circle.inner{fill:var(--blueprint)}
+.pin.likely circle.inner{fill:var(--gold)}
+.pin.near circle.inner{fill:var(--green)}
+.pin.shift circle.outer{stroke:var(--rust);stroke-dasharray:4 3}
+.pin.ls circle.outer{stroke:#5C3D91}
+.pin.ls circle.inner{fill:#5C3D91}
+.pin.naples circle.outer{stroke:#5C3D91;stroke-dasharray:2 3}
+.pin.active circle.outer{stroke-width:4;filter:drop-shadow(0 0 6px rgba(31,77,94,.35))}
+.pin:hover circle.outer{stroke-width:3.4}
+.pin-label{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:800;fill:#161615;pointer-events:none}
+.state{fill:#E9EFEA;stroke:#FFFFFF;stroke-width:.9}
+.state-outline{fill:none;stroke:#161615;stroke-width:1.8}
+.map-caption{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:800;fill:#84796C}
+.map-readout .status{
+  display:inline-flex;border-radius:999px;padding:5px 8px;margin-bottom:10px;
+  font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:900;letter-spacing:1px;text-transform:uppercase;
+  color:#fff;background:var(--blueprint);
+}
+.map-readout .status.likely{background:var(--gold);color:#161615}
+.map-readout .status.near{background:var(--green)}
+.map-readout h3{margin:0 0 8px;font-size:24px;line-height:1.18}
+.map-readout p{font-size:14px;line-height:1.58;color:var(--ink2)}
+.map-readout dl{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px;margin:14px 0}
+.map-readout dt{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:900;letter-spacing:1px;text-transform:uppercase;color:var(--muted)}
+.map-readout dd{margin:3px 0 0;font-size:13.5px;color:var(--ink2);overflow-wrap:anywhere}
+.map-readout dd a{color:var(--blueprint);font-weight:800;text-decoration:none;border-bottom:1px solid currentColor}
+.map-readout dd.wide{grid-column:span 2}
+@media (max-width:760px){.map-readout dl{grid-template-columns:1fr}}
+@media (max-width:760px){.map-readout dd.wide{grid-column:auto}}
+.map-link{display:inline-flex;text-decoration:none;color:#fff;background:var(--blueprint);border-radius:999px;padding:8px 11px;font-size:11px;font-weight:900;letter-spacing:1.1px;text-transform:uppercase}
+.legend{display:flex;flex-wrap:wrap;gap:12px;margin:12px 0 0;font-size:12px;color:var(--ink2)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.dot{width:11px;height:11px;border-radius:50%;display:inline-block;background:var(--blueprint);border:1.5px solid var(--ink)}
+.dot.likely{background:var(--gold)}.dot.near{background:var(--green)}
+.dot.shift{background:#fff;border-color:var(--rust);outline:2px dashed var(--rust);outline-offset:2px}
+.dot.ls{background:#5C3D91}
+.dot.naples{background:#fff;border-color:#5C3D91;outline:2px dotted #5C3D91;outline-offset:2px}
+.journey{display:grid;grid-template-columns:repeat(6,minmax(168px,1fr));gap:12px;overflow-x:auto;margin:22px 0;padding-bottom:10px}
+.journey .panel{background:var(--paper);border:2px solid var(--ink);border-radius:14px;padding:15px;min-height:210px}
+.journey .panel .when{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:800;color:var(--rust);margin-bottom:8px}
+.journey .panel h3{margin:0 0 8px;font-size:17px;line-height:1.15}
+.journey .panel p{margin:0;font-size:12.8px;color:var(--ink2);line-height:1.48}
+.table-scroll{width:100%;overflow-x:auto;margin:20px 0;border-radius:14px}
+.schema{width:100%;min-width:720px;max-width:100%;border-collapse:collapse;background:var(--paper);border:2px solid var(--ink);border-radius:14px;overflow:hidden;margin:0;table-layout:fixed}
+.schema th{background:var(--ink);color:#fff;text-align:left;padding:13px 15px;font-size:11px;letter-spacing:1.6px;text-transform:uppercase}
+.schema td{padding:13px 15px;border-top:1px solid var(--line);font-size:14px;vertical-align:top;overflow-wrap:anywhere}
+.schema td:first-child{font-family:'JetBrains Mono',monospace;color:var(--rust);font-weight:700;width:160px}
+.faq{display:grid;gap:12px;margin:20px 0}
+details{background:var(--paper);border:2px solid var(--ink);border-radius:13px;overflow:hidden}
+details[open]{border-color:var(--blueprint);box-shadow:0 10px 28px rgba(31,77,94,.12)}
+summary{cursor:pointer;list-style:none;padding:17px 20px;font-size:18px;font-weight:850;display:flex;justify-content:space-between;gap:18px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font-family:'JetBrains Mono',monospace;color:var(--rust)}
+details[open] summary::after{content:"-"}
+.faq-body{padding:0 20px 18px;color:var(--ink2);font-size:14.5px}
+.refs li{font-size:13.5px;line-height:1.55}
+.print-note{font-size:12px;color:var(--muted);font-family:'JetBrains Mono',monospace}
+.ref-controls{display:flex;flex-wrap:wrap;gap:10px;margin:20px 0 16px}
+.ref-btn{
+  border:1.7px solid var(--ink);background:var(--paper);color:var(--ink);
+  border-radius:999px;padding:9px 13px;font-size:11px;font-weight:900;
+  letter-spacing:1.3px;text-transform:uppercase;cursor:pointer;transition:.14s ease;
+}
+.ref-btn:hover,.ref-btn.active{background:var(--blueprint);border-color:var(--blueprint);color:#fff}
+.ref-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:18px 0}
+@media (max-width:820px){.ref-grid{grid-template-columns:1fr}}
+.ref-card{
+  background:var(--paper);border:1.7px solid var(--line);border-radius:12px;padding:13px 14px;
+  display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px 12px;align-items:start;min-width:0;overflow:hidden;
+}
+.ref-card.hide{display:none}
+.ref-meta{display:flex;justify-content:space-between;align-items:center;gap:10px;grid-column:1/-1;border-bottom:1px solid var(--line);padding-bottom:7px}
+.pill{
+  font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:900;letter-spacing:.7px;
+  text-transform:uppercase;color:var(--muted);line-height:1.15;
+}
+.pill.era{color:var(--rust);white-space:nowrap}
+.pill:not(.era){text-align:right;overflow-wrap:anywhere}
+.ref-card h3{grid-column:1/-1;margin:0;font-size:15px;line-height:1.2;overflow-wrap:anywhere}
+.ref-card p{grid-column:1/-1;margin:0;font-size:12.7px;line-height:1.45;color:var(--ink2);overflow-wrap:anywhere}
+.ref-link{
+  grid-column:1/-1;display:inline-flex;align-self:flex-start;justify-self:start;text-decoration:none;color:#fff;
+  background:var(--blueprint);border-radius:999px;padding:7px 10px;
+  font-size:10px;font-weight:900;letter-spacing:.8px;text-transform:uppercase;white-space:nowrap;
+}
+.ref-note{
+  background:#162429;color:#F2FBFD;border:2px solid var(--ink);border-radius:14px;
+  padding:17px 19px;margin:18px 0;font-size:14px;
+}
+.ref-note strong{color:#BFE2EA}
+.ref-path{
+  display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin:18px 0;
+}
+.ref-step{
+  border:2px solid var(--ink);background:var(--paper);border-radius:13px;padding:13px;cursor:pointer;
+  min-width:0;position:relative;transition:.14s ease;
+}
+.ref-step::after{content:"";position:absolute;left:18px;right:-24px;top:50%;height:3px;background:var(--line);z-index:-1}
+.ref-step:last-child::after{display:none}
+.ref-step.active,.ref-step:hover{background:var(--soft-blue);border-color:var(--blueprint);transform:translateY(-2px)}
+.ref-step .num{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:900;color:var(--rust);letter-spacing:1px;text-transform:uppercase;margin-bottom:7px}
+.ref-step h3{font-size:15px;line-height:1.15;margin:0 0 6px;overflow-wrap:anywhere}
+.ref-step p{font-size:12px;line-height:1.42;margin:0;color:var(--ink2)}
+.ref-focus{
+  display:grid;grid-template-columns:minmax(0,.78fr) minmax(0,1.22fr);gap:14px;
+  background:#162429;color:#F2FBFD;border:2px solid var(--ink);border-radius:15px;padding:17px;margin:16px 0;
+}
+.ref-focus h3{font-size:20px;margin:0 0 8px;line-height:1.18}
+.ref-focus p{font-size:13.5px;line-height:1.5;margin:0;color:#E7F0F2}
+.ref-focus .ref-notelet{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1.2px;text-transform:uppercase;color:#BFE2EA;margin-bottom:7px}
+.ref-focus ul{margin:0;padding-left:18px}
+.ref-focus li{font-size:13px;line-height:1.42;color:#E7F0F2;margin-bottom:4px}
+@media (max-width:980px){.ref-path{grid-template-columns:1fr 1fr}.ref-step::after{display:none}.ref-focus{grid-template-columns:1fr}}
+@media (max-width:620px){.ref-path{grid-template-columns:1fr}.ref-card{grid-template-columns:1fr}.ref-link{white-space:normal}}
+.reading-path{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:16px 0 22px}
+.reading-step{
+  background:var(--paper);border:1.7px solid var(--line);border-radius:12px;padding:13px;min-width:0;
+}
+.reading-step .num{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:900;color:var(--rust);letter-spacing:1.2px;text-transform:uppercase;margin-bottom:6px}
+.reading-step h3{font-size:15px;line-height:1.18;margin:0 0 6px}
+.reading-step p{font-size:12.6px;line-height:1.45;margin:0;color:var(--ink2)}
+@media (max-width:900px){.reading-path{grid-template-columns:1fr 1fr}}
+@media (max-width:620px){.reading-path{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="blueprint-bg"></div>
+<div class="shell">
+  <aside class="toc">
+    <div class="toc-k">Educatian guide draft</div>
+    <h2>From ISD to LDT</h2>
+    <ol>
+      <li><a href="#origin">The real origin</a></li>
+      <li><a href="#ladder">What changed?</a></li>
+      <li><a href="#timeline">Decades as problems</a></li>
+      <li><a href="#models">Models as tools</a></li>
+      <li><a href="#program">ISD to LDT program</a></li>
+      <li><a href="#jobs">Job-market work map</a></li>
+      <li><a href="#lineage-map">30+ year program map</a></li>
+      <li><a href="#learner">One learner journey</a></li>
+      <li><a href="#glossary">Plain-language glossary</a></li>
+      <li><a href="#worksheets">Beginner worksheets</a></li>
+      <li><a href="#faq">Misconceptions</a></li>
+      <li><a href="#refs">Reference explorer</a></li>
+    </ol>
+  </aside>
+
+  <main class="main body">
+    <header class="hero">
+      <div class="kicker">Instructional design history / beginner snapshot</div>
+      <p class="byline">Draft guide / Educatian / 2026</p>
+      <h1 class="h1">From <span class="serif">ISD</span> to LDT</h1>
+      <p class="lede">How instructional design grew from industrial and wartime training systems into AI-era learning design and technology. The point is not to memorize models. The point is to see why each model appeared, what problem it solved, and how the field expanded.</p>
+      <div class="chips">
+        <span class="chip accent">Origin: reliable training at scale</span>
+        <span class="chip">Expansion: systems, environments, evidence</span>
+        <span class="chip">Now: AI, analytics, accessibility</span>
+      </div>
+      <div class="hero-board" aria-label="Four origins of ISD flowing into LDT">
+        <svg viewBox="0 0 1100 470" role="img" aria-labelledby="heroTitle heroDesc">
+          <title id="heroTitle">Four streams flowing into instructional systems design and expanding into learning design and technology</title>
+          <desc id="heroDesc">Industrial training, military systems analysis, behavioral science, and measurement converge into ISD, which later expands into LDT.</desc>
+          <defs>
+            <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#1F4D5E"/></marker>
+            <pattern id="paperGrid" width="24" height="24" patternUnits="userSpaceOnUse"><path d="M24 0H0v24" fill="none" stroke="#D3C7B8" stroke-width="1"/></pattern>
+          </defs>
+          <rect x="8" y="8" width="1084" height="454" rx="18" fill="url(#paperGrid)" stroke="#D3C7B8"/>
+          <g font-family="Inter, sans-serif">
+            <text x="42" y="52" font-size="18" font-weight="900" fill="#A9472F" letter-spacing="3">START WITH THE PROBLEM, NOT ADDIE</text>
+            <text x="42" y="84" font-size="32" font-weight="900" fill="#161615">How do we help many people learn important tasks reliably?</text>
+
+            <g transform="translate(48,132)">
+              <rect width="230" height="68" rx="12" fill="#FFF9EE" stroke="#161615" stroke-width="3"/>
+              <text x="18" y="26" font-size="15" font-weight="900" fill="#161615">Industrial training</text>
+              <text x="18" y="50" font-size="12" fill="#3E3A34">show / tell / do / check</text>
+            </g>
+            <g transform="translate(48,218)">
+              <rect width="230" height="68" rx="12" fill="#FFF9EE" stroke="#161615" stroke-width="3"/>
+              <text x="18" y="26" font-size="15" font-weight="900" fill="#161615">Military systems</text>
+              <text x="18" y="50" font-size="12" fill="#3E3A34">people / machines / procedures</text>
+            </g>
+            <g transform="translate(48,304)">
+              <rect width="230" height="68" rx="12" fill="#FFF9EE" stroke="#161615" stroke-width="3"/>
+              <text x="18" y="26" font-size="15" font-weight="900" fill="#161615">Behavioral science</text>
+              <text x="18" y="50" font-size="12" fill="#3E3A34">steps / response / feedback</text>
+            </g>
+            <g transform="translate(48,390)">
+              <rect width="230" height="56" rx="12" fill="#FFF9EE" stroke="#161615" stroke-width="3"/>
+              <text x="18" y="25" font-size="15" font-weight="900" fill="#161615">Measurement</text>
+              <text x="18" y="46" font-size="12" fill="#3E3A34">objectives / mastery / evidence</text>
+            </g>
+
+            <path d="M280 166 C390 166 390 230 505 236" stroke="#1F4D5E" stroke-width="10" fill="none" opacity=".55" marker-end="url(#arrow)"/>
+            <path d="M280 252 C390 252 390 244 505 244" stroke="#1F4D5E" stroke-width="10" fill="none" opacity=".65" marker-end="url(#arrow)"/>
+            <path d="M280 338 C390 338 390 262 505 252" stroke="#A9472F" stroke-width="10" fill="none" opacity=".50" marker-end="url(#arrow)"/>
+            <path d="M280 418 C390 418 390 278 505 260" stroke="#C9A14A" stroke-width="10" fill="none" opacity=".55" marker-end="url(#arrow)"/>
+
+            <g transform="translate(510,185)">
+              <rect width="210" height="116" rx="18" fill="#1F4D5E" stroke="#161615" stroke-width="3"/>
+              <text x="105" y="43" text-anchor="middle" font-size="22" font-weight="900" fill="#fff">ISD</text>
+              <text x="105" y="70" text-anchor="middle" font-size="12" font-weight="700" fill="#DDEEF1">Instructional Systems Design</text>
+              <text x="105" y="93" text-anchor="middle" font-size="11" fill="#DDEEF1">analysis / design / development / evaluation</text>
+            </g>
+            <path d="M722 242 C795 242 810 242 878 242" stroke="#1F4D5E" stroke-width="12" fill="none" marker-end="url(#arrow)"/>
+            <g transform="translate(880,164)">
+              <rect width="178" height="158" rx="18" fill="#FFF9EE" stroke="#161615" stroke-width="3"/>
+              <text x="89" y="40" text-anchor="middle" font-size="23" font-weight="900" fill="#1F4D5E">LDT</text>
+              <text x="89" y="65" text-anchor="middle" font-size="12" font-weight="800" fill="#161615">Learning Design</text>
+              <text x="89" y="84" text-anchor="middle" font-size="12" font-weight="800" fill="#161615">and Technology</text>
+              <text x="20" y="116" font-size="11" fill="#3E3A34">learning sciences</text>
+              <text x="20" y="135" font-size="11" fill="#3E3A34">UX / analytics / AI</text>
+            </g>
+          </g>
+        </svg>
+        <div class="figcap"><strong>Opening map</strong><span>ISD is best introduced as a convergence of performance-training streams, not as a single model invented from nowhere.</span></div>
+      </div>
+    </header>
+
+    <section id="origin" class="section">
+      <div class="section-label">01 / Origin</div>
+      <h2 class="h2">ISD starts before <span class="accent">ADDIE</span>.</h2>
+      <p>Instructional Systems Design became recognizable in the 1960s and 1970s, but its working logic is older. It grew from the need to prepare many people for consequential tasks in reliable, measurable ways.</p>
+      <div class="grid-4">
+        <div class="mini"><div class="num">1918-45</div><h3>Industrial training</h3><p>Job instruction made task performance teachable through demonstration, practice, and checking.</p></div>
+        <div class="mini"><div class="num">1941-50s</div><h3>Military systems</h3><p>Training became part of a whole system: people, machines, materials, procedures, and feedback.</p></div>
+        <div class="mini"><div class="num">1950s</div><h3>Programmed instruction</h3><p>Behavioral science gave designers small steps, active response, immediate feedback, and reinforcement.</p></div>
+        <div class="mini"><div class="num">1950s-60s</div><h3>Measurement</h3><p>Objectives, taxonomies, and criterion-referenced testing made learning outcomes inspectable.</p></div>
+        <div class="mini"><div class="num">1950s-70s</div><h3>Instructional media</h3><p>ETV, ITV, videotape, CAI, and PLATO made delivery, interaction, and distance part of the design problem.</p></div>
+      </div>
+      <div class="card blue">
+        <div class="card-title">Beginner takeaway</div>
+        <p>Instructional design did not begin as "pretty course content." It began as a performance-design question: what should learners be able to do, under what conditions, through which media or support system, and how will we know?</p>
+      </div>
+      <figure class="image-panel">
+        <img src="assets/isd-origin-studio.png" alt="Archival instructional design studio with training manuals, film reel, flowcharts, and modern learning design tools">
+        <figcaption class="figcap"><strong>Generated visual</strong><span>A tactile origin image for the guide: ISD as training media, systems diagrams, measurement, and later digital design work on one desk.</span></figcaption>
+      </figure>
+    </section>
+
+    <section id="ladder" class="section">
+      <div class="section-label">02 / Big shift</div>
+      <h2 class="h2">The design object kept getting <span class="accent">larger</span>.</h2>
+      <p>The field's history is easier to understand if we ask, "What are designers designing?" The answer moved from media and lesson sequences toward whole environments, platforms, and AI-supported systems.</p>
+      <div class="ladder">
+        <div class="rung" style="--i:1"><div class="step">Rung 1</div><h3>Media and audiovisual instruction</h3><p>Make content visible, distributable, and reusable through film, radio, ETV, ITV, and later videotape.</p></div>
+        <div class="rung" style="--i:2"><div class="step">Rung 2</div><h3>Programmed sequences</h3><p>Guide response, feedback, reinforcement, and developmental testing.</p></div>
+        <div class="rung" style="--i:3"><div class="step">Rung 3</div><h3>CAI and networked learning</h3><p>Use mainframes, TICCIT, and PLATO to make instruction interactive, adaptive, and shareable.</p></div>
+        <div class="rung" style="--i:4"><div class="step">Rung 4</div><h3>Instructional systems</h3><p>Align goals, learners, tasks, assessment, strategy, and revision.</p></div>
+        <div class="rung" style="--i:5"><div class="step">Rung 5</div><h3>Learning environments</h3><p>Support inquiry, collaboration, identity, and meaningful activity.</p></div>
+        <div class="rung" style="--i:6"><div class="step">Rung 6</div><h3>Digital ecosystems</h3><p>Connect platforms, content, dashboards, discussion, and support.</p></div>
+        <div class="rung" style="--i:7"><div class="step">Rung 7</div><h3>AI-supported products</h3><p>Co-design adaptive, ethical, learner-facing systems.</p></div>
+        <div class="rung" style="--i:8"><div class="step">Rung 8</div><h3>Learning engineering</h3><p>Continuously improve learning systems with theory and evidence.</p></div>
+      </div>
+    </section>
+
+    <section id="timeline" class="section">
+      <div class="section-label">03 / Timeline</div>
+      <h2 class="h2">Read decades as <span class="accent">design problems</span>.</h2>
+      <p>This is not a complete history. It is a beginner map: each era had a pressure, and the field answered with a design response.</p>
+      <div class="history-graph" aria-label="Interactive lineage graph from 1918 to the 2020s">
+        <div class="history-wrap">
+          <svg viewBox="0 0 1060 430" role="img" aria-labelledby="histTitle histDesc">
+            <title id="histTitle">Interactive ISD to LDT lineage graph</title>
+            <desc id="histDesc">A conceptual graph with time on the horizontal axis and lineage lanes for training systems, media technology, psychology and measurement, design research, and digital learning systems.</desc>
+            <rect x="0" y="0" width="1060" height="430" rx="16" fill="#FFF9EE"/>
+            <g stroke="#D3C7B8" stroke-width="1">
+              <line x1="118" y1="58" x2="1010" y2="58"/>
+              <line x1="118" y1="118" x2="1010" y2="118"/>
+              <line x1="118" y1="178" x2="1010" y2="178"/>
+              <line x1="118" y1="238" x2="1010" y2="238"/>
+              <line x1="118" y1="298" x2="1010" y2="298"/>
+              <line x1="118" y1="358" x2="1010" y2="358"/>
+            </g>
+            <g class="history-lane">
+              <text x="24" y="63" fill="#1F4D5E">Training</text>
+              <text x="24" y="123" fill="#C9A14A">Media / CAI</text>
+              <text x="24" y="183" fill="#A9472F">Psychology</text>
+              <text x="24" y="243" fill="#477A53">Systems ISD</text>
+              <text x="24" y="303" fill="#5C3D91">Research</text>
+              <text x="24" y="363" fill="#161615">Digital / AI</text>
+            </g>
+            <g class="history-axis">
+              <text x="120" y="406">1918</text><text x="250" y="406">1952</text><text x="384" y="406">1961</text><text x="510" y="406">1970s</text><text x="642" y="406">1990s</text><text x="782" y="406">2010s</text><text x="910" y="406">2020s</text>
+            </g>
+            <path class="history-line" data-lane="training" d="M146 58 C245 62 350 64 456 62 S640 70 760 82" stroke="#1F4D5E"/>
+            <path class="history-line" data-lane="media" d="M286 118 C348 112 422 110 492 118 S650 132 820 154" stroke="#C9A14A"/>
+            <path class="history-line" data-lane="psych" d="M312 178 C392 174 430 174 482 180 S548 196 574 238" stroke="#A9472F"/>
+            <path class="history-line" data-lane="systems" d="M442 238 C506 232 548 230 610 236 S706 250 812 296" stroke="#477A53"/>
+            <path class="history-line" data-lane="research" d="M650 298 C718 284 774 274 844 292 S910 330 946 356" stroke="#5C3D91"/>
+            <path class="history-line" data-lane="digital" d="M650 358 C726 344 790 332 860 344 S926 354 956 358" stroke="#161615"/>
+
+            <g class="history-node active" data-era="0" data-lane="training" transform="translate(146 58)">
+              <circle r="10" fill="#fff" stroke="#1F4D5E" stroke-width="3"/><text x="14" y="-4">Allen / TWI</text><text class="node-year" x="14" y="11">1918-45</text>
+            </g>
+            <g class="history-node" data-era="1" data-lane="media" transform="translate(286 118)">
+              <circle r="10" fill="#fff" stroke="#C9A14A" stroke-width="3"/><text x="14" y="-4">ETV / ITV</text><text class="node-year" x="14" y="11">1952-60s</text>
+            </g>
+            <g class="history-node" data-era="2" data-lane="psych" transform="translate(320 178)">
+              <circle r="10" fill="#fff" stroke="#A9472F" stroke-width="3"/><text x="14" y="-4">Skinner / PI</text><text class="node-year" x="14" y="11">1954-60s</text>
+            </g>
+            <g class="history-node" data-era="3" data-lane="media" transform="translate(410 118)">
+              <circle r="10" fill="#fff" stroke="#C9A14A" stroke-width="3"/><text x="14" y="-4">CAI / PLATO</text><text class="node-year" x="14" y="11">1961-70s</text>
+            </g>
+            <g class="history-node" data-era="4" data-lane="systems" transform="translate(454 238)">
+              <circle r="10" fill="#fff" stroke="#477A53" stroke-width="3"/><text x="14" y="-4">Job Corps / ESEA</text><text class="node-year" x="14" y="11">1964-65</text>
+            </g>
+            <g class="history-node" data-era="5" data-lane="psych" transform="translate(486 178)">
+              <circle r="10" fill="#fff" stroke="#A9472F" stroke-width="3"/><text x="14" y="-4">Gagne / Glaser</text><text class="node-year" x="14" y="11">1965-70s</text>
+            </g>
+            <g class="history-node" data-era="6" data-lane="systems" transform="translate(560 238)">
+              <circle r="10" fill="#fff" stroke="#477A53" stroke-width="3"/><text x="14" y="-4">FSU / IPISD</text><text class="node-year" x="14" y="11">1970s</text>
+            </g>
+            <g class="history-node" data-era="7" data-lane="systems" transform="translate(620 238)">
+              <circle r="10" fill="#fff" stroke="#477A53" stroke-width="3"/><text x="14" y="-4">Models</text><text class="node-year" x="14" y="11">1980s</text>
+            </g>
+            <g class="history-node" data-era="8" data-lane="research" transform="translate(676 298)">
+              <circle r="10" fill="#fff" stroke="#5C3D91" stroke-width="3"/><text x="14" y="-4">Web / DBR</text><text class="node-year" x="14" y="11">1990s</text>
+            </g>
+            <g class="history-node" data-era="9" data-lane="research" transform="translate(758 298)">
+              <circle r="10" fill="#fff" stroke="#5C3D91" stroke-width="3"/><text x="14" y="-4">Learning env.</text><text class="node-year" x="14" y="11">2000s</text>
+            </g>
+            <g class="history-node" data-era="10" data-lane="digital" transform="translate(842 358)">
+              <circle r="10" fill="#fff" stroke="#161615" stroke-width="3"/><text x="14" y="-4">Analytics</text><text class="node-year" x="14" y="11">2010s</text>
+            </g>
+            <g class="history-node" data-era="11" data-lane="digital" transform="translate(944 358)">
+              <circle r="10" fill="#fff" stroke="#161615" stroke-width="3"/><text x="-80" y="-16">AI-era LDT</text><text class="node-year" x="-80" y="-1">2020s</text>
+            </g>
+          </svg>
+        </div>
+        <div class="history-readout" aria-live="polite">
+          <div class="year" id="historyYear">1918-45</div>
+          <div>
+            <h3 id="historyTitle">Train workers and soldiers fast</h3>
+            <p id="historyBody">Standardize job instruction, task analysis, practice, and checking.</p>
+            <div class="anchor" id="historyAnchor">Allen / TWI</div>
+          </div>
+        </div>
+      </div>
+      <div class="timeline" aria-label="Timeline of ISD to LDT">
+        <div class="era"><div class="year">1918-45</div><h3>Train workers and soldiers fast</h3><p>Standardize job instruction, task analysis, practice, and checking.</p><div class="anchor">Allen / TWI</div></div>
+        <div class="era"><div class="year">1952-60s</div><h3>Broadcast instruction at scale</h3><p>Canada and the USA test whether ETV/ITV lectures, demonstrations, field trips, and visualization can travel beyond one classroom.</p><div class="anchor">EEN / MPATI / ITV</div></div>
+        <div class="era"><div class="year">1954-60s</div><h3>Make instruction precise</h3><p>Teaching machines and programmed books turn response, feedback, and revision into a design process.</p><div class="anchor">Skinner / PI</div></div>
+        <div class="era"><div class="year">1961-70s</div><h3>Make computers instructional</h3><p>CAI, TICCIT, and PLATO prototype drill, tutorials, branching, authoring languages, and online community features.</p><div class="anchor">Stanford CAI / PLATO</div></div>
+        <div class="era"><div class="year">1964-65</div><h3>Create a learning industry</h3><p>Job Corps, ESEA, and HEA funding create demand for self-instruction, systems models, and development projects.</p><div class="anchor">Job Corps / ESEA / HEA</div></div>
+        <div class="era"><div class="year">1965-70s</div><h3>Match instruction to outcomes</h3><p>Learning conditions, objectives, and formative revision connect psychology with systems design.</p><div class="anchor">Gagne / Glaser / Briggs</div></div>
+        <div class="era"><div class="year">1970s</div><h3>Build accountable systems</h3><p>FSU's defense work and IPISD make procedural ISD dominant in military and training contexts.</p><div class="anchor">FSU / Branson / IPISD</div></div>
+        <div class="era"><div class="year">1980s</div><h3>Formalize the profession</h3><p>Dozens of ISD models circulate; instructional design becomes the core competency of instructional technology.</p><div class="anchor">Dick & Carey / Reigeluth</div></div>
+        <div class="era"><div class="year">1990s</div><h3>Challenge delivery-only design</h3><p>Constructivist critique, the Web, and design experiments push designers toward authentic activity and context.</p><div class="anchor">WWW / Jonassen / DBR</div></div>
+        <div class="era"><div class="year">2000s</div><h3>Design learning environments</h3><p>Learning sciences and online learning expand the design object beyond lessons and materials.</p><div class="anchor">Sawyer / Merrill</div></div>
+        <div class="era"><div class="year">2010s</div><h3>Instrument digital ecosystems</h3><p>Analytics, dashboards, UX, and learning engineering make evidence loops part of LDT work.</p><div class="anchor">Siemens / OpenSimon</div></div>
+        <div class="era"><div class="year">2020s</div><h3>Design with AI responsibly</h3><p>LDT work includes AI, accessibility, privacy, analytics, products, and governance.</p><div class="anchor">AECT 2023 / GenAI</div></div>
+      </div>
+      <div class="grid-4">
+        <div class="mini"><div class="num">Model history</div><h3>ADDIE is later shorthand</h3><p>The field had systems procedures before the acronym became a common way to name the phases.</p></div>
+        <div class="mini"><div class="num">Field language</div><h3>Technology was soft and hard</h3><p>It meant both scientific process design and physical media/devices.</p></div>
+        <div class="mini"><div class="num">Adoption lesson</div><h3>Access did not equal use</h3><p>Film, ITV, computers, and networks repeatedly showed that hardware adoption alone does not transform pedagogy.</p></div>
+        <div class="mini"><div class="num">Current stance</div><h3>ISD absorbed critique</h3><p>Constructivism and SAM challenged rigid use, but not the broader need for alignment, evaluation, and revision.</p></div>
+      </div>
+    </section>
+
+    <section id="models" class="section">
+      <div class="section-label">04 / Models</div>
+      <h2 class="h2">Models are tools, <span class="accent">not religions</span>.</h2>
+      <p>A beginner mistake is to ask which model is "best." A better question is: what kind of design problem do you have?</p>
+      <div class="tools" id="toolWall">
+        <button class="tool active" data-title="ADDIE / IPISD" data-use="Use it when the project needs accountable phases: analyze, design, develop, implement, evaluate. Watch out for treating phases as a rigid waterfall."><div class="tag">Phase guide</div><h3>ADDIE</h3><p>Organizes the work into design and production phases.</p></button>
+        <button class="tool" data-title="Dick & Carey" data-use="Use it when alignment matters: goals, learners, context, objectives, assessments, strategy, materials, formative evaluation, and revision."><div class="tag">System map</div><h3>Dick & Carey</h3><p>Shows instruction as an interdependent system.</p></button>
+        <button class="tool" data-title="Kemp" data-use="Use it when course or program design is nonlinear and constrained by many practical decisions at once."><div class="tag">Flexible plan</div><h3>Kemp</h3><p>Supports flexible planning rather than a single sequence.</p></button>
+        <button class="tool" data-title="Gagne" data-use="Use it when you need lesson-level support matched to learning outcomes and internal learning processes."><div class="tag">Lesson events</div><h3>Gagne</h3><p>Connects learning outcomes with instructional conditions.</p></button>
+        <button class="tool" data-title="Merrill" data-use="Use it when the lesson should center on authentic tasks: activation, demonstration, application, and integration."><div class="tag">Task-centered</div><h3>Merrill</h3><p>Keeps instruction grounded in whole problems and application.</p></button>
+        <button class="tool" data-title="DDR" data-use="Use Design and Development Research when the project is building, validating, or studying an instructional product, tool, model, or design process. It is especially close to ISD/IDT research traditions."><div class="tag">IDT research</div><h3>DDR</h3><p>Studies the design, development, validation, and use of instructional products or models.</p></button>
+        <button class="tool" data-title="DBR" data-use="Use it when you are designing and studying a complex learning environment through iterative cycles."><div class="tag">Research cycle</div><h3>DBR</h3><p>Turns design into a way to build and test theory in context.</p></button>
+        <button class="tool" data-title="Learning engineering" data-use="Use it when a learning system can be instrumented, measured, improved, and revised over time."><div class="tag">Evidence loop</div><h3>Learning engineering</h3><p>Combines learning science, data, and continuous improvement.</p></button>
+        <button class="tool" data-title="AI-era LDT" data-use="Use it when the work involves learning products, AI co-design, analytics, accessibility, ethics, UX, and program-level implementation."><div class="tag">Product studio</div><h3>AI-era LDT</h3><p>Expands design toward technologies, people, data, and governance.</p></button>
+      </div>
+      <div class="readout" aria-live="polite">
+        <div class="label">Selected tool</div>
+        <h3 id="toolTitle">ADDIE / IPISD</h3>
+        <p id="toolUse">Use it when the project needs accountable phases: analyze, design, develop, implement, evaluate. Watch out for treating phases as a rigid waterfall.</p>
+      </div>
+      <div class="matrix-wrap" aria-label="Instructional design model chooser matrix">
+        <div class="chooser-matrix">
+          <div class="matrix-title">
+            <h3>Model chooser matrix</h3>
+            <p>Read across the problem, not down a ranking. Filled dots mean the model is especially useful for that design problem; open dots mean it can help but is not the main fit.</p>
+          </div>
+          <div class="matrix-grid">
+            <div class="matrix-cell header">Problem type</div>
+            <div class="matrix-cell header">ADDIE / IPISD</div>
+            <div class="matrix-cell header">Dick & Carey</div>
+            <div class="matrix-cell header">Gagne</div>
+            <div class="matrix-cell header">Merrill</div>
+            <div class="matrix-cell header">DDR</div>
+            <div class="matrix-cell header">DBR</div>
+            <div class="matrix-cell header">Learning Eng.</div>
+
+            <div class="matrix-cell rowhead">Accountability</div>
+            <div class="matrix-cell"><span class="matrix-dot strong" aria-label="strong fit"></span></div>
+            <div class="matrix-cell"><span class="matrix-dot strong" aria-label="strong fit"></span></div>
+            <div class="matrix-cell"><span class="matrix-dot light" aria-label="light fit"></span></div>
+            <div class="matrix-cell"><span class="matrix-dot light" aria-label="light fit"></span></div>
+            <div class="matrix-cell"><span class="matrix-dot medium" aria-label="medium fit"></span></div>
+            <div class="matrix-cell"><span class="matrix-dot medium" aria-label="medium fit"></span></div>
+            <div class="matrix-cell"><span class="matrix-dot medium" aria-label="medium fit"></span></div>
+
+            <div class="matrix-cell rowhead">Lesson support</div>
+            <div class="matrix-cell"><span class="matrix-dot medium" aria-label="medium fit"></span></div>
+            <div class="matrix-cell"><span class="matrix-dot medium" aria-label="medium fit"></span></div>
+            <div class="matrix-cell"><span class="matrix-dot strong" aria-label="strong fit"></span></div>
+            <div class="matrix-cell"><span class="matrix-dot medium" aria-label="medium fit"></span></div>
+            <div class="matrix-cell"><span class="matrix-dot medium" aria-label="medium fit"></span></div>
+            <div class="matrix-cell"><span class="matrix-dot light" aria-label="light fit"></span></div>
+            <div class="matrix-cell"><span class="matrix-dot light" aria-label="light fit"></span></div>
+
+            <div class="matrix-cell rowhead">Authentic task</div>
+            <div class="matrix-cell"><span class="matrix-dot light" aria-label="light fit"></span></div>
+            <div class="matrix-cell"><span class="matrix-dot medium" aria-label="medium fit"></span></div>
+            <div class="matrix-cell"><span class="matrix-dot medium" aria-label="medium fit"></span></div>
+            <div class="matrix-cell"><span class="matrix-dot strong" aria-label="strong fit"></span></div>
+            <div class="matrix-cell"><span class="matrix-dot strong" aria-label="strong fit"></span></div>
+            <div class="matrix-cell"><span class="matrix-dot medium" aria-label="medium fit"></span></div>
+            <div class="matrix-cell"><span class="matrix-dot medium" aria-label="medium fit"></span></div>
+
+            <div class="matrix-cell rowhead">Complex environment</div>
+            <div class="matrix-cell"><span class="matrix-dot light" aria-label="light fit"></span></div>
+            <div class="matrix-cell"><span class="matrix-dot medium" aria-label="medium fit"></span></div>
+            <div class="matrix-cell"><span class="matrix-dot light" aria-label="light fit"></span></div>
+            <div class="matrix-cell"><span class="matrix-dot medium" aria-label="medium fit"></span></div>
+            <div class="matrix-cell"><span class="matrix-dot strong" aria-label="strong fit"></span></div>
+            <div class="matrix-cell"><span class="matrix-dot strong" aria-label="strong fit"></span></div>
+            <div class="matrix-cell"><span class="matrix-dot medium" aria-label="medium fit"></span></div>
+
+            <div class="matrix-cell rowhead">Continuous improvement</div>
+            <div class="matrix-cell"><span class="matrix-dot medium" aria-label="medium fit"></span></div>
+            <div class="matrix-cell"><span class="matrix-dot medium" aria-label="medium fit"></span></div>
+            <div class="matrix-cell"><span class="matrix-dot light" aria-label="light fit"></span></div>
+            <div class="matrix-cell"><span class="matrix-dot medium" aria-label="medium fit"></span></div>
+            <div class="matrix-cell"><span class="matrix-dot strong" aria-label="strong fit"></span></div>
+            <div class="matrix-cell"><span class="matrix-dot strong" aria-label="strong fit"></span></div>
+            <div class="matrix-cell"><span class="matrix-dot strong" aria-label="strong fit"></span></div>
+
+            <div class="matrix-cell rowhead">AI product / platform</div>
+            <div class="matrix-cell"><span class="matrix-dot light" aria-label="light fit"></span></div>
+            <div class="matrix-cell"><span class="matrix-dot medium" aria-label="medium fit"></span></div>
+            <div class="matrix-cell"><span class="matrix-dot light" aria-label="light fit"></span></div>
+            <div class="matrix-cell"><span class="matrix-dot medium" aria-label="medium fit"></span></div>
+            <div class="matrix-cell"><span class="matrix-dot strong" aria-label="strong fit"></span></div>
+            <div class="matrix-cell"><span class="matrix-dot medium" aria-label="medium fit"></span></div>
+            <div class="matrix-cell"><span class="matrix-dot strong" aria-label="strong fit"></span></div>
+          </div>
+          <div class="matrix-legend">
+            <span><i class="matrix-dot strong"></i> primary fit</span>
+            <span><i class="matrix-dot medium"></i> useful fit</span>
+            <span><i class="matrix-dot light"></i> supporting fit</span>
+          </div>
+        </div>
+      </div>
+      <div class="card blue">
+        <div class="card-title">Confusion decoder</div>
+        <p>Beginners often hear model, theory, framework, method, and research design used as if they were interchangeable. In this guide, the distinction is practical: what question does the term help you answer?</p>
+      </div>
+      <div class="table-scroll"><table class="schema">
+        <thead><tr><th>Term people confuse</th><th>Question it answers</th><th>Examples in this guide</th><th>Common mistake</th></tr></thead>
+        <tbody>
+          <tr><td>Learning theory</td><td>How do people learn?</td><td>Behaviorism, cognitive views, constructivist views, learning sciences</td><td>Treating a theory of learning as a step-by-step course design recipe.</td></tr>
+          <tr><td>Instructional theory / principle</td><td>What methods help learning, and under what conditions?</td><td>Gagne's conditions, Merrill's First Principles, Reigeluth's instructional theories</td><td>Calling every practical model a theory, or missing that some theories are prescriptive.</td></tr>
+          <tr><td>ID model / process model</td><td>How should designers organize the work?</td><td>ADDIE/IPISD, Dick & Carey, Kemp</td><td>Treating ADDIE as a learning theory or as the single origin of ISD.</td></tr>
+          <tr><td>Framework</td><td>What categories help us see the problem?</td><td>AECT definitions, UDL, TPACK, program-identity lenses</td><td>Using a framework as if it automatically tells you what to build next.</td></tr>
+          <tr><td>Strategy / method</td><td>What action happens in instruction?</td><td>Demonstration, practice, feedback, worked examples, simulation, discussion</td><td>Confusing an activity with the larger design model that organizes it.</td></tr>
+          <tr><td>Research approach</td><td>How do we study the design or its effects?</td><td>DDR, DBR, evaluation, learning analytics</td><td>Using DBR for every iterative project; DDR is often the closer ISD/IDT fit for product, tool, model, or process development.</td></tr>
+          <tr><td>Media / tool</td><td>What carries or supports the learning experience?</td><td>ITV, CAI, PLATO, LMS, dashboards, AI tools</td><td>Assuming a new medium automatically changes pedagogy.</td></tr>
+        </tbody>
+      </table></div>
+    </section>
+
+    <section id="program" class="section">
+      <div class="section-label">05 / Program evolution</div>
+      <h2 class="h2">LDT did not replace ISD. It <span class="accent">expanded the workspace</span>.</h2>
+      <div class="studio">
+        <div class="desk">
+          <h3>Classic ISD desk</h3>
+          <ul>
+            <li>Needs analysis</li>
+            <li>Task analysis</li>
+            <li>Performance objectives</li>
+            <li>Criterion-referenced assessment</li>
+            <li>Instructional materials</li>
+            <li>Formative evaluation</li>
+          </ul>
+        </div>
+        <div class="desk modern">
+          <h3>Contemporary LDT studio</h3>
+          <ul>
+            <li>Learning sciences and design research</li>
+            <li>UX research and prototyping</li>
+            <li>Accessibility and inclusive design</li>
+            <li>Learning analytics and evaluation</li>
+            <li>AI-assisted design workflows</li>
+            <li>Ethics, privacy, portfolio, internship</li>
+          </ul>
+        </div>
+      </div>
+      <div class="card rust">
+        <div class="card-title">Program lens</div>
+        <p>Modern LDT programs still need the ISD core: analysis, alignment, design, development, implementation, and evaluation. What changed is the setting. Designers now often work on platforms, products, analytics systems, simulations, microcredentials, and AI-supported learning environments.</p>
+      </div>
+      <div class="trend-grid">
+        <div class="trend"><span class="tag">AI co-design</span><h3>Prompt, critique, verify</h3><p>Designers use AI to draft, simulate, personalize, and evaluate, while keeping responsibility for evidence and ethics.</p></div>
+        <div class="trend"><span class="tag">UX / product</span><h3>Prototype the experience</h3><p>LDT work now often includes wireframes, user research, usability testing, and product-like iteration.</p></div>
+        <div class="trend"><span class="tag">Accessibility</span><h3>Design for access first</h3><p>Inclusive design, UDL, captions, alt text, remediation, and policy compliance become core design responsibilities.</p></div>
+        <div class="trend"><span class="tag">Analytics</span><h3>Instrument the system</h3><p>Learning traces, dashboards, assessment evidence, and improvement cycles connect design to measurable use.</p></div>
+        <div class="trend"><span class="tag">Learning engineering</span><h3>Improve continuously</h3><p>The object is not one course artifact; it is a learning system that can be tested, revised, and governed.</p></div>
+        <div class="trend"><span class="tag">Ethics</span><h3>Govern the technology</h3><p>Privacy, bias, transparency, copyright, labor, and accessibility shape what counts as good design.</p></div>
+      </div>
+      <figure class="image-panel">
+        <img src="assets/isd-ldt-studio.png" alt="Side-by-side visual of a classic ISD desk expanding into a contemporary LDT studio">
+        <figcaption class="figcap"><strong>Generated visual</strong><span>The left side keeps the classic ISD desk; the right side shows the LDT studio: prototypes, analytics, accessibility, collaboration, and AI-era design work.</span></figcaption>
+      </figure>
+    </section>
+
+    <section id="jobs" class="section">
+      <div class="section-label">06 / Job market</div>
+      <h2 class="h2">What does this field become as <span class="accent">actual work</span>?</h2>
+      <p>For beginners, the bridge from LDT programs to jobs is often unclear. This prototype uses public occupational data as the stable baseline, then leaves a job-board API slot for live postings from sources such as HigherEdJobs, Glassdoor-style providers, or institutional HR feeds when access is available.</p>
+      <div class="job-snapshot" aria-label="Instructional designer proxy job snapshot">
+        <div class="job-snap"><strong>$74.7K</strong><span>2024 median pay</span></div>
+        <div class="job-snap rust"><strong>21.9K</strong><span>annual openings</span></div>
+        <div class="job-snap green"><strong>+2.9K</strong><span>net jobs, 2024-34</span></div>
+        <div class="job-snap"><strong>MA+</strong><span>typical entry signal</span></div>
+      </div>
+      <div class="job-board">
+        <div class="job-panel">
+          <div class="job-controls" aria-label="Job duty filters">
+            <button class="job-btn active" data-job-view="work">Work activities</button>
+            <button class="job-btn" data-job-view="tasks">ID/LDT tasks</button>
+            <button class="job-btn" data-job-view="tech">Tech stack</button>
+            <button class="job-btn" data-job-view="quals">Qualifications</button>
+          </div>
+          <div class="job-chart" id="jobChart" aria-live="polite"></div>
+          <div class="role-composition" aria-label="Instructional designer role composition">
+            <h3>Role composition: not just content production</h3>
+            <p>Heuristic synthesis from O*NET task/work-activity categories and BLS occupation framing. It is a guide visualization, not a job-posting frequency estimate.</p>
+            <div class="role-stack">
+              <div class="role-seg analysis" style="width:18%" title="Analysis 18%"></div>
+              <div class="role-seg collaboration" style="width:20%" title="Collaboration 20%"></div>
+              <div class="role-seg curriculum" style="width:17%" title="Curriculum 17%"></div>
+              <div class="role-seg technology" style="width:16%" title="Technology 16%"></div>
+              <div class="role-seg evaluation" style="width:12%" title="Evaluation 12%"></div>
+              <div class="role-seg support" style="width:10%" title="Faculty/support 10%"></div>
+              <div class="role-seg media" style="width:7%" title="Media 7%"></div>
+            </div>
+            <div class="role-legend">
+              <span><i class="role-swatch analysis"></i><b>Analysis</b><em>18</em></span>
+              <span><i class="role-swatch collaboration"></i><b>Collaboration</b><em>20</em></span>
+              <span><i class="role-swatch curriculum"></i><b>Curriculum</b><em>17</em></span>
+              <span><i class="role-swatch technology"></i><b>Technology</b><em>16</em></span>
+              <span><i class="role-swatch evaluation"></i><b>Evaluation</b><em>12</em></span>
+              <span><i class="role-swatch support"></i><b>Faculty/support</b><em>10</em></span>
+              <span><i class="role-swatch media"></i><b>Media</b><em>7</em></span>
+            </div>
+          </div>
+          <div class="job-curve" aria-label="Projected employment curve for the instructional coordinator occupation">
+            <svg viewBox="0 0 760 240" role="img" aria-labelledby="jobCurveTitle jobCurveDesc">
+              <title id="jobCurveTitle">Projected employment curve for instructional coordinators from 2024 to 2034</title>
+              <desc id="jobCurveDesc">BLS projects employment from 232.6 thousand in 2024 to 235.5 thousand in 2034, a slow 1 percent increase.</desc>
+              <rect x="0" y="0" width="760" height="240" rx="12" fill="#FFF9EE"/>
+              <text x="24" y="30" class="curve-title">Employment stock projection, ID proxy occupation</text>
+              <text x="24" y="50" class="curve-label">BLS 25-9031 Instructional Coordinators, 2024-2034</text>
+              <g stroke="#D3C7B8" stroke-width="1">
+                <line x1="58" y1="174" x2="720" y2="174"/>
+                <line x1="58" y1="128" x2="720" y2="128"/>
+                <line x1="58" y1="82" x2="720" y2="82"/>
+              </g>
+              <path d="M70 160 C190 153 315 145 438 132 S630 104 704 92" fill="none" stroke="#1F4D5E" stroke-width="6" stroke-linecap="round"/>
+              <circle cx="70" cy="160" r="7" fill="#A9472F" stroke="#161615" stroke-width="2"/>
+              <circle cx="704" cy="92" r="7" fill="#A9472F" stroke="#161615" stroke-width="2"/>
+              <text x="48" y="198" class="curve-label">2024</text>
+              <text x="678" y="198" class="curve-label">2034</text>
+              <text x="86" y="158" class="curve-value">232.6K</text>
+              <text x="610" y="84" class="curve-value">235.5K</text>
+              <text x="330" y="214" class="curve-label">slow growth: +2.9K total jobs over ten years</text>
+            </svg>
+          </div>
+          <p class="job-note" id="jobNote">Baseline source: O*NET 25-9031.00, updated 2026. The older 25-9031.01 Instructional Designers and Technologists code now redirects to Instructional Coordinators, so the chart labels keep the ID/LDT interpretation visible.</p>
+        </div>
+        <aside class="job-side">
+          <h3>Qualification signal</h3>
+          <div class="job-compare" aria-label="Annual openings compared with projected net employment growth">
+            <div class="job-compare-row"><b>Openings/yr</b><div class="job-compare-track"><div class="job-compare-fill" style="width:100%"></div></div><span>21.9K</span></div>
+            <div class="job-compare-row"><b>Net growth</b><div class="job-compare-track"><div class="job-compare-fill net" style="width:13%"></div></div><span>2.9K</span></div>
+          </div>
+          <div class="qual-grid">
+            <div class="qual-card"><strong>Typical entry degree</strong><span>Master's degree, BLS proxy occupation.</span></div>
+            <div class="qual-card"><strong>Preparation level</strong><span>O*NET Job Zone 5: extensive preparation.</span></div>
+            <div class="qual-card"><strong>Common add-ons</strong><span>Teaching, curriculum, LMS, accessibility, media, evaluation.</span></div>
+          </div>
+          <details class="source-disclosure">
+            <summary>Data caveat and source slots</summary>
+            <div class="source-grid">
+              <div class="source-chip"><strong>ID proxy</strong><span>BLS does not isolate instructional designers; this uses SOC 25-9031 because O*NET includes ID/LDT titles.</span></div>
+              <div class="source-chip"><strong>Stable baseline</strong><span>O*NET tasks, work activities, technology skills, titles; BLS wage and outlook.</span></div>
+              <div class="source-chip"><strong>Job-board layer</strong><span>HigherEdJobs or Glassdoor-style data should be added only with stable/approved access.</span></div>
+            </div>
+          </details>
+        </aside>
+      </div>
+      <div class="card">
+        <div class="card-title">How to read the chart</div>
+        <p>The modern instructional designer is not only a course builder. The work clusters around relationship management, faculty/staff coaching, technology-mediated design, analysis/evaluation, documentation, and product-like learning systems. The qualification signal is graduate-heavy: BLS lists a master's degree as the typical entry-level education for the proxy occupation, while O*NET reports a Job Zone 5 occupation requiring extensive preparation.</p>
+      </div>
+    </section>
+
+    <section id="lineage-map" class="section">
+      <div class="section-label">07 / Institutional lineage</div>
+      <h2 class="h2">Where did long-running ISD/LDT lineages take root?</h2>
+      <p>This map uses a conservative guide criterion. The ISD/LDT layer prioritizes R1 universities with visible AECT/IDT/LDT field participation or strong instructional design, instructional technology, educational technology, instructional systems, or LDT graduate-program identity. The LS layer is separate and marks US learning-sciences programs or NAPLeS-listed/LS-oriented programs. A marker does not mean the same department, degree, or faculty line continued unchanged; reconfigured cases are labeled as legacy-to-current identity transitions rather than simple continuity claims.</p>
+      <div class="map-stats">
+        <div class="map-stat"><strong>33</strong><span>first-pass R1 ID/LDT/LT training institutions</span></div>
+        <div class="map-stat"><strong>R1</strong><span>research university filter, not program quality ranking</span></div>
+        <div class="map-stat"><strong>Active</strong><span>official graduate program/concentration pages checked</span></div>
+      </div>
+      <div class="map-principle">
+        <div class="card-title">Read the map this way</div>
+        <p><mark>This is a lineage visualization, not a ranking.</mark> It separates <span class="underline">age/confidence of the program lineage</span> from <span class="underline">identity of the lineage</span>: some programs remain closer to systems ISD, some to educational technology research, and some moved toward learning sciences or LDT design-studio identities. Dashed shift markers are interpretive and need archive-level confirmation before publication-grade claims.</p>
+      </div>
+      <div class="identity-river" aria-label="Identity river from 1960 to 2026">
+        <svg viewBox="0 0 1040 420" role="img" aria-labelledby="riverTitle riverDesc">
+          <title id="riverTitle">1960 to 2026 identity river for ISD, IT, LDT, and learning sciences</title>
+          <desc id="riverDesc">A conceptual lane chart showing how selected programs are grouped by public-facing systems ISD, instructional technology, LDT, and learning sciences identities across time.</desc>
+          <rect x="0" y="0" width="1040" height="420" rx="16" fill="#FFF9EE"/>
+          <text class="river-note" x="82" y="34">Horizontal placement is approximate time / public identity cue. Vertical placement is categorical lane only, not a score.</text>
+          <g stroke="#D3C7B8" stroke-width="1">
+            <line x1="206" y1="58" x2="206" y2="345"/><line x1="360" y1="58" x2="360" y2="345"/><line x1="514" y1="58" x2="514" y2="345"/><line x1="668" y1="58" x2="668" y2="345"/><line x1="822" y1="58" x2="822" y2="345"/><line x1="944" y1="58" x2="944" y2="345"/>
+          </g>
+          <g class="river-label" fill="#84796C">
+            <text x="190" y="376">1960</text><text x="344" y="376">1975</text><text x="498" y="376">1990</text><text x="652" y="376">2005</text><text x="806" y="376">2020</text><text x="928" y="376">2026</text>
+          </g>
+          <g>
+            <rect x="206" y="70" width="738" height="54" rx="14" fill="#E4F1F4" stroke="#1F4D5E" stroke-width="2"/>
+            <rect x="206" y="140" width="738" height="54" rx="14" fill="#F5EBCB" stroke="#C9A14A" stroke-width="2"/>
+            <rect x="206" y="210" width="738" height="54" rx="14" fill="#F4D9D0" stroke="#A9472F" stroke-width="2"/>
+            <rect x="206" y="280" width="738" height="54" rx="14" fill="#E7DFF2" stroke="#5C3D91" stroke-width="2"/>
+          </g>
+          <g class="river-label">
+            <text x="50" y="102" fill="#1F4D5E">Systems ISD</text>
+            <text x="50" y="172" fill="#9A7729">IT / EdTech</text>
+            <text x="50" y="242" fill="#A9472F">LDT</text>
+            <text x="50" y="312" fill="#5C3D91">Learning Sciences</text>
+          </g>
+          <g class="river-school">
+            <text x="224" y="102">FSU / IU</text>
+            <text x="348" y="102">Purdue</text>
+            <text x="294" y="172">ASU legacy</text>
+            <text x="456" y="172">Mizzou 1997</text>
+            <text x="786" y="172">UF EdTech / TTU</text>
+            <text x="580" y="242">UGA / PSU</text>
+            <text x="744" y="242">ASU LDT</text>
+            <text x="546" y="312">Wisconsin / CU</text>
+            <text x="760" y="312">Stanford / Buffalo</text>
+          </g>
+          <text class="river-note" x="90" y="404">Conceptual grouping, not a measured scatterplot: labels summarize public-facing program identity. Archive confirmation is still needed for exact continuity claims.</text>
+        </svg>
+      </div>
+      <div class="dna-grid" aria-label="Program identity DNA examples">
+        <div class="dna-card"><h3>Purdue</h3><div class="dna-bars"><div class="dna-row"><b>ISD</b><div class="dna-track"><div class="dna-fill isd" style="width:88%"></div></div></div><div class="dna-row"><b>IT</b><div class="dna-track"><div class="dna-fill it" style="width:62%"></div></div></div><div class="dna-row"><b>LDT</b><div class="dna-track"><div class="dna-fill ldt" style="width:54%"></div></div></div><div class="dna-row"><b>LS</b><div class="dna-track"><div class="dna-fill ls" style="width:22%"></div></div></div></div></div>
+        <div class="dna-card"><h3>ASU</h3><div class="dna-bars"><div class="dna-row"><b>ISD</b><div class="dna-track"><div class="dna-fill isd" style="width:38%"></div></div></div><div class="dna-row"><b>IT</b><div class="dna-track"><div class="dna-fill it" style="width:82%"></div></div></div><div class="dna-row"><b>LDT</b><div class="dna-track"><div class="dna-fill ldt" style="width:86%"></div></div></div><div class="dna-row"><b>LS</b><div class="dna-track"><div class="dna-fill ls" style="width:42%"></div></div></div></div></div>
+        <div class="dna-card"><h3>Wisconsin</h3><div class="dna-bars"><div class="dna-row"><b>ISD</b><div class="dna-track"><div class="dna-fill isd" style="width:18%"></div></div></div><div class="dna-row"><b>IT</b><div class="dna-track"><div class="dna-fill it" style="width:36%"></div></div></div><div class="dna-row"><b>LDT</b><div class="dna-track"><div class="dna-fill ldt" style="width:44%"></div></div></div><div class="dna-row"><b>LS</b><div class="dna-track"><div class="dna-fill ls" style="width:94%"></div></div></div></div></div>
+        <div class="dna-card"><h3>UF</h3><div class="dna-bars"><div class="dna-row"><b>ISD</b><div class="dna-track"><div class="dna-fill isd" style="width:48%"></div></div></div><div class="dna-row"><b>IT</b><div class="dna-track"><div class="dna-fill it" style="width:86%"></div></div></div><div class="dna-row"><b>LDT</b><div class="dna-track"><div class="dna-fill ldt" style="width:46%"></div></div></div><div class="dna-row"><b>LS</b><div class="dna-track"><div class="dna-fill ls" style="width:24%"></div></div></div></div></div>
+      </div>
+      <div class="map-wrap">
+        <div class="map-panel">
+          <div class="map-controls" aria-label="Program lineage filters">
+            <button class="map-btn active" data-map-filter="all">All</button>
+            <button class="map-btn" data-map-filter="verified">Verified 30+</button>
+            <button class="map-btn" data-map-filter="likely">Legacy likely</button>
+            <button class="map-btn" data-map-filter="near">Near threshold</button>
+            <button class="map-btn" data-map-filter="systems">Systems ISD identity</button>
+            <button class="map-btn" data-map-filter="edtech">EdTech / LDT program identity</button>
+            <button class="map-btn" data-map-filter="learningsci">Learning sciences / LDT identity</button>
+            <button class="map-btn" data-map-filter="shift">Legacy -> current LDT/LS program</button>
+            <button class="map-btn" data-map-filter="lsprogram">US learning sciences programs</button>
+            <button class="map-btn" data-map-filter="naples">NAPLeS-listed / LS network</button>
+            <button class="map-btn" data-map-filter="idtraining">R1 ID/LDT training</button>
+          </div>
+          <svg id="usMap" viewBox="0 0 920 590" role="img" aria-labelledby="mapTitle mapDesc">
+            <title id="mapTitle">Interactive map of long-running ISD and LDT program lineages in the United States</title>
+            <desc id="mapDesc">United States state-boundary map with program pins for institutions with long ISD, IDT, educational technology, or LDT lineages.</desc>
+            <rect x="0" y="0" width="920" height="590" rx="20" fill="#fff9ee"/>
+            <text x="35" y="44" class="map-caption">US states map / pins projected from campus latitude and longitude</text>
+            <g id="statesLayer"></g>
+            <g id="programPins"></g>
+          </svg>
+          <div class="legend">
+            <span><i class="dot"></i>Verified 30+ lineage</span>
+            <span><i class="dot likely"></i>Legacy likely / needs deeper archive</span>
+            <span><i class="dot near"></i>Near-threshold or LDT-specific launch</span>
+            <span><i class="dot shift"></i>Legacy ISD/IT/EdTech now a current LDT/LS-oriented program</span>
+            <span><i class="dot ls"></i>US learning sciences program layer</span>
+            <span><i class="dot naples"></i>NAPLeS-listed / network-confirmed LS layer</span>
+          </div>
+        </div>
+        <aside class="map-readout" id="programReadout">
+          <span class="status" id="programStatus">Verified 30+</span>
+          <h3 id="programName">Indiana University Bloomington</h3>
+          <p id="programSummary">Instructional Systems Technology lineage with public evidence of educational media work in the 1940s and a Division of Instructional Systems Technology by the late 1960s.</p>
+          <dl>
+            <dt>Lineage</dt><dd id="programLineage">Educational media -> instructional systems technology -> IST/LDT-adjacent graduate preparation</dd>
+            <dt>Identity</dt><dd id="programIdentity">Systems ISD / instructional technology</dd>
+            <dt>Identity shift</dt><dd id="programShift">Mostly continuous systems / instructional technology identity</dd>
+            <dt>Start cue</dt><dd id="programStart">1940 educational media course; 1968-69 IST division evidence</dd>
+            <dt>People</dt><dd id="programPeople">Michael Molenda; James Pershing; Charles Reigeluth-adjacent IST lineage</dd>
+            <dt>People role</dt><dd id="programPeopleRole">Institutional anchors plus adjacent intellectual lineage</dd>
+            <dt>Evidence basis</dt><dd id="programEvidence">Public program history / archival source; exact claims marked by confidence status</dd>
+            <dt>Why map it</dt><dd id="programWhy">One of the clearest long-running institutional homes for the systems/technology side of the field.</dd>
+          </dl>
+          <a class="map-link" id="programLink" href="https://eric.ed.gov/?id=ED040688" target="_blank" rel="noreferrer">Open evidence</a>
+        </aside>
+      </div>
+      <figure class="image-panel contain">
+        <img src="assets/program-map-archive.png" alt="Academic archive wall with a United States map and pins for institutional lineage mapping">
+        <figcaption class="figcap"><strong>Generated visual</strong><span>A supporting mood image for the interactive lineage map. The actual school locations remain coordinate-based in the SVG map above.</span></figcaption>
+      </figure>
+    </section>
+
+    <section id="learner" class="section">
+      <div class="section-label">08 / Learner journey</div>
+      <h2 class="h2">Same learning problem, <span class="accent">different design assumptions</span>.</h2>
+      <p>Imagine one learner trying to operate a complex system. The field's history changes how that learner is supported.</p>
+      <div class="journey">
+        <div class="panel"><div class="when">1940s</div><h3>Job instruction</h3><p>The instructor demonstrates the task. The learner practices. The supervisor checks performance.</p></div>
+        <div class="panel"><div class="when">1950s</div><h3>Programmed steps</h3><p>The learner answers small frames and receives immediate feedback after each response.</p></div>
+        <div class="panel"><div class="when">1970s</div><h3>ISD course</h3><p>The course has objectives, prerequisite analysis, assessments, materials, and revision cycles.</p></div>
+        <div class="panel"><div class="when">1990s</div><h3>Authentic scenario</h3><p>The learner solves realistic problems with scaffolds, tools, and collaboration.</p></div>
+        <div class="panel"><div class="when">2010s</div><h3>Digital ecosystem</h3><p>The learner uses LMS resources, simulations, peer discussion, and dashboards.</p></div>
+        <div class="panel"><div class="when">2020s</div><h3>AI-era LDT</h3><p>The learner receives adaptive AI support while designers monitor evidence, ethics, and access.</p></div>
+      </div>
+    </section>
+
+    <section id="glossary" class="section">
+      <div class="section-label">09 / Glossary</div>
+      <h2 class="h2">Terms in <span class="accent">plain language</span>.</h2>
+      <div class="table-scroll"><table class="schema">
+        <thead><tr><th>Term</th><th>Beginner definition</th><th>Watch out</th></tr></thead>
+        <tbody>
+          <tr><td>ISD</td><td>A systematic way to design instruction as a performance system.</td><td>Not just a checklist or a course template.</td></tr>
+          <tr><td>ADDIE</td><td>A common phase logic for organizing design work.</td><td>Not the whole field and not necessarily the origin.</td></tr>
+          <tr><td>IDT</td><td>Instructional design and technology: design plus processes/resources for learning.</td><td>Technology means more than devices.</td></tr>
+          <tr><td>LDT</td><td>Learning design and technology: designing learning experiences, environments, products, and programs.</td><td>Not just edtech tool adoption.</td></tr>
+          <tr><td>Model</td><td>A representation or workflow that helps organize design decisions.</td><td>Models can be useful without being theories of learning.</td></tr>
+          <tr><td>Theory</td><td>An explanation or prescription about learning or instruction under certain conditions.</td><td>Do not call every process diagram a theory.</td></tr>
+          <tr><td>Framework</td><td>A set of categories or lenses for seeing a problem.</td><td>A framework helps organize thinking; it may not tell you the next design step.</td></tr>
+          <tr><td>DDR</td><td>Design and Development Research: an IDT research tradition for studying product/tool development and model development.</td><td>Closer to ISD/IDT development work than DBR when the central object is a designed product, tool, model, or process.</td></tr>
+          <tr><td>DBR</td><td>Design-Based Research: iterative design and theory-building in real learning settings.</td><td>Often closer to learning sciences; do not use it as the only research-design label for ISD work.</td></tr>
+          <tr><td>Learning sciences</td><td>Research on how people learn across cognitive, social, cultural, and technological settings.</td><td>It is not a single model.</td></tr>
+          <tr><td>Learning engineering</td><td>Continuous improvement of learning systems using learning science, data, and design.</td><td>More data is not automatically better learning.</td></tr>
+          <tr><td>ETV / ITV</td><td>Educational or instructional television used to distribute lectures, demonstrations, visualization, field trips, and other instructional genres.</td><td>Early projects often overestimated how much broadcasting alone could replace local teaching.</td></tr>
+          <tr><td>CAI</td><td>Computer-assisted instruction: early computer-delivered drill, tutorials, branching, and later more adaptive instruction.</td><td>Do not treat all educational computing as CAI; later computers also became learner productivity and communication tools.</td></tr>
+          <tr><td>PLATO</td><td>University of Illinois networked instructional computing system that combined courseware with many features later associated with online communities.</td><td>It was not just a tutoring system; it also matters as a platform and community precedent.</td></tr>
+          <tr><td>Soft technology</td><td>The application of scientific/systematic thinking to design, development, testing, and revision.</td><td>In IDT history, technology does not only mean hardware.</td></tr>
+          <tr><td>IPISD</td><td>Interservice Procedures for Instructional Systems Development, a major 1970s military ISD procedure set.</td><td>It is a lineage anchor for ADDIE-like phase logic, not the whole origin story.</td></tr>
+          <tr><td>Developmental testing</td><td>Repeated tryout, error detection, feedback, and revision during material development.</td><td>This is why programmed instruction mattered even after the format itself faded.</td></tr>
+        </tbody>
+      </table></div>
+    </section>
+
+    <section id="worksheets" class="section">
+      <div class="section-label">10 / Practice</div>
+      <h2 class="h2">Beginner worksheets that make the history <span class="accent">usable</span>.</h2>
+      <div class="grid-3">
+        <div class="mini"><div class="num">Worksheet 1</div><h3>Origin streams</h3><p>Match industrial training, military systems, behaviorism, measurement, and instructional media to their design contributions.</p></div>
+        <div class="mini"><div class="num">Worksheet 3</div><h3>Model comparison</h3><p>Compare ADDIE, Dick & Carey, Kemp, Gagne, Merrill, DBR, and learning engineering.</p></div>
+        <div class="mini"><div class="num">Worksheet 6</div><h3>Program anatomy</h3><p>Sort classic ISD, transitional IDT, and contemporary LDT components.</p></div>
+      </div>
+      <div class="card">
+        <div class="card-title">Draft companion file</div>
+        <p>The current worksheet pack lives locally at <code>Desktop/_writing/2026-05-06_isd-to-ldt-worksheets/worksheets.md</code>. In a later pass, this guide can link a clean downloadable PDF or printable HTML version.</p>
+      </div>
+    </section>
+
+    <section id="faq" class="section">
+      <div class="section-label">11 / Misconceptions</div>
+      <h2 class="h2">Common beginner confusions.</h2>
+      <div class="faq">
+        <details open><summary>Did instructional design start with ADDIE?</summary><div class="faq-body">No. ADDIE is a widely used phase logic, but ISD's roots include industrial training, military systems analysis, behavioral psychology, and measurement. ADDIE-like procedures became prominent after these streams had already converged.</div></details>
+        <details><summary>Is LDT just a new name for instructional design?</summary><div class="faq-body">Not exactly. LDT keeps the ISD concern for alignment and evaluation, but expands toward learning sciences, technology design, user experience, analytics, accessibility, ethics, and product/program implementation.</div></details>
+        <details><summary>Are systems models outdated?</summary><div class="faq-body">No. They are still useful when reliability, alignment, accountability, and evaluation matter. The problem is not systems thinking; the problem is using a model rigidly when the learning context requires iteration.</div></details>
+        <details><summary>Will AI replace instructional designers?</summary><div class="faq-body">AI changes drafting, media production, feedback, adaptation, and evaluation workflows. But human designers remain responsible for goals, learner context, evidence, equity, privacy, and instructional judgment.</div></details>
+      </div>
+    </section>
+
+    <section id="refs" class="section">
+      <div class="section-label">12 / Sources</div>
+      <h2 class="h2">References should teach the <span class="accent">lineage</span>, not sit at the bottom.</h2>
+      <p>This draft treats sources as an interactive map. Filter by lineage to see which references support each part of the guide. The role labels are intentionally practical: they explain why a beginner should care about the source.</p>
+      <div class="ref-path" aria-label="Interactive reading pathway">
+        <button class="ref-step active" data-ref-path="origins"><div class="num">Start</div><h3>Origins</h3><p>Why systematic design appeared.</p></button>
+        <button class="ref-step" data-ref-path="systems"><div class="num">Build</div><h3>Systems ISD</h3><p>How models organized design work.</p></button>
+        <button class="ref-step" data-ref-path="learning"><div class="num">Expand</div><h3>Learning environments</h3><p>How context and activity entered the studio.</p></button>
+        <button class="ref-step" data-ref-path="analytics"><div class="num">Instrument</div><h3>Analytics</h3><p>How evidence loops changed the work.</p></button>
+        <button class="ref-step" data-ref-path="jobs"><div class="num">Apply</div><h3>Jobs</h3><p>How the field becomes real roles.</p></button>
+      </div>
+      <div class="ref-focus" id="refFocus">
+        <div>
+          <div class="ref-notelet" id="refFocusKicker">Start here</div>
+          <h3 id="refFocusTitle">Origins: why ISD appeared</h3>
+          <p id="refFocusBody">Start with the pressure that made systematic design necessary: training many people for consequential tasks with observable performance and feedback.</p>
+        </div>
+        <ul id="refFocusList">
+          <li>Molenda gives the historical spine.</li>
+          <li>Industrial training and military systems explain the performance-and-systems logic.</li>
+          <li>Programmed instruction, ITV, CAI, and PLATO show why media and process both belong in IDT history.</li>
+        </ul>
+      </div>
+      <div class="ref-controls" aria-label="Reference filters">
+        <button class="ref-btn" data-filter="all">All sources</button>
+        <button class="ref-btn" data-filter="origins">Origins</button>
+        <button class="ref-btn" data-filter="systems">Systems ISD</button>
+        <button class="ref-btn" data-filter="learning">Learning environments</button>
+        <button class="ref-btn" data-filter="analytics">Analytics / engineering</button>
+        <button class="ref-btn" data-filter="ai">AI-era LDT</button>
+        <button class="ref-btn" data-filter="programs">Programs</button>
+        <button class="ref-btn" data-filter="jobs">Jobs</button>
+      </div>
+      <div class="ref-note"><strong>Reading strategy:</strong> click the pathway first. Use filters only when you want to inspect the supporting source cards behind one phase of the story.</div>
+      <div class="ref-grid" id="refGrid">
+        <article class="ref-card" data-tags="jobs">
+          <div class="ref-meta"><span class="pill era">2026</span><span class="pill">occupation baseline</span></div>
+          <h3>O*NET 25-9031.00 - Instructional Coordinators</h3>
+          <p>Stable public source for ID/LDT-adjacent tasks, work activities, technology categories, and reported titles. O*NET notes that the older Instructional Designers and Technologists code redirects here.</p>
+          <a class="ref-link" href="https://www.onetonline.org/link/details/25-9031.00" target="_blank" rel="noreferrer">Open source</a>
+        </article>
+        <article class="ref-card" data-tags="jobs">
+          <div class="ref-meta"><span class="pill era">2025</span><span class="pill">wage / outlook</span></div>
+          <h3>BLS Occupational Outlook Handbook - Instructional Coordinators</h3>
+          <p>Source for the job-market snapshot: 2024 median pay, annual openings, projected growth, major employers, and similar occupations.</p>
+          <a class="ref-link" href="https://www.bls.gov/ooh/education-training-and-library/instructional-coordinators.htm" target="_blank" rel="noreferrer">Open source</a>
+        </article>
+        <article class="ref-card" data-tags="origins systems">
+          <div class="ref-meta"><span class="pill era">1918-1970s</span><span class="pill">history spine</span></div>
+          <h3>Molenda (2023) - History and development of instructional design and technology</h3>
+          <p>Backbone source for the guide's corrected historical spine: audiovisual instruction, ETV/ITV, programmed instruction, CAI/PLATO, wartime training, military systems, ISD, and distance/online education.</p>
+          <a class="ref-link" href="https://doi.org/10.1007/978-981-19-2080-6_4" target="_blank" rel="noreferrer">Open source</a>
+        </article>
+        <article class="ref-card" data-tags="origins">
+          <div class="ref-meta"><span class="pill era">1940s-2020s</span><span class="pill">industrial training</span></div>
+          <h3>Training Within Industry lineage</h3>
+          <p>Supports the industrial-training tributary: standardized job instruction, show-tell-do-check logic, and continuous-improvement culture later associated with industrial training practice.</p>
+          <a class="ref-link" href="https://www.twi-institute.com/what-is-twi/" target="_blank" rel="noreferrer">Overview</a>
+        </article>
+        <article class="ref-card" data-tags="origins">
+          <div class="ref-meta"><span class="pill era">1954</span><span class="pill">programmed instruction</span></div>
+          <h3>Skinner (1954) - The science of learning and the art of teaching</h3>
+          <p>Use this to explain the behaviorist design contribution: small steps, active response, immediate feedback, and reinforcement.</p>
+          <a class="ref-link" href="https://psycnet.apa.org/record/1955-02206-001" target="_blank" rel="noreferrer">Record</a>
+        </article>
+        <article class="ref-card" data-tags="origins">
+          <div class="ref-meta"><span class="pill era">1961-2000s</span><span class="pill">CAI / online community</span></div>
+          <h3>PLATO history archive</h3>
+          <p>Use this to ground the CAI/platform branch: networked terminals, instructional authoring, message boards, email-like communication, chat, remote sharing, and early online community.</p>
+          <a class="ref-link" href="https://platohistory.org/" target="_blank" rel="noreferrer">Archive</a>
+        </article>
+        <article class="ref-card" data-tags="origins systems">
+          <div class="ref-meta"><span class="pill era">1965</span><span class="pill">learning conditions</span></div>
+          <h3>Gagne (1965) - The conditions of learning</h3>
+          <p>Bridge source from training psychology to instructional design: different outcomes require different internal and external learning conditions.</p>
+          <a class="ref-link" href="https://archive.org/details/conditionsoflear0000gagn" target="_blank" rel="noreferrer">Archive record</a>
+        </article>
+        <article class="ref-card" data-tags="systems">
+          <div class="ref-meta"><span class="pill era">1975</span><span class="pill">ADDIE lineage</span></div>
+          <h3>Branson et al. (1975) - Interservice procedures for instructional systems development</h3>
+          <p>Key military ISD source for the procedural systems-development logic behind later ADDIE-style workflows.</p>
+          <a class="ref-link" href="https://apps.dtic.mil/sti/citations/ADA019486" target="_blank" rel="noreferrer">DTIC record</a>
+        </article>
+        <article class="ref-card" data-tags="systems programs">
+          <div class="ref-meta"><span class="pill era">1977 / 2023</span><span class="pill">field definition</span></div>
+          <h3>AECT definitions - educational technology as theory, design, resources, and evaluation</h3>
+          <p>Use this to show the field's self-definition moving beyond devices toward strategic design, management, implementation, and evaluation.</p>
+          <a class="ref-link" href="https://www.aect.org/aect/about/aect-definition" target="_blank" rel="noreferrer">AECT definition</a>
+        </article>
+        <article class="ref-card" data-tags="systems">
+          <div class="ref-meta"><span class="pill era">1978</span><span class="pill">system model</span></div>
+          <h3>Dick & Carey (1978) - The systematic design of instruction</h3>
+          <p>The clearest model for teaching beginners that goals, learners, objectives, assessments, strategy, materials, and evaluation form one system.</p>
+          <a class="ref-link" href="https://search.worldcat.org/title/3770277" target="_blank" rel="noreferrer">WorldCat</a>
+        </article>
+        <article class="ref-card" data-tags="systems learning">
+          <div class="ref-meta"><span class="pill era">1983</span><span class="pill">instructional theory</span></div>
+          <h3>Reigeluth (1983) - Instructional-design theories and models</h3>
+          <p>Useful for explaining that ID is not only procedure; it also includes prescriptive theory about sequencing and conditions.</p>
+          <a class="ref-link" href="https://www.routledge.com/Instructional-Design-Theories-and-Models-An-Overview-of-Their-Current/Reigeluth/p/book/9780429237867" target="_blank" rel="noreferrer">Book page</a>
+        </article>
+        <article class="ref-card" data-tags="systems">
+          <div class="ref-meta"><span class="pill era">2003</span><span class="pill">ADDIE caution</span></div>
+          <h3>Molenda (2003) - In search of the elusive ADDIE model</h3>
+          <p>Useful caution for beginners: ADDIE is best treated as a common phase logic, not as the whole origin or a single canonical theory.</p>
+          <a class="ref-link" href="https://doi.org/10.1002/pfi.4930420508" target="_blank" rel="noreferrer">DOI</a>
+        </article>
+        <article class="ref-card" data-tags="learning">
+          <div class="ref-meta"><span class="pill era">1992</span><span class="pill">design experiments</span></div>
+          <h3>Brown (1992) - Design experiments</h3>
+          <p>Anchor for the learning-sciences turn: design as a way to study learning in realistic settings, not only produce materials.</p>
+          <a class="ref-link" href="https://doi.org/10.1207/s15327809jls0202_2" target="_blank" rel="noreferrer">DOI</a>
+        </article>
+        <article class="ref-card" data-tags="learning origins">
+          <div class="ref-meta"><span class="pill era">1992</span><span class="pill">anchored instruction</span></div>
+          <h3>Cognition and Technology Group at Vanderbilt - Jasper Woodbury</h3>
+          <p>Useful bridge from participatory instructional television and videodisc work toward problem-centered learning environments.</p>
+          <a class="ref-link" href="https://peabody.vanderbilt.edu/departments/tl/teaching_and_learning_research/learning-sciences/" target="_blank" rel="noreferrer">Vanderbilt context</a>
+        </article>
+        <article class="ref-card" data-tags="learning">
+          <div class="ref-meta"><span class="pill era">1997</span><span class="pill">constructivist design</span></div>
+          <h3>Hannafin et al. (1997) - Grounded practice and constructivist learning environments</h3>
+          <p>Good source for the shift from delivering instruction to designing environments with scaffolds, tools, and authentic activity.</p>
+          <a class="ref-link" href="https://doi.org/10.1007/BF02299733" target="_blank" rel="noreferrer">DOI</a>
+        </article>
+        <article class="ref-card" data-tags="learning systems">
+          <div class="ref-meta"><span class="pill era">2002</span><span class="pill">task-centered ID</span></div>
+          <h3>Merrill (2002) - First principles of instruction</h3>
+          <p>A compact bridge from traditional ID to authentic, problem-centered learning: activation, demonstration, application, integration.</p>
+          <a class="ref-link" href="https://doi.org/10.1007/BF02505024" target="_blank" rel="noreferrer">DOI</a>
+        </article>
+        <article class="ref-card" data-tags="systems learning">
+          <div class="ref-meta"><span class="pill era">2007</span><span class="pill">design/development research</span></div>
+          <h3>Richey & Klein (2007) - Design and development research</h3>
+          <p>Key IDT methods source for DDR: studying instructional products, tools, models, and development processes rather than treating every iterative design study as DBR.</p>
+          <a class="ref-link" href="https://www.routledge.com/Design-and-Development-Research-Methods-Strategies-and-Issues/Richey-Klein/p/book/9780805857320" target="_blank" rel="noreferrer">Book page</a>
+        </article>
+        <article class="ref-card" data-tags="learning programs">
+          <div class="ref-meta"><span class="pill era">2006</span><span class="pill">learning sciences</span></div>
+          <h3>Sawyer (2006) - The Cambridge handbook of the learning sciences</h3>
+          <p>Use this to explain the broader learning-sciences expansion: cognition, social interaction, culture, tools, and design.</p>
+          <a class="ref-link" href="https://doi.org/10.1017/CBO9780511816833" target="_blank" rel="noreferrer">DOI</a>
+        </article>
+        <article class="ref-card" data-tags="analytics">
+          <div class="ref-meta"><span class="pill era">2013</span><span class="pill">learning analytics</span></div>
+          <h3>Siemens (2013) - Learning analytics: The emergence of a discipline</h3>
+          <p>Reference for the 2010s shift toward data traces, dashboards, digital learning ecosystems, and analytics-informed design.</p>
+          <a class="ref-link" href="https://doi.org/10.1177/0002764213498851" target="_blank" rel="noreferrer">DOI</a>
+        </article>
+        <article class="ref-card" data-tags="analytics programs">
+          <div class="ref-meta"><span class="pill era">2010s</span><span class="pill">learning engineering</span></div>
+          <h3>CMU Simon Initiative / OpenSimon</h3>
+          <p>Program-facing source for learning engineering: using learning science, data, and iterative improvement to refine learning systems.</p>
+          <a class="ref-link" href="https://www.cmu.edu/simon/what-is-simon/index.html" target="_blank" rel="noreferrer">CMU page</a>
+        </article>
+        <article class="ref-card" data-tags="ai analytics">
+          <div class="ref-meta"><span class="pill era">2023</span><span class="pill">theory in analytics</span></div>
+          <h3>Khalil, Prinsloo, & Slade (2023) - Learning theory in learning analytics</h3>
+          <p>Useful caution for the current-trends section: analytics should be theory-informed, not just more data and dashboards.</p>
+          <a class="ref-link" href="https://doi.org/10.1007/s12528-022-09340-3" target="_blank" rel="noreferrer">DOI</a>
+        </article>
+        <article class="ref-card" data-tags="ai">
+          <div class="ref-meta"><span class="pill era">2024</span><span class="pill">generative AI</span></div>
+          <h3>Choi et al. (2024) - Utilizing generative AI for instructional design</h3>
+          <p>Recent peer-reviewed anchor for AI-era ID: strengths, weaknesses, opportunities, and threats in instructional design workflows.</p>
+          <a class="ref-link" href="https://doi.org/10.1007/s11528-024-00967-w" target="_blank" rel="noreferrer">DOI</a>
+        </article>
+        <article class="ref-card" data-tags="ai analytics">
+          <div class="ref-meta"><span class="pill era">2024</span><span class="pill">dashboards</span></div>
+          <h3>Paulsen & Lindsay (2024) - Learning analytics dashboards systematic review</h3>
+          <p>Good current source for the claim that dashboards are increasingly expected to support learning, not only report analytics.</p>
+          <a class="ref-link" href="https://doi.org/10.1007/s10639-023-12401-4" target="_blank" rel="noreferrer">DOI</a>
+        </article>
+        <article class="ref-card" data-tags="programs ai">
+          <div class="ref-meta"><span class="pill era">2025</span><span class="pill">field trends</span></div>
+          <h3>Reiser, Carr-Chellman, & Dempsey (2025) - Trends and issues in IDT</h3>
+          <p>Use as the current field-map source: AI, alternative ID models, microcredentials, hybrid learning, ethics, accessibility, and IDT roles.</p>
+          <a class="ref-link" href="https://www.routledge.com/product/isbn/9781032819754" target="_blank" rel="noreferrer">Book page</a>
+        </article>
+        <article class="ref-card" data-tags="programs">
+          <div class="ref-meta"><span class="pill era">current</span><span class="pill">LDT example</span></div>
+          <h3>Stanford Learning Design and Technology MS</h3>
+          <p>Program example for showing how LDT now includes environments, products, programs, emergent technologies, evaluation, internship, and design projects.</p>
+          <a class="ref-link" href="https://ed.stanford.edu/ldt/" target="_blank" rel="noreferrer">Program page</a>
+        </article>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+<script src="https://cdn.jsdelivr.net/npm/topojson-client@3"></script>
+<script>
+const links=[...document.querySelectorAll('.toc a')];
+const sections=links.map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      links.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+entry.target.id));
+    }
+  });
+},{rootMargin:'-20% 0px -65% 0px',threshold:0.01});
+sections.forEach(s=>observer.observe(s));
+
+const toolTitle=document.getElementById('toolTitle');
+const toolUse=document.getElementById('toolUse');
+document.querySelectorAll('.tool').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.tool').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    toolTitle.textContent=btn.dataset.title;
+    toolUse.textContent=btn.dataset.use;
+  });
+});
+
+const historyItems=[
+  {year:'1918-45',title:'Train workers and soldiers fast',body:'Standardize job instruction, task analysis, practice, and checking.',anchor:'Allen / TWI',lane:'training'},
+  {year:'1952-60s',title:'Broadcast instruction at scale',body:'Canada and the USA test whether ETV/ITV lectures, demonstrations, field trips, and visualization can travel beyond one classroom.',anchor:'EEN / MPATI / ITV',lane:'media'},
+  {year:'1954-60s',title:'Make instruction precise',body:'Teaching machines and programmed books turn response, feedback, and revision into a design process.',anchor:'Skinner / PI',lane:'psych'},
+  {year:'1961-70s',title:'Make computers instructional',body:'CAI, TICCIT, and PLATO prototype drill, tutorials, branching, authoring languages, and online community features.',anchor:'Stanford CAI / PLATO',lane:'media'},
+  {year:'1964-65',title:'Create a learning industry',body:'Job Corps, ESEA, and HEA funding create demand for self-instruction, systems models, and development projects.',anchor:'Job Corps / ESEA / HEA',lane:'systems'},
+  {year:'1965-70s',title:'Match instruction to outcomes',body:'Learning conditions, objectives, and formative revision connect psychology with systems design.',anchor:'Gagne / Glaser / Briggs',lane:'psych'},
+  {year:'1970s',title:'Build accountable systems',body:'FSU defense work and IPISD make procedural ISD dominant in military and training contexts.',anchor:'FSU / Branson / IPISD',lane:'systems'},
+  {year:'1980s',title:'Formalize the profession',body:'Dozens of ISD models circulate; instructional design becomes the core competency of instructional technology.',anchor:'Dick & Carey / Reigeluth',lane:'systems'},
+  {year:'1990s',title:'Challenge delivery-only design',body:'Constructivist critique, the Web, and design experiments push designers toward authentic activity and context.',anchor:'WWW / Jonassen / DBR',lane:'research'},
+  {year:'2000s',title:'Design learning environments',body:'Learning sciences and online learning expand the design object beyond lessons and materials.',anchor:'Sawyer / Merrill',lane:'research'},
+  {year:'2010s',title:'Instrument digital ecosystems',body:'Analytics, dashboards, UX, and learning engineering make evidence loops part of LDT work.',anchor:'Siemens / OpenSimon',lane:'digital'},
+  {year:'2020s',title:'Design with AI responsibly',body:'LDT work includes AI, accessibility, privacy, analytics, products, and governance.',anchor:'AECT 2023 / GenAI',lane:'digital'}
+];
+function setHistory(index){
+  const item=historyItems[index] || historyItems[0];
+  const year=document.getElementById('historyYear');
+  const title=document.getElementById('historyTitle');
+  const body=document.getElementById('historyBody');
+  const anchor=document.getElementById('historyAnchor');
+  if(year) year.textContent=item.year;
+  if(title) title.textContent=item.title;
+  if(body) body.textContent=item.body;
+  if(anchor) anchor.textContent=item.anchor;
+  document.querySelectorAll('.history-node').forEach(node=>node.classList.toggle('active',Number(node.dataset.era)===index));
+  document.querySelectorAll('.history-line').forEach(line=>line.classList.toggle('active',line.dataset.lane===item.lane));
+}
+document.querySelectorAll('.history-node').forEach(node=>{
+  node.addEventListener('click',()=>setHistory(Number(node.dataset.era)));
+});
+setHistory(0);
+
+const jobData={
+  work:{
+    note:'O*NET work activities show that ID/LDT work is strongly interpersonal and analytical, not just content production.',
+    rows:[
+      ['Relationships / collaboration',91],
+      ['Communicating with peers',89],
+      ['Planning and prioritizing',88],
+      ['Training and teaching others',88],
+      ['Working with computers',86],
+      ['Decision-making',85],
+      ['Analyzing data or information',80],
+      ['Coaching and developing others',79]
+    ]
+  },
+  tasks:{
+    note:'These task labels translate the O*NET task list into an instructional-designer lens for beginners.',
+    rows:[
+      ['Evaluate teaching / learning practice',88],
+      ['Plan training and workshops',78],
+      ['Advise on curriculum and materials',75],
+      ['Keep programs technologically current',68],
+      ['Research instructional methods',67],
+      ['Needs and strategic learning assessment',64],
+      ['Define learning or performance objectives',63],
+      ['Design online / classroom aids',62]
+    ]
+  },
+  tech:{
+    note:'O*NET technology categories show why current LDT programs include LMS, documentation, media, analytics, and web/product literacy.',
+    rows:[
+      ['LMS / computer-based training',92],
+      ['Office and documentation tools',88],
+      ['Presentation and facilitation tools',84],
+      ['Process mapping / design tools',80],
+      ['Graphics and image software',78],
+      ['Video creation and editing',76],
+      ['Web platform tools: HTML/CSS/JS',74],
+      ['Database / SQL tools',70]
+    ]
+  },
+  quals:{
+    note:'Qualification signals combine BLS entry-level education with O*NET preparation and common job-ad language for ID/LDT roles.',
+    rows:[
+      ['Master degree signal',90],
+      ['Extensive preparation / Job Zone 5',88],
+      ['Teaching or faculty support experience',76],
+      ['Curriculum / instructional design portfolio',74],
+      ['LMS and online learning experience',72],
+      ['Accessibility / UDL / compliance literacy',68],
+      ['Evaluation or learning analytics literacy',62],
+      ['Media / authoring tool production',60]
+    ]
+  }
+};
+const jobChart=document.getElementById('jobChart');
+const jobNote=document.getElementById('jobNote');
+function renderJobChart(view){
+  if(!jobChart) return;
+  const data=jobData[view] || jobData.work;
+  jobChart.innerHTML=data.rows.map(([label,value])=>`
+    <div class="job-row">
+      <div class="job-label">${label}</div>
+      <div class="job-bar" aria-label="${label}: ${value}">
+        <div class="job-fill" style="width:${value}%"></div>
+      </div>
+      <div class="job-score">${value}</div>
+    </div>
+  `).join('');
+  if(jobNote) jobNote.textContent=data.note;
+}
+document.querySelectorAll('.job-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.job-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    renderJobChart(btn.dataset.jobView);
+  });
+});
+renderJobChart('work');
+
+const refPathData={
+  origins:{
+    kicker:'Start here',
+    title:'Origins: why ISD appeared',
+    body:'Start with the pressure that made systematic design necessary: training many people, distributing instruction through media, and making performance observable, testable, and revisable.',
+    items:['Molenda gives the historical spine across audiovisual media, training, systems, CAI, ISD, and distance education.','Industrial training and military systems explain task analysis, reliability, and systems thinking.','Programmed instruction, ITV, CAI, and PLATO show why process technology and media technology developed together.']
+  },
+  systems:{
+    kicker:'Build the model layer',
+    title:'Systems ISD: how work became organized',
+    body:'Move from origin pressures to design procedures: objectives, alignment, sequencing, development, implementation, and formative evaluation.',
+    items:['Branson/IPISD anchors procedural systems development.','Dick & Carey gives the clearest system map.','AECT definitions show field-level self-description.']
+  },
+  learning:{
+    kicker:'Expand the design object',
+    title:'Learning environments: from delivery to activity',
+    body:'The field expands from delivering instruction to designing contexts, tools, scaffolds, collaboration, authentic activity, and learning environments.',
+    items:['Brown anchors design experiments.','Hannafin et al. show constructivist environments.','Merrill bridges ID with authentic task-centered design.']
+  },
+  analytics:{
+    kicker:'Instrument and improve',
+    title:'Analytics and learning engineering',
+    body:'Digital environments make learning activity visible, but analytics need learning theory and responsible interpretation.',
+    items:['Siemens frames learning analytics as a discipline.','OpenSimon shows learning engineering as program infrastructure.','Khalil et al. warn against theory-free dashboards.']
+  },
+  jobs:{
+    kicker:'Apply to careers',
+    title:'Job-market translation',
+    body:'Use occupational data to show what LDT becomes in real roles: coaching, analysis, technology systems, documentation, program design, and evaluation.',
+    items:['O*NET provides task and technology baselines.','BLS provides wage and outlook context.','Job-board APIs can be added later when access is licensed or stable.']
+  }
+};
+function setRefPath(key){
+  const data=refPathData[key] || refPathData.origins;
+  document.querySelectorAll('.ref-step').forEach(step=>step.classList.toggle('active',step.dataset.refPath===key));
+  const kicker=document.getElementById('refFocusKicker');
+  const title=document.getElementById('refFocusTitle');
+  const body=document.getElementById('refFocusBody');
+  const list=document.getElementById('refFocusList');
+  if(kicker) kicker.textContent=data.kicker;
+  if(title) title.textContent=data.title;
+  if(body) body.textContent=data.body;
+  if(list) list.innerHTML=data.items.map(item=>`<li>${item}</li>`).join('');
+  filterRefs(key);
+}
+function filterRefs(filter){
+  document.querySelectorAll('.ref-btn').forEach(b=>b.classList.toggle('active',b.dataset.filter===filter));
+  document.querySelectorAll('.ref-card').forEach(card=>{
+    const tags=(card.dataset.tags||'').split(/\s+/);
+    card.classList.toggle('hide',!(filter==='all'||tags.includes(filter)));
+  });
+}
+document.querySelectorAll('.ref-step').forEach(step=>{
+  step.addEventListener('click',()=>setRefPath(step.dataset.refPath));
+});
+
+const programs=[
+  {
+    id:'iu', lon:-86.5264, lat:39.1653, status:'verified', identity:'systems', label:'IU',
+    training:true,
+    name:'Indiana University Bloomington',
+    summary:'Instructional Systems Technology lineage with public evidence of educational media work in the 1940s and a Division of Instructional Systems Technology by the late 1960s.',
+    lineage:'Educational media -> instructional systems technology -> IST/LDT-adjacent graduate preparation',
+    identityLabel:'Systems ISD / instructional technology',
+    shiftLabel:'Mostly continuous systems / instructional technology identity; no strong LS rebrand marker in this guide draft.',
+    shift:false,
+    start:'1940 educational media course; 1968-69 IST division evidence',
+    people:'Michael Molenda; James Pershing; <a href="https://en.wikipedia.org/wiki/Charles_Reigeluth" target="_blank" rel="noreferrer">Charles Reigeluth</a>-adjacent IST lineage',
+    peopleRole:'Institutional anchors and adjacent IST intellectual lineage',
+    evidence:'ERIC archival evidence for Indiana instructional systems technology history, plus public program lineage cues.',
+    why:'One of the clearest long-running institutional homes for the systems/technology side of the field.',
+    url:'https://eric.ed.gov/?id=ED040688'
+  },
+  {
+    id:'purdue', lon:-86.9149, lat:40.4259, status:'likely', identity:'systems', label:'PUR',
+    training:true,
+    name:'Purdue University',
+    summary:'R1 Learning Design and Technology program with coursework that reads strongly systems-oriented, including learning systems design, instructional development and systems technology, and instructional design theory.',
+    lineage:'Instructional design / systems technology -> learning design and technology',
+    identityLabel:'ISD/LDT with strong systems-design orientation',
+    shiftLabel:'Not marked as LS shift in this draft. Purdue is better read here as a current LDT program that remains close to ISD, systems design, and instructional development.',
+    shift:false,
+    start:'Current program is active; exact 30+ lineage requires catalog archive confirmation',
+    people:'Purdue LDT faculty / AECT-adjacent IDT field participation; deeper named lineage pass needed',
+    peopleRole:'R1 ISD/LDT program anchor, not LS-shift marker',
+    evidence:'Current Purdue LDT pages emphasize learning systems design and instructional development/systems technology coursework.',
+    why:'Important counterexample: not every current LDT program moved into a learning-sciences identity; some remain close to ISD and systems design.',
+    url:'https://education.purdue.edu/graduate-students/prospective-students/graduate-programs/learning-design-technology/'
+  },
+  {
+    id:'utaustin-id', lon:-97.7333, lat:30.2849, status:'likely', identity:'edtech', label:'UT-ID',
+    training:true,
+    name:'University of Texas at Austin',
+    summary:'Dual-layer R1 case: Curriculum and Instruction has a Learning Technologies program for LT/ID-adjacent training, while Educational Psychology has a Human Development, Culture, and Learning Sciences area with LS/STEM-oriented learning-sciences work.',
+    lineage:'Learning Technologies program + LS/STEM-oriented learning sciences area',
+    identityLabel:'Learning Technologies plus LS/STEM learning-sciences ecology',
+    shiftLabel:'Dual-layer institution: Learning Technologies is the ID/LT training layer; HDCLS / LS-STEM work is mapped separately in the LS layer.',
+    shift:false,
+    start:'Active graduate learning technologies / HDCLS ecology; exact 30+ ID continuity not evaluated',
+    people:'UT Austin Learning Technologies faculty community; HDCLS / LS-STEM learning sciences faculty community',
+    peopleRole:'Dual-layer R1 LT and LS/STEM anchor',
+    evidence:'Official UT Austin pages confirm both Learning Technologies and Human Development, Culture, and Learning Sciences / LS-STEM-oriented learning sciences ecology.',
+    why:'Important case where Learning Technologies and LS/STEM-oriented learning sciences coexist but should not be collapsed into one program identity.',
+    url:'https://education.utexas.edu/departments/curriculum-instruction/ci-programs/learning-technologies/'
+  },
+  {
+    id:'unr', lon:-119.8138, lat:39.5442, status:'likely', identity:'edtech', label:'UNR',
+    training:true,
+    name:'University of Nevada, Reno',
+    summary:'R1 institution with instructional design / learning technology graduate training identity.',
+    lineage:'Instructional design / educational technology -> learning technology',
+    identityLabel:'Instructional design / learning technology',
+    shiftLabel:'R1 ID/LT training marker; deeper lineage not yet evaluated.',
+    shift:false,
+    start:'Active program/concentration page checked; exact 30+ lineage pending',
+    people:'UNR learning design / educational technology faculty community',
+    peopleRole:'R1 ID/LT training anchor',
+    evidence:'Official university program pages identify instructional design / learning technology training.',
+    why:'Western R1 ID/LT training site outside the older canonical ISD hubs.',
+    url:'https://www.unr.edu/'
+  },
+  {
+    id:'cincinnati', lon:-84.5149, lat:39.1329, status:'likely', identity:'edtech', label:'UC',
+    training:true,
+    name:'University of Cincinnati',
+    summary:'R1 institution with Instructional Design and Technology graduate training.',
+    lineage:'Instructional design and technology',
+    identityLabel:'Instructional design and technology',
+    shiftLabel:'R1 IDT training marker; deeper lineage not yet evaluated.',
+    shift:false,
+    start:'Active program page checked; exact 30+ lineage pending',
+    people:'UC instructional design and technology faculty community',
+    peopleRole:'R1 IDT training anchor',
+    evidence:'Official University of Cincinnati IDT program pages.',
+    why:'R1 IDT training institution for the Midwest/Ohio region.',
+    url:'https://cech.uc.edu/'
+  },
+  {
+    id:'oklahoma', lon:-97.4457, lat:35.2059, status:'likely', identity:'edtech', label:'OU',
+    training:true,
+    name:'University of Oklahoma',
+    summary:'R1 institution with Instructional Psychology and Technology / learning design adjacent training.',
+    lineage:'Instructional psychology and technology',
+    identityLabel:'Instructional psychology / technology',
+    shiftLabel:'R1 IDT-adjacent training marker; deeper lineage not yet evaluated.',
+    shift:false,
+    start:'Active graduate area checked; exact 30+ lineage pending',
+    people:'OU instructional psychology and technology faculty community',
+    peopleRole:'R1 IDT-adjacent training anchor',
+    evidence:'Official OU graduate/program pages identify instructional psychology/technology training.',
+    why:'Important plains-region R1 training institution near IDT and educational psychology.',
+    url:'https://www.ou.edu/education'
+  },
+  {
+    id:'unt', lon:-97.1526, lat:33.2109, status:'likely', identity:'edtech', label:'UNT',
+    training:true,
+    name:'University of North Texas',
+    summary:'R1 institution with learning technologies / instructional systems training identity.',
+    lineage:'Learning technologies / instructional systems',
+    identityLabel:'Learning technologies',
+    shiftLabel:'R1 LT training marker; deeper lineage not yet evaluated.',
+    shift:false,
+    start:'Active program page checked; exact 30+ lineage pending',
+    people:'UNT learning technologies faculty community',
+    peopleRole:'R1 LT training anchor',
+    evidence:'Official UNT learning technologies program pages.',
+    why:'Texas R1 learning technologies training site.',
+    url:'https://lt.unt.edu/'
+  },
+  {
+    id:'odu', lon:-76.3044, lat:36.8865, status:'likely', identity:'edtech', label:'ODU',
+    training:true,
+    name:'Old Dominion University',
+    summary:'R1 institution with instructional design and technology graduate training.',
+    lineage:'Instructional design and technology',
+    identityLabel:'Instructional design and technology',
+    shiftLabel:'R1 IDT training marker; deeper lineage not yet evaluated.',
+    shift:false,
+    start:'Active program page checked; exact 30+ lineage pending',
+    people:'ODU instructional design and technology faculty community',
+    peopleRole:'R1 IDT training anchor',
+    evidence:'Official ODU IDT program pages.',
+    why:'East-coast R1 IDT training institution.',
+    url:'https://www.odu.edu/'
+  },
+  {
+    id:'vt', lon:-80.4234, lat:37.2284, status:'likely', identity:'edtech', label:'VT',
+    training:true,
+    name:'Virginia Tech',
+    summary:'R1 institution with instructional design / technology and learning systems training identity.',
+    lineage:'Instructional design and technology / learning systems',
+    identityLabel:'Instructional design / technology',
+    shiftLabel:'R1 IDT training marker; admissions/status should be checked per degree route.',
+    shift:false,
+    start:'Active training ecology checked; exact 30+ lineage pending',
+    people:'Virginia Tech instructional design / technology faculty community',
+    peopleRole:'R1 IDT training anchor',
+    evidence:'Official Virginia Tech program pages identify instructional design / technology training routes.',
+    why:'R1 land-grant IDT training case.',
+    url:'https://www.vt.edu/'
+  },
+  {
+    id:'memphis', lon:-89.9395, lat:35.1187, status:'likely', identity:'edtech', label:'MEM',
+    training:true,
+    name:'University of Memphis',
+    summary:'R1 institution with Instructional Design and Technology graduate training.',
+    lineage:'Instructional design and technology',
+    identityLabel:'Instructional design and technology',
+    shiftLabel:'R1 IDT training marker; deeper lineage not yet evaluated.',
+    shift:false,
+    start:'Active program page checked; exact 30+ lineage pending',
+    people:'Memphis IDT faculty community',
+    peopleRole:'R1 IDT training anchor',
+    evidence:'Official University of Memphis IDT program pages.',
+    why:'Southern R1 IDT training institution.',
+    url:'https://www.memphis.edu/'
+  },
+  {
+    id:'ncstate', lon:-78.6821, lat:35.7847, status:'likely', identity:'edtech', label:'NCSU',
+    training:true,
+    name:'North Carolina State University',
+    summary:'R1 institution with Learning Design and Technology graduate training.',
+    lineage:'Learning design and technology',
+    identityLabel:'Learning design and technology',
+    shiftLabel:'R1 LDT training marker; deeper lineage not yet evaluated.',
+    shift:false,
+    start:'Active program page checked; exact 30+ lineage pending',
+    people:'NC State LDT faculty community',
+    peopleRole:'R1 LDT training anchor',
+    evidence:'Official NC State LDT program pages.',
+    why:'R1 LDT training institution in North Carolina.',
+    url:'https://ced.ncsu.edu/'
+  },
+  {
+    id:'msu', lon:-84.4822, lat:42.7018, status:'likely', identity:'edtech', label:'MSU',
+    training:true,
+    name:'Michigan State University',
+    summary:'R1 institution with educational technology / learning experience design training identity.',
+    lineage:'Educational technology -> learning experience / design training',
+    identityLabel:'Educational technology / learning experience design',
+    shiftLabel:'R1 edtech/LXD training marker; deeper lineage not yet evaluated.',
+    shift:false,
+    start:'Active program page checked; exact 30+ lineage pending',
+    people:'MSU educational technology faculty community',
+    peopleRole:'R1 edtech/LXD training anchor',
+    evidence:'Official MSU educational technology / learning design program pages.',
+    why:'Major R1 edtech training institution.',
+    url:'https://education.msu.edu/'
+  },
+  {
+    id:'tamu', lon:-96.3395, lat:30.6187, status:'likely', identity:'edtech', label:'TAMU',
+    training:true,
+    name:'Texas A&M University',
+    summary:'R1 institution with learning design and technology / educational technology graduate training.',
+    lineage:'Educational technology -> learning design and technology',
+    identityLabel:'Learning design and technology / educational technology',
+    shiftLabel:'R1 LDT/edtech training marker; deeper lineage not yet evaluated.',
+    shift:false,
+    start:'Active program page checked; exact 30+ lineage pending',
+    people:'Texas A&M LDT / educational technology faculty community',
+    peopleRole:'R1 LDT training anchor',
+    evidence:'Official Texas A&M program pages identify LDT/educational technology training.',
+    why:'Large R1 training institution in Texas.',
+    url:'https://education.tamu.edu/'
+  },
+  {
+    id:'houston', lon:-95.3422, lat:29.7204, status:'likely', identity:'edtech', label:'UH',
+    training:true,
+    name:'University of Houston',
+    summary:'R1 institution with learning, design, and technology / learning technologies graduate training.',
+    lineage:'Learning, design, and technology',
+    identityLabel:'Learning design / technology',
+    shiftLabel:'R1 LDT training marker; deeper lineage not yet evaluated.',
+    shift:false,
+    start:'Active program page checked; exact 30+ lineage pending',
+    people:'University of Houston LDT faculty community',
+    peopleRole:'R1 LDT training anchor',
+    evidence:'Official UH program pages identify LDT / learning technologies training.',
+    why:'R1 Houston-area LDT training institution.',
+    url:'https://www.uh.edu/education/'
+  },
+  {
+    id:'missstate', lon:-88.7944, lat:33.4552, status:'likely', identity:'edtech', label:'MSST',
+    training:true,
+    name:'Mississippi State University',
+    summary:'R1 institution with instructional technology / instructional systems adjacent graduate training.',
+    lineage:'Instructional technology / instructional systems',
+    identityLabel:'Instructional technology',
+    shiftLabel:'R1 instructional technology training marker; deeper lineage not yet evaluated.',
+    shift:false,
+    start:'Active program page checked; exact 30+ lineage pending',
+    people:'Mississippi State instructional technology faculty community',
+    peopleRole:'R1 IT training anchor',
+    evidence:'Official MSU program pages identify instructional technology training.',
+    why:'R1 instructional technology training case in Mississippi.',
+    url:'https://www.msstate.edu/'
+  },
+  {
+    id:'gmu', lon:-77.3078, lat:38.8315, status:'likely', identity:'edtech', label:'GMU',
+    training:true,
+    name:'George Mason University',
+    summary:'R1 institution with learning design and technology graduate training.',
+    lineage:'Learning design and technology',
+    identityLabel:'Learning design and technology',
+    shiftLabel:'R1 LDT training marker; deeper lineage not yet evaluated.',
+    shift:false,
+    start:'Active program page checked; exact 30+ lineage pending',
+    people:'George Mason LDT faculty community',
+    peopleRole:'R1 LDT training anchor',
+    evidence:'Official GMU learning design and technology pages.',
+    why:'DC-region R1 LDT training site.',
+    url:'https://cehd.gmu.edu/'
+  },
+  {
+    id:'ucf', lon:-81.2001, lat:28.6024, status:'likely', identity:'edtech', label:'UCF',
+    training:true,
+    name:'University of Central Florida',
+    summary:'R1 institution with instructional design and technology graduate training.',
+    lineage:'Instructional design and technology',
+    identityLabel:'Instructional design and technology',
+    shiftLabel:'R1 IDT training marker; deeper lineage not yet evaluated.',
+    shift:false,
+    start:'Active program page checked; exact 30+ lineage pending',
+    people:'UCF IDT faculty community',
+    peopleRole:'R1 IDT training anchor',
+    evidence:'Official UCF instructional design / technology program pages.',
+    why:'Large R1 IDT training institution in Florida.',
+    url:'https://www.ucf.edu/'
+  },
+  {
+    id:'illinois', lon:-88.2272, lat:40.102, status:'likely', identity:'edtech', label:'UIUC',
+    training:true,
+    name:'University of Illinois Urbana-Champaign',
+    summary:'R1 institution with learning design / educational technology graduate training ecology.',
+    lineage:'Learning design / educational technology',
+    identityLabel:'Learning design / educational technology',
+    shiftLabel:'R1 learning-design/edtech training marker; deeper lineage not yet evaluated.',
+    shift:false,
+    start:'Active program page checked; exact 30+ lineage pending',
+    people:'Illinois learning design / education technology faculty community',
+    peopleRole:'R1 learning-design training anchor',
+    evidence:'Official UIUC education program pages identify learning design / technology training routes.',
+    why:'Major R1 education-school case for learning design training.',
+    url:'https://education.illinois.edu/'
+  },
+  {
+    id:'umn', lon:-93.2354, lat:44.9778, status:'likely', identity:'edtech', label:'UMN',
+    training:true,
+    name:'University of Minnesota',
+    summary:'R1 institution with learning technologies / design-oriented graduate training ecology.',
+    lineage:'Learning technologies',
+    identityLabel:'Learning technologies',
+    shiftLabel:'R1 learning technologies training marker; deeper lineage not yet evaluated.',
+    shift:false,
+    start:'Active program page checked; exact 30+ lineage pending',
+    people:'Minnesota learning technologies faculty community',
+    peopleRole:'R1 LT training anchor',
+    evidence:'Official UMN learning technologies / education program pages.',
+    why:'Upper Midwest R1 learning technologies training institution.',
+    url:'https://www.cehd.umn.edu/'
+  },
+  {
+    id:'kentucky', lon:-84.5037, lat:38.0336, status:'likely', identity:'edtech', label:'UK',
+    training:true,
+    name:'University of Kentucky',
+    summary:'R1 institution with instructional design / technology-oriented graduate training ecology.',
+    lineage:'Instructional design / educational technology',
+    identityLabel:'Instructional design / educational technology',
+    shiftLabel:'R1 ID/edtech training marker; deeper lineage not yet evaluated.',
+    shift:false,
+    start:'Active program page checked; exact 30+ lineage pending',
+    people:'Kentucky instructional design / educational technology faculty community',
+    peopleRole:'R1 ID/edtech training anchor',
+    evidence:'Official University of Kentucky education program pages.',
+    why:'R1 ID/edtech training case in Kentucky.',
+    url:'https://education.uky.edu/'
+  },
+  {
+    id:'unm', lon:-106.6198, lat:35.0843, status:'likely', identity:'edtech', label:'UNM',
+    training:true,
+    name:'University of New Mexico',
+    summary:'Organization, Information and Learning Sciences offers an Instructional Design and Technology concentration; OILS publicly frames itself around adult learning, learning sciences, instructional design and technology, eLearning, human performance technology, and data management.',
+    lineage:'Organizational Learning and Instructional Technology -> Organization, Information and Learning Sciences / ID&T concentration',
+    identityLabel:'Instructional design and technology inside OILS',
+    shiftLabel:'ISD/IDT lineage with learning-sciences and organizational-learning framing. Former OLIT identity suggests a legacy-to-OILS reconfiguration rather than simple unchanged continuity.',
+    shift:true,
+    start:'Formerly OLIT; current OILS ID&T concentration active. Exact pre-1996 30+ continuity needs archive confirmation.',
+    people:'Charlotte Gunawardena; Christopher Holden; Victor Law; OILS faculty community',
+    peopleRole:'ISD/IDT plus OILS learning-sciences/organizational-learning anchor',
+    evidence:'Official UNM OILS pages identify ID&T concentration, PhD/MA OILS, and former OLIT naming in repository/cross-page evidence.',
+    why:'Strong example of an ISD/IDT training lineage reconfigured through organization, information, and learning sciences.',
+    url:'https://oils.unm.edu/current-students/masters/concentrations1/instructional-design-and-technology-idt.php'
+  },
+  {
+    id:'ua', lon:-87.5385, lat:33.214, status:'likely', identity:'edtech', label:'UA',
+    training:true,
+    name:'University of Alabama',
+    summary:'Instructional Technology program in the College of Education, preparing designers and researchers around instructional technology, learning design, digital learning, and educational innovation.',
+    lineage:'Instructional technology -> instructional technology / learning design ecology',
+    identityLabel:'Instructional technology / IDT training',
+    shiftLabel:'Current instructional technology program; not marked as LS shift in this draft.',
+    shift:false,
+    start:'Active program; exact 30+ lineage not evaluated in this pass',
+    people:'UA Instructional Technology faculty community',
+    peopleRole:'Current instructional technology program anchor',
+    evidence:'Official UA College of Education Instructional Technology program pages.',
+    why:'Included as a current IDT training institution and local institutional anchor for this guide.',
+    url:'https://education.ua.edu/programs/instructional-technology/'
+  },
+  {
+    id:'fsu', lon:-84.285, lat:30.4419, status:'verified', identity:'systems', label:'FSU',
+    training:true,
+    name:'Florida State University',
+    summary:'Instructional Systems / Instructional Systems and Learning Technologies lineage associated with Gagne, Briggs, Dick, Reiser, Keller, and major ISD systems work.',
+    lineage:'Instructional systems -> instructional systems and learning technologies',
+    identityLabel:'Systems ISD with learning technologies expansion',
+    shiftLabel:'Systems ISD remains central, with learning technologies added rather than a full LS identity shift.',
+    shift:false,
+    start:'1970s ISD/IPISD-era lineage, with FSU tied to major ISD figures and procedures',
+    people:'<a href="https://en.wikipedia.org/wiki/Robert_M._Gagn%C3%A9" target="_blank" rel="noreferrer">Robert Gagne</a>; Leslie Briggs; Walter Dick; Robert Reiser; John Keller; Marcy Driscoll',
+    peopleRole:'Direct and adjacent faculty anchors for systems ISD / ISLT tradition',
+    evidence:'Current ISLT program page plus widely documented FSU instructional systems lineage; date framing still should be archive-checked for publication.',
+    why:'Strong example of ISD as systems design, military/training development, and later learning technologies.',
+    url:'https://cehhs.fsu.edu/academic-programs/instructional-systems-and-learning-technologies'
+  },
+  {
+    id:'uf', lon:-82.3549, lat:29.6436, status:'likely', identity:'edtech', label:'UF',
+    training:true,
+    name:'University of Florida',
+    summary:'Educational Technology graduate program in the College of Education, focused on designing, developing, implementing, and evaluating technology-rich learning environments.',
+    lineage:'Educational technology -> educational technology / instructional design training',
+    identityLabel:'Educational technology',
+    shiftLabel:'Current Educational Technology program; not marked as LS shift in this draft.',
+    shift:false,
+    start:'Active Educational Technology program; exact 30+ lineage not evaluated in this pass',
+    people:'UF Educational Technology faculty community',
+    peopleRole:'R1 educational technology training anchor',
+    evidence:'Official UF College of Education Educational Technology program pages.',
+    why:'Major R1 educational technology training institution and relevant southeastern counterpart to FSU/UGA/UA.',
+    url:'https://education.ufl.edu/educational-technology/'
+  },
+  {
+    id:'uga', lon:-83.3773, lat:33.948, status:'likely', identity:'learningsci', label:'UGA',
+    training:true,
+    name:'University of Georgia',
+    summary:'Active Learning, Design, and Technology program with instructional technology and instructional design/development emphases; current official pages frame the program around design, development, evaluation, technology-enhanced learning, and interactive learning environments.',
+    lineage:'Instructional Technology -> Learning, Design, and Technology with IDD / IT emphases',
+    identityLabel:'Learning sciences / LDT hybrid with instructional technology roots',
+    shiftLabel:'Marked shift: older instructional technology / IDD language is now publicly framed through LDT and technology-enhanced learning environments.',
+    shift:true,
+    start:'Current UGA pages identify LDT and note Instructional Design & Development was formerly known as Instructional Technology; exact pre-1996 degree-lineage date needs catalog archive confirmation',
+    people:'Michael Hannafin; Lloyd Rieber; Robert Branch; Janette Hill; Theodore Kopcha; Jill Stefaniak',
+    peopleRole:'Institutional faculty anchors and UGA LDT / instructional technology lineage',
+    evidence:'Current UGA LDT concentration page supports active identity; 30+ lineage is marked likely until catalog archive confirms the pre-1996 chain.',
+    why:'UGA is active and visible in the contemporary LDT landscape, with strong instructional technology, interactive learning environments, and learning-design research identity.',
+    url:'https://coe.uga.edu/academics/concentrations/learning-design-and-technology/'
+  },
+  {
+    id:'syr', lon:-76.1351, lat:43.0392, status:'verified', identity:'systems', label:'SYR',
+    training:true,
+    name:'Syracuse University',
+    summary:'Instructional Design, Development and Evaluation program lineage commonly described as more than 60 years old.',
+    lineage:'Instructional design, development, and evaluation',
+    identityLabel:'Instructional design / development / evaluation',
+    shiftLabel:'Mostly continuous IDD&E identity; not marked as LS shift in this draft.',
+    shift:false,
+    start:'1960s-era program lineage, publicly described as 60+ years',
+    people:'Tennyson-adjacent IDD&E tradition; needs a deeper alumni/faculty archive pass',
+    why:'Represents the long-running instructional design and evaluation tradition in the Northeast.',
+    url:'https://soe.syr.edu/academics/graduate/instructional-design-development-evaluation/'
+  },
+  {
+    id:'wayne', lon:-83.0665, lat:42.3591, status:'likely', identity:'edtech', label:'WSU',
+    training:true,
+    name:'Wayne State University',
+    summary:'Instructional technology lineage documented in public-facing program history as a long-running graduate program area.',
+    lineage:'Instructional technology -> learning design and technology',
+    identityLabel:'Instructional technology / educational technology research',
+    shiftLabel:'Moderate naming shift toward LDT, but current public identity still reads strongly instructional technology / edtech.',
+    shift:false,
+    start:'Public histories point to a mid-20th-century instructional technology lineage',
+    people:'Rita Richey; Barbara Seels-adjacent instructional technology lineage',
+    why:'Useful Midwestern example of educational/instructional technology as a durable graduate-program identity.',
+    url:'https://education.wayne.edu/ldt'
+  },
+  {
+    id:'asu', lon:-111.9281, lat:33.4242, status:'likely', identity:'learningsci', label:'ASU',
+    training:true,
+    name:'Arizona State University',
+    summary:'ASU has a strong educational technology research legacy associated with Howard Sullivan-era work and trained alumni. Current public program identity is Learning Design and Technologies, but this should be treated as a reconfigured legacy-to-current identity rather than simple uninterrupted department continuity.',
+    lineage:'Educational technology research legacy -> current Learning Design and Technologies identity',
+    identityLabel:'Current Learning Design and Technologies program with educational technology roots',
+    shiftLabel:'Marked reconfiguration: Howard Sullivan-era educational technology / IT research legacy is now best mapped as an ASU current LDT-program identity, not as proof that the exact same department or degree persisted unchanged.',
+    shift:true,
+    start:'Legacy likely from 1960s/1970s educational technology research culture, but exact degree/department continuity requires catalog archive confirmation',
+    people:'Howard J. Sullivan; James D. Klein; Wilhelmina Savenye; <a href="https://en.wikipedia.org/wiki/Michael_J_Hannafin" target="_blank" rel="noreferrer">Michael Hannafin</a> and Robert Reiser as Sullivan-trained alumni',
+    peopleRole:'Institutional anchor plus alumni/trained lineage',
+    evidence:'Program/faculty lineage cues support inclusion as legacy-to-current LDT transition; exact department/degree continuity remains unverified.',
+    why:'Shows the Western educational technology pathway into contemporary learning design.',
+    url:'https://degrees.apps.asu.edu/masters-phd/major/ASU00/EDLDTMED/learning-design-and-technologies-med'
+  },
+  {
+    id:'mizzou', lon:-92.3286, lat:38.9453, status:'near', identity:'edtech', label:'MU',
+    training:true,
+    name:'University of Missouri',
+    summary:'School of Information Science and Learning Technologies offers Learning Technologies and Design. SISLT publicly describes a 1997 establishment, making it near-threshold rather than verified 30+ in 2026.',
+    lineage:'Information science and learning technologies -> learning technologies and design',
+    identityLabel:'Learning technologies and design / information science',
+    shiftLabel:'Near-threshold LDT/LT program ecology. Do not treat as verified 30+ legacy until archive evidence supports it.',
+    shift:false,
+    start:'SISLT establishment publicly tied to 1997; near 30-year threshold',
+    people:'Mizzou SISLT / Learning Technologies and Design faculty community',
+    peopleRole:'Learning technologies and design program anchor',
+    evidence:'Official Mizzou SISLT pages identify Learning Technologies and Design and report 1997 establishment.',
+    why:'Useful example of information science plus learning technologies identity adjacent to LDT, but not verified 30+ yet.',
+    url:'https://education.missouri.edu/school/information-science-learning-technologies/'
+  },
+  {
+    id:'psu', lon:-77.86, lat:40.7982, status:'likely', identity:'learningsci', label:'PSU',
+    training:true,
+    name:'Penn State University',
+    summary:'Current Learning, Design, and Technology program has a strong IDT/LDT identity; 30+ lineage is likely but needs catalog-level date verification before a hard claim.',
+    lineage:'Instructional systems / educational technology -> learning, design, and technology',
+    identityLabel:'LDT with learning sciences / performance systems blend',
+    shiftLabel:'Marked shift: legacy instructional systems / educational technology identity now appears in an LDT and learning/performance systems frame.',
+    shift:true,
+    start:'Likely pre-1996 IDT lineage; exact public start cue still needs archive check',
+    people:'<a href="https://en.wikipedia.org/wiki/David_H._Jonassen" target="_blank" rel="noreferrer">David Jonassen</a>-adjacent constructivist learning environments lineage; exact Penn State roster needs archive pass',
+    why:'Strong current LDT example that helps connect ISD roots to modern program naming.',
+    url:'https://ed.psu.edu/academics/departments/department-learning-and-performance-systems/learning-design-and-technology'
+  },
+  {
+    id:'usu', lon:-111.8147, lat:41.7452, status:'likely', identity:'learningsci', label:'USU',
+    training:true,
+    name:'Utah State University',
+    summary:'Instructional Technology and Learning Sciences is a notable long-running program identity; exact 30+ start evidence should be verified from catalogs.',
+    lineage:'Instructional technology -> instructional technology and learning sciences',
+    identityLabel:'Instructional technology + learning sciences',
+    shiftLabel:'Marked shift: the current name explicitly combines instructional technology with learning sciences.',
+    shift:true,
+    start:'Legacy likely; public start year needs deeper archive confirmation',
+    people:'<a href="https://en.wikipedia.org/wiki/M._David_Merrill" target="_blank" rel="noreferrer">M. David Merrill</a>; <a href="https://en.wikipedia.org/wiki/Charles_Reigeluth" target="_blank" rel="noreferrer">Charles Reigeluth</a> / instructional theory lineage nearby; Mimi Recker and ITLS faculty tradition',
+    why:'Useful example of the IDT to learning-sciences naming expansion.',
+    url:'https://cehs.usu.edu/itls/'
+  },
+  {
+    id:'ttu', lon:-101.8742, lat:33.5843, status:'likely', identity:'edtech', label:'TTU',
+    training:true,
+    name:'Texas Tech University',
+    summary:'Current Instructional Technology graduate-program identity. This guide treats it as an instructional technology / educational technology training node, not as an LDT or learning-sciences rebrand case.',
+    lineage:'Instructional technology / educational technology',
+    identityLabel:'Instructional technology',
+    shiftLabel:'No LS/LDT shift marker in this draft: current public framing remains Instructional Technology.',
+    shift:false,
+    start:'Active Instructional Technology program; exact 30+ lineage needs catalog-level confirmation',
+    people:'Texas Tech instructional technology faculty community',
+    peopleRole:'R1 instructional technology training anchor',
+    evidence:'Official Texas Tech Instructional Technology program pages.',
+    why:'Adds a West Texas R1 instructional technology case while keeping identity classification separate from LS/LDT programs.',
+    url:'https://www.depts.ttu.edu/education/graduate/psychology-and-leadership/instructional-technology/'
+  },
+  {
+    id:'stanford', lon:-122.1697, lat:37.4275, status:'near', identity:'learningsci', label:'SU',
+    training:true,
+    name:'Stanford University',
+    summary:'Stanford LDT is a major program exemplar, but the LDT MA launch is commonly tied to 1997, making it near-threshold rather than a 30+ lineage in 2026.',
+    lineage:'Learning design and technology / learning sciences and technology design',
+    identityLabel:'Learning sciences / LDT design studio',
+    shiftLabel:'Near-threshold LDT program with strong LS/design-studio identity; not evidence of a pre-1996 ISD/IT-to-LS transition by itself.',
+    shift:false,
+    start:'LDT-specific launch around 1997; near 30-year threshold',
+    people:'<a href="https://en.wikipedia.org/wiki/Roy_Pea" target="_blank" rel="noreferrer">Roy Pea</a>; Larry Cuban; Brigid Barron and Stanford learning sciences/LDT faculty lineage',
+    why:'Important for showing contemporary LDT program form even if it should not be counted as verified 30+ yet.',
+    url:'https://ed.stanford.edu/ldt/'
+  }
+];
+
+const pinLayer=document.getElementById('programPins');
+const statesLayer=document.getElementById('statesLayer');
+const readout={
+  status:document.getElementById('programStatus'),
+  name:document.getElementById('programName'),
+  summary:document.getElementById('programSummary'),
+  lineage:document.getElementById('programLineage'),
+  identity:document.getElementById('programIdentity'),
+  shift:document.getElementById('programShift'),
+  start:document.getElementById('programStart'),
+  people:document.getElementById('programPeople'),
+  peopleRole:document.getElementById('programPeopleRole'),
+  evidence:document.getElementById('programEvidence'),
+  why:document.getElementById('programWhy'),
+  link:document.getElementById('programLink')
+};
+const lsPrograms=[
+  {
+    id:'uwmadison-ls', lon:-89.4125, lat:43.0766, label:'WISC', naples:false,
+    name:'University of Wisconsin-Madison',
+    summary:'PhD/MS Learning Sciences area in Educational Psychology, with emphasis on designing and studying learning environments, technology-enhanced learning, intelligent tutors, simulations, e-textbooks, educational software, and games.',
+    lineage:'Educational psychology -> learning sciences',
+    identityLabel:'Official learning sciences graduate program',
+    shiftLabel:'LS layer, not an ISD/LDT legacy claim in this guide draft.',
+    start:'Current PhD/MS Learning Sciences area; legacy age not evaluated here',
+    people:'Learning Sciences faculty include Bell, Karumbaiah, Nathan, Puntambekar, Shaffer, and Zhang on official pages',
+    peopleRole:'Learning sciences program anchor',
+    evidence:'Official UW-Madison Educational Psychology Learning Sciences pages confirm PhD/MS learning sciences degrees and LS labs.',
+    why:'Strong R1 learning-sciences hub with technology-rich learning environment and analytics/design research.',
+    url:'https://edpsych.education.wisc.edu/academics/learning-sciences/'
+  },
+  {
+    id:'utaustin-ls', lon:-97.7333, lat:30.2849, label:'UT', naples:false,
+    name:'University of Texas at Austin',
+    summary:'Human Development, Culture, and Learning Sciences area in Educational Psychology plus a separate Learning Technologies graduate program in Curriculum and Instruction.',
+    lineage:'Educational psychology / learning technologies -> learning sciences and learning technologies',
+    identityLabel:'Learning sciences plus learning technologies program ecology',
+    shiftLabel:'LS/LT layer. UT Austin has both HDCLS and Learning Technologies identities; not treated as a single older ISD lineage here.',
+    start:'Current HDCLS and Learning Technologies graduate areas',
+    people:'UT Austin HDCLS and Learning Technologies faculty communities',
+    peopleRole:'Learning sciences / learning technologies program anchor',
+    evidence:'Official UT Austin pages confirm Human Development, Culture, and Learning Sciences and Learning Technologies programs.',
+    why:'Important case where learning sciences and learning technologies coexist in a large R1 education school.',
+    url:'https://education.utexas.edu/departments/educational-psychology/edp-programs/human-development/'
+  },
+  {
+    id:'cuboulder-ls', lon:-105.2705, lat:40.0076, label:'CU', naples:false,
+    name:'University of Colorado Boulder',
+    summary:'Learning Sciences and Human Development MA/PhD emphasis, focused on learning across schools, communities, families, peer groups, technology, social justice, and design.',
+    lineage:'Learning sciences and human development',
+    identityLabel:'Official learning sciences and human development program',
+    shiftLabel:'LS layer, not an ISD/LDT legacy claim.',
+    start:'Current MA/PhD learning sciences and human development emphasis',
+    people:'CU Boulder learning sciences and human development faculty community',
+    peopleRole:'Learning sciences program anchor',
+    evidence:'Official CU Boulder School of Education pages confirm graduate degrees/emphasis in Learning Sciences and Human Development.',
+    why:'Major US LS program emphasizing culture, social justice, technology, design, and learning in real-world settings.',
+    url:'https://www.colorado.edu/education/academics/graduate-programs/learning-sciences-human-development'
+  },
+  {
+    id:'berkeley-ls', lon:-122.2585, lat:37.8719, label:'CAL', naples:false,
+    name:'University of California, Berkeley',
+    summary:'Berkeley School of Education has a Learning Sciences and Human Development area, plus a Learning Sciences Certificate in Instructional Design, Learning Technologies, and Education Research through SESAME.',
+    lineage:'Learning sciences and human development / SESAME learning sciences certificate',
+    identityLabel:'Learning sciences and human development program cluster',
+    shiftLabel:'LS layer and certificate layer; not mapped as older ISD/LDT lineage in this draft.',
+    start:'Current Berkeley BSE LSHD area and SESAME learning sciences certificate',
+    people:'Dor Abrahamson; Andrea diSessa; Marcia Linn; Kris Gutierrez; Berkeley LSHD faculty community',
+    peopleRole:'Learning sciences / education research anchor',
+    evidence:'Official Berkeley School of Education and SESAME pages confirm LSHD and Learning Sciences Certificate.',
+    why:'Important LS research hub and bridge case because the certificate explicitly includes instructional design, learning technologies, and education research.',
+    url:'https://bse.berkeley.edu/what-we-do/maphd-program/learning-sciences-and-human-development'
+  },
+  {
+    id:'buffalo-ls', lon:-78.789, lat:43.0008, label:'UB', naples:false,
+    name:'University at Buffalo',
+    summary:'Learning Sciences and Educational Technology EdM, Curriculum, Instruction and the Science of Learning PhD with learning sciences concentration, and a new Institute for Learning Sciences led by Christopher Hoadley.',
+    lineage:'Learning sciences and educational technology / curriculum, instruction and science of learning',
+    identityLabel:'Learning sciences + educational technology program ecology',
+    shiftLabel:'LS/EdTech layer. Strong contemporary LS buildout rather than older ISD lineage in this draft.',
+    start:'Current EdM, CISL PhD, and Institute for Learning Sciences',
+    people:'Christopher Hoadley; Virginia Flood; Naomi Thompson; Noemi Waight; UB Institute for Learning Sciences faculty community',
+    peopleRole:'Learning sciences institute and program anchor',
+    evidence:'Official University at Buffalo pages confirm Learning Sciences and Educational Technology EdM, CISL PhD learning sciences concentration, and Institute for Learning Sciences.',
+    why:'Important newer LS buildout linking learning sciences, educational technology, HCI, design, and community partnership.',
+    url:'https://ed.buffalo.edu/learning-sciences.html'
+  },
+  {
+    id:'northwestern-ls', lon:-87.6753, lat:42.0565, label:'NU', naples:true,
+    name:'Northwestern University',
+    summary:'Learning Sciences PhD program; major US learning-sciences hub and NAPLeS-style LS network case.',
+    lineage:'Learning sciences doctoral program',
+    identityLabel:'Learning sciences program',
+    shiftLabel:'LS layer, not an ISD-to-LDT legacy claim.',
+    start:'Current LS program; lineage date not evaluated in this ISD/LDT map',
+    people:'Northwestern learning sciences faculty community',
+    peopleRole:'Learning sciences program anchor',
+    evidence:'Official Northwestern learning sciences program pages / NAPLeS-style LS network listing.',
+    why:'Core US learning-sciences program for comparison with ISD/LDT traditions.',
+    url:'https://www.sesp.northwestern.edu/learning-sciences/'
+  },
+  {
+    id:'upenn-ls', lon:-75.1932, lat:39.9522, label:'PENN', naples:true,
+    name:'University of Pennsylvania',
+    summary:'Learning Sciences and Technologies program identity; US LS/LST layer case.',
+    lineage:'Learning sciences and technologies',
+    identityLabel:'Learning sciences / technologies program',
+    shiftLabel:'LS/LST layer, not treated as older ISD lineage in this draft.',
+    start:'Current LS/LST program; legacy age not evaluated here',
+    people:'Penn GSE learning sciences and technologies faculty community',
+    peopleRole:'Learning sciences / technologies program anchor',
+    evidence:'Official Penn GSE LST program pages / LS network listing.',
+    why:'Shows how LS language overlaps with technology and design without necessarily being an ISD program.',
+    url:'https://www.gse.upenn.edu/academics/programs/learning-sciences-technologies-masters'
+  },
+  {
+    id:'indiana-ls', lon:-86.5264, lat:39.1653, label:'IU-LS', naples:true,
+    name:'Indiana University Learning Sciences',
+    summary:'Indiana has both IST/LDT lineage and learning-sciences activity, so this layer separates LS identity from the older IST map point.',
+    lineage:'Learning sciences program/community alongside IST lineage',
+    identityLabel:'Learning sciences layer plus IST/LDT legacy',
+    shiftLabel:'Dual-layer case: IU appears in both ISD/LDT legacy and LS network layers.',
+    start:'Current LS layer; IST legacy handled separately',
+    people:'IU learning sciences / IST faculty communities',
+    peopleRole:'Dual-layer institutional anchor',
+    evidence:'Official IU program/faculty pages and LS network listings; exact LS program naming requires archive pass.',
+    why:'Useful example of one R1 institution carrying both systems-IDT and LS identities.',
+    url:'https://education.indiana.edu/programs/learning-sciences/index.html'
+  },
+  {
+    id:'stanford-ls', lon:-122.1697, lat:37.4275, label:'SU-LS', naples:true,
+    name:'Stanford University LDT / Learning Sciences',
+    summary:'Stanford LDT is strongly learning-sciences/design-studio oriented, but its LDT-specific launch is near the 30-year threshold rather than a verified older ISD lineage.',
+    lineage:'Learning design and technology / learning sciences and technology design',
+    identityLabel:'Learning sciences / LDT design studio',
+    shiftLabel:'LS/LDT layer and near-threshold LDT case.',
+    start:'LDT-specific launch commonly tied to the late 1990s',
+    people:'Roy Pea; Stanford LDT and learning sciences faculty community',
+    peopleRole:'Learning sciences / LDT design-studio anchor',
+    evidence:'Official Stanford LDT program pages and LS network identity.',
+    why:'Shows the contemporary LS/LDT program form.',
+    url:'https://ed.stanford.edu/ldt/'
+  },
+  {
+    id:'asu-ls', lon:-111.9281, lat:33.4242, label:'ASU-LDT', naples:false,
+    name:'Arizona State University LDT',
+    summary:'ASU is treated as a current Learning Design and Technologies program with educational technology roots.',
+    lineage:'Educational technology -> Learning Design and Technologies',
+    identityLabel:'Current LDT program',
+    shiftLabel:'LDT program transition; LS influence should be verified via curriculum/faculty pages.',
+    start:'Legacy likely; exact older lineage needs catalog confirmation',
+    people:'Howard J. Sullivan lineage; ASU LDT faculty community',
+    peopleRole:'EdTech/IT legacy to current LDT anchor',
+    evidence:'Official ASU Learning Design and Technologies program pages.',
+    why:'User-specified case where older IT/EdTech lineage is now an LDT program.',
+    url:'https://degrees.apps.asu.edu/masters-phd/major/ASU00/EDLDTMED/learning-design-and-technologies-med'
+  },
+  {
+    id:'usu-ls', lon:-111.8147, lat:41.7452, label:'USU-ITLS', naples:true,
+    name:'Utah State University ITLS',
+    summary:'Instructional Technology and Learning Sciences is a hybrid identity, explicitly combining IT and LS.',
+    lineage:'Instructional technology -> instructional technology and learning sciences',
+    identityLabel:'Instructional technology + learning sciences',
+    shiftLabel:'Clear IT-to-ITLS/LS-oriented naming transition.',
+    start:'Legacy likely; exact older lineage needs catalog confirmation',
+    people:'M. David Merrill; Mimi Recker and ITLS faculty community',
+    peopleRole:'IT/LS hybrid program anchor',
+    evidence:'Official USU ITLS pages and LS network identity.',
+    why:'Shows a direct naming bridge between instructional technology and learning sciences.',
+    url:'https://cehs.usu.edu/itls/'
+  }
+];
+function statusLabel(status){
+  if(status==='verified') return 'Verified 30+';
+  if(status==='likely') return 'Legacy likely';
+  return 'Near threshold';
+}
+function selectProgram(program){
+  document.querySelectorAll('.pin').forEach(p=>p.classList.toggle('active',p.dataset.id===program.id));
+  readout.status.textContent=statusLabel(program.status);
+  readout.status.className='status '+(program.status==='verified'?'':program.status);
+  readout.name.textContent=program.name;
+  readout.summary.textContent=program.summary;
+  readout.lineage.textContent=program.lineage;
+  readout.identity.textContent=program.identityLabel;
+  readout.shift.textContent=program.shiftLabel || 'No identity-shift interpretation recorded yet.';
+  readout.start.textContent=program.start;
+  readout.people.innerHTML=program.people;
+  readout.peopleRole.textContent=program.peopleRole || 'Institutional anchors, alumni, or adjacent intellectual lineage; archive depth varies by program.';
+  readout.evidence.textContent=program.evidence || (program.status==='verified' ? 'Public source supports a 30+ lineage cue.' : 'Plausible lineage, but exact public date still needs catalog/archive confirmation.');
+  readout.why.textContent=program.why;
+  readout.link.href=program.url;
+}
+function drawPrograms(projection){
+  if(!pinLayer) return;
+  pinLayer.innerHTML='';
+  [...programs,...lsPrograms].forEach(program=>{
+    const xy=projection ? projection([program.lon,program.lat]) : null;
+    if(!xy) return;
+    const g=document.createElementNS('http://www.w3.org/2000/svg','g');
+    const isLs=!program.status;
+    g.setAttribute('class','pin '+(program.status||'ls')+(program.shift?' shift':'')+(isLs?' ls':'')+(program.naples?' naples':'')+(program.id==='iu'?' active':''));
+    g.setAttribute('data-status',program.status || 'lsprogram');
+    g.setAttribute('data-identity',program.identity || 'lsprogram');
+    g.setAttribute('data-shift',program.shift ? 'shift' : '');
+    g.setAttribute('data-ls',isLs ? 'lsprogram' : '');
+    g.setAttribute('data-naples',program.naples ? 'naples' : '');
+    g.setAttribute('data-id',program.id);
+    g.setAttribute('transform',`translate(${xy[0]},${xy[1]})`);
+    g.setAttribute('tabindex','0');
+    g.setAttribute('role','button');
+    g.setAttribute('aria-label',program.name);
+    const outer=document.createElementNS('http://www.w3.org/2000/svg','circle');
+    outer.setAttribute('class','outer'); outer.setAttribute('r','15');
+    const inner=document.createElementNS('http://www.w3.org/2000/svg','circle');
+    inner.setAttribute('class','inner'); inner.setAttribute('r','7');
+    const label=document.createElementNS('http://www.w3.org/2000/svg','text');
+    label.setAttribute('class','pin-label'); label.setAttribute('x','18'); label.setAttribute('y','4'); label.textContent=program.label;
+    g.append(outer,inner,label);
+    g.addEventListener('click',()=>selectProgram(program));
+    g.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();selectProgram(program);}});
+    pinLayer.appendChild(g);
+  });
+}
+
+async function drawUSMap(){
+  const svg=document.getElementById('usMap');
+  if(!svg || !statesLayer || !window.d3 || !window.topojson){
+    return;
+  }
+  const projection=d3.geoAlbersUsa();
+  try{
+    const us=await d3.json('https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json');
+    const stateCollection=topojson.feature(us, us.objects.states);
+    const states=stateCollection.features;
+    const nation=topojson.mesh(us, us.objects.nation);
+    projection.fitExtent([[62,86],[858,522]], stateCollection);
+    const path=d3.geoPath(projection);
+    statesLayer.innerHTML='';
+    d3.select(statesLayer)
+      .selectAll('path.state')
+      .data(states)
+      .join('path')
+      .attr('class','state')
+      .attr('d',path);
+    d3.select(statesLayer)
+      .append('path')
+      .datum(nation)
+      .attr('class','state-outline')
+      .attr('d',path);
+    drawPrograms(projection);
+  }catch(err){
+    statesLayer.innerHTML='<text x="35" y="84" fill="#A9472F" font-family="JetBrains Mono, monospace" font-size="13" font-weight="800">Map data could not load. Check network access for us-atlas.</text>';
+  }
+}
+drawUSMap();
+
+document.querySelectorAll('.map-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.map-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    const filter=btn.dataset.mapFilter;
+    document.querySelectorAll('.pin').forEach(pin=>{
+      pin.style.display=(filter==='all'||pin.dataset.status===filter||pin.dataset.identity===filter||pin.dataset.shift===filter||pin.dataset.ls===filter||pin.dataset.naples===filter)?'':'none';
+    });
+  });
+});
+
+document.querySelectorAll('.ref-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    filterRefs(btn.dataset.filter);
+    document.querySelectorAll('.ref-step').forEach(step=>step.classList.toggle('active',step.dataset.refPath===btn.dataset.filter));
+  });
+});
+setRefPath('origins');
+</script>
+</body>
+</html>
+
+
+
+
