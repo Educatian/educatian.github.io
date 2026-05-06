@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720" role="img" aria-labelledby="title desc">
+  <title id="title">IRB reviewer logic map for AI-enhanced education amendments</title>
+  <desc id="desc">A workflow diagram showing how a TeachPlay-style project change maps to Common Rule approval criteria, consent elements, documentation, and attachments.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#284c63"/>
+    </marker>
+    <style>
+      .bg{fill:#f2eadc}
+      .panel{fill:#fffdf8;stroke:#182126;stroke-width:3;rx:18}
+      .blue{fill:#eef4f6;stroke:#284c63;stroke-width:3;rx:18}
+      .sage{fill:#f4f8ee;stroke:#596f4f;stroke-width:3;rx:18}
+      .clay{fill:#fff4ee;stroke:#b35c35;stroke-width:3;rx:18}
+      .line{stroke:#284c63;stroke-width:4;fill:none;marker-end:url(#arrow)}
+      .h{font:900 32px Inter,Arial,sans-serif;fill:#182126}
+      .t{font:800 21px Inter,Arial,sans-serif;fill:#182126}
+      .s{font:500 15px Inter,Arial,sans-serif;fill:#526168}
+      .m{font:800 12px 'JetBrains Mono',Consolas,monospace;letter-spacing:1.5px;fill:#284c63}
+      .small{font:600 13px Inter,Arial,sans-serif;fill:#526168}
+    </style>
+  </defs>
+  <rect width="1200" height="720" class="bg"/>
+  <text x="58" y="70" class="h">Reviewer logic map</text>
+  <text x="58" y="100" class="s">How a TeachPlay-style platform change becomes an amendment packet</text>
+
+  <rect x="58" y="150" width="250" height="128" class="clay"/>
+  <text x="85" y="188" class="m">PROJECT CHANGE</text>
+  <text x="85" y="222" class="t">AI + survey + logs</text>
+  <text x="85" y="250" class="s">New support surfaces,</text>
+  <text x="85" y="273" class="s">artifact evidence, evaluation</text>
+
+  <rect x="58" y="338" width="250" height="128" class="panel"/>
+  <text x="85" y="376" class="m">EVIDENCE SOURCES</text>
+  <text x="85" y="410" class="t">Vault + GitHub</text>
+  <text x="85" y="438" class="s">Project page, repo diff,</text>
+  <text x="85" y="461" class="s">approved IRB baseline</text>
+
+  <rect x="435" y="102" width="330" height="92" class="blue"/>
+  <text x="465" y="140" class="m">45 CFR 46.111</text>
+  <text x="465" y="172" class="t">Approval criteria</text>
+
+  <rect x="435" y="225" width="330" height="92" class="blue"/>
+  <text x="465" y="263" class="m">45 CFR 46.116</text>
+  <text x="465" y="295" class="t">Consent elements</text>
+
+  <rect x="435" y="348" width="330" height="92" class="blue"/>
+  <text x="465" y="386" class="m">45 CFR 46.117</text>
+  <text x="465" y="418" class="t">Documentation / waiver</text>
+
+  <rect x="435" y="471" width="330" height="92" class="blue"/>
+  <text x="465" y="509" class="m">45 CFR 46.104</text>
+  <text x="465" y="541" class="t">Exemption / limited review</text>
+
+  <rect x="862" y="100" width="278" height="110" class="sage"/>
+  <text x="892" y="139" class="m">OUTPUT 1</text>
+  <text x="892" y="171" class="t">Protocol delta</text>
+  <text x="892" y="195" class="small">Risks, procedures, population</text>
+
+  <rect x="862" y="240" width="278" height="110" class="sage"/>
+  <text x="892" y="279" class="m">OUTPUT 2</text>
+  <text x="892" y="311" class="t">Consent update</text>
+  <text x="892" y="335" class="small">AI, logs, optional artifacts</text>
+
+  <rect x="862" y="380" width="278" height="110" class="sage"/>
+  <text x="892" y="419" class="m">OUTPUT 3</text>
+  <text x="892" y="451" class="t">Data security</text>
+  <text x="892" y="475" class="small">Privacy, access, retention</text>
+
+  <rect x="862" y="520" width="278" height="110" class="sage"/>
+  <text x="892" y="559" class="m">OUTPUT 4</text>
+  <text x="892" y="591" class="t">Appendices</text>
+  <text x="892" y="615" class="small">Survey, telemetry dictionary</text>
+
+  <path d="M308 214 C365 184 390 160 435 148" class="line"/>
+  <path d="M308 214 C365 225 390 254 435 271" class="line"/>
+  <path d="M308 402 C365 403 390 397 435 394" class="line"/>
+  <path d="M308 402 C365 452 392 503 435 517" class="line"/>
+
+  <path d="M765 148 C806 138 828 152 862 155" class="line"/>
+  <path d="M765 271 C812 274 830 290 862 295" class="line"/>
+  <path d="M765 394 C812 398 830 424 862 435" class="line"/>
+  <path d="M765 517 C812 526 830 562 862 575" class="line"/>
+</svg>
