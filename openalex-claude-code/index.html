@@ -1,0 +1,1963 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OpenAlex × Claude Code — A Researcher's Blueprint</title>
+<meta name="description" content="Reach 240M+ scholarly works in one line — a researcher's blueprint for prompt-driven citation-graph automation. OpenAlex API × Claude Code, with Discourse Lens v2 as a worked case study.">
+<link rel="canonical" href="https://educatian.github.io/openalex-claude-code/">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OpenAlex × Claude Code — A Researcher's Blueprint">
+<meta property="og:description" content="Reach 240M+ scholarly works in one line — a researcher's blueprint for prompt-driven citation-graph automation. OpenAlex API × Claude Code, with Discourse Lens v2 as a worked case study.">
+<meta property="og:url" content="https://educatian.github.io/openalex-claude-code/">
+<meta property="og:image" content="https://educatian.github.io/openalex-claude-code/thumbnails/hero_og_1200x630.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://educatian.github.io/openalex-claude-code/thumbnails/hero_og_1200x630.png">
+<meta name="twitter:title" content="OpenAlex × Claude Code — A Researcher's Blueprint">
+<meta name="twitter:description" content="Reach 240M+ scholarly works in one line — prompt-driven citation-graph automation.">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,800;0,900;1,400;1,800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+:root {
+  --bg:           #F2EBDB;
+  --bg-deep:      #E4DAC0;
+  --ink:          #0F1A14;
+  --ink2:         #2F4239;
+  --ink3:         #7B8A7F;
+  --emerald:      #0E5F3A;
+  --emerald-soft: rgba(14,95,58,.08);
+  --emerald-glow: rgba(14,95,58,.22);
+  --clay:         #C25C42;
+  --clay-soft:    rgba(194,92,66,.10);
+  --honey:        #B7882B;
+  --line:         #C7BFAD;
+  --code-bg:      #0F1A14;
+  --code-fg:      #F2EBDB;
+  --code-cm:      #7B8A7F;
+  --code-kw:      #E0A572;
+  --code-st:      #B3D1BC;
+  --good:         #0E5F3A;
+  --warn:         #B7882B;
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;padding:0;
+  background:var(--bg);color:var(--ink);
+  font-family:'Inter','Pretendard','Apple SD Gothic Neo',-apple-system,BlinkMacSystemFont,sans-serif;
+  font-weight:400;line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+  word-break:keep-all;
+}
+body.lang-ko{
+  font-family:'Pretendard','Inter','Apple SD Gothic Neo',-apple-system,BlinkMacSystemFont,sans-serif;
+}
+
+/* ---- Bilingual visibility ---- */
+body.lang-en [lang="ko"]{display:none!important}
+body.lang-ko [lang="en"]{display:none!important}
+
+/* ---- Blueprint grid background ---- */
+.grid-bg{
+  position:fixed;inset:0;pointer-events:none;z-index:0;
+  opacity:.30;
+  background-image:
+    linear-gradient(rgba(15,26,20,.07) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(15,26,20,.07) 1px,transparent 1px);
+  background-size:48px 48px;
+  mask-image:radial-gradient(ellipse at 30% 20%,black 30%,transparent 80%);
+}
+
+/* ---- Layout ---- */
+.shell{
+  position:relative;z-index:1;
+  display:grid;
+  grid-template-columns:280px 1fr;
+  gap:60px;
+  max-width:1400px;
+  margin:0 auto;
+  padding:64px 80px;
+}
+@media (max-width:1080px){
+  .shell{grid-template-columns:1fr;padding:40px 28px;gap:32px}
+  .toc{position:relative!important;top:auto!important;max-height:none!important}
+}
+
+/* ---- Sticky TOC ---- */
+.toc{
+  position:sticky;top:32px;align-self:start;
+  max-height:calc(100vh - 64px);overflow-y:auto;
+  border:2px solid var(--ink);border-radius:14px;
+  background:#fff;padding:22px 22px;
+}
+
+/* lang toggle in TOC */
+.lang-toggle{
+  display:flex;gap:6px;margin-bottom:18px;
+  padding-bottom:14px;border-bottom:1px solid var(--line);
+}
+.lang-toggle button{
+  flex:1;
+  font-family:'JetBrains Mono',monospace;
+  font-size:10.5px;font-weight:800;letter-spacing:1.5px;
+  padding:7px 10px;
+  border:1.5px solid var(--ink);
+  background:#fff;color:var(--ink);
+  cursor:pointer;border-radius:5px;
+  text-transform:uppercase;
+  transition:background .12s,color .12s,border-color .12s;
+}
+.lang-toggle button:hover{background:var(--emerald-soft)}
+.lang-toggle button.active{
+  background:var(--emerald);color:#fff;border-color:var(--emerald);
+  box-shadow:0 4px 12px var(--emerald-glow);
+}
+
+.toc-kicker{
+  font-size:11px;font-weight:800;letter-spacing:3.5px;
+  text-transform:uppercase;color:var(--emerald);margin-bottom:14px;
+}
+.toc h2{font-size:18px;font-weight:900;margin:0 0 14px;line-height:1.2;counter-reset:toc -1}
+.toc .part{
+  font-size:11px;font-weight:800;letter-spacing:2px;
+  text-transform:uppercase;color:#7B8A7F;margin:14px 0 8px;
+}
+.toc ol{list-style:none;padding:0;margin:0}
+.toc li{counter-increment:toc;margin:0;border-top:1px solid var(--line)}
+.toc li:first-child{border-top:0}
+.toc a{
+  display:flex;gap:10px;align-items:baseline;
+  color:var(--ink);text-decoration:none;
+  padding:8px 0;font-size:13px;line-height:1.35;
+  font-weight:500;transition:color .15s;
+}
+.toc a:hover{color:var(--emerald)}
+.toc a.active{
+  color:var(--emerald);background:var(--emerald-soft);transform:translateX(3px);
+  font-weight:700;border-radius:10px;padding-left:10px;padding-right:10px;
+}
+.toc a::before{
+  content:counter(toc,decimal-leading-zero);
+  color:var(--ink3);font-family:'JetBrains Mono',monospace;
+  font-size:10.5px;font-weight:700;letter-spacing:.5px;
+  flex-shrink:0;width:18px;
+}
+.toc a.active::before{color:var(--emerald)}
+
+/* ---- Hero ---- */
+.hero{
+  border-bottom:1px solid var(--line);
+  padding-bottom:56px;margin-bottom:56px;
+}
+.kicker{
+  font-size:13px;font-weight:800;letter-spacing:4px;text-transform:uppercase;
+  color:var(--emerald);margin-bottom:18px;
+}
+.h1{
+  font-size:62px;font-weight:900;line-height:1.06;letter-spacing:-.025em;
+  margin:0 0 22px;color:var(--ink);font-family:'Inter','Pretendard',sans-serif;
+}
+.h1 .em{color:var(--emerald)}
+.h1 .serif{
+  font-family:'Playfair Display',Georgia,serif;font-style:italic;
+  font-weight:400;letter-spacing:-.01em;
+}
+.lede{
+  font-size:20px;line-height:1.55;color:var(--ink2);font-weight:300;
+  max-width:780px;margin:0 0 32px;
+}
+.hero-meta{
+  display:flex;gap:14px;flex-wrap:wrap;font-size:11px;font-weight:800;
+  letter-spacing:2px;text-transform:uppercase;color:#7B8A7F;
+}
+.hero-meta span{
+  padding:6px 12px;border:1.5px solid var(--ink);border-radius:6px;color:var(--ink);
+}
+.hero-meta .accent{background:var(--emerald);color:#fff;border-color:var(--emerald)}
+
+.insight-box{
+  display:inline-block;background:var(--emerald);color:#fff;border-radius:10px;
+  padding:18px 22px;font-size:14px;font-weight:600;line-height:1.55;max-width:440px;
+  box-shadow:0 8px 24px var(--emerald-glow);margin-top:28px;
+}
+.insight-box .ik{
+  font-size:10px;letter-spacing:2.5px;opacity:.78;display:block;
+  margin-bottom:6px;font-weight:800;
+}
+
+.byline{font-size:14px;margin-top:14px;color:#5C6E62}
+.byline strong{color:var(--ink);font-weight:700}
+
+/* ---- Section ---- */
+.section{margin-bottom:72px;scroll-margin-top:24px}
+.section-label{
+  font-size:11px;font-weight:800;letter-spacing:3.5px;text-transform:uppercase;
+  color:var(--ink3);margin:0 0 14px;display:flex;align-items:center;gap:14px;
+}
+.section-label::after{content:'';flex:1;height:1px;background:var(--line)}
+.h2{
+  font-size:38px;font-weight:900;line-height:1.12;margin:0 0 14px;
+  color:var(--ink);letter-spacing:-.02em;
+}
+.h2 .em{color:var(--emerald)}
+.h3{
+  font-size:22px;font-weight:800;line-height:1.25;margin:36px 0 12px;
+  color:var(--ink);letter-spacing:-.01em;
+}
+.h4{font-size:16px;font-weight:800;line-height:1.3;margin:24px 0 8px;color:var(--ink)}
+.body p{font-size:15.5px;line-height:1.72;color:#1B2920;margin:0 0 14px}
+.body p strong{color:var(--ink);font-weight:700}
+.body ul,.body ol{padding-left:22px;margin:0 0 16px}
+.body li{font-size:15.5px;line-height:1.72;color:#1B2920;margin-bottom:6px}
+
+a.inline{
+  color:var(--emerald);text-decoration:none;
+  border-bottom:1px solid currentColor;font-weight:600;
+}
+a.inline:hover{background:var(--emerald-soft)}
+
+/* ---- Cards ---- */
+.card{
+  background:#fff;border:2px solid var(--ink);border-radius:12px;
+  padding:22px 26px;margin:18px 0;
+}
+.card.em{background:var(--emerald-soft);border-color:var(--emerald)}
+.card.dark{background:var(--ink);color:var(--code-fg);border-color:var(--ink)}
+.card.dark p{color:#C4D0C8}
+.card.dark .h4{color:#fff}
+.card-title{
+  font-size:11px;font-weight:800;letter-spacing:2.5px;text-transform:uppercase;
+  margin-bottom:8px;color:var(--ink3);
+}
+.card.em .card-title{color:var(--emerald)}
+.card.dark .card-title{color:var(--code-cm)}
+
+/* ---- Step grid ---- */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:28px 0 12px}
+.step{
+  border:2px solid var(--ink);border-radius:12px;padding:22px 20px;background:#fff;
+  min-height:230px;display:flex;flex-direction:column;position:relative;
+}
+.step.hero{
+  background:var(--emerald);border-color:var(--emerald);color:#fff;
+  box-shadow:0 10px 32px var(--emerald-glow);transform:translateY(-10px);
+}
+.step-num{
+  font-size:10px;font-weight:800;letter-spacing:2.5px;color:#A3B4A8;
+  margin-bottom:8px;text-transform:uppercase;
+}
+.step.hero .step-num{color:rgba(255,255,255,.7)}
+.step-title{
+  font-size:19px;font-weight:900;line-height:1.18;color:var(--ink);margin-bottom:8px;
+}
+.step.hero .step-title{color:#fff}
+.step-body{font-size:13px;line-height:1.55;color:#3D4F44;margin-top:auto}
+.step.hero .step-body{color:rgba(255,255,255,.92)}
+.step-foot{
+  font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:700;
+  letter-spacing:1.5px;color:var(--ink3);text-transform:uppercase;
+  margin-top:14px;padding-top:10px;border-top:1px solid var(--line);
+}
+.step.hero .step-foot{color:rgba(255,255,255,.75);border-top-color:rgba(255,255,255,.25)}
+@media (max-width:780px){.steps{grid-template-columns:1fr}}
+
+/* ---- Code ---- */
+.code{
+  background:var(--code-bg);color:var(--code-fg);border-radius:12px;
+  padding:18px 22px;font-family:'JetBrains Mono',monospace;
+  font-size:13px;line-height:1.7;
+  margin:14px 0 22px;border:2px solid var(--ink);
+  overflow-x:auto;white-space:pre;
+}
+.code .cm{color:var(--code-cm)}
+.code .kw{color:var(--code-kw)}
+.code .st{color:var(--code-st)}
+.code .hl{color:#7DD3FC;background:rgba(255,255,255,.08);padding:0 4px;border-radius:3px}
+
+code:not(.code){
+  font-family:'JetBrains Mono',monospace;font-size:12.5px;
+  background:#fff;border:1px solid var(--line);border-radius:5px;
+  padding:1.5px 7px;color:var(--emerald);font-weight:600;
+}
+
+/* ---- Prompt block ---- */
+.prompt{
+  background:#fff;border:2px solid var(--ink);border-radius:12px;
+  padding:18px 22px;margin:14px 0 22px;position:relative;
+}
+.prompt::before{
+  content:'PROMPT';
+  position:absolute;top:-10px;left:18px;
+  background:var(--clay);color:#fff;
+  font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:800;
+  letter-spacing:2.5px;padding:3px 10px;border-radius:4px;
+}
+.prompt-meta{
+  font-size:10.5px;font-weight:800;letter-spacing:2px;text-transform:uppercase;
+  color:var(--ink3);margin-bottom:10px;margin-top:4px;
+}
+.prompt-text{
+  font-family:'Playfair Display',Georgia,serif;
+  font-size:15.5px;line-height:1.6;color:var(--ink);font-style:italic;
+}
+.prompt-text code{font-style:normal;font-size:13px}
+
+/* ---- Iframe embed ---- */
+.embed-frame{
+  background:#fff;border:2px solid var(--ink);border-radius:14px;
+  padding:10px;margin:24px 0;
+}
+.embed-frame iframe{
+  width:100%;height:640px;border:1px solid var(--line);border-radius:6px;
+  display:block;background:#fafaf7;
+}
+.embed-meta{
+  display:flex;justify-content:space-between;align-items:baseline;gap:14px;
+  margin-top:12px;padding:10px 6px 4px;border-top:1px solid var(--line);
+}
+.embed-meta .lbl{
+  font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:700;
+  letter-spacing:1.5px;text-transform:uppercase;color:var(--emerald);
+}
+.embed-meta .desc{font-size:13px;color:#3D4F44;line-height:1.5;flex:1;text-align:right}
+.embed-meta a.inline{font-size:13px}
+@media (max-width:780px){.embed-frame iframe{height:480px}}
+
+/* ---- Grids ---- */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin:18px 0}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin:18px 0}
+@media (max-width:780px){.g2,.g3{grid-template-columns:1fr}}
+
+/* ---- Pitfall / Tip ---- */
+.pitfall{
+  border-left:4px solid var(--clay);background:var(--clay-soft);
+  border-radius:0 10px 10px 0;padding:18px 22px;margin:18px 0;
+}
+.pitfall .pl{
+  font-size:11px;font-weight:800;letter-spacing:2.5px;
+  text-transform:uppercase;color:var(--clay);margin-bottom:6px;
+}
+.pitfall p{margin:0 0 8px;font-size:14.5px;line-height:1.6;color:#1B2920}
+.pitfall p:last-child{margin-bottom:0}
+.pitfall ul{padding-left:18px;margin:6px 0 0}
+.pitfall li{font-size:14px;line-height:1.55;margin-bottom:4px;color:#1B2920}
+
+.tip{
+  border-left:4px solid var(--emerald);background:var(--emerald-soft);
+  border-radius:0 10px 10px 0;padding:18px 22px;margin:18px 0;
+}
+.tip .pl{
+  font-size:11px;font-weight:800;letter-spacing:2.5px;
+  text-transform:uppercase;color:var(--emerald);margin-bottom:6px;
+}
+.tip p{margin:0 0 8px;font-size:14.5px;line-height:1.6;color:#1B2920}
+.tip p:last-child{margin-bottom:0}
+
+/* ---- Schema table ---- */
+.schema{
+  width:100%;border-collapse:collapse;margin:18px 0;background:#fff;
+  border:2px solid var(--ink);border-radius:12px;overflow:hidden;font-size:14px;
+}
+.schema th{
+  text-align:left;padding:13px 16px;background:var(--ink);color:var(--code-fg);
+  font-size:11px;letter-spacing:1.5px;text-transform:uppercase;font-weight:800;
+}
+.schema td{padding:12px 16px;border-top:1px solid var(--line);vertical-align:top}
+.schema td.k{
+  font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--emerald);
+  width:170px;font-size:13px;
+}
+.schema td.t{
+  font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--ink3);width:130px;
+}
+.schema tbody tr:nth-child(even){background:#FBFAF5}
+
+/* ---- Figures ---- */
+.fig{
+  background:#fff;border:2px solid var(--ink);border-radius:14px;
+  padding:18px 18px 14px;margin:24px 0;
+}
+.fig svg{width:100%;height:auto;display:block}
+.fig-cap{
+  display:flex;justify-content:space-between;align-items:baseline;gap:14px;
+  margin-top:12px;padding-top:10px;border-top:1px solid var(--line);
+}
+.fig-cap .lbl{
+  font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:700;
+  letter-spacing:1.5px;text-transform:uppercase;color:var(--emerald);
+}
+.fig-cap .desc{font-size:13px;color:#3D4F44;line-height:1.5;flex:1;text-align:right}
+
+/* ---- URL anatomy block ---- */
+.url-anatomy{
+  background:#fff;border:2px solid var(--ink);border-radius:14px;
+  padding:18px 22px;margin:24px 0;
+}
+.url-rows{display:grid;gap:8px}
+.url-row{
+  display:grid;grid-template-columns:minmax(0,440px) 1fr;
+  gap:24px;align-items:center;
+  padding:8px 0;border-bottom:1px dashed var(--line);
+}
+.url-row:last-child{border-bottom:0}
+.url-row.indent-1{padding-left:24px}
+.url-row.indent-2{padding-left:48px}
+.url-part{
+  background:var(--code-bg);color:var(--code-fg);
+  font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:700;
+  padding:9px 14px;border-radius:6px;
+  white-space:nowrap;overflow-x:auto;
+}
+.url-part .prot,.url-part .host{color:#7DD3FC}
+.url-part .sep{color:#7B8A7F}
+.url-part .endpoint{color:#E0A572}
+.url-part .key{color:#B3D1BC}
+.url-part .val{color:#F2EBDB}
+.url-meta{display:flex;flex-direction:column;gap:2px;font-size:13px;line-height:1.45}
+.url-meta-head{display:flex;align-items:baseline;gap:10px}
+.url-meta-head .num{
+  font-family:'JetBrains Mono',monospace;
+  font-size:15px;font-weight:800;color:var(--clay);
+}
+.url-meta-head strong{font-size:14px;color:var(--ink);font-weight:800}
+.url-meta .desc{font-size:12.5px;color:#3D4F44}
+.url-anatomy-cap{
+  display:flex;justify-content:space-between;align-items:baseline;gap:14px;
+  margin-top:14px;padding-top:10px;border-top:1px solid var(--line);
+}
+.url-anatomy-cap .lbl{
+  font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:700;
+  letter-spacing:1.5px;text-transform:uppercase;color:var(--emerald);
+}
+.url-anatomy-cap .desc{font-size:13px;color:#3D4F44;line-height:1.5;flex:1;text-align:right;font-style:italic;font-family:'Playfair Display',Georgia,serif}
+@media (max-width:780px){
+  .url-row{grid-template-columns:1fr;gap:6px;padding-left:0!important}
+}
+
+/* ---- FAQ ---- */
+.faq-stack{display:grid;gap:12px;margin:20px 0}
+.faq-item{
+  background:#fff;border:2px solid var(--ink);border-radius:14px;overflow:hidden;
+  scroll-margin-top:24px;
+}
+.faq-item[open]{
+  border-color:var(--emerald);box-shadow:0 10px 28px rgba(14,95,58,.10);
+}
+.faq-q{
+  list-style:none;cursor:pointer;padding:18px 22px;
+  font-size:17px;font-weight:800;line-height:1.35;
+  display:flex;align-items:center;justify-content:space-between;gap:18px;
+}
+.faq-q::-webkit-details-marker{display:none}
+.faq-q::after{
+  content:'+';font-family:'JetBrains Mono',monospace;
+  font-size:20px;font-weight:700;color:var(--emerald);flex-shrink:0;
+}
+.faq-item[open] .faq-q::after{content:'−'}
+.faq-a{padding:0 22px 20px}
+.faq-a p{font-size:14.5px;line-height:1.7;color:#1B2920;margin:0 0 12px}
+.faq-a p:last-child{margin-bottom:0}
+.faq-rule{
+  background:var(--emerald-soft);border-left:4px solid var(--emerald);
+  border-radius:0 10px 10px 0;padding:12px 16px;margin-top:12px;
+  font-size:13.5px;line-height:1.55;
+}
+.faq-rule strong{color:var(--emerald)}
+
+/* ---- Downloads ---- */
+.dl-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:18px 0}
+@media (max-width:780px){.dl-grid{grid-template-columns:1fr}}
+.dl-item{
+  background:#fff;border:2px solid var(--ink);border-radius:12px;
+  padding:18px 22px;text-decoration:none;color:var(--ink);
+  transition:transform .15s,border-color .15s,box-shadow .15s;
+  display:block;
+}
+.dl-item:hover{
+  transform:translateY(-2px);border-color:var(--emerald);
+  box-shadow:0 8px 22px var(--emerald-glow);
+}
+.dl-item .fname{
+  font-family:'JetBrains Mono',monospace;font-size:13.5px;font-weight:700;
+  color:var(--emerald);margin-bottom:6px;
+}
+.dl-item .fdesc{font-size:13px;color:#3D4F44;line-height:1.5}
+
+/* ---- Foot ---- */
+.foot{
+  margin-top:80px;padding-top:32px;border-top:1px solid var(--line);
+  display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;
+  font-size:11px;color:#7B8A7F;
+  letter-spacing:.15em;text-transform:uppercase;
+}
+.foot .em{color:var(--emerald);font-weight:700}
+
+hr.rule{border:0;border-top:1px solid var(--line);margin:36px 0}
+@media (max-width:780px){
+  .h1{font-size:42px}
+  .h2{font-size:28px}
+}
+</style>
+</head>
+<body class="lang-en">
+<div class="grid-bg"></div>
+
+<div class="shell">
+
+<nav class="toc">
+  <div class="lang-toggle" role="group" aria-label="Language">
+    <button data-lang="en" class="active" type="button">EN</button>
+    <button data-lang="ko" type="button">한국어</button>
+  </div>
+  <div class="toc-kicker">Blueprint · v1</div>
+  <h2>OpenAlex × Claude Code</h2>
+
+  <div class="part" lang="en">Part 0 · Start here</div>
+  <div class="part" lang="ko">Part 0 · 여기부터</div>
+  <ol>
+    <li><a href="#orientation"><span lang="en">Orientation for beginners</span><span lang="ko">초보자 오리엔테이션</span></a></li>
+  </ol>
+
+  <div class="part" lang="en">Part I · Map</div>
+  <div class="part" lang="ko">Part I · 지도</div>
+  <ol>
+    <li><a href="#why"><span lang="en">Why this guide</span><span lang="ko">왜 이 가이드인가</span></a></li>
+    <li><a href="#what"><span lang="en">What you'll be able to do</span><span lang="ko">무엇을 할 수 있게 되나</span></a></li>
+  </ol>
+
+  <div class="part" lang="en">Part II · OpenAlex</div>
+  <div class="part" lang="ko">Part II · OpenAlex</div>
+  <ol start="3">
+    <li><a href="#openalex"><span lang="en">Entity model + URL grammar</span><span lang="ko">엔티티 모델 + URL 문법</span></a></li>
+    <li><a href="#polite"><span lang="en">Polite pool rules</span><span lang="ko">Polite pool 운영 룰</span></a></li>
+  </ol>
+
+  <div class="part" lang="en">Part III · Claude Code</div>
+  <div class="part" lang="ko">Part III · Claude Code 연결</div>
+  <ol start="5">
+    <li><a href="#patterns"><span lang="en">Three integration patterns</span><span lang="ko">3가지 연결 패턴</span></a></li>
+    <li><a href="#pattern-a"><span lang="en">A · Direct prompt</span><span lang="ko">A · 직접 프롬프트</span></a></li>
+    <li><a href="#pattern-b"><span lang="en">B · Helper script</span><span lang="ko">B · 헬퍼 스크립트</span></a></li>
+    <li><a href="#pattern-c"><span lang="en">C · MCP server</span><span lang="ko">C · MCP 서버</span></a></li>
+  </ol>
+
+  <div class="part" lang="en">Part IV · Research logic</div>
+  <div class="part" lang="ko">Part IV · 연구 실행 논리</div>
+  <ol start="9">
+    <li><a href="#research-logic"><span lang="en">Idea → API sequence (5-step funnel)</span><span lang="ko">아이디어 → API 시퀀스 5단계</span></a></li>
+    <li><a href="#anti"><span lang="en">Five common mistakes</span><span lang="ko">자주 만드는 5가지 실수</span></a></li>
+  </ol>
+
+  <div class="part" lang="en">Part V · Case study</div>
+  <div class="part" lang="ko">Part V · 케이스 스터디</div>
+  <ol start="11">
+    <li><a href="#case-study"><span lang="en">Discourse Lens v2 build-along</span><span lang="ko">Discourse Lens v2 빌드</span></a></li>
+  </ol>
+
+  <div class="part" lang="en">Part VI · Appendix</div>
+  <div class="part" lang="ko">Part VI · 부록</div>
+  <ol start="12">
+    <li><a href="#prompts"><span lang="en">Prompt library</span><span lang="ko">프롬프트 라이브러리</span></a></li>
+    <li><a href="#faq"><span lang="en">Practical FAQ</span><span lang="ko">실전 FAQ</span></a></li>
+    <li><a href="#downloads"><span lang="en">Downloads</span><span lang="ko">다운로드</span></a></li>
+    <li><a href="#refs">References &amp; credits</a></li>
+  </ol>
+</nav>
+
+<main>
+
+<header class="hero">
+  <div class="kicker" lang="en">OpenAlex × Claude Code · A Researcher's Blueprint</div>
+  <div class="kicker" lang="ko">OpenAlex × Claude Code · 연구자 블루프린트</div>
+
+  <h1 class="h1" lang="en">
+    <span class="serif">Open</span> citation graph,
+    <span class="em">prompt-driven</span> &mdash;
+    reach 240M+ scholarly works in one line.
+  </h1>
+  <h1 class="h1" lang="ko">
+    <span class="serif">Open</span> citation graph,
+    <span class="em">prompt-driven</span> &mdash;
+    240M+ 학술논문에 한 줄로 닿기.
+  </h1>
+
+  <p class="lede" lang="en">
+    OpenAlex is a free, token-free open scholarly metadata graph. Claude Code is the controller that turns natural-language prompts into API calls, parsing, analysis, and visualization in one continuous flow. This guide threads the two together as a citation-graph automation workflow &mdash; using <strong>Discourse Lens v2</strong> as a case study.
+  </p>
+  <p class="lede" lang="ko">
+    OpenAlex는 토큰 없이 무료로 부르는 오픈 학술 메타데이터 그래프이고, Claude Code는 자연어 프롬프트를 API 호출 + 정제 + 분석 + 시각화로 바로 잇는 컨트롤러입니다. 이 가이드는 둘을 묶어 인용 그래프 자동화 워크플로를 한 호흡으로 짜는 법을 다룹니다 &mdash; <strong>Discourse Lens v2</strong>를 케이스 스터디로.
+  </p>
+
+  <div class="hero-meta" lang="en">
+    <span class="accent">For researchers, beginner-friendly</span>
+    <span>No API token</span>
+    <span>240M+ Works · 95M+ Authors</span>
+    <span>~30 min first build</span>
+  </div>
+  <div class="hero-meta" lang="ko">
+    <span class="accent">연구자용 · 입문자도 OK</span>
+    <span>API 토큰 불필요</span>
+    <span>240M+ Works · 95M+ Authors</span>
+    <span>첫 빌드 ~30분</span>
+  </div>
+
+  <p class="byline" lang="en">
+    Guide author: <strong>Jewoong Moon</strong> (The University of Alabama, jmoon19@ua.edu) · Date: 2026-05-05
+  </p>
+  <p class="byline" lang="ko">
+    저자: <strong>Jewoong Moon</strong> (The University of Alabama, jmoon19@ua.edu) · 2026-05-05
+  </p>
+
+  <div class="insight-box" lang="en">
+    <span class="ik">KEY INSIGHT</span>
+    Good automation doesn't begin with knowing the tool &mdash; it begins with knowing how to <em>decompose an idea</em>. The 5-step funnel in §9 is the real spine of this guide; OpenAlex (the tool) and Claude Code (the adapter) are simply the medium flowing through that funnel.
+  </div>
+  <div class="insight-box" lang="ko">
+    <span class="ik">KEY INSIGHT</span>
+    좋은 자동화는 도구를 아는 게 아니라 <em>아이디어를 분해하는 법</em>을 아는 것에서 시작됩니다. 본 가이드의 § 9 "5단계 깔때기"가 이 가이드의 진짜 본체이고, 도구(OpenAlex)와 어댑터(Claude Code)는 그 깔때기를 흐르는 매체일 뿐입니다.
+  </div>
+
+  <div style="margin-top:32px;display:grid;grid-template-columns:1fr;gap:14px;max-width:820px">
+    <div class="card em">
+      <div class="card-title" lang="en">Purpose · why this guide exists</div>
+      <div class="card-title" lang="ko">목적 · 왜 이 가이드인가</div>
+      <p lang="en">Researchers waste hours every week on the same citation-lookup loop &mdash; search Google Scholar, copy a BibTeX, paste into Zotero, repeat. This guide compresses that loop into a single Claude Code prompt, then teaches the mental model so the technique scales beyond one-off questions. The goal is not to demo a clever tool, but to durably change how a working researcher gathers literature evidence.</p>
+      <p lang="ko">연구자들은 매주 똑같은 인용 lookup 루프에 몇 시간씩 씁니다 &mdash; Google Scholar 검색, BibTeX 복사, Zotero 붙여넣기, 반복. 이 가이드는 그 루프를 Claude Code 프롬프트 한 줄로 압축하고, 일회성을 넘어 패턴으로 자라게 하는 사고법을 가르칩니다. 목적은 멋진 도구 데모가 아니라, 현업 연구자가 문헌 증거를 모으는 <em>방식 자체</em>를 지속 가능한 형태로 바꾸는 것.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-title" lang="en">Audience · who this is for</div>
+      <div class="card-title" lang="ko">대상 · 누구를 위한 가이드인가</div>
+      <p lang="en">Researchers who currently do bibliometric tasks by hand more than once a week &mdash; literature scans, citation tracking, journal-level analyses, systematic-review prescreening. Lab PIs who want RAs to skip the BibTeX-grabbing slog. Beginners who can run a terminal command but have never called an API. The orientation chapter (§ 0) brings total novices up to speed in five minutes.</p>
+      <p lang="ko">매주 한 번 이상 서지정보 작업을 손으로 하는 연구자 &mdash; 문헌 검색, 인용 추적, 저널 단위 분석, 메타분석 사전 스크리닝. 학생들에게 BibTeX 긁는 잡일을 줄여주고 싶은 PI. 터미널 명령어는 칠 수 있지만 API는 한 번도 안 써본 입문자. 오리엔테이션 챕터(§ 0)가 5분 안에 기본기까지 따라잡게 합니다.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-title" lang="en">Outcome · what you'll be able to do</div>
+      <div class="card-title" lang="ko">성과 · 무엇을 할 수 있게 되나</div>
+      <p lang="en">After working through this guide, you can: <strong>pull a journal's full 10-year publication record in two prompts</strong>; <strong>walk a citation graph in either direction</strong> without writing pagination code yourself; <strong>decompose any new bibliometric question</strong> into an executable API sequence using the § 9 five-step funnel; and <strong>build a small reproducible automation</strong> (Pattern B) that survives across projects and collaborators.</p>
+      <p lang="ko">가이드를 끝까지 읽으면: <strong>두 프롬프트로 한 저널의 10년 출판 기록</strong>을 가져오고; <strong>인용 그래프를 양방향으로</strong> 페이지네이션 코드 없이 따라가고; <strong>새로운 서지정보 질문을 실행 가능한 API 시퀀스</strong>로 분해(§ 9의 5단계 깔때기)할 수 있고; 프로젝트·협업자가 바뀌어도 살아남는 <strong>재현 가능한 작은 자동화 (Pattern B)</strong>를 만들 수 있게 됩니다.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-title" lang="en">Scope · what this guide is not</div>
+      <div class="card-title" lang="ko">범위 · 이 가이드가 아닌 것</div>
+      <p lang="en">Not a replacement for OpenAlex's official specification (defer to <a class="inline" href="https://docs.openalex.org">docs.openalex.org</a> for field-level details). Not a citation-analysis methods textbook (no bibliometric statistics, no h-index theory, no journal impact discussion). Not a general LLM tutorial &mdash; it assumes Claude Code is installed and you can run a terminal command. Every example was verified against OpenAlex API behavior as of 2026-05; the Discourse Lens case study uses synthetic outputs purely as illustration, not a real analysis report.</p>
+      <p lang="ko">OpenAlex 공식 명세를 대체하지 않습니다 (필드 수준 세부는 <a class="inline" href="https://docs.openalex.org">docs.openalex.org</a> 참조). 인용 분석 방법론 교재 아님 (서지통계·h-index 이론·저널 임팩트 논의 없음). 일반 LLM 튜토리얼 아님 &mdash; Claude Code가 이미 설치되어 있고 터미널 명령어 한 줄 실행 가능하다는 전제. 모든 예시는 2026-05 기준 OpenAlex API 동작에서 확인됐고, Discourse Lens 케이스의 합성 결과는 <em>예시</em>일 뿐 실제 분석 보고가 아닙니다.</p>
+    </div>
+  </div>
+</header>
+
+<!-- ============== 0. ORIENTATION FOR BEGINNERS ============== -->
+<section class="section" id="orientation">
+  <div class="section-label" lang="en">Chapter 00 · Read this first</div>
+  <div class="section-label" lang="ko">Chapter 00 · 가장 먼저 읽기</div>
+  <h2 class="h2" lang="en">Orientation for <span class="em">beginners</span></h2>
+  <h2 class="h2" lang="ko">초보자를 위한 <span class="em">오리엔테이션</span></h2>
+
+  <div class="body">
+
+    <p lang="en">If words like "API," "JSON," or "citation graph" feel slippery, this chapter is for you. If you've already wired any HTTP API to a script before, skip ahead to <a class="inline" href="#openalex">Chapter 03</a>.</p>
+    <p lang="ko">"API", "JSON", "citation graph" 같은 단어가 아직 낯설다면 이 챕터부터 읽으세요. HTTP API를 한 번이라도 스크립트로 불러본 경험이 있다면 <a class="inline" href="#openalex">Chapter 03</a>으로 점프해도 OK.</p>
+
+    <h3 class="h3" lang="en">Where should I start?</h3>
+    <h3 class="h3" lang="ko">어디서부터 읽을까?</h3>
+
+    <table class="schema">
+      <thead><tr>
+        <th><span lang="en">If you...</span><span lang="ko">상황</span></th>
+        <th><span lang="en">Start at</span><span lang="ko">시작 챕터</span></th>
+      </tr></thead>
+      <tbody>
+        <tr><td><span lang="en">have never called any API before</span><span lang="ko">API라는 걸 호출해본 적 없음</span></td><td><span lang="en">Right here, then §3 → §5 → §9</span><span lang="ko">바로 여기, 그다음 §3 → §5 → §9</span></td></tr>
+        <tr><td><span lang="en">have used HTTP APIs but not OpenAlex</span><span lang="ko">HTTP API는 써봤지만 OpenAlex는 처음</span></td><td><span lang="en">Jump to §3</span><span lang="ko">§3로 점프</span></td></tr>
+        <tr><td><span lang="en">know OpenAlex but want to wire it to Claude Code</span><span lang="ko">OpenAlex 알지만 Claude Code 연결이 처음</span></td><td><span lang="en">Jump to §5</span><span lang="ko">§5로 점프</span></td></tr>
+        <tr><td><span lang="en">just want copy-paste prompts</span><span lang="ko">copy-paste 프롬프트만 필요</span></td><td><span lang="en">Jump to §12</span><span lang="ko">§12로 점프</span></td></tr>
+      </tbody>
+    </table>
+
+    <h3 class="h3" lang="en">What you need before you start</h3>
+    <h3 class="h3" lang="ko">시작 전 준비물</h3>
+
+    <div class="g2">
+      <div class="card em">
+        <div class="card-title" lang="en">Required</div>
+        <div class="card-title" lang="ko">필수</div>
+        <ul lang="en" style="margin:0;padding-left:18px">
+          <li><strong>An email address.</strong> That's it &mdash; OpenAlex has no signup.</li>
+          <li>A web browser (to test URLs by pasting them).</li>
+          <li>To follow Pattern A: <strong>Claude Code installed</strong> (claude.ai/code or your IDE plugin).</li>
+        </ul>
+        <ul lang="ko" style="margin:0;padding-left:18px">
+          <li><strong>이메일 주소.</strong> 그게 전부예요 &mdash; OpenAlex는 가입 없음.</li>
+          <li>웹 브라우저 (URL 붙여넣기 테스트용).</li>
+          <li>Pattern A를 따라하려면: <strong>Claude Code 설치됨</strong> (claude.ai/code 또는 IDE 플러그인).</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-title" lang="en">Optional (for Pattern B / C)</div>
+        <div class="card-title" lang="ko">선택 (Pattern B / C용)</div>
+        <ul lang="en" style="margin:0;padding-left:18px">
+          <li>Python 3.9 or later.</li>
+          <li>A terminal (PowerShell on Windows; Terminal.app on macOS) where you can run <code>python helper.py</code>.</li>
+          <li>Pattern B adds Python; Pattern C adds Node.js. Pattern A is Claude Code only.</li>
+        </ul>
+        <ul lang="ko" style="margin:0;padding-left:18px">
+          <li>Python 3.9 이상.</li>
+          <li>터미널 (Windows PowerShell, macOS Terminal.app)에서 <code>python helper.py</code> 실행 가능.</li>
+          <li>Pattern B는 Python 추가, C는 Node.js 추가. A는 Claude Code만으로 OK.</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 class="h3" lang="en">What's an API? &mdash; the 60-second version</h3>
+    <h3 class="h3" lang="ko">API가 뭔가요? &mdash; 60초 설명</h3>
+
+    <p lang="en">An <strong>API (Application Programming Interface)</strong> is a structured way for one program to ask another program for data. Think of a vending machine: you press buttons in a defined pattern and the machine returns a defined result. Press "B4" and a chocolate bar drops; send <code>GET /works/W2741809807</code> to OpenAlex and you get one paper's metadata back.</p>
+    <p lang="ko"><strong>API (Application Programming Interface)</strong>는 한 프로그램이 다른 프로그램한테 데이터를 정해진 방식으로 요청하는 통로입니다. 자판기와 비슷해요. "B4"를 누르면 초콜릿이 나오는 것처럼, OpenAlex에 <code>GET /works/W2741809807</code>를 보내면 그 논문 한 편의 메타데이터가 돌아옵니다.</p>
+
+    <p lang="en">OpenAlex's API "speaks" via plain URLs over HTTPS. Paste an OpenAlex URL into your browser and you'll get the answer right there as JSON. No special client library needed.</p>
+    <p lang="ko">OpenAlex API는 HTTPS 위의 일반 URL로 "말합니다". 브라우저에 OpenAlex URL을 붙여넣으면 바로 그 자리에 JSON으로 답이 나와요. 특별한 클라이언트 라이브러리 필요 없음.</p>
+
+    <h3 class="h3" lang="en">What's JSON?</h3>
+    <h3 class="h3" lang="ko">JSON이란?</h3>
+
+    <p lang="en"><strong>JSON (JavaScript Object Notation)</strong> is a way to write structured data using nested keys and values. Imagine a spreadsheet whose cells can themselves contain spreadsheets. The OpenAlex response for one paper looks like this (truncated):</p>
+    <p lang="ko"><strong>JSON (JavaScript Object Notation)</strong>은 키와 값을 중첩해서 구조화된 데이터를 표현하는 방식입니다. 셀 안에 다시 표가 들어가는 스프레드시트라고 생각하면 됩니다. OpenAlex가 논문 한 편을 돌려줄 때 이렇게 생겼어요 (일부 생략):</p>
+
+    <div class="code">{
+  <span class="st">"id"</span>: <span class="st">"https://openalex.org/W2741809807"</span>,
+  <span class="st">"doi"</span>: <span class="st">"https://doi.org/10.7717/peerj.4375"</span>,
+  <span class="st">"title"</span>: <span class="st">"The state of OA: a large-scale analysis..."</span>,
+  <span class="st">"publication_year"</span>: 2018,
+  <span class="st">"cited_by_count"</span>: 1430,
+  <span class="st">"authorships"</span>: [
+    { <span class="st">"author"</span>: { <span class="st">"display_name"</span>: <span class="st">"Heather Piwowar"</span>, <span class="st">"orcid"</span>: <span class="st">"..."</span> } },
+    <span class="cm">// ...more authors</span>
+  ],
+  <span class="st">"referenced_works"</span>: [<span class="st">"https://openalex.org/W..."</span>, <span class="cm">// ~50 references</span>]
+}</div>
+
+    <p lang="en">Don't worry about reading every field. The helper script (Pattern B) extracts only the fields you need.</p>
+    <p lang="ko">모든 필드를 다 읽을 필요는 없어요. 헬퍼 스크립트 (Pattern B)가 필요한 것만 뽑아냅니다.</p>
+
+    <h3 class="h3" lang="en">What's a "citation graph"?</h3>
+    <h3 class="h3" lang="ko">"인용 그래프"가 뭔가요?</h3>
+
+    <p lang="en">A <strong>citation graph</strong> is a network where each node is a paper and each edge is "this paper cited that one." OpenAlex stores both directions of every edge:</p>
+    <p lang="ko"><strong>인용 그래프</strong>는 노드가 논문이고 엣지가 "A가 B를 인용했다"인 네트워크입니다. OpenAlex는 모든 엣지를 양방향으로 저장합니다:</p>
+
+    <ul lang="en">
+      <li><code>referenced_works</code> &mdash; papers <em>this</em> paper cited (looking backward in time)</li>
+      <li><code>cited_by_count</code> + filter <code>cites:W…</code> &mdash; papers that cited <em>this</em> one (looking forward in time)</li>
+    </ul>
+    <ul lang="ko">
+      <li><code>referenced_works</code> &mdash; <em>이</em> 논문이 인용한 논문들 (과거 방향)</li>
+      <li><code>cited_by_count</code> + 필터 <code>cites:W…</code> &mdash; <em>이</em> 논문을 인용한 논문들 (미래 방향)</li>
+    </ul>
+
+    <h3 class="h3" lang="en">Your first OpenAlex call &mdash; 30 seconds, no install</h3>
+    <h3 class="h3" lang="ko">첫 OpenAlex 호출 &mdash; 30초, 설치 불필요</h3>
+
+    <p lang="en">Paste this URL into any web browser:</p>
+    <p lang="ko">아래 URL을 브라우저에 붙여넣으세요:</p>
+
+    <div class="code"><span class="hl">https://api.openalex.org/works/W2741809807?mailto=you@example.edu</span></div>
+
+    <p lang="en">You should see a wall of JSON. Congratulations &mdash; you just used the OpenAlex API. The same URL works from <code>curl</code>, Python, R, or a Claude Code prompt.</p>
+    <p lang="ko">JSON 덩어리가 보일 거예요. 축하합니다 &mdash; 방금 OpenAlex API를 호출하신 겁니다. 같은 URL이 <code>curl</code>, Python, R, Claude Code 프롬프트 어디서든 작동해요.</p>
+
+    <div class="tip">
+      <div class="pl" lang="en">Why this works without a token</div>
+      <div class="pl" lang="ko">왜 토큰 없이 되나요</div>
+      <p lang="en">Most APIs (Twitter, Google, OpenAI) require an API key for billing. OpenAlex is publicly funded and CC0-licensed, so it has no billing &mdash; just a polite-pool email. That's why this guide can show full URLs in plain text without secret-management.</p>
+      <p lang="ko">대부분의 API (Twitter, Google, OpenAI)는 과금을 위해 API key를 요구합니다. OpenAlex는 공공 자금으로 운영되고 CC0 라이선스라서 과금이 없어요 &mdash; polite-pool 이메일만 있으면 됩니다. 그래서 본 가이드가 secret 관리 없이 URL을 그대로 보여줄 수 있는 거예요.</p>
+    </div>
+
+    <h3 class="h3" lang="en">Mini glossary &mdash; terms you'll hit in this guide</h3>
+    <h3 class="h3" lang="ko">미니 용어집 &mdash; 본 가이드에 나올 용어</h3>
+
+    <p lang="en">Open any term to expand its definition. These come back throughout the guide.</p>
+    <p lang="ko">아래 용어를 펼쳐 보세요. 가이드 곳곳에서 다시 등장합니다.</p>
+
+    <div class="faq-stack">
+      <details class="faq-item">
+        <summary class="faq-q">DOI · ORCID · ROR · ISSN</summary>
+        <div class="faq-a">
+          <p lang="en"><strong>DOI</strong> = a permanent ID for a paper, looks like <code>10.1038/nature12373</code>. <strong>ORCID</strong> = a permanent ID for a researcher, like <code>0000-0001-2345-6789</code>. <strong>ROR</strong> = a permanent ID for an institution. <strong>ISSN</strong> = a permanent ID for a journal. OpenAlex links all of these together so you can pivot between papers, authors, institutions, and journals with a single ID lookup.</p>
+          <p lang="ko"><strong>DOI</strong> = 논문의 영구 ID, <code>10.1038/nature12373</code> 같은 모양. <strong>ORCID</strong> = 연구자의 영구 ID, <code>0000-0001-2345-6789</code>. <strong>ROR</strong> = 기관의 영구 ID. <strong>ISSN</strong> = 저널의 영구 ID. OpenAlex는 이 ID들을 모두 묶어 연결합니다 &mdash; 논문↔저자↔기관↔저널을 한 번의 lookup으로 횡단 가능.</p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary class="faq-q">Crossref</summary>
+        <div class="faq-a">
+          <p lang="en">The non-profit registry that issues DOIs to publishers. OpenAlex pulls reference data from Crossref's index, so any paper with a registered DOI is potentially visible. Most journals participate; many conference proceedings and book chapters do not, which is one reason citation counts can be lower in OpenAlex than in Google Scholar.</p>
+          <p lang="ko">출판사에 DOI를 발급하는 비영리 레지스트리. OpenAlex는 Crossref 인덱스에서 참고문헌 데이터를 가져옵니다. 등록된 DOI가 있는 논문은 OpenAlex에서 보일 수 있어요. 대부분의 저널은 참여하지만, conference proceedings과 책 챕터는 참여 안 하는 경우가 많아 OpenAlex의 인용수가 Google Scholar보다 낮은 이유 중 하나입니다.</p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary class="faq-q"><span lang="en">Endpoint</span><span lang="ko">Endpoint (엔드포인트)</span></summary>
+        <div class="faq-a">
+          <p lang="en">A specific path on an API server that returns a specific kind of thing. <code>/works</code>, <code>/authors</code>, <code>/sources</code> are three of OpenAlex's seven endpoints &mdash; each is one "doorway" into the data.</p>
+          <p lang="ko">특정 종류의 자료를 돌려주는 API 서버의 특정 경로. <code>/works</code>, <code>/authors</code>, <code>/sources</code> 등 OpenAlex의 7개가 그것 &mdash; 각각 데이터로 들어가는 한 "출입구"입니다.</p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary class="faq-q"><span lang="en">Pagination · cursor</span><span lang="ko">페이지네이션 · cursor</span></summary>
+        <div class="faq-a">
+          <p lang="en">When a query returns more results than fit in one response (200 max for OpenAlex), you ask for "the next page." Modern OpenAlex uses <strong>cursors</strong>: each response gives you a token (<code>next_cursor</code>) you pass back to get the next chunk. Continue until <code>next_cursor</code> is null. The helper's <code>paginate()</code> function does this for you automatically.</p>
+          <p lang="ko">한 번의 응답에 안 들어가는 큰 결과를 받으려면 "다음 페이지"를 요청해야 해요 (OpenAlex는 페이지당 최대 200건). 요즘 OpenAlex는 <strong>cursor</strong> 방식을 씁니다 &mdash; 각 응답이 다음 페이지용 토큰(<code>next_cursor</code>)을 주고, 그걸 다시 넘기면 다음 묶음이 옵니다. <code>next_cursor</code>가 null이 될 때까지 반복. 헬퍼의 <code>paginate()</code> 함수가 자동으로 처리해요.</p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary class="faq-q"><span lang="en">Polite pool · mailto</span><span lang="ko">Polite pool · mailto</span></summary>
+        <div class="faq-a">
+          <p lang="en">OpenAlex routes anonymous traffic into a slower lane to keep the system stable for everyone. If you add <code>mailto=your@email</code>, you go into the "polite pool" (faster) instead &mdash; free, no signup. Trafffic anomalies trigger an email to you first instead of a silent block.</p>
+          <p lang="ko">OpenAlex는 익명 트래픽을 느린 풀로 라우팅해서 시스템을 안정시킵니다. URL에 <code>mailto=your@email</code>을 추가하면 "polite pool" (빠른 풀)로 들어가요 &mdash; 무료, 가입 불필요. 트래픽이 이상하면 OpenAlex 팀이 메일로 먼저 연락 줌 (조용한 차단 대신).</p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary class="faq-q"><span lang="en">"1-hop" · forward · backward</span><span lang="ko">"1-hop" · forward · backward</span></summary>
+        <div class="faq-a">
+          <p lang="en">A "hop" is one edge in the citation graph. From paper A: <strong>1-hop forward</strong> = papers that cited A. <strong>1-hop backward</strong> = papers A cited. <strong>2-hop forward</strong> = papers that cited papers that cited A (rapidly explosive). Most analyses limit to 1-hop in either direction unless the topic justifies more.</p>
+          <p lang="ko">"hop"은 인용 그래프의 한 엣지. 논문 A에서: <strong>1-hop forward</strong> = A를 인용한 논문들. <strong>1-hop backward</strong> = A가 인용한 논문들. <strong>2-hop forward</strong> = "A를 인용한 논문을 다시 인용한 논문들" (급격히 폭발). 토픽이 정당화하지 않는 한 양 방향 모두 1-hop으로 제한.</p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary class="faq-q">JSONL · CSV</summary>
+        <div class="faq-a">
+          <p lang="en"><strong>JSONL</strong> = "JSON Lines." One JSON object per line. Used because you can stream-read each line independently &mdash; great for batches of 10K+ records that don't fit in memory at once. <strong>CSV</strong> = comma-separated values, the spreadsheet-friendly flat table.</p>
+          <p lang="ko"><strong>JSONL</strong> = "JSON Lines." 한 줄에 JSON 한 객체. 한 줄씩 스트리밍 읽기가 가능해서 1만 건 이상의 대용량을 메모리에 다 안 올리고 처리할 수 있어요. <strong>CSV</strong> = 쉼표 구분, 스프레드시트 친화적 평면 테이블.</p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary class="faq-q">Claude Code · Bash · WebFetch</summary>
+        <div class="faq-a">
+          <p lang="en"><strong>Claude Code</strong> = Anthropic's CLI / IDE plugin where you ask Claude to do programming tasks in plain language. <strong>Bash</strong> = the standard Unix shell; Claude can execute commands via a Bash tool. <strong>WebFetch</strong> = Claude's built-in tool for fetching URLs (lighter than Bash + curl). For OpenAlex, both work.</p>
+          <p lang="ko"><strong>Claude Code</strong> = Anthropic의 CLI / IDE 플러그인. 자연어로 Claude한테 프로그래밍 작업을 시킵니다. <strong>Bash</strong> = 표준 Unix shell; Claude가 Bash 도구로 명령어를 실행. <strong>WebFetch</strong> = Claude 내장 URL 가져오기 도구 (Bash + curl보다 가벼움). OpenAlex는 둘 다 통합니다.</p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary class="faq-q"><span lang="en">Filter · search · group_by</span><span lang="ko">Filter · search · group_by</span></summary>
+        <div class="faq-a">
+          <p lang="en"><strong>search</strong> = full-text query over title + abstract; ranked by relevance. <strong>filter</strong> = exact-match constraint on a specific field (year, OA, source ID, ...). <strong>group_by</strong> = aggregate counts by a field (e.g., publication_year) instead of listing individual records. Combine: <code>?search=AI&amp;filter=publication_year:&gt;2022&amp;group_by=type</code>.</p>
+          <p lang="ko"><strong>search</strong> = 제목 + 초록 풀텍스트 쿼리; 관련도순 랭킹. <strong>filter</strong> = 특정 필드의 정확 일치 조건 (연도, OA, 소스 ID, ...). <strong>group_by</strong> = 개별 레코드 대신 특정 필드(예: 출판년도) 별 카운트로 집계. 조합 예: <code>?search=AI&amp;filter=publication_year:&gt;2022&amp;group_by=type</code>.</p>
+        </div>
+      </details>
+    </div>
+
+    <p style="margin-top:24px;font-size:14px;color:#5C6E62" lang="en">Vocabulary in place &mdash; head to <a class="inline" href="#why">Chapter 01</a> to see why this combo matters, or jump to <a class="inline" href="#openalex">Chapter 03</a> if you want the technical body.</p>
+    <p style="margin-top:24px;font-size:14px;color:#5C6E62" lang="ko">기본 어휘가 잡혔으면 <a class="inline" href="#why">Chapter 01</a>로 이동해서 왜 이 조합이 중요한지 보거나, 바로 기술적 본체가 보고 싶으면 <a class="inline" href="#openalex">Chapter 03</a>으로 점프.</p>
+
+  </div>
+</section>
+
+<!-- ============== 1. WHY ============== -->
+<section class="section" id="why">
+  <div class="section-label" lang="en">Chapter 01 · Map</div>
+  <div class="section-label" lang="ko">Chapter 01 · 지도</div>
+  <h2 class="h2" lang="en">Why <span class="em">"OpenAlex + Claude Code"</span>?</h2>
+  <h2 class="h2" lang="ko">왜 <span class="em">"OpenAlex + Claude Code"</span>인가</h2>
+
+  <div class="body">
+    <p lang="en">Workflows like <code>/research</code>, <code>/content</code>, and <code>/analysis</code> all stand on a single class of question &mdash; <strong>who, when, what, and how was cited?</strong> The conventional answer cycle is: Google Scholar search → grab BibTeX → tidy in Zotero. That's fine once. Repeated across a serious literature scan, it eats hours every week.</p>
+    <p lang="ko"><code>/research</code>, <code>/content</code>, <code>/analysis</code> 워크플로는 모두 <strong>"누가, 언제, 무엇을, 어떻게 인용했나"</strong>라는 질문 위에 서 있습니다. 이 답을 매번 Google Scholar 검색 → BibTeX 긁기 → Zotero 정리로 얻으면 한 번이면 괜찮지만, 자료조사를 본격적으로 시작하면 같은 작업을 수십 번 반복합니다.</p>
+
+    <p lang="en"><strong>OpenAlex</strong> collapses that cycle into a single API call. It's an open scholarly metadata graph that integrates Crossref, ORCID, the (former) Microsoft Academic Graph, and ROR &mdash; all callable for free without a token. <strong>Claude Code</strong> is what threads natural-language prompts through OpenAlex API calls, into result parsing, analysis, and visualization, all in one go.</p>
+    <p lang="ko"><strong>OpenAlex</strong>는 이 루프를 API 호출 한 번으로 압축합니다. Crossref + ORCID + (구) Microsoft Academic + ROR을 통합한 오픈 학술 메타데이터 그래프이고, 토큰 없이 무료로 호출할 수 있어요. <strong>Claude Code</strong>는 자연어 프롬프트를 OpenAlex API 호출 + 결과 파싱 + 분석 + 시각화로 바로 연결해주는 컨트롤러입니다.</p>
+
+    <div class="tip">
+      <div class="pl" lang="en">The three axes of this guide</div>
+      <div class="pl" lang="ko">이 가이드의 3축</div>
+      <p lang="en"><strong>① OpenAlex basics</strong> &mdash; what's in it and how to call it. <strong>② Claude Code integration</strong> &mdash; the prompt / script / MCP triad. <strong>③ Research logic</strong> &mdash; how to decompose an idea into an API sequence.</p>
+      <p lang="ko"><strong>① OpenAlex 기본기</strong> &mdash; 무엇이 있고 어떻게 부르나. <strong>② Claude Code 연결</strong> &mdash; 프롬프트 / 스크립트 / MCP 3패턴. <strong>③ 연구 실행 논리</strong> &mdash; 연구 아이디어를 API 시퀀스로 분해하는 사고법.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============== 2. WHAT ============== -->
+<section class="section" id="what">
+  <div class="section-label" lang="en">Chapter 02 · Map</div>
+  <div class="section-label" lang="ko">Chapter 02 · 지도</div>
+  <h2 class="h2" lang="en">What you'll be able to do <span class="em">unaided</span></h2>
+  <h2 class="h2" lang="ko">무엇을 <span class="em">자력으로</span> 할 수 있게 되나</h2>
+
+  <div class="body">
+    <ul lang="en">
+      <li>Pull the full publication list of a journal / author / topic in one call</li>
+      <li>Walk both directions of a citation graph &mdash; what a paper cites, and what cites it</li>
+      <li>Build year-by-year, journal-by-journal, author-by-author citation matrices</li>
+      <li>Set up review-automation workflows like "five most-cited papers that cited this one"</li>
+      <li>Decompose a new research idea into an API sequence so the data flow is designed before the first call</li>
+    </ul>
+    <ul lang="ko">
+      <li>특정 저널·저자·토픽의 <strong>전체 논문 리스트</strong>를 한 번에 받아오기</li>
+      <li>한 논문이 <strong>어떤 논문을 인용</strong>했고, <strong>어떤 논문에 인용</strong>됐는지 양방향으로 따라가기</li>
+      <li>연도별·저널별·저자별 <strong>인용 매트릭스</strong> 만들기</li>
+      <li>"이 논문 인용한 최근 5편" 같은 <strong>리뷰 자동화 워크플로</strong> 짜기</li>
+      <li>새 연구 아이디어를 <strong>API 시퀀스로 분해</strong>해서 데이터 흐름을 설계하기</li>
+    </ul>
+
+    <p lang="en">Prerequisites: comfortable enough at a terminal to run a one-line command. Python experience helps but isn't required &mdash; every example in this guide is dispatched as a single Claude Code prompt.</p>
+    <p lang="ko">필요한 사전 지식: 터미널에서 명령어 한두 줄 실행할 수 있으면 충분합니다. Python 사용 경험은 도움되지만 필수는 아니에요 &mdash; 본 가이드의 모든 예시는 <strong>Claude Code 프롬프트 한 줄로</strong> 처리됩니다.</p>
+  </div>
+</section>
+
+<!-- ============== 3. OPENALEX BASICS ============== -->
+<section class="section" id="openalex">
+  <div class="section-label" lang="en">Chapter 03 · OpenAlex</div>
+  <div class="section-label" lang="ko">Chapter 03 · OpenAlex</div>
+  <h2 class="h2" lang="en">Entity model + <span class="em">5 URL patterns</span></h2>
+  <h2 class="h2" lang="ko">엔티티 모델 + <span class="em">URL 문법 5패턴</span></h2>
+
+  <div class="body">
+    <p lang="en">OpenAlex is run by the non-profit <a class="inline" href="https://openalex.org">OurResearch</a>. It assumed the role of the discontinued Microsoft Academic Graph (MAG) in 2022. All data is CC0 (public domain), the API is free, and a complete monthly dump (~330 GB) is published.</p>
+    <p lang="ko">OpenAlex는 비영리 단체 <a class="inline" href="https://openalex.org">OurResearch</a>가 운영하는 오픈 학술 그래프입니다. 2022년 Microsoft Academic Graph가 종료되면서 그 역할을 이어받았어요. 모든 데이터는 CC0(퍼블릭 도메인), API는 무료, 다운로드는 매월 전체 덤프(~330GB) 제공.</p>
+
+    <h3 class="h3" lang="en">Entity model &mdash; seven endpoints in one diagram</h3>
+    <h3 class="h3" lang="ko">엔티티 모델 &mdash; 7가지 endpoint, 한 그림</h3>
+
+    <div class="fig">
+      <svg viewBox="0 0 720 360" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#0F1A14"/>
+          </marker>
+          <style>
+            .nlbl{font-family:'Inter',sans-serif;font-size:14px;font-weight:800;fill:#fff}
+            .nsub{font-family:'JetBrains Mono',monospace;font-size:10px;fill:#fff;opacity:.85}
+            .elbl{font-family:'Inter',sans-serif;font-size:11px;font-style:italic;fill:#3D4F44}
+          </style>
+        </defs>
+
+        <ellipse cx="360" cy="180" rx="86" ry="48" fill="#0E5F3A" stroke="#0F1A14" stroke-width="2"/>
+        <text class="nlbl" x="360" y="178" text-anchor="middle" font-size="20">Works</text>
+        <text class="nsub" x="360" y="198" text-anchor="middle">240M+</text>
+
+        <ellipse cx="120" cy="80" rx="64" ry="32" fill="#C25C42" stroke="#0F1A14" stroke-width="2"/>
+        <text class="nlbl" x="120" y="78" text-anchor="middle" font-size="14">Authors</text>
+        <text class="nsub" x="120" y="94" text-anchor="middle">95M+</text>
+
+        <ellipse cx="600" cy="80" rx="64" ry="32" fill="#B7882B" stroke="#0F1A14" stroke-width="2"/>
+        <text class="nlbl" x="600" y="78" text-anchor="middle" font-size="14">Sources</text>
+        <text class="nsub" x="600" y="94" text-anchor="middle">250K journals</text>
+
+        <ellipse cx="120" cy="290" rx="64" ry="32" fill="#0E5F3A" stroke="#0F1A14" stroke-width="2" opacity=".75"/>
+        <text class="nlbl" x="120" y="288" text-anchor="middle" font-size="13">Institutions</text>
+        <text class="nsub" x="120" y="304" text-anchor="middle">100K+</text>
+
+        <ellipse cx="600" cy="290" rx="64" ry="32" fill="#0E5F3A" stroke="#0F1A14" stroke-width="2" opacity=".75"/>
+        <text class="nlbl" x="600" y="288" text-anchor="middle" font-size="14">Topics</text>
+        <text class="nsub" x="600" y="304" text-anchor="middle">~4,400</text>
+
+        <ellipse cx="360" cy="50" rx="58" ry="24" fill="#F2EBDB" stroke="#0F1A14" stroke-width="1.5" stroke-dasharray="4 3"/>
+        <text x="360" y="55" text-anchor="middle" font-family="Inter,sans-serif" font-size="12" font-weight="800" fill="#0F1A14">Funders / Publishers</text>
+
+        <line x1="180" y1="92" x2="290" y2="156" stroke="#0F1A14" stroke-width="1.5" marker-end="url(#arr)"/>
+        <line x1="540" y1="92" x2="430" y2="156" stroke="#0F1A14" stroke-width="1.5" marker-end="url(#arr)"/>
+        <line x1="180" y1="280" x2="290" y2="208" stroke="#0F1A14" stroke-width="1.5" marker-end="url(#arr)"/>
+        <line x1="540" y1="280" x2="430" y2="208" stroke="#0F1A14" stroke-width="1.5" marker-end="url(#arr)"/>
+        <line x1="120" y1="112" x2="120" y2="258" stroke="#7B8A7F" stroke-width="1" stroke-dasharray="3 4"/>
+        <line x1="360" y1="74" x2="360" y2="132" stroke="#7B8A7F" stroke-width="1" stroke-dasharray="3 4"/>
+
+        <text class="elbl" x="220" y="120">authorships</text>
+        <text class="elbl" x="466" y="120">primary_location</text>
+        <text class="elbl" x="206" y="252">affiliations</text>
+        <text class="elbl" x="455" y="252">topics</text>
+
+        <path d="M 416 145 Q 506 122 484 178 Q 464 200 442 198" fill="none" stroke="#0E5F3A" stroke-width="1.8" marker-end="url(#arr)"/>
+        <text x="495" y="148" font-family="'Playfair Display',serif" font-size="13" fill="#0E5F3A" font-weight="700" font-style="italic">cites / cited_by</text>
+      </svg>
+      <div class="fig-cap">
+        <span class="lbl">Fig 1 · Entity model</span>
+        <span class="desc" lang="en">Works sit at the center; every other entity connects through Works. The Work ↔ Work cites/cited_by edge is the spine of the citation graph.</span>
+        <span class="desc" lang="ko">Works가 중심이며 모든 다른 엔티티가 Works로 연결됩니다. Works ↔ Works의 cites/cited_by 관계가 인용 그래프의 본체.</span>
+      </div>
+    </div>
+
+    <table class="schema">
+      <thead>
+        <tr>
+          <th lang="en">Endpoint</th><th lang="ko">Endpoint</th>
+          <th lang="en">Prefix</th><th lang="ko">Prefix</th>
+          <th lang="en">Key fields</th><th lang="ko">핵심 필드</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td class="k">/works</td><td class="t">W…</td><td>title, authorships, referenced_works, cited_by_count, concepts, topics</td></tr>
+        <tr><td class="k">/authors</td><td class="t">A…</td><td>display_name, orcid, works_count, last_known_institutions</td></tr>
+        <tr><td class="k">/sources</td><td class="t">S…</td><td>display_name, issn, type, host_organization</td></tr>
+        <tr><td class="k">/institutions</td><td class="t">I…</td><td>display_name, ror, country_code</td></tr>
+        <tr><td class="k">/topics</td><td class="t">T…</td><td>display_name, subfield, field, domain</td></tr>
+        <tr><td class="k">/funders</td><td class="t">F…</td><td>display_name, country_code, grants_count</td></tr>
+        <tr><td class="k">/publishers</td><td class="t">P…</td><td>display_name, hierarchy_level</td></tr>
+      </tbody>
+    </table>
+
+    <h3 class="h3" lang="en">URL grammar &mdash; just five patterns</h3>
+    <h3 class="h3" lang="ko">URL 문법 &mdash; 5패턴이면 끝</h3>
+    <p lang="en">OpenAlex's API is plain REST URLs &mdash; paste one into a browser and it returns JSON. The whole grammar reduces to five patterns.</p>
+    <p lang="ko">OpenAlex API는 단순 REST URL이라서 브라우저에 그냥 붙여넣어도 JSON이 떨어집니다. 패턴은 5개로 압축됩니다.</p>
+
+    <table class="schema">
+      <thead><tr>
+        <th lang="en">Pattern</th><th lang="ko">패턴</th>
+        <th>Example</th>
+        <th lang="en">Meaning</th><th lang="ko">의미</th>
+      </tr></thead>
+      <tbody>
+        <tr><td class="k"><span lang="en">① Single record</span><span lang="ko">① 단건</span></td><td><code>/works/W2741809807</code></td><td><span lang="en">Fetch one paper by OpenAlex ID</span><span lang="ko">OpenAlex ID로 한 논문 가져오기</span></td></tr>
+        <tr><td class="k">② DOI</td><td><code>/works/doi:10.1038/nature12373</code></td><td><span lang="en">Direct DOI lookup</span><span lang="ko">DOI로 직접 lookup</span></td></tr>
+        <tr><td class="k"><span lang="en">③ Search</span><span lang="ko">③ 검색</span></td><td><code>/works?search=AI literacy K-12</code></td><td><span lang="en">Full-text search (ranked)</span><span lang="ko">풀텍스트 검색 (랭킹된 결과)</span></td></tr>
+        <tr><td class="k"><span lang="en">④ Filter</span><span lang="ko">④ 필터</span></td><td><code>/works?filter=publication_year:2024,is_oa:true</code></td><td><span lang="en">Field-based precise filter</span><span lang="ko">필드 기반 정밀 필터</span></td></tr>
+        <tr><td class="k"><span lang="en">⑤ Group</span><span lang="ko">⑤ 그룹</span></td><td><code>/works?group_by=publication_year</code></td><td><span lang="en">Aggregate without writing SQL</span><span lang="ko">SQL 없이 분포 파악</span></td></tr>
+      </tbody>
+    </table>
+
+    <p lang="en">Most real calls are ③ + ④ combined.</p>
+    <p lang="ko">대부분의 실전 호출은 ③+④ 조합입니다.</p>
+
+    <h4 class="h4" lang="en">Anatomy of one URL &mdash; every piece labeled</h4>
+    <h4 class="h4" lang="ko">URL 한 줄 해부 &mdash; 각 부분의 의미</h4>
+    <p lang="en">Beginner-friendly tip: the URL is <em>readable</em>. Read it top to bottom &mdash; once you can read this, you can write any OpenAlex URL.</p>
+    <p lang="ko">초보자용 팁: 이 URL은 <em>위에서 아래로 읽히는</em> 구조라서 직접 조립해도 무리 없어요. 이걸 읽을 수 있으면 어떤 OpenAlex URL이든 쓸 수 있습니다.</p>
+
+    <div class="url-anatomy">
+      <div class="url-rows">
+
+        <div class="url-row">
+          <div class="url-part"><span class="prot">https://</span><span class="host">api.openalex.org</span></div>
+          <div class="url-meta">
+            <div class="url-meta-head">
+              <span class="num">①</span>
+              <strong lang="en">Base URL</strong>
+              <strong lang="ko">베이스 URL</strong>
+            </div>
+            <span class="desc" lang="en">Always the same root for every OpenAlex call.</span>
+            <span class="desc" lang="ko">모든 OpenAlex 호출에서 항상 동일한 루트.</span>
+          </div>
+        </div>
+
+        <div class="url-row indent-1">
+          <div class="url-part"><span class="sep">/</span><span class="endpoint">works</span></div>
+          <div class="url-meta">
+            <div class="url-meta-head">
+              <span class="num">②</span>
+              <strong lang="en">Endpoint</strong>
+              <strong lang="ko">엔드포인트</strong>
+            </div>
+            <span class="desc" lang="en">Which entity? <code>works</code> · <code>authors</code> · <code>sources</code> · <code>topics</code> · <code>institutions</code> · <code>funders</code> · <code>publishers</code>.</span>
+            <span class="desc" lang="ko">어떤 엔티티? <code>works</code> · <code>authors</code> · <code>sources</code> · <code>topics</code> · <code>institutions</code> · <code>funders</code> · <code>publishers</code>.</span>
+          </div>
+        </div>
+
+        <div class="url-row indent-2">
+          <div class="url-part"><span class="sep">?</span><span class="key">search</span><span class="sep">=</span><span class="val">AI+literacy</span></div>
+          <div class="url-meta">
+            <div class="url-meta-head">
+              <span class="num">③</span>
+              <strong lang="en">Search query (full-text)</strong>
+              <strong lang="ko">검색어 (풀텍스트)</strong>
+            </div>
+            <span class="desc" lang="en">Ranked by relevance. <code>+</code> joins multi-word terms; first parameter starts with <code>?</code>.</span>
+            <span class="desc" lang="ko">관련도순 랭킹. <code>+</code> 기호로 단어 연결; 첫 파라미터는 <code>?</code>로 시작.</span>
+          </div>
+        </div>
+
+        <div class="url-row indent-2">
+          <div class="url-part"><span class="sep">&amp;</span><span class="key">filter</span><span class="sep">=</span><span class="val">publication_year:&gt;2022</span></div>
+          <div class="url-meta">
+            <div class="url-meta-head">
+              <span class="num">④</span>
+              <strong lang="en">Filter</strong>
+              <strong lang="ko">필터</strong>
+            </div>
+            <span class="desc" lang="en">Exact-match constraint on a specific field. Comma <code>,</code> = AND, pipe <code>|</code> = OR, bang <code>!</code> = NOT.</span>
+            <span class="desc" lang="ko">특정 필드의 정확 일치 조건. 콤마 <code>,</code> = AND, 파이프 <code>|</code> = OR, 느낌표 <code>!</code> = NOT.</span>
+          </div>
+        </div>
+
+        <div class="url-row indent-2">
+          <div class="url-part"><span class="sep">&amp;</span><span class="key">per-page</span><span class="sep">=</span><span class="val">25</span></div>
+          <div class="url-meta">
+            <div class="url-meta-head">
+              <span class="num">⑤</span>
+              <strong lang="en">Page size</strong>
+              <strong lang="ko">페이지 크기</strong>
+            </div>
+            <span class="desc" lang="en">How many records per response. Default 25, max 200.</span>
+            <span class="desc" lang="ko">응답 1회당 레코드 수. 기본 25, 최대 200.</span>
+          </div>
+        </div>
+
+        <div class="url-row indent-2">
+          <div class="url-part"><span class="sep">&amp;</span><span class="key">mailto</span><span class="sep">=</span><span class="val">you@univ.edu</span></div>
+          <div class="url-meta">
+            <div class="url-meta-head">
+              <span class="num">⑥</span>
+              <strong lang="en">Polite-pool email</strong>
+              <strong lang="ko">Polite-pool 이메일</strong>
+            </div>
+            <span class="desc" lang="en">Routes you into the faster pool. Always include &mdash; no signup, no token.</span>
+            <span class="desc" lang="ko">빠른 풀로 라우팅. 항상 포함 &mdash; 가입·토큰 불필요.</span>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="url-anatomy-cap">
+        <span class="lbl">Fig 3 · URL anatomy</span>
+        <span class="desc" lang="en">A real OpenAlex query, broken into its six parts. Read top → bottom.</span>
+        <span class="desc" lang="ko">실제 OpenAlex 쿼리를 6개 부분으로 분해. 위 → 아래로 읽으면 됨.</span>
+      </div>
+    </div>
+
+
+    <div class="code"><span class="cm"># <span lang="en">"K-12 AI literacy" topic + 2023+ + ≥50 citations + OA</span><span lang="ko">"K-12 AI 리터러시" 토픽 + 2023 이후 + 인용 50회 이상 + OA</span></span>
+<span class="hl">https://api.openalex.org/works?</span>
+  search=<span class="st">AI literacy K-12</span>
+  &amp;filter=publication_year:&gt;2022,cited_by_count:&gt;49,is_oa:true
+  &amp;per-page=25
+  &amp;sort=cited_by_count:desc</div>
+  </div>
+</section>
+
+<!-- ============== 4. POLITE POOL ============== -->
+<section class="section" id="polite">
+  <div class="section-label" lang="en">Chapter 04 · OpenAlex</div>
+  <div class="section-label" lang="ko">Chapter 04 · OpenAlex</div>
+  <h2 class="h2" lang="en">Polite pool &mdash; <span class="em">no token</span>, just route to the fast pool</h2>
+  <h2 class="h2" lang="ko">Polite pool &mdash; <span class="em">토큰 없이</span> 빠른 풀로 라우팅되기</h2>
+
+  <div class="body">
+    <p lang="en">There is no signup or token issuance step on OpenAlex. Instead, append <code>mailto=your.email@univ.edu</code> to every call and you're auto-routed to the faster pool. Rate limits are <strong>10 requests/sec, 100,000 requests/day</strong> &mdash; effectively unlimited for ordinary research use.</p>
+    <p lang="ko">OpenAlex API는 가입·토큰 발급 단계가 없습니다. 대신 <code>mailto=your.email@univ.edu</code>를 모든 호출에 추가하면 별도 등록 없이 빠른 풀(faster pool)로 자동 라우팅돼요. Rate limit은 <strong>10 requests/sec, 100,000 requests/day</strong>까지로, 일반 연구 용도로는 무한대에 가깝습니다.</p>
+
+    <div class="g2">
+      <div class="card em">
+        <div class="card-title" lang="en">How to use the polite pool</div>
+        <div class="card-title" lang="ko">Polite pool 사용법</div>
+        <p lang="en">Append <code>&amp;mailto=jewoong.moon@gmail.com</code> to every URL. That's it. <code>openalex_helper.py</code> adds it automatically.</p>
+        <p lang="ko">모든 URL 끝에 <code>&amp;mailto=jewoong.moon@gmail.com</code>를 붙입니다. 이게 전부예요. <code>openalex_helper.py</code>는 자동 추가합니다.</p>
+      </div>
+      <div class="card">
+        <div class="card-title" lang="en">Why no-token is good for automation</div>
+        <div class="card-title" lang="ko">왜 토큰 없는 게 자동화에 유리한가</div>
+        <p lang="en">No ID/secret to manage, so it's safe to expose in Claude Code prompts. Works without env vars, secret managers, or MCP credential helpers.</p>
+        <p lang="ko">ID·secret을 관리할 필요 없어서 Claude Code 프롬프트에 그대로 노출돼도 안전. 환경 변수 · secret manager · MCP credential helper 없이도 그대로 작동.</p>
+      </div>
+    </div>
+
+    <div class="pitfall">
+      <div class="pl">Anti-pattern</div>
+      <p lang="en">Anonymous calls can be throttled when general traffic is high. If your automation forgets <code>mailto</code>, it will work fine most of the time but slow down intermittently when other users surge &mdash; <em>one of the hardest classes of bug to diagnose</em>.</p>
+      <p lang="ko">익명 호출은 트래픽이 몰릴 때 throttle될 수 있습니다. 자동화 코드에서 <code>mailto</code>를 빠뜨리면 평소엔 문제없이 작동하다가 다른 사용자의 트래픽이 올라간 시간에만 간헐적으로 느려지는 현상이 발생 &mdash; <em>가장 디버깅하기 어려운 부류의 버그</em>입니다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============== 5. PATTERNS OVERVIEW ============== -->
+<section class="section" id="patterns">
+  <div class="section-label" lang="en">Chapter 05 · Claude Code integration</div>
+  <div class="section-label" lang="ko">Chapter 05 · Claude Code 연결</div>
+  <h2 class="h2" lang="en">Three integration patterns &mdash; <span class="em">setup cost vs reuse value</span></h2>
+  <h2 class="h2" lang="ko">3가지 연결 패턴 &mdash; <span class="em">셋업 비용 vs 재사용 가치</span></h2>
+
+  <div class="body">
+    <p lang="en">There are essentially three ways to use OpenAlex from Claude Code. One-shot questions: A. Repeated use: B. Across many sessions and projects: C. Climb the ladder as the work justifies it.</p>
+    <p lang="ko">OpenAlex를 Claude Code에서 쓰는 방법은 본질적으로 3가지입니다. 일회성 답변이면 A, 반복 사용이면 B, 여러 세션·여러 프로젝트면 C로 단계적으로 올라갑니다.</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">Pattern A</div>
+        <div class="step-title" lang="en">Direct prompt</div>
+        <div class="step-title" lang="ko">직접 프롬프트</div>
+        <div class="step-body" lang="en">Ask Claude Code in plain language. Claude calls the OpenAlex API directly via WebFetch / Bash curl and tidies the result. Setup: 0 min.</div>
+        <div class="step-body" lang="ko">Claude Code에 자연어로 부탁하면 Claude가 WebFetch / Bash curl로 OpenAlex API를 직접 호출하고 결과를 정리. 셋업 0분.</div>
+        <div class="step-foot" lang="en">Setup 0 min · One-off</div>
+        <div class="step-foot" lang="ko">셋업 0분 · 일회성</div>
+      </div>
+      <div class="step hero">
+        <div class="step-num">Pattern B · Recommended</div>
+        <div class="step-title" lang="en">Helper script</div>
+        <div class="step-title" lang="ko">헬퍼 스크립트</div>
+        <div class="step-body" lang="en">Drop a small Python helper into the project once; Claude calls it via Bash. Reproducible, reusable, cacheable. The sweet spot.</div>
+        <div class="step-body" lang="ko">프로젝트마다 작은 Python 헬퍼 한 번 깔고 Claude가 Bash로 호출. 재현가능 + 재사용 + 캐시 가능. 본 가이드의 sweet spot.</div>
+        <div class="step-foot" lang="en">Setup 5 min · Per-project</div>
+        <div class="step-foot" lang="ko">셋업 5분 · 프로젝트 단위</div>
+      </div>
+      <div class="step">
+        <div class="step-num">Pattern C</div>
+        <div class="step-title" lang="en">MCP server</div>
+        <div class="step-title" lang="ko">MCP 서버</div>
+        <div class="step-body" lang="en">Register OpenAlex as a first-class Claude Code tool. Available across every session and project without imports.</div>
+        <div class="step-body" lang="ko">OpenAlex를 Claude Code의 1급 도구로 등록. 모든 세션·모든 프로젝트에서 별도 import 없이 호출.</div>
+        <div class="step-foot" lang="en">Setup 30 min · Permanent</div>
+        <div class="step-foot" lang="ko">셋업 30분 · 영구</div>
+      </div>
+    </div>
+
+    <div class="tip">
+      <div class="pl">Decision rule</div>
+      <p lang="en"><strong>Start with B.</strong> A is for demos; promote to C only when the same pattern repeats in a second project. Building an MCP for a one-off tool is over-engineering.</p>
+      <p lang="ko"><strong>B로 시작하세요.</strong> A는 진입 데모용이고 C는 같은 패턴이 두 번째 프로젝트에서 반복될 때 승격합니다. 한 번도 안 쓴 도구를 MCP로 만들면 오버엔지니어링.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============== 6. PATTERN A ============== -->
+<section class="section" id="pattern-a">
+  <div class="section-label" lang="en">Chapter 06 · Pattern A</div>
+  <div class="section-label" lang="ko">Chapter 06 · Pattern A</div>
+  <h2 class="h2" lang="en">A · <span class="em">Direct prompt</span></h2>
+  <h2 class="h2" lang="ko">A · <span class="em">직접 프롬프트</span></h2>
+
+  <div class="body">
+    <p lang="en">Setup time: zero. Just ask Claude Code in plain language. Claude assembles the URL, fetches with WebFetch / curl, parses the JSON, and answers.</p>
+    <p lang="ko">셋업 0분. Claude Code에 그냥 자연어로 부탁하면 Claude가 WebFetch나 Bash + curl로 OpenAlex API를 직접 부르고 결과를 정리합니다.</p>
+
+    <h3 class="h3" lang="en">Step-by-step &mdash; running your first prompt</h3>
+    <h3 class="h3" lang="ko">첫 프롬프트 실행 &mdash; 단계별로</h3>
+
+    <table class="schema">
+      <thead><tr>
+        <th><span lang="en">Step</span><span lang="ko">단계</span></th>
+        <th><span lang="en">What you do</span><span lang="ko">할 일</span></th>
+        <th><span lang="en">What Claude does</span><span lang="ko">Claude가 하는 일</span></th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td class="k">1</td>
+          <td><span lang="en">Open Claude Code (CLI in any terminal, or your IDE plugin).</span><span lang="ko">Claude Code 실행 (터미널의 CLI, 또는 IDE 플러그인).</span></td>
+          <td><span lang="en">Waits for your prompt.</span><span lang="ko">프롬프트 대기.</span></td>
+        </tr>
+        <tr>
+          <td class="k">2</td>
+          <td><span lang="en"><code>cd</code> to any folder you don't mind Claude reading. (For Pattern A, no setup needed.)</span><span lang="ko">Claude가 읽어도 되는 폴더로 <code>cd</code>. (Pattern A는 별도 셋업 불필요.)</span></td>
+          <td><span lang="en">Loads <code>CLAUDE.md</code> if it exists.</span><span lang="ko">있으면 <code>CLAUDE.md</code> 로드.</span></td>
+        </tr>
+        <tr>
+          <td class="k">3</td>
+          <td><span lang="en">Paste the prompt below.</span><span lang="ko">아래 프롬프트 붙여넣기.</span></td>
+          <td><span lang="en">Calls the <code>WebFetch</code> tool with the OpenAlex URL it constructed (you'll see this in the tool-call panel).</span><span lang="ko">자기가 만든 OpenAlex URL을 <code>WebFetch</code> 도구로 호출 (도구 호출 패널에 보임).</span></td>
+        </tr>
+        <tr>
+          <td class="k">4</td>
+          <td><span lang="en">Read the table that comes back.</span><span lang="ko">돌아온 표 확인.</span></td>
+          <td><span lang="en">Parses the JSON, extracts requested fields, formats as a markdown table.</span><span lang="ko">JSON 파싱해서 요청한 필드만 뽑아 마크다운 표로 정리.</span></td>
+        </tr>
+        <tr>
+          <td class="k">5</td>
+          <td><span lang="en">Optional: ask a follow-up. ("Now show me their abstracts.")</span><span lang="ko">선택: 후속 질문. ("이제 abstract도 보여줘.")</span></td>
+          <td><span lang="en">Re-uses the same Work IDs, fetches abstracts, augments the table.</span><span lang="ko">같은 Work ID 재사용해 abstract 추가 호출 + 표 확장.</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="prompt">
+      <div class="prompt-meta" lang="en">One-off search</div>
+      <div class="prompt-meta" lang="ko">일회성 검색</div>
+      <div class="prompt-text" lang="en">
+        Search OpenAlex for "AI literacy K-12". Pull the top 10 papers from 2023 onward with at least 50 citations. Tabulate authors, year, citations, DOI, and the OpenAlex Work ID.
+      </div>
+      <div class="prompt-text" lang="ko">
+        OpenAlex에서 "AI literacy K-12" 검색해서 2023년 이후 인용 50회 이상인 논문 10개 가져와줘. 저자·연도·인용수·DOI 표로 정리하고 OpenAlex Work ID도 같이.
+      </div>
+    </div>
+
+    <p lang="en">Claude turns that into:</p>
+    <p lang="ko">Claude는 위 프롬프트를 받으면 다음 URL을 만들어 호출합니다:</p>
+
+    <div class="code"><span class="hl">https://api.openalex.org/works</span>?
+  search=<span class="st">AI literacy K-12</span>
+  &amp;filter=publication_year:&gt;2022,cited_by_count:&gt;49
+  &amp;sort=cited_by_count:desc&amp;per-page=10
+  &amp;mailto=jewoong.moon@gmail.com</div>
+
+    <div class="pitfall">
+      <div class="pl" lang="en">When to avoid Pattern A</div>
+      <div class="pl" lang="ko">언제 A를 피해야 하나</div>
+      <ul lang="en">
+        <li>Anything that needs paginated collection of 100+ records</li>
+        <li>Searches you'll repeat (loses reproducibility)</li>
+        <li>Pipelines whose next step has to re-read your result file</li>
+      </ul>
+      <ul lang="ko">
+        <li>100건+ 페이지네이션이 필요한 대규모 수집</li>
+        <li>같은 검색을 반복할 가능성이 있는 작업 (재현성↓)</li>
+        <li>분석 다음 단계가 결과 파일을 다시 읽어야 하는 경우</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============== 7. PATTERN B ============== -->
+<section class="section" id="pattern-b">
+  <div class="section-label" lang="en">Chapter 07 · Pattern B · Recommended</div>
+  <div class="section-label" lang="ko">Chapter 07 · Pattern B · 권장</div>
+  <h2 class="h2" lang="en">B · <span class="em">Helper script</span> &mdash; the sweet spot</h2>
+  <h2 class="h2" lang="ko">B · <span class="em">헬퍼 스크립트</span> &mdash; sweet spot</h2>
+
+  <div class="body">
+    <p lang="en">Drop a small Python helper into the project once; from then on, every Claude Code prompt invokes it via <code>Bash</code>. This is the recommended pattern.</p>
+    <p lang="ko">프로젝트마다 작은 Python 헬퍼를 한 번만 깔아두고, Claude Code가 <code>Bash</code>로 호출하게 하는 방식. 가장 권장되는 패턴입니다.</p>
+
+    <p lang="en">This guide ships <a class="inline" href="openalex_helper.py"><code>openalex_helper.py</code></a> in the downloads folder. The core functions:</p>
+    <p lang="ko">본 가이드는 다운로드에 <a class="inline" href="openalex_helper.py"><code>openalex_helper.py</code></a>를 동봉합니다. 핵심 함수만 보면:</p>
+
+    <div class="code"><span class="cm"># openalex_helper.py — <span lang="en">core functions (full version in downloads)</span><span lang="ko">핵심 함수 (전체는 다운로드 참조)</span></span>
+<span class="kw">import</span> requests, json, time
+BASE = <span class="st">"https://api.openalex.org"</span>
+EMAIL = <span class="st">"jewoong.moon@gmail.com"</span>  <span class="cm"># polite pool</span>
+
+<span class="kw">def</span> search_works(query, year_min=None, min_citations=None, per_page=25):
+    params = {<span class="st">"search"</span>: query, <span class="st">"per-page"</span>: per_page,
+              <span class="st">"mailto"</span>: EMAIL, <span class="st">"sort"</span>: <span class="st">"cited_by_count:desc"</span>}
+    filters = []
+    <span class="kw">if</span> year_min:      filters.append(<span class="st">f"publication_year:&gt;{year_min-1}"</span>)
+    <span class="kw">if</span> min_citations: filters.append(<span class="st">f"cited_by_count:&gt;{min_citations-1}"</span>)
+    <span class="kw">if</span> filters: params[<span class="st">"filter"</span>] = <span class="st">","</span>.join(filters)
+    <span class="kw">return</span> requests.get(<span class="st">f"{BASE}/works"</span>, params=params).json()
+
+<span class="kw">def</span> paginate(endpoint, filter_str, max_results=10000):
+    <span class="cm">"""<span lang="en">cursor-based pagination — safe for &gt;10K results.</span><span lang="ko">cursor 기반 페이지네이션 — 1만건+ 안전하게.</span>"""</span>
+    cursor, results = <span class="st">"*"</span>, []
+    <span class="kw">while</span> cursor <span class="kw">and</span> len(results) &lt; max_results:
+        r = requests.get(<span class="st">f"{BASE}/{endpoint}"</span>, params={
+            <span class="st">"filter"</span>: filter_str, <span class="st">"per-page"</span>: 200,
+            <span class="st">"cursor"</span>: cursor, <span class="st">"mailto"</span>: EMAIL}).json()
+        results.extend(r[<span class="st">"results"</span>])
+        cursor = r[<span class="st">"meta"</span>].get(<span class="st">"next_cursor"</span>)
+        time.sleep(0.1)  <span class="cm"># <span lang="en">10 req/sec safe margin</span><span lang="ko">10 req/sec 안전 마진</span></span>
+    <span class="kw">return</span> results</div>
+
+    <p lang="en">After that, Claude Code prompts get short:</p>
+    <p lang="ko">그 다음부터 Claude Code 프롬프트는 짧아집니다:</p>
+
+    <div class="prompt">
+      <div class="prompt-meta" lang="en">Helper-driven prompt</div>
+      <div class="prompt-meta" lang="ko">헬퍼 사용</div>
+      <div class="prompt-text" lang="en">
+        Use <code>openalex_helper.py</code> to paginate every paper in Journal of the Learning Sciences (issn 1050-8406) from 2015–2025 and save to <code>data/jls_works.jsonl</code>.
+      </div>
+      <div class="prompt-text" lang="ko">
+        <code>openalex_helper.py</code>를 사용해서 Journal of the Learning Sciences (issn 1050-8406) 2015–2025 모든 논문을 paginate해서 <code>data/jls_works.jsonl</code>로 저장해줘.
+      </div>
+    </div>
+
+    <div class="tip">
+      <div class="pl" lang="en">Why B is the sweet spot</div>
+      <div class="pl" lang="ko">왜 B가 sweet spot인가</div>
+      <p lang="en">① Functions written once are reused across every prompt → reproducibility ↑. ② Claude doesn't re-derive URL syntax each time → token savings. ③ Results land as JSONL files, ready to be reused by the analysis step. ④ Commit <code>scripts/</code> to git so collaborators inherit the same environment.</p>
+      <p lang="ko">① 한 번 짠 함수가 모든 프롬프트에서 재사용 → 재현성↑. ② Claude가 매번 URL 문법을 다시 추론하지 않음 → 토큰 절약. ③ 결과가 JSONL 파일로 떨어져 분석 단계에서 그대로 다시 사용. ④ <code>scripts/</code> 폴더를 git에 커밋하면 협업자도 동일 환경.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============== 8. PATTERN C ============== -->
+<section class="section" id="pattern-c">
+  <div class="section-label" lang="en">Chapter 08 · Pattern C · Advanced</div>
+  <div class="section-label" lang="ko">Chapter 08 · Pattern C · Advanced</div>
+  <h2 class="h2" lang="en">C · <span class="em">MCP server</span> &mdash; make it permanent</h2>
+  <h2 class="h2" lang="ko">C · <span class="em">MCP 서버</span> &mdash; 영구 자산</h2>
+
+  <div class="body">
+    <p lang="en">Register OpenAlex as a first-class Claude Code tool, callable from every session and project without explicit imports.</p>
+    <p lang="ko">OpenAlex를 Claude Code의 1급 도구로 등록하는 방식. <strong>모든 세션·모든 프로젝트</strong>에서 별도 import 없이 호출 가능합니다.</p>
+
+    <p lang="en">There's no official OpenAlex MCP yet (as of 2026-05), but Anthropic's MCP TypeScript SDK lets you build one in roughly 30 minutes. The pattern is: write the tool spec at <code>~\.claude\mcp_servers\openalex\index.js</code> and register it in <code>~\.claude\mcp.json</code>.</p>
+    <p lang="ko">아직 OpenAlex 공식 MCP는 없지만(2026-05 기준), Anthropic의 MCP TypeScript SDK로 30분이면 만들 수 있어요. 핵심은 <code>~\.claude\mcp_servers\openalex\index.js</code>에 도구 명세를 적고, <code>~\.claude\mcp.json</code>에 등록하는 것.</p>
+
+    <div class="code"><span class="cm">// ~/.claude/mcp_servers/openalex/index.js (<span lang="en">excerpt</span><span lang="ko">요약</span>)</span>
+<span class="kw">import</span> { Server } <span class="kw">from</span> <span class="st">"@modelcontextprotocol/sdk/server/index.js"</span>;
+<span class="kw">const</span> server = <span class="kw">new</span> Server({ name: <span class="st">"openalex"</span>, version: <span class="st">"0.1.0"</span> });
+
+server.setRequestHandler(ListToolsRequestSchema, async () =&gt; ({
+  tools: [
+    { name: <span class="st">"search_works"</span>,    description: <span class="st">"OpenAlex full-text search"</span>, inputSchema: ... },
+    { name: <span class="st">"get_work"</span>,        description: <span class="st">"Single work by ID/DOI"</span>,    inputSchema: ... },
+    { name: <span class="st">"cited_by"</span>,        description: <span class="st">"Papers citing X"</span>,           inputSchema: ... },
+    { name: <span class="st">"references_of"</span>,   description: <span class="st">"Papers cited by X"</span>,         inputSchema: ... },
+    { name: <span class="st">"author_works"</span>,    description: <span class="st">"All works by author"</span>,        inputSchema: ... },
+  ]
+}));</div>
+
+    <div class="pitfall">
+      <div class="pl" lang="en">When to promote to C</div>
+      <div class="pl" lang="ko">언제 C로 승격하나</div>
+      <p lang="en">Only after OpenAlex use is <em>demonstrated</em> across multiple projects. An MCP for a single project is over-engineering, and forks become hard to manage as the tool evolves. Start with B; promote to C the second time the same pattern needs to spread to another project.</p>
+      <p lang="ko">OpenAlex를 <strong>여러 프로젝트에서 자주</strong> 쓰는 게 확실해진 다음에. 한 프로젝트에만 쓰는 도구를 MCP로 만들면 오버엔지니어링이고, 도구가 진화할 때 프로젝트별 fork가 필요해집니다. 우선 B로 시작하고, "이 기능을 다른 프로젝트에도 깔아야겠다"가 두 번째 발생할 때 C로.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============== 9. RESEARCH LOGIC ============== -->
+<section class="section" id="research-logic">
+  <div class="section-label" lang="en">Chapter 09 · Research logic · CORE</div>
+  <div class="section-label" lang="ko">Chapter 09 · 연구 실행 논리 · CORE</div>
+  <h2 class="h2" lang="en">Idea → API sequence: <span class="em">the 5-step funnel</span></h2>
+  <h2 class="h2" lang="ko">아이디어 → API 시퀀스 <span class="em">5단계 깔때기</span></h2>
+
+  <div class="body">
+    <p lang="en">The most important chapter in this guide. Knowing how to <strong>decompose</strong> an idea matters more than knowing the tool &mdash; that's where the time savings come from.</p>
+    <p lang="ko">이 가이드의 가장 중요한 챕터입니다. 도구를 아는 것보다 <strong>"어떻게 분해할 것인가"</strong>를 아는 것이 시간을 아낍니다.</p>
+
+    <p lang="en">When a research idea arises, jumping straight to the first API call almost always returns the wrong data. Train yourself to decompose it through these five steps.</p>
+    <p lang="ko">연구 아이디어가 떠올랐을 때 바로 첫 API 호출로 직진하면 거의 항상 잘못된 데이터를 받습니다. 다음 5단계로 분해하는 습관을 들이세요.</p>
+
+    <div class="fig">
+      <svg viewBox="0 0 720 420" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <marker id="arr2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#0E5F3A"/>
+          </marker>
+          <style>
+            .stp{font-family:'Inter',sans-serif;font-weight:900;fill:#fff}
+            .ex{font-family:'Playfair Display',Georgia,serif;font-style:italic}
+            .ord{font-family:'JetBrains Mono',monospace;font-weight:800}
+          </style>
+        </defs>
+
+        <rect x="40" y="20" width="640" height="56" rx="10" fill="#0F1A14" stroke="#0F1A14" stroke-width="2"/>
+        <text class="ord" x="62" y="55" fill="#E0A572" font-size="13">01</text>
+        <text class="stp" x="98" y="50" font-size="16" lang="en">Research Question (RQ)</text>
+        <text class="stp" x="98" y="50" font-size="16" lang="ko" style="display:none">연구 질문 (RQ)</text>
+        <text class="ex" x="288" y="51" font-size="14" fill="#F2EBDB" lang="en">"How has this author's topic mix shifted in 5 yrs?"</text>
+        <text class="ex" x="288" y="51" font-size="14" fill="#F2EBDB" lang="ko" style="display:none">"이 저자가 최근 5년 어떤 토픽 변화를 보였나?"</text>
+
+        <line x1="360" y1="76" x2="360" y2="98" stroke="#0E5F3A" stroke-width="2" marker-end="url(#arr2)"/>
+
+        <rect x="80" y="100" width="560" height="56" rx="10" fill="#0E5F3A" stroke="#0F1A14" stroke-width="2"/>
+        <text class="ord" x="102" y="135" fill="#E0A572" font-size="13">02</text>
+        <text class="stp" x="138" y="130" font-size="16" lang="en">Required data shape</text>
+        <text class="stp" x="138" y="130" font-size="16" lang="ko" style="display:none">필요한 데이터 shape</text>
+        <text class="ex" x="318" y="131" font-size="14" fill="#fff">author_id × {works × topics × year}</text>
+
+        <line x1="360" y1="156" x2="360" y2="178" stroke="#0E5F3A" stroke-width="2" marker-end="url(#arr2)"/>
+
+        <rect x="120" y="180" width="480" height="56" rx="10" fill="#C25C42" stroke="#0F1A14" stroke-width="2"/>
+        <text class="ord" x="142" y="215" fill="#FFE5DC" font-size="13">03</text>
+        <text class="stp" x="178" y="210" font-size="16" lang="en">API sequence</text>
+        <text class="stp" x="178" y="210" font-size="16" lang="ko" style="display:none">API 시퀀스</text>
+        <text class="ex" x="298" y="211" font-size="13" fill="#fff">/authors → /works (author.id, year≥2020)</text>
+
+        <line x1="360" y1="236" x2="360" y2="258" stroke="#0E5F3A" stroke-width="2" marker-end="url(#arr2)"/>
+
+        <rect x="160" y="260" width="400" height="56" rx="10" fill="#B7882B" stroke="#0F1A14" stroke-width="2"/>
+        <text class="ord" x="182" y="295" fill="#fff" font-size="13">04</text>
+        <text class="stp" x="218" y="290" font-size="16" lang="en">Analysis</text>
+        <text class="stp" x="218" y="290" font-size="16" lang="ko" style="display:none">분석</text>
+        <text class="ex" x="298" y="291" font-size="13" fill="#fff">topics × year aggregate · drift</text>
+
+        <line x1="360" y1="316" x2="360" y2="338" stroke="#0E5F3A" stroke-width="2" marker-end="url(#arr2)"/>
+
+        <rect x="200" y="340" width="320" height="56" rx="10" fill="#0F1A14" stroke="#0F1A14" stroke-width="2"/>
+        <text class="ord" x="222" y="375" fill="#E0A572" font-size="13">05</text>
+        <text class="stp" x="258" y="370" font-size="16" lang="en">Viz + verify</text>
+        <text class="stp" x="258" y="370" font-size="16" lang="ko" style="display:none">시각화 + 검증</text>
+        <text class="ex" x="358" y="371" font-size="13" fill="#F2EBDB">streamgraph · robustness</text>
+      </svg>
+      <div class="fig-cap">
+        <span class="lbl">Fig 2 · Funnel</span>
+        <span class="desc" lang="en">A vague RQ narrows down into an executable API sequence. Each stage defines the constraints for the next.</span>
+        <span class="desc" lang="ko">모호한 RQ에서 실행 가능한 API 시퀀스로 좁아지는 깔때기. 각 단계가 다음 단계의 제약을 정의.</span>
+      </div>
+    </div>
+
+    <h3 class="h3" lang="en">Three core mental tools</h3>
+    <h3 class="h3" lang="ko">핵심 사고 도구 3가지</h3>
+
+    <h4 class="h4" lang="en">1. Map cardinality first</h4>
+    <h4 class="h4" lang="ko">1. Cardinality 먼저 그리기</h4>
+    <p lang="en">Sketch the structure on paper before the call: "1 author → N papers → M topics." Cardinality determines pagination, memory budget, and total call count.</p>
+    <p lang="ko">"1 저자 → N 논문 → M 토픽" 같은 관계를 종이에 먼저 그립니다. 이게 페이지네이션·메모리 예산·총 호출 수를 결정해요.</p>
+    <ul lang="en">
+      <li><strong>1:1</strong> (one author → one ORCID) → 1 API call</li>
+      <li><strong>1:N, N&lt;200</strong> → 1 call (per_page=200)</li>
+      <li><strong>1:N, N&gt;200</strong> → cursor pagination</li>
+      <li><strong>N:M graph</strong> → two stages: collect entities, then enrich relations</li>
+    </ul>
+    <ul lang="ko">
+      <li><strong>1:1</strong> (한 저자 → 한 ORCID) → API 1회</li>
+      <li><strong>1:N, N&lt;200</strong> → API 1회 (per_page=200)</li>
+      <li><strong>1:N, N&gt;200</strong> → cursor 페이지네이션</li>
+      <li><strong>N:M 그래프</strong> → 두 단계: entity 모집 후 관계 enrichment</li>
+    </ul>
+
+    <h4 class="h4" lang="en">2. Filter cascade &mdash; wide → narrow</h4>
+    <h4 class="h4" lang="ko">2. Filter cascade &mdash; 넓→좁</h4>
+    <p lang="en">Don't apply every filter at once. Step them in. That way you can verify each intermediate result is reasonably sized before adding the next constraint.</p>
+    <p lang="ko">필터를 한 번에 다 거는 게 아니라 단계적으로 좁힙니다. 그래야 중간 결과가 합리적인 크기인지 확인할 수 있어요.</p>
+
+    <div class="code"><span class="cm"># <span lang="en">Bad: narrow everything at once (if 0 results, you can't tell which filter killed it)</span><span lang="ko">나쁨: 한 번에 다 좁히기 (결과 0건이면 어디가 문제인지 모름)</span></span>
+filter=concepts.id:C12345,publication_year:2024,authorships.institutions.country_code:KR
+
+<span class="cm"># <span lang="en">Good: step it in</span><span lang="ko">좋음: 단계적 확인</span></span>
+<span class="cm"># step 1</span>  filter=concepts.id:C12345                          → 12,400 works
+<span class="cm"># step 2</span>  + publication_year:2024                            → 1,200 works
+<span class="cm"># step 3</span>  + authorships.institutions.country_code:KR         → 38 works ✓</div>
+
+    <h4 class="h4" lang="en">3. One prompt = one step</h4>
+    <h4 class="h4" lang="ko">3. 한 프롬프트 = 한 단계</h4>
+    <p lang="en">If you ask Claude to do all 5 steps in one prompt, mistakes from step 1 propagate to step 5 invisibly. Stepping them lets you eyeball the intermediate file (<code>data/sources.json</code>) for one second before moving on. That's the pattern that actually delivers automation ROI.</p>
+    <p lang="ko">5단계를 한 번에 시키면 Claude가 1단계에서 잘못 추론한 source_id를 끝까지 끌고 갑니다. 단계별로 끊으면 사용자가 중간 산출물(<code>data/sources.json</code>)을 1초 검수하고 다음 프롬프트로 넘어갈 수 있어요. 이게 자동화 ROI를 만드는 진짜 패턴입니다.</p>
+  </div>
+</section>
+
+<!-- ============== 10. ANTI-PATTERNS ============== -->
+<section class="section" id="anti">
+  <div class="section-label" lang="en">Chapter 10 · Failure modes</div>
+  <div class="section-label" lang="ko">Chapter 10 · 실패 모드</div>
+  <h2 class="h2" lang="en">Five <span class="em">common mistakes</span></h2>
+  <h2 class="h2" lang="ko">자주 만드는 <span class="em">5가지 실수</span></h2>
+
+  <div class="body">
+    <div class="pitfall">
+      <div class="pl">Anti-patterns</div>
+      <ul lang="en">
+        <li><strong>Too-broad first call:</strong> searching <code>"education"</code> returns 500K+ rows. → Narrow by topic / source / year first.</li>
+        <li><strong>Matching authors by name alone:</strong> name collisions are real. → Verify with ORCID.</li>
+        <li><strong>One WebFetch for 10K records:</strong> ignores pagination. → Use the helper's <code>paginate()</code>.</li>
+        <li><strong>Full citation-graph dump:</strong> 100 references each, then their 100 references… exponential. → Limit to seed + 1-hop.</li>
+        <li><strong>Throwing raw JSON at the LLM:</strong> wastes tokens. → <code>select</code> only the fields you need before passing.</li>
+      </ul>
+      <ul lang="ko">
+        <li><strong>너무 넓은 첫 호출:</strong> <code>"education"</code> 검색 → 50만 건. → 토픽·저널·연도로 먼저 좁히기.</li>
+        <li><strong>이름으로 저자 매칭:</strong> 동명이인 위험. → ORCID로 검증.</li>
+        <li><strong>WebFetch 한 번으로 1만 건 시도:</strong> 페이지네이션 무시. → 헬퍼의 <code>paginate()</code> 사용.</li>
+        <li><strong>인용 그래프 전수 다운로드:</strong> 한 논문 100 reference, 그게 또 100… 폭발. → 시드 + 1-hop으로 제한.</li>
+        <li><strong>LLM에 raw JSON 전체 던지기:</strong> 토큰 낭비. → 헬퍼에서 필요한 필드만 select 후 LLM에.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============== 11. CASE STUDY ============== -->
+<section class="section" id="case-study">
+  <div class="section-label" lang="en">Chapter 11 · Case study</div>
+  <div class="section-label" lang="ko">Chapter 11 · 케이스 스터디</div>
+  <h2 class="h2" lang="en"><span class="em">Discourse Lens v2</span> &mdash; building the cross-citation layer</h2>
+  <h2 class="h2" lang="ko"><span class="em">Discourse Lens v2</span> &mdash; cross-citation layer 빌드</h2>
+
+  <div class="body">
+    <p lang="en"><strong>Discourse Lens</strong> (Educatian/discourse-lens, MVP 2026-04-29) is a research tool that BERTopic-clusters Learning Sciences ↔ Educational Technology journal abstracts from 2015–2025 and visualizes them with D3. v1 saw only abstract text.</p>
+    <p lang="ko"><strong>Discourse Lens</strong>는 Learning Sciences ↔ Educational Technology 저널 abstract들을 2015–2025년에 걸쳐 BERTopic으로 클러스터링하고 D3로 시각화한 연구 도구입니다 (Educatian/discourse-lens, MVP 2026-04-29). v1은 abstract 텍스트만 봤어요.</p>
+
+    <p lang="en"><strong>v2's new question:</strong> "How much, and how, do these two fields cite each other? Has that relation shifted over time?"</p>
+    <p lang="ko"><strong>v2의 새 질문:</strong> "LS와 ET 두 분야는 서로를 얼마나, 어떻게 인용하나? 시간이 지나며 그 관계가 변화했나?"</p>
+
+    <h3 class="h3" lang="en">v1 in your browser &mdash; embedded</h3>
+    <h3 class="h3" lang="ko">v1 라이브 임베드</h3>
+    <p lang="en">Below is the live Discourse Lens v1 app. Use it to build intuition for what v2's citation layer would augment.</p>
+    <p lang="ko">아래는 라이브 v1 앱입니다. v2가 어떤 citation layer를 추가하게 될지 직관을 잡는 용도로.</p>
+
+    <div class="embed-frame">
+      <iframe src="https://educatian.github.io/discourse-lens/"
+              loading="lazy"
+              title="Discourse Lens v1 — live demo"
+              referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="embed-meta">
+        <span class="lbl">Live · Discourse Lens v1</span>
+        <span class="desc" lang="en">Educatian/discourse-lens · GitHub Pages · v1 MVP 2026-04-29 · LS×ET abstracts 2015–2025</span>
+        <span class="desc" lang="ko">Educatian/discourse-lens · GitHub Pages · v1 MVP 2026-04-29 · LS×ET 2015–2025</span>
+        <a class="inline" href="https://educatian.github.io/discourse-lens/" target="_blank" rel="noopener"><span lang="en">Open in new tab ↗</span><span lang="ko">새 탭 ↗</span></a>
+      </div>
+    </div>
+
+    <p lang="en">Plug v2's question into the §9 funnel:</p>
+    <p lang="ko">이 질문을 § 9의 5단계 깔때기에 넣어보면:</p>
+
+    <table class="schema">
+      <thead><tr>
+        <th lang="en">Stage</th><th lang="ko">단계</th>
+        <th lang="en">v2 case</th><th lang="ko">v2 케이스</th>
+      </tr></thead>
+      <tbody>
+        <tr><td class="k">① RQ</td><td><span lang="en">Time-resolved patterns of LS↔ET cross-citation</span><span lang="ko">LS↔ET cross-citation의 시간적 변화 패턴</span></td></tr>
+        <tr><td class="k">② Data shape</td><td>{source × source × year × citation_count}</td></tr>
+        <tr><td class="k">③ API sequence</td><td><span lang="en">(a) <code>/sources</code> for ISSN → source_id<br>(b) <code>/works?filter=primary_location.source.id:S...</code> per journal<br>(c) referenced_works → cross-source citations</span><span lang="ko">① <code>/sources</code>로 ISSN → source_id<br>② <code>/works?filter=primary_location.source.id:S...</code>로 저널별 모든 works<br>③ 각 work의 <code>referenced_works</code> → cross-source 인용 추출</span></td></tr>
+        <tr><td class="k">④ <span lang="en">Analysis</span><span lang="ko">분석</span></td><td><span lang="en">Cross-source matrix per time window, asymmetry test (LS→ET vs ET→LS)</span><span lang="ko">cross-source 인용 매트릭스 시계열, 비대칭성 검정 (LS→ET vs ET→LS)</span></td></tr>
+        <tr><td class="k">⑤ <span lang="en">Viz</span><span lang="ko">시각화</span></td><td><span lang="en">Sankey / chord plot per period</span><span lang="ko">Sankey / chord plot per period</span></td></tr>
+      </tbody>
+    </table>
+
+    <h3 class="h3" lang="en">v2 build-along &mdash; 5 prompts</h3>
+    <h3 class="h3" lang="ko">v2 build-along &mdash; 5개 프롬프트로</h3>
+
+    <div class="prompt">
+      <div class="prompt-meta" lang="en">Prompt 1 / 5 · Map ISSN → source_id</div>
+      <div class="prompt-meta" lang="ko">Prompt 1 / 5 · 저널 ID 매핑</div>
+      <div class="prompt-text" lang="en">
+        Use <code>openalex_helper.py</code> to look up each of these journals' OpenAlex source_id by ISSN and save to <code>data/sources.json</code>: Journal of the Learning Sciences (1050-8406), Cognition and Instruction (0737-0008), Computers &amp; Education (0360-1315), British Journal of Educational Technology (0007-1013), Educational Technology Research and Development (1042-1629).
+      </div>
+      <div class="prompt-text" lang="ko">
+        <code>openalex_helper.py</code>로 다음 저널의 OpenAlex source_id를 ISSN 기반 lookup해서 <code>data/sources.json</code>으로 저장:
+        Journal of the Learning Sciences (1050-8406), Cognition and Instruction (0737-0008), Computers &amp; Education (0360-1315), British Journal of Educational Technology (0007-1013), Educational Technology Research and Development (1042-1629).
+      </div>
+    </div>
+
+    <div class="prompt">
+      <div class="prompt-meta" lang="en">Prompt 2 / 5 · All works per source</div>
+      <div class="prompt-meta" lang="ko">Prompt 2 / 5 · 저널별 전체 works</div>
+      <div class="prompt-text" lang="en">
+        For those 5 source_ids, paginate publication_year:2015–2025 with <code>paginate()</code>, extract id, doi, title, publication_year, primary_location.source.id, and referenced_works for each, and stream to <code>data/works.jsonl</code>. Print progress every 500 records.
+      </div>
+      <div class="prompt-text" lang="ko">
+        위 5개 source_id에 대해 2015–2025년 publication_year 범위로 <code>paginate()</code>해서
+        각 work의 id·doi·title·publication_year·primary_location.source.id·referenced_works만 추출해
+        <code>data/works.jsonl</code>로 저장. 매 500건 진행률 출력.
+      </div>
+    </div>
+
+    <div class="prompt">
+      <div class="prompt-meta" lang="en">Prompt 3 / 5 · Cross-source edges</div>
+      <div class="prompt-meta" lang="ko">Prompt 3 / 5 · cross-source 엣지</div>
+      <div class="prompt-text" lang="en">
+        Stream <code>data/works.jsonl</code> and for each work keep only referenced_works that fall within our 5 sources. Emit <code>data/citation_edges.csv</code> with columns: from_work_id, from_source, from_year, to_work_id, to_source, to_year.
+      </div>
+      <div class="prompt-text" lang="ko">
+        <code>data/works.jsonl</code>을 스트리밍으로 읽어 each work의 referenced_works 중 우리 5개 source 안에 있는 것만 필터링해
+        <code>data/citation_edges.csv</code> 생성. 컬럼: from_work_id, from_source, from_year, to_work_id, to_source, to_year.
+      </div>
+    </div>
+
+    <div class="prompt">
+      <div class="prompt-meta" lang="en">Prompt 4 / 5 · Analysis</div>
+      <div class="prompt-meta" lang="ko">Prompt 4 / 5 · 분석</div>
+      <div class="prompt-text" lang="en">
+        Pandas: build the 5×5 cross-source matrix in 3-year windows (2015–17, 18–20, 21–23, 24–25). Row-normalized rates and raw counts. Welch's t-test on the asymmetry between LS→ET vs ET→LS rates. Write <code>results/asymmetry.md</code>.
+      </div>
+      <div class="prompt-text" lang="ko">
+        Pandas로 5×5 cross-source 매트릭스를 from_year 3년 윈도우로 (2015–17, 18–20, 21–23, 24–25). 행 정규화 비율 + raw count. LS → ET 비율과 ET → LS 비율의 비대칭성을 Welch's t-test. 결과 <code>results/asymmetry.md</code>로.
+      </div>
+    </div>
+
+    <div class="prompt">
+      <div class="prompt-meta" lang="en">Prompt 5 / 5 · Visualization (R)</div>
+      <div class="prompt-meta" lang="ko">Prompt 5 / 5 · 시각화 (R)</div>
+      <div class="prompt-text" lang="en">
+        viz.R using <code>ggplot2</code> + <code>ggalluvial</code>: 4-panel sankey-style chord, white academic background, EarlyTeacherEd story-figure style. Output: <code>figures/v2_cross_citation.png</code>.
+      </div>
+      <div class="prompt-text" lang="ko">
+        <code>data/citation_edges.csv</code>로 <code>ggplot2</code> + <code>ggalluvial</code>로 4개 시간 윈도우의 sankey-style chord 패널. 학술 백색 배경, EarlyTeacherEd 스토리피겨 스타일. 출력 <code>figures/v2_cross_citation.png</code>.
+      </div>
+    </div>
+
+    <div class="tip">
+      <div class="pl" lang="en">Lesson from these 5 prompts</div>
+      <div class="pl" lang="ko">이 5개 프롬프트의 교훈</div>
+      <p lang="en">One prompt, one step. If you cram all 5 into one prompt, a wrong source_id from step 1 propagates through step 5. Stepping it gives you a one-second checkpoint on the intermediate file before moving on &mdash; that's where automation ROI actually lives.</p>
+      <p lang="ko">한 프롬프트마다 <strong>한 단계</strong>만 처리합니다. 한 번에 5단계를 다 시키면 Claude가 첫 단계에서 잘못 추론한 source_id를 끝까지 끌고 갑니다. 단계별로 끊으면 사용자가 중간 산출물을 1초 검수하고 다음 프롬프트로 넘어갈 수 있어요.</p>
+    </div>
+
+    <p style="margin-top:18px" lang="en">A fuller walkthrough (expected outputs · failure cases · 4 extension ideas) is in the downloadable <a class="inline" href="discourse_lens_v2_recipe.md"><code>discourse_lens_v2_recipe.md</code></a>.</p>
+    <p style="margin-top:18px" lang="ko">더 자세한 워크스루 (예상 산출물 · 실패 케이스 · 확장 4가지)는 다운로드의 <a class="inline" href="discourse_lens_v2_recipe.md"><code>discourse_lens_v2_recipe.md</code></a>를 보세요.</p>
+  </div>
+</section>
+
+<!-- ============== 12. PROMPT LIBRARY ============== -->
+<section class="section" id="prompts">
+  <div class="section-label" lang="en">Chapter 12 · Appendix</div>
+  <div class="section-label" lang="ko">Chapter 12 · 부록</div>
+  <h2 class="h2" lang="en">Prompt <span class="em">library</span></h2>
+  <h2 class="h2" lang="ko">프롬프트 <span class="em">라이브러리</span></h2>
+
+  <div class="body">
+    <p lang="en">Copy-paste prompts &mdash; just swap topic / DOI / ORCID. Longer version (30+ prompts) in <a class="inline" href="prompts.md"><code>prompts.md</code></a>.</p>
+    <p lang="ko">복사해서 토픽·DOI·ORCID만 바꾸면 바로 쓰는 프롬프트 모음. 더 긴 버전은 <a class="inline" href="prompts.md"><code>prompts.md</code></a> (30+ 프롬프트).</p>
+
+    <h3 class="h3" lang="en">Author tracking</h3>
+    <h3 class="h3" lang="ko">저자 추적</h3>
+    <div class="prompt">
+      <div class="prompt-meta" lang="en">Full publication history of one author</div>
+      <div class="prompt-meta" lang="ko">한 저자의 전체 출판 이력</div>
+      <div class="prompt-text" lang="en">
+        Pull every OpenAlex work for ORCID <code>0000-0001-2345-6789</code> and plot a yearly publication count alongside cumulative citations.
+      </div>
+      <div class="prompt-text" lang="ko">
+        ORCID <code>0000-0001-2345-6789</code>의 모든 OpenAlex works를 가져와 연도별 출판수와 누적 인용수 시계열을 그려줘.
+      </div>
+    </div>
+    <div class="prompt">
+      <div class="prompt-meta" lang="en">Author topic drift</div>
+      <div class="prompt-meta" lang="ko">저자의 토픽 드리프트</div>
+      <div class="prompt-text" lang="en">
+        Bin the author's works in 5-year windows. Per window, list the top-5 topics, then table how the rankings shift across windows.
+      </div>
+      <div class="prompt-text" lang="ko">
+        위 저자의 works를 5년 단위로 나눠 각 시기 top-5 topics를 정리하고 시기 간 토픽 변화를 표로 비교.
+      </div>
+    </div>
+
+    <h3 class="h3" lang="en">Citation graph</h3>
+    <h3 class="h3" lang="ko">인용 그래프</h3>
+    <div class="prompt">
+      <div class="prompt-meta" lang="en">"Recent N papers that cited this"</div>
+      <div class="prompt-meta" lang="ko">"이 논문 인용한 최근 N편"</div>
+      <div class="prompt-text" lang="en">
+        From papers citing DOI <code>10.1080/10508406.2020.1782269</code>, keep those published in 2024–2025. Sort by citation count, descending.
+      </div>
+      <div class="prompt-text" lang="ko">
+        DOI <code>10.1080/10508406.2020.1782269</code>를 인용한 논문 중 2024–2025 발표된 것을 가져와 인용수 내림차순 표.
+      </div>
+    </div>
+    <div class="prompt">
+      <div class="prompt-meta" lang="en">Co-citation</div>
+      <div class="prompt-meta" lang="ko">공통 인용 (co-citation)</div>
+      <div class="prompt-text" lang="en">
+        List papers that cite both seed DOIs (A, B) &mdash; intersection of their cited_by sets.
+      </div>
+      <div class="prompt-text" lang="ko">
+        두 시드 논문 (DOI A, DOI B)을 동시에 인용하는 논문 리스트. 두 논문을 모두 reference로 가진 work 표로.
+      </div>
+    </div>
+
+    <h3 class="h3" lang="en">Review automation</h3>
+    <h3 class="h3" lang="ko">리뷰 자동화</h3>
+    <div class="prompt">
+      <div class="prompt-meta" lang="en">New-paper alert</div>
+      <div class="prompt-meta" lang="ko">신간 알림</div>
+      <div class="prompt-text" lang="en">
+        Search for topic "AI literacy" with publication_date within the past 30 days. Format as a markdown list and append to <code>wiki/sources/AI Literacy Watch.md</code>.
+      </div>
+      <div class="prompt-text" lang="ko">
+        OpenAlex에서 topic "AI literacy" + 지난 30일 이내 publication_date인 논문을 검색해 마크다운 리스트로 정리. <code>wiki/sources/AI Literacy Watch.md</code>에 append.
+      </div>
+    </div>
+    <div class="prompt">
+      <div class="prompt-meta" lang="en">Field landscape snapshot</div>
+      <div class="prompt-meta" lang="ko">분야 동향 스냅샷</div>
+      <div class="prompt-text" lang="en">
+        Aggregate works in OpenAlex topic <code>T10119</code> (educational technology), 2020–2025, with <code>group_by=publication_year</code>. Report yearly publication count, mean citations, and OA share.
+      </div>
+      <div class="prompt-text" lang="ko">
+        OpenAlex topic <code>T10119</code> (educational technology) 2020–2025 works를 <code>group_by=publication_year</code>로 집계해 연도별 출판량 + 평균 인용수 + OA 비율 추이.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== 13. FAQ ============== -->
+<section class="section" id="faq">
+  <div class="section-label" lang="en">Chapter 13 · Appendix</div>
+  <div class="section-label" lang="ko">Chapter 13 · 부록</div>
+  <h2 class="h2" lang="en">Practical <span class="em">FAQ</span></h2>
+  <h2 class="h2" lang="ko">실전 <span class="em">FAQ</span></h2>
+
+  <div class="body">
+    <div class="faq-stack">
+
+      <details class="faq-item">
+        <summary class="faq-q"><span lang="en">Is OpenAlex better than Google Scholar?</span><span lang="ko">OpenAlex가 Google Scholar보다 좋은가요?</span></summary>
+        <div class="faq-a">
+          <p lang="en">"Different" is the right answer. <strong>Google Scholar</strong> is wider &mdash; gray literature, blogs, lecture notes &mdash; but has no API (scrape and you'll get blocked) and metadata is non-standard. <strong>OpenAlex</strong> is narrower (peer-reviewed-leaning) but free, structured, and reproducible. For meta-analysis or systematic reviews where reproducibility matters, OpenAlex is the recommended primary source.</p>
+          <p lang="ko">"다르다"가 정답입니다. <strong>Google Scholar</strong>는 회색문헌·블로그·강의노트까지 포함해 더 넓지만 API 없음 (스크레이핑 시 차단), 메타데이터 비표준. <strong>OpenAlex</strong>는 학술논문 위주이고 약간 좁지만 API 무료·구조화·재현가능. 메타분석·체계적 문헌고찰처럼 <em>재현가능성이 중요한</em> 작업은 OpenAlex가 권장입니다.</p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary class="faq-q"><span lang="en">How is it different from Semantic Scholar (S2)?</span><span lang="ko">Semantic Scholar (S2)와는 어떻게 다른가요?</span></summary>
+        <div class="faq-a">
+          <p lang="en">S2 is the Allen Institute's free academic API. Its strengths are <strong>paper embeddings (SPECTER)</strong> and <strong>citation contexts</strong> (the actual sentence quoting a reference). OpenAlex's strengths are metadata breadth and ROR/ORCID integration. In practice many workflows use both: OpenAlex for graph + metadata, S2 for embeddings + semantic similarity. Both key on Crossref DOIs.</p>
+          <p lang="ko">S2는 AI/Allen Institute 무료 API. 강점은 <strong>paper embeddings (SPECTER)</strong>와 <strong>인용 컨텍스트 (인용 문장 추출)</strong>. OpenAlex는 강점이 메타데이터의 폭과 ROR/ORCID 통합. 실전에서는 <em>둘을 같이</em> 쓰기도 합니다 &mdash; OpenAlex로 메타데이터 + 그래프, S2로 임베딩과 의미적 유사도. 둘 다 Crossref DOI를 키로 매칭됩니다.</p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary class="faq-q"><span lang="en">Really no token needed?</span><span lang="ko">토큰 정말 안 받아도 돼요?</span></summary>
+        <div class="faq-a">
+          <p lang="en">Right. Just include <code>mailto=your.email@univ.edu</code> in every call &mdash; you'll be auto-routed to the polite (faster) pool, and if your traffic ever spikes unexpectedly, OpenAlex will email you first. Anonymous calls can throttle when overall traffic is high.</p>
+          <p lang="ko">네. 다만 <code>mailto=your.email@univ.edu</code>를 모든 호출에 포함하세요. 폴리트 풀로 자동 라우팅되어 빠르고, 만에 하나 이상 트래픽이 발생하면 OpenAlex 측이 메일로 먼저 연락합니다. 익명 호출은 트래픽이 몰릴 때 throttle될 수 있어요.</p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary class="faq-q"><span lang="en">What if WebFetch is blocked or won't work?</span><span lang="ko">WebFetch가 차단되거나 작동 안 하면?</span></summary>
+        <div class="faq-a">
+          <p lang="en">Fall back to Claude Code's <code>Bash + curl</code>. Example: <code>curl "https://api.openalex.org/works?search=...&amp;mailto=..." | jq</code>. If <code>jq</code> is missing, <code>python -m json.tool</code> works fine.</p>
+          <p lang="ko">Claude Code의 <code>Bash + curl</code>로 fallback. 예: <code>curl "https://api.openalex.org/works?search=...&amp;mailto=..." | jq</code>. <code>jq</code>가 없으면 <code>python -m json.tool</code>도 됩니다.</p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary class="faq-q"><span lang="en">Korean authors have a name-collision problem &mdash; help?</span><span lang="ko">한국 저자는 동명이인 위험이 큰데?</span></summary>
+        <div class="faq-a">
+          <p lang="en">Critical concern. <strong>Don't match by name alone &mdash; ORCID first.</strong> When ORCID is missing, cross-verify with <code>last_known_institutions</code> + <code>works_count</code> + dominant topics. It's also common for one author to be split across multiple OpenAlex IDs (Moon, J / Moon, J.W / Moon, Jewoong); OpenAlex provides a user-flagged merge tool for that.</p>
+          <p lang="ko">매우 중요. <strong>이름만으로 매칭하지 말고 ORCID 우선</strong>. ORCID 없는 저자는 <code>last_known_institutions</code> + <code>works_count</code> + 대표 토픽으로 교차 검증. 한 저자가 여러 OpenAlex ID로 split된 케이스도 흔합니다 (Moon, J / Moon, J.W / Moon, Jewoong). OpenAlex는 사용자 신고로 병합하는 도구를 제공해요.</p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary class="faq-q"><span lang="en">Citation counts disagree with Google Scholar / Web of Science</span><span lang="ko">인용수가 Google Scholar / Web of Science와 다른데요?</span></summary>
+        <div class="faq-a">
+          <p lang="en">All three differ. OpenAlex's counts come from Crossref-tracked references, so conference proceedings, book chapters, and preprint citations may be undercounted. Treat OpenAlex counts as <strong>relative</strong> ("did this paper cite more than peers in the same journal?") rather than absolute. When you do report a number, cite it as <strong>"OpenAlex citation count, accessed YYYY-MM-DD."</strong></p>
+          <p lang="ko">셋 다 다릅니다. OpenAlex는 Crossref가 추적한 references 기반이라 conference proceedings, 책 챕터, preprint citations이 일부 누락될 수 있어요. <strong>절대값보다 상대 비교</strong>에 적합합니다 ("같은 저널의 다른 논문보다 많이 인용됐나?"). 절대값을 보고서에 쓸 때는 <strong>"OpenAlex citation count, accessed YYYY-MM-DD"</strong>로 명시하세요.</p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary class="faq-q"><span lang="en">What if I hit rate limits?</span><span lang="ko">Rate limit에 걸리면?</span></summary>
+        <div class="faq-a">
+          <p lang="en">You almost won't (10/sec, 100K/day). If you do, you'll get HTTP 429 with a <code>Retry-After</code> header. Build exponential backoff (1s → 2s → 4s) into your helper. For batch work, self-throttle with <code>time.sleep(0.1)</code>.</p>
+          <p lang="ko">거의 안 걸립니다 (10/sec, 100K/day). 만약 걸리면 HTTP 429를 받고 <code>Retry-After</code> 헤더에 대기 시간이 옵니다. 헬퍼에 exponential backoff (1s → 2s → 4s)를 넣어두면 안전합니다. 대량 작업은 <code>time.sleep(0.1)</code>로 self-throttle.</p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary class="faq-q"><span lang="en">How do I store results in the vault?</span><span lang="ko">결과를 vault에 어떻게 저장하나요?</span></summary>
+        <div class="faq-a">
+          <p lang="en"><strong>Two layers.</strong> Raw JSON/JSONL goes to project <code>data/openalex/</code> or <code>Desktop\_research\&lt;date&gt;_&lt;topic&gt;\</code> &mdash; not into the vault (privacy + size). Only the cleaned tables / summaries / insights move to <code>wiki/sources/&lt;Topic&gt; - OpenAlex Snapshot YYYY-MM-DD.md</code>. This honors the dual-architecture rule (vault for synthesis, external DB for raw).</p>
+          <p lang="ko"><strong>두 단계</strong>. 원시 JSON/JSONL은 프로젝트 <code>data/openalex/</code> 또는 <code>Desktop\_research\&lt;date&gt;_&lt;topic&gt;\</code> (vault에 넣지 않음 &mdash; privacy·용량). 정제된 표·요약·인사이트만 <code>wiki/sources/&lt;Topic&gt; - OpenAlex Snapshot YYYY-MM-DD.md</code>로. 이중구조 룰에 부합 (vault = 종합, 외부 DB = 원본).</p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary class="faq-q"><span lang="en">I need BibTeX export</span><span lang="ko">BibTeX 변환이 필요해요</span></summary>
+        <div class="faq-a">
+          <p lang="en">The <code>pyalex</code> package (<code>pip install pyalex</code>) exports BibTeX directly. Or add a <code>to_bibtex(work)</code> function to your helper. For Zotero, <code>.ris</code> tends to lose less metadata than BibTeX.</p>
+          <p lang="ko"><code>pyalex</code> 패키지 (<code>pip install pyalex</code>)가 BibTeX 변환을 직접 지원합니다. 또는 헬퍼에 <code>to_bibtex(work)</code> 함수를 추가해 직접 포맷할 수도. Zotero에 import하려면 <code>.ris</code> 포맷이 손실 적습니다.</p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary class="faq-q"><span lang="en">Could OpenAlex disappear someday?</span><span lang="ko">OpenAlex가 갑자기 사라질 위험은?</span></summary>
+        <div class="faq-a">
+          <p lang="en">The non-profit OurResearch operates it, with stable funding from Sloan, Arcadia, and NIH. Combined with the user base inherited from MAG (2022 shutdown), CC0 licensing, and monthly full-corpus dumps, the short-term risk is low. Still, for important projects, <strong>keep a snapshot dump from the moment of analysis</strong>.</p>
+          <p lang="ko">비영리 OurResearch가 운영하고 Sloan/Arcadia/NIH 펀딩이 안정적입니다. 2022년 MAG 종료 후 OpenAlex로 이동한 사용자 기반 + CC0 라이선스 + 매월 전체 dump 공개라는 구조 덕에 단기 위험은 낮아요. 그래도 <strong>중요 프로젝트는 분석 시점 dump</strong>를 한 번 보관해두세요.</p>
+          <div class="faq-rule"><strong>Reproducibility rule:</strong> <span lang="en">always cite as "OpenAlex API, accessed YYYY-MM-DD" in any report.</span><span lang="ko">논문 보고에서는 항상 "OpenAlex API, accessed YYYY-MM-DD" 형식으로 access date 명시.</span></div>
+        </div>
+      </details>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============== 14. DOWNLOADS ============== -->
+<section class="section" id="downloads">
+  <div class="section-label" lang="en">Chapter 14 · Appendix</div>
+  <div class="section-label" lang="ko">Chapter 14 · 부록</div>
+  <h2 class="h2" lang="en"><span class="em">Downloads</span> &mdash; companion files</h2>
+  <h2 class="h2" lang="ko"><span class="em">다운로드</span> &mdash; companion 자료</h2>
+
+  <div class="body">
+    <p lang="en">All bundled in the same folder; self-contained companion files.</p>
+    <p lang="ko">모두 같은 폴더에 동봉된 self-contained 보조 자료입니다.</p>
+
+    <div class="dl-grid">
+      <a class="dl-item" href="prompts.md">
+        <div class="fname">prompts.md</div>
+        <div class="fdesc" lang="en">30+ copy-paste prompts by category &mdash; author tracking, citation graph, review automation, landscape, Discourse Lens v2.</div>
+        <div class="fdesc" lang="ko">카테고리별 복붙용 프롬프트 30+. 저자 추적 · 인용 그래프 · 리뷰 자동화 · 랜드스케이프 · Discourse Lens v2.</div>
+      </a>
+      <a class="dl-item" href="openalex_helper.py">
+        <div class="fname">openalex_helper.py</div>
+        <div class="fdesc" lang="en">Python helper for Pattern B. <code>search_works</code> · <code>paginate</code> · <code>cited_by</code> · <code>references_of</code> · <code>get_author</code>. polite pool baked in.</div>
+        <div class="fdesc" lang="ko">Pattern B용 Python 헬퍼. <code>search_works</code> · <code>paginate</code> · <code>cited_by</code> · <code>references_of</code> · <code>get_author</code> 포함. polite pool 자동.</div>
+      </a>
+      <a class="dl-item" href="discourse_lens_v2_recipe.md">
+        <div class="fname">discourse_lens_v2_recipe.md</div>
+        <div class="fdesc" lang="en">Full case-study walkthrough. 5 prompts + expected outputs + failure-case troubleshooting + 4 extension ideas.</div>
+        <div class="fdesc" lang="ko">케이스 스터디 풀 워크플로우. 5개 프롬프트 + 예상 산출물 + 실패 케이스 troubleshooting + 4가지 확장 아이디어.</div>
+      </a>
+      <a class="dl-item" href="cheatsheet.html">
+        <div class="fname">cheatsheet.html</div>
+        <div class="fdesc" lang="en">Print-friendly 1-pager. URL grammar + common filters + anti-pattern checklist.</div>
+        <div class="fdesc" lang="ko">인쇄용 1-page 치트시트. URL 문법 + 자주 쓰는 필터 + 안티패턴 체크리스트.</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============== 15. REFERENCES ============== -->
+<section class="section" id="refs">
+  <div class="section-label">Chapter 15 · References &amp; credits</div>
+  <h2 class="h2">References &amp; <span class="em">credits</span></h2>
+  <div class="body">
+
+    <h3 class="h3">Foundational sources</h3>
+    <ul>
+      <li>Priem, J., Piwowar, H., &amp; Orr, R. (2022). <em>OpenAlex: A fully-open index of scholarly works, authors, venues, institutions, and concepts.</em> arXiv:2205.01833.</li>
+      <li>OpenAlex API documentation &mdash; <a class="inline" href="https://docs.openalex.org">docs.openalex.org</a></li>
+      <li>OpenAlex API root &mdash; <a class="inline" href="https://api.openalex.org">api.openalex.org</a></li>
+    </ul>
+
+    <h3 class="h3">Related tooling</h3>
+    <ul>
+      <li>pyalex &mdash; Python client. <a class="inline" href="https://github.com/J535D165/pyalex">github.com/J535D165/pyalex</a></li>
+      <li>Semantic Scholar API &mdash; <a class="inline" href="https://api.semanticscholar.org">api.semanticscholar.org</a></li>
+      <li>Crossref REST API &mdash; <a class="inline" href="https://api.crossref.org">api.crossref.org</a></li>
+      <li>Anthropic MCP TypeScript SDK &mdash; <a class="inline" href="https://github.com/modelcontextprotocol/typescript-sdk">github.com/modelcontextprotocol/typescript-sdk</a></li>
+    </ul>
+
+    <h3 class="h3">Case study</h3>
+    <ul>
+      <li>Discourse Lens repository &mdash; Educatian/discourse-lens (2026-04-29 MVP). Live demo: <a class="inline" href="https://educatian.github.io/discourse-lens/">educatian.github.io/discourse-lens</a></li>
+    </ul>
+
+    <hr class="rule">
+
+    <p style="font-size:13px;color:#5C6E62;" lang="en">This guide does not replace OpenAlex's official documentation. It is a <em>practical onboarding guide</em> layered on the foundational sources above. When in doubt, defer to <code>docs.openalex.org</code>'s latest spec. The Discourse Lens case study uses synthetic results purely as illustration, not as a real analysis report.</p>
+    <p style="font-size:13px;color:#5C6E62;" lang="ko">이 가이드는 OpenAlex의 official documentation을 대체하지 않습니다. 본 문서는 <em>practical onboarding guide</em>이고, foundational sources는 위 references입니다. API 동작이 의심스러우면 항상 <code>docs.openalex.org</code>의 최신 명세를 우선하세요. Discourse Lens 케이스 스터디의 합성 결과는 예시일 뿐 실제 분석 보고가 아닙니다.</p>
+  </div>
+</section>
+
+<div class="foot">
+  <span><span class="em">OpenAlex × Claude Code</span> · Researcher Blueprint v1</span>
+  <span>2026-05-05 · jewoong.moon@gmail.com</span>
+</div>
+
+</main>
+</div>
+
+<script>
+// ---- Lang toggle ----
+const KEY = 'openalex-cc-lang';
+const supported = new Set(['en','ko']);
+function setLang(lang){
+  if (!supported.has(lang)) lang = 'en';
+  document.body.className = 'lang-' + lang;
+  document.documentElement.lang = lang;
+  localStorage.setItem(KEY, lang);
+  document.querySelectorAll('.lang-toggle button').forEach(b => {
+    b.classList.toggle('active', b.dataset.lang === lang);
+  });
+  // Toggle SVG <text> elements that use lang attr (display:none CSS doesn't apply to SVG <text> in some renderers)
+  document.querySelectorAll('svg text[lang]').forEach(t => {
+    t.style.display = (t.getAttribute('lang') === lang) ? '' : 'none';
+  });
+}
+document.querySelectorAll('.lang-toggle button').forEach(b => {
+  b.addEventListener('click', () => setLang(b.dataset.lang));
+});
+setLang(localStorage.getItem(KEY) || 'en');
+
+// ---- TOC active highlighting ----
+const sections = document.querySelectorAll('section.section[id]');
+const tocLinks = document.querySelectorAll('nav.toc a[href^="#"]');
+function setActive(){
+  let current = '';
+  const y = window.scrollY + 140;
+  sections.forEach(s => { if (s.offsetTop <= y) current = s.id; });
+  tocLinks.forEach(a => {
+    const h = a.getAttribute('href').replace('#','');
+    a.classList.toggle('active', h === current);
+  });
+}
+window.addEventListener('scroll', setActive, { passive: true });
+window.addEventListener('load', setActive);
+</script>
+</body>
+</html>

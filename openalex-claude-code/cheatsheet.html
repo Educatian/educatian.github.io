@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>OpenAlex × Claude Code · Cheatsheet</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,800;1,800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+@page { size: A4; margin: 10mm; }
+:root {
+  --bg:        #F2EBDB;
+  --paper:     #ffffff;
+  --ink:       #0F1A14;
+  --ink2:      #2F4239;
+  --ink3:      #7B8A7F;
+  --emerald:   #0E5F3A;
+  --emerald-soft: rgba(14,95,58,.10);
+  --clay:      #C25C42;
+  --clay-soft: rgba(194,92,66,.10);
+  --honey:     #B7882B;
+  --line:      #C7BFAD;
+}
+* { box-sizing: border-box; }
+body {
+  font-family: 'Pretendard', 'Inter', -apple-system, sans-serif;
+  font-size: 10.5px;
+  line-height: 1.5;
+  color: var(--ink);
+  background: var(--bg);
+  margin: 0;
+  padding: 12mm 10mm;
+  max-width: 210mm;
+  word-break: keep-all;
+}
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  border-bottom: 2px solid var(--ink);
+  padding-bottom: 8px;
+  margin-bottom: 14px;
+}
+header h1 {
+  font-family: 'Pretendard','Inter',sans-serif;
+  font-size: 22px;
+  font-weight: 900;
+  letter-spacing: -0.015em;
+  margin: 0 0 2px;
+  color: var(--ink);
+}
+header h1 .em { color: var(--emerald); }
+header h1 .serif {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-style: italic; font-weight: 800;
+}
+.sub {
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--ink3);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+.meta {
+  font-size: 9px;
+  color: var(--ink2);
+  text-align: right;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+.meta .em { color: var(--emerald); }
+
+h2 {
+  font-family: 'Pretendard','Inter',sans-serif;
+  font-size: 12px;
+  font-weight: 900;
+  margin: 0 0 6px;
+  padding-bottom: 3px;
+  border-bottom: 1.5px solid var(--ink);
+  color: var(--ink);
+  letter-spacing: -0.01em;
+}
+h2 .num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9.5px;
+  color: var(--emerald);
+  font-weight: 800;
+  margin-right: 6px;
+}
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 16px; }
+.box { break-inside: avoid; }
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 9.5px;
+  margin: 4px 0;
+}
+th, td {
+  text-align: left;
+  padding: 3px 6px;
+  border-bottom: 0.6px solid var(--line);
+  vertical-align: top;
+}
+th {
+  background: var(--ink);
+  color: #F2EBDB;
+  font-weight: 800;
+  font-size: 8.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+td.k {
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--emerald);
+  font-weight: 700;
+  width: 90px;
+}
+code {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9.2px;
+  background: #fff;
+  border: 0.6px solid var(--line);
+  padding: 0.5px 4px;
+  border-radius: 2px;
+  color: var(--emerald);
+  font-weight: 600;
+}
+ul, ol { padding-left: 14px; margin: 4px 0; }
+li { margin: 2px 0; }
+.callout {
+  background: var(--emerald-soft);
+  border-left: 2.5px solid var(--emerald);
+  padding: 5px 8px;
+  font-size: 9.5px;
+  margin: 4px 0;
+  border-radius: 0 4px 4px 0;
+}
+.callout.warn {
+  background: var(--clay-soft);
+  border-left-color: var(--clay);
+}
+.callout strong { color: var(--ink); }
+.tag {
+  display: inline-block;
+  font-size: 8px;
+  background: var(--emerald);
+  color: #fff;
+  padding: 1px 6px;
+  border-radius: 3px;
+  font-weight: 800;
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+.tag.warn { background: var(--clay); }
+.tag.ok { background: var(--honey); }
+@media print { body { padding: 0; background: white; } }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1><span class="serif">Open</span> citation graph &mdash; <span class="em">Cheatsheet</span></h1>
+    <div class="sub">OpenAlex × Claude Code · Blueprint v1 · 1-page</div>
+  </div>
+  <div class="meta">
+    <span class="em">api.openalex.org</span><br>
+    No token · mailto only<br>
+    10/sec · 100K/day
+  </div>
+</header>
+
+<div class="grid">
+
+<!-- 1 -->
+<div class="box">
+  <h2><span class="num">01</span>URL 문법 &mdash; 5패턴</h2>
+  <table>
+    <tr><th>패턴</th><th>예시</th></tr>
+    <tr><td class="k">단건</td><td><code>/works/W2741809807</code></td></tr>
+    <tr><td class="k">DOI</td><td><code>/works/doi:10.1038/nature12373</code></td></tr>
+    <tr><td class="k">검색</td><td><code>/works?search=AI literacy</code></td></tr>
+    <tr><td class="k">필터</td><td><code>/works?filter=publication_year:2024</code></td></tr>
+    <tr><td class="k">그룹</td><td><code>/works?group_by=publication_year</code></td></tr>
+  </table>
+  <div class="callout"><strong>매번:</strong> <code>&amp;mailto=you@univ.edu</code> + <code>&amp;per-page=200</code></div>
+</div>
+
+<!-- 2 -->
+<div class="box">
+  <h2><span class="num">02</span>자주 쓰는 필터</h2>
+  <table>
+    <tr><th>목적</th><th>필터</th></tr>
+    <tr><td>연도 범위</td><td><code>publication_year:&gt;2022</code></td></tr>
+    <tr><td>최소 인용</td><td><code>cited_by_count:&gt;49</code></td></tr>
+    <tr><td>OA만</td><td><code>is_oa:true</code></td></tr>
+    <tr><td>저널</td><td><code>primary_location.source.id:S206377884</code></td></tr>
+    <tr><td>저자</td><td><code>author.id:A5021100368</code></td></tr>
+    <tr><td>토픽</td><td><code>topics.id:T10119</code></td></tr>
+    <tr><td>국가</td><td><code>authorships.institutions.country_code:KR</code></td></tr>
+    <tr><td>인용 X</td><td><code>cites:W2741809807</code></td></tr>
+    <tr><td>타입</td><td><code>type:journal-article</code></td></tr>
+  </table>
+  <div class="callout">콤마(,) AND · 파이프(|) OR · 느낌표(!) NOT</div>
+</div>
+
+<!-- 3 -->
+<div class="box">
+  <h2><span class="num">03</span>7대 엔티티</h2>
+  <table>
+    <tr><th>Endpoint</th><th>Pre</th><th>핵심 필드</th></tr>
+    <tr><td class="k">/works</td><td>W</td><td>title, authorships, referenced_works, cited_by_count, topics</td></tr>
+    <tr><td class="k">/authors</td><td>A</td><td>display_name, orcid, works_count, last_known_institutions</td></tr>
+    <tr><td class="k">/sources</td><td>S</td><td>display_name, issn, type, host_organization</td></tr>
+    <tr><td class="k">/institutions</td><td>I</td><td>display_name, ror, country_code</td></tr>
+    <tr><td class="k">/topics</td><td>T</td><td>display_name, subfield, field, domain</td></tr>
+    <tr><td class="k">/funders</td><td>F</td><td>display_name, country_code, grants_count</td></tr>
+    <tr><td class="k">/publishers</td><td>P</td><td>display_name, hierarchy_level</td></tr>
+  </table>
+</div>
+
+<!-- 4 -->
+<div class="box">
+  <h2><span class="num">04</span>페이지네이션</h2>
+  <ol>
+    <li><strong>≤ 200건:</strong> <code>per-page=200</code> 한 번이면 끝</li>
+    <li><strong>200–10K:</strong> <code>cursor=*</code>로 시작, 응답 <code>meta.next_cursor</code> 다음 호출</li>
+    <li><strong>&gt; 10K:</strong> <code>page=N</code>은 10K cap; cursor만 사용</li>
+    <li><strong>전체 dump:</strong> 매월 ~330GB · S3 <code>openalex-snapshot</code></li>
+  </ol>
+  <div class="callout"><strong>안전 마진:</strong> <code>time.sleep(0.1)</code> 사이사이</div>
+</div>
+
+<!-- 5 -->
+<div class="box">
+  <h2><span class="num">05</span>Claude Code 연결 패턴</h2>
+  <table>
+    <tr><th>패턴</th><th>셋업</th><th>언제</th></tr>
+    <tr><td class="k">A · 직접 프롬프트</td><td>0분</td><td>일회성·5–20건</td></tr>
+    <tr><td class="k">B · 헬퍼 스크립트 <span class="tag ok">권장</span></td><td>5분</td><td>프로젝트 단위</td></tr>
+    <tr><td class="k">C · MCP 서버</td><td>30분</td><td>여러 프로젝트</td></tr>
+  </table>
+  <ul>
+    <li>B로 시작 &mdash; <code>openalex_helper.py</code></li>
+    <li>두 번째 프로젝트에서 같은 패턴 반복 시 C로 승격</li>
+  </ul>
+</div>
+
+<!-- 6 -->
+<div class="box">
+  <h2><span class="num">06</span>아이디어 → API 5단계</h2>
+  <ol>
+    <li><strong>RQ</strong> 한 문장으로</li>
+    <li><strong>데이터 shape</strong> 테이블 형태로 그리기</li>
+    <li><strong>API 시퀀스</strong>: 어떤 entity → 어떤 filter</li>
+    <li><strong>분석</strong>: aggregate / model / test</li>
+    <li><strong>시각화 + 검증</strong>: robustness</li>
+  </ol>
+  <div class="callout">한 프롬프트 = 한 단계. 5단계 한 번에 시키지 말 것.</div>
+</div>
+
+<!-- 7 -->
+<div class="box">
+  <h2><span class="num">07</span>안 하는 것 <span class="tag warn">Anti</span></h2>
+  <ul>
+    <li>너무 넓은 첫 호출 ("education" → 50만 건)</li>
+    <li>이름만으로 저자 매칭 (ORCID 없으면 동명이인)</li>
+    <li>WebFetch 한 번으로 1만 건 (페이지네이션 무시)</li>
+    <li>인용 그래프 무한 hop (1-hop 제한)</li>
+    <li>Raw JSON 전체를 LLM에 (필요 필드만 select)</li>
+    <li>인용수 절대값 단독 보고 (snapshot 날짜 명시)</li>
+  </ul>
+</div>
+
+<!-- 8 -->
+<div class="box">
+  <h2><span class="num">08</span>검수 체크리스트</h2>
+  <ul>
+    <li>총 count 합리적인가 (0/100만 둘 다 의심)</li>
+    <li>각 단계 결과를 file로 저장 (다음 단계 재사용)</li>
+    <li>None / 빈 배열 비율 보고</li>
+    <li>polite pool용 mailto 들어갔나</li>
+    <li>"OpenAlex API, accessed YYYY-MM-DD" 명시</li>
+    <li>vault에는 정제 산출물만, 원시는 프로젝트</li>
+  </ul>
+</div>
+
+<!-- 9 -->
+<div class="box">
+  <h2><span class="num">09</span>자주 쓰는 프롬프트</h2>
+  <ul>
+    <li><strong>저자:</strong> ORCID <code>0000-...</code>의 모든 works → JSONL</li>
+    <li><strong>인용:</strong> DOI <code>...</code>를 인용한 2024+ 논문 표</li>
+    <li><strong>저널:</strong> ISSN로 source_id → 2015–25 paginate</li>
+    <li><strong>토픽:</strong> <code>T10119</code> group_by=year</li>
+    <li><strong>알림:</strong> search "<code>topic</code>" + 지난 30일</li>
+  </ul>
+</div>
+
+<!-- 10 -->
+<div class="box">
+  <h2><span class="num">10</span>레퍼런스</h2>
+  <ul>
+    <li><code>docs.openalex.org</code> &mdash; 공식 API 문서</li>
+    <li><code>api.openalex.org</code> &mdash; API root</li>
+    <li>Priem et al. 2022 &mdash; arXiv:2205.01833</li>
+    <li><code>pip install pyalex</code> &mdash; Python client</li>
+    <li>가이드북 본체: <code>index.html</code></li>
+    <li>케이스 스터디: <code>discourse_lens_v2_recipe.md</code></li>
+  </ul>
+</div>
+
+</div>
+
+</body>
+</html>

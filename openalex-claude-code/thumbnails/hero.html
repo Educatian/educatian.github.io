@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>OG Hero — OpenAlex × Claude Code</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,800;1,400;1,800;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700;800&display=swap');
+
+:root{
+  --bg:#F2EBDB; --ink:#0F1A14; --emerald:#0E5F3A; --clay:#C25C42;
+  --honey:#B7882B; --line:#C7BFAD; --paper:#fff;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{
+  width:1200px;height:630px;overflow:hidden;
+  background:var(--bg);color:var(--ink);
+  font-family:'Inter',sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+.frame{
+  position:relative;width:1200px;height:630px;overflow:hidden;
+  border:0;
+}
+.grid-bg{
+  position:absolute;inset:0;pointer-events:none;
+  opacity:.32;
+  background-image:
+    linear-gradient(rgba(15,26,20,.10) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(15,26,20,.10) 1px,transparent 1px);
+  background-size:48px 48px;
+  mask-image:radial-gradient(ellipse at 25% 30%,black 30%,transparent 78%);
+}
+.layout{
+  position:relative;z-index:2;
+  height:100%;padding:60px 70px;
+  display:grid;grid-template-columns:1fr 380px;gap:50px;
+}
+.kicker{
+  font-family:'JetBrains Mono',monospace;
+  font-size:14px;font-weight:800;letter-spacing:5px;text-transform:uppercase;
+  color:var(--emerald);margin-bottom:18px;
+}
+h1{
+  font-family:'Inter',sans-serif;
+  font-size:96px;font-weight:900;line-height:1;letter-spacing:-.03em;
+  color:var(--ink);margin:0 0 14px;
+}
+h1 .open{
+  font-family:'Playfair Display',serif;font-style:italic;font-weight:800;
+  color:var(--emerald);
+}
+h1 .x{
+  font-family:'Playfair Display',serif;font-style:italic;font-weight:400;
+  color:var(--clay);font-size:84px;
+  display:inline-block;transform:translateY(-6px);margin:0 8px;
+}
+h1 .claude{
+  color:var(--ink);
+}
+.tag{
+  display:inline-block;
+  font-family:'JetBrains Mono',monospace;
+  font-size:13px;font-weight:800;letter-spacing:2px;text-transform:uppercase;
+  border:2px solid var(--ink);background:var(--paper);
+  padding:8px 16px;border-radius:999px;
+  margin:0 10px 10px 0;
+}
+.tag.fill{background:var(--emerald);color:#fff;border-color:var(--emerald)}
+.tag.clay{background:var(--clay);color:#fff;border-color:var(--clay)}
+.lede{
+  font-family:'Playfair Display',serif;font-style:italic;font-weight:400;
+  font-size:24px;line-height:1.4;color:#2F4239;
+  max-width:680px;margin:18px 0 24px;
+}
+.tag-row{display:flex;flex-wrap:wrap;gap:0;margin-top:24px}
+.byline{
+  position:absolute;left:70px;bottom:50px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:12px;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;
+  color:#5C6E62;display:flex;align-items:center;gap:14px;
+}
+.byline .dot{width:6px;height:6px;background:var(--clay);border-radius:50%}
+.byline strong{color:var(--ink)}
+
+.url-strip{
+  position:absolute;right:70px;bottom:50px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:12px;font-weight:700;letter-spacing:1px;
+  color:var(--emerald);
+}
+
+/* ---- Decorative network ---- */
+.network{
+  position:relative;
+  width:380px;height:430px;
+  display:flex;align-items:center;justify-content:center;
+}
+.network svg{width:100%;height:100%}
+
+.foot-strip{
+  position:absolute;left:0;right:0;bottom:0;height:6px;
+  background:linear-gradient(90deg, var(--emerald) 0%, var(--emerald) 38%, var(--clay) 38%, var(--clay) 62%, var(--honey) 62%, var(--honey) 100%);
+}
+.corner-mark{
+  position:absolute;top:0;right:0;
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;font-weight:800;letter-spacing:2px;color:#7B8A7F;
+  padding:18px 22px;text-transform:uppercase;
+  border-bottom:1px solid var(--line);border-left:1px solid var(--line);
+}
+</style>
+</head>
+<body>
+<div class="frame">
+  <div class="grid-bg"></div>
+  <div class="corner-mark">Researcher Blueprint · v1</div>
+  <div class="layout">
+
+    <!-- LEFT: text -->
+    <div>
+      <div class="kicker">Open citation graph · Prompt-driven</div>
+      <h1>
+        <span class="open">Open</span><br>
+        <span class="claude">Alex</span> <span class="x">×</span><br>
+        <span class="claude">Claude Code</span>
+      </h1>
+      <p class="lede">
+        Reach 240M+ scholarly works in one line — a researcher's blueprint for prompt-driven citation-graph automation.
+      </p>
+      <div class="tag-row">
+        <span class="tag fill">240M+ Works</span>
+        <span class="tag">95M+ Authors</span>
+        <span class="tag clay">No API Token</span>
+        <span class="tag">Free</span>
+      </div>
+    </div>
+
+    <!-- RIGHT: decorative citation network -->
+    <div class="network">
+      <svg viewBox="0 0 380 430" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+            <path d="M0,0 L10,5 L0,10 z" fill="#0E5F3A"/>
+          </marker>
+        </defs>
+
+        <!-- Background blueprint compass circle -->
+        <circle cx="190" cy="215" r="180" fill="none" stroke="#C7BFAD" stroke-width="1" stroke-dasharray="3 5"/>
+        <circle cx="190" cy="215" r="120" fill="none" stroke="#C7BFAD" stroke-width="1" stroke-dasharray="3 5"/>
+
+        <!-- Citation edges (drawn first, behind nodes) -->
+        <path d="M 190 215 L 90 100" stroke="#0E5F3A" stroke-width="1.5" marker-end="url(#ah)" opacity=".6"/>
+        <path d="M 190 215 L 290 100" stroke="#0E5F3A" stroke-width="1.5" marker-end="url(#ah)" opacity=".6"/>
+        <path d="M 190 215 L 80 220" stroke="#0E5F3A" stroke-width="1.5" marker-end="url(#ah)" opacity=".6"/>
+        <path d="M 190 215 L 310 240" stroke="#0E5F3A" stroke-width="1.5" marker-end="url(#ah)" opacity=".6"/>
+        <path d="M 190 215 L 110 340" stroke="#0E5F3A" stroke-width="1.5" marker-end="url(#ah)" opacity=".6"/>
+        <path d="M 190 215 L 280 350" stroke="#0E5F3A" stroke-width="1.5" marker-end="url(#ah)" opacity=".6"/>
+
+        <!-- Cross edges -->
+        <path d="M 90 100 Q 150 80 290 100" stroke="#C25C42" stroke-width="1.2" fill="none" opacity=".55" stroke-dasharray="4 3"/>
+        <path d="M 80 220 Q 130 280 110 340" stroke="#B7882B" stroke-width="1.2" fill="none" opacity=".55" stroke-dasharray="4 3"/>
+        <path d="M 310 240 Q 320 300 280 350" stroke="#B7882B" stroke-width="1.2" fill="none" opacity=".55" stroke-dasharray="4 3"/>
+        <path d="M 90 100 L 80 220" stroke="#0E5F3A" stroke-width="1" fill="none" opacity=".4"/>
+        <path d="M 290 100 L 310 240" stroke="#0E5F3A" stroke-width="1" fill="none" opacity=".4"/>
+
+        <!-- Nodes -->
+        <!-- center: Works (bigger) -->
+        <circle cx="190" cy="215" r="38" fill="#0E5F3A" stroke="#0F1A14" stroke-width="2.5"/>
+        <text x="190" y="212" text-anchor="middle" font-family="Inter,sans-serif" font-size="14" font-weight="900" fill="#fff">Works</text>
+        <text x="190" y="228" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="#fff" opacity=".82">240M+</text>
+
+        <!-- top-left: Authors -->
+        <circle cx="90" cy="100" r="24" fill="#C25C42" stroke="#0F1A14" stroke-width="2"/>
+        <text x="90" y="103" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" font-weight="800" fill="#fff">Authors</text>
+
+        <!-- top-right: Sources -->
+        <circle cx="290" cy="100" r="24" fill="#B7882B" stroke="#0F1A14" stroke-width="2"/>
+        <text x="290" y="103" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" font-weight="800" fill="#fff">Sources</text>
+
+        <!-- left: Insti -->
+        <circle cx="80" cy="220" r="20" fill="#fff" stroke="#0F1A14" stroke-width="2"/>
+        <text x="80" y="223" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" font-weight="800" fill="#0F1A14">Insti.</text>
+
+        <!-- right: Topics -->
+        <circle cx="310" cy="240" r="22" fill="#fff" stroke="#0F1A14" stroke-width="2"/>
+        <text x="310" y="243" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" font-weight="800" fill="#0F1A14">Topics</text>
+
+        <!-- bottom-left: Funders -->
+        <circle cx="110" cy="340" r="20" fill="#fff" stroke="#0F1A14" stroke-width="2" stroke-dasharray="3 2"/>
+        <text x="110" y="343" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" font-weight="800" fill="#0F1A14">Fund.</text>
+
+        <!-- bottom-right: Pubs -->
+        <circle cx="280" cy="350" r="20" fill="#fff" stroke="#0F1A14" stroke-width="2" stroke-dasharray="3 2"/>
+        <text x="280" y="353" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" font-weight="800" fill="#0F1A14">Pub.</text>
+
+        <!-- Self-loop: cites/cited_by -->
+        <path d="M 226 200 Q 270 175 250 230 Q 235 250 220 245" fill="none" stroke="#0E5F3A" stroke-width="2" marker-end="url(#ah)"/>
+        <text x="285" y="195" font-family="Playfair Display,serif" font-style="italic" font-size="13" font-weight="700" fill="#0E5F3A">cites</text>
+      </svg>
+    </div>
+  </div>
+
+  <div class="byline">
+    <span><strong>Jewoong Moon</strong></span>
+    <span class="dot"></span>
+    <span>The University of Alabama</span>
+    <span class="dot"></span>
+    <span>2026-05-05</span>
+  </div>
+
+  <div class="url-strip">educatian.github.io/openalex-claude-code/</div>
+  <div class="foot-strip"></div>
+</div>
+</body>
+</html>
