@@ -547,6 +547,15 @@ details[open] summary::after{content:"-"}
 .reading-step p{font-size:12.6px;line-height:1.45;margin:0;color:var(--ink2)}
 @media (max-width:900px){.reading-path{grid-template-columns:1fr 1fr}}
 @media (max-width:620px){.reading-path{grid-template-columns:1fr}}
+.venue-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:18px 0 22px}
+.venue-card{
+  background:var(--paper);border:1.7px solid var(--line);border-radius:12px;padding:14px;min-width:0;
+}
+.venue-card h3{font-size:16px;line-height:1.18;margin:0 0 7px}
+.venue-card p{font-size:12.8px;line-height:1.45;color:var(--ink2);margin:0 0 9px}
+.venue-card a{display:inline-flex;text-decoration:none;color:#fff;background:var(--blueprint);border-radius:999px;padding:7px 10px;font-size:10px;font-weight:900;letter-spacing:.8px;text-transform:uppercase}
+.venue-meta{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:900;letter-spacing:1px;text-transform:uppercase;color:var(--rust);margin-bottom:7px}
+@media (max-width:820px){.venue-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -1224,6 +1233,20 @@ details[open] summary::after{content:"-"}
       <div class="section-label">12 / Sources</div>
       <h2 class="h2">References should teach the <span class="accent">lineage</span>, not sit at the bottom.</h2>
       <p>This draft treats sources as an interactive map. Filter by lineage to see which references support each part of the guide. The role labels are intentionally practical: they explain why a beginner should care about the source.</p>
+      <div class="card blue">
+        <div class="card-title">Field venues to watch</div>
+        <p>For the IDT/LDT side of the field, these journals and conferences are useful entry points for current research, design cases, and professional conversations. Learning-sciences venues are intentionally left for a later layer so the guide does not blur the two traditions too quickly.</p>
+      </div>
+      <div class="venue-grid" aria-label="Primary IDT and LDT journals and conferences">
+        <div class="venue-card"><div class="venue-meta">Journal / flagship research</div><h3>Educational Technology Research and Development</h3><p>A central AECT-linked research journal for instructional design, learning technologies, development, evaluation, and theory-facing IDT work.</p><a href="https://link.springer.com/journal/11423" target="_blank" rel="noreferrer">Journal</a></div>
+        <div class="venue-card"><div class="venue-meta">Journal / field trends</div><h3>TechTrends</h3><p>AECT-linked venue for current issues, applications, professional practice, and emerging technology conversations in educational communications and technology.</p><a href="https://link.springer.com/journal/11528" target="_blank" rel="noreferrer">Journal</a></div>
+        <div class="venue-card"><div class="venue-meta">Journal / design cases</div><h3>International Journal of Designs for Learning</h3><p>Useful for design knowledge in case form: what designers made, why they made it, and how design decisions unfolded.</p><a href="https://scholarworks.iu.edu/journals/index.php/ijdl" target="_blank" rel="noreferrer">Journal</a></div>
+        <div class="venue-card"><div class="venue-meta">Journal / formative design</div><h3>Journal of Formative Design in Learning</h3><p>Focuses on formative design, iterative improvement, learning design, and development-oriented inquiry.</p><a href="https://link.springer.com/journal/41686" target="_blank" rel="noreferrer">Journal</a></div>
+        <div class="venue-card"><div class="venue-meta">Journal / applied ID</div><h3>Journal of Applied Instructional Design</h3><p>Practice-facing ID venue for applied design, development, evaluation, and workplace/higher-ed instructional design cases.</p><a href="https://edtechbooks.org/jaid" target="_blank" rel="noreferrer">Journal</a></div>
+        <div class="venue-card"><div class="venue-meta">Conference / IDT home base</div><h3>AECT Convention</h3><p>Primary professional/research home for educational communications, instructional design, educational technology, and IDT program communities.</p><a href="https://www.aect.org/" target="_blank" rel="noreferrer">AECT</a></div>
+        <div class="venue-card"><div class="venue-meta">Conference / edtech research</div><h3>SITE, EdMedia, and E-Learn</h3><p>AACE conferences that often surface educational technology, teacher education technology, online learning, multimedia, and design-development work.</p><a href="https://www.aace.org/conf/" target="_blank" rel="noreferrer">AACE conferences</a></div>
+        <div class="venue-card"><div class="venue-meta">Conference / workplace L&D</div><h3>ATD</h3><p>Useful for connecting instructional design to corporate learning, talent development, workplace learning systems, and practitioner language.</p><a href="https://www.td.org/" target="_blank" rel="noreferrer">ATD</a></div>
+      </div>
       <div class="ref-path" aria-label="Interactive reading pathway">
         <button class="ref-step active" data-ref-path="origins"><div class="num">Start</div><h3>Origins</h3><p>Why systematic design appeared.</p></button>
         <button class="ref-step" data-ref-path="systems"><div class="num">Build</div><h3>Systems ISD</h3><p>How models organized design work.</p></button>
