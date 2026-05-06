@@ -169,8 +169,8 @@ li { margin: 2px 0; }
   </div>
   <div class="meta">
     <span class="em">api.openalex.org</span><br>
-    No token · mailto only<br>
-    10/sec · 100K/day
+    Free key · openalex.org/settings/api<br>
+    $1/day credit · 100 req/sec
   </div>
 </header>
 
@@ -187,7 +187,7 @@ li { margin: 2px 0; }
     <tr><td class="k">필터</td><td><code>/works?filter=publication_year:2024</code></td></tr>
     <tr><td class="k">그룹</td><td><code>/works?group_by=publication_year</code></td></tr>
   </table>
-  <div class="callout"><strong>매번:</strong> <code>&amp;mailto=you@univ.edu</code> + <code>&amp;per-page=200</code></div>
+  <div class="callout"><strong>매번:</strong> <code>&amp;api_key=YOUR_OPENALEX_KEY</code> + <code>&amp;per-page=200</code></div>
 </div>
 
 <!-- 2 -->
@@ -198,9 +198,9 @@ li { margin: 2px 0; }
     <tr><td>연도 범위</td><td><code>publication_year:&gt;2022</code></td></tr>
     <tr><td>최소 인용</td><td><code>cited_by_count:&gt;49</code></td></tr>
     <tr><td>OA만</td><td><code>is_oa:true</code></td></tr>
-    <tr><td>저널</td><td><code>primary_location.source.id:S206377884</code></td></tr>
+    <tr><td>저널</td><td><code>primary_location.source.id:S42640028</code></td></tr>
     <tr><td>저자</td><td><code>author.id:A5021100368</code></td></tr>
-    <tr><td>토픽</td><td><code>topics.id:T10119</code></td></tr>
+    <tr><td>토픽</td><td><code>topics.id:T14025</code></td></tr>
     <tr><td>국가</td><td><code>authorships.institutions.country_code:KR</code></td></tr>
     <tr><td>인용 X</td><td><code>cites:W2741809807</code></td></tr>
     <tr><td>타입</td><td><code>type:journal-article</code></td></tr>
@@ -232,7 +232,7 @@ li { margin: 2px 0; }
     <li><strong>&gt; 10K:</strong> <code>page=N</code>은 10K cap; cursor만 사용</li>
     <li><strong>전체 dump:</strong> 매월 ~330GB · S3 <code>openalex-snapshot</code></li>
   </ol>
-  <div class="callout"><strong>안전 마진:</strong> <code>time.sleep(0.1)</code> 사이사이</div>
+  <div class="callout"><strong>안전 마진:</strong> <code>time.sleep(0.05)</code> (100/sec 하드 리밋)</div>
 </div>
 
 <!-- 5 -->
@@ -283,7 +283,7 @@ li { margin: 2px 0; }
     <li>총 count 합리적인가 (0/100만 둘 다 의심)</li>
     <li>각 단계 결과를 file로 저장 (다음 단계 재사용)</li>
     <li>None / 빈 배열 비율 보고</li>
-    <li>polite pool용 mailto 들어갔나</li>
+    <li><code>OPENALEX_KEY</code> env var 설정됐나 (api_key 자동 주입)</li>
     <li>"OpenAlex API, accessed YYYY-MM-DD" 명시</li>
     <li>vault에는 정제 산출물만, 원시는 프로젝트</li>
   </ul>
@@ -296,7 +296,7 @@ li { margin: 2px 0; }
     <li><strong>저자:</strong> ORCID <code>0000-...</code>의 모든 works → JSONL</li>
     <li><strong>인용:</strong> DOI <code>...</code>를 인용한 2024+ 논문 표</li>
     <li><strong>저널:</strong> ISSN로 source_id → 2015–25 paginate</li>
-    <li><strong>토픽:</strong> <code>T10119</code> group_by=year</li>
+    <li><strong>토픽:</strong> <code>T14025</code> group_by=year</li>
     <li><strong>알림:</strong> search "<code>topic</code>" + 지난 30일</li>
   </ul>
 </div>
@@ -305,8 +305,9 @@ li { margin: 2px 0; }
 <div class="box">
   <h2><span class="num">10</span>레퍼런스</h2>
   <ul>
-    <li><code>docs.openalex.org</code> &mdash; 공식 API 문서</li>
-    <li><code>api.openalex.org</code> &mdash; API root</li>
+    <li><code>developers.openalex.org</code> &mdash; 공식 API 문서 (구 docs.openalex.org)</li>
+    <li><code>api.openalex.org</code> &mdash; API root (모든 호출에 <code>api_key</code> 필수)</li>
+    <li><code>openalex.org/settings/api</code> &mdash; 무료 키 발급</li>
     <li>Priem et al. 2022 &mdash; arXiv:2205.01833</li>
     <li><code>pip install pyalex</code> &mdash; Python client</li>
     <li>가이드북 본체: <code>index.html</code></li>

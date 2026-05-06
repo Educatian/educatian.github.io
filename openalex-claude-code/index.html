@@ -4,11 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>OpenAlex × Claude Code — A Researcher's Blueprint</title>
-<meta name="description" content="Reach 240M+ scholarly works in one line — a researcher's blueprint for prompt-driven citation-graph automation. OpenAlex API × Claude Code, with Discourse Lens v2 as a worked case study.">
+<meta name="description" content="Reach 313M+ scholarly works in one line — a researcher's blueprint for prompt-driven citation-graph automation. OpenAlex API × Claude Code, with Discourse Lens v2 as a worked case study. Updated for the Feb 2026 OpenAlex API-key policy.">
 <link rel="canonical" href="https://educatian.github.io/openalex-claude-code/">
 <meta property="og:type" content="article">
 <meta property="og:title" content="OpenAlex × Claude Code — A Researcher's Blueprint">
-<meta property="og:description" content="Reach 240M+ scholarly works in one line — a researcher's blueprint for prompt-driven citation-graph automation. OpenAlex API × Claude Code, with Discourse Lens v2 as a worked case study.">
+<meta property="og:description" content="Reach 313M+ scholarly works in one line — a researcher's blueprint for prompt-driven citation-graph automation. OpenAlex API × Claude Code, with Discourse Lens v2 as a worked case study.">
 <meta property="og:url" content="https://educatian.github.io/openalex-claude-code/">
 <meta property="og:image" content="https://educatian.github.io/openalex-claude-code/thumbnails/hero_og_1200x630.png">
 <meta property="og:image:width" content="1200">
@@ -16,7 +16,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://educatian.github.io/openalex-claude-code/thumbnails/hero_og_1200x630.png">
 <meta name="twitter:title" content="OpenAlex × Claude Code — A Researcher's Blueprint">
-<meta name="twitter:description" content="Reach 240M+ scholarly works in one line — prompt-driven citation-graph automation.">
+<meta name="twitter:description" content="Reach 313M+ scholarly works in one line — prompt-driven citation-graph automation.">
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,800;0,900;1,400;1,800&display=swap');
@@ -534,7 +534,7 @@ hr.rule{border:0;border-top:1px solid var(--line);margin:36px 0}
   <div class="part" lang="ko">Part II · OpenAlex</div>
   <ol start="3">
     <li><a href="#openalex"><span lang="en">Entity model + URL grammar</span><span lang="ko">엔티티 모델 + URL 문법</span></a></li>
-    <li><a href="#polite"><span lang="en">Polite pool rules</span><span lang="ko">Polite pool 운영 룰</span></a></li>
+    <li><a href="#polite"><span lang="en">Free API key &amp; rate limits</span><span lang="ko">무료 API 키 &amp; rate limit</span></a></li>
   </ol>
 
   <div class="part" lang="en">Part III · Claude Code</div>
@@ -578,12 +578,12 @@ hr.rule{border:0;border-top:1px solid var(--line);margin:36px 0}
   <h1 class="h1" lang="en">
     <span class="serif">Open</span> citation graph,
     <span class="em">prompt-driven</span> &mdash;
-    reach 240M+ scholarly works in one line.
+    reach 313M+ scholarly works in one line.
   </h1>
   <h1 class="h1" lang="ko">
     <span class="serif">Open</span> citation graph,
     <span class="em">prompt-driven</span> &mdash;
-    240M+ 학술논문에 한 줄로 닿기.
+    313M+ 학술논문에 한 줄로 닿기.
   </h1>
 
   <p class="lede" lang="en">
@@ -595,14 +595,14 @@ hr.rule{border:0;border-top:1px solid var(--line);margin:36px 0}
 
   <div class="hero-meta" lang="en">
     <span class="accent">For researchers, beginner-friendly</span>
-    <span>No API token</span>
-    <span>240M+ Works · 95M+ Authors</span>
+    <span>Free API key · 30-sec signup</span>
+    <span>313M+ Works · 120M+ Authors</span>
     <span>~30 min first build</span>
   </div>
   <div class="hero-meta" lang="ko">
     <span class="accent">연구자용 · 입문자도 OK</span>
-    <span>API 토큰 불필요</span>
-    <span>240M+ Works · 95M+ Authors</span>
+    <span>무료 API 키 · 30초 가입</span>
+    <span>313M+ Works · 120M+ Authors</span>
     <span>첫 빌드 ~30분</span>
   </div>
 
@@ -647,8 +647,8 @@ hr.rule{border:0;border-top:1px solid var(--line);margin:36px 0}
     <div class="card">
       <div class="card-title" lang="en">Scope · what this guide is not</div>
       <div class="card-title" lang="ko">범위 · 이 가이드가 아닌 것</div>
-      <p lang="en">Not a replacement for OpenAlex's official specification (defer to <a class="inline" href="https://docs.openalex.org">docs.openalex.org</a> for field-level details). Not a citation-analysis methods textbook (no bibliometric statistics, no h-index theory, no journal impact discussion). Not a general LLM tutorial &mdash; it assumes Claude Code is installed and you can run a terminal command. Every example was verified against OpenAlex API behavior as of 2026-05; the Discourse Lens case study uses synthetic outputs purely as illustration, not a real analysis report.</p>
-      <p lang="ko">OpenAlex 공식 명세를 대체하지 않습니다 (필드 수준 세부는 <a class="inline" href="https://docs.openalex.org">docs.openalex.org</a> 참조). 인용 분석 방법론 교재 아님 (서지통계·h-index 이론·저널 임팩트 논의 없음). 일반 LLM 튜토리얼 아님 &mdash; Claude Code가 이미 설치되어 있고 터미널 명령어 한 줄 실행 가능하다는 전제. 모든 예시는 2026-05 기준 OpenAlex API 동작에서 확인됐고, Discourse Lens 케이스의 합성 결과는 <em>예시</em>일 뿐 실제 분석 보고가 아닙니다.</p>
+      <p lang="en">Not a replacement for OpenAlex's official specification (defer to <a class="inline" href="https://developers.openalex.org">developers.openalex.org</a> for field-level details). Not a citation-analysis methods textbook (no bibliometric statistics, no h-index theory, no journal impact discussion). Not a general LLM tutorial &mdash; it assumes Claude Code is installed and you can run a terminal command. Every example was verified against OpenAlex API behavior as of 2026-05; the Discourse Lens case study uses synthetic outputs purely as illustration, not a real analysis report.</p>
+      <p lang="ko">OpenAlex 공식 명세를 대체하지 않습니다 (필드 수준 세부는 <a class="inline" href="https://developers.openalex.org">developers.openalex.org</a> 참조). 인용 분석 방법론 교재 아님 (서지통계·h-index 이론·저널 임팩트 논의 없음). 일반 LLM 튜토리얼 아님 &mdash; Claude Code가 이미 설치되어 있고 터미널 명령어 한 줄 실행 가능하다는 전제. 모든 예시는 2026-05 기준 OpenAlex API 동작에서 확인됐고, Discourse Lens 케이스의 합성 결과는 <em>예시</em>일 뿐 실제 분석 보고가 아닙니다.</p>
     </div>
   </div>
 </header>
@@ -735,7 +735,7 @@ hr.rule{border:0;border-top:1px solid var(--line);margin:36px 0}
   <span class="st">"doi"</span>: <span class="st">"https://doi.org/10.7717/peerj.4375"</span>,
   <span class="st">"title"</span>: <span class="st">"The state of OA: a large-scale analysis..."</span>,
   <span class="st">"publication_year"</span>: 2018,
-  <span class="st">"cited_by_count"</span>: 1430,
+  <span class="st">"cited_by_count"</span>: 1197,  <span class="cm">// as of 2026-05-05</span>,
   <span class="st">"authorships"</span>: [
     { <span class="st">"author"</span>: { <span class="st">"display_name"</span>: <span class="st">"Heather Piwowar"</span>, <span class="st">"orcid"</span>: <span class="st">"..."</span> } },
     <span class="cm">// ...more authors</span>
@@ -767,16 +767,16 @@ hr.rule{border:0;border-top:1px solid var(--line);margin:36px 0}
     <p lang="en">Paste this URL into any web browser:</p>
     <p lang="ko">아래 URL을 브라우저에 붙여넣으세요:</p>
 
-    <div class="code"><span class="hl">https://api.openalex.org/works/W2741809807?mailto=you@example.edu</span></div>
+    <div class="code"><span class="hl">https://api.openalex.org/works/W2741809807?api_key=YOUR_OPENALEX_KEY</span></div>
 
     <p lang="en">You should see a wall of JSON. Congratulations &mdash; you just used the OpenAlex API. The same URL works from <code>curl</code>, Python, R, or a Claude Code prompt.</p>
     <p lang="ko">JSON 덩어리가 보일 거예요. 축하합니다 &mdash; 방금 OpenAlex API를 호출하신 겁니다. 같은 URL이 <code>curl</code>, Python, R, Claude Code 프롬프트 어디서든 작동해요.</p>
 
     <div class="tip">
-      <div class="pl" lang="en">Why this works without a token</div>
-      <div class="pl" lang="ko">왜 토큰 없이 되나요</div>
-      <p lang="en">Most APIs (Twitter, Google, OpenAI) require an API key for billing. OpenAlex is publicly funded and CC0-licensed, so it has no billing &mdash; just a polite-pool email. That's why this guide can show full URLs in plain text without secret-management.</p>
-      <p lang="ko">대부분의 API (Twitter, Google, OpenAI)는 과금을 위해 API key를 요구합니다. OpenAlex는 공공 자금으로 운영되고 CC0 라이선스라서 과금이 없어요 &mdash; polite-pool 이메일만 있으면 됩니다. 그래서 본 가이드가 secret 관리 없이 URL을 그대로 보여줄 수 있는 거예요.</p>
+      <div class="pl" lang="en">About the API key</div>
+      <div class="pl" lang="ko">API 키에 대해</div>
+      <p lang="en">Most paid APIs (Twitter, Google, OpenAI) require a key tied to a credit card. OpenAlex is publicly funded and CC0-licensed, so its key is <strong>free</strong> &mdash; you sign up with an email and get $1/day of credit (effectively unlimited for ordinary research). The browser test above uses no key but lands in the unkeyed $0.01/day pool, which is fine for a one-shot test. For real automation, store your free key as the env var <code>OPENALEX_KEY</code> so it stays out of prompts. Details in <a class="inline" href="#polite">§ 4</a>.</p>
+      <p lang="ko">유료 API (Twitter, Google, OpenAI)는 보통 신용카드 연동 키를 요구합니다. OpenAlex는 공공 자금 + CC0 라이선스라 키가 <strong>무료</strong> &mdash; 이메일로 가입하면 $1/일 크레딧 (일반 연구엔 사실상 무제한). 위 브라우저 테스트는 키 없이 호출되는 $0.01/일 풀로 들어가는데, 한 번 찔러보는 용도엔 문제 없어요. 실제 자동화에는 무료 키를 환경변수 <code>OPENALEX_KEY</code>에 저장해서 프롬프트에 노출되지 않게. 상세 <a class="inline" href="#polite">§ 4</a>.</p>
     </div>
 
     <h3 class="h3" lang="en">Mini glossary &mdash; terms you'll hit in this guide</h3>
@@ -819,10 +819,10 @@ hr.rule{border:0;border-top:1px solid var(--line);margin:36px 0}
       </details>
 
       <details class="faq-item">
-        <summary class="faq-q"><span lang="en">Polite pool · mailto</span><span lang="ko">Polite pool · mailto</span></summary>
+        <summary class="faq-q"><span lang="en">API key (replaces the old polite pool)</span><span lang="ko">API 키 (옛 polite pool 대체)</span></summary>
         <div class="faq-a">
-          <p lang="en">OpenAlex routes anonymous traffic into a slower lane to keep the system stable for everyone. If you add <code>mailto=your@email</code>, you go into the "polite pool" (faster) instead &mdash; free, no signup. Trafffic anomalies trigger an email to you first instead of a silent block.</p>
-          <p lang="ko">OpenAlex는 익명 트래픽을 느린 풀로 라우팅해서 시스템을 안정시킵니다. URL에 <code>mailto=your@email</code>을 추가하면 "polite pool" (빠른 풀)로 들어가요 &mdash; 무료, 가입 불필요. 트래픽이 이상하면 OpenAlex 팀이 메일로 먼저 연락 줌 (조용한 차단 대신).</p>
+          <p lang="en">From <strong>2026-02-13</strong> the old <code>mailto</code> "polite pool" model is retired. Every API call now needs an <code>api_key</code> parameter. The key is free &mdash; sign in at <a class="inline" href="https://openalex.org/settings/api">openalex.org/settings/api</a>, copy the key, store it as an env var (<code>OPENALEX_KEY</code>), and let the helper inject it. With a free key you get $1/day of credits (effectively unlimited for ordinary research). Without a key you only get $0.01/day &mdash; not enough for automation. Details in <a class="inline" href="#polite">§ 4</a>.</p>
+          <p lang="ko"><strong>2026-02-13</strong>부터 옛 <code>mailto</code> "polite pool" 모델은 폐기됐습니다. 모든 API 호출에 <code>api_key</code> 파라미터가 필요해요. 키는 무료 &mdash; <a class="inline" href="https://openalex.org/settings/api">openalex.org/settings/api</a>에 로그인해 키를 복사, 환경변수(<code>OPENALEX_KEY</code>)로 저장, 헬퍼가 주입. 무료 키는 $1/일 크레딧 (일반 연구엔 사실상 무제한). 키 없으면 $0.01/일 &mdash; 자동화 불가. 상세는 <a class="inline" href="#polite">§ 4</a>.</p>
         </div>
       </details>
 
@@ -945,11 +945,11 @@ hr.rule{border:0;border-top:1px solid var(--line);margin:36px 0}
 
         <ellipse cx="360" cy="180" rx="86" ry="48" fill="#0E5F3A" stroke="#0F1A14" stroke-width="2"/>
         <text class="nlbl" x="360" y="178" text-anchor="middle" font-size="20">Works</text>
-        <text class="nsub" x="360" y="198" text-anchor="middle">240M+</text>
+        <text class="nsub" x="360" y="198" text-anchor="middle">313M+</text>
 
         <ellipse cx="120" cy="80" rx="64" ry="32" fill="#C25C42" stroke="#0F1A14" stroke-width="2"/>
         <text class="nlbl" x="120" y="78" text-anchor="middle" font-size="14">Authors</text>
-        <text class="nsub" x="120" y="94" text-anchor="middle">95M+</text>
+        <text class="nsub" x="120" y="94" text-anchor="middle">120M+</text>
 
         <ellipse cx="600" cy="80" rx="64" ry="32" fill="#B7882B" stroke="#0F1A14" stroke-width="2"/>
         <text class="nlbl" x="600" y="78" text-anchor="middle" font-size="14">Sources</text>
@@ -1104,15 +1104,15 @@ hr.rule{border:0;border-top:1px solid var(--line);margin:36px 0}
         </div>
 
         <div class="url-row indent-2">
-          <div class="url-part"><span class="sep">&amp;</span><span class="key">mailto</span><span class="sep">=</span><span class="val">you@univ.edu</span></div>
+          <div class="url-part"><span class="sep">&amp;</span><span class="key">api_key</span><span class="sep">=</span><span class="val">$OPENALEX_KEY</span></div>
           <div class="url-meta">
             <div class="url-meta-head">
               <span class="num">⑥</span>
-              <strong lang="en">Polite-pool email</strong>
-              <strong lang="ko">Polite-pool 이메일</strong>
+              <strong lang="en">API key</strong>
+              <strong lang="ko">API 키</strong>
             </div>
-            <span class="desc" lang="en">Routes you into the faster pool. Always include &mdash; no signup, no token.</span>
-            <span class="desc" lang="ko">빠른 풀로 라우팅. 항상 포함 &mdash; 가입·토큰 불필요.</span>
+            <span class="desc" lang="en">Required since 2026-02-13. Free signup at <a class="inline" href="https://openalex.org/settings/api">openalex.org/settings/api</a>. Inject from an env var, never hard-code.</span>
+            <span class="desc" lang="ko">2026-02-13부터 필수. <a class="inline" href="https://openalex.org/settings/api">openalex.org/settings/api</a>에서 무료 가입. 환경변수로 주입, 직접 박지 말 것.</span>
           </div>
         </div>
 
@@ -1135,36 +1135,88 @@ hr.rule{border:0;border-top:1px solid var(--line);margin:36px 0}
   </div>
 </section>
 
-<!-- ============== 4. POLITE POOL ============== -->
+<!-- ============== 4. API KEY ============== -->
 <section class="section" id="polite">
   <div class="section-label" lang="en">Chapter 04 · OpenAlex</div>
   <div class="section-label" lang="ko">Chapter 04 · OpenAlex</div>
-  <h2 class="h2" lang="en">Polite pool &mdash; <span class="em">no token</span>, just route to the fast pool</h2>
-  <h2 class="h2" lang="ko">Polite pool &mdash; <span class="em">토큰 없이</span> 빠른 풀로 라우팅되기</h2>
+  <h2 class="h2" lang="en">Free API key &mdash; <span class="em">30 seconds</span>, then you're in</h2>
+  <h2 class="h2" lang="ko">무료 API 키 &mdash; <span class="em">30초 가입</span>으로 끝</h2>
 
   <div class="body">
-    <p lang="en">There is no signup or token issuance step on OpenAlex. Instead, append <code>mailto=your.email@univ.edu</code> to every call and you're auto-routed to the faster pool. Rate limits are <strong>10 requests/sec, 100,000 requests/day</strong> &mdash; effectively unlimited for ordinary research use.</p>
-    <p lang="ko">OpenAlex API는 가입·토큰 발급 단계가 없습니다. 대신 <code>mailto=your.email@univ.edu</code>를 모든 호출에 추가하면 별도 등록 없이 빠른 풀(faster pool)로 자동 라우팅돼요. Rate limit은 <strong>10 requests/sec, 100,000 requests/day</strong>까지로, 일반 연구 용도로는 무한대에 가깝습니다.</p>
-
-    <div class="g2">
-      <div class="card em">
-        <div class="card-title" lang="en">How to use the polite pool</div>
-        <div class="card-title" lang="ko">Polite pool 사용법</div>
-        <p lang="en">Append <code>&amp;mailto=jewoong.moon@gmail.com</code> to every URL. That's it. <code>openalex_helper.py</code> adds it automatically.</p>
-        <p lang="ko">모든 URL 끝에 <code>&amp;mailto=jewoong.moon@gmail.com</code>를 붙입니다. 이게 전부예요. <code>openalex_helper.py</code>는 자동 추가합니다.</p>
-      </div>
-      <div class="card">
-        <div class="card-title" lang="en">Why no-token is good for automation</div>
-        <div class="card-title" lang="ko">왜 토큰 없는 게 자동화에 유리한가</div>
-        <p lang="en">No ID/secret to manage, so it's safe to expose in Claude Code prompts. Works without env vars, secret managers, or MCP credential helpers.</p>
-        <p lang="ko">ID·secret을 관리할 필요 없어서 Claude Code 프롬프트에 그대로 노출돼도 안전. 환경 변수 · secret manager · MCP credential helper 없이도 그대로 작동.</p>
-      </div>
-    </div>
 
     <div class="pitfall">
-      <div class="pl">Anti-pattern</div>
-      <p lang="en">Anonymous calls can be throttled when general traffic is high. If your automation forgets <code>mailto</code>, it will work fine most of the time but slow down intermittently when other users surge &mdash; <em>one of the hardest classes of bug to diagnose</em>.</p>
-      <p lang="ko">익명 호출은 트래픽이 몰릴 때 throttle될 수 있습니다. 자동화 코드에서 <code>mailto</code>를 빠뜨리면 평소엔 문제없이 작동하다가 다른 사용자의 트래픽이 올라간 시간에만 간헐적으로 느려지는 현상이 발생 &mdash; <em>가장 디버깅하기 어려운 부류의 버그</em>입니다.</p>
+      <div class="pl" lang="en">Policy change · 2026-02-13</div>
+      <div class="pl" lang="ko">정책 변경 · 2026-02-13</div>
+      <p lang="en">OpenAlex retired the old "polite pool / <code>mailto</code>" model on <strong>February 13, 2026</strong>. From that date, every API call requires an <code>api_key</code> parameter. The key itself is still free &mdash; you just have to register an email at <a class="inline" href="https://openalex.org/settings/api">openalex.org/settings/api</a> first. Earlier versions of this guide assumed the older model; this section is the current 2026-05 source of truth.</p>
+      <p lang="ko">OpenAlex는 <strong>2026년 2월 13일</strong>부터 옛 "polite pool / <code>mailto</code>" 모델을 폐기했습니다. 그 이후로는 모든 API 호출에 <code>api_key</code> 파라미터가 필요합니다. 키 자체는 여전히 무료 &mdash; <a class="inline" href="https://openalex.org/settings/api">openalex.org/settings/api</a>에서 이메일 등록만 하면 됩니다. 본 가이드 초기 버전은 옛 모델 가정으로 쓰였고, 이 섹션이 2026-05 기준 최신입니다.</p>
+    </div>
+
+    <h3 class="h3" lang="en">30-second signup</h3>
+    <h3 class="h3" lang="ko">30초 가입</h3>
+
+    <ol lang="en">
+      <li>Go to <a class="inline" href="https://openalex.org/settings/api">openalex.org/settings/api</a> and sign in with your email.</li>
+      <li>Copy the API key (a single string).</li>
+      <li>Save it to a shell variable so it stays out of your prompts and files: <br><code>setx OPENALEX_KEY "your-key"</code> (Windows) or <code>echo 'export OPENALEX_KEY="your-key"' &gt;&gt; ~/.bashrc</code> (macOS / Linux).</li>
+    </ol>
+    <ol lang="ko">
+      <li><a class="inline" href="https://openalex.org/settings/api">openalex.org/settings/api</a>에 가서 이메일로 로그인.</li>
+      <li>발급된 API 키 (단일 문자열)를 복사.</li>
+      <li>프롬프트나 파일에 직접 박지 말고 환경변수로 저장: <br><code>setx OPENALEX_KEY "your-key"</code> (Windows) 또는 <code>echo 'export OPENALEX_KEY="your-key"' &gt;&gt; ~/.bashrc</code> (macOS · Linux).</li>
+    </ol>
+
+    <h3 class="h3" lang="en">How it goes into a request</h3>
+    <h3 class="h3" lang="ko">요청에 어떻게 붙는가</h3>
+
+    <p lang="en">Append <code>&amp;api_key=YOUR_OPENALEX_KEY</code> to every URL. The helper script (Pattern B) reads the env var <code>OPENALEX_KEY</code> and injects it automatically &mdash; you never type the key into a prompt.</p>
+    <p lang="ko">모든 URL 끝에 <code>&amp;api_key=YOUR_OPENALEX_KEY</code>를 붙입니다. 헬퍼 스크립트(Pattern B)는 환경변수 <code>OPENALEX_KEY</code>를 읽어 자동 주입하므로 프롬프트에 키를 직접 적을 일이 없어요.</p>
+
+    <div class="code"><span class="hl">https://api.openalex.org/works/W2741809807</span>?api_key=<span class="st">$OPENALEX_KEY</span></div>
+
+    <h3 class="h3" lang="en">Credit-based rate limits (current model)</h3>
+    <h3 class="h3" lang="ko">크레딧 기반 rate limit (현 모델)</h3>
+
+    <table class="schema">
+      <thead><tr>
+        <th><span lang="en">Setup</span><span lang="ko">셋업</span></th>
+        <th><span lang="en">Daily budget</span><span lang="ko">일일 예산</span></th>
+        <th><span lang="en">Practical effect</span><span lang="ko">실제 의미</span></th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td class="k"><span lang="en">With free API key</span><span lang="ko">무료 키 사용</span></td>
+          <td><strong>$1 / day</strong></td>
+          <td><span lang="en">Unlimited singleton lookups · ~10K list+filter calls · ~1K search calls / day</span><span lang="ko">단건 lookup 무제한 · list+filter ~1만 회 · search ~1천 회 / 일</span></td>
+        </tr>
+        <tr>
+          <td class="k"><span lang="en">No key</span><span lang="ko">키 없음</span></td>
+          <td><strong>$0.01 / day</strong></td>
+          <td><span lang="en">Effectively unusable for automation &mdash; only ad-hoc browser pokes.</span><span lang="ko">자동화에는 사실상 사용 불가 &mdash; 브라우저로 가끔 찔러보는 정도.</span></td>
+        </tr>
+        <tr>
+          <td class="k"><span lang="en">Hard limit (all tiers)</span><span lang="ko">하드 리밋 (모든 티어)</span></td>
+          <td><strong>100 req / sec</strong></td>
+          <td><span lang="en">429 Too Many Requests if exceeded; helper sleeps 0.1s between calls.</span><span lang="ko">초과 시 429 응답; 헬퍼가 호출 사이 0.1초 sleep 처리.</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p lang="en">For ordinary research use, the free tier is effectively unlimited. A typical literature scan or one journal-decade pull rarely passes 1,000 list calls, well below the daily $1 budget. See <a class="inline" href="https://developers.openalex.org/api-reference/authentication">developers.openalex.org/api-reference/authentication</a> for the live numbers.</p>
+    <p lang="ko">일반 연구 용도에서는 무료 티어가 사실상 무제한입니다. 자료조사 한 번이나 한 저널의 10년 수집은 list call 1,000회를 거의 안 넘어요 &mdash; $1 일일 예산의 한참 아래. 최신 수치는 <a class="inline" href="https://developers.openalex.org/api-reference/authentication">developers.openalex.org/api-reference/authentication</a> 참조.</p>
+
+    <div class="pitfall">
+      <div class="pl" lang="en">Anti-pattern</div>
+      <div class="pl" lang="ko">Anti-pattern</div>
+      <ul lang="en">
+        <li><strong>Hard-coding the key in a prompt or committed file.</strong> Keys can be rotated &mdash; treat them like passwords. Use the env-var pattern above.</li>
+        <li><strong>Forgetting <code>api_key</code> entirely.</strong> The call still goes through but lands in the unkeyed $0.01/day pool, throttling you within a few requests. The symptom looks like silent slowness rather than an error.</li>
+        <li><strong>Skipping the OpenAlex changelog.</strong> The 2026-02 transition was announced months ahead; future changes will be too. Subscribe at <a class="inline" href="https://help.openalex.org/hc/en-us/articles/38868153578263-Changelog">help.openalex.org changelog</a>.</li>
+      </ul>
+      <ul lang="ko">
+        <li><strong>키를 프롬프트나 커밋된 파일에 박지 말 것.</strong> 키는 회전 가능 &mdash; 비밀번호 취급. 위 환경변수 패턴 사용.</li>
+        <li><strong><code>api_key</code> 자체를 빠뜨림.</strong> 호출은 되지만 키 없는 $0.01/일 풀로 들어가 몇 번 만에 throttle. 에러가 아니라 조용한 느려짐으로 보입니다.</li>
+        <li><strong>OpenAlex changelog 안 봄.</strong> 2026-02 전환은 몇 달 전에 공지됐고 이후 변경도 마찬가지입니다. <a class="inline" href="https://help.openalex.org/hc/en-us/articles/38868153578263-Changelog">help.openalex.org changelog</a> 구독.</li>
+      </ul>
     </div>
   </div>
 </section>
@@ -1285,7 +1337,7 @@ hr.rule{border:0;border-top:1px solid var(--line);margin:36px 0}
   search=<span class="st">AI literacy K-12</span>
   &amp;filter=publication_year:&gt;2022,cited_by_count:&gt;49
   &amp;sort=cited_by_count:desc&amp;per-page=10
-  &amp;mailto=jewoong.moon@gmail.com</div>
+  &amp;api_key=YOUR_OPENALEX_KEY</div>
 
     <div class="pitfall">
       <div class="pl" lang="en">When to avoid Pattern A</div>
@@ -1319,13 +1371,13 @@ hr.rule{border:0;border-top:1px solid var(--line);margin:36px 0}
     <p lang="ko">본 가이드는 다운로드에 <a class="inline" href="openalex_helper.py"><code>openalex_helper.py</code></a>를 동봉합니다. 핵심 함수만 보면:</p>
 
     <div class="code"><span class="cm"># openalex_helper.py — <span lang="en">core functions (full version in downloads)</span><span lang="ko">핵심 함수 (전체는 다운로드 참조)</span></span>
-<span class="kw">import</span> requests, json, time
+<span class="kw">import</span> requests, json, time, os
 BASE = <span class="st">"https://api.openalex.org"</span>
-EMAIL = <span class="st">"jewoong.moon@gmail.com"</span>  <span class="cm"># polite pool</span>
+API_KEY = os.environ[<span class="st">"OPENALEX_KEY"</span>]  <span class="cm"># required since 2026-02-13</span>
 
 <span class="kw">def</span> search_works(query, year_min=None, min_citations=None, per_page=25):
     params = {<span class="st">"search"</span>: query, <span class="st">"per-page"</span>: per_page,
-              <span class="st">"mailto"</span>: EMAIL, <span class="st">"sort"</span>: <span class="st">"cited_by_count:desc"</span>}
+              <span class="st">"api_key"</span>: API_KEY, <span class="st">"sort"</span>: <span class="st">"cited_by_count:desc"</span>}
     filters = []
     <span class="kw">if</span> year_min:      filters.append(<span class="st">f"publication_year:&gt;{year_min-1}"</span>)
     <span class="kw">if</span> min_citations: filters.append(<span class="st">f"cited_by_count:&gt;{min_citations-1}"</span>)
@@ -1338,10 +1390,10 @@ EMAIL = <span class="st">"jewoong.moon@gmail.com"</span>  <span class="cm"># pol
     <span class="kw">while</span> cursor <span class="kw">and</span> len(results) &lt; max_results:
         r = requests.get(<span class="st">f"{BASE}/{endpoint}"</span>, params={
             <span class="st">"filter"</span>: filter_str, <span class="st">"per-page"</span>: 200,
-            <span class="st">"cursor"</span>: cursor, <span class="st">"mailto"</span>: EMAIL}).json()
+            <span class="st">"cursor"</span>: cursor, <span class="st">"api_key"</span>: API_KEY}).json()
         results.extend(r[<span class="st">"results"</span>])
         cursor = r[<span class="st">"meta"</span>].get(<span class="st">"next_cursor"</span>)
-        time.sleep(0.1)  <span class="cm"># <span lang="en">10 req/sec safe margin</span><span lang="ko">10 req/sec 안전 마진</span></span>
+        time.sleep(0.05)  <span class="cm"># <span lang="en">100 req/sec hard limit — stay well below</span><span lang="ko">100 req/sec 하드 리밋 — 한참 아래 유지</span></span>
     <span class="kw">return</span> results</div>
 
     <p lang="en">After that, Claude Code prompts get short:</p>
@@ -1708,10 +1760,10 @@ filter=concepts.id:C12345,publication_year:2024,authorships.institutions.country
       <div class="prompt-meta" lang="en">"Recent N papers that cited this"</div>
       <div class="prompt-meta" lang="ko">"이 논문 인용한 최근 N편"</div>
       <div class="prompt-text" lang="en">
-        From papers citing DOI <code>10.1080/10508406.2020.1782269</code>, keep those published in 2024–2025. Sort by citation count, descending.
+        From papers citing DOI <code>10.1080/10508406.2019.1573730</code>, keep those published in 2024–2025. Sort by citation count, descending.
       </div>
       <div class="prompt-text" lang="ko">
-        DOI <code>10.1080/10508406.2020.1782269</code>를 인용한 논문 중 2024–2025 발표된 것을 가져와 인용수 내림차순 표.
+        DOI <code>10.1080/10508406.2019.1573730</code>를 인용한 논문 중 2024–2025 발표된 것을 가져와 인용수 내림차순 표.
       </div>
     </div>
     <div class="prompt">
@@ -1741,10 +1793,10 @@ filter=concepts.id:C12345,publication_year:2024,authorships.institutions.country
       <div class="prompt-meta" lang="en">Field landscape snapshot</div>
       <div class="prompt-meta" lang="ko">분야 동향 스냅샷</div>
       <div class="prompt-text" lang="en">
-        Aggregate works in OpenAlex topic <code>T10119</code> (educational technology), 2020–2025, with <code>group_by=publication_year</code>. Report yearly publication count, mean citations, and OA share.
+        Aggregate works in OpenAlex topic <code>T14025</code> (educational technology), 2020–2025, with <code>group_by=publication_year</code>. Report yearly publication count, mean citations, and OA share.
       </div>
       <div class="prompt-text" lang="ko">
-        OpenAlex topic <code>T10119</code> (educational technology) 2020–2025 works를 <code>group_by=publication_year</code>로 집계해 연도별 출판량 + 평균 인용수 + OA 비율 추이.
+        OpenAlex topic <code>T14025</code> (educational technology) 2020–2025 works를 <code>group_by=publication_year</code>로 집계해 연도별 출판량 + 평균 인용수 + OA 비율 추이.
       </div>
     </div>
   </div>
@@ -1777,18 +1829,18 @@ filter=concepts.id:C12345,publication_year:2024,authorships.institutions.country
       </details>
 
       <details class="faq-item">
-        <summary class="faq-q"><span lang="en">Really no token needed?</span><span lang="ko">토큰 정말 안 받아도 돼요?</span></summary>
+        <summary class="faq-q"><span lang="en">Do I need an API key?</span><span lang="ko">API 키가 꼭 필요한가요?</span></summary>
         <div class="faq-a">
-          <p lang="en">Right. Just include <code>mailto=your.email@univ.edu</code> in every call &mdash; you'll be auto-routed to the polite (faster) pool, and if your traffic ever spikes unexpectedly, OpenAlex will email you first. Anonymous calls can throttle when overall traffic is high.</p>
-          <p lang="ko">네. 다만 <code>mailto=your.email@univ.edu</code>를 모든 호출에 포함하세요. 폴리트 풀로 자동 라우팅되어 빠르고, 만에 하나 이상 트래픽이 발생하면 OpenAlex 측이 메일로 먼저 연락합니다. 익명 호출은 트래픽이 몰릴 때 throttle될 수 있어요.</p>
+          <p lang="en"><strong>Yes &mdash; since 2026-02-13.</strong> The old "no signup, just send <code>mailto=…</code>" model was retired on that date. Every call now needs <code>api_key=YOUR_KEY</code>. The key itself is still <strong>free</strong> &mdash; signup takes about 30 seconds at <a class="inline" href="https://openalex.org/settings/api">openalex.org/settings/api</a>. Store it as an env var (<code>OPENALEX_KEY</code>) so it never lands in your prompts. Calls without a key still go through but get only $0.01/day of credit, which is below the threshold for any real automation. See <a class="inline" href="#polite">§ 4</a>.</p>
+          <p lang="ko"><strong>네 &mdash; 2026-02-13부터.</strong> 그 이전의 "가입 없이 <code>mailto=…</code>만" 모델은 폐기됐습니다. 모든 호출에 <code>api_key=YOUR_KEY</code>가 필요해요. 키는 여전히 <strong>무료</strong> &mdash; <a class="inline" href="https://openalex.org/settings/api">openalex.org/settings/api</a>에서 30초면 발급. 환경변수(<code>OPENALEX_KEY</code>)로 저장해서 프롬프트에 직접 안 들어가게. 키 없으면 호출은 되지만 $0.01/일이라 자동화 임계값 이하. 상세 <a class="inline" href="#polite">§ 4</a>.</p>
         </div>
       </details>
 
       <details class="faq-item">
         <summary class="faq-q"><span lang="en">What if WebFetch is blocked or won't work?</span><span lang="ko">WebFetch가 차단되거나 작동 안 하면?</span></summary>
         <div class="faq-a">
-          <p lang="en">Fall back to Claude Code's <code>Bash + curl</code>. Example: <code>curl "https://api.openalex.org/works?search=...&amp;mailto=..." | jq</code>. If <code>jq</code> is missing, <code>python -m json.tool</code> works fine.</p>
-          <p lang="ko">Claude Code의 <code>Bash + curl</code>로 fallback. 예: <code>curl "https://api.openalex.org/works?search=...&amp;mailto=..." | jq</code>. <code>jq</code>가 없으면 <code>python -m json.tool</code>도 됩니다.</p>
+          <p lang="en">Fall back to Claude Code's <code>Bash + curl</code>. Example: <code>curl "https://api.openalex.org/works?search=...&amp;api_key=$OPENALEX_KEY" | jq</code>. If <code>jq</code> is missing, <code>python -m json.tool</code> works fine.</p>
+          <p lang="ko">Claude Code의 <code>Bash + curl</code>로 fallback. 예: <code>curl "https://api.openalex.org/works?search=...&amp;api_key=$OPENALEX_KEY" | jq</code>. <code>jq</code>가 없으면 <code>python -m json.tool</code>도 됩니다.</p>
         </div>
       </details>
 
@@ -1811,8 +1863,8 @@ filter=concepts.id:C12345,publication_year:2024,authorships.institutions.country
       <details class="faq-item">
         <summary class="faq-q"><span lang="en">What if I hit rate limits?</span><span lang="ko">Rate limit에 걸리면?</span></summary>
         <div class="faq-a">
-          <p lang="en">You almost won't (10/sec, 100K/day). If you do, you'll get HTTP 429 with a <code>Retry-After</code> header. Build exponential backoff (1s → 2s → 4s) into your helper. For batch work, self-throttle with <code>time.sleep(0.1)</code>.</p>
-          <p lang="ko">거의 안 걸립니다 (10/sec, 100K/day). 만약 걸리면 HTTP 429를 받고 <code>Retry-After</code> 헤더에 대기 시간이 옵니다. 헬퍼에 exponential backoff (1s → 2s → 4s)를 넣어두면 안전합니다. 대량 작업은 <code>time.sleep(0.1)</code>로 self-throttle.</p>
+          <p lang="en">Rare with a free key for ordinary research. The <strong>2026-02 model is credit-based</strong>: $1/day with a key (singletons unlimited; ~10K list+filter calls; ~1K search calls). The hard ceiling is 100 req/sec across all tiers. Exceed either and you get HTTP 429 with a <code>Retry-After</code> header &mdash; the helper sleeps and retries with exponential backoff. Monitor your daily budget at the <code>/rate-limit</code> endpoint or via response headers.</p>
+          <p lang="ko">무료 키 사용 시 일반 연구에선 거의 안 걸립니다. <strong>2026-02 모델은 크레딧 기반</strong>: 키 사용 $1/일 (단건 무제한 · list+filter ~1만 · search ~1천). 모든 티어 공통 하드 리밋 100 req/sec. 둘 중 하나 넘으면 HTTP 429 + <code>Retry-After</code> 헤더 &mdash; 헬퍼가 exponential backoff로 sleep 후 재시도. 일일 예산 모니터는 <code>/rate-limit</code> 엔드포인트나 응답 헤더로.</p>
         </div>
       </details>
 
@@ -1864,8 +1916,8 @@ filter=concepts.id:C12345,publication_year:2024,authorships.institutions.country
       </a>
       <a class="dl-item" href="openalex_helper.py">
         <div class="fname">openalex_helper.py</div>
-        <div class="fdesc" lang="en">Python helper for Pattern B. <code>search_works</code> · <code>paginate</code> · <code>cited_by</code> · <code>references_of</code> · <code>get_author</code>. polite pool baked in.</div>
-        <div class="fdesc" lang="ko">Pattern B용 Python 헬퍼. <code>search_works</code> · <code>paginate</code> · <code>cited_by</code> · <code>references_of</code> · <code>get_author</code> 포함. polite pool 자동.</div>
+        <div class="fdesc" lang="en">Python helper for Pattern B. <code>search_works</code> · <code>paginate</code> · <code>cited_by</code> · <code>references_of</code> · <code>get_author</code>. Reads <code>OPENALEX_KEY</code> env var and injects api_key on every call.</div>
+        <div class="fdesc" lang="ko">Pattern B용 Python 헬퍼. <code>search_works</code> · <code>paginate</code> · <code>cited_by</code> · <code>references_of</code> · <code>get_author</code> 포함. <code>OPENALEX_KEY</code> 환경변수 읽어 api_key 자동 주입.</div>
       </a>
       <a class="dl-item" href="discourse_lens_v2_recipe.md">
         <div class="fname">discourse_lens_v2_recipe.md</div>
@@ -1890,7 +1942,7 @@ filter=concepts.id:C12345,publication_year:2024,authorships.institutions.country
     <h3 class="h3">Foundational sources</h3>
     <ul>
       <li>Priem, J., Piwowar, H., &amp; Orr, R. (2022). <em>OpenAlex: A fully-open index of scholarly works, authors, venues, institutions, and concepts.</em> arXiv:2205.01833.</li>
-      <li>OpenAlex API documentation &mdash; <a class="inline" href="https://docs.openalex.org">docs.openalex.org</a></li>
+      <li>OpenAlex API documentation &mdash; <a class="inline" href="https://developers.openalex.org">developers.openalex.org</a></li>
       <li>OpenAlex API root &mdash; <a class="inline" href="https://api.openalex.org">api.openalex.org</a></li>
     </ul>
 
@@ -1909,8 +1961,8 @@ filter=concepts.id:C12345,publication_year:2024,authorships.institutions.country
 
     <hr class="rule">
 
-    <p style="font-size:13px;color:#5C6E62;" lang="en">This guide does not replace OpenAlex's official documentation. It is a <em>practical onboarding guide</em> layered on the foundational sources above. When in doubt, defer to <code>docs.openalex.org</code>'s latest spec. The Discourse Lens case study uses synthetic results purely as illustration, not as a real analysis report.</p>
-    <p style="font-size:13px;color:#5C6E62;" lang="ko">이 가이드는 OpenAlex의 official documentation을 대체하지 않습니다. 본 문서는 <em>practical onboarding guide</em>이고, foundational sources는 위 references입니다. API 동작이 의심스러우면 항상 <code>docs.openalex.org</code>의 최신 명세를 우선하세요. Discourse Lens 케이스 스터디의 합성 결과는 예시일 뿐 실제 분석 보고가 아닙니다.</p>
+    <p style="font-size:13px;color:#5C6E62;" lang="en">This guide does not replace OpenAlex's official documentation. It is a <em>practical onboarding guide</em> layered on the foundational sources above. When in doubt, defer to <code>developers.openalex.org</code>'s latest spec. The Discourse Lens case study uses synthetic results purely as illustration, not as a real analysis report.</p>
+    <p style="font-size:13px;color:#5C6E62;" lang="ko">이 가이드는 OpenAlex의 official documentation을 대체하지 않습니다. 본 문서는 <em>practical onboarding guide</em>이고, foundational sources는 위 references입니다. API 동작이 의심스러우면 항상 <code>developers.openalex.org</code>의 최신 명세를 우선하세요. Discourse Lens 케이스 스터디의 합성 결과는 예시일 뿐 실제 분석 보고가 아닙니다.</p>
   </div>
 </section>
 

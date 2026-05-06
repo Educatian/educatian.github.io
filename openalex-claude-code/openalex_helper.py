@@ -4,17 +4,28 @@ openalex_helper.py
 OpenAlex API helper for Claude Code workflows.
 Pattern B from the OpenAlex × Claude Code guidebook (2026-05-05).
 
-No API token needed. Email goes in `mailto` for the polite pool.
+Authentication (post 2026-02-13)
+--------------------------------
+OpenAlex now requires a free `api_key` parameter on every request. The old
+`mailto` "polite pool" model was retired on 2026-02-13.
 
-Usage from Claude Code prompts:
+Get your free key at https://openalex.org/settings/api (30 seconds), then
+export it as an environment variable so it never lands in prompts:
+
+    Windows  :  setx OPENALEX_KEY "your-key"
+    macOS/Linux: echo 'export OPENALEX_KEY="your-key"' >> ~/.bashrc
+
+Usage
+-----
     python openalex_helper.py search "AI literacy K-12" --year-min 2023 --min-citations 50
-    python openalex_helper.py paginate works "primary_location.source.id:S206377884" --out data/jls.jsonl
-    python openalex_helper.py cited-by 10.1080/10508406.2020.1782269
+    python openalex_helper.py paginate works "primary_location.source.id:S42640028" --out data/jls.jsonl
+    python openalex_helper.py cited-by 10.1080/10508406.2019.1573730
 """
 
 from __future__ import annotations
 import argparse
 import json
+import os
 import sys
 import time
 from pathlib import Path
@@ -23,17 +34,23 @@ import urllib.parse
 import urllib.request
 
 BASE = "https://api.openalex.org"
-EMAIL = "jewoong.moon@gmail.com"          # polite pool — change to your email
-DEFAULT_PER_PAGE = 200                    # OpenAlex max
-SLEEP_BETWEEN_CALLS = 0.1                 # 10 req/sec safe margin
+API_KEY = os.environ.get("OPENALEX_KEY", "")   # required since 2026-02-13
+DEFAULT_PER_PAGE = 200                         # OpenAlex max
+SLEEP_BETWEEN_CALLS = 0.05                     # 100 req/sec hard ceiling — stay well below
 
 
 def _get(endpoint: str, params: dict) -> dict:
-    """GET wrapper with polite-pool email + light error handling."""
-    params = {**params, "mailto": EMAIL}
+    """GET wrapper with API-key injection + retry/backoff."""
+    if not API_KEY:
+        sys.stderr.write(
+            "[warn] OPENALEX_KEY env var not set. Calls will be metered "
+            "at the unkeyed $0.01/day rate and throttle quickly. "
+            "Get a free key at https://openalex.org/settings/api\n"
+        )
+    params = {**params, "api_key": API_KEY} if API_KEY else dict(params)
     qs = urllib.parse.urlencode(params, safe=":,>")
     url = f"{BASE}/{endpoint}?{qs}"
-    req = urllib.request.Request(url, headers={"User-Agent": f"openalex-helper/0.1 ({EMAIL})"})
+    req = urllib.request.Request(url, headers={"User-Agent": "openalex-helper/0.2"})
     for attempt in range(4):
         try:
             with urllib.request.urlopen(req, timeout=30) as r:
@@ -68,7 +85,7 @@ def paginate(endpoint: str, filter_str: str,
              select: str | None = None) -> Iterator[dict]:
     """Cursor-based pagination — safe for >10K results.
 
-    Yields work dicts one at a time so the caller can stream-write.
+    Yields entity dicts one at a time so the caller can stream-write.
     """
     cursor = "*"
     pulled = 0
@@ -94,7 +111,7 @@ def get_work(work_id_or_doi: str) -> dict:
 
 
 def cited_by(work_id_or_doi: str, max_results: int = 1000) -> list[dict]:
-    """Papers that cite this work (uses cited_by_api_url internally)."""
+    """Papers that cite this work."""
     work = get_work(work_id_or_doi)
     target_id = work["id"].split("/")[-1]   # e.g., W2741809807
     return list(paginate("works", f"cites:{target_id}", max_results=max_results))

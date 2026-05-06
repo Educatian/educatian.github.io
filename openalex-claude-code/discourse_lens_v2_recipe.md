@@ -60,7 +60,7 @@ JSON 구조: {"<journal_short_name>": {"issn": "...", "source_id": "S...",
 **예상 산출물 `data/sources.json`** (값은 실제 OpenAlex가 반환하는 ID):
 ```json
 {
-  "JLS":   {"issn": "1050-8406", "source_id": "S206377884", "display_name": "Journal of the Learning Sciences", "group": "LS"},
+  "JLS":   {"issn": "1050-8406", "source_id": "S42640028", "display_name": "Journal of the Learning Sciences", "group": "LS"},
   "C&I":   {"issn": "0737-0008", "source_id": "S...",       "display_name": "Cognition and Instruction",       "group": "LS"},
   "C&E":   {"issn": "0360-1315", "source_id": "S...",       "display_name": "Computers & Education",            "group": "ET"},
   "BJET":  {"issn": "0007-1013", "source_id": "S...",       "display_name": "British Journal of Educational Technology", "group": "ET"},
@@ -229,5 +229,5 @@ Tools     : openalex_helper.py + pandas + ggplot2/ggalluvial
 Sequence  : sources → works → edges → matrix → viz
 Output    : results/asymmetry.md + figures/v2_cross_citation.png
 Time      : 첫 실행 ~30분 (그 중 paginate 20분), 재실행 < 5분 (cache)
-Cost      : $0 (OpenAlex 무료, polite pool)
+Cost      : $0 (OpenAlex 무료 API 키 — openalex.org/settings/api 30초 가입)
 ```
