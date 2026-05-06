@@ -463,6 +463,27 @@ svg{max-width:100%;height:auto;display:block}
 .dna-fill.isd{background:#1F4D5E}.dna-fill.it{background:#C9A14A}.dna-fill.ldt{background:#A9472F}.dna-fill.ls{background:#5C3D91}
 @media (max-width:980px){.dna-grid{grid-template-columns:1fr 1fr}}
 @media (max-width:620px){.dna-grid{grid-template-columns:1fr}}
+.dual-cases{
+  background:var(--paper);border:2px solid var(--ink);border-radius:15px;padding:18px;margin:22px 0;
+  box-shadow:0 9px 24px rgba(31,42,46,.06);
+}
+.dual-cases h3{font-size:22px;line-height:1.12;margin:0 0 8px}
+.dual-cases p{font-size:13.5px;line-height:1.5;color:var(--ink2);margin:0 0 14px}
+.dual-buttons{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:14px}
+.dual-btn{
+  border:1.7px solid var(--ink);background:#fff;color:var(--ink);border-radius:999px;
+  padding:8px 12px;font-size:11px;font-weight:900;letter-spacing:1px;text-transform:uppercase;cursor:pointer;
+}
+.dual-btn.active,.dual-btn:hover{background:var(--blueprint);border-color:var(--blueprint);color:#fff}
+.dual-stage{display:grid;grid-template-columns:1fr 86px 1fr;gap:12px;align-items:stretch}
+.dual-panel{background:#fff;border:1.7px solid var(--line);border-radius:12px;padding:14px;min-width:0}
+.dual-panel .tag{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:900;letter-spacing:1px;text-transform:uppercase;color:var(--rust);margin-bottom:7px}
+.dual-panel h4{font-size:17px;line-height:1.15;margin:0 0 8px;color:var(--ink)}
+.dual-panel p{font-size:12.8px;line-height:1.45;margin:0;color:var(--ink2)}
+.dual-switch{display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:900;color:var(--muted);text-transform:uppercase}
+.dual-switch span{border:2px solid var(--ink);background:#FFF9EE;border-radius:999px;padding:9px 11px}
+.dual-note{font-size:12.5px;color:var(--ink2);margin-top:12px}
+@media (max-width:760px){.dual-stage{grid-template-columns:1fr}.dual-switch{justify-content:flex-start}}
 @media (max-width:760px){.map-stats{grid-template-columns:1fr}}
 .pin{cursor:pointer}
 .pin circle.outer{fill:#FFF9EE;stroke:#161615;stroke-width:2.4}
@@ -1225,6 +1246,30 @@ details[open] summary::after{content:"-"}
         <div class="dna-card"><h3>Wisconsin</h3><div class="dna-bars"><div class="dna-row"><b>ISD</b><div class="dna-track"><div class="dna-fill isd" style="width:18%"></div></div></div><div class="dna-row"><b>IT</b><div class="dna-track"><div class="dna-fill it" style="width:36%"></div></div></div><div class="dna-row"><b>LDT</b><div class="dna-track"><div class="dna-fill ldt" style="width:44%"></div></div></div><div class="dna-row"><b>LS</b><div class="dna-track"><div class="dna-fill ls" style="width:94%"></div></div></div></div></div>
         <div class="dna-card"><h3>UF</h3><div class="dna-bars"><div class="dna-row"><b>ISD</b><div class="dna-track"><div class="dna-fill isd" style="width:48%"></div></div></div><div class="dna-row"><b>IT</b><div class="dna-track"><div class="dna-fill it" style="width:86%"></div></div></div><div class="dna-row"><b>LDT</b><div class="dna-track"><div class="dna-fill ldt" style="width:46%"></div></div></div><div class="dna-row"><b>LS</b><div class="dna-track"><div class="dna-fill ls" style="width:24%"></div></div></div></div></div>
       </div>
+      <div class="dual-cases" aria-label="Interactive dual identity program cases">
+        <h3>Same university, different program identity</h3>
+        <p>Click a case to see why the map sometimes gives one university two markers. The point is not inconsistency; it is that departments, concentrations, and intellectual communities can coexist inside the same R1 institution.</p>
+        <div class="dual-buttons">
+          <button class="dual-btn active" data-dual="uiuc">UIUC</button>
+          <button class="dual-btn" data-dual="iu">Indiana</button>
+          <button class="dual-btn" data-dual="ut">UT Austin</button>
+          <button class="dual-btn" data-dual="asu">ASU</button>
+        </div>
+        <div class="dual-stage">
+          <div class="dual-panel">
+            <div class="tag" id="dualLeftTag">ID / organization layer</div>
+            <h4 id="dualLeftTitle">IDTO</h4>
+            <p id="dualLeftBody">Instructional Design, Technology, & Organization: ID plus organization development, workplace learning, project management, and evaluation.</p>
+          </div>
+          <div class="dual-switch"><span>same place</span></div>
+          <div class="dual-panel">
+            <div class="tag" id="dualRightTag">LS / digital environments layer</div>
+            <h4 id="dualRightTitle">DELTA</h4>
+            <p id="dualRightBody">Digital Environments for Learning, Teaching, and Agency: learning-sciences-oriented digital learning environments and agency.</p>
+          </div>
+        </div>
+        <div class="dual-note" id="dualNote">UIUC should be read as a dual-layer case, not a single blended program identity.</div>
+      </div>
       <div class="map-wrap">
         <div class="map-panel">
           <div class="map-controls" aria-label="Program lineage filters">
@@ -1725,6 +1770,64 @@ document.querySelectorAll('.job-btn').forEach(btn=>{
   });
 });
 renderJobChart('work');
+
+const dualCaseData={
+  uiuc:{
+    leftTag:'ID / organization layer',
+    leftTitle:'IDTO',
+    leftBody:'Instructional Design, Technology, & Organization: ID plus organization development, workplace learning, project management, and evaluation.',
+    rightTag:'LS / digital environments layer',
+    rightTitle:'DELTA',
+    rightBody:'Digital Environments for Learning, Teaching, and Agency: learning-sciences-oriented digital learning environments and agency.',
+    note:'UIUC should be read as a dual-layer case, not a single blended program identity.'
+  },
+  iu:{
+    leftTag:'Systems IDT layer',
+    leftTitle:'Instructional Systems Technology',
+    leftBody:'IU carries one of the clearest systems/instructional technology lineages in the guide, with older educational media and IST roots.',
+    rightTag:'Learning sciences layer',
+    rightTitle:'IU Learning Sciences',
+    rightBody:'A separate LS identity can coexist with the IST lineage, so the map marks IU in both traditions.',
+    note:'Indiana helps beginners see that a strong ISD/IDT home can also host learning-sciences work.'
+  },
+  ut:{
+    leftTag:'Learning technologies layer',
+    leftTitle:'Learning Technologies',
+    leftBody:'UT Austin has a Learning Technologies graduate identity connected to curriculum, instruction, technology, and design.',
+    rightTag:'LS / STEM learning layer',
+    rightTitle:'HDCLS / LS-STEM ecology',
+    rightBody:'Human Development, Culture, and Learning Sciences plus LS/STEM-oriented research forms a distinct learning-sciences ecology.',
+    note:'UT Austin is not one simple label; it is better read as a program ecology.'
+  },
+  asu:{
+    leftTag:'Educational technology legacy',
+    leftTitle:'Howard Sullivan-era EdTech',
+    leftBody:'ASU has an older educational technology research lineage associated with Howard Sullivan and trained alumni.',
+    rightTag:'Current program identity',
+    rightTitle:'Learning Design and Technologies',
+    rightBody:'Current public identity is LDT, so the guide marks this as a legacy-to-current reconfiguration rather than unchanged continuity.',
+    note:'ASU is a shift case: legacy matters, but exact department/degree continuity needs archive confirmation.'
+  }
+};
+function setDualCase(key){
+  const item=dualCaseData[key] || dualCaseData.uiuc;
+  document.querySelectorAll('.dual-btn').forEach(btn=>btn.classList.toggle('active',btn.dataset.dual===key));
+  const fields={
+    dualLeftTag:item.leftTag,
+    dualLeftTitle:item.leftTitle,
+    dualLeftBody:item.leftBody,
+    dualRightTag:item.rightTag,
+    dualRightTitle:item.rightTitle,
+    dualRightBody:item.rightBody,
+    dualNote:item.note
+  };
+  Object.entries(fields).forEach(([id,value])=>{
+    const el=document.getElementById(id);
+    if(el) el.textContent=value;
+  });
+}
+document.querySelectorAll('.dual-btn').forEach(btn=>btn.addEventListener('click',()=>setDualCase(btn.dataset.dual)));
+setDualCase('uiuc');
 
 const refPathData={
   origins:{
