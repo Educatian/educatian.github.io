@@ -269,6 +269,25 @@ svg{max-width:100%;height:auto;display:block}
 .desk li{border:1.5px solid var(--line);border-radius:10px;padding:10px 11px;font-size:13px;background:#fff}
 .desk.modern{background:var(--soft-blue);border-color:var(--blueprint)}
 @media (max-width:760px){.studio{grid-template-columns:1fr}}
+.field-map{
+  background:var(--paper);border:2px solid var(--ink);border-radius:15px;padding:18px;margin:22px 0;
+  box-shadow:0 9px 24px rgba(31,42,46,.06);overflow:hidden;
+}
+.field-map-wrap{overflow-x:auto}
+.field-map svg{width:100%;min-width:760px}
+.field-point{cursor:pointer}
+.field-point circle{transition:.15s ease}
+.field-point:hover circle,.field-point.active circle{r:15;stroke-width:4}
+.field-point text{font-size:12px;font-weight:900;fill:var(--ink)}
+.quad-label{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:900;letter-spacing:.9px;text-transform:uppercase;fill:var(--muted)}
+.quad-title{font-size:14px;font-weight:900;fill:var(--ink)}
+.field-readout{
+  background:#162429;color:#fff;border:2px solid var(--ink);border-radius:13px;padding:16px;margin-top:14px;
+}
+.field-readout .label{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:900;letter-spacing:1.2px;text-transform:uppercase;color:#BFE2EA;margin-bottom:7px}
+.field-readout h3{font-size:22px;margin:0 0 6px;color:#fff}
+.field-readout p{font-size:13.5px;line-height:1.5;color:#E7F0F2;margin:0}
+.field-readout b{color:#F4C95D}
 .trend-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:18px 0}
 .trend{
   background:#fff;border:1.7px solid var(--line);border-radius:12px;padding:15px;min-width:0;
@@ -950,6 +969,53 @@ details[open] summary::after{content:"-"}
         <div class="card-title">Program lens</div>
         <p>Modern LDT programs still need the ISD core: analysis, alignment, design, development, implementation, and evaluation. What changed is the setting. Designers now often work on platforms, products, analytics systems, simulations, microcredentials, and AI-supported learning environments.</p>
       </div>
+      <div class="field-map" aria-label="Conceptual quadrant map of ISD, LDT, Learning Sciences, Learning Analytics, and Learning Engineering">
+        <div class="field-map-wrap">
+          <svg viewBox="0 0 900 560" role="img" aria-labelledby="fieldMapTitle fieldMapDesc">
+            <title id="fieldMapTitle">Conceptual quadrant map of adjacent learning design fields</title>
+            <desc id="fieldMapDesc">A conceptual point map. Horizontal axis moves from explanation and study toward design and build. Vertical axis moves from local instruction and artifacts toward system-level data, infrastructure, and improvement.</desc>
+            <rect x="0" y="0" width="900" height="560" rx="16" fill="#FFF9EE"/>
+            <line x1="120" y1="470" x2="800" y2="470" stroke="#161615" stroke-width="3"/>
+            <line x1="120" y1="470" x2="120" y2="70" stroke="#161615" stroke-width="3"/>
+            <line x1="460" y1="470" x2="460" y2="70" stroke="#D3C7B8" stroke-width="2" stroke-dasharray="8 8"/>
+            <line x1="120" y1="270" x2="800" y2="270" stroke="#D3C7B8" stroke-width="2" stroke-dasharray="8 8"/>
+            <path d="M792 470 l-14 -8 v16 z" fill="#161615"/><path d="M120 70 l-8 14 h16 z" fill="#161615"/>
+            <text class="quad-label" x="252" y="520">Explain / study learning</text>
+            <text class="quad-label" x="560" y="520">Design / build interventions</text>
+            <text class="quad-label" transform="translate(46 390) rotate(-90)">Local instruction / artifacts</text>
+            <text class="quad-label" transform="translate(46 230) rotate(-90)">Systems / data / infrastructure</text>
+            <text class="quad-title" x="150" y="108">Theory and empirical explanation</text>
+            <text class="quad-title" x="552" y="108">Learning systems engineering</text>
+            <text class="quad-title" x="154" y="438">Classroom/tool use studies</text>
+            <text class="quad-title" x="552" y="438">Instructional design practice</text>
+            <text class="quad-label" x="584" y="48">Conceptual orientation map, not a ranking or measured score</text>
+
+            <g class="field-point active" data-field="isd" transform="translate(610 382)">
+              <circle r="12" fill="#1F4D5E" stroke="#161615" stroke-width="3"/><text x="18" y="4">ISD</text>
+            </g>
+            <g class="field-point" data-field="ldt" transform="translate(674 260)">
+              <circle r="12" fill="#A9472F" stroke="#161615" stroke-width="3"/><text x="18" y="4">LDT</text>
+            </g>
+            <g class="field-point" data-field="ls" transform="translate(330 178)">
+              <circle r="12" fill="#5C3D91" stroke="#161615" stroke-width="3"/><text x="18" y="4">Learning Sciences</text>
+            </g>
+            <g class="field-point" data-field="la" transform="translate(362 128)">
+              <circle r="12" fill="#C9A14A" stroke="#161615" stroke-width="3"/><text x="18" y="4">Learning Analytics</text>
+            </g>
+            <g class="field-point" data-field="le" transform="translate(704 132)">
+              <circle r="12" fill="#477A53" stroke="#161615" stroke-width="3"/><text x="18" y="4">Learning Engineering</text>
+            </g>
+            <g class="field-point" data-field="ti" transform="translate(300 360)">
+              <circle r="12" fill="#7AA6B2" stroke="#161615" stroke-width="3"/><text x="18" y="4">Tech Integration</text>
+            </g>
+          </svg>
+        </div>
+        <div class="field-readout" aria-live="polite">
+          <div class="label">Selected field orientation</div>
+          <h3 id="fieldTitle">ISD</h3>
+          <p id="fieldBody"><b>Center of gravity:</b> analysis, alignment, development, implementation, evaluation, and revision of instruction as a system.</p>
+        </div>
+      </div>
       <div class="trend-grid">
         <div class="trend"><span class="tag">AI co-design</span><h3>Prompt, critique, verify</h3><p>Designers use AI to draft, simulate, personalize, and evaluate, while keeping responsibility for evidence and ethics.</p></div>
         <div class="trend"><span class="tag">UX / product</span><h3>Prototype the experience</h3><p>LDT work now often includes wireframes, user research, usability testing, and product-like iteration.</p></div>
@@ -1495,6 +1561,45 @@ document.querySelectorAll('.history-node').forEach(node=>{
   node.addEventListener('click',()=>setHistory(Number(node.dataset.era)));
 });
 setHistory(0);
+
+const fieldMapData={
+  isd:{
+    title:'ISD',
+    body:'<b>Center of gravity:</b> analysis, alignment, development, implementation, evaluation, and revision of instruction as a system.'
+  },
+  ldt:{
+    title:'LDT',
+    body:'<b>Center of gravity:</b> designing learning experiences, environments, technologies, programs, and products while keeping ISD alignment and evaluation.'
+  },
+  ls:{
+    title:'Learning Sciences',
+    body:'<b>Center of gravity:</b> explaining learning in cognitive, social, cultural, technological, and situated contexts, often through design-rich studies.'
+  },
+  la:{
+    title:'Learning Analytics',
+    body:'<b>Center of gravity:</b> using digital traces, models, dashboards, and analytics to understand, monitor, or support learning activity.'
+  },
+  le:{
+    title:'Learning Engineering',
+    body:'<b>Center of gravity:</b> improving learning systems through learning science, data infrastructure, experimentation, and iterative refinement.'
+  },
+  ti:{
+    title:'Technology Integration',
+    body:'<b>Center of gravity:</b> studying adoption, classroom use, teacher practice, organizational conditions, and implementation of technologies in educational settings.'
+  }
+};
+function setFieldMap(key){
+  const item=fieldMapData[key] || fieldMapData.isd;
+  const title=document.getElementById('fieldTitle');
+  const body=document.getElementById('fieldBody');
+  if(title) title.textContent=item.title;
+  if(body) body.innerHTML=item.body;
+  document.querySelectorAll('.field-point').forEach(point=>point.classList.toggle('active',point.dataset.field===key));
+}
+document.querySelectorAll('.field-point').forEach(point=>{
+  point.addEventListener('click',()=>setFieldMap(point.dataset.field));
+});
+setFieldMap('isd');
 
 const jobData={
   work:{
