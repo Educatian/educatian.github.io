@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>From ISD to LDT - a beginner snapshot guide</title>
 <meta name="description" content="A beginner-friendly visual guide to the history of instructional design from ISD origins to contemporary Learning Design and Technology.">
+<meta name="author" content="Jewoong Moon">
 <meta property="og:title" content="From ISD to LDT - a beginner snapshot guide">
 <meta property="og:description" content="Interactive lineage graph, model/theory decoder, DDR/DBR distinction, job-role visualization, and institutional lineage map.">
 <meta property="og:image" content="https://educatian.github.io/isd-to-ldt/thumbnails/hero_og_1200x630.png">
@@ -102,6 +103,13 @@ body{
 .h1 .serif{font-family:'Playfair Display',Georgia,serif;font-style:italic;font-weight:400;color:var(--blueprint)}
 .lede{max-width:850px;margin:0 0 25px;font-size:21px;line-height:1.56;color:var(--ink2);font-weight:330}
 .byline{margin:0 0 18px;font-size:12px;font-weight:800;letter-spacing:1.8px;text-transform:uppercase;color:var(--muted)}
+.author-card{
+  display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;margin:0 0 20px;
+  font-size:12.5px;color:var(--ink2);
+}
+.author-card a{color:var(--blueprint);font-weight:900;text-decoration:none;border-bottom:1px solid currentColor}
+.author-card span{display:inline-flex;align-items:center;gap:8px}
+.author-card span::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--rust)}
 .chips{display:flex;gap:12px;flex-wrap:wrap}
 .chip{
   border:1.7px solid var(--ink);border-radius:999px;padding:7px 12px;background:rgba(255,249,238,.78);
@@ -567,6 +575,12 @@ details[open] summary::after{content:"-"}
     <header class="hero">
       <div class="kicker">Instructional design history / beginner snapshot</div>
       <p class="byline">Draft guide / Educatian / 2026</p>
+      <div class="author-card" aria-label="Author and contact">
+        <span>Jewoong Moon, Ph.D.</span>
+        <span>The University of Alabama</span>
+        <span>Instructional Technology / Learning Design</span>
+        <span><a href="mailto:jmoon14@ua.edu">jmoon14@ua.edu</a></span>
+      </div>
       <h1 class="h1">From <span class="serif">ISD</span> to LDT</h1>
       <p class="lede">How instructional design grew from industrial and wartime training systems into AI-era learning design and technology. The point is not to memorize models. The point is to see why each model appeared, what problem it solved, and how the field expanded.</p>
       <div class="chips">
