@@ -194,8 +194,8 @@ footer{position:relative;z-index:1;border-top:1px solid var(--line);padding:28px
       <h2>Start slowly: install Obsidian, then make a public-safe research vault</h2>
       <p>The packet builder works best when Obsidian is not treated as a writing app, but as the research control room. Install Obsidian, create a local vault, then add only project metadata, decisions, links, and drafting notes. Keep raw participant data, private consent forms, and sensitive IRB correspondence in approved institutional storage.</p>
       <figure class="image-frame">
-        <img src="assets/obsidian-vault-setup.svg" alt="Obsidian vault setup showing install, vault folders, TeachPlay project note, private IRB baseline pointers, GitHub link, and amendment packet output">
-        <figcaption>New setup image: begin with a local Obsidian vault, then connect TeachPlay's project note, private IRB baseline pointers, GitHub evidence, and amendment packet drafts.</figcaption>
+        <img src="assets/onboarding-01.png" alt="Beginner onboarding PNG showing four steps: download Obsidian, create folders, add a TeachPlay note, and keep private data out">
+        <figcaption>Beginner onboarding PNG 1: install Obsidian, create a public-safe vault, and keep protected research records outside the vault.</figcaption>
       </figure>
       <table>
         <thead><tr><th>Step</th><th>Action</th><th>Why it matters for IRB amendments</th></tr></thead>
@@ -222,6 +222,10 @@ footer{position:relative;z-index:1;border-top:1px solid var(--line);padding:28px
       <div class="section-kicker">03 / Architecture</div>
       <h2>Connect the research memory you already have</h2>
       <p>The strongest version of the workflow connects four sources that researchers often keep separate: a knowledge vault, project repositories, existing IRB documents, and live research instruments.</p>
+      <figure class="image-frame">
+        <img src="assets/onboarding-02.png" alt="Beginner onboarding PNG showing the amendment evidence bundle: Obsidian project note, GitHub repo, approved IRB baseline, and survey or API records">
+        <figcaption>Beginner onboarding PNG 2: collect the evidence bundle before drafting any IRB language.</figcaption>
+      </figure>
       <div class="workflow" role="img" aria-label="IRB amendment packet builder architecture">
         <svg viewBox="0 0 1180 430" xmlns="http://www.w3.org/2000/svg">
           <defs>
@@ -317,8 +321,8 @@ footer{position:relative;z-index:1;border-top:1px solid var(--line);padding:28px
       <h2>Decide the amendment route before drafting the packet</h2>
       <p>One common failure mode is drafting a full packet when the change is only an administrative record update, or treating a substantive data-flow change like a minor edit. Before writing the HRP-502/503-style language, ask what route the change belongs to.</p>
       <figure class="image-frame">
-        <img src="assets/amendment-route-decision-tree.svg" alt="Decision tree for deciding whether a project change is a record update, minor amendment, or needs IRB consultation">
-        <figcaption>New workflow image: a quick decision tree for separating record updates from amendment-worthy changes and consultation-first changes.</figcaption>
+        <img src="assets/onboarding-03.png" alt="Beginner onboarding PNG showing amendment route choices: cosmetic edit, administrative update, amendment packet, or consult first">
+        <figcaption>Beginner onboarding PNG 3: route the change before drafting HRP-502/503-style language.</figcaption>
       </figure>
       <table>
         <thead><tr><th>Route</th><th>Typical trigger</th><th>Packet depth</th></tr></thead>
@@ -408,6 +412,10 @@ footer{position:relative;z-index:1;border-top:1px solid var(--line);padding:28px
       <div class="section-kicker">10 / Packet outputs</div>
       <h2>The packet should be reviewable as a folder</h2>
       <p>The output is not a single document. It is a small amendment packet that a PI can inspect, edit, and paste into the institution's current system.</p>
+      <figure class="image-frame">
+        <img src="assets/onboarding-04.png" alt="Beginner onboarding PNG showing packet generation, PI review, Playwright check, and manual IRB submission">
+        <figcaption>Beginner onboarding PNG 4: generate the packet, review it with humans, verify it in the browser, and submit manually.</figcaption>
+      </figure>
       <div class="codeblock">amendment_packet/
   00_README_review_first.md
   01_change_summary.md
@@ -500,7 +508,7 @@ node irb-amendment-packet-builder/templates/playwright-irb-guide-smoke.mjs</div>
         <thead><tr><th>Check</th><th>What the smoke test verifies</th><th>Why it belongs in the workflow</th></tr></thead>
         <tbody>
           <tr><td>Visible headings</td><td>IRB Amendment, Obsidian, TeachPlay, HRP-502/503-style, 45 CFR 46.111, and AI data-flow register text.</td><td>Confirms the page still carries the intended reviewer-facing frame.</td></tr>
-          <tr><td>Workflow images</td><td>At least five embedded images render with non-trivial visible dimensions.</td><td>Prevents broken SVG/image paths after publishing.</td></tr>
+          <tr><td>Workflow images</td><td>At least four beginner onboarding PNGs and five total embedded images render with non-trivial visible dimensions.</td><td>Prevents broken PNG/SVG image paths after publishing.</td></tr>
           <tr><td>Template links</td><td>Every <code>templates/</code> download returns a successful response.</td><td>Protects the practical value of the guide.</td></tr>
           <tr><td>Screenshot</td><td>Writes <code>irb-amendment-packet-builder-smoke.png</code>.</td><td>Gives a quick visual artifact for release checks or GitHub issue comments.</td></tr>
         </tbody>

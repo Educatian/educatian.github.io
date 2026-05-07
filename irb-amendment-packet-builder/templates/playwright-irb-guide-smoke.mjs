@@ -14,6 +14,7 @@ const requiredText = [
   "HRP-502/503-style",
   "45 CFR 46.111",
   "AI data-flow register",
+  "Beginner onboarding PNG",
   "Public-safe templates"
 ];
 
@@ -25,6 +26,11 @@ for (const text of requiredText) {
 const images = await page.locator("figure.image-frame img").all();
 if (images.length < 5) {
   throw new Error(`Expected at least 5 embedded workflow images, found ${images.length}`);
+}
+
+const pngImages = await page.locator("figure.image-frame img[src$='.png']").all();
+if (pngImages.length < 4) {
+  throw new Error(`Expected at least 4 embedded beginner PNG images, found ${pngImages.length}`);
 }
 
 for (const image of images) {
