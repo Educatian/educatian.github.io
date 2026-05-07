@@ -5,6 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Learning Analytics vs Educational Data Mining - An Interactive Field Guide</title>
 <meta name="description" content="An interactive onboarding guide comparing Learning Analytics and Educational Data Mining with 2016-2025 LAK/EDM proceedings data, semantic NLP, and fact-check notes.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Learning Analytics vs Educational Data Mining">
+<meta property="og:description" content="An onboarding field guide for researchers comparing LA and EDM through 1,924 LAK/EDM records, semantic topics, and interactive trend visualizations.">
+<meta property="og:url" content="https://educatian.github.io/lak-edm-comparison/">
+<meta property="og:image" content="https://educatian.github.io/lak-edm-comparison/thumbnails/hero_og_1200x630.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://educatian.github.io/lak-edm-comparison/thumbnails/hero_og_1200x630.png">
 <style>
 :root{
   --bg:#eef4f1;--bg2:#f7f3e8;--ink:#17211f;--muted:#5a6862;--line:#b8c8c1;
@@ -62,6 +71,7 @@ table{width:100%;border-collapse:collapse;background:#fff}th,td{padding:10px;bor
 .interpretation b{display:block;margin-bottom:5px}.source-list{display:grid;gap:8px;margin-top:12px}.source-list a{font-size:13px}
 details{background:#fff;border:1px solid var(--line);margin:10px 0}summary{cursor:pointer;padding:13px 15px;font-weight:900}details[open] summary{border-bottom:1px solid var(--line);color:var(--lak)}details .inside{padding:14px 15px}
 .figure-archive{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.figure-archive img{width:100%;display:block;border:1px solid var(--line);background:#fff}
+.field-map{margin:18px 0 0;background:rgba(255,253,246,.93);border:1px solid var(--line);box-shadow:var(--shadow);overflow:hidden}.field-map img{display:block;width:100%;height:auto}.field-map p{padding:12px 16px;margin:0;font-size:13px;color:var(--muted);font-weight:700}
 footer{border-top:1px solid var(--line);padding-top:24px;color:var(--muted);font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:1px}
 @media(max-width:1080px){.shell{grid-template-columns:1fr;padding:24px}.toc{position:relative;top:auto;max-height:none}.metric-strip,.grid2,.grid3,.figure-archive{grid-template-columns:1fr}.section-title{grid-template-columns:1fr}.bar-row{grid-template-columns:1fr}.bar-num{text-align:left}}
 </style>
@@ -105,6 +115,7 @@ footer{border-top:1px solid var(--line);padding-top:24px;color:var(--muted);font
         <div class="panel tint"><h3>Where Educational Data Mining comes from</h3><p>Educational Data Mining grew from data mining, machine learning, psychometrics, intelligent tutoring systems, student modeling, and large-scale educational log analysis. The International Educational Data Mining Society was founded in 2011, formalizing a community that had already been building methods for educational data, tutoring systems, and student modeling.</p><p>CMU DataLab's overview frames EDM around mining and analyzing data collected during teaching, validating findings at scale, predicting knowledge and dropout risk, and supporting adaptivity and personalization. That methodological origin explains why EDM papers often foreground model validity, prediction, knowledge tracing, item response, recommendation, algorithmic comparison, feature engineering, and benchmark-style evaluation. The educational goal remains important, but the center of gravity is usually the computational model and the evidence that it works.</p></div>
       </div>
       <div class="panel green" style="margin-top:16px"><h3>Working thesis for a column</h3><p>LA asks whether educational data becomes meaningful and actionable for learners, teachers, designers, or institutions. EDM asks whether educational data can be transformed into robust computational evidence. A strong hybrid paper makes both chains visible: model validity and educational actionability.</p></div>
+      <div class="field-map"><img src="thumbnails/hero_og_1200x630.png" alt="Field map comparing Learning Analytics and Educational Data Mining"><p>Field map. LA is framed as interpretation, communication, and action around learner data; EDM is framed as modeling, prediction, and validation over educational traces.</p></div>
       <div class="source-list">
         <a href="https://www.solaresearch.org/about/what-is-learning-analytics/">SoLAR: What is Learning Analytics?</a>
         <a href="https://educationaldatamining.org/about/">International Educational Data Mining Society: About</a>
@@ -123,12 +134,20 @@ footer{border-top:1px solid var(--line);padding-top:24px;color:var(--muted);font
         <div class="panel tint"><h3>Community infrastructure</h3><p>LAK's first conference was held in 2011, and SoLAR now frames Learning Analytics as an academic discipline and practice field concerned with collection, analysis, interpretation, and communication of learner data for theoretically relevant and actionable insight. The Journal of Learning Analytics extends that identity by emphasizing connections among researchers, developers, and practitioners.</p></div>
         <div class="panel tint"><h3>EDM infrastructure</h3><p>The International Educational Data Mining Society was founded in July 2011, after several years of EDM conference activity. IEDMS defines EDM as developing methods for exploring unique, increasingly large-scale educational data and using those methods to better understand students and learning settings. JEDM and the EDM conference series make the methodological community explicit.</p></div>
       </div>
+      <div class="grid3" style="margin-top:16px">
+        <div class="panel"><h3>Start here: HLA 2017</h3><p>The first Handbook of Learning Analytics is useful for origin stories: theory, measurement, ethics, dashboards, predictive modeling, multimodal analytics, feedback, institutional adoption, and a critical LA/EDM chapter. It is the best first pass for seeing LA as a broad socio-technical field.</p></div>
+        <div class="panel"><h3>Then read: HLA 2022</h3><p>The second edition updates the field after several years of growth. It is especially useful for newcomers who want modern coverage of predictive modeling, NLP, multimodal learning analytics, SRL, collaboration, teacher/student-facing analytics, fairness, policy, and human-centered feedback.</p></div>
+        <div class="panel"><h3>EDM baseline: 2010 handbook</h3><p>The Handbook of Educational Data Mining gives the EDM baseline: classifiers, clustering, association rules, sequence/process mining, PSLC DataShop, q-matrices, skill models, Bayesian networks, recommendation, affect, validation, and case studies from intelligent learning environments.</p></div>
+      </div>
       <div class="panel green" style="margin-top:16px"><h3>Beginner reading rule</h3><p>When reading a paper, ask what the paper wants credit for. If the paper wants credit for a better educational decision, feedback loop, stakeholder-facing representation, or learning-design implication, read it through an LA lens. If it wants credit for a better model, inference method, prediction, trace representation, or benchmark result, read it through an EDM lens. If it wants both, evaluate both chains separately.</p></div>
       <div class="source-list">
         <a href="https://www.solaresearch.org/about/what-is-learning-analytics/">SoLAR: What is Learning Analytics?</a>
         <a href="https://www.solaresearch.org/publications/journal/">SoLAR: Journal of Learning Analytics</a>
+        <a href="https://www.solaresearch.org/publications/hla-17/">SoLAR: Handbook of Learning Analytics, first edition</a>
+        <a href="https://www.solaresearch.org/publications/hla-22/">SoLAR: Handbook of Learning Analytics, second edition</a>
         <a href="https://educationaldatamining.org/">International Educational Data Mining Society: EDM definition</a>
         <a href="https://educationaldatamining.org/about/">International Educational Data Mining Society: About</a>
+        <a href="https://www.routledge.com/Handbook-of-Educational-Data-Mining/Romero-Ventura-Pechenizkiy-Baker/p/book/9781439804575">Routledge/CRC Press: Handbook of Educational Data Mining</a>
       </div>
     </section>
 
