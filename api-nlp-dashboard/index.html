@@ -442,6 +442,8 @@ Outputs:
       </table>
       <div class="callout sage" lang="ko">벤치마킹 결론: Requests는 HTTP/JSON 수집, pandas는 nested JSON flattening, Beautiful Soup/Scrapy는 HTML 추출과 파이프라인 구조, spaCy/OpenAI는 NLP 레이어, Streamlit/Dash는 대시보드 상호작용을 맡기는 조합이 가장 설명하기 쉽습니다.</div>
       <div class="callout sage" lang="en">Benchmark takeaway: Requests handles HTTP/JSON collection, pandas flattens nested JSON, Beautiful Soup/Scrapy covers HTML extraction and pipeline structure, spaCy/OpenAI handles NLP, and Streamlit/Dash handles dashboard interaction.</div>
+      <p lang="ko">문헌 모니터 예시에서 OpenAlex는 works API와 검색/필터/그룹 기능을 제공하지만, 2026년 기준 실제 API 사용에는 무료 API key와 credit/rate limit 확인이 필요합니다. Crossref REST API는 공개 접근이 가능하지만 production에서는 polite pool용 이메일 또는 유료 토큰 정책을 확인하는 것이 좋습니다.</p>
+      <p lang="en">For the literature-monitor example, OpenAlex provides works endpoints plus search, filter, and grouping features, but as of 2026 practical API use requires a free API key and attention to credit/rate limits. Crossref REST API remains publicly accessible, but production use should still check polite-pool email and optional token policies.</p>
     </section>
 
     <section id="architecture">
@@ -631,11 +633,15 @@ Outputs:
       <ul class="refs">
         <li><a href="https://requests.readthedocs.io/en/stable/user/quickstart/">Requests Quickstart</a> - HTTP requests, JSON response handling, and <code>raise_for_status()</code>.</li>
         <li><a href="https://pandas.pydata.org/docs/reference/api/pandas.json_normalize.html">pandas.json_normalize</a> - flattening semi-structured JSON into tables.</li>
+        <li><a href="https://beautiful-soup.readthedocs.io/">Beautiful Soup Documentation</a> - parsing HTML/XML documents and searching the parse tree with <code>find()</code> and <code>find_all()</code>.</li>
         <li><a href="https://docs.scrapy.org/en/latest/topics/item-pipeline.html">Scrapy Item Pipeline</a> - cleansing, validation, deduplication, and storage after extraction.</li>
         <li><a href="https://spacy.io/usage/processing-pipelines">spaCy Processing Pipelines</a> - tokenization, components, batching with <code>nlp.pipe</code>, and disabling unnecessary components.</li>
         <li><a href="https://platform.openai.com/docs/guides/structured-outputs">OpenAI Structured Outputs</a> - schema-constrained LLM outputs for reliable downstream use.</li>
         <li><a href="https://docs.streamlit.io/develop/api-reference/data">Streamlit Data Elements</a> - displaying dataframes, metrics, JSON, and charts.</li>
         <li><a href="https://dash.plotly.com/basic-callbacks">Dash Basic Callbacks</a> and <a href="https://dash.plotly.com/background-callbacks">Dash Background Callbacks</a> - interactive dashboard callbacks and long-running work separation.</li>
+        <li><a href="https://docs.openalex.org/how-to-use-the-api/api-overview">OpenAlex API Overview</a>, <a href="https://docs.openalex.org/api-entities/works">OpenAlex Works</a>, and <a href="https://docs.openalex.org/how-to-use-the-api/rate-limits-and-authentication">OpenAlex Rate Limits and Authentication</a> - scholarly works endpoints, API keys, credits, and rate limits.</li>
+        <li><a href="https://www.crossref.org/documentation/retrieve-metadata/rest-api/">Crossref REST API</a> and <a href="https://www.crossref.org/documentation/retrieve-metadata/rest-api/access-and-authentication/">Crossref Access and Authentication</a> - public scholarly metadata API, JSON endpoints, polite pool, and optional Metadata Plus token.</li>
+        <li><a href="https://www.qualtrics.com/support/survey-platform/data-and-analysis-module/data/download-data/export-data-overview/">Qualtrics Exporting Response Data</a> and <a href="https://www.qualtrics.com/support/integrations/api-integration/using-qualtrics-api-documentation/">Qualtrics API Documentation Guide</a> - survey response exports, CSV/TSV/JSON options, pagination, authentication, and response export APIs.</li>
       </ul>
     </section>
   </main>
