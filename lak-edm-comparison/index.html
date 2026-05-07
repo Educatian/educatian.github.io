@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Learning Analytics vs Educational Data Mining - An Interactive Field Guide</title>
+<meta name="description" content="An interactive onboarding guide comparing Learning Analytics and Educational Data Mining with 2016-2025 LAK/EDM proceedings data, semantic NLP, and fact-check notes.">
+<style>
+:root{
+  --bg:#eef4f1;--bg2:#f7f3e8;--ink:#17211f;--muted:#5a6862;--line:#b8c8c1;
+  --panel:#fffdf6;--panel2:#e3eee9;--lak:#008c8c;--edm:#e85d3f;--gold:#d09a24;
+  --green:#1f4037;--blue:#315b8c;--shadow:0 18px 50px rgba(23,33,31,.12)
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;color:var(--ink);font-family:Inter,Segoe UI,system-ui,sans-serif;line-height:1.62;background:
+  radial-gradient(circle at 85% 4%,rgba(208,154,36,.22),transparent 28%),
+  radial-gradient(circle at 4% 10%,rgba(0,140,140,.18),transparent 24%),
+  linear-gradient(135deg,var(--bg),var(--bg2));overflow-x:hidden}
+body:before{content:"";position:fixed;inset:0;z-index:-1;opacity:.36;background-image:
+  repeating-radial-gradient(ellipse at 20% 10%,transparent 0 18px,rgba(23,33,31,.16) 19px 20px,transparent 21px 42px),
+  radial-gradient(rgba(23,33,31,.12) 1px,transparent 1px);background-size:820px 520px,22px 22px;mask-image:linear-gradient(90deg,black,transparent 80%)}
+a{color:var(--green);font-weight:800;text-decoration-thickness:2px}
+.shell{display:grid;grid-template-columns:260px minmax(0,1fr);gap:42px;max-width:1480px;margin:auto;padding:34px 56px 80px}
+.toc{position:sticky;top:22px;align-self:start;background:rgba(255,253,246,.82);backdrop-filter:blur(12px);border:1px solid var(--line);box-shadow:var(--shadow);padding:18px;max-height:calc(100vh - 44px);overflow:auto}
+.brand{font-weight:950;font-size:20px;line-height:1.05;margin:0 0 14px;letter-spacing:0}
+.brand span{display:block;color:var(--lak)}
+.toc a{display:block;text-decoration:none;color:var(--ink);padding:9px 0;border-top:1px solid rgba(23,33,31,.12);font-size:13px}
+.toc a.active,.toc a:hover{color:var(--lak)}
+.home{display:inline-flex;margin:4px 0 22px;color:var(--green);font-size:13px}
+.hero{display:grid;align-content:start;padding:62px 0 110px}
+.atlas-mark{width:116px;height:116px;border:2px solid var(--ink);border-radius:50%;display:grid;place-items:center;margin-bottom:24px;background:conic-gradient(from 140deg,var(--lak),var(--gold),var(--edm),var(--lak));box-shadow:8px 8px 0 rgba(23,33,31,.12)}
+.atlas-mark:after{content:"LAK / EDM";width:82px;height:82px;border-radius:50%;display:grid;place-items:center;background:var(--panel);font-size:11px;font-weight:950;text-align:center}
+h1{max-width:1060px;margin:0 0 22px;font-size:clamp(44px,7vw,92px);line-height:.97;letter-spacing:0;font-weight:950}
+.lede{max-width:940px;margin:0;color:#31403b;font-size:21px;line-height:1.55}
+.metric-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:34px;max-width:980px}
+.metric{background:rgba(255,253,246,.9);border:1px solid var(--line);padding:18px;box-shadow:6px 6px 0 rgba(23,33,31,.08)}
+.metric b{display:block;font-size:34px;line-height:1;font-weight:950}.metric span{font-size:12px;color:var(--muted);font-weight:850;text-transform:uppercase;letter-spacing:1.2px}
+.section{scroll-margin-top:24px;margin:0 0 80px}
+.section-title{display:grid;grid-template-columns:96px 1fr;gap:18px;align-items:start;margin-bottom:20px}
+.num{font-family:Consolas,monospace;color:var(--lak);font-size:13px;font-weight:900;border-top:3px solid var(--lak);padding-top:7px}
+h2{font-size:clamp(32px,4.2vw,58px);line-height:1.02;margin:0 0 14px;font-weight:950}
+h3{font-size:22px;margin:24px 0 10px}
+p{margin:0 0 14px;color:#33423d}.small{font-size:13px;color:var(--muted);font-weight:650}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.panel{background:rgba(255,253,246,.93);border:1px solid var(--line);box-shadow:var(--shadow);padding:22px}
+.panel.green{background:#193932;color:#f4fbf8}.panel.green p,.panel.green li{color:#dbe9e4}.panel.tint{background:rgba(227,238,233,.9)}
+.tag{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);background:#fff;padding:6px 10px;font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:1px}
+.tag:before{content:"";width:9px;height:9px;border-radius:50%;background:var(--gold)}
+.viz{background:rgba(255,253,246,.94);border:1px solid var(--line);box-shadow:var(--shadow);padding:18px;margin:18px 0}
+.viz-head{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;margin-bottom:8px}.viz-title{font-size:18px;font-weight:950}.viz-note{font-size:12px;color:var(--muted);font-weight:750;max-width:520px}
+.controls{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+button{font:inherit;font-size:12px;font-weight:900;color:var(--ink);background:#fff;border:1px solid var(--line);padding:8px 11px;cursor:pointer}
+button.active{background:var(--green);border-color:var(--green);color:#fff}
+svg{display:block;width:100%;height:auto;overflow:visible}.axis text,.label{font-size:11px;fill:var(--muted);font-weight:750}.axis line{stroke:rgba(23,33,31,.14)}
+.tooltip{position:fixed;z-index:5;pointer-events:none;background:#14221e;color:#fff;border:1px solid rgba(255,255,255,.18);padding:9px 10px;font-size:12px;box-shadow:0 14px 28px rgba(0,0,0,.24);opacity:0;transform:translate(-50%,-120%);max-width:260px}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;font-weight:850;color:var(--muted)}.sw{display:inline-block;width:11px;height:11px;margin-right:6px}.lak{background:var(--lak)}.edm{background:var(--edm)}
+.bars{display:grid;gap:9px}.bar-row{display:grid;grid-template-columns:minmax(180px,1fr) 2.4fr 72px;gap:10px;align-items:center}.bar-label{font-size:13px;font-weight:850;line-height:1.2}.bar-track{height:20px;background:#e8eee9;border:1px solid rgba(23,33,31,.12);display:flex}.bar-lak{height:100%;background:var(--lak)}.bar-edm{height:100%;background:var(--edm)}.bar-num{font-family:Consolas,monospace;font-size:12px;text-align:right}
+table{width:100%;border-collapse:collapse;background:#fff}th,td{padding:10px;border-bottom:1px solid rgba(23,33,31,.12);font-size:13px;text-align:left;vertical-align:top}th{background:#193932;color:#eef4f1;font-size:11px;text-transform:uppercase;letter-spacing:1px}tr:last-child td{border-bottom:0}
+.checklist{display:grid;gap:9px}.choice{display:flex;gap:10px;padding:10px;background:#fff;border:1px solid rgba(23,33,31,.12)}.choice input{margin-top:5px}.result{margin-top:12px;background:#fff;border:1px solid var(--line);padding:14px;font-size:20px;font-weight:950}
+.interpretation{margin-top:14px;padding:15px 16px;background:rgba(227,238,233,.72);border-left:5px solid var(--lak)}
+.interpretation b{display:block;margin-bottom:5px}.source-list{display:grid;gap:8px;margin-top:12px}.source-list a{font-size:13px}
+details{background:#fff;border:1px solid var(--line);margin:10px 0}summary{cursor:pointer;padding:13px 15px;font-weight:900}details[open] summary{border-bottom:1px solid var(--line);color:var(--lak)}details .inside{padding:14px 15px}
+.figure-archive{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.figure-archive img{width:100%;display:block;border:1px solid var(--line);background:#fff}
+footer{border-top:1px solid var(--line);padding-top:24px;color:var(--muted);font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:1px}
+@media(max-width:1080px){.shell{grid-template-columns:1fr;padding:24px}.toc{position:relative;top:auto;max-height:none}.metric-strip,.grid2,.grid3,.figure-archive{grid-template-columns:1fr}.section-title{grid-template-columns:1fr}.bar-row{grid-template-columns:1fr}.bar-num{text-align:left}}
+</style>
+</head>
+<body>
+<div class="tooltip" id="tip"></div>
+<div class="shell">
+  <aside class="toc">
+    <div class="brand">LAK vs EDM <span>interactive field guide</span></div>
+    <a href="#overview">What differs</a>
+    <a href="#data">Data and fact-check</a>
+    <a href="#records">Proceedings volume</a>
+    <a href="#signals">Methods and data contexts</a>
+    <a href="#topics">Semantic topics</a>
+    <a href="#trends">Ten-year topic movement</a>
+    <a href="#onboarding">How to use this as a researcher</a>
+    <a href="#limits">Limits and next enrichment</a>
+  </aside>
+  <main>
+    <a class="home" href="../">Back to Educatian</a>
+    <header class="hero">
+      <div class="atlas-mark"></div>
+      <h1>Learning Analytics and Educational Data Mining are neighboring fields, not synonyms.</h1>
+      <p class="lede">This guide explains the difference for new researchers using a 2016-2025 proceedings corpus from LAK and EDM. The practical distinction is not only technical. LA asks how learning evidence becomes interpretation, design, and action. EDM asks how educational data can be modeled, inferred, predicted, and validated.</p>
+      <div class="metric-strip">
+        <div class="metric"><b>1,953</b><span>raw non-editorship records</span></div>
+        <div class="metric"><b>1,924</b><span>analytic records after filtering</span></div>
+        <div class="metric"><b>22</b><span>BERTopic clusters incl. outlier</span></div>
+        <div class="metric"><b>17/17</b><span>metadata audit checks passed</span></div>
+      </div>
+    </header>
+
+    <section id="overview" class="section">
+      <div class="section-title"><div class="num">01</div><div><h2>The fastest usable distinction</h2><p>For onboarding, treat LA and EDM as two lenses on the same evidence ecosystem. They overlap in data sources, modeling methods, and educational problems, but they foreground different questions.</p></div></div>
+      <div class="grid2">
+        <div class="panel"><span class="tag">LA lens</span><h3>From data to pedagogical action</h3><p>Learning Analytics is strongest when the contribution explains how data traces support interpretation, feedback, reflection, advising, dashboards, self-regulated learning, institutional decision-making, or learning design.</p></div>
+        <div class="panel"><span class="tag">EDM lens</span><h3>From data to validated models</h3><p>Educational Data Mining is strongest when the contribution develops or evaluates models for prediction, knowledge tracing, assessment, recommendation, item response, tutoring systems, or algorithmic inference.</p></div>
+      </div>
+      <div class="grid2" style="margin-top:16px">
+        <div class="panel tint"><h3>Where Learning Analytics comes from</h3><p>Learning Analytics grew around the problem of making digital traces useful for learning and teaching. SoLAR describes LA as collecting, analyzing, interpreting, and communicating learner data to provide theoretically relevant and actionable insights. That wording matters: LA is not just analysis. It includes interpretation, communication, theory, human-centered design, and the practical question of who can act on the evidence.</p><p>As a community, LA took shape through SoLAR and the International Conference on Learning Analytics and Knowledge, whose first conference was in 2011. Historically, LAK positioned the field at the intersection of learning sciences, educational technology, analytics, visualization, institutional research, and design. That is why LA papers often ask whether a dashboard, feedback loop, advising signal, or analytics intervention changes what learners, teachers, or institutions can see and do.</p></div>
+        <div class="panel tint"><h3>Where Educational Data Mining comes from</h3><p>Educational Data Mining grew from data mining, machine learning, psychometrics, intelligent tutoring systems, student modeling, and large-scale educational log analysis. The International Educational Data Mining Society was founded in 2011, formalizing a community that had already been building methods for educational data, tutoring systems, and student modeling.</p><p>CMU DataLab's overview frames EDM around mining and analyzing data collected during teaching, validating findings at scale, predicting knowledge and dropout risk, and supporting adaptivity and personalization. That methodological origin explains why EDM papers often foreground model validity, prediction, knowledge tracing, item response, recommendation, algorithmic comparison, feature engineering, and benchmark-style evaluation. The educational goal remains important, but the center of gravity is usually the computational model and the evidence that it works.</p></div>
+      </div>
+      <div class="panel green" style="margin-top:16px"><h3>Working thesis for a column</h3><p>LA asks whether educational data becomes meaningful and actionable for learners, teachers, designers, or institutions. EDM asks whether educational data can be transformed into robust computational evidence. A strong hybrid paper makes both chains visible: model validity and educational actionability.</p></div>
+      <div class="source-list">
+        <a href="https://www.solaresearch.org/about/what-is-learning-analytics/">SoLAR: What is Learning Analytics?</a>
+        <a href="https://educationaldatamining.org/about/">International Educational Data Mining Society: About</a>
+        <a href="https://www.cmu.edu/datalab/getting-started/what-is-edm.html">Carnegie Mellon DataLab: What is Educational Data Mining?</a>
+      </div>
+    </section>
+
+    <section id="data" class="section">
+      <div class="section-title"><div class="num">02</div><div><h2>Data extraction and fact-check status</h2><p>The page now separates empirical claims from interpretation. Counts come from DBLP proceedings metadata, not from invented conference totals.</p></div></div>
+      <div class="grid3">
+        <div class="panel"><h3>Source</h3><p>DBLP publication search API, queried by venue-year proceedings table of contents for LAK 2016-2025 and EDM 2016-2025.</p></div>
+        <div class="panel"><h3>Correction</h3><p>The extracted corpus is not over 2,000 papers. It is 1,953 raw non-editorship records and 1,924 analytic records after title-based meta-record filtering.</p></div>
+        <div class="panel"><h3>NLP</h3><p>Titles were embedded with sentence-transformers/all-mpnet-base-v2 and clustered with BERTopic. Topic labels are c-TF-IDF terms, not LLM-written labels.</p></div>
+      </div>
+      <div class="viz">
+        <div class="viz-head"><div><div class="viz-title">Audit checks</div><p class="small">Click any row category mentally as a quality gate: metadata, filtering, topic modeling, or claim safety.</p></div><div class="viz-note">All 17 checks passed in the current run; duplicated rows in the raw audit export were deduplicated for display.</div></div>
+        <div id="auditTable"></div>
+        <div class="interpretation"><b>How to read this audit</b><p>The audit supports a modest claim: the extracted metadata are internally consistent enough for an onboarding analysis. It does not prove that every paper is semantically classified perfectly. The strongest factual claims are record counts, year coverage, venue labels, duplicate checks, DOI presence, and the title-only nature of topic modeling.</p></div>
+      </div>
+    </section>
+
+    <section id="records" class="section">
+      <div class="section-title"><div class="num">03</div><div><h2>Proceedings volume is uneven, so normalize claims</h2><p>EDM has more analytic records in this extraction, but the difference changes by year. Interpret method or topic prevalence as percentages or within-venue patterns when possible.</p></div></div>
+      <div class="viz">
+        <div class="viz-head"><div><div class="viz-title">Interactive record counts by year</div><div class="legend"><span><i class="sw lak"></i>LAK</span><span><i class="sw edm"></i>EDM</span></div></div><div class="viz-note">Hover for exact counts. Buttons toggle each venue.</div></div>
+        <div class="controls"><button class="active" data-venue-toggle="LAK">LAK</button><button class="active" data-venue-toggle="EDM">EDM</button></div>
+        <svg id="recordsChart" viewBox="0 0 980 360" role="img" aria-label="Interactive line chart of LAK and EDM records by year"></svg>
+        <div class="interpretation"><b>Interpretation</b><p>EDM contributes more records overall in this ten-year extraction, especially in 2016, 2019-2022, and 2024. LAK is smaller in several years but reaches comparable or higher volume in 2017 and 2025. This means raw topic counts can mislead: a topic can look larger in EDM partly because the EDM corpus is larger. For field comparison, use within-venue percentages, distinctiveness ratios, and topic trajectories.</p></div>
+      </div>
+    </section>
+
+    <section id="signals" class="section">
+      <div class="section-title"><div class="num">04</div><div><h2>Method and data-context signals show the field personalities</h2><p>These are conservative title-keyword heuristics. They are useful for onboarding and direction-finding, but not a substitute for abstract/full-text coding.</p></div></div>
+      <div class="viz">
+        <div class="viz-head"><div><div class="viz-title">Signal explorer</div><div class="legend"><span><i class="sw lak"></i>LAK % of venue records</span><span><i class="sw edm"></i>EDM % of venue records</span></div></div><div class="viz-note">Switch between methods and data contexts. Hover bars for record counts.</div></div>
+        <div class="controls"><button class="active" data-signal="method">Method signals</button><button data-signal="data">Data contexts</button><button data-hide-other="true">Hide uncoded</button></div>
+        <div id="signalBars" class="bars"></div>
+        <div class="interpretation"><b>Interpretation</b><p>The method tags show the expected split without making it absolute. EDM has a larger prediction/modeling signal, while LAK has stronger learning design/SRL, dashboard/visualization, fairness/privacy/ethics, multimodal/sensor, and network/sequence/process signals. The data-context view adds nuance: EDM is more assessment/grades and tutoring/intelligent-systems heavy, while LAK is relatively stronger in LMS/MOOC/logs, dashboard/user-study, multimodal/sensor, and collaboration/discourse contexts.</p><p>Because many titles are uncoded, these bars should be treated as directional signals. They are best used to teach newcomers what to look for in abstracts, not to make final prevalence claims.</p></div>
+      </div>
+    </section>
+
+    <section id="topics" class="section">
+      <div class="section-title"><div class="num">05</div><div><h2>Semantic topics make the contrast sharper</h2><p>MPNet + BERTopic over titles surfaces a recognizable split: LAK is more distinctive around learning analytics, dashboards, collaboration, multimodal learning, and writing analytics; EDM is more distinctive around prediction, knowledge tracing, item response, programming tasks, and recommendation systems.</p></div></div>
+      <div class="viz">
+        <div class="viz-head"><div><div class="viz-title">Topic distinctiveness explorer</div><div class="legend"><span><i class="sw lak"></i>LAK count</span><span><i class="sw edm"></i>EDM count</span></div></div><div class="viz-note">Sort by LAK distinctiveness, EDM distinctiveness, or total volume.</div></div>
+        <div class="controls"><button class="active" data-sort="lak">LAK distinctive</button><button data-sort="edm">EDM distinctive</button><button data-sort="total">Largest topics</button></div>
+        <div id="topicBars" class="bars"></div>
+        <div class="interpretation"><b>Interpretation</b><p>The semantic topics show that the fields are organized around different prototypical contributions. LAK-distinctive topics are not merely "data analysis" topics; they are about analytics as a learning support infrastructure: dashboards, feedback, writing analytics, collaboration, multimodal learning, and learning analytics as a named field. EDM-distinctive topics are closer to educational machine learning and student modeling: prediction, knowledge tracing, item response, programming tasks, recommendation, and skill/prerequisite estimation.</p><p>The overlap is important. MOOCs, discourse, self-regulated learning, affect, and multimodal data appear in both fields. The difference is usually how the paper frames the contribution: actionability and sensemaking versus model development and validation.</p></div>
+      </div>
+    </section>
+
+    <section id="trends" class="section">
+      <div class="section-title"><div class="num">06</div><div><h2>Ten-year movement is best read topic by topic</h2><p>The topic model is title-only, so trend claims should be phrased as signals, not final field history. Still, selected topics show useful onboarding patterns.</p></div></div>
+      <div class="viz">
+        <div class="viz-head"><div><div class="viz-title">Topic trend explorer</div><div class="legend"><span><i class="sw lak"></i>LAK</span><span><i class="sw edm"></i>EDM</span></div></div><div class="viz-note">Choose a topic. Missing venue-year cells are rendered as zero.</div></div>
+        <div class="controls" id="trendControls"></div>
+        <svg id="trendChart" viewBox="0 0 980 360" role="img" aria-label="Interactive topic trend line chart"></svg>
+        <div class="interpretation"><b>Interpretation</b><p>Use the trend explorer to avoid one-shot stereotypes. "Learning analytics / dashboards" is consistently LAK-centered, but not absent from EDM. "Prediction / performance" is consistently EDM-centered. "Collaboration / multimodal" becomes more visible in LAK after 2021. "Language models / reading" rises in both venues around 2024-2025, with stronger EDM counts in this title-only model. "Knowledge tracing" remains a clear EDM anchor, while LAK has occasional but smaller entries.</p><p>The right takeaway is field movement, not a fixed taxonomy. LA and EDM borrow methods from each other; what persists is the difference in rhetorical center: pedagogical action versus computational evidence.</p></div>
+      </div>
+    </section>
+
+    <section id="onboarding" class="section">
+      <div class="section-title"><div class="num">07</div><div><h2>Use this as a framing decision tool</h2><p>For a new paper, proposal, or teaching module, choose the field framing by what the contribution must persuade readers to believe.</p></div></div>
+      <div class="grid2">
+        <div class="panel"><h3>LAK framing is stronger when...</h3><div class="checklist">
+          <label class="choice"><input type="checkbox" data-side="lak">The central claim is about interpretation, reflection, feedback, advising, or instructional decision-making.</label>
+          <label class="choice"><input type="checkbox" data-side="lak">The artifact is a dashboard, alert, learning design, analytics workflow, or stakeholder-facing tool.</label>
+          <label class="choice"><input type="checkbox" data-side="lak">The evidence chain includes learners, teachers, designers, institutions, or equity/ethics of data use.</label>
+        </div></div>
+        <div class="panel"><h3>EDM framing is stronger when...</h3><div class="checklist">
+          <label class="choice"><input type="checkbox" data-side="edm">The central claim is model performance, prediction, inference, knowledge tracing, recommendation, or algorithmic validity.</label>
+          <label class="choice"><input type="checkbox" data-side="edm">The contribution is a method, model, benchmark, feature representation, or evaluation protocol.</label>
+          <label class="choice"><input type="checkbox" data-side="edm">The paper needs to convince readers that the computational model is robust and generalizable.</label>
+        </div></div>
+      </div>
+      <div id="decisionResult" class="result">Select items to see the current framing direction.</div>
+    </section>
+
+    <section id="limits" class="section">
+      <div class="section-title"><div class="num">08</div><div><h2>What the current evidence can and cannot support</h2><p>The guide is suitable for onboarding, blog writing, and scoping a deeper review. It is not yet a publication-grade systematic review.</p></div></div>
+      <details open><summary>Extraction method</summary><div class="inside"><p>Each venue-year query used DBLP's table-of-contents facet: <code>toc:db/conf/&lt;venue&gt;/&lt;venue&gt;&lt;year&gt;.bht:</code>. The analytic filter removed title-marked workshops, tutorials, doctoral consortium items, front matter, prefaces, panels, keynotes, and symposium records.</p></div></details>
+      <details><summary>Current limitations</summary><div class="inside"><p>BERTopic used titles only. Method and data-context tags are keyword heuristics. DOI coverage is partial: 823 records have DOI strings in the current DBLP extraction. Claims about "what the field believes" should be enriched with abstracts, author networks, venue tracks, and human-coded samples.</p></div></details>
+      <details><summary>Static figure archive</summary><div class="inside"><p class="small">The original PNG figures remain available for export or slides, but this page now treats the interactive charts as the primary reading surface.</p><div class="figure-archive">
+        <img src="figures/fig_01_records_by_year.png" alt="Static records by year figure">
+        <img src="figures/fig_02_topic_distinctiveness_lak_vs_edm.png" alt="Static topic distinctiveness figure">
+        <img src="figures/fig_04_topic_composition_by_year.png" alt="Static topic composition by year figure">
+      </div></div></details>
+    </section>
+    <footer>Educatian research automation guide · DBLP metadata extraction · MPNet + BERTopic title-level semantic pass · Updated May 6, 2026</footer>
+  </main>
+</div>
+
+<script>
+const years=[2016,2017,2018,2019,2020,2021,2022,2023,2024,2025];
+const recordData=[{"venue":"EDM","year":2016,"n":147},{"venue":"EDM","year":2017,"n":113},{"venue":"EDM","year":2018,"n":66},{"venue":"EDM","year":2019,"n":131},{"venue":"EDM","year":2020,"n":117},{"venue":"EDM","year":2021,"n":121},{"venue":"EDM","year":2022,"n":116},{"venue":"EDM","year":2023,"n":76},{"venue":"EDM","year":2024,"n":130},{"venue":"EDM","year":2025,"n":83},{"venue":"LAK","year":2016,"n":94},{"venue":"LAK","year":2017,"n":121},{"venue":"LAK","year":2018,"n":61},{"venue":"LAK","year":2019,"n":69},{"venue":"LAK","year":2020,"n":80},{"venue":"LAK","year":2021,"n":71},{"venue":"LAK","year":2022,"n":62},{"venue":"LAK","year":2023,"n":71},{"venue":"LAK","year":2024,"n":95},{"venue":"LAK","year":2025,"n":100}];
+const methodSignals=[{"venue":"EDM","tag":"LLM/GenAI","n":30,"pct":2.73},{"venue":"EDM","tag":"NLP/discourse/text","n":86,"pct":7.82},{"venue":"EDM","tag":"causal/experimental","n":37,"pct":3.36},{"venue":"EDM","tag":"dashboard/visualization","n":21,"pct":1.91},{"venue":"EDM","tag":"fairness/privacy/ethics","n":27,"pct":2.45},{"venue":"EDM","tag":"knowledge tracing","n":52,"pct":4.73},{"venue":"EDM","tag":"learning design/SRL","n":20,"pct":1.82},{"venue":"EDM","tag":"multimodal/sensor","n":52,"pct":4.73},{"venue":"EDM","tag":"network/sequence/process","n":46,"pct":4.18},{"venue":"EDM","tag":"other/uncoded","n":622,"pct":56.55},{"venue":"EDM","tag":"prediction/modeling","n":206,"pct":18.73},{"venue":"LAK","tag":"LLM/GenAI","n":18,"pct":2.18},{"venue":"LAK","tag":"NLP/discourse/text","n":62,"pct":7.52},{"venue":"LAK","tag":"causal/experimental","n":24,"pct":2.91},{"venue":"LAK","tag":"dashboard/visualization","n":38,"pct":4.61},{"venue":"LAK","tag":"fairness/privacy/ethics","n":34,"pct":4.13},{"venue":"LAK","tag":"knowledge tracing","n":17,"pct":2.06},{"venue":"LAK","tag":"learning design/SRL","n":62,"pct":7.52},{"venue":"LAK","tag":"multimodal/sensor","n":66,"pct":8.01},{"venue":"LAK","tag":"network/sequence/process","n":47,"pct":5.7},{"venue":"LAK","tag":"other/uncoded","n":455,"pct":55.22},{"venue":"LAK","tag":"prediction/modeling","n":81,"pct":9.83}];
+const dataSignals=[{"venue":"EDM","tag":"LMS/MOOC/logs","n":55,"pct":5.0},{"venue":"EDM","tag":"assessment/grades","n":141,"pct":12.82},{"venue":"EDM","tag":"collaboration/discourse","n":47,"pct":4.27},{"venue":"EDM","tag":"dashboard/user study","n":5,"pct":0.45},{"venue":"EDM","tag":"multimodal/sensor","n":44,"pct":4.0},{"venue":"EDM","tag":"other/uncoded","n":732,"pct":66.55},{"venue":"EDM","tag":"tutoring/intelligent systems","n":59,"pct":5.36},{"venue":"EDM","tag":"writing/text artifacts","n":72,"pct":6.55},{"venue":"LAK","tag":"LMS/MOOC/logs","n":68,"pct":8.25},{"venue":"LAK","tag":"assessment/grades","n":80,"pct":9.71},{"venue":"LAK","tag":"collaboration/discourse","n":46,"pct":5.58},{"venue":"LAK","tag":"dashboard/user study","n":35,"pct":4.25},{"venue":"LAK","tag":"multimodal/sensor","n":59,"pct":7.16},{"venue":"LAK","tag":"other/uncoded","n":509,"pct":61.77},{"venue":"LAK","tag":"tutoring/intelligent systems","n":37,"pct":4.49},{"venue":"LAK","tag":"writing/text artifacts","n":38,"pct":4.61}];
+const topicData=[{topic:0,label:"learning analytics / dashboards",lak:162,edm:16},{topic:16,label:"learning analytics / edX issues",lak:19,edm:9},{topic:6,label:"collaborative and multimodal learning",lak:54,edm:31},{topic:11,label:"writing analytics and feedback",lak:32,edm:21},{topic:19,label:"feedback online",lak:15,edm:10},{topic:10,label:"knowledge tracing",lak:8,edm:50},{topic:18,label:"skills and prerequisites",lak:5,edm:20},{topic:1,label:"prediction and student performance",lak:36,edm:133},{topic:5,label:"item response and math questions",lak:22,edm:72},{topic:7,label:"programming and code tasks",lak:20,edm:57},{topic:9,label:"large language models and reading",lak:16,edm:43},{topic:12,label:"recommendation systems",lak:15,edm:35}];
+const trendLabels={"0":"learning analytics / dashboards","1":"prediction / performance","6":"collaboration / multimodal","9":"language models / reading","10":"knowledge tracing"};
+const trendData=[{"venue":"EDM","year":2016,"topic":"0","n":3},{"venue":"EDM","year":2016,"topic":"1","n":16},{"venue":"EDM","year":2016,"topic":"6","n":4},{"venue":"EDM","year":2016,"topic":"9","n":1},{"venue":"EDM","year":2016,"topic":"10","n":5},{"venue":"EDM","year":2017,"topic":"1","n":12},{"venue":"EDM","year":2017,"topic":"6","n":1},{"venue":"EDM","year":2017,"topic":"9","n":5},{"venue":"EDM","year":2017,"topic":"10","n":2},{"venue":"EDM","year":2018,"topic":"1","n":8},{"venue":"EDM","year":2018,"topic":"6","n":3},{"venue":"EDM","year":2018,"topic":"9","n":2},{"venue":"EDM","year":2018,"topic":"10","n":2},{"venue":"EDM","year":2019,"topic":"0","n":3},{"venue":"EDM","year":2019,"topic":"1","n":18},{"venue":"EDM","year":2019,"topic":"6","n":2},{"venue":"EDM","year":2019,"topic":"9","n":2},{"venue":"EDM","year":2019,"topic":"10","n":6},{"venue":"EDM","year":2020,"topic":"0","n":1},{"venue":"EDM","year":2020,"topic":"1","n":20},{"venue":"EDM","year":2020,"topic":"6","n":4},{"venue":"EDM","year":2020,"topic":"9","n":4},{"venue":"EDM","year":2020,"topic":"10","n":4},{"venue":"EDM","year":2021,"topic":"0","n":3},{"venue":"EDM","year":2021,"topic":"1","n":19},{"venue":"EDM","year":2021,"topic":"6","n":3},{"venue":"EDM","year":2021,"topic":"9","n":6},{"venue":"EDM","year":2021,"topic":"10","n":7},{"venue":"EDM","year":2022,"topic":"0","n":2},{"venue":"EDM","year":2022,"topic":"1","n":16},{"venue":"EDM","year":2022,"topic":"6","n":5},{"venue":"EDM","year":2022,"topic":"9","n":5},{"venue":"EDM","year":2022,"topic":"10","n":6},{"venue":"EDM","year":2023,"topic":"1","n":4},{"venue":"EDM","year":2023,"topic":"6","n":3},{"venue":"EDM","year":2023,"topic":"9","n":4},{"venue":"EDM","year":2023,"topic":"10","n":3},{"venue":"EDM","year":2024,"topic":"0","n":2},{"venue":"EDM","year":2024,"topic":"1","n":14},{"venue":"EDM","year":2024,"topic":"6","n":6},{"venue":"EDM","year":2024,"topic":"9","n":11},{"venue":"EDM","year":2024,"topic":"10","n":7},{"venue":"EDM","year":2025,"topic":"0","n":2},{"venue":"EDM","year":2025,"topic":"1","n":6},{"venue":"EDM","year":2025,"topic":"9","n":3},{"venue":"EDM","year":2025,"topic":"10","n":8},{"venue":"LAK","year":2016,"topic":"0","n":25},{"venue":"LAK","year":2016,"topic":"1","n":4},{"venue":"LAK","year":2016,"topic":"6","n":6},{"venue":"LAK","year":2016,"topic":"10","n":1},{"venue":"LAK","year":2017,"topic":"0","n":34},{"venue":"LAK","year":2017,"topic":"1","n":9},{"venue":"LAK","year":2017,"topic":"6","n":4},{"venue":"LAK","year":2018,"topic":"0","n":17},{"venue":"LAK","year":2018,"topic":"1","n":3},{"venue":"LAK","year":2018,"topic":"6","n":3},{"venue":"LAK","year":2018,"topic":"9","n":1},{"venue":"LAK","year":2019,"topic":"0","n":14},{"venue":"LAK","year":2019,"topic":"1","n":8},{"venue":"LAK","year":2019,"topic":"6","n":1},{"venue":"LAK","year":2019,"topic":"9","n":2},{"venue":"LAK","year":2019,"topic":"10","n":2},{"venue":"LAK","year":2020,"topic":"0","n":15},{"venue":"LAK","year":2020,"topic":"6","n":3},{"venue":"LAK","year":2020,"topic":"9","n":1},{"venue":"LAK","year":2020,"topic":"10","n":1},{"venue":"LAK","year":2021,"topic":"0","n":9},{"venue":"LAK","year":2021,"topic":"1","n":3},{"venue":"LAK","year":2021,"topic":"6","n":6},{"venue":"LAK","year":2021,"topic":"9","n":1},{"venue":"LAK","year":2021,"topic":"10","n":1},{"venue":"LAK","year":2022,"topic":"0","n":13},{"venue":"LAK","year":2022,"topic":"1","n":1},{"venue":"LAK","year":2022,"topic":"6","n":8},{"venue":"LAK","year":2022,"topic":"9","n":1},{"venue":"LAK","year":2023,"topic":"0","n":10},{"venue":"LAK","year":2023,"topic":"1","n":3},{"venue":"LAK","year":2023,"topic":"6","n":7},{"venue":"LAK","year":2023,"topic":"9","n":2},{"venue":"LAK","year":2024,"topic":"0","n":15},{"venue":"LAK","year":2024,"topic":"1","n":2},{"venue":"LAK","year":2024,"topic":"6","n":9},{"venue":"LAK","year":2024,"topic":"9","n":3},{"venue":"LAK","year":2024,"topic":"10","n":3},{"venue":"LAK","year":2025,"topic":"0","n":10},{"venue":"LAK","year":2025,"topic":"1","n":3},{"venue":"LAK","year":2025,"topic":"6","n":7},{"venue":"LAK","year":2025,"topic":"9","n":5}];
+const auditRows=[["required_columns","PASS","missing=[]"],["record_count_expected","PASS","n=1924"],["year_range","PASS","2016-2025"],["venue_values","PASS","LAK and EDM only"],["blank_titles","PASS","blank=0"],["duplicate_dblp_keys","PASS","duplicates=0"],["doi_format_when_present","PASS","doi_present=823"],["dblp_url_format","PASS","all URLs start with https://dblp.org/rec/"],["meta_record_filter","PASS","meta_title_hits=0"],["author_count_plausible","PASS","min_authors=1"],["method_tags_nonempty","PASS","method_tags populated"],["data_tags_nonempty","PASS","data_tags populated"],["topic_rows_match","PASS","topics=1924, records=1924"],["topic_ids_not_null","PASS","null_topics=0"],["topic_count_plausible","PASS","n_topics_including_outlier=22"],["outlier_rate_plausible","PASS","outlier_pct=22.66"],["no_llm_topic_labeling","PASS","labels are BERTopic c-TF-IDF terms"]];
+const tip=document.getElementById("tip"), colors={LAK:getComputedStyle(document.documentElement).getPropertyValue("--lak").trim(),EDM:getComputedStyle(document.documentElement).getPropertyValue("--edm").trim()};
+function showTip(html,e){tip.innerHTML=html;tip.style.left=e.clientX+"px";tip.style.top=e.clientY+"px";tip.style.opacity=1}
+function hideTip(){tip.style.opacity=0}
+function lineChart(svgId,data,opts={}){const svg=document.getElementById(svgId),w=980,h=360,m={l:54,r:28,t:26,b:46};svg.innerHTML="";const max=opts.max||Math.max(...data.map(d=>d.n))*1.12,x=y=>m.l+(y-2016)/(2025-2016)*(w-m.l-m.r),y=n=>h-m.b-(n/max)*(h-m.t-m.b);[0,.25,.5,.75,1].forEach(t=>{const yy=m.t+t*(h-m.t-m.b);svg.insertAdjacentHTML("beforeend",`<line x1="${m.l}" x2="${w-m.r}" y1="${yy}" y2="${yy}" stroke="rgba(23,33,31,.13)"/><text class="label" x="8" y="${yy+4}">${Math.round(max*(1-t))}</text>`)});years.forEach(yr=>svg.insertAdjacentHTML("beforeend",`<text class="label" x="${x(yr)-14}" y="${h-16}">${yr}</text>`));["LAK","EDM"].forEach(v=>{if(opts.visible&&!opts.visible[v])return;const rows=years.map(yr=>data.find(d=>d.venue===v&&d.year===yr)||{venue:v,year:yr,n:0});const pts=rows.map(d=>`${x(d.year)},${y(d.n)}`).join(" ");svg.insertAdjacentHTML("beforeend",`<polyline points="${pts}" fill="none" stroke="${colors[v]}" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>`);rows.forEach(d=>svg.insertAdjacentHTML("beforeend",`<circle tabindex="0" data-tip="<b>${v} ${d.year}</b><br>${d.n} records" cx="${x(d.year)}" cy="${y(d.n)}" r="6" fill="${colors[v]}" stroke="#fff" stroke-width="2"/>`))});svg.querySelectorAll("[data-tip]").forEach(el=>{el.addEventListener("mousemove",e=>showTip(el.dataset.tip,e));el.addEventListener("mouseleave",hideTip)})}
+let visibleVenues={LAK:true,EDM:true};function renderRecords(){lineChart("recordsChart",recordData,{visible:visibleVenues,max:155})}
+function renderSignal(kind="method"){const source=kind==="method"?methodSignals:dataSignals,hide=document.querySelector("[data-hide-other]").classList.contains("active");const tags=[...new Set(source.map(d=>d.tag))].filter(t=>!hide||t!=="other/uncoded").sort((a,b)=>{const at=source.filter(d=>d.tag===a).reduce((s,d)=>s+d.pct,0),bt=source.filter(d=>d.tag===b).reduce((s,d)=>s+d.pct,0);return bt-at});const max=Math.max(...source.filter(d=>tags.includes(d.tag)).map(d=>d.pct));document.getElementById("signalBars").innerHTML=tags.map(tag=>{const l=source.find(d=>d.venue==="LAK"&&d.tag===tag)||{pct:0,n:0},e=source.find(d=>d.venue==="EDM"&&d.tag===tag)||{pct:0,n:0};return `<div class="bar-row"><div class="bar-label">${tag}</div><div class="bar-track" data-tip="<b>${tag}</b><br>LAK ${l.n} (${l.pct}%)<br>EDM ${e.n} (${e.pct}%)"><div class="bar-lak" style="width:${l.pct/max*100}%"></div><div class="bar-edm" style="width:${e.pct/max*100}%"></div></div><div class="bar-num">${l.pct.toFixed(1)} / ${e.pct.toFixed(1)}%</div></div>`}).join("");document.querySelectorAll("#signalBars [data-tip]").forEach(el=>{el.addEventListener("mousemove",e=>showTip(el.dataset.tip,e));el.addEventListener("mouseleave",hideTip)})}
+function renderTopics(sort="lak"){let rows=[...topicData];if(sort==="lak")rows.sort((a,b)=>b.lak/(b.lak+b.edm)-a.lak/(a.lak+a.edm));if(sort==="edm")rows.sort((a,b)=>b.edm/(b.lak+b.edm)-a.edm/(a.lak+a.edm));if(sort==="total")rows.sort((a,b)=>(b.lak+b.edm)-(a.lak+a.edm));document.getElementById("topicBars").innerHTML=rows.map(d=>{const total=d.lak+d.edm,lp=d.lak/total*100,ep=100-lp;return `<div class="bar-row"><div class="bar-label">T${d.topic}: ${d.label}</div><div class="bar-track" data-tip="<b>T${d.topic}: ${d.label}</b><br>LAK ${d.lak}<br>EDM ${d.edm}<br>LAK share ${lp.toFixed(1)}%"><div class="bar-lak" style="width:${lp}%"></div><div class="bar-edm" style="width:${ep}%"></div></div><div class="bar-num">${d.lak} / ${d.edm}</div></div>`}).join("");document.querySelectorAll("#topicBars [data-tip]").forEach(el=>{el.addEventListener("mousemove",e=>showTip(el.dataset.tip,e));el.addEventListener("mouseleave",hideTip)})}
+function renderTrend(topic="0"){const rows=[];["LAK","EDM"].forEach(v=>years.forEach(yr=>{const hit=trendData.find(d=>d.venue===v&&d.year===yr&&d.topic===topic);rows.push({venue:v,year:yr,n:hit?hit.n:0})}));lineChart("trendChart",rows,{max:Math.max(10,...rows.map(d=>d.n))*1.18});document.getElementById("trendChart").insertAdjacentHTML("afterbegin",`<text x="54" y="18" font-size="14" font-weight="900" fill="#17211f">${trendLabels[topic]}</text>`)}
+function renderAudit(){document.getElementById("auditTable").innerHTML=`<table><thead><tr><th>Check</th><th>Status</th><th>Detail</th></tr></thead><tbody>${auditRows.map(r=>`<tr><td>${r[0]}</td><td><b style="color:var(--lak)">${r[1]}</b></td><td>${r[2]}</td></tr>`).join("")}</tbody></table>`}
+document.querySelectorAll("[data-venue-toggle]").forEach(btn=>btn.addEventListener("click",()=>{const v=btn.dataset.venueToggle;visibleVenues[v]=!visibleVenues[v];btn.classList.toggle("active",visibleVenues[v]);renderRecords()}));
+document.querySelectorAll("[data-signal]").forEach(btn=>btn.addEventListener("click",()=>{document.querySelectorAll("[data-signal]").forEach(b=>b.classList.remove("active"));btn.classList.add("active");renderSignal(btn.dataset.signal)}));document.querySelector("[data-hide-other]").addEventListener("click",e=>{e.currentTarget.classList.toggle("active");renderSignal(document.querySelector("[data-signal].active").dataset.signal)});
+document.querySelectorAll("[data-sort]").forEach(btn=>btn.addEventListener("click",()=>{document.querySelectorAll("[data-sort]").forEach(b=>b.classList.remove("active"));btn.classList.add("active");renderTopics(btn.dataset.sort)}));
+document.getElementById("trendControls").innerHTML=Object.entries(trendLabels).map(([id,label],i)=>`<button class="${i===0?"active":""}" data-trend="${id}">${label}</button>`).join("");document.querySelectorAll("[data-trend]").forEach(btn=>btn.addEventListener("click",()=>{document.querySelectorAll("[data-trend]").forEach(b=>b.classList.remove("active"));btn.classList.add("active");renderTrend(btn.dataset.trend)}));
+function updateDecision(){const checks=[...document.querySelectorAll('.choice input:checked')];const lak=checks.filter(c=>c.dataset.side==="lak").length,edm=checks.filter(c=>c.dataset.side==="edm").length,out=document.getElementById("decisionResult");if(!checks.length)out.textContent="Select items to see the current framing direction.";else if(lak>edm)out.textContent=`LAK framing is stronger (${lak}:${edm}). Center interpretation, sensemaking, stakeholders, and pedagogical action.`;else if(edm>lak)out.textContent=`EDM framing is stronger (${edm}:${lak}). Center modeling, prediction, inference, validation, and computational contribution.`;else out.textContent=`Hybrid framing (${lak}:${edm}). Show both a strong model and a clear data-to-action chain.`}
+document.querySelectorAll('.choice input').forEach(i=>i.addEventListener("change",updateDecision));
+const links=[...document.querySelectorAll('.toc a')],sections=links.map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);new IntersectionObserver(entries=>{const v=entries.filter(e=>e.isIntersecting).sort((a,b)=>b.intersectionRatio-a.intersectionRatio)[0];if(v)links.forEach(a=>a.classList.toggle("active",a.getAttribute("href")==="#"+v.target.id))},{rootMargin:"-20% 0px -70% 0px",threshold:[0,.25,.5]}).observe(sections[0]);sections.slice(1).forEach(s=>new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)links.forEach(a=>a.classList.toggle("active",a.getAttribute("href")==="#"+e.target.id))})},{rootMargin:"-20% 0px -70% 0px",threshold:.2}).observe(s));
+renderAudit();renderRecords();renderSignal("method");renderTopics("lak");renderTrend("0");
+</script>
+</body>
+</html>
