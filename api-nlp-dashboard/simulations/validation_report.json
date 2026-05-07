@@ -1,0 +1,32 @@
+{
+  "record_count": 120,
+  "schema_error_count": 0,
+  "schema_errors": [],
+  "duplicate_count": 0,
+  "priority_counts": {
+    "high": 36,
+    "low": 40,
+    "medium": 44
+  },
+  "review_state_counts": {
+    "needs_review": 54,
+    "reviewed": 36,
+    "new": 30
+  },
+  "source_counts": {
+    "grant_feed": 30,
+    "paper_search": 26,
+    "feedback_pulse": 35,
+    "policy_monitor": 29
+  },
+  "topic_counts": {
+    "NLP": 21,
+    "governance": 19,
+    "learning analytics": 25,
+    "funding": 30,
+    "student feedback": 25
+  },
+  "low_confidence_count": 30,
+  "avg_confidence": 0.758,
+  "high_priority_review_count": 36
+}

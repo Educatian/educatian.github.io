@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720" role="img" aria-labelledby="title desc">
+  <title id="title">Dashboard wireframe concept image</title>
+  <desc id="desc">A generated dashboard wireframe with metrics, filters, trend chart, and record review queue.</desc>
+  <rect width="1200" height="720" fill="#fffdf8"/>
+  <text x="70" y="80" font-family="Inter, Arial, sans-serif" font-size="21" font-weight="900" letter-spacing="4" fill="#b35c35">CONCEPT IMAGE 03</text>
+  <text x="70" y="130" font-family="Inter, Arial, sans-serif" font-size="42" font-weight="900" fill="#182126">Review, do not guess. The dashboard is a review workspace.</text>
+  <g transform="translate(78 178)" font-family="Inter, Arial, sans-serif">
+    <rect width="1044" height="468" rx="18" fill="#f2eadc" stroke="#182126" stroke-width="3"/>
+    <rect x="26" y="26" width="992" height="58" rx="10" fill="#182126"/>
+    <text x="52" y="63" font-size="22" font-weight="900" fill="#fffdf8">NLP Review Dashboard</text>
+    <rect x="48" y="112" width="196" height="76" rx="10" fill="#fffdf8" stroke="#cfc4b1"/>
+    <text x="70" y="144" font-size="14" font-weight="900" fill="#284c63">RECORDS</text><text x="70" y="171" font-size="29" font-weight="900" fill="#182126">1,248</text>
+    <rect x="266" y="112" width="196" height="76" rx="10" fill="#fffdf8" stroke="#cfc4b1"/>
+    <text x="288" y="144" font-size="14" font-weight="900" fill="#284c63">NLP DONE</text><text x="288" y="171" font-size="29" font-weight="900" fill="#182126">94%</text>
+    <rect x="484" y="112" width="196" height="76" rx="10" fill="#fffdf8" stroke="#cfc4b1"/>
+    <text x="506" y="144" font-size="14" font-weight="900" fill="#284c63">ERRORS</text><text x="506" y="171" font-size="29" font-weight="900" fill="#182126">7</text>
+    <rect x="702" y="112" width="270" height="76" rx="10" fill="#fffdf8" stroke="#cfc4b1"/>
+    <text x="724" y="144" font-size="14" font-weight="900" fill="#284c63">FILTERS</text><text x="724" y="171" font-size="18" fill="#314048">source, label, date, confidence</text>
+    <rect x="48" y="220" width="430" height="190" rx="12" fill="#fffdf8" stroke="#182126" stroke-width="2"/>
+    <polyline points="80,370 150,330 220,348 290,285 360,304 440,250" fill="none" stroke="#284c63" stroke-width="5"/>
+    <text x="72" y="254" font-size="17" font-weight="900" fill="#182126">Trend after NLP enrichment</text>
+    <rect x="510" y="220" width="462" height="190" rx="12" fill="#fffdf8" stroke="#182126" stroke-width="2"/>
+    <text x="538" y="254" font-size="17" font-weight="900" fill="#182126">Record review queue</text>
+    <g font-size="15" fill="#314048">
+      <text x="538" y="294">Needs check: source text changed</text>
+      <text x="538" y="330">Approved: strong summary and entity match</text>
+      <text x="538" y="366">Excluded: duplicate record_id</text>
+    </g>
+  </g>
+</svg>

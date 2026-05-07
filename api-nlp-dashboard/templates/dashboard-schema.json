@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "NLPDashboardRecord",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["record_id", "collected_at", "source_id", "text", "review_state", "nlp"],
+  "properties": {
+    "record_id": { "type": "string" },
+    "collected_at": { "type": "string", "format": "date-time" },
+    "source_id": { "type": "string" },
+    "source_url": { "type": "string" },
+    "title": { "type": "string" },
+    "text": { "type": "string" },
+    "review_state": {
+      "type": "string",
+      "enum": ["new", "needs_review", "reviewed", "archived"]
+    },
+    "nlp": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["summary", "topic_labels", "key_phrases", "entities", "priority", "confidence", "model_version"],
+      "properties": {
+        "summary": { "type": "string" },
+        "topic_labels": { "type": "array", "items": { "type": "string" } },
+        "key_phrases": { "type": "array", "items": { "type": "string" } },
+        "entities": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["text", "label"],
+            "properties": {
+              "text": { "type": "string" },
+              "label": { "type": "string" }
+            }
+          }
+        },
+        "sentiment": { "type": "string", "enum": ["positive", "neutral", "negative", "mixed", "unknown"] },
+        "priority": { "type": "string", "enum": ["high", "medium", "low"] },
+        "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+        "review_reason": { "type": "string" },
+        "model_version": { "type": "string" }
+      }
+    }
+  }
+}

@@ -1,0 +1,5 @@
+source_id,source_name,records,last_success_at,error_count,avg_confidence
+feedback_pulse,Open-ended feedback pulse,35,2026-05-06T19:00:00Z,0,0.732
+grant_feed,Grant announcement feed,30,2026-05-07T09:00:00Z,0,0.784
+paper_search,Research paper search,26,2026-05-07T03:00:00Z,1,0.769
+policy_monitor,Public policy monitor,29,2026-05-07T11:00:00Z,2,0.752

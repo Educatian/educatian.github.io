@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720" role="img" aria-labelledby="title desc">
+  <title id="title">Data contract concept image</title>
+  <desc id="desc">Raw payloads become stable dashboard records through a data contract.</desc>
+  <rect width="1200" height="720" fill="#f2eadc"/>
+  <text x="70" y="82" font-family="Inter, Arial, sans-serif" font-size="21" font-weight="900" letter-spacing="4" fill="#b35c35">CONCEPT IMAGE 02</text>
+  <text x="70" y="130" font-family="Inter, Arial, sans-serif" font-size="40" font-weight="900" fill="#182126">Raw payloads are not dashboard data.</text>
+  <g transform="translate(90 205)" font-family="Inter, Arial, sans-serif">
+    <rect x="0" y="0" width="430" height="390" rx="18" fill="#fffdf8" stroke="#182126" stroke-width="3"/>
+    <text x="28" y="48" font-size="24" font-weight="900" fill="#b35c35">Raw API and HTML</text>
+    <rect x="28" y="82" width="374" height="240" rx="10" fill="#10191f"/>
+    <text x="50" y="124" font-family="Consolas, monospace" font-size="18" fill="#f3ecdd">{</text>
+    <text x="72" y="158" font-family="Consolas, monospace" font-size="18" fill="#b3d1bc">"title": "..."</text>
+    <text x="72" y="192" font-family="Consolas, monospace" font-size="18" fill="#b3d1bc">"nested": {"body": "..."}</text>
+    <text x="72" y="226" font-family="Consolas, monospace" font-size="18" fill="#e0a572">"maybe_missing": null</text>
+    <text x="50" y="260" font-family="Consolas, monospace" font-size="18" fill="#f3ecdd">}</text>
+    <text x="28" y="358" font-size="17" fill="#314048">Messy, nested, source-specific, and unstable.</text>
+    <path d="M455 195H570" stroke="#284c63" stroke-width="5" marker-end="url(#arrow)"/>
+    <defs><marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M1,1 L11,6 L1,11 Z" fill="#284c63"/></marker></defs>
+    <rect x="610" y="0" width="430" height="390" rx="18" fill="#fffdf8" stroke="#182126" stroke-width="3"/>
+    <text x="638" y="48" font-size="24" font-weight="900" fill="#284c63">Dashboard contract</text>
+    <g font-family="Consolas, monospace" font-size="18" fill="#10191f">
+      <rect x="638" y="82" width="374" height="45" rx="8" fill="#e7eef3"/><text x="660" y="111">record_id</text>
+      <rect x="638" y="138" width="374" height="45" rx="8" fill="#eef5ea"/><text x="660" y="167">collected_at</text>
+      <rect x="638" y="194" width="374" height="45" rx="8" fill="#fff7df"/><text x="660" y="223">source_url</text>
+      <rect x="638" y="250" width="374" height="45" rx="8" fill="#eee8dd"/><text x="660" y="279">text</text>
+      <rect x="638" y="306" width="374" height="45" rx="8" fill="#e7eef3"/><text x="660" y="335">nlp.summary / key_phrases</text>
+    </g>
+  </g>
+</svg>

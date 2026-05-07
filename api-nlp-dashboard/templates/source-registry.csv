@@ -1,0 +1,4 @@
+source_id,source_name,base_url,access_method,auth_type,rate_limit,refresh_cadence,unit_of_analysis,public_safe
+src_001,Example API,https://api.example.org/v1,REST JSON,none,60/min,daily,item,true
+src_002,Example webpage,https://example.org,HTML parse,none,polite crawl only,weekly,page,true
+
