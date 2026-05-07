@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" role="img" aria-labelledby="title desc">
+  <title id="title">Realism and reflexivity diptych</title>
+  <desc id="desc">A microscope reflects a clean structure on the left; on the right, a hand, notebook, transcript, marginalia, and analyst reflection show interpretation in the frame.</desc>
+  <defs><pattern id="grain" width="17" height="17" patternUnits="userSpaceOnUse"><path d="M2 6h1M11 2h1M7 14h1" stroke="#1a1a1a" stroke-opacity=".07"/></pattern>
+  <style>.bg{fill:#fbfaf6}.panel{fill:#fff;stroke:#d9d6cf}.blue{stroke:#1d4e89}.amber{stroke:#92400e}.ink{stroke:#1a1a1a}.line{fill:none;stroke-width:4;stroke-linecap:round;stroke-linejoin:round}.hair{fill:none;stroke-width:2;stroke-linecap:round}.label{font:600 25px Inter,Segoe UI,Arial,sans-serif;fill:#1a1a1a}.small{font:500 18px Inter,Segoe UI,Arial,sans-serif;fill:#424242}</style></defs>
+  <rect class="bg" width="1200" height="900"/><rect width="1200" height="900" fill="url(#grain)" opacity=".55"/>
+  <rect x="70" y="90" width="500" height="680" rx="8" class="panel"/><rect x="630" y="90" width="500" height="680" rx="8" class="panel"/>
+  <g transform="translate(150 170)" class="blue">
+    <path d="M160 430h210M230 430l55-165M285 265l35 165" class="line"/>
+    <path d="M170 190l118 62M252 150l70 38M302 184l-42 88" class="line"/>
+    <circle cx="165" cy="188" r="58" fill="#fbfaf6" stroke="#1d4e89" stroke-width="4"/>
+    <path d="M130 188h70M165 153v70M306 196l72 40M368 230l-50 88M308 318h96" class="line"/>
+    <ellipse cx="270" cy="495" rx="150" ry="34" fill="#1d4e89" opacity=".09"/>
+    <path d="M118 188c36-38 70-38 102 0M205 188c-34 38-66 38-100 0" class="hair"/>
+    <path d="M140 188h50M165 164v48" class="hair"/>
+  </g>
+  <text x="320" y="820" class="label" text-anchor="middle">realism — categories approximate mind-independent structure</text>
+  <g transform="translate(690 150)" class="amber">
+    <path d="M115 92c52-42 150-35 188 18c48 66 8 152-54 172c-63 21-142-12-166-78c-16-44-1-85 32-112z" fill="#92400e" opacity=".08"/>
+    <path d="M94 120c28-58 116-91 178-48c58 40 72 120 30 178c-39 54-120 78-180 42" class="hair"/>
+    <rect x="75" y="275" width="300" height="240" rx="6" fill="#fbfaf6" stroke="#92400e" stroke-width="4"/>
+    <path d="M110 320h145M110 360h190M110 400h128M110 440h170" class="hair"/>
+    <path d="M288 319c30 22 48 48 54 78M304 445c-42-10-72-28-92-54" class="line"/>
+    <path d="M30 505c42-54 95-82 160-84c60-2 88 30 136 28" class="line"/>
+    <circle cx="310" cy="388" r="34" fill="none" stroke="#92400e" stroke-width="3"/>
+    <path d="M256 284c18-20 42-30 72-30M286 252c22-36 58-50 108-40" class="hair"/>
+  </g>
+  <text x="880" y="820" class="label" text-anchor="middle">reflexivity — analyst positioning is constitutive</text>
+</svg>

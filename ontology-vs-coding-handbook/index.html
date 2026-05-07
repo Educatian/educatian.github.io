@@ -1,0 +1,1688 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ontology &amp; Qualitative Coding Schemes — An Epistemological Bridge</title>
+<meta name="description" content="A practical onboarding handbook for graduate AI researchers on the epistemological bridge between formal ontology and qualitative coding schemes." />
+<meta name="author" content="Jewoong Moon" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Ontology &amp; Qualitative Coding Schemes" />
+<meta property="og:description" content="A practical onboarding handbook on the epistemological bridge between formal ontology and qualitative coding schemes." />
+<meta property="og:image" content="https://educatian.github.io/ontology-vs-coding-handbook/thumbnails/hero_og_1200x630.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="https://educatian.github.io/ontology-vs-coding-handbook/thumbnails/hero_og_1200x630.png" />
+<style>
+  :root {
+    --serif: "Source Serif Pro", "Source Serif 4", "Crimson Pro", Georgia, "Times New Roman", serif;
+    --sans:  "Inter", system-ui, -apple-system, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    --mono:  "JetBrains Mono", "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+    --ink:        #1a1a1a;
+    --ink-soft:   #424242;
+    --ink-mute:   #6b6b6b;
+    --rule:       #d9d6cf;
+    --rule-soft:  #ece8df;
+    --paper:      #fbfaf6;
+    --paper-card: #ffffff;
+    --side:       #f4f1ea;
+    --link:       #1d4e89;
+    --link-hover: #d62828;
+    --pitfall:    #b91c1c;
+    --pitfall-bg: #fef2f2;
+    --bridge:     #1e40af;
+    --bridge-bg:  #eff6ff;
+    --controv:    #92400e;
+    --controv-bg: #fffbeb;
+    --code-bg:    #f6f3ec;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: 1.2em; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--serif);
+    font-size: 18px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--link); text-decoration: none; border-bottom: 1px solid rgba(29, 78, 137, 0.3); }
+  a:hover { color: var(--link-hover); border-bottom-color: var(--link-hover); }
+  code, pre, kbd { font-family: var(--mono); }
+  code { font-size: 0.92em; background: var(--code-bg); padding: 0.05em 0.35em; border-radius: 3px; }
+  pre {
+    background: var(--code-bg); border: 1px solid var(--rule-soft);
+    border-radius: 6px; padding: 1em 1.2em; overflow-x: auto;
+    font-size: 0.86em; line-height: 1.55; margin: 0.6em 0;
+  }
+  pre code { background: transparent; padding: 0; font-size: inherit; }
+  blockquote {
+    margin: 1.5em 0; padding: 0.4em 1.4em; border-left: 3px solid var(--rule);
+    color: var(--ink-soft); font-style: italic;
+  }
+  hr { border: 0; border-top: 1px solid var(--rule); margin: 2.5em 0; }
+
+  /* Layout */
+  .layout {
+    display: grid;
+    grid-template-columns: 280px minmax(0, 1fr);
+    width: 100%;
+    max-width: 1240px;
+    margin: 0 auto;
+    gap: 0;
+  }
+  aside.toc {
+    position: sticky; top: 0; align-self: start;
+    height: 100vh; overflow-y: auto;
+    background: var(--side);
+    border-right: 1px solid var(--rule);
+    padding: 2em 1.6em 2em 2em;
+    font-family: var(--sans);
+    font-size: 14px;
+    line-height: 1.45;
+    min-width: 0;
+  }
+  aside.toc h2 {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--ink-mute);
+    margin: 0 0 0.6em 0;
+  }
+  aside.toc nav ol { list-style: none; padding: 0; margin: 0; counter-reset: tocsec; }
+  aside.toc nav li { margin: 0.35em 0; counter-increment: tocsec; }
+  aside.toc nav a {
+    display: block; color: var(--ink-soft); border-bottom: none;
+    padding: 0.25em 0.5em; border-left: 2px solid transparent;
+    border-radius: 0 3px 3px 0; transition: all 0.15s ease;
+  }
+  aside.toc nav a::before { content: counter(tocsec) ". "; color: var(--ink-mute); font-variant-numeric: tabular-nums; }
+  aside.toc nav a:hover { background: rgba(29,78,137,0.08); color: var(--link); }
+  aside.toc nav a.active {
+    color: var(--ink); background: rgba(29,78,137,0.1);
+    border-left-color: var(--link); font-weight: 600;
+  }
+  aside.toc .meta { margin-top: 1.6em; padding-top: 1em; border-top: 1px solid var(--rule); color: var(--ink-mute); font-size: 12px; }
+  aside.toc .meta p { margin: 0.4em 0; }
+
+  main {
+    padding: 3em 4em 4em 4em;
+    max-width: 820px;
+    width: 100%;
+    min-width: 0;
+  }
+
+  /* Hero */
+  header.hero {
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 1.8em; margin-bottom: 2.4em;
+  }
+  header.hero .kicker {
+    font-family: var(--sans); font-size: 12px; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--ink-mute); margin-bottom: 0.6em;
+  }
+  header.hero h1 {
+    font-family: var(--sans);
+    font-size: 2.4em; line-height: 1.15; font-weight: 700;
+    margin: 0 0 0.4em 0; letter-spacing: -0.01em; color: var(--ink);
+  }
+  header.hero .subtitle {
+    font-size: 1.15em; color: var(--ink-soft); margin: 0.4em 0 0 0; font-style: italic;
+  }
+  header.hero .byline {
+    font-family: var(--sans); font-size: 13px; color: var(--ink-mute);
+    margin-top: 1.4em; display: flex; gap: 1.2em; flex-wrap: wrap;
+  }
+  header.hero .byline span { display: inline-flex; gap: 0.4em; align-items: center; }
+  .lang-toggle {
+    position: fixed; top: 18px; right: 18px; z-index: 10;
+    font-family: var(--sans); font-size: 12px; font-weight: 700;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    color: var(--ink); background: rgba(255,255,255,0.94);
+    border: 1px solid var(--rule); border-radius: 999px;
+    padding: 0.55em 0.9em; box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+  }
+  .lang-toggle a { border-bottom: none; color: var(--link); }
+
+  /* Sections */
+  section {
+    margin: 3em 0; scroll-margin-top: 1.5em;
+  }
+  section h2 {
+    font-family: var(--sans);
+    font-size: 1.6em; line-height: 1.25; font-weight: 700;
+    margin: 0 0 0.2em 0; color: var(--ink);
+    border-bottom: 2px solid var(--ink); padding-bottom: 0.35em;
+    display: flex; align-items: baseline; justify-content: space-between;
+    flex-wrap: wrap; gap: 0.6em;
+  }
+  section h2 .num {
+    font-family: var(--sans); font-size: 0.55em; font-weight: 600;
+    color: var(--ink-mute); margin-right: 0.6em; letter-spacing: 0.04em;
+  }
+  section h2 .reading {
+    font-family: var(--sans); font-size: 11px; font-weight: 500;
+    background: var(--rule-soft); color: var(--ink-mute);
+    padding: 0.25em 0.7em; border-radius: 12px; letter-spacing: 0.05em;
+    text-transform: uppercase; white-space: nowrap;
+  }
+  section h2 .ko {
+    display: block; width: 100%; font-size: 0.62em; color: var(--ink-mute);
+    font-weight: 500; margin-top: 0.2em; letter-spacing: -0.005em;
+  }
+  section h3 {
+    font-family: var(--sans);
+    font-size: 1.15em; font-weight: 600;
+    margin: 1.6em 0 0.4em 0; color: var(--ink);
+  }
+  section p { margin: 0.7em 0; }
+  section ul, section ol { padding-left: 1.4em; margin: 0.6em 0; }
+  section ul li, section ol li { margin: 0.35em 0; }
+
+  /* Comparison tables */
+  table.compare {
+    width: 100%; border-collapse: collapse;
+    margin: 1.4em 0; font-size: 0.95em;
+    background: var(--paper-card);
+    border: 1px solid var(--rule);
+  }
+  table.compare th, table.compare td {
+    text-align: left; vertical-align: top; padding: 0.85em 1em;
+    border-bottom: 1px solid var(--rule-soft);
+  }
+  table.compare thead th {
+    background: var(--side); font-family: var(--sans);
+    font-size: 0.85em; letter-spacing: 0.05em;
+    text-transform: uppercase; font-weight: 700; color: var(--ink);
+    border-bottom: 2px solid var(--rule);
+  }
+  table.compare th:first-child {
+    width: 22%; font-family: var(--sans); font-size: 0.85em;
+    background: var(--side);
+  }
+  table.compare tbody th {
+    font-weight: 600; color: var(--ink); font-size: 0.85em;
+  }
+  table.compare td.ont { background: rgba(30,64,175,0.03); }
+  table.compare td.qual { background: rgba(146,64,14,0.03); }
+
+  /* Side-by-side code */
+  .twocol {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 1em; margin: 1.4em 0;
+  }
+  .twocol > div { display: flex; flex-direction: column; }
+  .twocol .label {
+    font-family: var(--sans); font-size: 11px; font-weight: 700;
+    letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-mute);
+    margin-bottom: 0.3em;
+  }
+  .twocol pre { margin: 0; flex: 1; }
+
+  /* Callouts */
+  .callout {
+    border-left: 4px solid; padding: 1em 1.3em;
+    margin: 1.4em 0; border-radius: 0 5px 5px 0;
+    font-size: 0.97em;
+  }
+  .callout .label {
+    font-family: var(--sans); font-size: 11px; font-weight: 700;
+    letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 0.3em;
+    display: flex; align-items: center; gap: 0.4em;
+  }
+  .callout .label::before { font-size: 1em; }
+  .callout p { margin: 0.4em 0; }
+  .callout p:last-child { margin-bottom: 0; }
+  .callout.pitfall    { border-color: var(--pitfall);  background: var(--pitfall-bg);  color: var(--ink); }
+  .callout.pitfall .label    { color: var(--pitfall); }
+  .callout.pitfall .label::before { content: "⚠"; }
+  .callout.bridge     { border-color: var(--bridge);   background: var(--bridge-bg);   color: var(--ink); }
+  .callout.bridge .label     { color: var(--bridge); }
+  .callout.bridge .label::before { content: "⇆"; }
+  .callout.controversy{ border-color: var(--controv);  background: var(--controv-bg);  color: var(--ink); }
+  .callout.controversy .label{ color: var(--controv); }
+  .callout.controversy .label::before { content: "⌬"; }
+
+  /* Decision tree SVG */
+  .decision-tree {
+    margin: 2em 0; padding: 1.4em; background: var(--paper-card);
+    border: 1px solid var(--rule); border-radius: 6px; overflow-x: auto;
+  }
+  .decision-tree svg { display: block; max-width: 100%; height: auto; }
+
+  /* Glossary */
+  dl.glossary { margin: 1em 0; }
+  dl.glossary dt {
+    font-family: var(--sans); font-weight: 700; color: var(--ink);
+    margin-top: 0.9em; font-size: 0.97em;
+  }
+  dl.glossary dd { margin: 0.2em 0 0 0; padding-left: 0; color: var(--ink-soft); }
+
+  /* References */
+  ol.refs { padding-left: 1.6em; font-size: 0.93em; line-height: 1.5; }
+  ol.refs li { margin: 0.5em 0; padding-left: 0.2em; }
+  ol.refs li::marker { color: var(--ink-mute); font-family: var(--sans); }
+
+  /* Footer */
+  footer {
+    margin-top: 4em; padding: 2em 0 3em 0;
+    border-top: 1px solid var(--rule);
+    font-family: var(--sans); font-size: 13px; color: var(--ink-mute);
+    line-height: 1.6;
+  }
+  footer p { margin: 0.3em 0; }
+
+  /* Numbered misconceptions */
+  ol.misconceptions {
+    list-style: none; padding-left: 0; counter-reset: mis;
+  }
+  ol.misconceptions > li {
+    counter-increment: mis; position: relative;
+    padding-left: 3em; margin: 1.4em 0; min-height: 2em;
+  }
+  ol.misconceptions > li::before {
+    content: counter(mis, decimal-leading-zero);
+    position: absolute; left: 0; top: 0;
+    font-family: var(--sans); font-size: 1.4em; font-weight: 800;
+    color: var(--pitfall); width: 2.2em; line-height: 1;
+  }
+  ol.misconceptions h3 { margin: 0 0 0.3em 0; font-size: 1.05em; }
+
+  /* Worked example wrappers */
+  .case {
+    background: var(--paper-card); border: 1px solid var(--rule);
+    border-radius: 6px; padding: 1.4em 1.6em; margin: 1.4em 0;
+  }
+  .case h3 { margin-top: 0; }
+  .case .case-tag {
+    display: inline-block; font-family: var(--sans); font-size: 11px;
+    font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 0.2em 0.6em; border-radius: 3px;
+    background: var(--rule-soft); color: var(--ink-soft);
+    margin-bottom: 0.4em;
+  }
+
+  figure.figure {
+    margin: 1.8em 0;
+    padding: 0;
+    display: block;
+    text-align: center;
+  }
+  figure.figure img {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    background: var(--paper-card);
+  }
+  figure.figure.hero img {
+    max-width: 100%;
+    border-radius: 6px;
+    margin-top: 0.4em;
+  }
+  figure.figure figcaption {
+    font-family: var(--sans);
+    font-size: 13px;
+    color: var(--ink-mute);
+    margin-top: 0.6em;
+    font-style: italic;
+    line-height: 1.5;
+    max-width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Mobile */
+  @media (max-width: 900px) {
+    html, body { max-width: 100%; overflow-x: hidden; }
+    .layout { display: block; max-width: 100%; width: 100%; }
+    aside.toc {
+      position: static; height: auto; max-height: none;
+      border-right: none; border-bottom: 1px solid var(--rule);
+      padding: 1.4em 1.6em;
+    }
+    main { display: block; width: auto; max-width: 100vw; margin: 0; padding: 2em 1.1em 3em 1.1em; }
+    .twocol { grid-template-columns: 1fr; }
+    header.hero h1 { font-size: 1.6em; line-height: 1.2; overflow-wrap: anywhere; }
+    header.hero .subtitle { display: block; max-width: min(32ch, calc(100vw - 3.2em)); font-size: 0.82em; line-height: 1.55; }
+    header.hero .subtitle, header.hero .byline, p, li { overflow-wrap: anywhere; word-break: break-word; }
+    header.hero .byline { display: block; }
+    header.hero .byline span { display: block; margin-top: 0.35em; }
+    .lang-toggle { position: static; display: inline-block; margin: 1em 1.4em 0; }
+    figure.figure { width: 100%; max-width: 100%; overflow: hidden; }
+    figure.figure img { display: block; width: 100%; max-width: 100%; object-fit: contain; }
+  }
+  @media print {
+    aside.toc { display: none; }
+    .layout { grid-template-columns: 1fr; }
+    main { padding: 0; max-width: none; }
+    a { color: inherit; }
+  }
+</style>
+</head>
+<body>
+<div class="lang-toggle">English · <a href="../ontology-vs-coding-handbook-ko/index.html">Korean</a></div>
+<div class="layout">
+
+  <aside class="toc" aria-label="Table of contents">
+    <h2>Contents</h2>
+    <nav>
+      <ol>
+        <li><a href="#s1">Why this guide exists</a></li>
+        <li><a href="#s2">Two honest definitions</a></li>
+        <li><a href="#s3">Shared DNA</a></li>
+        <li><a href="#s4">The epistemological split</a></li>
+        <li><a href="#s5">Operational differences</a></li>
+        <li><a href="#s6">Six misconceptions</a></li>
+        <li><a href="#s7">When to use which (and how to mix)</a></li>
+        <li><a href="#s8">Methodological checklist</a></li>
+        <li><a href="#s9">Three worked examples</a></li>
+        <li><a href="#s10">Glossary &amp; references</a></li>
+      </ol>
+    </nav>
+    <div class="meta">
+      <p><strong>Reading time</strong> ≈ 35 minutes</p>
+      <p><strong>Audience</strong> graduate AI researchers</p>
+      <p><strong>Version</strong> 0.1 · 2026-05-07</p>
+    </div>
+  </aside>
+
+  <main>
+    <header class="hero">
+      <figure class="figure hero">
+        <img src="assets/imagegen-hero-bridge.png" alt="A deep blue ontology landscape and a warm amber coding workspace meet across a bridge on a paper-textured background." />
+        <figcaption>Two traditions, two layers of the meaning stack.</figcaption>
+      </figure>
+      <p class="kicker">ADDIE Lab Methodological Handbook · v0.1</p>
+      <h1>Ontology and Qualitative Coding Schemes — An Epistemological Bridge</h1>
+      <p class="subtitle">
+        A practical onboarding guide for graduate AI researchers who already
+        know knowledge graphs but are new to interpretive qualitative methods.
+      </p>
+      <div class="byline">
+        <span>By Dr. Jewoong Moon · ADDIE Lab</span>
+        <span>University of Alabama</span>
+        <span>2026-05-07</span>
+      </div>
+    </header>
+
+    <!-- ================= SECTION 1 ================= -->
+    <section id="s1">
+      <h2>
+        <span><span class="num">§1</span>Why this guide exists</span>
+        <span class="reading">~3 min</span>
+      </h2>
+
+      <p>
+        Most AI researchers meet qualitative coding for the first time the same
+        way: a collaborator hands them a stack of interview transcripts and
+        says "we need codes." They reach for the closest metaphor in their
+        toolbox — annotation. They fix a label set, instruct a model (or a
+        teammate) to apply it, and compute agreement. Job done.
+      </p>
+
+      <p>
+        That move flattens a research practice into a labeling task, and the
+        cost is methodological. A coding scheme is not a fixed schema applied
+        to data. It is an instrument that <em>changes</em> as the analysis
+        proceeds, that registers researcher judgment as a feature rather than
+        as noise, and that survives or fails on intersubjective grounds the
+        annotation literature does not measure (Charmaz, 2014; Braun &amp; Clarke,
+        2019; Saldaña, 2021). When AI researchers treat coding as annotation,
+        they import the wrong success criteria — high κ on a frozen taxonomy —
+        and miss the moves that make qualitative work warranted.
+      </p>
+
+      <p>
+        Recent attempts to use large language models for thematic analysis
+        have made this gap visible. Xiao, Yuan, Liao, Abdelghani, and Oudeyer
+        (2023) showed that GPT-3 can perform <em>deductive</em> coding against
+        a fixed codebook with fair-to-substantial expert agreement, but
+        carefully limited their claim. De Paoli (2024) ran an entire inductive
+        thematic analysis with GPT-3.5-Turbo and read his own results as a
+        provocation: the LLM produced output that <em>looked</em> like
+        Braun-and-Clarke phases while leaving familiarization and interpretive
+        engagement as live methodological questions. Christou (2024), Naeem,
+        Smith, and Thomas (2025), and Schroeder et al. (2025) extend the
+        same warning. The problem is not
+        that LLMs cannot label; it is that automation can hollow out the
+        researcher's time-with-data, which is where qualitative warrant
+        actually lives.
+      </p>
+
+      <p>
+        The opposite confusion is just as common. Qualitative researchers
+        sometimes treat a finished codebook as if it were a domain ontology
+        and try to publish it as machine-readable infrastructure. It rarely
+        is. A codebook is shaped to its corpus, encodes the analyst's
+        evolving categories, and rests on trustworthiness procedures
+        (credibility, transferability, dependability, confirmability — Lincoln
+        &amp; Guba, 1985) that have no formal-logic counterpart.
+      </p>
+
+      <p>
+        This handbook is written to keep both errors from happening. It
+        treats <strong>formal ontology</strong> and <strong>qualitative
+        coding scheme</strong> as two distinct ways of organizing meaning
+        that operate at different layers of the meaning stack, and shows
+        where they meet, where they part, and how to combine them honestly.
+        It is written for graduate AI researchers — readers who already
+        recognize <code>owl:Class</code> and <code>rdfs:subClassOf</code>,
+        who can prompt an LLM, but who are likely to be reading Charmaz or
+        Saldaña for the first time.
+      </p>
+
+      <div class="callout pitfall">
+        <div class="label">Common pitfall</div>
+        <p>
+          Treating a coding scheme as a frozen label set and reporting only
+          inter-rater κ is the qualitative equivalent of evaluating a
+          knowledge-graph project by the count of triples. It tells you
+          almost nothing about whether the work is good.
+        </p>
+      </div>
+    </section>
+
+    <!-- ================= SECTION 2 ================= -->
+    <section id="s2">
+      <h2>
+        <span><span class="num">§2</span>Two honest definitions</span>
+        <span class="reading">~5 min</span>
+      </h2>
+
+      <h3>2.1 Ontology, in the sense AI researchers use the word</h3>
+
+      <p>
+        Gruber's (1993) widely cited formula — "an ontology is an explicit
+        specification of a conceptualization" — was tightened a few years
+        later by Studer, Benjamins, and Fensel (1998) to "a <em>formal,
+        explicit specification of a shared conceptualization.</em>" The
+        added qualifiers carry weight. <em>Formal</em> means the ontology is
+        machine-interpretable and supports inference. <em>Explicit</em> means
+        the types and constraints are written down rather than left tacit.
+        <em>Shared</em> means the ontology is consensual infrastructure for a
+        community, not a private model.
+      </p>
+
+      <p>
+        Guarino (1998) distinguishes the philosophical discipline (Ontology
+        with a capital O — the study of what exists) from the artifacts
+        information scientists build (an ontology, an artifact). Smith and
+        Welty (2001) bridge the two and argue that careful ontology
+        engineering profits from the meta-property analysis philosophers
+        developed (rigidity, identity, unity — the OntoClean tradition).
+      </p>
+
+      <p>
+        Operationally, an ontology has two parts. The <strong>T-Box</strong>
+        ("terminology box") declares classes, properties, and the axioms that
+        bind them. The <strong>A-Box</strong> ("assertion box") populates
+        those classes with individuals. A <em>knowledge graph</em> is, in
+        most current usage, a richly populated A-Box governed by an
+        explicit T-Box (Hogan et al., 2021).
+      </p>
+
+      <p>
+        Three core W3C languages span an expressivity gradient:
+      </p>
+      <ul>
+        <li><strong>RDF / RDFS</strong> — triples and lightweight class
+          hierarchies. Decidable, low ceiling.</li>
+        <li><strong>OWL 2</strong> — description-logic ontologies with
+          reasoners that check consistency, classify, and compute entailments.</li>
+        <li><strong>SKOS</strong> — controlled vocabularies (thesauri,
+          taxonomies, classification schemes) with deliberately
+          <em>weaker</em> semantics: <code>skos:broader</code> is not
+          equivalent to <code>rdfs:subClassOf</code>. SKOS exists precisely
+          to host evolving, plural, and contested vocabularies (Miles &amp;
+          Bechhofer, 2009). It is — as we will see in §7 — the natural format
+          for codebook-style structures.</li>
+      </ul>
+
+      <h3>2.2 Coding scheme, in the sense qualitative researchers use the word</h3>
+
+      <p>
+        A <strong>code</strong> in the qualitative tradition is "most often a
+        word or short phrase that symbolically assigns a summative, salient,
+        essence-capturing, and/or evocative attribute for a portion of
+        language-based or visual data" (Saldaña, 2021). The
+        <strong>coding scheme</strong> (or <strong>codebook</strong>) is the
+        organized set of those codes — typically with definitions, inclusion
+        criteria, exclusion criteria, and exemplar quotations.
+      </p>
+
+      <p>
+        Coding schemes come in two main flavors:
+      </p>
+      <ul>
+        <li><strong>A priori / deductive</strong> — codes are derived from
+          theory or prior literature and applied to data. The codebook is
+          fixed before coding starts and is the workhorse of content
+          analysis.</li>
+        <li><strong>Emergent / inductive</strong> — codes are generated
+          <em>from</em> the data through cycles of close reading, comparison,
+          and refinement. This is the stance of grounded theory (Glaser &amp;
+          Strauss, 1967; Charmaz, 2014) and reflexive thematic analysis
+          (Braun &amp; Clarke, 2006, 2019).</li>
+      </ul>
+
+      <p>
+        Most projects mix the two. Saldaña (2021) catalogs more than 35
+        first-cycle methods (descriptive, in-vivo, process, values, emotion,
+        magnitude, simultaneous, etc.) and second-cycle methods (pattern,
+        focused, axial, theoretical) that compress and re-organize the
+        first-cycle codes into themes and categories. Themes are not codes;
+        themes are what you build <em>from</em> codes after multiple passes.
+      </p>
+
+      <h3>2.3 Comparison</h3>
+
+      <table class="compare">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Formal ontology</th>
+            <th>Qualitative coding scheme</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>Primary unit</th>
+            <td class="ont">Class, property, individual</td>
+            <td class="qual">Code, theme, category</td>
+          </tr>
+          <tr>
+            <th>Format</th>
+            <td class="ont">RDF / OWL / SKOS — machine-readable, formal-logic axioms</td>
+            <td class="qual">Codebook — natural-language definitions, examples, memos</td>
+          </tr>
+          <tr>
+            <th>Author intent</th>
+            <td class="ont">Shared community vocabulary, interoperability</td>
+            <td class="qual">Local instrument, fitted to corpus and research question</td>
+          </tr>
+          <tr>
+            <th>Lifecycle</th>
+            <td class="ont">Versioned releases, deprecation policies, OntoClean review</td>
+            <td class="qual">Iterative refinement during analysis; rarely shipped as standalone artifact</td>
+          </tr>
+          <tr>
+            <th>Truth claim</th>
+            <td class="ont">"These are the kinds of things that exist in this domain"</td>
+            <td class="qual">"This is how these informants made sense of this phenomenon, in this context"</td>
+          </tr>
+          <tr>
+            <th>Validation surface</th>
+            <td class="ont">Logical consistency, competency questions, reuse</td>
+            <td class="qual">Inter-rater reliability, member checking, trustworthiness, reflexivity</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>2.4 The artifacts side by side</h3>
+
+      <p>
+        For an AI reader, it helps to see what a small fragment of each
+        actually looks like. The Turtle on the left is a SKOS-style
+        controlled vocabulary fragment for affective states; the codebook on
+        the right is a Saldaña-style entry from a hypothetical study of
+        student forum posts about AI tools.
+      </p>
+
+      <div class="twocol">
+        <div>
+          <div class="label">Ontology fragment (Turtle / SKOS)</div>
+<pre><code>@prefix skos: &lt;http://www.w3.org/2004/02/skos/core#&gt; .
+@prefix ex:   &lt;https://example.org/affect#&gt; .
+
+ex:Anxiety  a skos:Concept ;
+   skos:prefLabel  "anxiety"@en ;
+   skos:altLabel   "worry"@en, "apprehension"@en ;
+   skos:broader    ex:NegativeEpistemicEmotion ;
+   skos:scopeNote  "State of unease about an
+      uncertain outcome relevant to learning."@en .
+
+ex:Confusion  a skos:Concept ;
+   skos:prefLabel  "confusion"@en ;
+   skos:broader    ex:NegativeEpistemicEmotion ;
+   skos:related    ex:Anxiety .</code></pre>
+        </div>
+        <div>
+          <div class="label">Codebook entry (Saldaña-style)</div>
+<pre><code>CODE: AI-trust-hedge
+DEFINITION:
+   Statements where the student claims to use
+   the AI tool but qualifies that claim with a
+   warrant about why the answer should still be
+   doubted.
+
+INCLUSION:
+   - explicit modal verbs ("might be wrong",
+     "could be hallucinating")
+   - reference to verifying with another source
+EXCLUSION:
+   - generic disclaimers about AI in general
+   - statements about other students' use
+
+EXAMPLE:
+   "I used Claude for the first draft but I
+    cross-checked the citations because it
+    sometimes makes them up."
+
+MEMO 2026-04-12:
+   Look for trust-hedge co-occurring with
+   identity-claims about being a 'good student'.</code></pre>
+        </div>
+      </div>
+
+      <p>
+        The Turtle is a declarative, machine-checkable artifact. A reasoner
+        will tell you whether <code>ex:Anxiety</code> and
+        <code>ex:Confusion</code> are consistent under your axioms. The
+        codebook is an instrument shaped by analytic decisions; its
+        <code>MEMO</code> field is the visible trace of researcher reasoning
+        — and is also the part that has no analog in the Turtle file at all.
+      </p>
+    </section>
+
+    <!-- ================= SECTION 3 ================= -->
+    <section id="s3">
+      <h2>
+        <span><span class="num">§3</span>Shared DNA</span>
+        <span class="reading">~3 min</span>
+      </h2>
+
+      <p>
+        Before we draw the split, it pays to name what the two traditions
+        share. Both are <em>infrastructure for organizing meaning</em>, and
+        both have to handle the same hard problems.
+      </p>
+
+      <p>
+        <strong>Hierarchical organization.</strong> Ontologies use
+        <code>rdfs:subClassOf</code>; coding schemes use the relation
+        between codes, categories, and themes. Both move from finer-grained
+        to coarser-grained concepts because that is how human
+        sense-making compresses.
+      </p>
+      <p>
+        <strong>Community vocabulary negotiation.</strong> Studer et al.'s
+        (1998) "shared" qualifier and Saldaña's repeated insistence that a
+        codebook be discussed and negotiated with collaborators arrive at
+        the same point from opposite directions. Categories that no one but
+        the original author can apply are weak categories.
+      </p>
+      <p>
+        <strong>Iterative refinement.</strong> Ontology engineering
+        methodologies — METHONTOLOGY (Fernández-López, Gómez-Pérez, &amp;
+        Juristo, 1997), NeOn (Suárez-Figueroa, Gómez-Pérez, Motta, &amp;
+        Gangemi, 2012) — explicitly iterate specification, conceptualization,
+        formalization, and evaluation. The grounded-theory constant-comparative
+        method (Glaser &amp; Strauss, 1967) and Braun and Clarke's (2006)
+        six-phase TA both iterate at the level of the analyst's reading. The
+        rhythm is the same; the medium differs.
+      </p>
+      <p>
+        <strong>Mediating the data-theory gap.</strong> Both artifacts
+        sit between raw data and the abstract theoretical claims a
+        researcher wants to make. They are the place where data becomes
+        organized enough to support a claim.
+      </p>
+
+      <p>
+        The most influential book that names this shared territory is Bowker
+        and Star's (1999) <em>Sorting Things Out: Classification and Its
+        Consequences</em>. Their argument is simple and uncomfortable:
+        <em>every</em> classification system — the ICD, the Nursing
+        Interventions Classification, race classifications under apartheid,
+        viral taxonomies — encodes commitments that valorize some points of
+        view and silence others. The choice is never whether to be
+        political, only whether to be honest about it. AI researchers who
+        treat ontology engineering as neutral knowledge representation owe
+        themselves a serious read of Chapter 1.
+      </p>
+
+      <p>
+        Nelson's (2020) <em>computational grounded theory</em> formalizes
+        the convergence on the methods side. She proposes a three-step
+        framework: (1) <em>pattern detection</em> through unsupervised
+        machine learning; (2) <em>pattern refinement</em> through qualitative
+        deep reading; (3) <em>pattern confirmation</em> through further
+        computational analysis. Computation augments interpretive
+        engagement; it does not replace it. The framework is a clean answer
+        to "is there a principled way to combine these traditions?"
+      </p>
+
+      <figure class="figure">
+        <img src="assets/imagegen-shared-dna.png" alt="Blue ontology and amber coding workbenches overlap around four shared ideas: hierarchy, vocabulary, iteration, and data to theory." loading="lazy" />
+        <figcaption>Where the two traditions overlap: hierarchy, community vocabulary, iteration, and the data-theory gap.</figcaption>
+      </figure>
+
+      <div class="callout bridge">
+        <div class="label">Bridge pattern · #1</div>
+        <p>
+          <strong>Read the same problem, twice.</strong> Before treating
+          ontology and coding as different, ask what each is trying to do for
+          your study: organize a community vocabulary? Stabilize an analytic
+          instrument? Mediate between raw data and a theoretical claim? Both
+          do all three. The choice of artifact is downstream of <em>which
+          layer</em> you are working at.
+        </p>
+      </div>
+    </section>
+
+    <!-- ================= SECTION 4 ================= -->
+    <section id="s4">
+      <h2>
+        <span><span class="num">§4</span>The epistemological split</span>
+        <span class="reading">~5 min</span>
+      </h2>
+
+      <p>
+        The shared DNA is real, but the split is real too — and it is
+        epistemic, not merely stylistic. AI researchers tend to import
+        assumptions from supervised learning that misfit qualitative work.
+        Four contrasts are worth memorizing.
+      </p>
+
+      <h3>4.1 Closed-world vs. open-world</h3>
+
+      <p>
+        Reiter (1978) introduced the closed-world assumption (CWA): in a
+        complete database, anything not provable is false. Most relational
+        systems and most supervised classifiers behave this way — they
+        return a label per input. The Semantic Web languages
+        deliberately took the opposite stance. OWL adopts the
+        <strong>open-world assumption (OWA)</strong>: absence of evidence is
+        not evidence of absence. If your ontology does not entail
+        "<code>:patient_42 ex:hasDiagnosis ex:Diabetes</code>," that does
+        not mean the patient is non-diabetic; it means we do not know.
+      </p>
+
+      <p>
+        Qualitative researchers operate in something close to OWA out of
+        habit. A code that did not appear in this corpus is not
+        <em>absent</em> from the world — it is absent <em>from this corpus
+        under this analyst's gaze</em>. Reflexive TA goes further and refuses
+        the saturation criterion because of this (Braun &amp; Clarke, 2019;
+        see §4.4). AI researchers fluent in OWA have the conceptual
+        furniture to understand this stance; they often do not realize
+        they already do.
+      </p>
+
+      <figure class="figure">
+        <img src="assets/imagegen-cwa-vs-owa.png" alt="A sealed blue archive labeled closed world contrasts with an open amber research room labeled open world." loading="lazy" />
+        <figcaption>Closed-world vs. open-world. AI researchers who use OWL already operate under OWA; reflexive thematic analysis assumes the same epistemic humility from the qualitative side.</figcaption>
+      </figure>
+
+      <h3>4.2 Formal logic vs. interpretive judgment</h3>
+
+      <p>
+        An OWL reasoner can mechanically derive that
+        <code>ex:Confusion ⊑ ex:NegativeEpistemicEmotion</code> entails
+        certain facts. A qualitative analyst arguing that a particular
+        utterance is an instance of "AI-trust-hedge" cannot. The warrant for
+        the second move is interpretive — it requires the analyst to make
+        the case that <em>this</em> utterance, in <em>this</em> context, by
+        <em>this</em> speaker, fits the code. The strength of the argument
+        rests on close reading, comparative reasoning, and the analyst's
+        positioning, none of which is logically necessary in the formal
+        sense.
+      </p>
+
+      <h3>4.3 Normative consensus vs. emergent context-bound</h3>
+
+      <table class="compare">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Ontology orientation</th>
+            <th>Coding-scheme orientation</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>Ideal artifact</th>
+            <td class="ont">A vocabulary so well-engineered that other researchers reuse it</td>
+            <td class="qual">An instrument well-fitted to <em>this</em> dataset and research question</td>
+          </tr>
+          <tr>
+            <th>Authority</th>
+            <td class="ont">Community standards bodies, OBO Foundry, W3C</td>
+            <td class="qual">The author + co-authors + the community of similar studies</td>
+          </tr>
+          <tr>
+            <th>Mode of growth</th>
+            <td class="ont">Versioned, governed, sometimes legislated</td>
+            <td class="qual">Emergent, refined through use, often discarded after publication</td>
+          </tr>
+          <tr>
+            <th>Failure mode</th>
+            <td class="ont">Incoherence with the rest of the linked-data web</td>
+            <td class="qual">Failure to be recognizable to participants or peers as a faithful reading</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>4.4 Realism vs. reflexivity — the live argument</h3>
+
+      <p>
+        The deepest split is philosophical. Smith and Welty (2001) and the
+        Applied Ontology tradition lean realist: a well-engineered ontology
+        approximates structure that exists independently of the engineer.
+        Bowker and Star (1999), and constructivist grounded theorists like
+        Charmaz (2014), insist the opposite — categories are <em>built</em>,
+        not <em>found</em>; analyst subjectivity is constitutive, not noise.
+      </p>
+
+      <p>
+        Trustworthiness in qualitative work (Lincoln &amp; Guba, 1985) is
+        the operationalization of taking reflexivity seriously. Instead of
+        validity-as-correspondence, the criteria are credibility (do the
+        findings ring true to participants?), transferability (can a reader
+        port them to another context?), dependability (would another
+        analyst, given the same data and audit trail, follow the
+        reasoning?), and confirmability (can the analyst's role in the
+        conclusions be inspected?). None of these reduce to a number.
+      </p>
+
+      <figure class="figure">
+        <img src="assets/imagegen-realism-vs-reflexivity.png" alt="A blue microscope scene labeled realism contrasts with an amber notebook and analyst-reflection scene labeled reflexivity." loading="lazy" />
+        <figcaption>Realism keeps the analyst out of the frame; reflexivity puts the analyst in it.</figcaption>
+      </figure>
+
+      <div class="callout controversy">
+        <div class="label">Live controversy · #1 — saturation</div>
+        <p>
+          Glaser and Strauss (1967) and Charmaz (2014) treat
+          <em>saturation</em> — the point at which new data stops yielding
+          new categories — as a foundational stopping criterion. Braun and
+          Clarke (2019) explicitly reject it for reflexive TA: they argue
+          themes are <em>generated</em>, not <em>found</em>, and that
+          information redundancy is not a meaningful concept when the
+          analyst's interpretive role is taken seriously. Pick a side
+          consciously; do not invoke "saturation" without saying which
+          tradition you are in.
+        </p>
+      </div>
+    </section>
+
+    <!-- ================= SECTION 5 ================= -->
+    <section id="s5">
+      <h2>
+        <span><span class="num">§5</span>Operational differences</span>
+        <span class="reading">~5 min</span>
+      </h2>
+
+      <h3>5.1 What counts as ground truth</h3>
+
+      <p>
+        In ontology engineering, ground truth is logical: the ontology
+        either entails the competency questions or it does not. In coding,
+        there is no ground truth in this sense. Two trained, reflexive
+        analysts can read the same transcript, generate slightly different
+        codes, and both be defensibly right. This is not a bug; it is the
+        topology of interpretive work.
+      </p>
+
+      <h3>5.2 Validation, side by side</h3>
+
+      <table class="compare">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Ontology validation</th>
+            <th>Coding-scheme validation</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>Internal coherence</th>
+            <td class="ont">Reasoner-checked logical consistency; no entailment of contradictions</td>
+            <td class="qual">Codes mutually intelligible to a coding team; codebook memos cohere</td>
+          </tr>
+          <tr>
+            <th>Sufficiency</th>
+            <td class="ont">Competency questions are entailed by axioms (Grüninger &amp; Fox, 1995)</td>
+            <td class="qual">Analytic claims grounded in the data; negative cases addressed</td>
+          </tr>
+          <tr>
+            <th>Reliability</th>
+            <td class="ont">Reuse and citation by other ontologies; OntoClean meta-property checks</td>
+            <td class="qual">IRR (Cohen's κ, Krippendorff's α) for codebook TA; not the same target for reflexive TA</td>
+          </tr>
+          <tr>
+            <th>External warrant</th>
+            <td class="ont">Linkage to upper ontologies (BFO, DOLCE) or community standards</td>
+            <td class="qual">Member checking; participant recognition; analytic generalizability</td>
+          </tr>
+          <tr>
+            <th>Author position</th>
+            <td class="ont">Engineer ideally invisible (the schema is what it is)</td>
+            <td class="qual">Researcher reflexivity is a first-class output (Lincoln &amp; Guba, 1985)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>5.3 Competency questions and research questions</h3>
+
+      <p>
+        Grüninger and Fox (1995) introduced <em>competency questions</em>:
+        natural-language queries the ontology must be able to answer. They
+        are the closest formal-ontology analogue to a research question.
+        Grad students fluent in CQs but new to qualitative methods can use
+        the parallel as a learning device.
+      </p>
+
+      <div class="twocol">
+        <div>
+          <div class="label">Competency question (ontology)</div>
+<pre><code># For a course-design ontology
+CQ-01:  Which learning outcomes are
+        addressed by which assessments?
+
+CQ-02:  Which assessments target the
+        same outcome with different
+        cognitive levels?
+
+CQ-03:  Which course modules contain
+        no formative assessment for
+        their stated outcomes?</code></pre>
+        </div>
+        <div>
+          <div class="label">Research question (qualitative study)</div>
+<pre><code># For a TA of student forum posts
+RQ-01:  How do undergraduates account
+        for using AI tools in courses
+        that prohibit them?
+
+RQ-02:  What kinds of trust hedges
+        appear when students disclose
+        AI use to peers vs. instructors?
+
+RQ-03:  How do these accounts shift
+        across the semester?</code></pre>
+        </div>
+      </div>
+
+      <p>
+        Both lists discipline the artifact downstream. CQs constrain which
+        classes and properties the ontology must support; RQs constrain
+        what kinds of codes will eventually warrant attention. The structural
+        parallel is real, but it can mask a difference: CQs are answered by
+        the ontology mechanically; RQs are answered by the analyst, with the
+        codebook as evidence.
+      </p>
+
+      <h3>5.4 Reliability indices, used carefully</h3>
+
+      <p>
+        Cohen's κ and Krippendorff's α correct raw agreement for chance.
+        McHugh (2012) gives a working scale: &lt; 0.40 is poor, 0.60–0.79
+        moderate, 0.80–0.90 strong. Hayes and Krippendorff (2007) recommend
+        α ≥ 0.80 for tentative claims and α ≥ 0.667 for exploratory work.
+        Both indices are sensitive to category prevalence — high agreement
+        on rare codes can yield paradoxically low κ — so single numbers
+        rarely tell the full story.
+      </p>
+
+      <p>
+        These indices are appropriate for <em>codebook</em> TA and for
+        deductive content analysis, where the codebook is fixed before
+        coding. They are <em>not</em> the validation target for reflexive TA
+        in Braun and Clarke's (2019) sense, where calling for κ between
+        coders is a category mistake.
+      </p>
+
+      <h3>5.5 Mutual exclusivity vs. overlap</h3>
+
+      <p>
+        OWL classes are typically expected to be mutually consistent under a
+        partition; two classes with overlapping membership require explicit
+        modeling (<code>owl:disjointWith</code> the standard control). Codes
+        in qualitative work routinely overlap on the same data segment, and
+        good codebooks document the overlap rather than designing it away.
+        The same utterance can be coded as both AI-trust-hedge <em>and</em>
+        identity-work without producing a logical problem.
+      </p>
+    </section>
+
+    <!-- ================= SECTION 6 ================= -->
+    <section id="s6">
+      <h2>
+        <span><span class="num">§6</span>Six misconceptions AI researchers carry into qualitative coding</span>
+        <span class="reading">~4 min</span>
+      </h2>
+
+      <p>
+        These are listed sharp on purpose. Each is a real failure mode the
+        recent LLM-assisted-qualitative-research literature has documented.
+      </p>
+
+      <figure class="figure">
+        <img src="assets/imagegen-six-misconceptions.png" alt="A two-by-three grid of six numbered visual metaphors shows common coding misconceptions with a ruler, torn page, glass dome, wastebasket, empty boxes and theme garden, and tangled knot." loading="lazy" />
+        <figcaption>Six misconceptions about coding that AI researchers commonly carry over from supervised-learning intuitions.</figcaption>
+      </figure>
+
+      <ol class="misconceptions">
+        <li>
+          <h3>"Krippendorff's α is to coding what OWL consistency is to ontology."</h3>
+          <p>
+            They have superficially similar roles — both are integrity
+            checks — but they are not commensurable. α is a chance-corrected
+            agreement statistic that rewards coders for converging on a
+            fixed scheme. OWL consistency is a logical property of the
+            ontology itself; it is independent of any annotators (Hayes &amp;
+            Krippendorff, 2007; McHugh, 2012). High α tells you a codebook
+            is replicable; it tells you nothing about whether the codes
+            illuminate the data.
+          </p>
+        </li>
+        <li>
+          <h3>"If an LLM produced the codes, the codes are objective."</h3>
+          <p>
+            LLM output reflects training data, prompt structure, sampling
+            temperature, and the analyst's prompt-engineering choices.
+            Christou (2024) calls these out explicitly and recommends
+            phase-by-phase documentation of AI use. De Paoli (2024) shows that
+            LLM-generated TA can partially reproduce Braun and Clarke phases,
+            but also leaves familiarization and interpretive engagement as
+            methodological limits to document.
+            Treating LLM output as objective is the same error as treating
+            an annotator's labels as ground truth without checking
+            inter-rater behavior.
+          </p>
+        </li>
+        <li>
+          <h3>"Lock the labels and start coding."</h3>
+          <p>
+            For deductive content analysis, fine. For inductive coding,
+            this is the wrong move. Glaser and Strauss's (1967) constant
+            comparison and Charmaz's (2014) open-to-focused-to-theoretical
+            progression require the codebook to <em>change</em> as analysis
+            proceeds. Saldaña (2021) is explicit: a codebook is dynamic;
+            "freezing" it after the first pass discards information the
+            second pass would have produced.
+          </p>
+        </li>
+        <li>
+          <h3>"Reflexivity memos are optional documentation."</h3>
+          <p>
+            They are part of the analytic instrument, not paratext. Lincoln
+            and Guba's (1985) confirmability criterion requires an audit
+            trail of how the analyst's positioning shaped the conclusions.
+            In reflexive TA the memos are how subjectivity is registered —
+            and registered subjectivity is the warrant, not a contaminant
+            (Braun &amp; Clarke, 2019).
+          </p>
+        </li>
+        <li>
+          <h3>"More categories means more sophisticated theory."</h3>
+          <p>
+            In ontology engineering, depth and granularity often correlate
+            with reuse value. In coding, the relationship inverts past a
+            point. A 200-code scheme typically signals that the analyst has
+            not yet done the second-cycle work of compressing first-cycle
+            codes into themes (Saldaña, 2021). Theoretical sophistication
+            shows up as a small set of well-defended themes, not a long
+            label list.
+          </p>
+        </li>
+        <li>
+          <h3>"I'll validate the coding scheme by mapping it to the ontology (or vice versa)."</h3>
+          <p>
+            This is the most attractive error. It feels like
+            triangulation. It is not. The ontology is a community
+            vocabulary; the codebook is a corpus-fitted instrument. Forcing
+            agreement between them either truncates the codebook to fit the
+            ontology, or inflates the ontology with categories no other
+            project would reuse. Mappings are useful as
+            <em>publication-time interfaces</em>, not as cross-validation.
+          </p>
+        </li>
+      </ol>
+    </section>
+
+    <!-- ================= SECTION 7 ================= -->
+    <section id="s7">
+      <h2>
+        <span><span class="num">§7</span>When to use which (and how to mix)</span>
+        <span class="reading">~4 min</span>
+      </h2>
+
+      <h3>7.1 A decision tree</h3>
+
+      <p>
+        The first move is to ask which question your study is actually
+        answering. The answer determines the artifact.
+      </p>
+
+      <div class="decision-tree">
+        <svg viewBox="0 0 760 470" xmlns="http://www.w3.org/2000/svg" role="img"
+             aria-label="Decision tree for choosing between ontology, coding scheme, or hybrid">
+          <style>
+            .node { fill: #ffffff; stroke: #1a1a1a; stroke-width: 1.4; }
+            .node-q { fill: #f4f1ea; }
+            .node-onto { fill: #eff6ff; stroke: #1e40af; }
+            .node-code { fill: #fdf6ec; stroke: #92400e; }
+            .node-hybrid { fill: #f3eef9; stroke: #6d28d9; }
+            .label-q { font-family: "Inter", sans-serif; font-size: 13px; font-weight: 600; fill: #1a1a1a; }
+            .label-out { font-family: "Inter", sans-serif; font-size: 13px; font-weight: 700; }
+            .label-edge { font-family: "Inter", sans-serif; font-size: 11px; fill: #424242; }
+            .edge { stroke: #6b6b6b; stroke-width: 1.4; fill: none; }
+            .arrow { fill: #6b6b6b; }
+          </style>
+          <defs>
+            <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+              <path d="M0,0 L0,6 L8,3 z" class="arrow"/>
+            </marker>
+          </defs>
+          <!-- Root -->
+          <rect class="node node-q" x="220" y="20" width="320" height="60" rx="6"/>
+          <text class="label-q" x="380" y="48" text-anchor="middle">Is your goal to share a stable vocabulary</text>
+          <text class="label-q" x="380" y="65" text-anchor="middle">that other studies will reuse?</text>
+          <!-- Yes branch -->
+          <line class="edge" x1="300" y1="80" x2="180" y2="120" marker-end="url(#arrow)"/>
+          <text class="label-edge" x="220" y="105">yes</text>
+          <rect class="node node-q" x="40" y="130" width="280" height="60" rx="6"/>
+          <text class="label-q" x="180" y="158" text-anchor="middle">Are the categories stable across</text>
+          <text class="label-q" x="180" y="175" text-anchor="middle">corpora and communities?</text>
+          <!-- yes-yes -->
+          <line class="edge" x1="100" y1="190" x2="80" y2="240" marker-end="url(#arrow)"/>
+          <text class="label-edge" x="60" y="220">yes</text>
+          <rect class="node node-onto" x="20" y="250" width="200" height="60" rx="6"/>
+          <text class="label-out" x="120" y="278" text-anchor="middle" fill="#1e40af">Build an ontology</text>
+          <text class="label-q" x="120" y="297" text-anchor="middle">(OWL / SKOS)</text>
+          <!-- yes-no -->
+          <line class="edge" x1="260" y1="190" x2="280" y2="240" marker-end="url(#arrow)"/>
+          <text class="label-edge" x="270" y="220">no</text>
+          <rect class="node node-hybrid" x="240" y="250" width="220" height="80" rx="6"/>
+          <text class="label-out" x="350" y="278" text-anchor="middle" fill="#6d28d9">Hybrid: SKOS backbone</text>
+          <text class="label-q" x="350" y="296" text-anchor="middle">+ project-fitted</text>
+          <text class="label-q" x="350" y="313" text-anchor="middle">codebook layer</text>
+          <!-- No branch -->
+          <line class="edge" x1="460" y1="80" x2="580" y2="120" marker-end="url(#arrow)"/>
+          <text class="label-edge" x="540" y="105">no</text>
+          <rect class="node node-q" x="440" y="130" width="280" height="60" rx="6"/>
+          <text class="label-q" x="580" y="158" text-anchor="middle">Are you building theory from</text>
+          <text class="label-q" x="580" y="175" text-anchor="middle">a specific corpus?</text>
+          <!-- no-yes -->
+          <line class="edge" x1="500" y1="190" x2="480" y2="240" marker-end="url(#arrow)"/>
+          <text class="label-edge" x="460" y="220">yes</text>
+          <rect class="node node-code" x="420" y="250" width="200" height="60" rx="6"/>
+          <text class="label-out" x="520" y="278" text-anchor="middle" fill="#92400e">Coding scheme</text>
+          <text class="label-q" x="520" y="297" text-anchor="middle">(emergent / inductive)</text>
+          <!-- no-no -->
+          <line class="edge" x1="660" y1="190" x2="680" y2="240" marker-end="url(#arrow)"/>
+          <text class="label-edge" x="670" y="220">no</text>
+          <rect class="node node-code" x="630" y="250" width="120" height="60" rx="6"/>
+          <text class="label-out" x="690" y="278" text-anchor="middle" fill="#92400e">Codebook TA</text>
+          <text class="label-q" x="690" y="297" text-anchor="middle">(deductive)</text>
+          <!-- bottom note -->
+          <rect class="node node-q" x="180" y="380" width="400" height="70" rx="6"/>
+          <text class="label-q" x="380" y="408" text-anchor="middle">If your study touches all three —</text>
+          <text class="label-q" x="380" y="425" text-anchor="middle">stable vocabulary, evolving codes, and corpus-driven theory —</text>
+          <text class="label-q" x="380" y="442" text-anchor="middle">use the hybrid backbone-plus-layer pattern (§7.2).</text>
+        </svg>
+      </div>
+
+      <h3>7.2 The backbone-plus-layer pattern</h3>
+
+      <p>
+        The most useful coexistence pattern in practice is to let the
+        ontology hold the <em>backbone</em> — stable concepts that are
+        defensibly shared across studies — while the coding scheme runs as
+        an <em>evolving layer</em> over it. SKOS is well-suited to the
+        backbone because its semantics are deliberately weaker than OWL's:
+        <code>skos:broader</code> is hierarchical without committing to
+        subsumption, so concepts can move without breaking inferences.
+      </p>
+
+      <p>
+        A working version of this pattern, drawn from the author's own
+        ADDIE Lab projects: a counseling-concept SKOS scheme (the backbone)
+        is published once and re-used across cohorts; each cohort study
+        runs its own thematic-analysis layer over interview data and links
+        emergent codes to the backbone via <code>skos:closeMatch</code> or
+        <code>skos:relatedMatch</code>. The backbone stabilizes the shared
+        vocabulary; the layer stays free to register what the new corpus
+        actually said.
+      </p>
+
+      <figure class="figure">
+        <img src="assets/imagegen-backbone-plus-layer.png" alt="A blue SKOS backbone supports three amber project codebook layers connected downward by curved arrows." loading="lazy" />
+        <figcaption>The backbone-plus-layer pattern. SKOS holds the stable shared vocabulary; each project's coding scheme remains free to register what its corpus actually said.</figcaption>
+      </figure>
+
+      <h3>7.3 Computational grounded theory</h3>
+
+      <p>
+        Nelson's (2020) three-step framework — pattern detection by
+        unsupervised ML, refinement by qualitative deep reading, confirmation
+        by NLP — is the cleanest existing template for combining the two
+        traditions when the data is text-heavy and the analyst wants
+        computational scaffolding without surrendering interpretive
+        engagement. It is methodologically rigorous in part because it
+        explicitly does <em>not</em> let the computation produce the final
+        categories.
+      </p>
+
+      <h3>7.4 Epistemic Network Analysis as a bridge</h3>
+
+      <p>
+        Shaffer's (2017) <em>quantitative ethnography</em> and the ENA
+        method (Shaffer, Collier, &amp; Ruis, 2016) treat coded discourse
+        data as a network: each utterance contributes weighted
+        co-occurrences among codes, and the resulting structure is
+        comparable across groups via projection into a low-dimensional
+        space. The codes themselves remain interpretively warranted; the
+        network operations sit on top. ENA is the template the
+        author's own discourse-lens project follows for an LS×ET dual
+        network.
+      </p>
+
+      <div class="callout bridge">
+        <div class="label">Bridge pattern · #2</div>
+        <p>
+          When in doubt, publish the codebook as a SKOS file with explicit
+          <code>skos:scopeNote</code> and <code>skos:historyNote</code>
+          fields. It costs little, and it is honest about both the
+          interpretive work behind the codes and the fact that they are
+          not OWL classes.
+        </p>
+      </div>
+
+      <div class="callout controversy">
+        <div class="label">Live controversy · #2 — methodology pluralism</div>
+        <p>
+          Within ontology engineering, METHONTOLOGY (Fernández-López et al.,
+          1997) presents a near-waterfall pipeline; NeOn
+          (Suárez-Figueroa et al., 2012) presents nine scenarios that
+          treat reuse, alignment, and re-engineering as first-class. The
+          NeOn stance is closer in spirit to qualitative iterative
+          refinement; the METHONTOLOGY stance is closer to traditional
+          software engineering. The choice has real consequences for how
+          you collaborate with qualitative researchers.
+        </p>
+      </div>
+    </section>
+
+    <!-- ================= SECTION 8 ================= -->
+    <section id="s8">
+      <h2>
+        <span><span class="num">§8</span>A methodological checklist</span>
+        <span class="reading">~3 min</span>
+      </h2>
+
+      <p>
+        Seven questions to answer in writing — not in your head — before the
+        study starts. The exercise is short. The protection it gives is
+        large.
+      </p>
+
+      <ol>
+        <li>
+          <strong>What is the epistemic stance of this study?</strong>
+          Realist, constructivist, critical-realist, pragmatist? Naming the
+          stance forces consistency between method and warrant. Reflexive
+          TA assumes constructivism; ontology engineering typically assumes
+          realism. Mixing without naming is the source of most reviewer
+          confusion.
+        </li>
+        <li>
+          <strong>What counts as evidence?</strong> Logical entailment? An
+          analyst's reading? A participant's recognition? Two annotators'
+          agreement? Each option implies a different validation procedure
+          (Lincoln &amp; Guba, 1985; Hayes &amp; Krippendorff, 2007).
+        </li>
+        <li>
+          <strong>Who validates the categories?</strong> A reasoner? A
+          coding team? Participants via member checking? An ontology
+          standards body? Specify by category — backbone categories may
+          have different validators from emergent ones.
+        </li>
+        <li>
+          <strong>What gets revised when, and what is frozen?</strong>
+          Inductive coding revises the codebook at every cycle. Ontology
+          releases freeze T-Box on a version cadence. Hybrid projects need
+          an explicit policy for which layer is allowed to drift between
+          which milestones.
+        </li>
+        <li>
+          <strong>How is researcher subjectivity recorded?</strong>
+          Positionality statement, reflexive memos, decision audit trail?
+          For qualitative claims, "no record" is failure of confirmability.
+          For ontology engineering, the parallel is the design-rationale
+          documentation around competency questions.
+        </li>
+        <li>
+          <strong>Closed-world or open-world?</strong> If your downstream
+          tooling (a SQL store, a multi-label classifier, a SHACL shape)
+          assumes CWA but your ontology is OWA, the gap is your problem to
+          manage. If your reflexive TA refuses saturation but your
+          conference reviewers expect κ, the gap is your problem to
+          explain.
+        </li>
+        <li>
+          <strong>What artifact do you publish?</strong> The ontology, the
+          codebook, both, or neither (only the empirical claims)? Publishing
+          a codebook as SKOS is one of the few moves that acknowledges
+          interpretive provenance and supports reuse.
+        </li>
+      </ol>
+
+      <h3>What reviewers usually question</h3>
+
+      <ul>
+        <li>"Where is the inter-rater reliability?" — fair for codebook TA;
+          a category mistake for reflexive TA. Cite Braun and Clarke
+          (2019) explicitly when refusing it.</li>
+        <li>"Is the ontology aligned with [BFO/SKOS Core/an upper
+          ontology]?" — fair for an ontology paper; not a defense for a
+          coding-scheme study masquerading as an ontology.</li>
+        <li>"How did you avoid analyst bias?" — for qualitative work, the
+          honest answer is not "we did" but "we registered it" (memos,
+          positionality statement, audit trail).</li>
+        <li>"Did the LLM agree with the human coders?" — only meaningful
+          relative to a fixed deductive codebook; otherwise the question is
+          incoherent (De Paoli, 2024; Schroeder et al., 2025).</li>
+      </ul>
+    </section>
+
+    <!-- ================= SECTION 9 ================= -->
+    <section id="s9">
+      <h2>
+        <span><span class="num">§9</span>Three worked examples</span>
+        <span class="reading">~5 min</span>
+      </h2>
+
+      <p>
+        The three vignettes below stage the same general territory — text
+        data about learning — under three different commitments. The point
+        is not to recommend one over the others, but to show what each
+        looks like when done carefully.
+      </p>
+
+      <div class="case">
+        <span class="case-tag">Case A · Ontology-led</span>
+        <h3>A counseling-concept knowledge graph from clinical literature</h3>
+        <p>
+          <em>Goal.</em> Produce a reusable SKOS / OWL artifact that other
+          studies can import as a backbone vocabulary for counseling
+          discourse research.
+        </p>
+        <p><em>Workflow.</em></p>
+        <ol>
+          <li><strong>Specification.</strong> Draft competency questions:
+            <em>Which interventions target which presenting concerns? Which
+            evidence-based protocols share which technique families? Which
+            concepts have multiple equivalent labels across textbooks?</em></li>
+          <li><strong>Conceptualization.</strong> Read a small set of
+            anchor textbooks; extract candidate classes (Concern, Technique,
+            Protocol, Modality) and properties
+            (<code>addresses</code>, <code>uses</code>,
+            <code>contraindicates</code>).</li>
+          <li><strong>Formalization.</strong> Encode in SKOS first; promote
+            stable concepts to OWL classes only when subsumption is
+            defensible. Use OntoClean meta-properties (rigidity, identity)
+            to vet candidate classes.</li>
+          <li><strong>Validation.</strong> Run the reasoner; write SPARQL
+            queries that answer the competency questions; submit for peer
+            review by domain experts.</li>
+          <li><strong>Maintenance.</strong> Versioned releases; deprecation
+            policies; <code>owl:deprecated</code> on retired classes.</li>
+        </ol>
+        <p>
+          <em>Reading.</em> Hogan et al. (2021) for the comprehensive KG
+          reference; Grüninger and Fox (1995) for competency questions;
+          Suárez-Figueroa et al. (2012) for engineering scenarios.
+        </p>
+        <figure class="figure">
+          <img src="assets/imagegen-case-a-kg-workflow.png" alt="A five-stage blue ontology workflow moves from literature to questions, hierarchy, reasoning, and query." loading="lazy" />
+          <figcaption>Case A &mdash; ontology-led workflow: from clinical literature to a SKOS / OWL backbone validated by competency questions.</figcaption>
+        </figure>
+      </div>
+
+      <div class="case">
+        <span class="case-tag">Case B · Coding-scheme-led</span>
+        <h3>A reflexive thematic analysis of student forum posts on AI tools</h3>
+        <p>
+          <em>Goal.</em> Build a defensible interpretive account of how
+          undergraduates account for using AI tools in courses with varying
+          policies.
+        </p>
+        <p><em>Workflow.</em></p>
+        <ol>
+          <li><strong>Familiarization.</strong> Read the corpus three
+            times; write initial impressions in a researcher journal;
+            articulate a positionality statement.</li>
+          <li><strong>Initial codes.</strong> Open coding — generate
+            descriptive and in-vivo codes line-by-line. Expect 80–200
+            first-cycle codes for a mid-sized corpus.</li>
+          <li><strong>Searching themes.</strong> Cluster codes into
+            candidate themes; write a memo explaining each cluster's
+            internal coherence and external distinction.</li>
+          <li><strong>Reviewing.</strong> Test themes against the corpus
+            and against each other; collapse, split, or rename. Reflexive
+            memos accompany every change.</li>
+          <li><strong>Defining and naming.</strong> Write a 1–2-paragraph
+            scope note per theme; lock the codebook for the writing phase.</li>
+          <li><strong>Producing the report.</strong> Theme presentation
+            paired with negative-case discussion and a reflexive
+            postscript on how the analyst's positioning shaped the read.</li>
+        </ol>
+        <p>
+          <em>Reading.</em> Braun and Clarke (2006, 2019); Saldaña (2021);
+          Charmaz (2014); Lincoln and Guba (1985) on trustworthiness.
+        </p>
+        <p>
+          <em>What this case is NOT.</em> Not a content analysis; do not
+          report κ as the validation. Not a deductive content analysis
+          either; do not start with a fixed codebook.
+        </p>
+        <figure class="figure">
+          <img src="assets/imagegen-case-b-ta-workflow.png" alt="Six amber thematic-analysis vignettes form an iterative loop from reading to coding, clustering, revising, defining, and reporting." loading="lazy" />
+          <figcaption>Case B &mdash; coding-led workflow: six phases of reflexive thematic analysis, with reflexive memos accompanying every cycle.</figcaption>
+        </figure>
+      </div>
+
+      <div class="case">
+        <span class="case-tag">Case C · Hybrid</span>
+        <h3>A discourse-lens-style LS×ET dual network</h3>
+        <p>
+          <em>Goal.</em> Compare how Learning Sciences (LS) and Educational
+          Technology (ET) communities frame the same phenomenon, using a
+          shared coded vocabulary and a network projection that supports
+          quantitative comparison.
+        </p>
+        <p><em>Workflow.</em></p>
+        <ol>
+          <li><strong>Build a SKOS backbone</strong> of approximately
+            50–150 concepts the two communities arguably share. Stabilize
+            it; version it.</li>
+          <li><strong>Run interpretive coding</strong> on a balanced
+            sample of LS and ET articles, tagging each section with
+            backbone concepts plus emergent codes. Maintain reflexive
+            memos for every emergent code.</li>
+          <li><strong>Compute co-occurrence networks</strong> per
+            community using ENA (Shaffer et al., 2016); visualize the two
+            networks in a shared low-dimensional space.</li>
+          <li><strong>Interpret the structural difference.</strong> The
+            quantitative comparison is meaningful only because the codes
+            were interpretively warranted in step 2; the network would be
+            decorative without that warrant.</li>
+          <li><strong>Publish three artifacts.</strong> The SKOS file,
+            the codebook (with memos), and the ENA visualization, as
+            distinct outputs with distinct validation regimes.</li>
+        </ol>
+        <p>
+          <em>Reading.</em> Shaffer (2017); Shaffer, Collier, and Ruis
+          (2016); Nelson (2020) for the broader computational-grounded-theory
+          frame; Bowker and Star (1999) for why the backbone choices are
+          political even when they look neutral.
+        </p>
+        <figure class="figure">
+          <img src="assets/imagegen-case-c-hybrid-ena.png" alt="A three-layer hybrid diagram shows a backbone, coded data panels, and a network view connected by arrows." loading="lazy" />
+          <figcaption>Case C &mdash; hybrid: a stable SKOS backbone, interpretively warranted codes from each community, and an ENA projection that supports quantitative comparison without flattening the codes.</figcaption>
+        </figure>
+      </div>
+
+      <div class="callout controversy">
+        <div class="label">Live controversy · #3 — LLM-assisted inductive TA</div>
+        <p>
+          Across Cases B and C, an obvious question is: can an LLM run
+          steps 2–3 for you? The literature is genuinely split. De Paoli
+          (2024) treats LLM TA as a provocation about the limits of
+          automation. Deiner et al. (2024) report viable single-prompt
+          inductive TA on a social-media corpus. Naeem et al. (2025)
+          propose a step-by-step ChatGPT protocol with human review
+          checkpoints. Christou (2024) and Schroeder et al. (2025) urge
+          documentation discipline. Pick the position you can defend and
+          write down why.
+        </p>
+      </div>
+    </section>
+
+    <!-- ================= SECTION 10 ================= -->
+    <section id="s10">
+      <h2>
+        <span><span class="num">§10</span>Glossary &amp; references</span>
+        <span class="reading">~3 min</span>
+      </h2>
+
+      <h3>10.1 Glossary</h3>
+
+      <dl class="glossary">
+        <dt>A-Box</dt>
+        <dd>Assertion box. The instance-level part of an ontology: individuals and the facts asserted about them. The "data" half of an ontology + KG pair.</dd>
+
+        <dt>Axial coding</dt>
+        <dd>A second-cycle coding move (associated with Strauss-Corbin grounded theory) that re-organizes first-cycle codes around a central category and its conditions, contexts, strategies, and consequences.</dd>
+
+        <dt>Codebook</dt>
+        <dd>The organized, documented set of codes used in a study, typically with definitions, inclusion / exclusion criteria, exemplars, and analyst memos.</dd>
+
+        <dt>Closed-world assumption (CWA)</dt>
+        <dd>What is not provable from the knowledge base is taken to be false (Reiter, 1978). Default in relational databases.</dd>
+
+        <dt>Competency question (CQ)</dt>
+        <dd>A natural-language query that an ontology must be able to answer. Defines the scope of an ontology engineering project (Grüninger &amp; Fox, 1995).</dd>
+
+        <dt>Constant comparison</dt>
+        <dd>The grounded-theory practice of comparing each new datum to previously coded data to refine categories continuously (Glaser &amp; Strauss, 1967).</dd>
+
+        <dt>Emergent coding</dt>
+        <dd>Coding in which codes are generated from the data rather than imposed from a prior framework. Default for grounded theory and reflexive TA.</dd>
+
+        <dt>Epistemic Network Analysis (ENA)</dt>
+        <dd>A method that represents coded discourse data as networks of weighted code co-occurrences and projects them into a comparable low-dimensional space (Shaffer et al., 2016).</dd>
+
+        <dt>Inter-rater reliability (IRR)</dt>
+        <dd>Quantitative agreement between independent coders applying a fixed codebook. Common indices: Cohen's κ, Krippendorff's α.</dd>
+
+        <dt>Member checking</dt>
+        <dd>Showing analytic claims back to participants and incorporating their responses; one of Lincoln and Guba's (1985) credibility procedures.</dd>
+
+        <dt>OntoClean</dt>
+        <dd>A formal ontology engineering methodology that vets classes by meta-properties (rigidity, identity, unity, dependence) drawn from analytic philosophy.</dd>
+
+        <dt>Open-world assumption (OWA)</dt>
+        <dd>What is not provable is unknown, not false. Default in OWL / Semantic Web languages.</dd>
+
+        <dt>Reflexivity</dt>
+        <dd>The disciplined practice of recording how the analyst's positioning, prior knowledge, and choices shape the analysis. A first-class component of trustworthiness, not metadata.</dd>
+
+        <dt>Saturation</dt>
+        <dd>The grounded-theory criterion under which new data stops yielding new categories; treated as foundational in Glaser-Strauss-Charmaz, rejected in Braun &amp; Clarke (2019) reflexive TA.</dd>
+
+        <dt>SKOS</dt>
+        <dd>Simple Knowledge Organization System. W3C standard for thesauri / controlled vocabularies. Weaker semantics than OWL by design (Miles &amp; Bechhofer, 2009).</dd>
+
+        <dt>T-Box</dt>
+        <dd>Terminology box. The schema-level part of an ontology: classes, properties, and the axioms that bind them.</dd>
+
+        <dt>Thematic analysis (TA)</dt>
+        <dd>A family of methods for identifying patterns of meaning across a qualitative dataset. Reflexive TA, codebook TA, and coding-reliability TA differ in epistemology and validation (Braun &amp; Clarke, 2019).</dd>
+
+        <dt>Trustworthiness</dt>
+        <dd>Lincoln and Guba's (1985) parallel-criteria framework for qualitative warrant: credibility, transferability, dependability, confirmability.</dd>
+      </dl>
+
+      <h3>10.2 References</h3>
+
+      <ol class="refs">
+        <li>Bowker, G. C., &amp; Star, S. L. (1999). <em>Sorting things out: Classification and its consequences</em>. MIT Press.</li>
+        <li>Braun, V., &amp; Clarke, V. (2006). Using thematic analysis in psychology. <em>Qualitative Research in Psychology, 3</em>(2), 77–101. https://doi.org/10.1191/1478088706qp063oa</li>
+        <li>Braun, V., &amp; Clarke, V. (2019). Reflecting on reflexive thematic analysis. <em>Qualitative Research in Sport, Exercise and Health, 11</em>(4), 589–597. https://doi.org/10.1080/2159676X.2019.1628806</li>
+        <li>Charmaz, K. (2014). <em>Constructing grounded theory</em> (2nd ed.). SAGE.</li>
+        <li>Christou, P. A. (2024). Thematic analysis through artificial intelligence (AI). <em>The Qualitative Report, 29</em>(2), 560–576. https://doi.org/10.46743/2160-3715/2024.7046</li>
+        <li>De Paoli, S. (2024). Performing an inductive thematic analysis of semi-structured interviews with a large language model: An exploration and provocation on the limits of the approach. <em>Social Science Computer Review, 42</em>(4), 997–1019. https://doi.org/10.1177/08944393231220483</li>
+        <li>Deiner, M. S., Honcharov, V., Li, J., Mackey, T. K., Porco, T. C., &amp; Sarkar, U. (2024). Large language models can enable inductive thematic analysis of a social media corpus in a single prompt: Human validation study. <em>JMIR Infodemiology, 4</em>, e59641. https://doi.org/10.2196/59641</li>
+        <li>Fernández-López, M., Gómez-Pérez, A., &amp; Juristo, N. (1997). METHONTOLOGY: From ontological art towards ontological engineering. In <em>AAAI-97 Spring Symposium Series on Ontological Engineering</em>. Stanford University.</li>
+        <li>Glaser, B. G., &amp; Strauss, A. L. (1967). <em>The discovery of grounded theory: Strategies for qualitative research</em>. Aldine.</li>
+        <li>Gruber, T. R. (1993). A translation approach to portable ontology specifications. <em>Knowledge Acquisition, 5</em>(2), 199–220.</li>
+        <li>Grüninger, M., &amp; Fox, M. S. (1995). Methodology for the design and evaluation of ontologies. In <em>IJCAI-95 Workshop on Basic Ontological Issues in Knowledge Sharing</em>. Montreal.</li>
+        <li>Guarino, N. (1998). Formal ontology and information systems. In N. Guarino (Ed.), <em>Formal ontology in information systems (FOIS '98)</em> (pp. 3–15). IOS Press.</li>
+        <li>Hayes, A. F., &amp; Krippendorff, K. (2007). Answering the call for a standard reliability measure for coding data. <em>Communication Methods and Measures, 1</em>(1), 77–89. https://doi.org/10.1080/19312450709336664</li>
+        <li>Hogan, A., Blomqvist, E., Cochez, M., d'Amato, C., de Melo, G., Gutiérrez, C., Kirrane, S., Labra Gayo, J. E., Navigli, R., Neumaier, S., Ngonga Ngomo, A.-C., Polleres, A., Rashid, S. M., Rula, A., Schmelzeisen, L., Sequeda, J., Staab, S., &amp; Zimmermann, A. (2021). Knowledge graphs. <em>ACM Computing Surveys, 54</em>(4), Article 71. https://doi.org/10.1145/3447772</li>
+        <li>Lincoln, Y. S., &amp; Guba, E. G. (1985). <em>Naturalistic inquiry</em>. SAGE.</li>
+        <li>McHugh, M. L. (2012). Interrater reliability: The kappa statistic. <em>Biochemia Medica, 22</em>(3), 276–282. https://doi.org/10.11613/BM.2012.031</li>
+        <li>Miles, A., &amp; Bechhofer, S. (2009). <em>SKOS Simple Knowledge Organization System reference</em> (W3C Recommendation). W3C. https://www.w3.org/TR/skos-reference/</li>
+        <li>Morgan, D. L. (2023). Exploring the use of artificial intelligence for qualitative data analysis: The case of ChatGPT. <em>International Journal of Qualitative Methods, 22</em>. https://doi.org/10.1177/16094069231211248</li>
+        <li>Naeem, M., Smith, T., &amp; Thomas, L. (2025). Thematic analysis and artificial intelligence: A step-by-step process for using ChatGPT in thematic analysis. <em>International Journal of Qualitative Methods, 24</em>. https://doi.org/10.1177/16094069251333886</li>
+        <li>Nelson, L. K. (2020). Computational grounded theory: A methodological framework. <em>Sociological Methods &amp; Research, 49</em>(1), 3–42. https://doi.org/10.1177/0049124117729703</li>
+        <li>Reiter, R. (1978). On closed world data bases. In H. Gallaire &amp; J. Minker (Eds.), <em>Logic and data bases</em> (pp. 55–76). Plenum Press.</li>
+        <li>Saldaña, J. (2021). <em>The coding manual for qualitative researchers</em> (4th ed.). SAGE.</li>
+        <li>Schroeder, H., Aubin Le Quéré, M., Randazzo, C., Mimno, D., &amp; Schoenebeck, S. (2025). Large language models in qualitative research: Uses, tensions, and intentions. In <em>Proceedings of the 2025 CHI Conference on Human Factors in Computing Systems</em> (pp. 1–17). https://doi.org/10.1145/3706598.3713120</li>
+        <li>Shaffer, D. W. (2017). <em>Quantitative ethnography</em>. Cathcart Press.</li>
+        <li>Shaffer, D. W., Collier, W., &amp; Ruis, A. R. (2016). A tutorial on epistemic network analysis: Analyzing the structure of connections in cognitive, social, and interaction data. <em>Journal of Learning Analytics, 3</em>(3), 9–45. https://doi.org/10.18608/jla.2016.33.3</li>
+        <li>Smith, B., &amp; Welty, C. (2001). Ontology: Towards a new synthesis. In <em>Formal Ontology in Information Systems (FOIS 2001)</em>.</li>
+        <li>Studer, R., Benjamins, V. R., &amp; Fensel, D. (1998). Knowledge engineering: Principles and methods. <em>Data &amp; Knowledge Engineering, 25</em>(1–2), 161–197.</li>
+        <li>Suárez-Figueroa, M. C., Gómez-Pérez, A., Motta, E., &amp; Gangemi, A. (Eds.). (2012). <em>Ontology engineering in a networked world</em>. Springer. https://doi.org/10.1007/978-3-642-24794-1</li>
+        <li>Xiao, Z., Yuan, X., Liao, Q. V., Abdelghani, R., &amp; Oudeyer, P.-Y. (2023). Supporting qualitative analysis with large language models: Combining codebook with GPT-3 for deductive coding. In <em>Companion Proceedings of the 28th International Conference on Intelligent User Interfaces (IUI '23 Companion)</em>. https://doi.org/10.1145/3581754.3584136</li>
+      </ol>
+    </section>
+
+    <footer>
+      <p><strong>Author</strong> · Dr. Jewoong Moon · ADDIE Lab · College of Education · The University of Alabama</p>
+      <p><strong>Version</strong> 0.1 · 2026-05-07 · drafted for graduate AI researchers entering qualitative methods.</p>
+      <p><strong>Citation source</strong> · Verified literature scan at <code>Desktop/_research/2026-05-07_ontology-vs-coding-scheme.md</code> (28 sources).</p>
+      <p><strong>License</strong> · CC BY 4.0 · cite as: Moon, J. (2026). <em>Ontology and Qualitative Coding Schemes — An Epistemological Bridge</em> (v0.1). ADDIE Lab Methodological Handbook.</p>
+      <p><strong>This is a practical onboarding guide</strong>, not a canonical reference. Foundational sources are cited in §10.</p>
+    </footer>
+  </main>
+</div>
+
+<script>
+  // Active TOC highlight on scroll
+  (function () {
+    var sections = Array.from(document.querySelectorAll('main section[id]'));
+    var links = Array.from(document.querySelectorAll('aside.toc nav a'));
+    var byHash = {};
+    links.forEach(function (a) {
+      var id = a.getAttribute('href').slice(1);
+      byHash[id] = a;
+    });
+    function setActive(id) {
+      links.forEach(function (a) { a.classList.remove('active'); });
+      if (id && byHash[id]) byHash[id].classList.add('active');
+    }
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (entries) {
+        var visible = entries
+          .filter(function (e) { return e.isIntersecting; })
+          .sort(function (a, b) { return a.target.offsetTop - b.target.offsetTop; });
+        if (visible.length) setActive(visible[0].target.id);
+      }, { rootMargin: '-15% 0px -70% 0px', threshold: 0 });
+      sections.forEach(function (s) { io.observe(s); });
+    } else {
+      // graceful fallback: just highlight on click
+      links.forEach(function (a) {
+        a.addEventListener('click', function () { setActive(a.getAttribute('href').slice(1)); });
+      });
+    }
+  })();
+</script>
+</body>
+</html>

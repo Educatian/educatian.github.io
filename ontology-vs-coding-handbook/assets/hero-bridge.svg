@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Two epistemic traditions meeting at a horizon</title>
+  <desc id="desc">A deep blue architectural lattice on the left and a warm amber field of annotations on the right meet across a quiet horizon line.</desc>
+  <defs>
+    <pattern id="grain" width="18" height="18" patternUnits="userSpaceOnUse">
+      <path d="M2 5h1M8 2h1M14 7h1M4 14h1M12 13h1" stroke="#1a1a1a" stroke-opacity=".08" stroke-width="1"/>
+    </pattern>
+    <style>
+      .paper{fill:#fbfaf6}.ink{stroke:#1a1a1a}.blue{stroke:#1d4e89;fill:none}.amber{stroke:#92400e;fill:none}
+      .bfill{fill:#1d4e89}.afill{fill:#92400e}.thin{stroke-width:4;stroke-linecap:round;stroke-linejoin:round}
+      .hair{stroke-width:2;stroke-linecap:round;stroke-linejoin:round}.wash{opacity:.12}
+    </style>
+  </defs>
+  <rect class="paper" width="1600" height="900"/>
+  <rect width="1600" height="900" fill="url(#grain)" opacity=".55"/>
+  <path d="M95 565 C310 478 520 510 730 444 C970 369 1190 421 1505 332" class="ink hair" opacity=".18"/>
+  <path d="M115 646 C355 575 548 592 790 525 C1000 468 1210 488 1480 426" class="ink hair" opacity=".12"/>
+  <g transform="translate(110 142)">
+    <path d="M0 560 L95 392 L176 506 L265 300 L368 450 L492 145 L604 520" class="blue thin"/>
+    <path d="M95 392 L604 520M176 506L492 145M265 300L368 450M0 560L265 300M368 450L604 520" class="blue hair"/>
+    <g class="blue hair">
+      <rect x="105" y="342" width="118" height="76"/>
+      <rect x="300" y="288" width="138" height="94"/>
+      <rect x="446" y="142" width="96" height="126"/>
+      <path d="M158 342v-96h122v96M340 288v-132h128"/>
+      <circle cx="95" cy="392" r="10" fill="#fbfaf6"/>
+      <circle cx="265" cy="300" r="10" fill="#fbfaf6"/>
+      <circle cx="492" cy="145" r="10" fill="#fbfaf6"/>
+    </g>
+    <path d="M22 595 C210 535 430 540 620 560" class="blue hair" opacity=".5"/>
+  </g>
+  <g transform="translate(870 118)">
+    <path d="M35 552 C80 425 154 346 248 314 C357 276 393 382 506 304 C604 235 654 272 706 342" class="amber thin"/>
+    <g class="amber hair">
+      <path d="M128 560 C90 496 105 430 162 384"/>
+      <path d="M228 555 C202 474 230 402 298 360"/>
+      <path d="M390 562 C328 472 350 388 444 330"/>
+      <path d="M530 554 C485 482 510 410 592 372"/>
+      <path d="M122 398 c-44 -38 -72 -76 -85 -121"/>
+      <path d="M164 385 c18 -64 18 -116 2 -157"/>
+      <path d="M294 360 c-6 -78 12 -144 52 -197"/>
+      <path d="M444 330 c50 -54 102 -85 158 -92"/>
+      <path d="M592 372 c56 -36 96 -80 119 -133"/>
+      <path d="M86 286 h150M126 238 h92M347 168 h190M398 210 h92M562 244 h130" opacity=".55"/>
+      <path d="M72 610 h650"/>
+    </g>
+    <g fill="#92400e" opacity=".18">
+      <circle cx="118" cy="402" r="44"/><circle cx="294" cy="360" r="54"/><circle cx="444" cy="330" r="48"/><circle cx="592" cy="372" r="40"/>
+    </g>
+  </g>
+  <path d="M760 462 C790 454 812 454 842 462" class="ink hair" opacity=".32"/>
+  <path d="M716 458 C758 478 840 478 890 452" fill="none" stroke="#1a1a1a" stroke-width="3" stroke-linecap="round" opacity=".22"/>
+</svg>

@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" role="img" aria-labelledby="title desc">
+  <title id="title">Backbone plus layer architecture</title>
+  <desc id="desc">A blue SKOS backbone slab sits beneath three amber cohort codebook panels connected by curved closeMatch arrows.</desc>
+  <defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0 0 L8 3 L0 6 Z" fill="#1a1a1a"/></marker><pattern id="grain" width="16" height="16" patternUnits="userSpaceOnUse"><path d="M2 3h1M11 5h1M6 13h1" stroke="#1a1a1a" stroke-opacity=".07"/></pattern>
+  <style>.bg{fill:#fbfaf6}.blue{stroke:#1d4e89}.amber{stroke:#92400e}.ink{stroke:#1a1a1a}.line{fill:none;stroke-width:4;stroke-linecap:round;stroke-linejoin:round}.label{font:700 26px Inter,Segoe UI,Arial,sans-serif;fill:#1a1a1a}.small{font:500 21px Inter,Segoe UI,Arial,sans-serif;fill:#424242}.tiny{font:500 17px Inter,Segoe UI,Arial,sans-serif;fill:#6b6b6b}</style></defs>
+  <rect class="bg" width="1200" height="900"/><rect width="1200" height="900" fill="url(#grain)" opacity=".55"/>
+  <rect x="160" y="690" width="880" height="92" rx="8" fill="#1d4e89" opacity=".12" stroke="#1d4e89" stroke-width="5"/>
+  <text x="600" y="746" class="label" text-anchor="middle">SKOS backbone</text>
+  <g class="blue"><circle cx="330" cy="704" r="12" fill="#fbfaf6" stroke-width="4"/><circle cx="525" cy="704" r="12" fill="#fbfaf6" stroke-width="4"/><circle cx="720" cy="704" r="12" fill="#fbfaf6" stroke-width="4"/><circle cx="915" cy="704" r="12" fill="#fbfaf6" stroke-width="4"/><path d="M342 704h171M537 704h171M732 704h171" class="line"/></g>
+  <g transform="translate(130 170) rotate(-5 180 130)"><rect x="0" y="0" width="300" height="250" rx="8" fill="#92400e" opacity=".12" stroke="#92400e" stroke-width="4"/><text x="150" y="48" class="small" text-anchor="middle">Cohort A codebook</text><path d="M55 92h180M55 130h130M55 168h205" class="line amber"/></g>
+  <g transform="translate(450 115) rotate(3 180 130)"><rect x="0" y="0" width="300" height="250" rx="8" fill="#92400e" opacity=".12" stroke="#92400e" stroke-width="4"/><text x="150" y="48" class="small" text-anchor="middle">Cohort B codebook</text><path d="M55 92h180M55 130h190M55 168h132" class="line amber"/></g>
+  <g transform="translate(770 185) rotate(-2 180 130)"><rect x="0" y="0" width="300" height="250" rx="8" fill="#92400e" opacity=".12" stroke="#92400e" stroke-width="4"/><text x="150" y="48" class="small" text-anchor="middle">Cohort C codebook</text><path d="M55 92h145M55 130h205M55 168h175" class="line amber"/></g>
+  <g fill="none" stroke="#1a1a1a" stroke-width="3" stroke-linecap="round" marker-end="url(#arrow)" opacity=".75">
+    <path d="M275 435C310 510 330 590 330 684"/><path d="M590 385C570 500 545 585 525 684"/><path d="M915 455C925 545 918 610 915 684"/>
+  </g>
+  <text x="372" y="560" class="tiny" transform="rotate(72 372 560)">skos:closeMatch</text>
+  <text x="552" y="538" class="tiny" transform="rotate(-77 552 538)">skos:closeMatch</text>
+  <text x="930" y="570" class="tiny" transform="rotate(84 930 570)">skos:closeMatch</text>
+</svg>

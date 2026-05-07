@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>온톨로지와 질적 코딩 스키마 — 연구자를 위한 비교 가이드</title>
+<meta name="description" content="AI 연구자가 형식 온톨로지와 질적 코딩 스키마의 차이를 빠르게 이해하도록 돕는 한국어 가이드." />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="온톨로지와 질적 코딩 스키마" />
+<meta property="og:description" content="AI 연구자를 위한 온톨로지와 질적 코딩 스키마 비교 가이드." />
+<meta property="og:image" content="https://educatian.github.io/ontology-vs-coding-handbook/thumbnails/hero_og_1200x630.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="https://educatian.github.io/ontology-vs-coding-handbook/thumbnails/hero_og_1200x630.png" />
+<style>
+  :root {
+    --sans: "Inter", "Noto Sans KR", "Malgun Gothic", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+    --serif: "Noto Serif KR", "Source Serif Pro", Georgia, serif;
+    --ink: #1a1a1a;
+    --muted: #5f5f5f;
+    --paper: #fbfaf6;
+    --panel: #ffffff;
+    --side: #f4f1ea;
+    --rule: #d9d6cf;
+    --blue: #1d4e89;
+    --red: #b91c1c;
+    --amber: #92400e;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: 1em; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--serif);
+    font-size: 18px;
+    line-height: 1.75;
+    word-break: keep-all;
+  }
+  a { color: var(--blue); text-decoration: none; border-bottom: 1px solid rgba(29,78,137,.35); }
+  .lang-toggle {
+    position: fixed;
+    top: 18px;
+    right: 18px;
+    z-index: 10;
+    font-family: var(--sans);
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: .04em;
+    color: var(--ink);
+    background: rgba(255,255,255,.95);
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+    padding: .55em .9em;
+    box-shadow: 0 8px 24px rgba(0,0,0,.06);
+  }
+  .lang-toggle a { border-bottom: none; }
+  .layout {
+    display: grid;
+    grid-template-columns: 280px minmax(0, 1fr);
+    width: 100%;
+    max-width: 1240px;
+    margin: 0 auto;
+  }
+  aside {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    background: var(--side);
+    border-right: 1px solid var(--rule);
+    padding: 2em 1.6em 2em 2em;
+    font-family: var(--sans);
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  aside h2 {
+    margin: 0 0 .7em;
+    color: var(--muted);
+    font-size: 11px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+  }
+  aside ol { list-style: none; margin: 0; padding: 0; counter-reset: toc; }
+  aside li { counter-increment: toc; margin: .35em 0; }
+  aside a {
+    display: block;
+    color: #3f3f3f;
+    border-bottom: none;
+    padding: .25em .5em;
+    border-left: 2px solid transparent;
+  }
+  aside a::before { content: counter(toc) ". "; color: var(--muted); }
+  aside a:hover, aside a.active { background: rgba(29,78,137,.08); color: var(--blue); border-left-color: var(--blue); }
+  aside .meta { margin-top: 1.6em; padding-top: 1em; border-top: 1px solid var(--rule); color: var(--muted); font-size: 12px; }
+  main {
+    width: 100%;
+    max-width: 840px;
+    min-width: 0;
+    padding: 3em 4em 4em;
+  }
+  header {
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 1.8em;
+    margin-bottom: 2.4em;
+  }
+  .kicker {
+    font-family: var(--sans);
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 1em 0 .6em;
+  }
+  h1 {
+    margin: 0 0 .45em;
+    font-family: var(--sans);
+    font-size: 2.25em;
+    line-height: 1.22;
+    letter-spacing: 0;
+  }
+  .subtitle { margin: 0; color: #424242; font-size: 1.08em; }
+  .byline {
+    margin-top: 1.4em;
+    color: var(--muted);
+    font-family: var(--sans);
+    font-size: 13px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.1em;
+  }
+  section { margin: 3em 0; }
+  h2 {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: .8em;
+    margin: 0 0 .8em;
+    padding-bottom: .35em;
+    border-bottom: 2px solid var(--ink);
+    font-family: var(--sans);
+    font-size: 1.45em;
+    line-height: 1.35;
+  }
+  h2 .num { color: var(--muted); font-size: .62em; margin-right: .55em; }
+  h2 .tag { color: var(--muted); background: #ece8df; border-radius: 999px; padding: .25em .65em; font-size: 11px; white-space: nowrap; }
+  h3 { margin: 1.4em 0 .35em; font-family: var(--sans); font-size: 1.08em; }
+  p { margin: .72em 0; }
+  ul, ol { padding-left: 1.35em; margin: .65em 0; }
+  li { margin: .35em 0; }
+  code { background: #f6f3ec; border-radius: 3px; padding: .05em .32em; font-family: Consolas, monospace; font-size: .92em; }
+  figure { margin: 1.8em 0; text-align: center; }
+  figure img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    background: var(--panel);
+  }
+  figcaption {
+    max-width: 92%;
+    margin: .65em auto 0;
+    color: var(--muted);
+    font-family: var(--sans);
+    font-size: 13px;
+    line-height: 1.55;
+  }
+  .callout {
+    margin: 1.35em 0;
+    padding: 1em 1.25em;
+    border-left: 4px solid var(--blue);
+    background: #eff6ff;
+    border-radius: 0 6px 6px 0;
+  }
+  .callout.warn { border-left-color: var(--red); background: #fef2f2; }
+  .callout.note { border-left-color: var(--amber); background: #fffbeb; }
+  .callout strong {
+    display: block;
+    margin-bottom: .3em;
+    font-family: var(--sans);
+    font-size: 12px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.3em 0;
+    background: var(--panel);
+    border: 1px solid var(--rule);
+    font-size: .95em;
+  }
+  th, td { text-align: left; vertical-align: top; padding: .8em .9em; border-bottom: 1px solid #ece8df; }
+  th { background: var(--side); font-family: var(--sans); font-size: .88em; }
+  .case {
+    margin: 1.3em 0;
+    padding: 1.35em 1.5em;
+    background: var(--panel);
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+  }
+  .case h3 { margin-top: 0; }
+  .case-label {
+    display: inline-block;
+    margin-bottom: .5em;
+    padding: .2em .6em;
+    background: #ece8df;
+    color: #424242;
+    border-radius: 3px;
+    font-family: var(--sans);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: .09em;
+    text-transform: uppercase;
+  }
+  footer {
+    margin-top: 4em;
+    padding: 2em 0 3em;
+    border-top: 1px solid var(--rule);
+    color: var(--muted);
+    font-family: var(--sans);
+    font-size: 13px;
+  }
+  @media (max-width: 900px) {
+    html, body { max-width: 100%; overflow-x: hidden; }
+    .lang-toggle { position: static; display: inline-block; margin: 1em 1.4em 0; }
+    .layout { display: block; width: 100%; max-width: 100%; }
+    aside { position: static; height: auto; border-right: none; border-bottom: 1px solid var(--rule); padding: 1.4em 1.6em; }
+    main { width: auto; max-width: 100vw; padding: 2em 1.1em 3em; }
+    h1 { font-size: 1.65em; }
+    h2 { display: block; font-size: 1.25em; }
+    h2 .tag { display: inline-block; margin-top: .45em; }
+    .byline { display: block; }
+    .byline span { display: block; margin-top: .35em; }
+    table { font-size: .86em; }
+    th, td { padding: .65em; }
+    p, li, figcaption { overflow-wrap: anywhere; }
+  }
+</style>
+</head>
+<body>
+<div class="lang-toggle"><a href="../ontology-vs-coding-handbook/index.html">EN</a> · 한국어</div>
+<div class="layout">
+  <aside aria-label="목차">
+    <h2>Contents</h2>
+    <nav>
+      <ol>
+        <li><a href="#s1">왜 필요한가</a></li>
+        <li><a href="#s2">두 개념의 정의</a></li>
+        <li><a href="#s3">공통점</a></li>
+        <li><a href="#s4">결정적 차이</a></li>
+        <li><a href="#s5">운영 방식 차이</a></li>
+        <li><a href="#s6">흔한 오해</a></li>
+        <li><a href="#s7">섞는 방법</a></li>
+        <li><a href="#s8">연구 설계 체크리스트</a></li>
+        <li><a href="#s9">세 가지 예시</a></li>
+        <li><a href="#s10">핵심 용어와 참고문헌</a></li>
+      </ol>
+    </nav>
+    <div class="meta">
+      <p><strong>읽는 시간</strong> 약 15분</p>
+      <p><strong>대상</strong> 대학원 AI 연구자</p>
+      <p><strong>버전</strong> 0.1 · 2026-05-07</p>
+    </div>
+  </aside>
+
+  <main>
+    <header>
+      <figure>
+        <img src="../ontology-vs-coding-handbook/assets/imagegen-hero-bridge.png" alt="파란색 형식 온톨로지 구조와 주황색 질적 코딩 작업공간이 다리로 연결된 개념 이미지" />
+        <figcaption>온톨로지와 질적 코딩 스키마는 둘 다 의미를 정리하지만, 서로 다른 층위에서 작동한다.</figcaption>
+      </figure>
+      <p class="kicker">ADDIE Lab Methodological Handbook · 한국어판</p>
+      <h1>온톨로지와 질적 코딩 스키마</h1>
+      <p class="subtitle">지식그래프에는 익숙하지만 질적 연구 방법은 처음 접하는 AI 연구자를 위한 짧은 비교 가이드.</p>
+      <div class="byline">
+        <span>Dr. Jewoong Moon · ADDIE Lab</span>
+        <span>The University of Alabama</span>
+        <span>2026-05-07</span>
+      </div>
+    </header>
+
+    <section id="s1">
+      <h2><span><span class="num">§1</span>왜 이 가이드가 필요한가</span><span class="tag">핵심 문제</span></h2>
+      <p>AI 연구자는 질적 코딩을 처음 볼 때 종종 “라벨링 문제”로 이해한다. 코드북을 만들고, 사람이든 모델이든 라벨을 붙이고, 일치도를 계산하면 된다고 생각하기 쉽다.</p>
+      <p>하지만 질적 코딩 스키마는 고정된 태그 목록이 아니다. 자료를 읽고, 비교하고, 메모하고, 해석을 조정하면서 연구자의 판단이 축적되는 분석 도구다. 높은 Cohen’s κ가 항상 좋은 질적 분석을 뜻하지 않는 이유가 여기에 있다.</p>
+      <div class="callout warn">
+        <strong>주의</strong>
+        <p>질적 코딩을 단순 annotation으로 바꾸면 가장 중요한 부분이 사라진다. 즉, 연구자가 자료와 오래 씨름하면서 의미를 구성하는 과정이 보이지 않게 된다.</p>
+      </div>
+    </section>
+
+    <section id="s2">
+      <h2><span><span class="num">§2</span>두 개념의 정의</span><span class="tag">기본 구분</span></h2>
+      <h3>온톨로지</h3>
+      <p>AI와 지식공학에서 온톨로지는 특정 영역의 개념, 관계, 제약을 명시적으로 표현한 형식 구조다. OWL, RDF, SKOS 같은 언어를 통해 기계가 읽고 추론할 수 있게 만든다.</p>
+      <h3>질적 코딩 스키마</h3>
+      <p>질적 코딩 스키마는 인터뷰, 관찰노트, 문서, 토론글 같은 자료를 해석하기 위해 만든 코드와 범주의 체계다. 분석이 진행되면서 코드가 생기고, 합쳐지고, 이름이 바뀌며, 연구자의 메모와 판단이 함께 남는다.</p>
+      <table>
+        <thead>
+          <tr><th>질문</th><th>온톨로지</th><th>질적 코딩 스키마</th></tr>
+        </thead>
+        <tbody>
+          <tr><th>목적</th><td>공유 가능한 지식 구조 만들기</td><td>자료에서 의미와 패턴 해석하기</td></tr>
+          <tr><th>형식</th><td>클래스, 속성, 공리, 계층</td><td>코드, 범주, 주제, 메모</td></tr>
+          <tr><th>성공 기준</th><td>일관성, 추론 가능성, 재사용성</td><td>신뢰가능성, 해석의 설득력, 반성성</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="s3">
+      <h2><span><span class="num">§3</span>둘의 공통점</span><span class="tag">같은 점</span></h2>
+      <p>둘 다 복잡한 세계를 그냥 두지 않고 구조화한다. 개념에 이름을 붙이고, 경계를 세우고, 여러 사람이 같은 대상을 두고 이야기할 수 있게 돕는다.</p>
+      <figure>
+        <img src="../ontology-vs-coding-handbook/assets/imagegen-shared-dna.png" alt="온톨로지와 코딩 스키마의 공통 요소를 보여주는 이중 나선형 개념 이미지" loading="lazy" />
+        <figcaption>공통 DNA: 이름 붙이기, 경계 설정, 관계 만들기, 문서화.</figcaption>
+      </figure>
+      <p>그래서 표면적으로는 매우 비슷해 보인다. “개념 목록”, “관계”, “정의”, “예시”가 모두 등장한다. 문제는 그 구조를 왜 만들고, 어떻게 검증하는지가 다르다는 점이다.</p>
+    </section>
+
+    <section id="s4">
+      <h2><span><span class="num">§4</span>결정적 차이</span><span class="tag">인식론</span></h2>
+      <p>온톨로지는 대체로 공유 가능한 개념 세계를 안정적으로 표현하려 한다. 반면 질적 코딩은 특정 자료, 특정 연구 질문, 특정 연구자의 관점 속에서 의미가 어떻게 구성되는지 설명한다.</p>
+      <figure>
+        <img src="../ontology-vs-coding-handbook/assets/imagegen-realism-vs-reflexivity.png" alt="형식 구조와 반성적 연구 메모를 대비하는 개념 이미지" loading="lazy" />
+        <figcaption>온톨로지는 안정된 구조를 선호하고, 질적 코딩은 해석 과정과 연구자 위치성을 드러낸다.</figcaption>
+      </figure>
+      <div class="callout">
+        <strong>핵심 문장</strong>
+        <p>온톨로지는 “이 영역의 개념 구조를 어떻게 표현할 것인가?”를 묻고, 질적 코딩은 “이 자료에서 어떤 의미가 어떻게 만들어지는가?”를 묻는다.</p>
+      </div>
+    </section>
+
+    <section id="s5">
+      <h2><span><span class="num">§5</span>운영 방식 차이</span><span class="tag">실무 비교</span></h2>
+      <figure>
+        <img src="../ontology-vs-coding-handbook/assets/imagegen-cwa-vs-owa.png" alt="닫힌 세계 가정과 열린 세계 가정을 비교하는 시각 설명" loading="lazy" />
+        <figcaption>형식 지식표현에서는 open-world / closed-world assumption이 중요하지만, 질적 코딩에서는 해석의 맥락과 경계가 더 중요하다.</figcaption>
+      </figure>
+      <table>
+        <thead>
+          <tr><th>항목</th><th>온톨로지 프로젝트</th><th>질적 코딩 프로젝트</th></tr>
+        </thead>
+        <tbody>
+          <tr><th>초기 산출물</th><td>competency question, 클래스 후보, 관계 후보</td><td>초기 코드, 분석 메모, 연구자 저널</td></tr>
+          <tr><th>반복 방식</th><td>모델 수정, reasoner 검사, 질의 테스트</td><td>자료 재독해, 코드 병합/분리, 주제 재구성</td></tr>
+          <tr><th>검증</th><td>논리적 일관성, 전문가 검토, 재사용성</td><td>credibility, transferability, dependability, confirmability</td></tr>
+          <tr><th>실패 사례</th><td>추론 불가능하거나 모순이 많은 모델</td><td>자료와 맞지 않는 억지 주제, 반성성 없는 코드북</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="s6">
+      <h2><span><span class="num">§6</span>흔한 오해 여섯 가지</span><span class="tag">실수 방지</span></h2>
+      <figure>
+        <img src="../ontology-vs-coding-handbook/assets/imagegen-six-misconceptions.png" alt="온톨로지와 질적 코딩에 관한 여섯 가지 오해를 보여주는 카드형 이미지" loading="lazy" />
+        <figcaption>가장 흔한 실수는 서로 다른 방법의 평가 기준을 섞어 버리는 것이다.</figcaption>
+      </figure>
+      <ol>
+        <li><strong>코드는 태그와 같다.</strong> 아니다. 코드는 해석 단위이며, 메모와 함께 의미가 축적된다.</li>
+        <li><strong>코드북은 온톨로지로 바로 바꿀 수 있다.</strong> 아니다. 코드북은 연구 맥락에 묶여 있고, 형식 공리가 부족한 경우가 많다.</li>
+        <li><strong>높은 일치도면 질적 분석이 좋다.</strong> 일부 연구에는 유용하지만, reflexive thematic analysis에서는 핵심 검증 기준이 아니다.</li>
+        <li><strong>LLM이 코딩하면 연구자가 덜 필요하다.</strong> 오히려 어떤 판단을 자동화했는지 더 분명히 기록해야 한다.</li>
+        <li><strong>SKOS면 항상 온톨로지다.</strong> SKOS는 통제어휘와 thesaurus에 강하고, OWL 수준의 논리 표현과는 다르다.</li>
+        <li><strong>네트워크 시각화가 있으면 분석이 객관적이다.</strong> 네트워크는 코딩 판단 위에 서 있으므로, 코드의 해석적 근거가 먼저 필요하다.</li>
+      </ol>
+    </section>
+
+    <section id="s7">
+      <h2><span><span class="num">§7</span>어떻게 섞을 것인가</span><span class="tag">하이브리드</span></h2>
+      <p>둘을 섞는 가장 안전한 방식은 역할을 분리하는 것이다. 온톨로지는 안정적인 backbone vocabulary를 제공하고, 질적 코딩은 실제 자료에서 나타나는 의미와 예외를 해석한다.</p>
+      <figure>
+        <img src="../ontology-vs-coding-handbook/assets/imagegen-backbone-plus-layer.png" alt="안정적인 백본 위에 해석적 코딩 레이어가 올라가는 구조 이미지" loading="lazy" />
+        <figcaption>권장 구조: 안정적인 SKOS/OWL backbone 위에, 연구별 코딩 레이어를 분리해서 올린다.</figcaption>
+      </figure>
+      <div class="callout note">
+        <strong>실무 원칙</strong>
+        <p>출판할 때는 SKOS/OWL 파일, 코드북, 분석 메모, 네트워크 결과를 서로 다른 산출물로 분리하라. 검증 기준도 각각 따로 적어야 한다.</p>
+      </div>
+    </section>
+
+    <section id="s8">
+      <h2><span><span class="num">§8</span>연구 설계 체크리스트</span><span class="tag">질문부터</span></h2>
+      <ul>
+        <li><strong>재사용 가능한 지식 구조</strong>가 목표라면 온톨로지 또는 SKOS vocabulary가 먼저다.</li>
+        <li><strong>사람들이 어떤 의미를 구성하는지</strong>가 목표라면 질적 코딩과 thematic analysis가 먼저다.</li>
+        <li><strong>두 커뮤니티의 담론 구조 비교</strong>가 목표라면 backbone vocabulary + interpretive coding + ENA 같은 혼합 설계를 고려한다.</li>
+        <li><strong>LLM을 쓴다면</strong> 어떤 단계에서 썼는지, 사람이 무엇을 검토했는지, 코드가 어떻게 바뀌었는지 기록한다.</li>
+      </ul>
+    </section>
+
+    <section id="s9">
+      <h2><span><span class="num">§9</span>세 가지 예시</span><span class="tag">적용 장면</span></h2>
+      <div class="case">
+        <span class="case-label">Case A · Ontology-led</span>
+        <h3>상담 개념 지식그래프</h3>
+        <p>목표는 상담 문헌에서 intervention, presenting concern, protocol, modality 같은 개념을 정리해 재사용 가능한 SKOS/OWL backbone을 만드는 것이다.</p>
+        <figure>
+          <img src="../ontology-vs-coding-handbook/assets/imagegen-case-a-kg-workflow.png" alt="문헌에서 질문, 계층, 추론, 질의로 이어지는 온톨로지 워크플로" loading="lazy" />
+          <figcaption>온톨로지 중심 프로젝트는 competency question과 추론 가능성을 기준으로 검증한다.</figcaption>
+        </figure>
+      </div>
+      <div class="case">
+        <span class="case-label">Case B · Coding-scheme-led</span>
+        <h3>학생 포럼 글의 reflexive thematic analysis</h3>
+        <p>목표는 학생들이 AI 도구 사용을 어떻게 정당화하고 설명하는지 해석하는 것이다. 코드북보다 중요한 것은 자료 읽기, 메모, 주제 수정, 연구자 위치성의 기록이다.</p>
+        <figure>
+          <img src="../ontology-vs-coding-handbook/assets/imagegen-case-b-ta-workflow.png" alt="읽기, 코딩, 클러스터링, 수정, 정의, 보고로 이어지는 질적 분석 루프" loading="lazy" />
+          <figcaption>코딩 중심 프로젝트는 코드가 어떻게 생성되고 수정되었는지를 보여줘야 설득력이 생긴다.</figcaption>
+        </figure>
+      </div>
+      <div class="case">
+        <span class="case-label">Case C · Hybrid</span>
+        <h3>Learning Sciences와 Educational Technology 담론 비교</h3>
+        <p>공유 vocabulary를 만든 뒤 두 분야의 논문을 해석적으로 코딩하고, ENA로 코드 연결 구조를 비교한다. 네트워크 차이는 코딩 판단이 타당할 때만 의미가 있다.</p>
+        <figure>
+          <img src="../ontology-vs-coding-handbook/assets/imagegen-case-c-hybrid-ena.png" alt="백본, 코딩 자료, 네트워크 시각화를 연결한 하이브리드 연구 구조" loading="lazy" />
+          <figcaption>하이브리드 프로젝트는 backbone, 코드북, ENA 결과를 분리해서 보고하는 것이 좋다.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section id="s10">
+      <h2><span><span class="num">§10</span>핵심 용어와 참고문헌</span><span class="tag">더 읽기</span></h2>
+      <h3>핵심 용어</h3>
+      <ul>
+        <li><strong>Competency question</strong>: 온톨로지가 답해야 하는 자연어 질문.</li>
+        <li><strong>Open-world assumption</strong>: 모른다는 것은 거짓이 아니라 아직 알려지지 않았다는 뜻.</li>
+        <li><strong>Codebook</strong>: 코드 정의, 포함/제외 기준, 예시, 메모를 담은 분석 문서.</li>
+        <li><strong>Reflexivity</strong>: 연구자의 위치, 선택, 해석이 분석에 미친 영향을 기록하는 실천.</li>
+        <li><strong>Trustworthiness</strong>: 질적 연구의 신뢰가능성을 설명하는 기준 묶음.</li>
+      </ul>
+      <h3>대표 참고문헌</h3>
+      <p>Gruber (1993), Studer et al. (1998), Guarino (1998), Miles &amp; Bechhofer (2009), Hogan et al. (2021), Braun &amp; Clarke (2006, 2019), Charmaz (2014), Saldaña (2021), Lincoln &amp; Guba (1985), Shaffer et al. (2016), De Paoli (2024), Christou (2024), Deiner et al. (2024), Naeem et al. (2025), Schroeder et al. (2025).</p>
+      <p>전체 참고문헌과 더 긴 설명은 <a href="../ontology-vs-coding-handbook/#s10">영어판 §10</a>에 정리되어 있다.</p>
+    </section>
+
+    <footer>
+      <p><strong>작성</strong> · Dr. Jewoong Moon · ADDIE Lab · The University of Alabama</p>
+      <p><strong>버전</strong> 0.1 · 2026-05-07 · 영어판과 함께 제공되는 한국어 요약/가이드 페이지.</p>
+    </footer>
+  </main>
+</div>
+
+<script>
+  (function () {
+    var sections = Array.from(document.querySelectorAll('main section[id]'));
+    var links = Array.from(document.querySelectorAll('aside nav a'));
+    var byHash = {};
+    links.forEach(function (a) { byHash[a.getAttribute('href').slice(1)] = a; });
+    function setActive(id) {
+      links.forEach(function (a) { a.classList.remove('active'); });
+      if (id && byHash[id]) byHash[id].classList.add('active');
+    }
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (entries) {
+        var visible = entries.filter(function (e) { return e.isIntersecting; })
+          .sort(function (a, b) { return a.target.offsetTop - b.target.offsetTop; });
+        if (visible.length) setActive(visible[0].target.id);
+      }, { rootMargin: '-15% 0px -70% 0px', threshold: 0 });
+      sections.forEach(function (s) { io.observe(s); });
+    }
+  })();
+</script>
+</body>
+</html>

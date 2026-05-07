@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" role="img" aria-labelledby="title desc">
+  <title id="title">Ontology-led knowledge graph workflow</title>
+  <desc id="desc">Five blue vignettes show textbooks, competency questions, a class hierarchy, a reasoner gear, and a SPARQL query window connected by arrows.</desc>
+  <defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0 0 L8 3 L0 6 Z" fill="#1d4e89"/></marker><pattern id="grain" width="16" height="16" patternUnits="userSpaceOnUse"><path d="M2 4h1M11 7h1M6 13h1" stroke="#1a1a1a" stroke-opacity=".07"/></pattern>
+  <style>.bg{fill:#fbfaf6}.blue{stroke:#1d4e89}.line{fill:none;stroke-width:4;stroke-linecap:round;stroke-linejoin:round}.hair{fill:none;stroke-width:2.4;stroke-linecap:round}.label{font:600 21px Inter,Segoe UI,Arial,sans-serif;fill:#1a1a1a}.tiny{font:500 17px Inter,Segoe UI,Arial,sans-serif;fill:#424242}</style></defs>
+  <rect class="bg" width="1200" height="900"/><rect width="1200" height="900" fill="url(#grain)" opacity=".55"/>
+  <g class="blue" marker-end="url(#arrow)"><path d="M250 430h105" class="line"/><path d="M475 430h105" class="line"/><path d="M700 430h105" class="line"/><path d="M925 430h105" class="line"/></g>
+  <g transform="translate(70 300)" class="blue"><path d="M38 50h120v170H38zM70 28h120v170H70zM102 5h120v170H102z" class="line"/><path d="M130 48h62M130 80h62M130 112h62" class="hair"/></g>
+  <text x="180" y="570" class="label" text-anchor="middle">clinical literature</text>
+  <g transform="translate(330 300)" class="blue"><rect x="0" y="0" width="170" height="215" rx="6" fill="#fbfaf6" stroke="#1d4e89" stroke-width="4"/><path d="M30 58h110M30 95h92M30 132h120M30 169h80" class="hair"/><circle cx="28" cy="58" r="5" fill="#1d4e89"/><circle cx="28" cy="95" r="5" fill="#1d4e89"/><circle cx="28" cy="132" r="5" fill="#1d4e89"/></g>
+  <text x="415" y="570" class="label" text-anchor="middle">competency questions</text>
+  <g transform="translate(570 300)" class="blue"><circle cx="90" cy="36" r="26" fill="#fbfaf6" stroke="#1d4e89" stroke-width="4"/><path d="M90 62v54M38 140h104M38 140v50M142 140v50" class="line"/><circle cx="38" cy="207" r="22" fill="#fbfaf6" stroke="#1d4e89" stroke-width="4"/><circle cx="142" cy="207" r="22" fill="#fbfaf6" stroke="#1d4e89" stroke-width="4"/></g>
+  <text x="660" y="570" class="label" text-anchor="middle">class hierarchy</text>
+  <g transform="translate(795 300)" class="blue"><circle cx="90" cy="110" r="70" fill="#fbfaf6" stroke="#1d4e89" stroke-width="4"/><path d="M90 40v28M90 152v28M20 110h28M132 110h28M42 62l20 20M118 138l20 20M42 158l20-20M118 82l20-20" class="line"/><path d="M58 112l24 24l48-58" class="line"/></g>
+  <text x="885" y="570" class="label" text-anchor="middle">reasoner</text>
+  <g transform="translate(1010 315)" class="blue"><rect x="0" y="0" width="145" height="170" rx="6" fill="#fbfaf6" stroke="#1d4e89" stroke-width="4"/><path d="M0 36h145M22 70h74M22 103h104M22 136h62" class="hair"/><text x="22" y="26" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="17" fill="#1d4e89">SPARQL</text></g>
+  <text x="1082" y="570" class="label" text-anchor="middle">queries</text>
+</svg>

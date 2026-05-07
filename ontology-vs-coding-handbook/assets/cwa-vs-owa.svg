@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" role="img" aria-labelledby="title desc">
+  <title id="title">Closed-world and open-world assumptions</title>
+  <desc id="desc">The left panel shows an enclosed indexed library; the right panel shows an open desk beside a window with maps and unknown regions.</desc>
+  <defs><pattern id="grain" width="18" height="18" patternUnits="userSpaceOnUse"><path d="M3 5h1M14 8h1M7 15h1" stroke="#1a1a1a" stroke-opacity=".07"/></pattern>
+  <style>.bg{fill:#fbfaf6}.panel{fill:#fff;stroke:#d9d6cf}.blue{stroke:#1d4e89}.amber{stroke:#92400e}.ink{stroke:#1a1a1a}.line{fill:none;stroke-width:4;stroke-linecap:round;stroke-linejoin:round}.hair{fill:none;stroke-width:2;stroke-linecap:round}.label{font:600 27px Inter,Segoe UI,Arial,sans-serif;fill:#1a1a1a}.small{font:500 20px Inter,Segoe UI,Arial,sans-serif;fill:#424242}</style></defs>
+  <rect class="bg" width="1200" height="900"/><rect width="1200" height="900" fill="url(#grain)" opacity=".55"/>
+  <rect x="65" y="90" width="500" height="680" rx="8" class="panel"/><rect x="635" y="90" width="500" height="680" rx="8" class="panel"/>
+  <g transform="translate(120 150)" class="blue">
+    <rect x="20" y="40" width="390" height="410" class="line"/>
+    <path d="M55 80h320M55 145h320M55 210h320M55 275h320M55 340h320M55 405h320" class="hair"/>
+    <g stroke-width="8"><path d="M75 80v65M130 80v65M190 80v65M255 80v65M315 80v65M360 80v65M86 145v65M150 145v65M215 145v65M276 145v65M344 145v65M74 210v65M138 210v65M206 210v65M294 210v65M365 210v65M98 275v65M170 275v65M232 275v65M312 275v65M84 340v65M148 340v65M204 340v65M270 340v65M348 340v65"/></g>
+    <rect x="128" y="478" width="175" height="46" fill="#fbfaf6" stroke="#1d4e89" stroke-width="3"/>
+    <path d="M155 502h120" class="hair"/>
+  </g>
+  <text x="315" y="820" class="label" text-anchor="middle">closed world: not provable = false</text>
+  <g transform="translate(690 150)" class="amber">
+    <path d="M45 488h395M95 488v-170h295v170" class="line"/>
+    <path d="M116 342h244M116 396h244M116 450h244" class="hair"/>
+    <rect x="250" y="44" width="170" height="180" class="line"/>
+    <path d="M270 70c36 22 70 8 112 42c-34 18-42 62-78 82c-22-30-52-42-34-124z" class="hair"/>
+    <text x="332" y="157" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="46" fill="#92400e">?</text>
+    <path d="M52 72h148v190H52zM70 105c35-12 62 16 100 0M70 158c42 24 62-20 102 4M70 214c34-6 70 12 104-8" class="line"/>
+    <text x="126" y="292" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="21" fill="#92400e" text-anchor="middle">terra incognita</text>
+  </g>
+  <text x="885" y="820" class="label" text-anchor="middle">open world: not provable = unknown</text>
+</svg>

@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" role="img" aria-labelledby="title desc">
+  <title id="title">Shared DNA overlap diagram</title>
+  <desc id="desc">Two interlocking circles contain four bands representing hierarchy, vocabulary negotiation, iterative refinement, and mediation between data and theory.</desc>
+  <defs>
+    <pattern id="grain" width="16" height="16" patternUnits="userSpaceOnUse"><path d="M2 3h1M11 4h1M6 12h1" stroke="#1a1a1a" stroke-opacity=".07"/></pattern>
+    <style>.bg{fill:#fbfaf6}.blue{stroke:#1d4e89}.amber{stroke:#92400e}.ink{stroke:#1a1a1a}.txt{font:500 27px Inter,Segoe UI,Arial,sans-serif;fill:#1a1a1a}.small{font:500 20px Inter,Segoe UI,Arial,sans-serif;fill:#424242}.line{fill:none;stroke-width:4;stroke-linecap:round;stroke-linejoin:round}</style>
+  </defs>
+  <rect class="bg" width="1200" height="900"/><rect width="1200" height="900" fill="url(#grain)" opacity=".6"/>
+  <circle cx="460" cy="445" r="300" fill="#1d4e89" opacity=".09" class="blue" stroke-width="5"/>
+  <circle cx="740" cy="445" r="300" fill="#92400e" opacity=".09" class="amber" stroke-width="5"/>
+  <text x="330" y="170" class="small" text-anchor="middle">ontology-side artifact</text>
+  <text x="870" y="170" class="small" text-anchor="middle">coding-scheme artifact</text>
+  <g transform="translate(360 270)">
+    <rect x="0" y="0" width="480" height="72" rx="12" fill="#fbfaf6" stroke="#d9d6cf"/>
+    <path d="M58 53 h88 v-12 h-66 v-12 h44 v-12 h-22" class="line blue"/>
+    <text x="180" y="45" class="txt">hierarchical organization</text>
+  </g>
+  <g transform="translate(360 370)">
+    <rect x="0" y="0" width="480" height="72" rx="12" fill="#fbfaf6" stroke="#d9d6cf"/>
+    <circle cx="78" cy="36" r="24" fill="none" class="line amber"/><path d="M47 36h62M78 12v48" class="line amber"/>
+    <text x="180" y="45" class="txt">community vocabulary</text>
+  </g>
+  <g transform="translate(360 470)">
+    <rect x="0" y="0" width="480" height="72" rx="12" fill="#fbfaf6" stroke="#d9d6cf"/>
+    <path d="M55 38a36 36 0 0 1 58-28M113 10v31h-31M121 34a36 36 0 0 1-58 28M63 62V31h31" class="line blue"/>
+    <text x="180" y="45" class="txt">iterative refinement</text>
+  </g>
+  <g transform="translate(360 570)">
+    <rect x="0" y="0" width="480" height="72" rx="12" fill="#fbfaf6" stroke="#d9d6cf"/>
+    <path d="M42 54h84M42 54l30-32M126 54l-30-32M72 22h24" class="line amber"/>
+    <text x="180" y="45" class="txt">data-theory mediation</text>
+  </g>
+</svg>
