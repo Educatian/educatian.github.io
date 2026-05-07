@@ -71,7 +71,8 @@ table{width:100%;border-collapse:collapse;background:#fff}th,td{padding:10px;bor
 .interpretation b{display:block;margin-bottom:5px}.source-list{display:grid;gap:8px;margin-top:12px}.source-list a{font-size:13px}
 details{background:#fff;border:1px solid var(--line);margin:10px 0}summary{cursor:pointer;padding:13px 15px;font-weight:900}details[open] summary{border-bottom:1px solid var(--line);color:var(--lak)}details .inside{padding:14px 15px}
 .figure-archive{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.figure-archive img{width:100%;display:block;border:1px solid var(--line);background:#fff}
-.field-map{margin:18px 0 0;background:rgba(255,253,246,.93);border:1px solid var(--line);box-shadow:var(--shadow);overflow:hidden}.field-map img{display:block;width:100%;height:auto}.field-map p{padding:12px 16px;margin:0;font-size:13px;color:var(--muted);font-weight:700}
+.field-map,.concept-image{margin:18px 0 0;background:rgba(255,253,246,.93);border:1px solid var(--line);box-shadow:var(--shadow);overflow:hidden}.field-map img,.concept-image img{display:block;width:100%;height:auto}.field-map p,.concept-image p{padding:12px 16px;margin:0;font-size:13px;color:var(--muted);font-weight:700}
+.method-steps{display:grid;gap:12px;counter-reset:method}.method-step{display:grid;grid-template-columns:54px 1fr;gap:14px;background:#fff;border:1px solid rgba(23,33,31,.14);padding:16px}.method-step:before{counter-increment:method;content:counter(method,decimal-leading-zero);font-family:Consolas,monospace;color:var(--lak);font-weight:950;font-size:18px}.method-step h3{margin:0 0 6px}.method-step p{margin:0}
 footer{border-top:1px solid var(--line);padding-top:24px;color:var(--muted);font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:1px}
 @media(max-width:1080px){.shell{grid-template-columns:1fr;padding:24px}.toc{position:relative;top:auto;max-height:none}.metric-strip,.grid2,.grid3,.figure-archive{grid-template-columns:1fr}.section-title{grid-template-columns:1fr}.bar-row{grid-template-columns:1fr}.bar-num{text-align:left}}
 </style>
@@ -83,6 +84,7 @@ footer{border-top:1px solid var(--line);padding-top:24px;color:var(--muted);font
     <div class="brand">LAK vs EDM <span>interactive field guide</span></div>
     <a href="#overview">What differs</a>
     <a href="#data">Field background</a>
+    <a href="#methods">Research method</a>
     <a href="#records">Proceedings volume</a>
     <a href="#signals">Methods and data contexts</a>
     <a href="#topics">Semantic topics</a>
@@ -110,6 +112,7 @@ footer{border-top:1px solid var(--line);padding-top:24px;color:var(--muted);font
         <div class="panel"><span class="tag">LA lens</span><h3>From data to pedagogical action</h3><p>Learning Analytics is strongest when the contribution explains how data traces support interpretation, feedback, reflection, advising, dashboards, self-regulated learning, institutional decision-making, or learning design.</p></div>
         <div class="panel"><span class="tag">EDM lens</span><h3>From data to validated models</h3><p>Educational Data Mining is strongest when the contribution develops or evaluates models for prediction, knowledge tracing, assessment, recommendation, item response, tutoring systems, or algorithmic inference.</p></div>
       </div>
+      <div class="concept-image"><img src="illustrations/evidence-pipelines.png" alt="Conceptual illustration of LA and EDM evidence pipelines"><p>Evidence pipeline. Both fields begin with educational traces. LA turns traces toward interpretation, feedback, and design action; EDM turns traces toward features, models, validation, and inference.</p></div>
       <div class="grid2" style="margin-top:16px">
         <div class="panel tint"><h3>Where Learning Analytics comes from</h3><p>Learning Analytics grew around the problem of making digital traces useful for learning and teaching. SoLAR describes LA as collecting, analyzing, interpreting, and communicating learner data to provide theoretically relevant and actionable insights. That wording matters: LA is not just analysis. It includes interpretation, communication, theory, human-centered design, and the practical question of who can act on the evidence.</p><p>As a community, LA took shape through SoLAR and the International Conference on Learning Analytics and Knowledge, whose first conference was in 2011. Historically, LAK positioned the field at the intersection of learning sciences, educational technology, analytics, visualization, institutional research, and design. That is why LA papers often ask whether a dashboard, feedback loop, advising signal, or analytics intervention changes what learners, teachers, or institutions can see and do.</p></div>
         <div class="panel tint"><h3>Where Educational Data Mining comes from</h3><p>Educational Data Mining grew from data mining, machine learning, psychometrics, intelligent tutoring systems, student modeling, and large-scale educational log analysis. The International Educational Data Mining Society was founded in 2011, formalizing a community that had already been building methods for educational data, tutoring systems, and student modeling.</p><p>CMU DataLab's overview frames EDM around mining and analyzing data collected during teaching, validating findings at scale, predicting knowledge and dropout risk, and supporting adaptivity and personalization. That methodological origin explains why EDM papers often foreground model validity, prediction, knowledge tracing, item response, recommendation, algorithmic comparison, feature engineering, and benchmark-style evaluation. The educational goal remains important, but the center of gravity is usually the computational model and the evidence that it works.</p></div>
@@ -139,6 +142,7 @@ footer{border-top:1px solid var(--line);padding-top:24px;color:var(--muted);font
         <div class="panel"><h3>Then read: HLA 2022</h3><p>The second edition updates the field after several years of growth. It is especially useful for newcomers who want modern coverage of predictive modeling, NLP, multimodal learning analytics, SRL, collaboration, teacher/student-facing analytics, fairness, policy, and human-centered feedback.</p></div>
         <div class="panel"><h3>EDM baseline: 2010 handbook</h3><p>The Handbook of Educational Data Mining gives the EDM baseline: classifiers, clustering, association rules, sequence/process mining, PSLC DataShop, q-matrices, skill models, Bayesian networks, recommendation, affect, validation, and case studies from intelligent learning environments.</p></div>
       </div>
+      <div class="concept-image"><img src="illustrations/reading-roadmap.png" alt="Conceptual roadmap for reading Learning Analytics and Educational Data Mining resources"><p>Reading roadmap. Use the LA handbooks to understand the socio-technical field, then use the EDM handbook to understand the modeling tradition, then read recent LAK/EDM proceedings as current evidence of field movement.</p></div>
       <div class="panel green" style="margin-top:16px"><h3>Beginner reading rule</h3><p>When reading a paper, ask what the paper wants credit for. If the paper wants credit for a better educational decision, feedback loop, stakeholder-facing representation, or learning-design implication, read it through an LA lens. If it wants credit for a better model, inference method, prediction, trace representation, or benchmark result, read it through an EDM lens. If it wants both, evaluate both chains separately.</p></div>
       <div class="source-list">
         <a href="https://www.solaresearch.org/about/what-is-learning-analytics/">SoLAR: What is Learning Analytics?</a>
@@ -151,8 +155,21 @@ footer{border-top:1px solid var(--line);padding-top:24px;color:var(--muted);font
       </div>
     </section>
 
+    <section id="methods" class="section">
+      <div class="section-title"><div class="num">03</div><div><h2>How this dataset and analysis were built</h2><p>This page is based on a reproducible metadata and title-level NLP workflow. The goal is onboarding and field comparison, not a final systematic review.</p></div></div>
+      <div class="method-steps">
+        <div class="method-step"><div><h3>Define the corpus boundary</h3><p>The scope is LAK 2016-2025 and EDM 2016-2025. Each venue-year was treated as a proceedings table of contents, not as a broad web search. This keeps the comparison bounded to two field conferences over the same ten-year window.</p></div></div>
+        <div class="method-step"><div><h3>Extract DBLP metadata by table-of-contents facet</h3><p>For each venue-year pair, the script queried the DBLP publication API with a TOC facet such as <code>toc:db/conf/lak/lak2025.bht:</code> or <code>toc:db/conf/edm/edm2025.bht:</code>. Stored fields include venue, year, title, authors, author count, pages, DBLP type, key, DOI when present, electronic edition URL, DBLP URL, access flag, and source query URL.</p></div></div>
+        <div class="method-step"><div><h3>Remove obvious non-research records</h3><p>The raw extraction contained 1,953 non-editorship records. A title-based analytic filter removed 29 obvious meta records containing terms such as workshop, tutorial, doctoral consortium, proceedings, front matter, preface, panel, keynote, and symposium. The final analytic corpus contains 1,924 records: 824 LAK and 1,100 EDM.</p></div></div>
+        <div class="method-step"><div><h3>Create first-pass method and data-context tags</h3><p>Title-keyword heuristics were used to mark broad method signals such as prediction/modeling, knowledge tracing, dashboard/visualization, NLP/discourse/text, multimodal/sensor, network/sequence/process, causal/experimental, LLM/GenAI, fairness/privacy/ethics, and learning design/SRL. Data-context tags include LMS/MOOC/logs, assessment/grades, collaboration/discourse, tutoring/intelligent systems, writing/text artifacts, multimodal/sensor, and dashboard/user study. These are directional screening tags, not final human-coded categories.</p></div></div>
+        <div class="method-step"><div><h3>Run title-level semantic NLP</h3><p>Paper titles were embedded with <code>sentence-transformers/all-mpnet-base-v2</code>. BERTopic was run over the precomputed embeddings using UMAP for dimensionality reduction, HDBSCAN for clustering, and c-TF-IDF for topic representation. The run produced 22 clusters including the outlier/mixed topic. Topic labels are c-TF-IDF top words, not generated claims.</p></div></div>
+        <div class="method-step"><div><h3>Build comparative tables and interactive visuals</h3><p>The page uses venue-year counts, method/data tag percentages, topic-by-venue counts, and selected topic-by-year counts. Counts are shown interactively so readers can inspect the difference between raw volume, within-venue signal, and topic distinctiveness.</p></div></div>
+        <div class="method-step"><div><h3>State the interpretation boundary</h3><p>The current evidence supports onboarding-level claims about field tendencies. It should not be cited as a publication-grade systematic review until abstracts or full texts are enriched through DOI/OpenAlex/Semantic Scholar/Crossref, and a stratified sample is human-coded for methods, data sources, educational setting, and contribution type.</p></div></div>
+      </div>
+    </section>
+
     <section id="records" class="section">
-      <div class="section-title"><div class="num">03</div><div><h2>Proceedings volume is uneven, so normalize claims</h2><p>EDM has more analytic records in this extraction, but the difference changes by year. Interpret method or topic prevalence as percentages or within-venue patterns when possible.</p></div></div>
+      <div class="section-title"><div class="num">04</div><div><h2>Proceedings volume is uneven, so normalize claims</h2><p>EDM has more analytic records in this extraction, but the difference changes by year. Interpret method or topic prevalence as percentages or within-venue patterns when possible.</p></div></div>
       <div class="viz">
         <div class="viz-head"><div><div class="viz-title">Interactive record counts by year</div><div class="legend"><span><i class="sw lak"></i>LAK</span><span><i class="sw edm"></i>EDM</span></div></div><div class="viz-note">Hover for exact counts. Buttons toggle each venue.</div></div>
         <div class="controls"><button class="active" data-venue-toggle="LAK">LAK</button><button class="active" data-venue-toggle="EDM">EDM</button></div>
@@ -162,7 +179,7 @@ footer{border-top:1px solid var(--line);padding-top:24px;color:var(--muted);font
     </section>
 
     <section id="signals" class="section">
-      <div class="section-title"><div class="num">04</div><div><h2>Method and data-context signals show the field personalities</h2><p>These are conservative title-keyword heuristics. They are useful for onboarding and direction-finding, but not a substitute for abstract/full-text coding.</p></div></div>
+      <div class="section-title"><div class="num">05</div><div><h2>Method and data-context signals show the field personalities</h2><p>These are conservative title-keyword heuristics. They are useful for onboarding and direction-finding, but not a substitute for abstract/full-text coding.</p></div></div>
       <div class="viz">
         <div class="viz-head"><div><div class="viz-title">Signal explorer</div><div class="legend"><span><i class="sw lak"></i>LAK % of venue records</span><span><i class="sw edm"></i>EDM % of venue records</span></div></div><div class="viz-note">Switch between methods and data contexts. Hover bars for record counts.</div></div>
         <div class="controls"><button class="active" data-signal="method">Method signals</button><button data-signal="data">Data contexts</button><button data-hide-other="true">Hide uncoded</button></div>
@@ -172,7 +189,7 @@ footer{border-top:1px solid var(--line);padding-top:24px;color:var(--muted);font
     </section>
 
     <section id="topics" class="section">
-      <div class="section-title"><div class="num">05</div><div><h2>Semantic topics make the contrast sharper</h2><p>MPNet + BERTopic over titles surfaces a recognizable split: LAK is more distinctive around learning analytics, dashboards, collaboration, multimodal learning, and writing analytics; EDM is more distinctive around prediction, knowledge tracing, item response, programming tasks, and recommendation systems.</p></div></div>
+      <div class="section-title"><div class="num">06</div><div><h2>Semantic topics make the contrast sharper</h2><p>MPNet + BERTopic over titles surfaces a recognizable split: LAK is more distinctive around learning analytics, dashboards, collaboration, multimodal learning, and writing analytics; EDM is more distinctive around prediction, knowledge tracing, item response, programming tasks, and recommendation systems.</p></div></div>
       <div class="viz">
         <div class="viz-head"><div><div class="viz-title">Topic distinctiveness explorer</div><div class="legend"><span><i class="sw lak"></i>LAK count</span><span><i class="sw edm"></i>EDM count</span></div></div><div class="viz-note">Sort by LAK distinctiveness, EDM distinctiveness, or total volume.</div></div>
         <div class="controls"><button class="active" data-sort="lak">LAK distinctive</button><button data-sort="edm">EDM distinctive</button><button data-sort="total">Largest topics</button></div>
@@ -182,7 +199,7 @@ footer{border-top:1px solid var(--line);padding-top:24px;color:var(--muted);font
     </section>
 
     <section id="trends" class="section">
-      <div class="section-title"><div class="num">06</div><div><h2>Ten-year movement is best read topic by topic</h2><p>The topic model is title-only, so trend claims should be phrased as signals, not final field history. Still, selected topics show useful onboarding patterns.</p></div></div>
+      <div class="section-title"><div class="num">07</div><div><h2>Ten-year movement is best read topic by topic</h2><p>The topic model is title-only, so trend claims should be phrased as signals, not final field history. Still, selected topics show useful onboarding patterns.</p></div></div>
       <div class="viz">
         <div class="viz-head"><div><div class="viz-title">Topic trend explorer</div><div class="legend"><span><i class="sw lak"></i>LAK</span><span><i class="sw edm"></i>EDM</span></div></div><div class="viz-note">Choose a topic. Missing venue-year cells are rendered as zero.</div></div>
         <div class="controls" id="trendControls"></div>
@@ -192,7 +209,8 @@ footer{border-top:1px solid var(--line);padding-top:24px;color:var(--muted);font
     </section>
 
     <section id="onboarding" class="section">
-      <div class="section-title"><div class="num">07</div><div><h2>Use this as a framing decision tool</h2><p>For a new paper, proposal, or teaching module, choose the field framing by what the contribution must persuade readers to believe.</p></div></div>
+      <div class="section-title"><div class="num">08</div><div><h2>Use this as a framing decision tool</h2><p>For a new paper, proposal, or teaching module, choose the field framing by what the contribution must persuade readers to believe.</p></div></div>
+      <div class="concept-image"><img src="illustrations/decision-map.png" alt="Conceptual decision map for choosing LA or EDM framing"><p>Framing map. If the contribution is a better decision, feedback loop, stakeholder representation, or learning design, foreground LA. If it is a better model, prediction, validation, or benchmark, foreground EDM.</p></div>
       <div class="grid2">
         <div class="panel"><h3>LAK framing is stronger when...</h3><div class="checklist">
           <label class="choice"><input type="checkbox" data-side="lak">The central claim is about interpretation, reflection, feedback, advising, or instructional decision-making.</label>
@@ -206,10 +224,11 @@ footer{border-top:1px solid var(--line);padding-top:24px;color:var(--muted);font
         </div></div>
       </div>
       <div id="decisionResult" class="result">Select items to see the current framing direction.</div>
+      <div class="concept-image"><img src="illustrations/paper-anatomy.png" alt="Conceptual side-by-side anatomy of LA and EDM papers"><p>Paper anatomy. LA papers tend to make the educational interpretation and action chain visible; EDM papers tend to make the modeling, validation, and benchmark chain visible.</p></div>
     </section>
 
     <section id="limits" class="section">
-      <div class="section-title"><div class="num">08</div><div><h2>What the current evidence can and cannot support</h2><p>The guide is suitable for onboarding, blog writing, and scoping a deeper review. It is not yet a publication-grade systematic review.</p></div></div>
+      <div class="section-title"><div class="num">09</div><div><h2>What the current evidence can and cannot support</h2><p>The guide is suitable for onboarding, blog writing, and scoping a deeper review. It is not yet a publication-grade systematic review.</p></div></div>
       <details open><summary>Extraction method</summary><div class="inside"><p>Each venue-year query used DBLP's table-of-contents facet: <code>toc:db/conf/&lt;venue&gt;/&lt;venue&gt;&lt;year&gt;.bht:</code>. The analytic filter removed title-marked workshops, tutorials, doctoral consortium items, front matter, prefaces, panels, keynotes, and symposium records.</p></div></details>
       <details><summary>Current limitations</summary><div class="inside"><p>BERTopic used titles only. Method and data-context tags are keyword heuristics. DOI coverage is partial: 823 records have DOI strings in the current DBLP extraction. Claims about "what the field believes" should be enriched with abstracts, author networks, venue tracks, and human-coded samples.</p></div></details>
       <details><summary>Static figure archive</summary><div class="inside"><p class="small">The original PNG figures remain available for export or slides, but this page now treats the interactive charts as the primary reading surface.</p><div class="figure-archive">
