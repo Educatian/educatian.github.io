@@ -3,14 +3,6 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Two-hour Korean faculty workshop deck on Google AI Studio Build Mode, INTERACT design, multimodal testing, classroom app prototyping, and Antigravity follow-up workflows.">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Google AI Studio로 교육미디어 제작하기">
-<meta property="og:description" content="AI Studio Build Mode, INTERACT prompt/schema design, multimodal practice, classroom app prototyping, and quality gates for a two-hour webinar.">
-<meta property="og:url" content="https://educatian.github.io/presentations/inha-google-ai-studio-educational-media/">
-<meta property="og:image" content="https://educatian.github.io/presentations/inha-google-ai-studio-educational-media/thumbnails/hero_og_1200x630.png">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://educatian.github.io/presentations/inha-google-ai-studio-educational-media/thumbnails/hero_og_1200x630.png">
 <title>인하대학교 워크샵 - Google AI Studio로 교육미디어 제작하기</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&family=Noto+Sans+KR:wght@400;500;700;800;900&family=Noto+Serif+KR:wght@600;700;900&display=swap');
@@ -275,6 +267,88 @@ h1, h2, h3, p { margin-top: 0; }
   line-height: 1.5;
 }
 .callout strong { color: var(--ink); }
+
+.algo-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(320px, .85fr);
+  gap: 24px;
+  align-items: stretch;
+}
+.slide[data-title="Production Workflow Algorithm"] .title-lg {
+  font-size: 36px;
+  line-height: 1.12;
+  margin-bottom: 10px;
+}
+.algo-figure {
+  position: relative;
+  min-height: 370px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: #f6f0e6;
+  box-shadow: var(--shadow);
+}
+.algo-figure img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+.algo-overlay {
+  position: absolute;
+  left: 18px;
+  right: 18px;
+  bottom: 12px;
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 7px;
+}
+.algo-step {
+  min-height: 54px;
+  padding: 7px 6px;
+  border: 1px solid rgba(255,255,255,.72);
+  border-radius: 6px;
+  background: rgba(255,253,248,.9);
+  box-shadow: 0 10px 24px rgba(38,37,31,.10);
+}
+.algo-step b {
+  display: block;
+  color: var(--teal);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  margin-bottom: 4px;
+}
+.algo-step span {
+  display: block;
+  color: var(--ink);
+  font-weight: 900;
+  font-size: 12px;
+  line-height: 1.18;
+}
+.algo-context {
+  display: grid;
+  gap: 9px;
+}
+.algo-context .card { padding: 12px 15px; }
+.algo-context h3 { font-size: 17px; }
+.algo-context p { font-size: 14px; line-height: 1.38; }
+.mini-algo {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 14px;
+}
+.mini-algo span {
+  padding: 6px 8px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: rgba(255,255,255,.72);
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 800;
+}
+.mini-algo .hot { color: var(--teal); border-color: rgba(34,118,111,.28); background: rgba(34,118,111,.08); }
 
 .timeline {
   display: grid;
@@ -984,6 +1058,52 @@ h1, h2, h3, p { margin-top: 0; }
   </main>
   <div class="source-line"><span>Imagegen2 custom asset · workshop visual anchor · 2026-05-08</span><span class="slide-num"></span></div>
   <aside class="notes">Imagegen2를 단순 장식 이미지가 아니라 워크숍의 개념 지도 역할로 사용. 이후 실습 시나리오 이미지 3종과 시각 언어를 맞춘다.</aside>
+</section>
+
+<section class="slide" data-title="Production Workflow Algorithm" data-step="1">
+  <div class="rail"></div>
+  <main class="main">
+    <p class="kicker">Imagegen2 Algorithm Visual</p>
+    <h2 class="title-lg">효과적인 제작 알고리즘: 목표 → 자료 → 프롬프트 → 생성 → 검수 → 개선 → 공유</h2>
+    <div class="algo-hero mt-m">
+      <figure class="algo-figure">
+        <img src="assets/imagegen-production-workflow-algorithm.png" alt="효과적인 교육미디어 제작 워크플로 알고리즘 시각자료">
+        <div class="algo-overlay" aria-hidden="true">
+          <div class="algo-step"><b>01</b><span>수업<br>목표</span></div>
+          <div class="algo-step"><b>02</b><span>자료<br>입력</span></div>
+          <div class="algo-step"><b>03</b><span>프롬프트<br>설계</span></div>
+          <div class="algo-step"><b>04</b><span>생성</span></div>
+          <div class="algo-step"><b>05</b><span>검수</span></div>
+          <div class="algo-step"><b>06</b><span>개선</span></div>
+          <div class="algo-step"><b>07</b><span>공유</span></div>
+        </div>
+      </figure>
+      <div class="algo-context">
+        <div class="card bar-top">
+          <h3>프롬프트 맥락</h3>
+          <p>목표와 자료를 먼저 고정한 뒤, 역할·조건·출력형식·검수기준을 프롬프트로 씁니다.</p>
+          <div class="mini-algo"><span class="hot">수업목표</span><span class="hot">자료입력</span><span class="hot">프롬프트 설계</span></div>
+        </div>
+        <div class="card bar-top bar-blue">
+          <h3>멀티모달 맥락</h3>
+          <p>이미지, 표, 화면, 음성은 따로 만들지 않고 같은 목표 아래에서 서로 검증하게 합니다.</p>
+          <div class="mini-algo"><span class="hot">자료입력</span><span>생성</span><span class="hot">검수</span></div>
+        </div>
+        <div class="card bar-top bar-coral">
+          <h3>Build Mode 맥락</h3>
+          <p>앱이 돌아가는지만 보지 않고 학생 행동, 피드백, 데이터 저장, 공유 위험을 함께 봅니다.</p>
+          <div class="mini-algo"><span>생성</span><span class="hot">검수</span><span class="hot">개선</span><span>공유</span></div>
+        </div>
+        <div class="card bar-top bar-gold">
+          <h3>운영 맥락</h3>
+          <p>120분 안에는 하나의 산출물을 완성하고, 나머지는 같은 알고리즘으로 후속 과제로 확장합니다.</p>
+          <div class="mini-algo"><span>공유</span><span class="hot">다음 반복</span></div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <div class="source-line"><span>Imagegen2 custom asset · 효과적 제작 워크플로 알고리즘 · 2026-05-08</span><span class="slide-num"></span></div>
+  <aside class="notes">이 슬라이드는 이후 프롬프트 설계, 멀티모달 sidecar, Build Mode, 공유/검수 파트에서 반복 참조하는 공통 절차다. 이미지 안 텍스트가 흐려질 수 있어 정확한 단계명은 HTML 텍스트 오버레이로 고정했다.</aside>
 </section>
 
 <section class="slide" data-title="Why" data-step="1">
