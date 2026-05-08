@@ -400,6 +400,39 @@
     stroke: var(--link);
     stroke-width: 2;
   }
+  .practical-lab {
+    margin: 1.8em 0;
+    padding: 1.2em;
+    border: 2px solid rgba(30, 64, 175, 0.22);
+    border-radius: 8px;
+    background: linear-gradient(180deg, #f8fbff 0%, #ffffff 100%);
+  }
+  .practical-lab > h3 {
+    margin-top: 0;
+  }
+  .template-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1em;
+    margin-top: 1em;
+  }
+  .template-card {
+    border: 1px solid var(--rule-soft);
+    border-radius: 6px;
+    padding: 0.9em;
+    background: #fff;
+  }
+  .template-card h4 {
+    font-family: var(--sans);
+    margin: 0 0 0.55em 0;
+    font-size: 0.98em;
+  }
+  .template-card pre {
+    margin: 0;
+    font-size: 0.78em;
+    max-height: 320px;
+    overflow: auto;
+  }
 
   /* Glossary */
   dl.glossary { margin: 1em 0; }
@@ -1805,7 +1838,8 @@ RQ-03:  How do these accounts shift
         <figcaption>Synthesis workflow: define an epistemic scaffold, code uptake and transformation in discourse, then compare frame structures across groups or design conditions.</figcaption>
       </figure>
 
-      <h3>7.2 Practical solution: connect epistemic concept coding to an AI Studio chatbot</h3>
+      <div class="practical-lab">
+      <h3>7.2 Practical Lab: connect epistemic concept coding to an AI Studio chatbot</h3>
 
       <p>
         A practical way to use this handbook is to turn the distinction into
@@ -1888,6 +1922,85 @@ When explaining a student response, separate:
 2. epistemic_codes: situated actions such as verification practice
 3. framing_note: how the student appears to orient to the knowledge activity
 Do not treat codes as ontology classes. Mark uncertain inferences for human review.</code></pre>
+
+      <div class="template-grid" aria-label="Copyable AI Studio workflow templates">
+        <div class="template-card">
+          <h4>1. Ontology Backbone Starter Table</h4>
+          <pre><code>| term_id | label | type | definition | allowed_relations | example |
+|---|---|---|---|---|---|
+| EO01 | Claim | class | A statement that can be supported, questioned, or revised. | supportedBy, qualifiedBy | "AI helped me understand." |
+| EO02 | Evidence | class | A source or observation used to support a claim. | supports, checksAgainst | course article |
+| EO03 | Source | class | The material or authority used for verification. | providesEvidenceFor | textbook, article |
+| EO04 | Uncertainty | class | A marker that a claim may be incomplete or unreliable. | qualifies | "might be wrong" |
+| EO05 | AI Tool | class | A computational system used in the learning task. | generates, mediates | ChatGPT |</code></pre>
+        </div>
+        <div class="template-card">
+          <h4>2. Epistemic Concept Codebook Row</h4>
+          <pre><code>CODE: verification practice
+DEFINITION:
+  The participant describes checking an AI-generated claim against
+  another source, artifact, or standard.
+INCLUDE:
+  - compares AI answer with reading, article, rubric, data, peer
+  - names uncertainty and then checks
+EXCLUDE:
+  - generic "AI can be wrong" without an action
+ONTOLOGY LINK:
+  Claim --checksAgainst--> Evidence/Source
+FRAME NOTE:
+  Often indicates sensemaking-with-verification rather than answer-getting.
+EXAMPLE:
+  "I checked the answer against the article."</code></pre>
+        </div>
+        <div class="template-card">
+          <h4>3. AI Studio System Instruction Template</h4>
+          <pre><code>You are an AI learning assistant for a research study.
+Use the ontology terms provided by the research team.
+Do not invent new ontology classes.
+When responding, separate:
+1. stable epistemic objects
+2. situated interpretive codes
+3. possible framing interpretation
+Use cautious language for framing claims.
+If evidence is insufficient, set needs_human_review = true.
+Never treat an interpretive code as a formal ontology class.</code></pre>
+        </div>
+        <div class="template-card">
+          <h4>4. Interaction Log JSON Schema</h4>
+          <pre><code>{
+  "turn_id": "S01-T003",
+  "timestamp": "2026-05-08T12:00:00Z",
+  "user_text": "",
+  "model_response": "",
+  "ontology_terms": ["Claim", "Evidence", "AI Tool"],
+  "epistemic_codes": ["verification practice"],
+  "framing_note": "sensemaking-with-verification",
+  "source_citations": [],
+  "uncertainty_flag": true,
+  "needs_human_review": true,
+  "analyst_memo_id": "M-S01-T003"
+}</code></pre>
+        </div>
+        <div class="template-card">
+          <h4>5. Human Review Memo Template</h4>
+          <pre><code>MEMO ID:
+TURN ID:
+Reviewer:
+Question:
+  What did the chatbot classify as ontology terms?
+Check 1 - Ontology:
+  Were stable objects used correctly?
+Check 2 - Coding:
+  Are the interpretive codes warranted by the text?
+Check 3 - Framing:
+  Is the framing claim too strong, too weak, or defensible?
+Decision:
+  keep / revise prompt / revise codebook / revise ontology
+Rationale:
+Next action:</code></pre>
+        </div>
+      </div>
+      </div>
 
       <h3>7.3 The backbone-plus-layer pattern: stable objects, local orientations</h3>
 

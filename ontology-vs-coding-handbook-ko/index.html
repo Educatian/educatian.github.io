@@ -283,6 +283,12 @@
   .zone-label { font-family: var(--sans); font-size: 12px; font-weight: 800; fill: var(--ink-soft); pointer-events: none; }
   .sort-zone { fill: rgba(255,255,255,0.72); stroke: var(--rule); stroke-width: 1.2; stroke-dasharray: 5 4; }
   .sort-zone.active { stroke: var(--link); stroke-width: 2; }
+  .practical-lab { margin: 1.8em 0; padding: 1.2em; border: 2px solid rgba(30,64,175,0.22); border-radius: 8px; background: linear-gradient(180deg, #f8fbff 0%, #ffffff 100%); }
+  .practical-lab > h3 { margin-top: 0; }
+  .template-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1em; margin-top: 1em; }
+  .template-card { border: 1px solid var(--rule-soft); border-radius: 6px; padding: 0.9em; background: #fff; }
+  .template-card h4 { font-family: var(--sans); margin: 0 0 0.55em 0; font-size: 0.98em; }
+  .template-card pre { margin: 0; font-size: 0.78em; max-height: 320px; overflow: auto; }
 
   /* Glossary */
   dl.glossary { margin: 1em 0; }
@@ -642,7 +648,8 @@ MEMO 2026-04-12:
       </div>
       <div class="decision-tree"><svg viewBox="0 0 760 470" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="ontology, coding scheme, hybrid 선택을 위한 decision tree"><style>.node{fill:#fff;stroke:#1a1a1a;stroke-width:1.4}.node-q{fill:#f4f1ea}.node-onto{fill:#eff6ff;stroke:#1e40af}.node-code{fill:#fdf6ec;stroke:#92400e}.node-hybrid{fill:#f3eef9;stroke:#6d28d9}.label-q{font-family:Inter,sans-serif;font-size:13px;font-weight:600;fill:#1a1a1a}.label-out{font-family:Inter,sans-serif;font-size:13px;font-weight:700}.label-edge{font-family:Inter,sans-serif;font-size:11px;fill:#424242}.edge{stroke:#6b6b6b;stroke-width:1.4;fill:none}.arrow{fill:#6b6b6b}</style><defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" class="arrow"/></marker></defs><rect class="node node-q" x="220" y="20" width="320" height="60" rx="6"/><text class="label-q" x="380" y="48" text-anchor="middle">다른 연구가 재사용할 안정된 vocabulary가 목표인가?</text><line class="edge" x1="300" y1="80" x2="180" y2="120" marker-end="url(#arrow)"/><text class="label-edge" x="220" y="105">yes</text><rect class="node node-q" x="40" y="130" width="280" height="60" rx="6"/><text class="label-q" x="180" y="158" text-anchor="middle">category가 corpus와 community를 넘어 안정적인가?</text><line class="edge" x1="100" y1="190" x2="80" y2="240" marker-end="url(#arrow)"/><rect class="node node-onto" x="20" y="250" width="200" height="60" rx="6"/><text class="label-out" x="120" y="278" text-anchor="middle" fill="#1e40af">Ontology</text><text class="label-q" x="120" y="297" text-anchor="middle">OWL / SKOS</text><line class="edge" x1="260" y1="190" x2="280" y2="240" marker-end="url(#arrow)"/><rect class="node node-hybrid" x="240" y="250" width="220" height="80" rx="6"/><text class="label-out" x="350" y="278" text-anchor="middle" fill="#6d28d9">Hybrid</text><text class="label-q" x="350" y="296" text-anchor="middle">SKOS backbone + codebook layer</text><line class="edge" x1="460" y1="80" x2="580" y2="120" marker-end="url(#arrow)"/><text class="label-edge" x="540" y="105">no</text><rect class="node node-q" x="440" y="130" width="280" height="60" rx="6"/><text class="label-q" x="580" y="158" text-anchor="middle">특정 corpus에서 theory를 만드는가?</text><line class="edge" x1="500" y1="190" x2="480" y2="240" marker-end="url(#arrow)"/><rect class="node node-code" x="420" y="250" width="200" height="60" rx="6"/><text class="label-out" x="520" y="278" text-anchor="middle" fill="#92400e">Coding scheme</text><text class="label-q" x="520" y="297" text-anchor="middle">emergent / inductive</text><line class="edge" x1="660" y1="190" x2="680" y2="240" marker-end="url(#arrow)"/><rect class="node node-code" x="630" y="250" width="120" height="60" rx="6"/><text class="label-out" x="690" y="278" text-anchor="middle" fill="#92400e">Codebook TA</text><rect class="node node-q" x="180" y="380" width="400" height="70" rx="6"/><text class="label-q" x="380" y="408" text-anchor="middle">stable vocabulary, evolving code, corpus-driven theory가 모두 있으면</text><text class="label-q" x="380" y="425" text-anchor="middle">hybrid backbone-plus-layer pattern을 사용한다.</text></svg></div>
       <figure class="figure"><img src="../ontology-vs-coding-handbook/assets/imagegen-epistemic-frame-workflow.png" alt="ontology scaffold에서 coding uptake, frame network comparison으로 이어지는 세 단계 workflow" loading="lazy" /><figcaption>종합 workflow: epistemic scaffold를 정의하고, discourse에서 uptake와 transformation을 coding한 뒤, group이나 design condition 간 frame structure를 비교한다.</figcaption></figure>
-      <h3>7.2 솔루션: 인식론적 개념 코딩을 AI Studio 챗봇에 연결하기</h3>
+      <div class="practical-lab">
+      <h3>7.2 Practical Lab: 인식론적 개념 코딩을 AI Studio 챗봇에 연결하기</h3>
       <p>이 핸드북을 실제로 적용하는 가장 쉬운 방법은 차이를 chatbot design workflow로 바꾸는 것이다. 온톨로지는 챗봇이 안정적으로 말할 수 있는 vocabulary를 제공한다. 인식론적 개념 코딩은 학생과 챗봇이 실제 상호작용에서 그 vocabulary를 어떻게 사용하는지 점검하는 방법을 제공한다. 해결책은 “챗봇이 데이터를 대신 코딩하게 하자”가 아니다. 해결책은 human-in-the-loop loop다. 온톨로지는 챗봇 응답을 제약하고, log는 분석 가능한 data가 되며, coding과 memo는 다음 prompt와 ontology release를 수정한다.</p>
       <figure class="figure"><img src="../ontology-vs-coding-handbook/assets/imagegen-epistemic-coding-ontology-workflow.png" alt="전사 자료, 인식론적 코딩, 온톨로지 백본, 프롬프트 grounding, AI Studio 챗봇, logged interaction feedback을 연결하는 여섯 단계 workflow" loading="lazy" /><figcaption>실제 적용 workflow: 학생 transcript에서 epistemic code를 만들고, stable object는 ontology backbone으로 정리한다. Google AI Studio 또는 Gemini API prompt는 이 backbone을 grounding으로 사용하고, logged chatbot interaction은 memoing, codebook refinement, ontology revision으로 되돌아간다.</figcaption></figure>
       <div class="callout bridge"><div class="label">AI Studio 제작 경로</div><ol><li><strong>작은 ontology backbone을 준비한다.</strong> 먼저 8–20개의 안정된 인식론적 대상을 고른다. 예: <code>Claim</code>, <code>Evidence</code>, <code>Source</code>, <code>Uncertainty</code>, <code>AI Tool</code>, <code>Verification</code>, <code>Revision</code>, <code>Warrant</code>. 시스템 성숙도에 따라 simple table, JSON, SKOS, OWL 중 하나로 표현한다.</li><li><strong>Epistemic concept code를 만든다.</strong> 작은 pilot corpus를 읽고 참여자가 그 대상들을 어떻게 다루는지 coding한다. 예: <code>verification practice</code>, <code>uncertainty hedge</code>, <code>confidence repair</code>, <code>tool mediation</code>, <code>answer outsourcing</code>.</li><li><strong>AI Studio system instruction을 작성한다.</strong> 챗봇이 사용할 수 있는 ontology term, source material을 인용하는 방식, 추론하면 안 되는 것을 명시한다. Gemini API에서는 system instruction과 structured output이 공식 configuration path이고, AI Studio에서는 같은 논리를 system prompt와 example turn으로 prototyping할 수 있다.</li><li><strong>챗봇을 grounding한다.</strong> Prototype에서는 ontology table, codebook excerpt, policy text를 prompt context에 넣는다. Production에서는 source-backed retrieval이 필요할 때 Gemini File Search, URL Context, Google Search grounding 같은 방식으로 이동한다.</li><li><strong>모든 interaction을 log로 남긴다.</strong> User turn, model response, invoked ontology terms, source/citation metadata, analyst memo field를 저장한다. Structured output이 가능하면 <code>ontology_terms</code>, <code>epistemic_codes</code>, <code>uncertainty_flag</code>, <code>needs_human_review</code> 같은 JSON field를 요구한다.</li><li><strong>두 layer를 따로 수정한다.</strong> 챗봇이 stable object를 잘못 쓰면 ontology/prompt grounding을 수정한다. Log에서 새로운 situated meaning pattern이 보이면 ontology가 이미 포괄했다고 가정하지 말고 codebook과 memo trail을 수정한다.</li></ol></div>
@@ -655,6 +662,69 @@ When explaining a student response, separate:
 2. epistemic_codes: situated actions such as verification practice
 3. framing_note: how the student appears to orient to the knowledge activity
 Do not treat codes as ontology classes. Mark uncertain inferences for human review.</code></pre>
+      <div class="template-grid" aria-label="AI Studio workflow templates">
+        <div class="template-card"><h4>1. Ontology backbone starter table</h4><pre><code>| term_id | label | type | definition | allowed_relations | example |
+|---|---|---|---|---|---|
+| EO01 | Claim | class | 지지, 질문, 수정의 대상이 되는 진술. | supportedBy, qualifiedBy | "AI가 이해를 도왔다." |
+| EO02 | Evidence | class | claim을 지지하거나 확인하는 source/observation. | supports, checksAgainst | course article |
+| EO03 | Source | class | verification에 사용되는 자료나 권위. | providesEvidenceFor | textbook, article |
+| EO04 | Uncertainty | class | claim이 불완전하거나 불안정할 수 있음을 표시. | qualifies | "틀릴 수도 있음" |
+| EO05 | AI Tool | class | 학습 과제에서 사용된 AI system. | generates, mediates | ChatGPT |</code></pre></div>
+        <div class="template-card"><h4>2. Epistemic concept codebook row</h4><pre><code>CODE: verification practice
+DEFINITION:
+  참여자가 AI-generated claim을 다른 source, artifact,
+  standard와 대조해 확인한다고 말하는 경우.
+INCLUDE:
+  - reading, article, rubric, data, peer와 비교함
+  - uncertainty를 말한 뒤 checking action을 수행함
+EXCLUDE:
+  - "AI는 틀릴 수 있다"는 일반적 disclaimer만 있는 경우
+ONTOLOGY LINK:
+  Claim --checksAgainst--> Evidence/Source
+FRAME NOTE:
+  answer-getting보다 sensemaking-with-verification을 시사할 수 있음.
+EXAMPLE:
+  "답을 논문과 다시 확인했어요."</code></pre></div>
+        <div class="template-card"><h4>3. AI Studio system instruction template</h4><pre><code>You are an AI learning assistant for a research study.
+Use the ontology terms provided by the research team.
+Do not invent new ontology classes.
+When responding, separate:
+1. stable epistemic objects
+2. situated interpretive codes
+3. possible framing interpretation
+Use cautious language for framing claims.
+If evidence is insufficient, set needs_human_review = true.
+Never treat an interpretive code as a formal ontology class.</code></pre></div>
+        <div class="template-card"><h4>4. Interaction log JSON schema</h4><pre><code>{
+  "turn_id": "S01-T003",
+  "timestamp": "2026-05-08T12:00:00Z",
+  "user_text": "",
+  "model_response": "",
+  "ontology_terms": ["Claim", "Evidence", "AI Tool"],
+  "epistemic_codes": ["verification practice"],
+  "framing_note": "sensemaking-with-verification",
+  "source_citations": [],
+  "uncertainty_flag": true,
+  "needs_human_review": true,
+  "analyst_memo_id": "M-S01-T003"
+}</code></pre></div>
+        <div class="template-card"><h4>5. Human review memo template</h4><pre><code>MEMO ID:
+TURN ID:
+Reviewer:
+Question:
+  챗봇이 어떤 항목을 ontology term으로 분류했는가?
+Check 1 - Ontology:
+  stable object가 정확히 사용되었는가?
+Check 2 - Coding:
+  interpretive code가 text로 warrant되는가?
+Check 3 - Framing:
+  framing claim이 과도한가, 약한가, 방어 가능한가?
+Decision:
+  keep / revise prompt / revise codebook / revise ontology
+Rationale:
+Next action:</code></pre></div>
+      </div>
+      </div>
       <h3>7.3 Backbone-plus-layer pattern: stable object와 local orientation</h3>
       <p>실무에서 가장 유용한 공존 패턴은 ontology가 defensibly shared across studies인 stable concept, 즉 <em>backbone</em>을 들고, coding scheme은 그 위에서 <em>evolving layer</em>로 작동하게 하는 것이다. epistemological-framing 관점에서 backbone은 참여자가 orient할 수 있는 object를 이름 붙이고, coding layer는 그 orientation이 local discourse에서 어떻게 visible해지는지 기록한다. SKOS는 OWL보다 약한 semantics를 갖기 때문에 이 backbone에 잘 맞는다.</p>
       <p>ADDIE Lab 프로젝트의 예로 말하면, counseling-concept SKOS scheme은 backbone으로 한 번 출판되어 cohort를 넘어 재사용되고, 각 cohort study는 interview data 위에 자체 thematic-analysis layer를 돌린다. emergent code는 <code>skos:closeMatch</code>나 <code>skos:relatedMatch</code>로 backbone에 연결된다. backbone은 shared vocabulary를 안정화하고, layer는 새 corpus가 실제로 말한 것을 자유롭게 등록한다.</p>
