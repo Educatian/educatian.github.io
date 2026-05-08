@@ -347,6 +347,59 @@
   .validation-matrix .ok { color: #065f46; font-weight: 800; }
   .validation-matrix .partial { color: #92400e; font-weight: 800; }
   .validation-matrix .wrong { color: #991b1b; font-weight: 800; }
+  .network-widget svg,
+  .sorting-widget svg {
+    width: 100%;
+    height: 440px;
+    display: block;
+    background: linear-gradient(180deg, #fff 0%, #fbfaf6 100%);
+    border: 1px solid var(--rule-soft);
+    border-radius: 6px;
+    touch-action: none;
+  }
+  .network-node,
+  .sort-card {
+    cursor: grab;
+  }
+  .network-node:active,
+  .sort-card:active {
+    cursor: grabbing;
+  }
+  .network-link {
+    stroke: #a8a29e;
+    stroke-width: 1.4;
+    opacity: 0.75;
+  }
+  .network-link.dim,
+  .network-node.dim,
+  .sort-card.dim {
+    opacity: 0.18;
+  }
+  .node-label,
+  .sort-label {
+    font-family: var(--sans);
+    font-size: 12px;
+    font-weight: 700;
+    pointer-events: none;
+    fill: #1a1a1a;
+  }
+  .zone-label {
+    font-family: var(--sans);
+    font-size: 12px;
+    font-weight: 800;
+    fill: var(--ink-soft);
+    pointer-events: none;
+  }
+  .sort-zone {
+    fill: rgba(255,255,255,0.72);
+    stroke: var(--rule);
+    stroke-width: 1.2;
+    stroke-dasharray: 5 4;
+  }
+  .sort-zone.active {
+    stroke: var(--link);
+    stroke-width: 2;
+  }
 
   /* Glossary */
   dl.glossary { margin: 1em 0; }
@@ -588,6 +641,27 @@
         <div class="lens-panel" data-lens-panel aria-live="polite">
           <strong>Ontology read</strong>
           Objects and relations: Student uses AI Tool; AI Tool generates Explanation; Student checks Claim against Evidence Source; Uncertainty qualifies the claim.
+        </div>
+      </div>
+
+      <div class="interactive network-widget" data-widget="concept-network" data-lang="en">
+        <p class="interactive-title">Epistemic Object ↔ Code ↔ Frame Network</p>
+        <p>
+          Drag nodes to rearrange the concept network. Use the filters to see
+          how the same excerpt becomes an ontology layer, a coding layer, a
+          framing layer, or a hybrid account.
+        </p>
+        <div class="segmented" role="group" aria-label="Filter concept network">
+          <button type="button" class="active" data-network-filter="all" aria-pressed="true">All</button>
+          <button type="button" data-network-filter="ontology" aria-pressed="false">Ontology</button>
+          <button type="button" data-network-filter="coding" aria-pressed="false">Coding</button>
+          <button type="button" data-network-filter="framing" aria-pressed="false">Framing</button>
+          <button type="button" data-network-filter="hybrid" aria-pressed="false">Hybrid</button>
+        </div>
+        <svg viewBox="0 0 760 440" role="img" aria-label="Draggable concept network linking epistemic objects, interpretive codes, and frames"></svg>
+        <div class="lens-panel" data-network-note aria-live="polite">
+          <strong>Hybrid account</strong>
+          The excerpt links epistemic objects, interpretive codes, and frames without collapsing them into one artifact.
         </div>
       </div>
 
@@ -997,11 +1071,6 @@ MEMO 2026-04-12:
         engagement; it does not replace it. The framework is a clean answer
         to "is there a principled way to combine these traditions?"
       </p>
-
-      <figure class="figure">
-        <img src="assets/imagegen-dialectic-synthesis.png" alt="Ontology, coding, and epistemological framing appear as connected layers: stable objects, situated coding, and learner framing." loading="lazy" />
-        <figcaption>The shared problem is organizing meaning. The synthesis is not a merger of artifacts, but a layered account of stable epistemic objects and situated orientations to them.</figcaption>
-      </figure>
 
       <div class="callout bridge">
         <div class="label">Bridge pattern · #1</div>
@@ -1593,6 +1662,20 @@ RQ-03:  How do these accounts shift
         </div>
       </div>
 
+      <div class="interactive sorting-widget" data-widget="sorting-map" data-lang="en">
+        <p class="interactive-title">Ontology vs. Codebook Sorting Map</p>
+        <p>
+          Drag each concept card into the zone where it works best. This is a
+          design exercise: the feedback explains whether a term is reusable
+          infrastructure, a corpus-fitted code, a broader theme, or a frame.
+        </p>
+        <svg viewBox="0 0 760 440" role="img" aria-label="Draggable sorting map for ontology classes, codes, themes, and frames"></svg>
+        <div class="lens-panel" data-sort-note aria-live="polite">
+          <strong>Drag a card</strong>
+          Place a concept into a zone to see why it fits there.
+        </div>
+      </div>
+
       <div class="decision-tree">
         <svg viewBox="0 0 760 470" xmlns="http://www.w3.org/2000/svg" role="img"
              aria-label="Decision tree for choosing between ontology, coding scheme, or hybrid">
@@ -1692,11 +1775,6 @@ RQ-03:  How do these accounts shift
         vocabulary; the layer stays free to register what the new corpus
         actually said.
       </p>
-
-      <figure class="figure">
-        <img src="assets/imagegen-dialectic-synthesis.png" alt="A blue ontology layer, amber coding layer, and teal epistemic-frame bridge form a layered research architecture." loading="lazy" />
-        <figcaption>The backbone-plus-layer pattern becomes clearer as a dialectic: ontology names reusable objects; coding records local orientations; epistemological framing explains the relation.</figcaption>
-      </figure>
 
       <h3>7.3 Computational grounded theory</h3>
 
@@ -1924,10 +2002,6 @@ RQ-03:  How do these accounts shift
           reference; Grüninger and Fox (1995) for competency questions;
           Suárez-Figueroa et al. (2012) for engineering scenarios.
         </p>
-        <figure class="figure">
-          <img src="assets/imagegen-thesis-ontology.png" alt="A blue ontology scaffold organizes reusable epistemic objects and competency questions." loading="lazy" />
-          <figcaption>Case A &mdash; thesis: stabilize a SKOS / OWL backbone of shared epistemic objects and validate it with competency questions.</figcaption>
-        </figure>
       </div>
 
       <div class="case">
@@ -1969,10 +2043,6 @@ RQ-03:  How do these accounts shift
           report κ as the validation. Not a deductive content analysis
           either; do not start with a fixed codebook.
         </p>
-        <figure class="figure">
-          <img src="assets/imagegen-antithesis-coding.png" alt="An amber qualitative coding workspace shows evolving codes, context notes, reflexive memos, and negative cases." loading="lazy" />
-          <figcaption>Case B &mdash; antithesis: preserve situated meaning-making through iterative coding, negative cases, and reflexive memos.</figcaption>
-        </figure>
       </div>
 
       <div class="case">
@@ -2012,10 +2082,6 @@ RQ-03:  How do these accounts shift
           frame; Bowker and Star (1999) for why the backbone choices are
           political even when they look neutral.
         </p>
-        <figure class="figure">
-          <img src="assets/imagegen-epistemic-frame-workflow.png" alt="Ontology scaffold, coding uptake, and frame network comparison form a three-stage hybrid workflow." loading="lazy" />
-          <figcaption>Case C &mdash; synthesis: ask which epistemic objects are available, how each community frames valid knowledge work around them, and how those frame structures compare.</figcaption>
-        </figure>
       </div>
 
       <div class="callout controversy">
@@ -2277,5 +2343,6 @@ RQ-03:  How do these accounts shift
     }
   })();
 </script>
+<script src="interactive-networks.js"></script>
 </body>
 </html>
