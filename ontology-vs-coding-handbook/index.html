@@ -250,6 +250,104 @@
   }
   .decision-tree svg { display: block; max-width: 100%; height: auto; }
 
+  /* Interactive teaching widgets */
+  .interactive {
+    margin: 1.8em 0;
+    padding: 1.2em;
+    background: var(--paper-card);
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+  }
+  .interactive-title {
+    font-family: var(--sans);
+    font-weight: 700;
+    font-size: 1.02em;
+    margin: 0 0 0.75em 0;
+  }
+  .segmented {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45em;
+    margin: 0.8em 0;
+  }
+  .segmented button,
+  .choice-grid button {
+    font-family: var(--sans);
+    font-size: 0.82em;
+    font-weight: 700;
+    color: var(--ink);
+    background: var(--side);
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+    padding: 0.5em 0.75em;
+    cursor: pointer;
+  }
+  .segmented button.active,
+  .choice-grid button.active {
+    color: #fff;
+    background: var(--link);
+    border-color: var(--link);
+  }
+  .excerpt-box {
+    background: #fffaf0;
+    border: 1px solid #ead7aa;
+    border-radius: 6px;
+    padding: 1em;
+    font-size: 1.02em;
+  }
+  .lens-mark { padding: 0.08em 0.2em; border-radius: 3px; transition: background 0.15s ease; }
+  .lens-ontology .ont-hit { background: rgba(30,64,175,0.18); outline: 1px solid rgba(30,64,175,0.35); }
+  .lens-coding .code-hit { background: rgba(146,64,14,0.18); outline: 1px solid rgba(146,64,14,0.35); }
+  .lens-framing .frame-hit { background: rgba(4,120,87,0.18); outline: 1px solid rgba(4,120,87,0.35); }
+  .lens-panel,
+  .wizard-result,
+  .matrix-note {
+    margin-top: 0.8em;
+    padding: 0.85em 1em;
+    background: var(--side);
+    border-left: 4px solid var(--link);
+    border-radius: 4px;
+    font-family: var(--sans);
+    font-size: 0.9em;
+    line-height: 1.5;
+  }
+  .lens-panel strong,
+  .wizard-result strong,
+  .matrix-note strong { display: block; margin-bottom: 0.25em; }
+  .wizard-question {
+    border-top: 1px solid var(--rule-soft);
+    padding-top: 0.9em;
+    margin-top: 0.9em;
+  }
+  .wizard-question p {
+    font-family: var(--sans);
+    font-weight: 700;
+    margin: 0 0 0.5em 0;
+  }
+  .choice-grid { display: flex; flex-wrap: wrap; gap: 0.45em; }
+  .validation-matrix {
+    width: 100%;
+    min-width: 760px;
+    border-collapse: collapse;
+    table-layout: fixed;
+    font-family: var(--sans);
+    font-size: 0.84em;
+    margin-top: 0.8em;
+  }
+  .validation-widget { overflow-x: auto; }
+  .validation-matrix th,
+  .validation-matrix td {
+    border: 1px solid var(--rule-soft);
+    padding: 0.55em;
+    text-align: center;
+    vertical-align: middle;
+  }
+  .validation-matrix th { background: var(--side); }
+  .validation-matrix td { cursor: help; background: #fff; }
+  .validation-matrix .ok { color: #065f46; font-weight: 800; }
+  .validation-matrix .partial { color: #92400e; font-weight: 800; }
+  .validation-matrix .wrong { color: #991b1b; font-weight: 800; }
+
   /* Glossary */
   dl.glossary { margin: 1em 0; }
   dl.glossary dt {
@@ -470,6 +568,27 @@
             </tr>
           </tbody>
         </table>
+      </div>
+
+      <div class="interactive same-excerpt" data-widget="same-excerpt">
+        <p class="interactive-title">Same Excerpt, Three Lenses</p>
+        <div class="excerpt-box" data-excerpt>
+          <span class="lens-mark ont-hit code-hit frame-hit">Student:</span>
+          "I asked <span class="lens-mark ont-hit code-hit frame-hit">ChatGPT</span>
+          to explain the reading. It <span class="lens-mark ont-hit code-hit frame-hit">helped me think</span>,
+          but I still <span class="lens-mark ont-hit code-hit frame-hit">checked the answer</span>
+          against the article because it <span class="lens-mark ont-hit code-hit frame-hit">might be making things up</span>.
+          I did not want to sound wrong in class."
+        </div>
+        <div class="segmented" role="group" aria-label="Choose analytic lens">
+          <button type="button" class="active" data-lens="ontology" aria-pressed="true">Ontology</button>
+          <button type="button" data-lens="coding" aria-pressed="false">Qualitative Coding</button>
+          <button type="button" data-lens="framing" aria-pressed="false">Epistemological Framing</button>
+        </div>
+        <div class="lens-panel" data-lens-panel aria-live="polite">
+          <strong>Ontology read</strong>
+          Objects and relations: Student uses AI Tool; AI Tool generates Explanation; Student checks Claim against Evidence Source; Uncertainty qualifies the claim.
+        </div>
       </div>
 
       <figure class="figure">
@@ -1166,6 +1285,69 @@ MEMO 2026-04-12:
         </tbody>
       </table>
 
+      <div class="interactive validation-widget" data-widget="validation-matrix">
+        <p class="interactive-title">Validation Regime Matrix</p>
+        <p>
+          Hover or select a cell to see whether a validation criterion is
+          appropriate, partial, or a category mistake for the artifact.
+        </p>
+        <table class="validation-matrix" aria-label="Validation criteria by artifact type">
+          <thead>
+            <tr>
+              <th>Artifact</th>
+              <th>Consistency</th>
+              <th>Competency questions</th>
+              <th>κ / α</th>
+              <th>Trustworthiness</th>
+              <th>Reflexivity</th>
+              <th>Member checking</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th>Ontology</th>
+              <td tabindex="0" class="ok" data-note="Appropriate: consistency checks whether axioms contradict each other.">✓</td>
+              <td tabindex="0" class="ok" data-note="Appropriate: competency questions test whether the ontology can answer its intended queries.">✓</td>
+              <td tabindex="0" class="wrong" data-note="Category mistake: κ/α measures coder agreement, not logical adequacy.">×</td>
+              <td tabindex="0" class="partial" data-note="Partial: expert review and reuse matter, but qualitative trustworthiness criteria do not replace ontology evaluation.">△</td>
+              <td tabindex="0" class="partial" data-note="Partial: design rationale is needed, but reflexivity is not the primary validation regime.">△</td>
+              <td tabindex="0" class="partial" data-note="Partial: domain expert feedback can help, but participant recognition is not usually the ontology's main warrant.">△</td>
+            </tr>
+            <tr>
+              <th>Codebook TA</th>
+              <td tabindex="0" class="partial" data-note="Partial: internal coherence matters, but there is no reasoner-style logical consistency test.">△</td>
+              <td tabindex="0" class="wrong" data-note="Category mistake: research questions guide inquiry; they are not SPARQL-like competency questions.">×</td>
+              <td tabindex="0" class="ok" data-note="Appropriate when multiple analysts apply a fixed codebook in codebook or coding-reliability TA.">✓</td>
+              <td tabindex="0" class="ok" data-note="Appropriate: audit trails, exemplars, and defensible decisions support trustworthiness.">✓</td>
+              <td tabindex="0" class="partial" data-note="Partial: reflexivity matters, but fixed-codebook designs also emphasize reliability and code definition.">△</td>
+              <td tabindex="0" class="partial" data-note="Partial: useful for some designs, but not required for every codebook TA study.">△</td>
+            </tr>
+            <tr>
+              <th>Reflexive TA</th>
+              <td tabindex="0" class="wrong" data-note="Category mistake: reflexive TA is not validated by formal logical consistency.">×</td>
+              <td tabindex="0" class="wrong" data-note="Category mistake: themes are analytic constructions, not ontology query coverage.">×</td>
+              <td tabindex="0" class="wrong" data-note="Category mistake: for reflexive TA, κ/α can conflict with the method's epistemology.">×</td>
+              <td tabindex="0" class="ok" data-note="Appropriate: credibility, dependability, confirmability, and thick evidence matter.">✓</td>
+              <td tabindex="0" class="ok" data-note="Appropriate: researcher subjectivity is documented as part of the analysis.">✓</td>
+              <td tabindex="0" class="partial" data-note="Partial: member reflections can be informative, but participants do not simply certify the analysis.">△</td>
+            </tr>
+            <tr>
+              <th>Hybrid</th>
+              <td tabindex="0" class="ok" data-note="Appropriate for the ontology backbone, not for the interpretive coding layer.">✓</td>
+              <td tabindex="0" class="ok" data-note="Appropriate for the reusable backbone's scope and query coverage.">✓</td>
+              <td tabindex="0" class="partial" data-note="Partial: appropriate only if a fixed coding layer is applied by multiple analysts.">△</td>
+              <td tabindex="0" class="ok" data-note="Appropriate for the qualitative layer and the final interpretive claim.">✓</td>
+              <td tabindex="0" class="ok" data-note="Appropriate: the bridge must document how researcher decisions connect layers.">✓</td>
+              <td tabindex="0" class="partial" data-note="Partial: useful when participant recognition is part of the design, but not a universal requirement.">△</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="matrix-note" data-matrix-note aria-live="polite">
+          <strong>Select a cell</strong>
+          ✓ appropriate · △ partial · × category mistake.
+        </div>
+      </div>
+
       <h3>5.3 Competency questions and research questions</h3>
 
       <p>
@@ -1374,6 +1556,42 @@ RQ-03:  How do these accounts shift
         synthesis zone: use epistemological framing to coordinate both
         artifacts without collapsing one into the other.
       </p>
+
+      <div class="interactive decision-simulator" data-widget="decision-simulator">
+        <p class="interactive-title">Decision Tree Simulator</p>
+        <div class="wizard-question">
+          <p>Do you need machine-readable reuse across tools, cohorts, or studies?</p>
+          <div class="choice-grid" data-question="reuse">
+            <button type="button" data-value="yes" aria-pressed="false">Yes</button>
+            <button type="button" data-value="no" aria-pressed="false">No</button>
+          </div>
+        </div>
+        <div class="wizard-question">
+          <p>Are meanings expected to emerge from close reading rather than a fixed scheme?</p>
+          <div class="choice-grid" data-question="emergent">
+            <button type="button" data-value="yes" aria-pressed="false">Yes</button>
+            <button type="button" data-value="no" aria-pressed="false">No</button>
+          </div>
+        </div>
+        <div class="wizard-question">
+          <p>Will multiple analysts apply a fixed coding scheme and report agreement?</p>
+          <div class="choice-grid" data-question="fixed">
+            <button type="button" data-value="yes" aria-pressed="false">Yes</button>
+            <button type="button" data-value="no" aria-pressed="false">No</button>
+          </div>
+        </div>
+        <div class="wizard-question">
+          <p>Is participant orientation to evidence, authority, uncertainty, or action the analytic target?</p>
+          <div class="choice-grid" data-question="orientation">
+            <button type="button" data-value="yes" aria-pressed="false">Yes</button>
+            <button type="button" data-value="no" aria-pressed="false">No</button>
+          </div>
+        </div>
+        <div class="wizard-result" data-wizard-result aria-live="polite">
+          <strong>Recommendation</strong>
+          Answer the questions to see which artifact should lead the design.
+        </div>
+      </div>
 
       <div class="decision-tree">
         <svg viewBox="0 0 760 470" xmlns="http://www.w3.org/2000/svg" role="img"
@@ -1942,6 +2160,94 @@ RQ-03:  How do these accounts shift
 </div>
 
 <script>
+  // Interactive teaching widgets
+  (function () {
+    var lensText = {
+      ontology: {
+        title: 'Ontology read',
+        body: 'Objects and relations: Student uses AI Tool; AI Tool generates Explanation; Student checks Claim against Evidence Source; Uncertainty qualifies the claim.'
+      },
+      coding: {
+        title: 'Qualitative coding read',
+        body: 'Interpretive codes: outsourcing thinking, confidence repair, tool dependence, verification practice. These are analytic claims about what the utterance is doing in this corpus.'
+      },
+      framing: {
+        title: 'Epistemological framing read',
+        body: 'Possible frames: answer-getting, sensemaking, and performance. The key question is which knowledge activity the student thinks is happening right now.'
+      }
+    };
+    document.querySelectorAll('[data-widget="same-excerpt"]').forEach(function (widget) {
+      var excerpt = widget.querySelector('[data-excerpt]');
+      var panel = widget.querySelector('[data-lens-panel]');
+      widget.querySelectorAll('[data-lens]').forEach(function (button) {
+        button.addEventListener('click', function () {
+          var lens = button.getAttribute('data-lens');
+          widget.querySelectorAll('[data-lens]').forEach(function (b) {
+            var active = b === button;
+            b.classList.toggle('active', active);
+            b.setAttribute('aria-pressed', active ? 'true' : 'false');
+          });
+          excerpt.classList.remove('lens-ontology', 'lens-coding', 'lens-framing');
+          excerpt.classList.add('lens-' + lens);
+          panel.innerHTML = '<strong>' + lensText[lens].title + '</strong>' + lensText[lens].body;
+        });
+      });
+      excerpt.classList.add('lens-ontology');
+    });
+
+    function recommend(answers) {
+      if (!answers.reuse && !answers.emergent && !answers.fixed && !answers.orientation) {
+        return '<strong>Recommendation</strong>Answer the questions to see which artifact should lead the design.';
+      }
+      if (answers.reuse === 'yes' && answers.orientation === 'yes') {
+        return '<strong>Hybrid backbone + coding layer</strong>Use an ontology or SKOS backbone for reusable epistemic objects, then code how participants orient to those objects. ENA can compare the resulting frame structures.';
+      }
+      if (answers.orientation === 'yes') {
+        return '<strong>ENA / epistemological framing</strong>Make participant orientation the analytic target: evidence, authority, uncertainty, identity, and action are being framed in practice.';
+      }
+      if (answers.reuse === 'yes') {
+        return '<strong>Ontology</strong>Lead with machine-readable reuse: define classes, relations, competency questions, and validation through consistency and query coverage.';
+      }
+      if (answers.fixed === 'yes') {
+        return '<strong>Codebook TA</strong>Use a fixed coding scheme, train analysts, document rules and examples, and report agreement when it matches the design.';
+      }
+      if (answers.emergent === 'yes') {
+        return '<strong>Reflexive TA</strong>Use iterative close reading, memoing, theme development, and reflexive documentation rather than κ as the main warrant.';
+      }
+      return '<strong>Codebook TA or focused qualitative coding</strong>Start with the research question, define codes carefully, and document the analytic path from excerpt to claim.';
+    }
+    document.querySelectorAll('[data-widget="decision-simulator"]').forEach(function (widget) {
+      var answers = {};
+      var result = widget.querySelector('[data-wizard-result]');
+      widget.querySelectorAll('.choice-grid button').forEach(function (button) {
+        button.addEventListener('click', function () {
+          var group = button.closest('.choice-grid');
+          var key = group.getAttribute('data-question');
+          answers[key] = button.getAttribute('data-value');
+          group.querySelectorAll('button').forEach(function (b) {
+            var active = b === button;
+            b.classList.toggle('active', active);
+            b.setAttribute('aria-pressed', active ? 'true' : 'false');
+          });
+          result.innerHTML = recommend(answers);
+        });
+      });
+    });
+
+    document.querySelectorAll('[data-widget="validation-matrix"]').forEach(function (widget) {
+      var note = widget.querySelector('[data-matrix-note]');
+      widget.querySelectorAll('td[data-note]').forEach(function (cell) {
+        function show() {
+          var status = cell.classList.contains('ok') ? 'Appropriate' : cell.classList.contains('partial') ? 'Partial' : 'Category mistake';
+          note.innerHTML = '<strong>' + status + '</strong>' + cell.getAttribute('data-note');
+        }
+        cell.addEventListener('mouseenter', show);
+        cell.addEventListener('focus', show);
+        cell.addEventListener('click', show);
+      });
+    });
+  })();
+
   // Active TOC highlight on scroll
   (function () {
     var sections = Array.from(document.querySelectorAll('main section[id]'));
