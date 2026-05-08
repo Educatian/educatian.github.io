@@ -1184,10 +1184,10 @@ MEMO 2026-04-12:
 
       <p>
         Some qualitative approaches share an analogous caution about absence
-        claims. A code that did not appear in this corpus is not
+        claims, though they do not use OWL's formal open-world semantics. A code that did not appear in this corpus is not
         <em>absent</em> from the world — it is absent <em>from this corpus
         under this analyst's gaze</em>. Reflexive TA goes further and refuses
-        the saturation criterion because of this (Braun &amp; Clarke, 2019;
+        the saturation criterion as a general sample-size logic (Braun &amp; Clarke, 2021;
         see §4.4). AI researchers fluent in OWA have the conceptual
         furniture to understand this stance; they often do not realize
         they already do.
@@ -1280,8 +1280,8 @@ MEMO 2026-04-12:
         <p>
           Glaser and Strauss (1967) and Charmaz (2014) treat
           <em>saturation</em> — the point at which new data stops yielding
-          new categories — as a foundational stopping criterion. Braun and
-          Clarke (2019) explicitly reject it for reflexive TA: they argue
+          new categories — as an important grounded-theory stopping criterion. Braun and
+          Clarke (2021) explicitly reject it for reflexive TA sample-size rationales: they argue
           themes are <em>generated</em>, not <em>found</em>, and that
           information redundancy is not a meaningful concept when the
           analyst's interpretive role is taken seriously. Pick a side
@@ -1549,19 +1549,20 @@ RQ-03:  How do these accounts shift
 
       <p>
         Cohen's κ and Krippendorff's α correct raw agreement for chance.
-        McHugh (2012) gives a working scale: &lt; 0.40 is poor, 0.60–0.79
-        moderate, 0.80–0.90 strong. Hayes and Krippendorff (2007) recommend
-        α ≥ 0.80 for tentative claims and α ≥ 0.667 for exploratory work.
+        McHugh (2012) gives a working κ scale: values below 0.40 are no better
+        than minimal-to-weak agreement, 0.60–0.79 is moderate, and 0.80–0.90 is
+        strong. Hayes and Krippendorff (2007) recommend α ≥ 0.80 for reliable
+        conclusions, while α ≥ 0.667 may be used only for tentative conclusions.
         Both indices are sensitive to category prevalence — high agreement
         on rare codes can yield paradoxically low κ — so single numbers
         rarely tell the full story.
       </p>
 
       <p>
-        These indices are appropriate for <em>codebook</em> TA and for
-        deductive content analysis, where the codebook is fixed before
-        coding. They are <em>not</em> the validation target for reflexive TA
-        in Braun and Clarke's (2019) sense, where calling for κ between
+        These indices are appropriate for coding-reliability studies and for
+        stable deductive codebooks where multiple coders are expected to apply
+        the same scheme. They are <em>not</em> the validation target for reflexive TA
+        in Braun and Clarke's (2019, 2021) sense, where calling for κ between
         coders is a category mistake.
       </p>
 
@@ -1653,7 +1654,7 @@ RQ-03:  How do these accounts shift
             trail of how the analyst's positioning shaped the conclusions.
             In reflexive TA the memos are how subjectivity is registered —
             and registered subjectivity is the warrant, not a contaminant
-            (Braun &amp; Clarke, 2019).
+            (Braun &amp; Clarke, 2019, 2021).
           </p>
         </li>
         <li>
@@ -2135,8 +2136,8 @@ Next action:</code></pre>
           <strong>What is the epistemic stance of this study?</strong>
           Realist, constructivist, critical-realist, pragmatist? Naming the
           stance forces consistency between method and warrant. Reflexive
-          TA assumes constructivism; ontology engineering typically assumes
-          realism. Mixing without naming is the source of most reviewer
+          TA often assumes constructivism; ontology engineering often leans
+          realist. Mixing without naming is the source of most reviewer
           confusion.
         </li>
         <li>
@@ -2188,7 +2189,7 @@ Next action:</code></pre>
       <ul>
         <li>"Where is the inter-rater reliability?" — fair for codebook TA;
           a category mistake for reflexive TA. Cite Braun and Clarke
-          (2019) explicitly when refusing it.</li>
+          (2019, 2021) explicitly when refusing it.</li>
         <li>"Is the ontology aligned with [BFO/SKOS Core/an upper
           ontology]?" — fair for an ontology paper; not a defense for a
           coding-scheme study masquerading as an ontology.</li>
@@ -2343,8 +2344,8 @@ Next action:</code></pre>
           (2024) treats LLM TA as a provocation about the limits of
           automation. Deiner et al. (2024) report viable single-prompt
           inductive TA on a social-media corpus. Naeem et al. (2025)
-          propose a step-by-step ChatGPT protocol with human review
-          checkpoints. Christou (2024) and Schroeder et al. (2025) urge
+          propose a step-by-step ChatGPT protocol that requires researchers to
+          supply study context and methodological/theoretical considerations. Christou (2024) and Schroeder et al. (2025) urge
           documentation discipline. Pick the position you can defend and
           write down why.
         </p>
@@ -2407,7 +2408,7 @@ Next action:</code></pre>
         <dd>The disciplined practice of recording how the analyst's positioning, prior knowledge, and choices shape the analysis. A first-class component of trustworthiness, not metadata.</dd>
 
         <dt>Saturation</dt>
-        <dd>The grounded-theory criterion under which new data stops yielding new categories; treated as foundational in Glaser-Strauss-Charmaz, rejected in Braun &amp; Clarke (2019) reflexive TA.</dd>
+        <dd>The grounded-theory criterion under which new data stops yielding new categories; important in Glaser-Strauss-Charmaz, but rejected by Braun &amp; Clarke (2021) as a general sample-size rationale for reflexive TA.</dd>
 
         <dt>SKOS</dt>
         <dd>Simple Knowledge Organization System. W3C standard for thesauri / controlled vocabularies. Weaker semantics than OWL by design (Miles &amp; Bechhofer, 2009).</dd>
@@ -2431,13 +2432,14 @@ Next action:</code></pre>
         <li>Bowker, G. C., &amp; Star, S. L. (1999). <em>Sorting things out: Classification and its consequences</em>. MIT Press.</li>
         <li>Braun, V., &amp; Clarke, V. (2006). Using thematic analysis in psychology. <em>Qualitative Research in Psychology, 3</em>(2), 77–101. <a href="https://doi.org/10.1191/1478088706qp063oa" target="_blank" rel="noopener">https://doi.org/10.1191/1478088706qp063oa</a></li>
         <li>Braun, V., &amp; Clarke, V. (2019). Reflecting on reflexive thematic analysis. <em>Qualitative Research in Sport, Exercise and Health, 11</em>(4), 589–597. <a href="https://doi.org/10.1080/2159676X.2019.1628806" target="_blank" rel="noopener">https://doi.org/10.1080/2159676X.2019.1628806</a></li>
+        <li>Braun, V., &amp; Clarke, V. (2021). To saturate or not to saturate? Questioning data saturation as a useful concept for thematic analysis and sample-size rationales. <em>Qualitative Research in Sport, Exercise and Health, 13</em>(2), 201–216. <a href="https://doi.org/10.1080/2159676X.2019.1704846" target="_blank" rel="noopener">https://doi.org/10.1080/2159676X.2019.1704846</a></li>
         <li>Charmaz, K. (2014). <em>Constructing grounded theory</em> (2nd ed.). SAGE.</li>
         <li>Christou, P. A. (2024). Thematic analysis through artificial intelligence (AI). <em>The Qualitative Report, 29</em>(2), 560–576. <a href="https://doi.org/10.46743/2160-3715/2024.7046" target="_blank" rel="noopener">https://doi.org/10.46743/2160-3715/2024.7046</a></li>
         <li>De Paoli, S. (2024). Performing an inductive thematic analysis of semi-structured interviews with a large language model: An exploration and provocation on the limits of the approach. <em>Social Science Computer Review, 42</em>(4), 997–1019. <a href="https://doi.org/10.1177/08944393231220483" target="_blank" rel="noopener">https://doi.org/10.1177/08944393231220483</a></li>
         <li>Deiner, M. S., Honcharov, V., Li, J., Mackey, T. K., Porco, T. C., &amp; Sarkar, U. (2024). Large language models can enable inductive thematic analysis of a social media corpus in a single prompt: Human validation study. <em>JMIR Infodemiology, 4</em>, e59641. <a href="https://doi.org/10.2196/59641" target="_blank" rel="noopener">https://doi.org/10.2196/59641</a></li>
         <li>Fernández-López, M., Gómez-Pérez, A., &amp; Juristo, N. (1997). METHONTOLOGY: From ontological art towards ontological engineering. In <em>AAAI-97 Spring Symposium Series on Ontological Engineering</em>. Stanford University.</li>
         <li>Glaser, B. G., &amp; Strauss, A. L. (1967). <em>The discovery of grounded theory: Strategies for qualitative research</em>. Aldine.</li>
-        <li>Gruber, T. R. (1993). A translation approach to portable ontology specifications. <em>Knowledge Acquisition, 5</em>(2), 199–220.</li>
+        <li>Gruber, T. R. (1993). A translation approach to portable ontology specifications. <em>Knowledge Acquisition, 5</em>(2), 199–220. <a href="https://doi.org/10.1006/knac.1993.1008" target="_blank" rel="noopener">https://doi.org/10.1006/knac.1993.1008</a></li>
         <li>Grüninger, M., &amp; Fox, M. S. (1995). Methodology for the design and evaluation of ontologies. In <em>IJCAI-95 Workshop on Basic Ontological Issues in Knowledge Sharing</em>. Montreal.</li>
         <li>Guarino, N. (1998). Formal ontology and information systems. In N. Guarino (Ed.), <em>Formal ontology in information systems (FOIS '98)</em> (pp. 3–15). IOS Press.</li>
         <li>Hayes, A. F., &amp; Krippendorff, K. (2007). Answering the call for a standard reliability measure for coding data. <em>Communication Methods and Measures, 1</em>(1), 77–89. <a href="https://doi.org/10.1080/19312450709336664" target="_blank" rel="noopener">https://doi.org/10.1080/19312450709336664</a></li>
@@ -2446,7 +2448,7 @@ Next action:</code></pre>
         <li>Lincoln, Y. S., &amp; Guba, E. G. (1985). <em>Naturalistic inquiry</em>. SAGE.</li>
         <li>Louca, L., Elby, A., Hammer, D., &amp; Kagey, T. (2004). Epistemological resources: Applying a new epistemological framework to science instruction. <em>Educational Psychologist, 39</em>(1), 57–68. <a href="https://doi.org/10.1207/s15326985ep3901_6" target="_blank" rel="noopener">https://doi.org/10.1207/s15326985ep3901_6</a></li>
         <li>McHugh, M. L. (2012). Interrater reliability: The kappa statistic. <em>Biochemia Medica, 22</em>(3), 276–282. <a href="https://doi.org/10.11613/BM.2012.031" target="_blank" rel="noopener">https://doi.org/10.11613/BM.2012.031</a></li>
-        <li>Miles, A., &amp; Bechhofer, S. (2009). <em>SKOS Simple Knowledge Organization System reference</em> (W3C Recommendation). W3C. https://www.w3.org/TR/skos-reference/</li>
+        <li>Miles, A., &amp; Bechhofer, S. (2009). <em>SKOS Simple Knowledge Organization System reference</em> (W3C Recommendation). W3C. <a href="https://www.w3.org/TR/skos-reference/" target="_blank" rel="noopener">https://www.w3.org/TR/skos-reference/</a></li>
         <li>Morgan, D. L. (2023). Exploring the use of artificial intelligence for qualitative data analysis: The case of ChatGPT. <em>International Journal of Qualitative Methods, 22</em>. <a href="https://doi.org/10.1177/16094069231211248" target="_blank" rel="noopener">https://doi.org/10.1177/16094069231211248</a></li>
         <li>Naeem, M., Smith, T., &amp; Thomas, L. (2025). Thematic analysis and artificial intelligence: A step-by-step process for using ChatGPT in thematic analysis. <em>International Journal of Qualitative Methods, 24</em>. <a href="https://doi.org/10.1177/16094069251333886" target="_blank" rel="noopener">https://doi.org/10.1177/16094069251333886</a></li>
         <li>Nelson, L. K. (2020). Computational grounded theory: A methodological framework. <em>Sociological Methods &amp; Research, 49</em>(1), 3–42. <a href="https://doi.org/10.1177/0049124117729703" target="_blank" rel="noopener">https://doi.org/10.1177/0049124117729703</a></li>
@@ -2460,7 +2462,7 @@ Next action:</code></pre>
         <li>Shaffer, D. W. (2017). <em>Quantitative ethnography</em>. Cathcart Press.</li>
         <li>Shaffer, D. W., Collier, W., &amp; Ruis, A. R. (2016). A tutorial on epistemic network analysis: Analyzing the structure of connections in cognitive, social, and interaction data. <em>Journal of Learning Analytics, 3</em>(3), 9–45. <a href="https://doi.org/10.18608/jla.2016.33.3" target="_blank" rel="noopener">https://doi.org/10.18608/jla.2016.33.3</a></li>
         <li>Smith, B., &amp; Welty, C. (2001). Ontology: Towards a new synthesis. In <em>Formal Ontology in Information Systems (FOIS 2001)</em>.</li>
-        <li>Studer, R., Benjamins, V. R., &amp; Fensel, D. (1998). Knowledge engineering: Principles and methods. <em>Data &amp; Knowledge Engineering, 25</em>(1–2), 161–197.</li>
+        <li>Studer, R., Benjamins, V. R., &amp; Fensel, D. (1998). Knowledge engineering: Principles and methods. <em>Data &amp; Knowledge Engineering, 25</em>(1–2), 161–197. <a href="https://doi.org/10.1016/S0169-023X(97)00056-6" target="_blank" rel="noopener">https://doi.org/10.1016/S0169-023X(97)00056-6</a></li>
         <li>Suárez-Figueroa, M. C., Gómez-Pérez, A., Motta, E., &amp; Gangemi, A. (Eds.). (2012). <em>Ontology engineering in a networked world</em>. Springer. <a href="https://doi.org/10.1007/978-3-642-24794-1" target="_blank" rel="noopener">https://doi.org/10.1007/978-3-642-24794-1</a></li>
         <li>Xiao, Z., Yuan, X., Liao, Q. V., Abdelghani, R., &amp; Oudeyer, P.-Y. (2023). Supporting qualitative analysis with large language models: Combining codebook with GPT-3 for deductive coding. In <em>Companion Proceedings of the 28th International Conference on Intelligent User Interfaces (IUI '23 Companion)</em>. <a href="https://doi.org/10.1145/3581754.3584136" target="_blank" rel="noopener">https://doi.org/10.1145/3581754.3584136</a></li>
       </ol>
@@ -2469,7 +2471,7 @@ Next action:</code></pre>
     <footer>
       <p><strong>Author</strong> · Dr. Jewoong Moon · ADDIE Lab · College of Education · The University of Alabama</p>
       <p><strong>Version</strong> 0.1 · 2026-05-07 · drafted for graduate AI researchers entering qualitative methods.</p>
-      <p><strong>Citation source</strong> · Verified literature scan at <code>Desktop/_research/2026-05-07_ontology-vs-coding-scheme.md</code> (35 sources).</p>
+      <p><strong>Citation source</strong> · Verified literature scan at <code>Desktop/_research/2026-05-07_ontology-vs-coding-scheme.md</code> (35 sources) plus a post-audit saturation source added on 2026-05-08.</p>
       <p><strong>License</strong> · CC BY 4.0 · cite as: Moon, J. (2026). <em>Ontology, Coding, and Epistemological Framing: A Dialectical Onboarding Guide</em> (v0.1).</p>
       <p><strong>This is a practical onboarding guide</strong>, not a canonical reference. Foundational sources are cited in §10.</p>
     </footer>
