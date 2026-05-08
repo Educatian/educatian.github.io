@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Ontology &amp; Qualitative Coding Schemes — An Epistemological Bridge</title>
-<meta name="description" content="A practical onboarding handbook for graduate AI researchers on the epistemological bridge between formal ontology and interpretive qualitative coding schemes." />
+<title>Ontology, Coding, and Epistemological Framing — A Dialectical Onboarding Guide</title>
+<meta name="description" content="A practical onboarding handbook for graduate AI researchers on formal ontology, qualitative coding schemes, and educational epistemological framing." />
 <meta name="author" content="Jewoong Moon" />
 <meta property="og:type" content="article" />
-<meta property="og:title" content="Ontology &amp; Qualitative Coding Schemes" />
-<meta property="og:description" content="A practical onboarding handbook on the epistemological bridge between formal ontology and interpretive qualitative coding schemes." />
+<meta property="og:title" content="Ontology, Coding, and Epistemological Framing" />
+<meta property="og:description" content="A dialectical onboarding guide: ontology stabilizes shared objects, coding preserves situated meaning-making, and epistemological framing bridges them." />
 <meta property="og:image" content="https://educatian.github.io/ontology-vs-coding-handbook/thumbnails/hero_og_1200x630.png" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
@@ -342,7 +342,7 @@
       border-right: none; border-bottom: 1px solid var(--rule);
       padding: 1.4em 1.6em;
     }
-    main { display: block; width: auto; max-width: 100vw; margin: 0; padding: 2em 1.1em 3em 1.1em; }
+    main { display: block; box-sizing: border-box; width: 100%; max-width: 100%; margin: 0; padding: 2em 1.1em 3em 1.1em; }
     .twocol { grid-template-columns: 1fr; }
     header.hero h1 { font-size: 1.6em; line-height: 1.2; overflow-wrap: anywhere; }
     header.hero .subtitle { display: block; max-width: min(32ch, calc(100vw - 3.2em)); font-size: 0.82em; line-height: 1.55; }
@@ -350,8 +350,10 @@
     header.hero .byline { display: block; }
     header.hero .byline span { display: block; margin-top: 0.35em; }
     .lang-toggle { position: static; display: inline-block; margin: 1em 1.4em 0; }
-    figure.figure { width: 100%; max-width: 100%; overflow: hidden; }
-    figure.figure img { display: block; width: 100%; max-width: 100%; object-fit: contain; }
+    figure.figure { box-sizing: border-box; width: calc(100vw - 3.2em); max-width: calc(100vw - 3.2em); margin-left: auto; margin-right: auto; overflow: hidden; }
+    figure.figure img { display: block; width: calc(100vw - 3.2em); max-width: calc(100vw - 3.2em); object-fit: contain; }
+    figure.figure.hero { width: 64vw; max-width: 64vw; }
+    figure.figure.hero img { width: 64vw !important; max-width: 64vw !important; }
   }
   @media print {
     aside.toc { display: none; }
@@ -369,15 +371,15 @@
     <h2>Contents</h2>
     <nav>
       <ol>
-        <li><a href="#s1">Why this guide exists</a></li>
+        <li><a href="#s1">The dialectic in one page</a></li>
         <li><a href="#s2">Two honest definitions</a></li>
         <li><a href="#s3">Shared DNA</a></li>
-        <li><a href="#s4">The epistemological split</a></li>
+        <li><a href="#s4">Antithesis: situated meaning-making</a></li>
         <li><a href="#s5">Operational differences</a></li>
         <li><a href="#s6">Six misconceptions</a></li>
-        <li><a href="#s7">When to use which (and how to mix)</a></li>
-        <li><a href="#s8">Methodological checklist</a></li>
-        <li><a href="#s9">Three worked examples</a></li>
+        <li><a href="#s7">Synthesis: epistemological framing</a></li>
+        <li><a href="#s8">Checklist for coexistence</a></li>
+        <li><a href="#s9">Three dialectical examples</a></li>
         <li><a href="#s10">Glossary &amp; references</a></li>
       </ol>
     </nav>
@@ -391,15 +393,15 @@
   <main>
     <header class="hero">
       <figure class="figure hero">
-        <img src="assets/imagegen-hero-bridge.png" alt="A deep blue ontology landscape and a warm amber coding workspace meet across a bridge on a paper-textured background." />
-        <figcaption>Two traditions, two layers of the meaning stack.</figcaption>
+        <img src="assets/imagegen-dialectic-synthesis.png" alt="Ontology, coding, and epistemological framing appear as connected layers: stable objects, situated coding, and learner framing." />
+        <figcaption>Ontology, coding, framing: stable objects, situated meaning-making, and the educational bridge between them.</figcaption>
       </figure>
       <p class="kicker">ADDIE Lab Methodological Handbook · v0.1</p>
-      <h1>Ontology and Qualitative Coding Schemes — An Epistemological Bridge</h1>
+      <h1>Ontology, Coding, and Epistemological Framing</h1>
       <p class="subtitle">
         A practical onboarding guide for graduate AI researchers who already
-        know knowledge graphs but are new to interpretive and reflexive
-        qualitative methods.
+        know knowledge graphs but need a clear path into interpretive,
+        reflexive, and educational epistemological framing methods.
       </p>
       <div class="byline">
         <span>By Dr. Jewoong Moon · ADDIE Lab</span>
@@ -411,16 +413,35 @@
     <!-- ================= SECTION 1 ================= -->
     <section id="s1">
       <h2>
-        <span><span class="num">§1</span>Why this guide exists</span>
+        <span><span class="num">§1</span>The dialectic in one page</span>
         <span class="reading">~3 min</span>
       </h2>
 
       <p>
-        Most AI researchers meet qualitative coding for the first time the same
-        way: a collaborator hands them a stack of interview transcripts and
-        says "we need codes." They reach for the closest metaphor in their
-        toolbox — annotation. They fix a label set, instruct a model (or a
-        teammate) to apply it, and compute agreement. Job done.
+        This guide is organized as a dialectic. The <strong>thesis</strong>
+        is that ontology stabilizes shared objects: a community agrees what
+        counts as a claim, evidence, source, model, concept, relation, or
+        class so those objects can travel across tools and studies. The
+        <strong>antithesis</strong> is that qualitative coding preserves
+        situated meaning-making: the same utterance can do different analytic
+        work depending on who says it, where, in response to what, and under
+        which research question. The <strong>synthesis</strong> is
+        epistemological framing: participants orient to knowledge practices
+        in locally coherent ways, and ontology and coding can coexist when
+        each artifact is asked to do its own job.
+      </p>
+
+      <figure class="figure">
+        <img src="assets/imagegen-thesis-antithesis-synthesis.png" alt="Three connected panels show thesis, antithesis, and synthesis across ontology, coding, and epistemological framing." loading="lazy" />
+        <figcaption>The reader path: ontology stabilizes shared epistemic objects; coding preserves situated interpretation; epistemological framing explains how participants orient to knowledge practices.</figcaption>
+      </figure>
+
+      <p>
+        Most AI researchers meet qualitative coding for the first time the
+        same way: a collaborator hands them a stack of interview transcripts
+        and says "we need codes." They reach for the closest metaphor in
+        their toolbox — annotation. They fix a label set, instruct a model
+        (or a teammate) to apply it, and compute agreement. Job done.
       </p>
 
       <p>
@@ -434,6 +455,19 @@
         they import the wrong success criteria — high κ on a frozen taxonomy —
         and miss the moves that make qualitative work warranted.
       </p>
+
+      <div class="callout bridge">
+        <div class="label">Onboarding map</div>
+        <p>
+          Read §§2–3 as the thesis: ontology and coding share enough surface
+          features to be confused, but ontology's special contribution is the
+          stabilization of shared objects. Read §§4–6 as the antithesis:
+          coding's special contribution is preserving meaning as situated,
+          reflexive, and context-bound. Read §§7–9 as the synthesis: use
+          epistemological framing to decide how stable objects and situated
+          orientations can be analyzed together.
+        </p>
+      </div>
 
       <div class="callout bridge">
         <div class="label">Terminology note</div>
@@ -477,8 +511,13 @@
         This handbook is written to keep both errors from happening. It
         treats <strong>formal ontology</strong> and <strong>interpretive
         qualitative coding scheme</strong> as two distinct ways of organizing meaning
-        that operate at different layers of the meaning stack, and shows
-        where they meet, where they part, and how to combine them honestly.
+        that operate at different layers of the meaning stack. Ontology
+        answers, "Which objects and relations should remain stable enough
+        for shared use?" Coding answers, "How are people making meaning
+        here, in this corpus, under this question?" Epistemological framing
+        answers the bridge question: "How are participants orienting to the
+        very practices of knowing, evidencing, doubting, explaining, and
+        acting?"
         It is written for graduate AI researchers — readers who already
         recognize <code>owl:Class</code> and <code>rdfs:subClassOf</code>,
         who can prompt an LLM, but who are likely to be reading Charmaz or
@@ -566,6 +605,11 @@
         how the analyst moved from raw material to defensible interpretation.
       </p>
 
+      <figure class="figure">
+        <img src="assets/imagegen-thesis-ontology.png" alt="A blue ontology scaffold organizes reusable epistemic objects such as claim, evidence, model, warrant, source, and uncertainty." loading="lazy" />
+        <figcaption>Thesis image: ontology is the reusable object-and-relation layer. It stabilizes what the community can refer to across datasets, tools, and studies.</figcaption>
+      </figure>
+
       <p>
         Coding schemes come in two main flavors:
       </p>
@@ -625,6 +669,11 @@
             <th>Truth claim</th>
             <td class="ont">"These are the kinds of things that exist in this domain"</td>
             <td class="qual">"This is how these informants made sense of this phenomenon, in this context"</td>
+          </tr>
+          <tr>
+            <th>Educational epistemology role</th>
+            <td class="ont">Names available epistemic objects and relations: claim, evidence, model, warrant</td>
+            <td class="qual">Traces situated framing of those objects in learner discourse and action</td>
           </tr>
           <tr>
             <th>Validation surface</th>
@@ -716,9 +765,10 @@ MEMO 2026-04-12:
       <p>
         <strong>Hierarchical organization.</strong> Ontologies use
         <code>rdfs:subClassOf</code>; coding schemes use the relation
-        between codes, categories, and themes. Both move from finer-grained
-        to coarser-grained concepts because that is how human
-        sense-making compresses.
+        between codes, categories, and themes. Both organize granularity,
+        but the warrant differs: an ontology hierarchy claims reusable
+        conceptual relations, while a coding hierarchy records an analytic
+        compression of situated data.
       </p>
       <p>
         <strong>Community vocabulary negotiation.</strong> Studer et al.'s
@@ -758,6 +808,17 @@ MEMO 2026-04-12:
       </p>
 
       <p>
+        Education research adds a second reason classification matters:
+        categories shape what counts as a knowledge activity. Scherr and
+        Hammer (2009) show that students' observable behavior depends on
+        whether they frame a task as sensemaking, answer-filling, modeling,
+        or some other epistemic activity. Sandoval and Reiser (2004) make
+        the design implication explicit: learning environments can scaffold
+        inquiry by making relationships between processes and knowledge
+        products visible. That is the bridge this handbook uses.
+      </p>
+
+      <p>
         Nelson's (2020) <em>computational grounded theory</em> formalizes
         the convergence on the methods side. She proposes a three-step
         framework: (1) <em>pattern detection</em> through unsupervised
@@ -769,8 +830,8 @@ MEMO 2026-04-12:
       </p>
 
       <figure class="figure">
-        <img src="assets/imagegen-shared-dna.png" alt="Blue ontology and amber coding workbenches overlap around four shared ideas: hierarchy, vocabulary, iteration, and data to theory." loading="lazy" />
-        <figcaption>Where the two traditions overlap: hierarchy, community vocabulary, iteration, and the data-theory gap.</figcaption>
+        <img src="assets/imagegen-dialectic-synthesis.png" alt="Ontology, coding, and epistemological framing appear as connected layers: stable objects, situated coding, and learner framing." loading="lazy" />
+        <figcaption>The shared problem is organizing meaning. The synthesis is not a merger of artifacts, but a layered account of stable epistemic objects and situated orientations to them.</figcaption>
       </figure>
 
       <div class="callout bridge">
@@ -789,15 +850,21 @@ MEMO 2026-04-12:
     <!-- ================= SECTION 4 ================= -->
     <section id="s4">
       <h2>
-        <span><span class="num">§4</span>The epistemological split</span>
+        <span><span class="num">§4</span>Antithesis: situated meaning-making</span>
         <span class="reading">~5 min</span>
       </h2>
 
       <p>
         The shared DNA is real, but the split is real too — and it is
-        epistemic, not merely stylistic. AI researchers tend to import
-        assumptions from supervised learning that misfit qualitative work.
-        Four contrasts are worth memorizing.
+        epistemic, not merely stylistic. Ontology's thesis is that shared
+        objects can be stabilized well enough for reuse. Coding's antithesis
+        is that meaning is always produced in situations: speakers respond
+        to histories, roles, tasks, audiences, and local definitions of what
+        counts as knowledge work. AI researchers tend to import assumptions
+        from supervised learning that misfit that premise. Five contrasts
+        are worth memorizing. The fifth comes directly from education
+        research on epistemological framing: what counts as "knowledge work"
+        depends on how participants frame the activity.
       </p>
 
       <h3>4.1 Closed-world vs. open-world</h3>
@@ -815,8 +882,8 @@ MEMO 2026-04-12:
       </p>
 
       <p>
-        Qualitative researchers operate in something close to OWA out of
-        habit. A code that did not appear in this corpus is not
+        Some qualitative approaches share an analogous caution about absence
+        claims. A code that did not appear in this corpus is not
         <em>absent</em> from the world — it is absent <em>from this corpus
         under this analyst's gaze</em>. Reflexive TA goes further and refuses
         the saturation criterion because of this (Braun &amp; Clarke, 2019;
@@ -826,8 +893,8 @@ MEMO 2026-04-12:
       </p>
 
       <figure class="figure">
-        <img src="assets/imagegen-cwa-vs-owa.png" alt="A sealed blue archive labeled closed world contrasts with an open amber research room labeled open world." loading="lazy" />
-        <figcaption>Closed-world vs. open-world. AI researchers who use OWL already operate under OWA; reflexive thematic analysis assumes the same epistemic humility from the qualitative side.</figcaption>
+        <img src="assets/imagegen-antithesis-coding.png" alt="An amber qualitative coding workspace shows transcript strips, context notes, code cards, reflexive memos, and negative cases." loading="lazy" />
+        <figcaption>Antithesis image: coding is not just label assignment. It preserves context, reflexive interpretation, negative cases, and the evolving path from excerpt to analytic claim.</figcaption>
       </figure>
 
       <h3>4.2 Formal logic vs. interpretive judgment</h3>
@@ -882,11 +949,12 @@ MEMO 2026-04-12:
       <h3>4.4 Realism vs. reflexivity — the live argument</h3>
 
       <p>
-        The deepest split is philosophical. Smith and Welty (2001) and the
-        Applied Ontology tradition lean realist: a well-engineered ontology
+        The deepest split is philosophical. Smith and Welty (2001) and much
+        of the Applied Ontology tradition lean realist: a well-engineered ontology
         approximates structure that exists independently of the engineer.
-        Bowker and Star (1999), and constructivist grounded theorists like
-        Charmaz (2014), insist the opposite — categories are <em>built</em>,
+        Bowker and Star (1999), and many interpretive traditions including
+        constructivist grounded theory (Charmaz, 2014), insist the opposite —
+        categories are <em>built</em>,
         not <em>found</em>; analyst subjectivity is constitutive, not noise.
       </p>
 
@@ -902,8 +970,8 @@ MEMO 2026-04-12:
       </p>
 
       <figure class="figure">
-        <img src="assets/imagegen-realism-vs-reflexivity.png" alt="A blue microscope scene labeled realism contrasts with an amber notebook and analyst-reflection scene labeled reflexivity." loading="lazy" />
-        <figcaption>Realism keeps the analyst out of the frame; reflexivity puts the analyst in it.</figcaption>
+        <img src="assets/imagegen-epistemological-framing.png" alt="The same learning task branches into a sensemaking frame and a completion frame, with claims, evidence, and coding notes visible." loading="lazy" />
+        <figcaption>Educational epistemological framing: the same task can be taken up as sensemaking or as completion. Coding can trace the orientation; ontology can name the epistemic objects at stake.</figcaption>
       </figure>
 
       <div class="callout controversy">
@@ -920,6 +988,56 @@ MEMO 2026-04-12:
           tradition you are in.
         </p>
       </div>
+
+      <h3>4.5 Epistemological framing in education: what is the activity?</h3>
+
+      <p>
+        Education researchers use <strong>epistemological framing</strong>
+        to describe a learner's sense of what kind of knowledge activity is
+        happening here. Scherr and Hammer (2009) give the simple classroom
+        contrast: the same worksheet can be framed as an opportunity for
+        sensemaking or as an assignment to fill in blanks. That frame changes
+        what students notice, which resources they activate, and what actions
+        feel appropriate.
+      </p>
+
+      <p>
+        This matters for ontology-versus-coding because a coding scheme can
+        be designed to record not only content, but also how participants frame
+        knowledge, evidence, authority, uncertainty, and action in a local
+        setting. Louca, Elby, Hammer, and Kagey (2004) argue that personal
+        epistemologies are better modeled as fine-grained resources whose
+        activation is context-sensitive, not as one stable belief system.
+        Elby and Hammer (2010) extend this into framing: epistemological
+        resources are usually observable as locally coherent frames.
+      </p>
+
+      <p>
+        Ontology enters differently. It asks which kinds of epistemic objects
+        and relations a community wants to stabilize: claim, evidence,
+        model, uncertainty, source, warrant, counterexample, revision. In
+        Sandoval and Reiser's (2004) language, educational design can scaffold
+        students' inquiry by making relationships between inquiry processes
+        and the knowledge they produce visible. In Sandoval's (2005) terms,
+        students' <em>practical epistemologies</em> shape how they conduct
+        inquiry. A learning ontology can make those epistemic objects
+        explicit; a coding scheme can show how learners actually mobilize
+        them in discourse.
+      </p>
+
+      <div class="callout bridge">
+        <div class="label">Bridge pattern · epistemic framing</div>
+        <p>
+          Treat ontology as the stable map of epistemic objects and relations
+          available in the learning environment. Treat the coding scheme as
+          the interpretive instrument for seeing how participants frame and
+          re-frame those objects in practice. The same code can participate
+          in different frames; the same ontology class can be taken up
+          differently by different communities. The bridge is not a lookup
+          table between code and class; it is an account of how people orient
+          to knowledge practices around those objects.
+        </p>
+      </div>
     </section>
 
     <!-- ================= SECTION 5 ================= -->
@@ -932,12 +1050,13 @@ MEMO 2026-04-12:
       <h3>5.1 What counts as ground truth</h3>
 
       <p>
-        In ontology engineering, ground truth is logical: the ontology
-        either entails the competency questions or it does not. In coding,
-        there is no ground truth in this sense. Two trained, reflexive
-        analysts can read the same transcript, generate slightly different
-        codes, and both be defensibly right. This is not a bug; it is the
-        topology of interpretive work.
+        In ontology engineering, one validation surface is logical: the
+        ontology either entails the competency questions or it does not. But
+        the choice of classes, scope, and granularity is still a design
+        commitment. In coding, there is no ground truth in this logical
+        sense. Two trained, reflexive analysts can read the same transcript,
+        generate slightly different codes, and both be defensibly right. This
+        is not a bug; it is the topology of interpretive work.
       </p>
 
       <p>
@@ -1084,8 +1203,8 @@ RQ-03:  How do these accounts shift
       </p>
 
       <figure class="figure">
-        <img src="assets/imagegen-six-misconceptions.png" alt="A two-by-three grid of six numbered visual metaphors shows common coding misconceptions with a ruler, torn page, glass dome, wastebasket, empty boxes and theme garden, and tangled knot." loading="lazy" />
-        <figcaption>Six misconceptions about coding that AI researchers commonly carry over from supervised-learning intuitions.</figcaption>
+        <img src="assets/imagegen-dialectic-misconceptions.png" alt="A two-by-three grid shows six category mistakes when ontology, coding, and epistemological framing are collapsed into one artifact." loading="lazy" />
+        <figcaption>Six category mistakes in the dialectic: forcing codebooks into ontology boxes, treating ontology classes as labels, ignoring learner framing, replacing reflexivity with metrics, mistaking mapping for validation, and bypassing close reading with LLMs.</figcaption>
       </figure>
 
       <ol class="misconceptions">
@@ -1156,12 +1275,14 @@ RQ-03:  How do these accounts shift
           <h3>"I'll validate the coding scheme by mapping it to the ontology (or vice versa)."</h3>
           <p>
             This is the most attractive error. It feels like
-            triangulation. It is not. The ontology is a community
+            triangulation. It is not triangulation by itself. The ontology is a community
             vocabulary; the codebook is a corpus-fitted instrument. Forcing
             agreement between them either truncates the codebook to fit the
             ontology, or inflates the ontology with categories no other
             project would reuse. Mappings are useful as
-            <em>publication-time interfaces</em>, not as cross-validation.
+            <em>publication-time interfaces</em>, and they can support
+            triangulation only when the study explicitly compares different
+            warrant types rather than treating a match as proof.
           </p>
         </li>
       </ol>
@@ -1170,7 +1291,7 @@ RQ-03:  How do these accounts shift
     <!-- ================= SECTION 7 ================= -->
     <section id="s7">
       <h2>
-        <span><span class="num">§7</span>When to use which (and how to mix)</span>
+        <span><span class="num">§7</span>Synthesis: epistemological framing as the bridge</span>
         <span class="reading">~4 min</span>
       </h2>
 
@@ -1178,7 +1299,12 @@ RQ-03:  How do these accounts shift
 
       <p>
         The first move is to ask which question your study is actually
-        answering. The answer determines the artifact.
+        answering. If the question is about shared objects, build an ontology.
+        If the question is about situated meaning, build a coding scheme. If
+        the question is about how participants orient to shared objects as
+        evidence, authority, uncertainty, models, or action, you are in the
+        synthesis zone: use epistemological framing to coordinate both
+        artifacts without collapsing one into the other.
       </p>
 
       <div class="decision-tree">
@@ -1250,13 +1376,21 @@ RQ-03:  How do these accounts shift
         </svg>
       </div>
 
-      <h3>7.2 The backbone-plus-layer pattern</h3>
+      <figure class="figure">
+        <img src="assets/imagegen-epistemic-frame-workflow.png" alt="A three-stage workflow moves from ontology scaffold to coding uptake to frame network comparison." loading="lazy" />
+        <figcaption>Synthesis workflow: define an epistemic scaffold, code uptake and transformation in discourse, then compare frame structures across groups or design conditions.</figcaption>
+      </figure>
+
+      <h3>7.2 The backbone-plus-layer pattern: stable objects, local orientations</h3>
 
       <p>
         The most useful coexistence pattern in practice is to let the
         ontology hold the <em>backbone</em> — stable concepts that are
         defensibly shared across studies — while the coding scheme runs as
-        an <em>evolving layer</em> over it. SKOS is well-suited to the
+        an <em>evolving layer</em> over it. In epistemological-framing terms,
+        the backbone names the objects participants may orient toward; the
+        coding layer records how those orientations become visible in local
+        discourse. SKOS is well-suited to the
         backbone because its semantics are deliberately weaker than OWL's:
         <code>skos:broader</code> is hierarchical without committing to
         subsumption, so concepts can move without breaking inferences.
@@ -1274,8 +1408,8 @@ RQ-03:  How do these accounts shift
       </p>
 
       <figure class="figure">
-        <img src="assets/imagegen-backbone-plus-layer.png" alt="A blue SKOS backbone supports three amber project codebook layers connected downward by curved arrows." loading="lazy" />
-        <figcaption>The backbone-plus-layer pattern. SKOS holds the stable shared vocabulary; each project's coding scheme remains free to register what its corpus actually said.</figcaption>
+        <img src="assets/imagegen-dialectic-synthesis.png" alt="A blue ontology layer, amber coding layer, and teal epistemic-frame bridge form a layered research architecture." loading="lazy" />
+        <figcaption>The backbone-plus-layer pattern becomes clearer as a dialectic: ontology names reusable objects; coding records local orientations; epistemological framing explains the relation.</figcaption>
       </figure>
 
       <h3>7.3 Computational grounded theory</h3>
@@ -1305,14 +1439,40 @@ RQ-03:  How do these accounts shift
         network.
       </p>
 
+      <h3>7.5 Epistemic frames as the bridge object</h3>
+
+      <p>
+        In education and learning-sciences projects, the most defensible
+        hybrid object is often not a code or an ontology class by itself,
+        but an <strong>epistemic frame</strong>: a locally coherent pattern
+        of what participants treat as knowledge, evidence, authority, and
+        productive action. Shaffer (2006) uses epistemic frames to explain
+        how learners can take on a community's knowledge, skills, values,
+        identities, and ways of making decisions through epistemic games.
+        Scherr and Hammer (2009) show
+        that frames can be inferred from observable behavior, not only from
+        explicit statements about knowledge.
+      </p>
+
+      <p>
+        A practical architecture follows: use ontology to define the stable
+        vocabulary of epistemic objects (<em>claim</em>, <em>evidence</em>,
+        <em>model</em>, <em>source</em>, <em>warrant</em>); use qualitative
+        coding to identify how learners orient to those objects in situated
+        discourse; then use ENA or another network method to compare frame
+        structures across roles, groups, or design conditions. That preserves
+        the ontology's reusable structure while keeping the coding scheme
+        sensitive to local framing.
+      </p>
+
       <div class="callout bridge">
-        <div class="label">Bridge pattern · #2</div>
+        <div class="label">Synthesis rule</div>
         <p>
-          When in doubt, publish the codebook as a SKOS file with explicit
-          <code>skos:scopeNote</code> and <code>skos:historyNote</code>
-          fields. It costs little, and it is honest about both the
-          interpretive work behind the codes and the fact that they are
-          not OWL classes.
+          Do not ask the ontology to prove participants' meaning-making, and
+          do not ask the codebook to become universal infrastructure. Let the
+          ontology stabilize reusable epistemic objects; let the coding scheme
+          preserve local orientations to those objects; then use the framing
+          account to explain how both artifacts speak to the same study.
         </p>
       </div>
 
@@ -1334,14 +1494,16 @@ RQ-03:  How do these accounts shift
     <!-- ================= SECTION 8 ================= -->
     <section id="s8">
       <h2>
-        <span><span class="num">§8</span>A methodological checklist</span>
+        <span><span class="num">§8</span>A checklist for artifact coexistence</span>
         <span class="reading">~3 min</span>
       </h2>
 
       <p>
         Seven questions to answer in writing — not in your head — before the
-        study starts. The exercise is short. The protection it gives is
-        large.
+        study starts. Use them as a dialectical checkpoint: name what the
+        ontology stabilizes, name what the coding scheme keeps situated, and
+        name how epistemological framing explains participants' orientation
+        to knowledge practices.
       </p>
 
       <ol>
@@ -1389,9 +1551,11 @@ RQ-03:  How do these accounts shift
         </li>
         <li>
           <strong>What artifact do you publish?</strong> The ontology, the
-          codebook, both, or neither (only the empirical claims)? Publishing
-          a codebook as SKOS is one of the few moves that acknowledges
-          interpretive provenance and supports reuse.
+          codebook, the framing model, all three, or neither (only the
+          empirical claims)? Publishing a codebook as SKOS is one of the few
+          moves that acknowledges interpretive provenance and supports reuse,
+          but the write-up still needs to say what participants were framed
+          as doing epistemically.
         </li>
       </ol>
 
@@ -1416,15 +1580,17 @@ RQ-03:  How do these accounts shift
     <!-- ================= SECTION 9 ================= -->
     <section id="s9">
       <h2>
-        <span><span class="num">§9</span>Three worked examples</span>
+        <span><span class="num">§9</span>Three dialectical examples</span>
         <span class="reading">~5 min</span>
       </h2>
 
       <p>
         The three vignettes below stage the same general territory — text
-        data about learning — under three different commitments. The point
-        is not to recommend one over the others, but to show what each
-        looks like when done carefully.
+        data about learning — under three different commitments. Case A is
+        the thesis: stabilize shared objects. Case B is the antithesis:
+        preserve situated meaning-making. Case C is the synthesis: explain
+        how communities orient to shared epistemic objects differently, while
+        keeping ontology and coding as distinct artifacts.
       </p>
 
       <div class="case">
@@ -1433,7 +1599,9 @@ RQ-03:  How do these accounts shift
         <p>
           <em>Goal.</em> Produce a reusable SKOS / OWL artifact that other
           studies can import as a backbone vocabulary for counseling
-          discourse research.
+          discourse research. The educational framing question is mostly
+          deferred: this case prepares the shared objects that later studies
+          can examine in situated use.
         </p>
         <p><em>Workflow.</em></p>
         <ol>
@@ -1462,8 +1630,8 @@ RQ-03:  How do these accounts shift
           Suárez-Figueroa et al. (2012) for engineering scenarios.
         </p>
         <figure class="figure">
-          <img src="assets/imagegen-case-a-kg-workflow.png" alt="A five-stage blue ontology workflow moves from literature to questions, hierarchy, reasoning, and query." loading="lazy" />
-          <figcaption>Case A &mdash; ontology-led workflow: from clinical literature to a SKOS / OWL backbone validated by competency questions.</figcaption>
+          <img src="assets/imagegen-thesis-ontology.png" alt="A blue ontology scaffold organizes reusable epistemic objects and competency questions." loading="lazy" />
+          <figcaption>Case A &mdash; thesis: stabilize a SKOS / OWL backbone of shared epistemic objects and validate it with competency questions.</figcaption>
         </figure>
       </div>
 
@@ -1473,7 +1641,9 @@ RQ-03:  How do these accounts shift
         <p>
           <em>Goal.</em> Build a defensible interpretive account of how
           undergraduates account for using AI tools in courses with varying
-          policies.
+          policies. The core question is not whether a post fits a stable
+          class, but how students frame AI use as help, shortcut, risk,
+          collaboration, authorship, or evidence of learning.
         </p>
         <p><em>Workflow.</em></p>
         <ol>
@@ -1505,8 +1675,8 @@ RQ-03:  How do these accounts shift
           either; do not start with a fixed codebook.
         </p>
         <figure class="figure">
-          <img src="assets/imagegen-case-b-ta-workflow.png" alt="Six amber thematic-analysis vignettes form an iterative loop from reading to coding, clustering, revising, defining, and reporting." loading="lazy" />
-          <figcaption>Case B &mdash; coding-led workflow: six phases of reflexive thematic analysis, with reflexive memos accompanying every cycle.</figcaption>
+          <img src="assets/imagegen-antithesis-coding.png" alt="An amber qualitative coding workspace shows evolving codes, context notes, reflexive memos, and negative cases." loading="lazy" />
+          <figcaption>Case B &mdash; antithesis: preserve situated meaning-making through iterative coding, negative cases, and reflexive memos.</figcaption>
         </figure>
       </div>
 
@@ -1517,7 +1687,9 @@ RQ-03:  How do these accounts shift
           <em>Goal.</em> Compare how Learning Sciences (LS) and Educational
           Technology (ET) communities frame the same phenomenon, using a
           shared coded vocabulary and a network projection that supports
-          quantitative comparison.
+          quantitative comparison. This is the synthesis case: the backbone
+          keeps the objects comparable, while coding and ENA preserve how
+          each community orients to those objects as knowledge work.
         </p>
         <p><em>Workflow.</em></p>
         <ol>
@@ -1546,8 +1718,8 @@ RQ-03:  How do these accounts shift
           political even when they look neutral.
         </p>
         <figure class="figure">
-          <img src="assets/imagegen-case-c-hybrid-ena.png" alt="A three-layer hybrid diagram shows a backbone, coded data panels, and a network view connected by arrows." loading="lazy" />
-          <figcaption>Case C &mdash; hybrid: a stable SKOS backbone, interpretively warranted codes from each community, and an ENA projection that supports quantitative comparison without flattening the codes.</figcaption>
+          <img src="assets/imagegen-epistemic-frame-workflow.png" alt="Ontology scaffold, coding uptake, and frame network comparison form a three-stage hybrid workflow." loading="lazy" />
+          <figcaption>Case C &mdash; synthesis: ask which epistemic objects are available, how each community frames valid knowledge work around them, and how those frame structures compare.</figcaption>
         </figure>
       </div>
 
@@ -1570,7 +1742,7 @@ RQ-03:  How do these accounts shift
     <!-- ================= SECTION 10 ================= -->
     <section id="s10">
       <h2>
-        <span><span class="num">§10</span>Glossary &amp; references</span>
+        <span><span class="num">§10</span>Glossary &amp; references for the bridge</span>
         <span class="reading">~3 min</span>
       </h2>
 
@@ -1600,6 +1772,9 @@ RQ-03:  How do these accounts shift
 
         <dt>Epistemic Network Analysis (ENA)</dt>
         <dd>A method that represents coded discourse data as networks of weighted code co-occurrences and projects them into a comparable low-dimensional space (Shaffer et al., 2016).</dd>
+
+        <dt>Epistemological framing</dt>
+        <dd>An education-research construct for how participants understand what kind of knowledge activity is happening: sensemaking, answer-filling, proving, critiquing, modeling, explaining, or acting. In this guide, it is the synthesis term that connects stable epistemic objects to situated meaning-making.</dd>
 
         <dt>Inter-rater reliability (IRR)</dt>
         <dd>Quantitative agreement between independent coders applying a fixed codebook. Common indices: Cohen's κ, Krippendorff's α.</dd>
@@ -1631,6 +1806,9 @@ RQ-03:  How do these accounts shift
         <dt>Thematic analysis (TA)</dt>
         <dd>A family of methods for identifying patterns of meaning across a qualitative dataset. Reflexive TA, codebook TA, and coding-reliability TA differ in epistemology and validation (Braun &amp; Clarke, 2019).</dd>
 
+        <dt>Thesis / antithesis / synthesis</dt>
+        <dd>The reader path used in this handbook: ontology stabilizes shared objects; coding preserves situated meaning-making; epistemological framing explains how participants orient to knowledge practices so both artifacts can coexist.</dd>
+
         <dt>Trustworthiness</dt>
         <dd>Lincoln and Guba's (1985) parallel-criteria framework for qualitative warrant: credibility, transferability, dependability, confirmability.</dd>
       </dl>
@@ -1652,7 +1830,9 @@ RQ-03:  How do these accounts shift
         <li>Guarino, N. (1998). Formal ontology and information systems. In N. Guarino (Ed.), <em>Formal ontology in information systems (FOIS '98)</em> (pp. 3–15). IOS Press.</li>
         <li>Hayes, A. F., &amp; Krippendorff, K. (2007). Answering the call for a standard reliability measure for coding data. <em>Communication Methods and Measures, 1</em>(1), 77–89. https://doi.org/10.1080/19312450709336664</li>
         <li>Hogan, A., Blomqvist, E., Cochez, M., d'Amato, C., de Melo, G., Gutiérrez, C., Kirrane, S., Labra Gayo, J. E., Navigli, R., Neumaier, S., Ngonga Ngomo, A.-C., Polleres, A., Rashid, S. M., Rula, A., Schmelzeisen, L., Sequeda, J., Staab, S., &amp; Zimmermann, A. (2021). Knowledge graphs. <em>ACM Computing Surveys, 54</em>(4), Article 71. https://doi.org/10.1145/3447772</li>
+        <li>Elby, A., &amp; Hammer, D. (2010). Epistemological resources and framing: A cognitive framework for helping teachers interpret and respond to their students' epistemologies. In L. D. Bendixen &amp; F. C. Feucht (Eds.), <em>Personal epistemology in the classroom</em> (pp. 409–434). Cambridge University Press. https://doi.org/10.1017/CBO9780511691904.013</li>
         <li>Lincoln, Y. S., &amp; Guba, E. G. (1985). <em>Naturalistic inquiry</em>. SAGE.</li>
+        <li>Louca, L., Elby, A., Hammer, D., &amp; Kagey, T. (2004). Epistemological resources: Applying a new epistemological framework to science instruction. <em>Educational Psychologist, 39</em>(1), 57–68. https://doi.org/10.1207/s15326985ep3901_6</li>
         <li>McHugh, M. L. (2012). Interrater reliability: The kappa statistic. <em>Biochemia Medica, 22</em>(3), 276–282. https://doi.org/10.11613/BM.2012.031</li>
         <li>Miles, A., &amp; Bechhofer, S. (2009). <em>SKOS Simple Knowledge Organization System reference</em> (W3C Recommendation). W3C. https://www.w3.org/TR/skos-reference/</li>
         <li>Morgan, D. L. (2023). Exploring the use of artificial intelligence for qualitative data analysis: The case of ChatGPT. <em>International Journal of Qualitative Methods, 22</em>. https://doi.org/10.1177/16094069231211248</li>
@@ -1660,7 +1840,11 @@ RQ-03:  How do these accounts shift
         <li>Nelson, L. K. (2020). Computational grounded theory: A methodological framework. <em>Sociological Methods &amp; Research, 49</em>(1), 3–42. https://doi.org/10.1177/0049124117729703</li>
         <li>Reiter, R. (1978). On closed world data bases. In H. Gallaire &amp; J. Minker (Eds.), <em>Logic and data bases</em> (pp. 55–76). Plenum Press.</li>
         <li>Saldaña, J. (2021). <em>The coding manual for qualitative researchers</em> (4th ed.). SAGE.</li>
+        <li>Sandoval, W. A. (2005). Understanding students' practical epistemologies and their influence on learning through inquiry. <em>Science Education, 89</em>(4), 634–656. https://doi.org/10.1002/sce.20065</li>
+        <li>Sandoval, W. A., &amp; Reiser, B. J. (2004). Explanation-driven inquiry: Integrating conceptual and epistemic scaffolds for scientific inquiry. <em>Science Education, 88</em>(3), 345–372. https://doi.org/10.1002/sce.10130</li>
+        <li>Scherr, R. E., &amp; Hammer, D. (2009). Student behavior and epistemological framing: Examples from collaborative active-learning activities in physics. <em>Cognition and Instruction, 27</em>(2), 147–174. https://doi.org/10.1080/07370000902797379</li>
         <li>Schroeder, H., Aubin Le Quéré, M., Randazzo, C., Mimno, D., &amp; Schoenebeck, S. (2025). Large language models in qualitative research: Uses, tensions, and intentions. In <em>Proceedings of the 2025 CHI Conference on Human Factors in Computing Systems</em> (pp. 1–17). https://doi.org/10.1145/3706598.3713120</li>
+        <li>Shaffer, D. W. (2006). Epistemic frames for epistemic games. <em>Computers &amp; Education, 46</em>(3), 223–234. https://doi.org/10.1016/j.compedu.2005.11.003</li>
         <li>Shaffer, D. W. (2017). <em>Quantitative ethnography</em>. Cathcart Press.</li>
         <li>Shaffer, D. W., Collier, W., &amp; Ruis, A. R. (2016). A tutorial on epistemic network analysis: Analyzing the structure of connections in cognitive, social, and interaction data. <em>Journal of Learning Analytics, 3</em>(3), 9–45. https://doi.org/10.18608/jla.2016.33.3</li>
         <li>Smith, B., &amp; Welty, C. (2001). Ontology: Towards a new synthesis. In <em>Formal Ontology in Information Systems (FOIS 2001)</em>.</li>
@@ -1673,8 +1857,8 @@ RQ-03:  How do these accounts shift
     <footer>
       <p><strong>Author</strong> · Dr. Jewoong Moon · ADDIE Lab · College of Education · The University of Alabama</p>
       <p><strong>Version</strong> 0.1 · 2026-05-07 · drafted for graduate AI researchers entering qualitative methods.</p>
-      <p><strong>Citation source</strong> · Verified literature scan at <code>Desktop/_research/2026-05-07_ontology-vs-coding-scheme.md</code> (28 sources).</p>
-      <p><strong>License</strong> · CC BY 4.0 · cite as: Moon, J. (2026). <em>Ontology and Qualitative Coding Schemes — An Epistemological Bridge</em> (v0.1). ADDIE Lab Methodological Handbook.</p>
+      <p><strong>Citation source</strong> · Verified literature scan at <code>Desktop/_research/2026-05-07_ontology-vs-coding-scheme.md</code> (34 sources).</p>
+      <p><strong>License</strong> · CC BY 4.0 · cite as: Moon, J. (2026). <em>Ontology, Coding, and Epistemological Framing: A Dialectical Onboarding Guide</em> (v0.1). ADDIE Lab Methodological Handbook.</p>
       <p><strong>This is a practical onboarding guide</strong>, not a canonical reference. Foundational sources are cited in §10.</p>
     </footer>
   </main>
