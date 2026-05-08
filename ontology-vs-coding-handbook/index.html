@@ -1805,7 +1805,91 @@ RQ-03:  How do these accounts shift
         <figcaption>Synthesis workflow: define an epistemic scaffold, code uptake and transformation in discourse, then compare frame structures across groups or design conditions.</figcaption>
       </figure>
 
-      <h3>7.2 The backbone-plus-layer pattern: stable objects, local orientations</h3>
+      <h3>7.2 Practical solution: connect epistemic concept coding to an AI Studio chatbot</h3>
+
+      <p>
+        A practical way to use this handbook is to turn the distinction into
+        a chatbot design workflow. The ontology gives the chatbot a stable
+        vocabulary for what it can talk about. Epistemic concept coding gives
+        the research team a way to inspect what students and the chatbot are
+        doing with that vocabulary in actual interaction. The solution is not
+        "let the chatbot code the data." The solution is a
+        human-in-the-loop loop: ontology constrains the chatbot, logs become
+        analyzable data, and coding/memos revise the next prompt and ontology
+        release.
+      </p>
+
+      <figure class="figure">
+        <img src="assets/imagegen-epistemic-coding-ontology-workflow.png" alt="Six-stage workflow connecting transcript data, epistemic coding, ontology backbone, prompt grounding, AI Studio chatbot, and logged interaction feedback." loading="lazy" />
+        <figcaption>Practical application workflow: students' transcript excerpts become epistemic codes; stable objects become the ontology backbone; Google AI Studio or Gemini API prompts use that backbone for grounding; logged chatbot interaction returns to memoing, codebook refinement, and ontology revision.</figcaption>
+      </figure>
+
+      <div class="callout bridge">
+        <div class="label">AI Studio build path</div>
+        <ol>
+          <li><strong>Prepare a small ontology backbone.</strong> Start with
+            8–20 stable epistemic objects: <code>Claim</code>,
+            <code>Evidence</code>, <code>Source</code>,
+            <code>Uncertainty</code>, <code>AI Tool</code>,
+            <code>Verification</code>, <code>Revision</code>, and
+            <code>Warrant</code>. Express them as a simple table, JSON, SKOS,
+            or OWL depending on the system maturity.</li>
+          <li><strong>Create epistemic concept codes.</strong> Code a small
+            pilot corpus for what participants do with those objects:
+            <code>verification practice</code>,
+            <code>uncertainty hedge</code>,
+            <code>confidence repair</code>, <code>tool mediation</code>,
+            or <code>answer outsourcing</code>.</li>
+          <li><strong>Write the AI Studio system instruction.</strong> Tell
+            the chatbot which ontology terms it may use, how to cite source
+            material, and what it must not infer. In the Gemini API, system
+            instructions and structured outputs are official configuration
+            paths; in AI Studio, the same logic can be prototyped as a
+            system prompt and example turns.</li>
+          <li><strong>Ground the chatbot.</strong> For a prototype, paste the
+            ontology table, codebook excerpt, and policy text into the prompt
+            context. For a production version, move toward Gemini File Search,
+            URL Context, or Google Search grounding when the answer needs
+            source-backed retrieval.</li>
+          <li><strong>Log every interaction.</strong> Save user turn, model
+            response, ontology terms invoked, source/citation metadata, and
+            analyst memo fields. If structured output is available, request
+            JSON fields such as <code>ontology_terms</code>,
+            <code>epistemic_codes</code>, <code>uncertainty_flag</code>, and
+            <code>needs_human_review</code>.</li>
+          <li><strong>Revise in two layers.</strong> If the chatbot misuses a
+            stable object, revise the ontology/prompt grounding. If the log
+            reveals a new situated meaning pattern, revise the codebook and
+            memo trail rather than pretending the ontology already covered it.</li>
+        </ol>
+      </div>
+
+      <div class="callout pitfall">
+        <div class="label">Fact-check from current sources</div>
+        <p>
+          This workflow is methodologically defensible only if the ontology,
+          codebook, and chatbot logs remain separate evidence surfaces.
+          Google's Gemini documentation supports <a href="https://ai.google.dev/gemini-api/docs/system-instructions" target="_blank" rel="noopener">system instructions</a>,
+          <a href="https://ai.google.dev/gemini-api/docs/structured-output" target="_blank" rel="noopener">structured JSON outputs</a>,
+          <a href="https://ai.google.dev/gemini-api/docs/file-search" target="_blank" rel="noopener">File Search</a>, <a href="https://ai.google.dev/gemini-api/docs/url-context" target="_blank" rel="noopener">URL Context</a>, and
+          <a href="https://ai.google.dev/gemini-api/docs/google-search" target="_blank" rel="noopener">Google Search grounding</a> as engineering mechanisms. The qualitative
+          literature supports using LLMs as documented assistance, not as
+          unexamined replacement for familiarization, memoing, and reflexive
+          judgment. ENA then becomes appropriate only after the code layer is
+          interpretively warranted.
+        </p>
+      </div>
+
+      <pre><code>SYSTEM INSTRUCTION SKETCH
+You are an AI learning assistant.
+Use only the ontology terms provided below when naming epistemic objects.
+When explaining a student response, separate:
+1. ontology_terms: stable objects such as Claim, Evidence, Source, AI Tool
+2. epistemic_codes: situated actions such as verification practice
+3. framing_note: how the student appears to orient to the knowledge activity
+Do not treat codes as ontology classes. Mark uncertain inferences for human review.</code></pre>
+
+      <h3>7.3 The backbone-plus-layer pattern: stable objects, local orientations</h3>
 
       <p>
         The most useful coexistence pattern in practice is to let the
@@ -1831,7 +1915,7 @@ RQ-03:  How do these accounts shift
         actually said.
       </p>
 
-      <h3>7.3 Computational grounded theory</h3>
+      <h3>7.4 Computational grounded theory</h3>
 
       <p>
         Nelson's (2020) three-step framework — pattern detection by
@@ -1844,7 +1928,7 @@ RQ-03:  How do these accounts shift
         categories.
       </p>
 
-      <h3>7.4 Epistemic Network Analysis as a bridge</h3>
+      <h3>7.5 Epistemic Network Analysis as a bridge</h3>
 
       <p>
         Shaffer's (2017) <em>quantitative ethnography</em> and the ENA
@@ -1858,7 +1942,7 @@ RQ-03:  How do these accounts shift
         network.
       </p>
 
-      <h3>7.5 Epistemic frames as the bridge object</h3>
+      <h3>7.6 Epistemic frames as the bridge object</h3>
 
       <p>
         In education and learning-sciences projects, the most defensible
