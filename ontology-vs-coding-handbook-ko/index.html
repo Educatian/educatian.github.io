@@ -1,13 +1,14 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ko">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>온톨로지와 질적 코딩 스키마 — 연구자를 위한 비교 가이드</title>
-<meta name="description" content="AI 연구자가 형식 온톨로지와 해석적·반성적 질적 코딩 스키마의 차이를 빠르게 이해하도록 돕는 한국어 가이드." />
+<title>온톨로지, 코딩, 인식론적 프레이밍 — 변증법적 온보딩 가이드</title>
+<meta name="description" content="AI 연구자를 위한 형식 온톨로지, 질적 코딩 스키마, 교육학의 인식론적 프레이밍 온보딩 가이드." />
+<meta name="author" content="Jewoong Moon" />
 <meta property="og:type" content="article" />
-<meta property="og:title" content="온톨로지와 질적 코딩 스키마" />
-<meta property="og:description" content="AI 연구자를 위한 온톨로지와 해석적 질적 코딩 스키마 비교 가이드." />
+<meta property="og:title" content="온톨로지, 코딩, 인식론적 프레이밍" />
+<meta property="og:description" content="온톨로지는 공유 대상을 안정화하고, 코딩은 situated meaning-making을 보존하며, 인식론적 프레이밍은 둘을 연결한다." />
 <meta property="og:image" content="https://educatian.github.io/ontology-vs-coding-handbook/thumbnails/hero_og_1200x630.png" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
@@ -15,461 +16,581 @@
 <meta name="twitter:image" content="https://educatian.github.io/ontology-vs-coding-handbook/thumbnails/hero_og_1200x630.png" />
 <style>
   :root {
-    --sans: "Inter", "Noto Sans KR", "Malgun Gothic", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
-    --serif: "Noto Serif KR", "Source Serif Pro", Georgia, serif;
-    --ink: #1a1a1a;
-    --muted: #5f5f5f;
-    --paper: #fbfaf6;
-    --panel: #ffffff;
-    --side: #f4f1ea;
-    --rule: #d9d6cf;
-    --blue: #1d4e89;
-    --red: #b91c1c;
-    --amber: #92400e;
+    --serif: "Source Serif Pro", "Source Serif 4", "Crimson Pro", Georgia, "Times New Roman", serif;
+    --sans:  "Inter", system-ui, -apple-system, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    --mono:  "JetBrains Mono", "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+    --ink:        #1a1a1a;
+    --ink-soft:   #424242;
+    --ink-mute:   #6b6b6b;
+    --rule:       #d9d6cf;
+    --rule-soft:  #ece8df;
+    --paper:      #fbfaf6;
+    --paper-card: #ffffff;
+    --side:       #f4f1ea;
+    --link:       #1d4e89;
+    --link-hover: #d62828;
+    --pitfall:    #b91c1c;
+    --pitfall-bg: #fef2f2;
+    --bridge:     #1e40af;
+    --bridge-bg:  #eff6ff;
+    --controv:    #92400e;
+    --controv-bg: #fffbeb;
+    --code-bg:    #f6f3ec;
   }
   * { box-sizing: border-box; }
-  html { scroll-behavior: smooth; scroll-padding-top: 1em; }
+  html { scroll-behavior: smooth; scroll-padding-top: 1.2em; }
   body {
     margin: 0;
     background: var(--paper);
     color: var(--ink);
     font-family: var(--serif);
     font-size: 18px;
-    line-height: 1.75;
-    word-break: keep-all;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
   }
-  a { color: var(--blue); text-decoration: none; border-bottom: 1px solid rgba(29,78,137,.35); }
-  .lang-toggle {
-    position: fixed;
-    top: 18px;
-    right: 18px;
-    z-index: 10;
-    font-family: var(--sans);
-    font-size: 12px;
-    font-weight: 800;
-    letter-spacing: .04em;
-    color: var(--ink);
-    background: rgba(255,255,255,.95);
-    border: 1px solid var(--rule);
-    border-radius: 999px;
-    padding: .55em .9em;
-    box-shadow: 0 8px 24px rgba(0,0,0,.06);
+  a { color: var(--link); text-decoration: none; border-bottom: 1px solid rgba(29, 78, 137, 0.3); }
+  a:hover { color: var(--link-hover); border-bottom-color: var(--link-hover); }
+  code, pre, kbd { font-family: var(--mono); }
+  code { font-size: 0.92em; background: var(--code-bg); padding: 0.05em 0.35em; border-radius: 3px; }
+  pre {
+    background: var(--code-bg); border: 1px solid var(--rule-soft);
+    border-radius: 6px; padding: 1em 1.2em; overflow-x: auto;
+    font-size: 0.86em; line-height: 1.55; margin: 0.6em 0;
   }
-  .lang-toggle a { border-bottom: none; }
+  pre code { background: transparent; padding: 0; font-size: inherit; }
+  blockquote {
+    margin: 1.5em 0; padding: 0.4em 1.4em; border-left: 3px solid var(--rule);
+    color: var(--ink-soft); font-style: italic;
+  }
+  hr { border: 0; border-top: 1px solid var(--rule); margin: 2.5em 0; }
+
+  /* Layout */
   .layout {
     display: grid;
     grid-template-columns: 280px minmax(0, 1fr);
     width: 100%;
     max-width: 1240px;
     margin: 0 auto;
+    gap: 0;
   }
-  aside {
-    position: sticky;
-    top: 0;
-    height: 100vh;
-    overflow-y: auto;
+  aside.toc {
+    position: sticky; top: 0; align-self: start;
+    height: 100vh; overflow-y: auto;
     background: var(--side);
     border-right: 1px solid var(--rule);
     padding: 2em 1.6em 2em 2em;
     font-family: var(--sans);
     font-size: 14px;
-    line-height: 1.5;
-  }
-  aside h2 {
-    margin: 0 0 .7em;
-    color: var(--muted);
-    font-size: 11px;
-    letter-spacing: .12em;
-    text-transform: uppercase;
-  }
-  aside ol { list-style: none; margin: 0; padding: 0; counter-reset: toc; }
-  aside li { counter-increment: toc; margin: .35em 0; }
-  aside a {
-    display: block;
-    color: #3f3f3f;
-    border-bottom: none;
-    padding: .25em .5em;
-    border-left: 2px solid transparent;
-  }
-  aside a::before { content: counter(toc) ". "; color: var(--muted); }
-  aside a:hover, aside a.active { background: rgba(29,78,137,.08); color: var(--blue); border-left-color: var(--blue); }
-  aside .meta { margin-top: 1.6em; padding-top: 1em; border-top: 1px solid var(--rule); color: var(--muted); font-size: 12px; }
-  main {
-    width: 100%;
-    max-width: 840px;
+    line-height: 1.45;
     min-width: 0;
-    padding: 3em 4em 4em;
   }
-  header {
+  aside.toc h2 {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--ink-mute);
+    margin: 0 0 0.6em 0;
+  }
+  aside.toc nav ol { list-style: none; padding: 0; margin: 0; counter-reset: tocsec; }
+  aside.toc nav li { margin: 0.35em 0; counter-increment: tocsec; }
+  aside.toc nav a {
+    display: block; color: var(--ink-soft); border-bottom: none;
+    padding: 0.25em 0.5em; border-left: 2px solid transparent;
+    border-radius: 0 3px 3px 0; transition: all 0.15s ease;
+  }
+  aside.toc nav a::before { content: counter(tocsec) ". "; color: var(--ink-mute); font-variant-numeric: tabular-nums; }
+  aside.toc nav a:hover { background: rgba(29,78,137,0.08); color: var(--link); }
+  aside.toc nav a.active {
+    color: var(--ink); background: rgba(29,78,137,0.1);
+    border-left-color: var(--link); font-weight: 600;
+  }
+  aside.toc .meta { margin-top: 1.6em; padding-top: 1em; border-top: 1px solid var(--rule); color: var(--ink-mute); font-size: 12px; }
+  aside.toc .meta p { margin: 0.4em 0; }
+
+  main {
+    padding: 3em 4em 4em 4em;
+    max-width: 820px;
+    width: 100%;
+    min-width: 0;
+  }
+
+  /* Hero */
+  header.hero {
     border-bottom: 1px solid var(--rule);
-    padding-bottom: 1.8em;
-    margin-bottom: 2.4em;
+    padding-bottom: 1.8em; margin-bottom: 2.4em;
   }
-  .kicker {
+  header.hero .kicker {
+    font-family: var(--sans); font-size: 12px; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--ink-mute); margin-bottom: 0.6em;
+  }
+  header.hero h1 {
     font-family: var(--sans);
-    font-size: 12px;
-    font-weight: 800;
-    letter-spacing: .14em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin: 1em 0 .6em;
+    font-size: 2.4em; line-height: 1.15; font-weight: 700;
+    margin: 0 0 0.4em 0; letter-spacing: -0.01em; color: var(--ink);
   }
-  h1 {
-    margin: 0 0 .45em;
+  header.hero .subtitle {
+    font-size: 1.15em; color: var(--ink-soft); margin: 0.4em 0 0 0; font-style: italic;
+  }
+  header.hero .byline {
+    font-family: var(--sans); font-size: 13px; color: var(--ink-mute);
+    margin-top: 1.4em; display: flex; gap: 1.2em; flex-wrap: wrap;
+  }
+  header.hero .byline span { display: inline-flex; gap: 0.4em; align-items: center; }
+  .lang-toggle {
+    position: fixed; top: 18px; right: 18px; z-index: 10;
+    font-family: var(--sans); font-size: 12px; font-weight: 700;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    color: var(--ink); background: rgba(255,255,255,0.94);
+    border: 1px solid var(--rule); border-radius: 999px;
+    padding: 0.55em 0.9em; box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+  }
+  .lang-toggle a { border-bottom: none; color: var(--link); }
+
+  /* Sections */
+  section {
+    margin: 3em 0; scroll-margin-top: 1.5em;
+  }
+  section h2 {
     font-family: var(--sans);
-    font-size: 2.25em;
-    line-height: 1.22;
-    letter-spacing: 0;
+    font-size: 1.6em; line-height: 1.25; font-weight: 700;
+    margin: 0 0 0.2em 0; color: var(--ink);
+    border-bottom: 2px solid var(--ink); padding-bottom: 0.35em;
+    display: flex; align-items: baseline; justify-content: space-between;
+    flex-wrap: wrap; gap: 0.6em;
   }
-  .subtitle { margin: 0; color: #424242; font-size: 1.08em; }
-  .byline {
-    margin-top: 1.4em;
-    color: var(--muted);
+  section h2 .num {
+    font-family: var(--sans); font-size: 0.55em; font-weight: 600;
+    color: var(--ink-mute); margin-right: 0.6em; letter-spacing: 0.04em;
+  }
+  section h2 .reading {
+    font-family: var(--sans); font-size: 11px; font-weight: 500;
+    background: var(--rule-soft); color: var(--ink-mute);
+    padding: 0.25em 0.7em; border-radius: 12px; letter-spacing: 0.05em;
+    text-transform: uppercase; white-space: nowrap;
+  }
+  section h2 .ko {
+    display: block; width: 100%; font-size: 0.62em; color: var(--ink-mute);
+    font-weight: 500; margin-top: 0.2em; letter-spacing: -0.005em;
+  }
+  section h3 {
     font-family: var(--sans);
-    font-size: 13px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1.1em;
+    font-size: 1.15em; font-weight: 600;
+    margin: 1.6em 0 0.4em 0; color: var(--ink);
   }
-  section { margin: 3em 0; }
-  h2 {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: .8em;
-    margin: 0 0 .8em;
-    padding-bottom: .35em;
-    border-bottom: 2px solid var(--ink);
-    font-family: var(--sans);
-    font-size: 1.45em;
-    line-height: 1.35;
-  }
-  h2 .num { color: var(--muted); font-size: .62em; margin-right: .55em; }
-  h2 .tag { color: var(--muted); background: #ece8df; border-radius: 999px; padding: .25em .65em; font-size: 11px; white-space: nowrap; }
-  h3 { margin: 1.4em 0 .35em; font-family: var(--sans); font-size: 1.08em; }
-  p { margin: .72em 0; }
-  ul, ol { padding-left: 1.35em; margin: .65em 0; }
-  li { margin: .35em 0; }
-  code { background: #f6f3ec; border-radius: 3px; padding: .05em .32em; font-family: Consolas, monospace; font-size: .92em; }
-  figure { margin: 1.8em 0; text-align: center; }
-  figure img {
-    display: block;
-    width: 100%;
-    height: auto;
+  section p { margin: 0.7em 0; }
+  section ul, section ol { padding-left: 1.4em; margin: 0.6em 0; }
+  section ul li, section ol li { margin: 0.35em 0; }
+
+  /* Comparison tables */
+  table.compare {
+    width: 100%; border-collapse: collapse;
+    margin: 1.4em 0; font-size: 0.95em;
+    background: var(--paper-card);
     border: 1px solid var(--rule);
-    border-radius: 6px;
-    background: var(--panel);
   }
-  figcaption {
-    max-width: 92%;
-    margin: .65em auto 0;
-    color: var(--muted);
-    font-family: var(--sans);
-    font-size: 13px;
-    line-height: 1.55;
+  table.compare th, table.compare td {
+    text-align: left; vertical-align: top; padding: 0.85em 1em;
+    border-bottom: 1px solid var(--rule-soft);
   }
+  table.compare thead th {
+    background: var(--side); font-family: var(--sans);
+    font-size: 0.85em; letter-spacing: 0.05em;
+    text-transform: uppercase; font-weight: 700; color: var(--ink);
+    border-bottom: 2px solid var(--rule);
+  }
+  table.compare th:first-child {
+    width: 22%; font-family: var(--sans); font-size: 0.85em;
+    background: var(--side);
+  }
+  table.compare tbody th {
+    font-weight: 600; color: var(--ink); font-size: 0.85em;
+  }
+  table.compare td.ont { background: rgba(30,64,175,0.03); }
+  table.compare td.qual { background: rgba(146,64,14,0.03); }
+
+  /* Side-by-side code */
+  .twocol {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 1em; margin: 1.4em 0;
+  }
+  .twocol > div { display: flex; flex-direction: column; }
+  .twocol .label {
+    font-family: var(--sans); font-size: 11px; font-weight: 700;
+    letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-mute);
+    margin-bottom: 0.3em;
+  }
+  .twocol pre { margin: 0; flex: 1; }
+
+  /* Callouts */
   .callout {
-    margin: 1.35em 0;
-    padding: 1em 1.25em;
-    border-left: 4px solid var(--blue);
-    background: #eff6ff;
-    border-radius: 0 6px 6px 0;
+    border-left: 4px solid; padding: 1em 1.3em;
+    margin: 1.4em 0; border-radius: 0 5px 5px 0;
+    font-size: 0.97em;
   }
-  .callout.warn { border-left-color: var(--red); background: #fef2f2; }
-  .callout.note { border-left-color: var(--amber); background: #fffbeb; }
-  .callout strong {
-    display: block;
-    margin-bottom: .3em;
-    font-family: var(--sans);
-    font-size: 12px;
-    letter-spacing: .1em;
-    text-transform: uppercase;
+  .callout .label {
+    font-family: var(--sans); font-size: 11px; font-weight: 700;
+    letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 0.3em;
+    display: flex; align-items: center; gap: 0.4em;
   }
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 1.3em 0;
-    background: var(--panel);
-    border: 1px solid var(--rule);
-    font-size: .95em;
+  .callout .label::before { font-size: 1em; }
+  .callout p { margin: 0.4em 0; }
+  .callout p:last-child { margin-bottom: 0; }
+  .callout.pitfall    { border-color: var(--pitfall);  background: var(--pitfall-bg);  color: var(--ink); }
+  .callout.pitfall .label    { color: var(--pitfall); }
+  .callout.pitfall .label::before { content: "⚠"; }
+  .callout.bridge     { border-color: var(--bridge);   background: var(--bridge-bg);   color: var(--ink); }
+  .callout.bridge .label     { color: var(--bridge); }
+  .callout.bridge .label::before { content: "⇆"; }
+  .callout.controversy{ border-color: var(--controv);  background: var(--controv-bg);  color: var(--ink); }
+  .callout.controversy .label{ color: var(--controv); }
+  .callout.controversy .label::before { content: "⌬"; }
+
+  /* Decision tree SVG */
+  .decision-tree {
+    margin: 2em 0; padding: 1.4em; background: var(--paper-card);
+    border: 1px solid var(--rule); border-radius: 6px; overflow-x: auto;
   }
-  th, td { text-align: left; vertical-align: top; padding: .8em .9em; border-bottom: 1px solid #ece8df; }
-  th { background: var(--side); font-family: var(--sans); font-size: .88em; }
+  .decision-tree svg { display: block; max-width: 100%; height: auto; }
+
+  /* Glossary */
+  dl.glossary { margin: 1em 0; }
+  dl.glossary dt {
+    font-family: var(--sans); font-weight: 700; color: var(--ink);
+    margin-top: 0.9em; font-size: 0.97em;
+  }
+  dl.glossary dd { margin: 0.2em 0 0 0; padding-left: 0; color: var(--ink-soft); }
+
+  /* References */
+  ol.refs { padding-left: 1.6em; font-size: 0.93em; line-height: 1.5; }
+  ol.refs li { margin: 0.5em 0; padding-left: 0.2em; }
+  ol.refs li::marker { color: var(--ink-mute); font-family: var(--sans); }
+
+  /* Footer */
+  footer {
+    margin-top: 4em; padding: 2em 0 3em 0;
+    border-top: 1px solid var(--rule);
+    font-family: var(--sans); font-size: 13px; color: var(--ink-mute);
+    line-height: 1.6;
+  }
+  footer p { margin: 0.3em 0; }
+
+  /* Numbered misconceptions */
+  ol.misconceptions {
+    list-style: none; padding-left: 0; counter-reset: mis;
+  }
+  ol.misconceptions > li {
+    counter-increment: mis; position: relative;
+    padding-left: 3em; margin: 1.4em 0; min-height: 2em;
+  }
+  ol.misconceptions > li::before {
+    content: counter(mis, decimal-leading-zero);
+    position: absolute; left: 0; top: 0;
+    font-family: var(--sans); font-size: 1.4em; font-weight: 800;
+    color: var(--pitfall); width: 2.2em; line-height: 1;
+  }
+  ol.misconceptions h3 { margin: 0 0 0.3em 0; font-size: 1.05em; }
+
+  /* Worked example wrappers */
   .case {
-    margin: 1.3em 0;
-    padding: 1.35em 1.5em;
-    background: var(--panel);
-    border: 1px solid var(--rule);
-    border-radius: 6px;
+    background: var(--paper-card); border: 1px solid var(--rule);
+    border-radius: 6px; padding: 1.4em 1.6em; margin: 1.4em 0;
   }
   .case h3 { margin-top: 0; }
-  .case-label {
-    display: inline-block;
-    margin-bottom: .5em;
-    padding: .2em .6em;
-    background: #ece8df;
-    color: #424242;
-    border-radius: 3px;
-    font-family: var(--sans);
-    font-size: 11px;
-    font-weight: 800;
-    letter-spacing: .09em;
-    text-transform: uppercase;
+  .case .case-tag {
+    display: inline-block; font-family: var(--sans); font-size: 11px;
+    font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 0.2em 0.6em; border-radius: 3px;
+    background: var(--rule-soft); color: var(--ink-soft);
+    margin-bottom: 0.4em;
   }
-  footer {
-    margin-top: 4em;
-    padding: 2em 0 3em;
-    border-top: 1px solid var(--rule);
-    color: var(--muted);
+
+  figure.figure {
+    margin: 1.8em 0;
+    padding: 0;
+    display: block;
+    text-align: center;
+  }
+  figure.figure img {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    background: var(--paper-card);
+  }
+  figure.figure.hero img {
+    max-width: 100%;
+    border-radius: 6px;
+    margin-top: 0.4em;
+  }
+  figure.figure figcaption {
     font-family: var(--sans);
     font-size: 13px;
+    color: var(--ink-mute);
+    margin-top: 0.6em;
+    font-style: italic;
+    line-height: 1.5;
+    max-width: 90%;
+    margin-left: auto;
+    margin-right: auto;
   }
+
+  /* Mobile */
   @media (max-width: 900px) {
     html, body { max-width: 100%; overflow-x: hidden; }
+    .layout { display: block; max-width: 100%; width: 100%; }
+    aside.toc {
+      position: static; height: auto; max-height: none;
+      border-right: none; border-bottom: 1px solid var(--rule);
+      padding: 1.4em 1.6em;
+    }
+    main { display: block; box-sizing: border-box; width: 100%; max-width: 100%; margin: 0; padding: 2em 1.1em 3em 1.1em; }
+    .twocol { grid-template-columns: 1fr; }
+    header.hero h1 { font-size: 1.6em; line-height: 1.2; overflow-wrap: anywhere; }
+    header.hero .subtitle { display: block; max-width: min(32ch, calc(100vw - 3.2em)); font-size: 0.82em; line-height: 1.55; }
+    header.hero .subtitle, header.hero .byline, p, li { overflow-wrap: anywhere; word-break: break-word; }
+    header.hero .byline { display: block; }
+    header.hero .byline span { display: block; margin-top: 0.35em; }
     .lang-toggle { position: static; display: inline-block; margin: 1em 1.4em 0; }
-    .layout { display: block; width: 100%; max-width: 100%; }
-    aside { position: static; height: auto; border-right: none; border-bottom: 1px solid var(--rule); padding: 1.4em 1.6em; }
-    main { width: auto; max-width: 100vw; padding: 2em 1.1em 3em; }
-    h1 { font-size: 1.65em; }
-    h2 { display: block; font-size: 1.25em; }
-    h2 .tag { display: inline-block; margin-top: .45em; }
-    .byline { display: block; }
-    .byline span { display: block; margin-top: .35em; }
-    table { font-size: .86em; }
-    th, td { padding: .65em; }
-    p, li, figcaption { overflow-wrap: anywhere; }
+    figure.figure { box-sizing: border-box; width: calc(100vw - 3.2em); max-width: calc(100vw - 3.2em); margin-left: auto; margin-right: auto; overflow: hidden; }
+    figure.figure img { display: block; width: calc(100vw - 3.2em); max-width: calc(100vw - 3.2em); object-fit: contain; }
+    figure.figure.hero { width: 64vw; max-width: 64vw; }
+    figure.figure.hero img { width: 64vw !important; max-width: 64vw !important; }
+  }
+  @media print {
+    aside.toc { display: none; }
+    .layout { grid-template-columns: 1fr; }
+    main { padding: 0; max-width: none; }
+    a { color: inherit; }
   }
 </style>
 </head>
 <body>
-<div class="lang-toggle"><a href="../ontology-vs-coding-handbook/index.html">EN</a> · 한국어</div>
+<div class="lang-toggle"><a href="../ontology-vs-coding-handbook/index.html">English</a> · Korean</div>
 <div class="layout">
-  <aside aria-label="목차">
-    <h2>Contents</h2>
+
+  <aside class="toc" aria-label="목차">
+    <h2>목차</h2>
     <nav>
       <ol>
-        <li><a href="#s1">왜 필요한가</a></li>
-        <li><a href="#s2">두 개념의 정의</a></li>
-        <li><a href="#s3">공통점</a></li>
-        <li><a href="#s4">결정적 차이</a></li>
-        <li><a href="#s5">운영 방식 차이</a></li>
-        <li><a href="#s6">흔한 오해</a></li>
-        <li><a href="#s7">섞는 방법</a></li>
-        <li><a href="#s8">연구 설계 체크리스트</a></li>
-        <li><a href="#s9">세 가지 예시</a></li>
-        <li><a href="#s10">핵심 용어와 참고문헌</a></li>
+        <li><a href="#s1">한 페이지로 보는 변증법</a></li>
+        <li><a href="#s2">두 개념의 정직한 정의</a></li>
+        <li><a href="#s3">공통 DNA</a></li>
+        <li><a href="#s4">반명제: situated meaning-making</a></li>
+        <li><a href="#s5">운영 방식의 차이</a></li>
+        <li><a href="#s6">여섯 가지 오해</a></li>
+        <li><a href="#s7">종합: 인식론적 프레이밍</a></li>
+        <li><a href="#s8">공존 설계 체크리스트</a></li>
+        <li><a href="#s9">세 가지 변증법적 사례</a></li>
+        <li><a href="#s10">용어집과 참고문헌</a></li>
       </ol>
     </nav>
     <div class="meta">
-      <p><strong>읽는 시간</strong> 약 15분</p>
-      <p><strong>대상</strong> 대학원 AI 연구자</p>
+      <p><strong>읽는 시간</strong> 약 35분</p>
+      <p><strong>대상</strong> 대학원 수준 AI 연구자</p>
       <p><strong>버전</strong> 0.1 · 2026-05-07</p>
     </div>
   </aside>
 
   <main>
-    <header>
-      <figure>
-        <img src="../ontology-vs-coding-handbook/assets/imagegen-hero-bridge.png" alt="파란색 형식 온톨로지 구조와 주황색 질적 코딩 작업공간이 다리로 연결된 개념 이미지" />
-        <figcaption>온톨로지와 질적 코딩 스키마는 둘 다 의미를 정리하지만, 서로 다른 층위에서 작동한다.</figcaption>
+    <header class="hero">
+      <figure class="figure hero">
+        <img src="../ontology-vs-coding-handbook/assets/imagegen-dialectic-synthesis.png" alt="온톨로지, 코딩, 인식론적 프레이밍이 안정된 대상, situated coding, 학습자 프레이밍의 연결된 층위로 제시된 그림" />
+        <figcaption>온톨로지, 코딩, 프레이밍: 안정된 대상, situated meaning-making, 그리고 그 둘을 잇는 교육학적 다리.</figcaption>
       </figure>
-      <p class="kicker">ADDIE Lab Methodological Handbook · 한국어판</p>
-      <h1>온톨로지와 질적 코딩 스키마</h1>
-      <p class="subtitle">지식그래프에는 익숙하지만 해석적·반성적 질적 연구 방법은 처음 접하는 AI 연구자를 위한 짧은 비교 가이드.</p>
+      <p class="kicker">ADDIE Lab Methodological Handbook · v0.1</p>
+      <h1>온톨로지, 코딩, 인식론적 프레이밍</h1>
+      <p class="subtitle">
+        지식그래프에는 익숙하지만 해석적·반성적 질적 방법과 교육학의 인식론적 프레이밍은 처음 접하는 대학원 AI 연구자를 위한 실전 온보딩 가이드.
+      </p>
       <div class="byline">
         <span>Dr. Jewoong Moon · ADDIE Lab</span>
-        <span>The University of Alabama</span>
+        <span>University of Alabama</span>
         <span>2026-05-07</span>
       </div>
     </header>
 
     <section id="s1">
-      <h2><span><span class="num">§1</span>왜 이 가이드가 필요한가</span><span class="tag">핵심 문제</span></h2>
-      <p>AI 연구자는 질적 코딩을 처음 볼 때 종종 “라벨링 문제”로 이해한다. 코드북을 만들고, 사람이든 모델이든 라벨을 붙이고, 일치도를 계산하면 된다고 생각하기 쉽다.</p>
-      <p>하지만 질적 코딩 스키마는 고정된 태그 목록이 아니다. 자료를 읽고, 비교하고, 메모하고, 해석을 조정하면서 연구자의 판단이 축적되는 분석 도구다. 높은 Cohen’s κ가 항상 좋은 질적 분석을 뜻하지 않는 이유가 여기에 있다.</p>
-      <div class="callout">
-        <strong>용어 정리</strong>
-        <p>이 가이드는 방법 이름을 “인식론적 코딩”으로 바꾸지 않는다. 표준 용어는 여전히 <strong>질적 코딩</strong>이다. 다만 여기서 말하는 질적 코딩은 단순 라벨링이 아니라, 해석적 판단·반성적 기록·의미에 대한 근거 있는 주장이라는 인식론적 전제를 가진 분석 실천이다.</p>
-      </div>
-      <div class="callout warn">
-        <strong>주의</strong>
-        <p>질적 코딩을 단순 annotation으로 바꾸면 가장 중요한 부분이 사라진다. 즉, 연구자가 자료와 오래 씨름하면서 의미를 구성하는 과정이 보이지 않게 된다.</p>
-      </div>
+      <h2><span><span class="num">§1</span>한 페이지로 보는 변증법</span><span class="reading">약 3분</span></h2>
+      <p>이 가이드는 변증법 구조로 읽어야 한다. <strong>명제(thesis)</strong>는 온톨로지가 공유 대상을 안정화한다는 것이다. 한 연구 공동체가 claim, evidence, source, model, concept, relation, class가 무엇인지 합의하면, 그 대상들은 도구와 데이터셋과 연구를 넘어 이동할 수 있다. <strong>반명제(antithesis)</strong>는 질적 코딩이 situated meaning-making을 보존한다는 것이다. 같은 발화라도 누가, 어디서, 무엇에 응답하여, 어떤 연구 질문 아래 말했는지에 따라 전혀 다른 분석적 일을 할 수 있다. <strong>종합(synthesis)</strong>은 인식론적 프레이밍이다. 참여자는 지식 실천을 국소적으로 일관된 방식으로 프레임하며, 온톨로지와 코딩은 각자 맡은 일을 정확히 할 때 공존할 수 있다.</p>
+      <div class="callout bridge"><div class="label">10분 스킴 경로</div><p>10분만 있다면 §§1, 5, 6, 8을 먼저 읽는다. 20분이 있다면 §§2와 7을 더한다. 수업에서 사용할 때는 전체 35분 읽기를 과제로 내기 전에 <a href="one-page-comparison.html">1페이지 비교 핸드아웃</a>으로 먼저 열어준다.</p></div>
+      <div class="callout controversy"><div class="label">러닝 예시</div><p>학생이 이렇게 말했다고 하자. “ChatGPT가 생각하는 데 도움을 줬지만, 지어낼 수도 있어서 답은 다시 확인했어요.” 같은 문장도 어떤 분석 artifact로 보느냐에 따라 달라진다.</p><table class="compare"><thead><tr><th>렌즈</th><th>무엇을 보는가</th><th>어떤 주장을 지지하는가</th></tr></thead><tbody><tr><th>온톨로지</th><td class="ont"><code>AI tool</code>, <code>student</code>, <code>claim</code>, <code>verification</code>, <code>uncertainty</code> 같은 재사용 가능한 object와 <code>checksAgainst</code> 같은 relation을 본다.</td><td class="ont">이 domain에는 연구를 넘어 표현할 수 있는 object와 relation이 있다.</td></tr><tr><th>코딩 스키마</th><td class="qual"><code>AI-trust-hedge</code>, <code>verification practice</code>, <code>responsible-student identity work</code> 같은 code, 포함/제외 기준, excerpt를 본다.</td><td class="qual">이 corpus에서 학생들은 AI 도움을 말하면서도 verification talk로 신뢰를 제한한다.</td></tr><tr><th>인식론적 프레이밍</th><td>학생이 활동을 어떻게 frame하는지 본다. 답을 outsource하는 것이 아니라 uncertainty 아래에서 sensemaking-with-verification을 수행한다.</td><td>학생은 AI를 unquestioned authority가 아니라 provisional epistemic partner로 orient한다.</td></tr></tbody></table></div>
+      <figure class="figure"><img src="../ontology-vs-coding-handbook/assets/imagegen-thesis-antithesis-synthesis.png" alt="온톨로지, 코딩, 인식론적 프레이밍을 thesis, antithesis, synthesis로 연결한 세 패널 그림" loading="lazy" /><figcaption>독자의 경로: 온톨로지는 공유 가능한 epistemic object를 안정화하고, 코딩은 situated interpretation을 보존하며, 인식론적 프레이밍은 참여자가 지식 실천에 어떻게 orient하는지 설명한다.</figcaption></figure>
+      <p>대부분의 AI 연구자는 질적 코딩을 처음 만날 때 이렇게 접근한다. 협업자가 인터뷰 전사본을 건네며 “코드가 필요하다”고 말한다. 그러면 가장 익숙한 은유인 annotation을 떠올린다. 라벨 집합을 고정하고, 모델이나 동료에게 적용하게 하고, agreement를 계산한다. 끝난 것처럼 보인다.</p>
+      <p>하지만 이 이동은 연구 실천을 labeling task로 납작하게 만든다. 코딩 스키마는 데이터에 적용되는 고정 스키마가 아니다. 분석이 진행되며 <em>변하는</em> 도구이고, 연구자 판단을 noise가 아니라 feature로 기록하며, annotation 문헌이 측정하지 않는 상호주관적 근거 위에서 설득력을 얻거나 잃는다(Charmaz, 2014; Braun &amp; Clarke, 2019; Saldaña, 2021). AI 연구자가 코딩을 annotation으로 취급하면 frozen taxonomy 위의 높은 κ라는 잘못된 성공 기준을 가져오고, 질적 연구를 warranted하게 만드는 핵심 절차를 놓친다.</p>
+      <div class="callout bridge"><div class="label">온보딩 지도</div><p>§§2–3은 명제로 읽는다. 온톨로지와 코딩은 표면적으로 비슷해서 혼동되지만, 온톨로지의 특수한 기여는 공유 대상을 안정화하는 것이다. §§4–6은 반명제로 읽는다. 코딩의 특수한 기여는 의미가 situated, reflexive, context-bound하다는 점을 보존하는 것이다. §§7–9는 종합으로 읽는다. 인식론적 프레이밍을 통해 안정된 대상과 situated orientation을 함께 분석할 수 있다.</p></div>
+      <div class="callout bridge"><div class="label">용어 주의</div><p>이 가이드는 방법 이름을 “인식론적 코딩”으로 바꾸지 않는다. 표준 umbrella term은 여전히 <strong>질적 코딩</strong>이다. 인식론적 쟁점은 코딩 뒤에 있는 commitment, 즉 단순 라벨 부여가 아니라 해석적 판단, 반성적 문서화, 의미에 대한 warranted claim이다.</p></div>
+      <p>최근 LLM을 thematic analysis에 쓰려는 시도는 이 간극을 선명하게 드러냈다. Xiao, Yuan, Liao, Abdelghani, Oudeyer(2023)는 GPT-3가 고정 codebook에 대한 <em>deductive</em> coding을 수행할 수 있음을 보였지만, 그 주장을 조심스럽게 제한했다. De Paoli(2024)는 GPT-3.5-Turbo로 inductive thematic analysis 전체를 수행한 뒤, 그 결과를 provocation으로 읽었다. LLM은 Braun-and-Clarke 단계처럼 보이는 산출물을 냈지만 familiarization과 interpretive engagement는 여전히 방법론적 쟁점으로 남았다. Christou(2024), Naeem, Smith, Thomas(2025), Schroeder et al.(2025)도 같은 경고를 확장한다. 문제는 LLM이 label을 못 붙인다는 것이 아니다. 자동화가 qualitative warrant가 실제로 사는 자리, 즉 연구자가 데이터와 보내는 시간을 hollow out할 수 있다는 점이다.</p>
+      <p>반대 방향의 혼동도 흔하다. 질적 연구자가 완성된 codebook을 domain ontology처럼 취급하고 machine-readable infrastructure로 출판하려는 경우다. 대개는 그렇지 않다. codebook은 특정 corpus에 맞춰져 있고, 분석자의 evolving category를 담으며, 형식 논리와는 다른 trustworthiness 절차(credibility, transferability, dependability, confirmability; Lincoln &amp; Guba, 1985)에 기대고 있다.</p>
+      <p>따라서 이 핸드북의 목적은 두 오류를 모두 피하는 것이다. <strong>형식 온톨로지</strong>와 <strong>해석적 질적 코딩 스키마</strong>를 의미를 조직하는 서로 다른 방식으로 다루되, 둘이 meaning stack의 다른 층위에서 작동한다고 본다. 온톨로지는 “어떤 대상과 관계를 공유 가능할 만큼 안정화할 것인가?”에 답한다. 코딩은 “이 corpus, 이 질문, 이 맥락에서 사람들이 어떻게 의미를 만들고 있는가?”에 답한다. 인식론적 프레이밍은 다리 질문, 즉 “참여자는 knowing, evidencing, doubting, explaining, acting이라는 실천에 어떻게 orient하고 있는가?”에 답한다.</p>
+      <div class="callout pitfall"><div class="label">흔한 함정</div><p>코딩 스키마를 frozen label set으로 취급하고 inter-rater κ만 보고하는 것은 지식그래프 프로젝트를 triple 수로 평가하는 것과 같다. 작업이 좋은지에 대해서는 거의 아무것도 말해주지 않는다.</p></div>
     </section>
 
     <section id="s2">
-      <h2><span><span class="num">§2</span>두 개념의 정의</span><span class="tag">기본 구분</span></h2>
-      <h3>온톨로지</h3>
-      <p>AI와 지식공학에서 온톨로지는 특정 영역의 개념, 관계, 제약을 명시적으로 표현한 형식 구조다. OWL, RDF, SKOS 같은 언어를 통해 기계가 읽고 추론할 수 있게 만든다.</p>
-      <h3>질적 코딩 스키마</h3>
-      <p>질적 코딩 스키마는 인터뷰, 관찰노트, 문서, 토론글 같은 자료를 해석하기 위해 만든 코드와 범주의 체계다. 분석이 진행되면서 코드가 생기고, 합쳐지고, 이름이 바뀌며, 연구자의 메모와 판단이 함께 남는다. 그래서 코드북은 단순 분류표가 아니라, 자료에서 해석으로 이동한 과정을 문서화한 흔적이다.</p>
-      <table>
-        <thead>
-          <tr><th>질문</th><th>온톨로지</th><th>질적 코딩 스키마</th></tr>
-        </thead>
-        <tbody>
-          <tr><th>목적</th><td>공유 가능한 지식 구조 만들기</td><td>자료에서 의미와 패턴을 해석하고 근거화하기</td></tr>
-          <tr><th>형식</th><td>클래스, 속성, 공리, 계층</td><td>코드, 범주, 주제, 메모</td></tr>
-          <tr><th>성공 기준</th><td>일관성, 추론 가능성, 재사용성</td><td>신뢰가능성, 해석의 설득력, 반성성</td></tr>
-        </tbody>
-      </table>
+      <h2><span><span class="num">§2</span>두 개념의 정직한 정의</span><span class="reading">약 5분</span></h2>
+      <h3>2.1 AI 연구자가 말하는 온톨로지</h3>
+      <p>Gruber(1993)의 유명한 정의는 “ontology is an explicit specification of a conceptualization”이다. 몇 년 뒤 Studer, Benjamins, Fensel(1998)은 이를 “a <em>formal, explicit specification of a shared conceptualization</em>”으로 다듬었다. 추가된 수식어가 중요하다. <em>Formal</em>은 기계가 해석할 수 있고 추론을 지원한다는 뜻이다. <em>Explicit</em>은 type과 constraint가 암묵적으로 남아 있지 않고 문서화되어 있다는 뜻이다. <em>Shared</em>는 온톨로지가 개인의 private model이 아니라 공동체의 합의된 infrastructure라는 뜻이다.</p>
+      <p>Guarino(1998)는 철학 분과로서의 Ontology, 즉 무엇이 존재하는가를 연구하는 학문과, 정보과학자가 만드는 artifact인 ontology를 구분한다. Smith와 Welty(2001)는 둘을 연결하며, 정교한 ontology engineering은 철학에서 발전한 meta-property 분석, 예컨대 rigidity, identity, unity, OntoClean 전통에서 이익을 얻는다고 주장한다.</p>
+      <p>운영적으로 온톨로지는 두 부분으로 나뉜다. <strong>T-Box</strong>(terminology box)는 class, property, 그리고 그것들을 묶는 axiom을 선언한다. <strong>A-Box</strong>(assertion box)는 그 class를 individual로 채운다. 현재의 일반적 용법에서 <em>knowledge graph</em>는 명시적 T-Box의 지배를 받는 풍부한 A-Box라고 볼 수 있다(Hogan et al., 2021).</p>
+      <p>핵심 W3C 언어는 표현력의 스펙트럼을 이룬다.</p>
+      <ul><li><strong>RDF / RDFS</strong> — triple과 가벼운 class hierarchy. 결정 가능하지만 표현력의 상한은 낮다.</li><li><strong>OWL 2</strong> — consistency check, classification, entailment 계산을 수행하는 reasoner를 가진 description-logic ontology.</li><li><strong>SKOS</strong> — thesaurus, taxonomy, classification scheme을 위한 controlled vocabulary. <code>skos:broader</code>는 <code>rdfs:subClassOf</code>와 같지 않다. 의도적으로 <em>약한</em> semantics를 갖기 때문에 evolving, plural, contested vocabulary를 담기에 적합하다(Miles &amp; Bechhofer, 2009). §7에서 보듯 codebook-style structure와 가장 잘 만나는 포맷이다.</li></ul>
+      <h3>2.2 질적 연구자가 말하는 질적 코딩 스키마</h3>
+      <p>질적 전통에서 <strong>code</strong>는 “language-based or visual data의 일부에 summative, salient, essence-capturing, evocative attribute를 상징적으로 부여하는 단어 또는 짧은 구”로 이해된다(Saldaña, 2021). <strong>coding scheme</strong> 또는 <strong>codebook</strong>은 그런 code들을 조직한 집합이며, 대개 정의, 포함 기준, 제외 기준, exemplar quotation, analytic memo를 포함한다. 이것은 단순한 분류표가 아니다. 분석자가 raw material에서 defensible interpretation으로 이동한 과정을 문서화한 흔적이다.</p>
+      <figure class="figure"><img src="../ontology-vs-coding-handbook/assets/imagegen-thesis-ontology.png" alt="claim, evidence, model, warrant, source, uncertainty 같은 재사용 가능한 epistemic object를 조직한 파란 온톨로지 scaffold" loading="lazy" /><figcaption>명제 이미지: 온톨로지는 재사용 가능한 object-and-relation layer다. 공동체가 데이터셋, 도구, 연구를 넘어 참조할 수 있는 것을 안정화한다.</figcaption></figure>
+      <p>코딩 스키마는 크게 두 가지 맛을 갖는다.</p>
+      <ul><li><strong>A priori / deductive</strong> — 이론이나 선행연구에서 code를 가져와 데이터에 적용한다. coding이 시작되기 전에 codebook이 고정되며 content analysis의 주된 방식이다.</li><li><strong>Emergent / inductive</strong> — close reading, comparison, refinement의 순환을 통해 데이터 <em>에서</em> code를 생성한다. grounded theory(Glaser &amp; Strauss, 1967; Charmaz, 2014)와 reflexive thematic analysis(Braun &amp; Clarke, 2006, 2019)의 기본 태도다.</li></ul>
+      <p>대부분의 프로젝트는 둘을 섞는다. Saldaña(2021)는 descriptive, in-vivo, process, values, emotion, magnitude, simultaneous 등 35개 이상의 first-cycle methods와 pattern, focused, axial, theoretical 같은 second-cycle methods를 정리한다. second-cycle methods는 first-cycle code를 theme과 category로 압축하고 재조직한다. theme은 code가 아니다. theme은 여러 번의 pass 후 code에서 <em>만들어지는</em> 것이다.</p>
+      <h3>2.3 비교</h3>
+      <table class="compare"><thead><tr><th></th><th>형식 온톨로지</th><th>해석적 질적 코딩 스키마</th></tr></thead><tbody><tr><th>기본 단위</th><td class="ont">Class, property, individual</td><td class="qual">Code, theme, category</td></tr><tr><th>형식</th><td class="ont">RDF / OWL / SKOS — 기계가 읽을 수 있는 formal-logic axiom</td><td class="qual">Codebook — 자연어 정의, 예시, memo</td></tr><tr><th>작성 의도</th><td class="ont">공유 공동체 vocabulary, interoperability</td><td class="qual">Corpus와 연구 질문에 맞춘 local instrument</td></tr><tr><th>수명주기</th><td class="ont">Versioned release, deprecation policy, OntoClean review</td><td class="qual">분석 중 iterative refinement; standalone artifact로 출판되는 경우는 드묾</td></tr><tr><th>진리 주장</th><td class="ont">“이 domain에는 이런 종류의 것이 있다”</td><td class="qual">“이 informant들이 이 맥락에서 이 현상을 이렇게 의미화했다”</td></tr><tr><th>교육학적 인식론 역할</th><td class="ont">claim, evidence, model, warrant 같은 가능한 epistemic object와 relation을 이름 붙임</td><td class="qual">학습자 discourse와 action에서 그 object들이 어떻게 situated framing되는지 추적함</td></tr><tr><th>검증 표면</th><td class="ont">Logical consistency, competency question, reuse</td><td class="qual">Inter-rater reliability, member checking, trustworthiness, reflexivity</td></tr></tbody></table>
+      <h3>2.4 두 artifact를 나란히 보기</h3>
+      <p>AI 독자에게는 각각의 작은 조각을 실제로 보는 것이 도움이 된다. 왼쪽 Turtle은 affective state를 위한 SKOS-style controlled vocabulary이고, 오른쪽 codebook entry는 AI 도구에 관한 학생 포럼 글을 분석하는 가상의 Saldaña-style entry다.</p>
+      <div class="twocol"><div><div class="label">Ontology fragment (Turtle / SKOS)</div><pre><code>@prefix skos: &lt;http://www.w3.org/2004/02/skos/core#&gt; .
+@prefix ex:   &lt;https://example.org/affect#&gt; .
+
+ex:Anxiety  a skos:Concept ;
+   skos:prefLabel  "anxiety"@en ;
+   skos:altLabel   "worry"@en, "apprehension"@en ;
+   skos:broader    ex:NegativeEpistemicEmotion ;
+   skos:scopeNote  "State of unease about an
+      uncertain outcome relevant to learning."@en .
+
+ex:Confusion  a skos:Concept ;
+   skos:prefLabel  "confusion"@en ;
+   skos:broader    ex:NegativeEpistemicEmotion ;
+   skos:related    ex:Anxiety .</code></pre></div><div><div class="label">Codebook entry (Saldaña-style)</div><pre><code>CODE: AI-trust-hedge
+DEFINITION:
+   학생이 AI 도구를 사용했다고 말하면서도,
+   왜 그 답을 여전히 의심해야 하는지에 대한
+   warrant로 그 주장을 제한하는 발화.
+
+INCLUSION:
+   - "might be wrong", "could be hallucinating" 같은 modal 표현
+   - 다른 source로 verification했다는 언급
+EXCLUSION:
+   - AI 일반에 대한 generic disclaimer
+   - 다른 학생의 사용에 대한 진술
+
+EXAMPLE:
+   "I used Claude for the first draft but I
+    cross-checked the citations because it
+    sometimes makes them up."
+
+MEMO 2026-04-12:
+   trust-hedge가 'good student' 정체성 claim과
+   함께 나타나는지 확인할 것.</code></pre></div></div>
+      <p>Turtle은 선언적이고 machine-checkable한 artifact다. reasoner는 <code>ex:Anxiety</code>와 <code>ex:Confusion</code>이 axiom 아래 일관적인지 말해준다. codebook은 analytic decision으로 형성된 도구다. <code>MEMO</code> field는 연구자 reasoning의 visible trace이며, Turtle file에는 대응물이 없는 부분이다.</p>
+      <div class="callout bridge"><div class="label">Takeaway</div><p>온톨로지는 재사용 가능한 object layer를 안정화한다. codebook은 corpus에서 claim으로 이동하는 해석 경로를 문서화한다. 한 artifact의 검증 기준을 다른 artifact에 빌려 적용하지 말아야 한다.</p></div>
     </section>
 
     <section id="s3">
-      <h2><span><span class="num">§3</span>둘의 공통점</span><span class="tag">같은 점</span></h2>
-      <p>둘 다 복잡한 세계를 그냥 두지 않고 구조화한다. 개념에 이름을 붙이고, 경계를 세우고, 여러 사람이 같은 대상을 두고 이야기할 수 있게 돕는다.</p>
-      <figure>
-        <img src="../ontology-vs-coding-handbook/assets/imagegen-shared-dna.png" alt="온톨로지와 코딩 스키마의 공통 요소를 보여주는 이중 나선형 개념 이미지" loading="lazy" />
-        <figcaption>공통 DNA: 이름 붙이기, 경계 설정, 관계 만들기, 문서화.</figcaption>
-      </figure>
-      <p>그래서 표면적으로는 매우 비슷해 보인다. “개념 목록”, “관계”, “정의”, “예시”가 모두 등장한다. 문제는 그 구조를 왜 만들고, 어떻게 검증하는지가 다르다는 점이다.</p>
+      <h2><span><span class="num">§3</span>공통 DNA</span><span class="reading">약 3분</span></h2>
+      <p>차이를 그리기 전에 둘이 공유하는 것을 이름 붙여야 한다. 둘 다 <em>의미를 조직하는 infrastructure</em>이며 같은 난제를 다룬다.</p>
+      <p><strong>계층적 조직.</strong> Ontology는 <code>rdfs:subClassOf</code>를 사용하고, coding scheme은 code, category, theme 사이의 관계를 사용한다. 둘 다 granularity를 조직하지만 warrant는 다르다. ontology hierarchy는 재사용 가능한 conceptual relation을 주장하고, coding hierarchy는 situated data에 대한 analytic compression을 기록한다.</p>
+      <p><strong>공동체 vocabulary negotiation.</strong> Studer et al.(1998)의 “shared” qualifier와 Saldaña가 codebook을 collaborator와 논의하고 조정해야 한다고 반복해서 강조하는 지점은 서로 다른 방향에서 같은 문제로 도착한다. 원저자만 적용할 수 있는 category는 약한 category다.</p>
+      <p><strong>반복적 정련.</strong> Ontology engineering methodology인 METHONTOLOGY(Fernández-López et al., 1997)와 NeOn(Suárez-Figueroa et al., 2012)은 specification, conceptualization, formalization, evaluation을 반복한다. grounded theory의 constant-comparative method(Glaser &amp; Strauss, 1967)와 Braun &amp; Clarke(2006)의 six-phase TA도 analyst reading 수준에서 반복한다. 리듬은 같고 medium이 다르다.</p>
+      <p><strong>Data-theory gap 매개.</strong> 두 artifact 모두 raw data와 연구자가 만들고 싶은 abstract theoretical claim 사이에 위치한다. 데이터가 claim을 지탱할 만큼 조직되는 장소다.</p>
+      <p>이 공유 영역을 가장 영향력 있게 명명한 책은 Bowker와 Star(1999)의 <em>Sorting Things Out</em>이다. 그들의 주장은 단순하지만 불편하다. ICD, nursing classification, apartheid 아래 race classification, viral taxonomy 등 <em>모든</em> classification system은 어떤 관점을 valorize하고 다른 관점을 silence하는 commitment를 encoding한다. 정치적일지 말지를 선택하는 것이 아니라, 그것을 정직하게 드러낼지 말지를 선택하는 것이다.</p>
+      <p>교육 연구는 classification이 중요한 두 번째 이유를 추가한다. category는 무엇이 knowledge activity로 간주되는지를 형성한다. Scherr와 Hammer(2009)는 학생의 observable behavior가 task를 sensemaking, answer-filling, modeling 등 어떤 epistemic activity로 frame하느냐에 따라 달라진다고 보였다. Sandoval와 Reiser(2004)는 design implication을 명시한다. learning environment는 inquiry process와 knowledge product의 관계를 보이게 함으로써 inquiry를 scaffold할 수 있다.</p>
+      <p>Nelson(2020)의 <em>computational grounded theory</em>는 방법 측면의 수렴을 공식화한다. 그녀는 세 단계를 제안한다. (1) unsupervised ML을 통한 pattern detection, (2) qualitative deep reading을 통한 pattern refinement, (3) NLP를 통한 pattern confirmation. computation은 interpretive engagement를 대체하지 않고 보강한다.</p>
+      <figure class="figure"><img src="../ontology-vs-coding-handbook/assets/imagegen-dialectic-synthesis.png" alt="온톨로지, 코딩, 인식론적 프레이밍이 안정된 대상, situated coding, learner framing의 연결된 층위로 나타난 그림" loading="lazy" /><figcaption>공유 문제는 의미를 조직하는 것이다. 종합은 artifact의 병합이 아니라 안정된 epistemic object와 그것에 대한 situated orientation의 layered account다.</figcaption></figure>
+      <div class="callout bridge"><div class="label">Bridge pattern · #1</div><p><strong>같은 문제를 두 번 읽기.</strong> 온톨로지와 코딩을 다르다고 보기 전에, 각자가 연구에서 무엇을 하려는지 묻는다. 공동체 vocabulary를 조직하는가? analytic instrument를 안정화하는가? raw data와 theoretical claim 사이를 매개하는가? 둘 다 세 가지를 한다. 어떤 artifact를 선택할지는 <em>어떤 층위</em>에서 일하는지에 달려 있다.</p></div>
     </section>
 
     <section id="s4">
-      <h2><span><span class="num">§4</span>결정적 차이</span><span class="tag">인식론</span></h2>
-      <p>온톨로지는 대체로 공유 가능한 개념 세계를 안정적으로 표현하려 한다. 반면 질적 코딩은 특정 자료, 특정 연구 질문, 특정 연구자의 관점 속에서 의미가 어떻게 구성되는지 설명한다.</p>
-      <figure>
-        <img src="../ontology-vs-coding-handbook/assets/imagegen-realism-vs-reflexivity.png" alt="형식 구조와 반성적 연구 메모를 대비하는 개념 이미지" loading="lazy" />
-        <figcaption>온톨로지는 안정된 구조를 선호하고, 질적 코딩은 해석 과정과 연구자 위치성을 드러낸다.</figcaption>
-      </figure>
-      <div class="callout">
-        <strong>핵심 문장</strong>
-        <p>온톨로지는 “이 영역의 개념 구조를 어떻게 표현할 것인가?”를 묻고, 질적 코딩은 “이 자료에서 어떤 의미가 어떻게 만들어지는가?”를 묻는다.</p>
-      </div>
-      <p>따라서 질적 코딩을 더 엄밀하게 만든다는 것은 연구자를 제거한다는 뜻이 아니다. 코드 정의, 메모, 비교 과정, 예외 사례, 연구자 위치성을 충분히 기록해서 독자가 해석의 근거를 따라갈 수 있게 만드는 것이다.</p>
+      <h2><span><span class="num">§4</span>반명제: situated meaning-making</span><span class="reading">약 5분</span></h2>
+      <p>공통 DNA는 실제로 존재하지만, 분열도 실제다. 그리고 그 분열은 단순한 스타일 차이가 아니라 epistemic 차이다. 온톨로지의 명제는 공유 대상이 재사용 가능할 만큼 안정화될 수 있다는 것이다. 코딩의 반명제는 의미가 언제나 상황 속에서 생산된다는 것이다. 화자는 history, role, task, audience, 그리고 무엇이 knowledge work로 간주되는지에 대한 local definition에 반응한다. AI 연구자는 supervised learning에서 온 가정을 가져오기 쉽지만, 그 가정은 이 전제와 맞지 않는다. 다섯 가지 대비를 기억할 필요가 있다. 다섯 번째는 교육학의 epistemological framing 연구에서 온다. 무엇이 “knowledge work”인지는 참여자가 활동을 어떻게 frame하는지에 달려 있다.</p>
+      <h3>4.1 Closed-world vs. open-world</h3>
+      <p>Reiter(1978)는 closed-world assumption(CWA)을 제시했다. 완전한 database에서는 증명되지 않는 것은 false로 취급된다. 대부분의 relational system과 supervised classifier는 이런 방식으로 행동한다. 입력마다 label을 반환한다. Semantic Web language는 의도적으로 반대 입장을 취했다. OWL은 <strong>open-world assumption(OWA)</strong>을 채택한다. Evidence의 부재는 absence의 evidence가 아니다. ontology가 <code>:patient_42 ex:hasDiagnosis ex:Diabetes</code>를 entail하지 않는다고 해서 그 환자가 non-diabetic이라는 뜻은 아니다. 우리가 모른다는 뜻이다.</p>
+      <p>일부 질적 접근은 absence claim에 대해 유사한 caution을 공유한다. 어떤 code가 이 corpus에서 나타나지 않았다고 해서 그것이 world에서 <em>absent</em>한 것은 아니다. 그것은 <em>이 corpus, 이 analyst의 gaze 아래서</em> absent한 것이다. Reflexive TA는 더 나아가 saturation criterion을 거부한다(Braun &amp; Clarke, 2019; §4.4 참조). OWA에 익숙한 AI 연구자는 이 stance를 이해할 conceptual furniture를 이미 갖고 있지만, 자주 그것을 깨닫지 못한다.</p>
+      <figure class="figure"><img src="../ontology-vs-coding-handbook/assets/imagegen-antithesis-coding.png" alt="전사문 조각, context note, code card, reflexive memo, negative case가 놓인 질적 코딩 작업 공간" loading="lazy" /><figcaption>반명제 이미지: 코딩은 단순 label assignment가 아니다. context, reflexive interpretation, negative case, excerpt에서 analytic claim으로 가는 evolving path를 보존한다.</figcaption></figure>
+      <h3>4.2 Formal logic vs. interpretive judgment</h3>
+      <p>OWL reasoner는 <code>ex:Confusion ⊑ ex:NegativeEpistemicEmotion</code>이 특정 fact를 entail한다고 기계적으로 도출할 수 있다. 그러나 질적 분석자가 어떤 발화를 “AI-trust-hedge”의 instance라고 주장하는 일은 그렇게 할 수 없다. 두 번째 이동의 warrant는 interpretive하다. 분석자는 <em>이</em> 발화가, <em>이</em> 맥락에서, <em>이</em> 화자에 의해, 왜 그 code에 들어맞는지 논증해야 한다. 논증의 힘은 close reading, comparative reasoning, analyst positioning에 놓인다. 형식 논리의 의미에서 necessary하지 않다.</p>
+      <h3>4.3 Normative consensus vs. emergent context-bound</h3>
+      <table class="compare"><thead><tr><th></th><th>Ontology orientation</th><th>Coding-scheme orientation</th></tr></thead><tbody><tr><th>이상적 artifact</th><td class="ont">다른 연구자가 재사용할 만큼 잘 설계된 vocabulary</td><td class="qual"><em>이</em> dataset과 research question에 잘 맞는 instrument</td></tr><tr><th>권위</th><td class="ont">Community standards body, OBO Foundry, W3C</td><td class="qual">저자, 공동저자, 유사 연구 공동체</td></tr><tr><th>성장 방식</th><td class="ont">Versioned, governed, sometimes legislated</td><td class="qual">Emergent, use를 통해 refined, 출판 후 폐기되는 경우도 많음</td></tr><tr><th>실패 양상</th><td class="ont">Linked-data web의 나머지와 incoherent함</td><td class="qual">참여자나 peer에게 faithful reading으로 인식되지 못함</td></tr></tbody></table>
+      <h3>4.4 Realism vs. reflexivity — 살아 있는 논쟁</h3>
+      <p>가장 깊은 분열은 철학적이다. Smith와 Welty(2001), 그리고 Applied Ontology 전통의 상당 부분은 realist 쪽으로 기운다. 잘 설계된 ontology는 engineer와 독립적으로 존재하는 structure에 접근한다고 본다. 반면 Bowker와 Star(1999), 그리고 Charmaz(2014)의 constructivist grounded theory를 포함한 많은 interpretive tradition은 반대로 말한다. category는 <em>발견</em>되는 것이 아니라 <em>구성</em>되는 것이며, analyst subjectivity는 noise가 아니라 constitutive element다.</p>
+      <p>질적 연구에서 trustworthiness(Lincoln &amp; Guba, 1985)는 reflexivity를 진지하게 받아들이는 운영 방식이다. validity-as-correspondence 대신 credibility, transferability, dependability, confirmability를 기준으로 삼는다. Findings가 참여자에게 그럴듯하게 들리는가? 독자가 다른 맥락으로 옮겨갈 수 있는가? 같은 데이터와 audit trail을 가진 다른 analyst가 reasoning을 따라갈 수 있는가? analyst의 역할을 inspection할 수 있는가? 이 중 어느 것도 하나의 숫자로 환원되지 않는다.</p>
+      <figure class="figure"><img src="../ontology-vs-coding-handbook/assets/imagegen-epistemological-framing.png" alt="같은 학습 과제가 sensemaking frame과 completion frame으로 갈라지고 claim, evidence, coding note가 보이는 그림" loading="lazy" /><figcaption>교육학의 인식론적 프레이밍: 같은 과제도 sensemaking으로 uptake될 수 있고 completion으로 uptake될 수도 있다. 코딩은 그 orientation을 추적하고, 온톨로지는 문제가 되는 epistemic object를 이름 붙인다.</figcaption></figure>
+      <div class="callout controversy"><div class="label">살아 있는 논쟁 · #1 — saturation</div><p>Glaser와 Strauss(1967), Charmaz(2014)는 <em>saturation</em>, 즉 새로운 데이터가 새로운 category를 더 이상 산출하지 않는 지점을 foundational stopping criterion으로 본다. Braun과 Clarke(2019)는 reflexive TA에서 이를 명시적으로 거부한다. theme은 <em>발견</em>되는 것이 아니라 <em>생성</em>되며, analyst의 interpretive role을 진지하게 받아들이면 information redundancy는 의미 있는 개념이 아니라고 본다. 어느 전통에 서 있는지 의식적으로 선택해야 한다.</p></div>
+      <h3>4.5 교육학의 인식론적 프레이밍: 지금 어떤 활동이 일어나고 있는가?</h3>
+      <p>교육 연구자는 <strong>epistemological framing</strong>을 사용해 학습자가 “지금 여기서 어떤 종류의 지식 활동이 일어나고 있는가”를 어떻게 이해하는지 설명한다. Scherr와 Hammer(2009)의 간단한 대비는 유용하다. 같은 worksheet도 sensemaking의 기회로 frame될 수 있고, 빈칸을 채우는 assignment로 frame될 수도 있다. 그 frame은 학생이 무엇을 notice하는지, 어떤 resource를 activate하는지, 어떤 action이 적절하게 느껴지는지를 바꾼다.</p>
+      <p>이것이 ontology-versus-coding에 중요한 이유는 coding scheme이 content만 classify하는 것이 아니라, 참여자가 knowledge, evidence, authority, uncertainty, action을 local setting에서 어떻게 frame하는지 기록하도록 설계될 수 있기 때문이다. Louca, Elby, Hammer, Kagey(2004)는 personal epistemology를 하나의 안정된 belief system이 아니라 context-sensitive하게 activate되는 fine-grained resource로 보는 것이 더 낫다고 주장한다. Elby와 Hammer(2010)는 이를 framing으로 확장한다. Epistemological resource는 대개 locally coherent frame으로 관찰된다.</p>
+      <p>온톨로지는 다르게 들어온다. 온톨로지는 공동체가 어떤 epistemic object와 relation을 안정화할지 묻는다. claim, evidence, model, uncertainty, source, warrant, counterexample, revision 같은 것들이다. Sandoval와 Reiser(2004)의 언어로 말하면, educational design은 inquiry process와 그것이 생산하는 knowledge 사이의 관계를 보이게 함으로써 inquiry를 scaffold할 수 있다. Sandoval(2005)의 용어로는 학생의 <em>practical epistemologies</em>가 inquiry 수행 방식을 형성한다. learning ontology는 이런 epistemic object를 explicit하게 만들 수 있고, coding scheme은 학습자가 그것들을 실제 discourse에서 어떻게 mobilize하는지 보여줄 수 있다.</p>
+      <div class="callout bridge"><div class="label">Bridge pattern · epistemic framing</div><p>온톨로지는 learning environment에서 사용 가능한 epistemic object와 relation의 stable map으로 둔다. 코딩 스키마는 참여자가 그 object를 어떻게 frame하고 re-frame하는지 보는 interpretive instrument로 둔다. 같은 code가 서로 다른 frame에 참여할 수 있고, 같은 ontology class가 community마다 다르게 uptake될 수 있다. 다리는 code와 class의 lookup table이 아니다. 사람들이 그 object 주변에서 knowledge practice에 어떻게 orient하는지에 대한 설명이다.</p></div>
+      <div class="callout bridge"><div class="label">Takeaway</div><p>부재, 논리, 합의, realism, reflexivity는 기술적 세부사항이 아니다. 이 요소들이 연구가 어떤 종류의 claim을 warrant할 수 있는지를 결정한다.</p></div>
     </section>
 
     <section id="s5">
-      <h2><span><span class="num">§5</span>운영 방식 차이</span><span class="tag">실무 비교</span></h2>
-      <figure>
-        <img src="../ontology-vs-coding-handbook/assets/imagegen-cwa-vs-owa.png" alt="닫힌 세계 가정과 열린 세계 가정을 비교하는 시각 설명" loading="lazy" />
-        <figcaption>형식 지식표현에서는 open-world / closed-world assumption이 중요하지만, 질적 코딩에서는 해석의 맥락과 경계가 더 중요하다.</figcaption>
-      </figure>
-      <table>
-        <thead>
-          <tr><th>항목</th><th>온톨로지 프로젝트</th><th>질적 코딩 프로젝트</th></tr>
-        </thead>
-        <tbody>
-          <tr><th>초기 산출물</th><td>competency question, 클래스 후보, 관계 후보</td><td>초기 코드, 분석 메모, 연구자 저널</td></tr>
-          <tr><th>반복 방식</th><td>모델 수정, reasoner 검사, 질의 테스트</td><td>자료 재독해, 코드 병합/분리, 주제 재구성</td></tr>
-          <tr><th>검증</th><td>논리적 일관성, 전문가 검토, 재사용성</td><td>credibility, transferability, dependability, confirmability</td></tr>
-          <tr><th>실패 사례</th><td>추론 불가능하거나 모순이 많은 모델</td><td>자료와 맞지 않는 억지 주제, 반성성 없는 코드북</td></tr>
-        </tbody>
-      </table>
+      <h2><span><span class="num">§5</span>운영 방식의 차이</span><span class="reading">약 5분</span></h2>
+      <h3>5.1 무엇이 ground truth인가</h3>
+      <p>Ontology engineering에서 하나의 validation surface는 logical하다. ontology가 competency question을 entail하느냐 아니냐를 볼 수 있다. 그러나 class 선택, scope, granularity는 여전히 design commitment다. 코딩에는 이런 logical sense의 ground truth가 없다. 훈련된 두 reflexive analyst가 같은 transcript를 읽고 약간 다른 code를 만들 수 있으며, 둘 다 defensible할 수 있다. 이것은 bug가 아니라 interpretive work의 topology다.</p>
+      <p>그래서 “코딩을 더 objective하게 만들라”는 지시는 대개 틀렸다. 목표는 analyst removal에 의한 objectivity가 아니다. 목표는 accountable interpretation이다. 명확한 code definition, visible memo trail, disciplined comparison, negative-case attention, 독자가 claim이 어떻게 만들어졌는지 따라갈 수 있을 만큼의 reflexive documentation이 필요하다.</p>
+      <h3>5.2 Validation, side by side</h3>
+      <table class="compare"><thead><tr><th></th><th>Ontology</th><th>Coding scheme</th></tr></thead><tbody><tr><th>Core question</th><td class="ont">이 model이 competency question에 답할 수 있는가?</td><td class="qual">이 interpretation이 data, question, theory에 대해 warranted한가?</td></tr><tr><th>Check</th><td class="ont">Consistency, entailment, CQ coverage</td><td class="qual">Agreement, audit trail, reflexive memo, member check</td></tr><tr><th>Failure</th><td class="ont">Contradiction, missing axiom, poor reuse</td><td class="qual">Thin code definition, poor exemplar, unexamined positionality</td></tr><tr><th>Repair</th><td class="ont">Axiom revision, class refactoring, alignment</td><td class="qual">Code splitting/merging, memo revision, negative-case analysis</td></tr><tr><th>Subjectivity</th><td class="ont">Design rationale로 문서화됨</td><td class="qual">Reflexivity가 first-class output임</td></tr></tbody></table>
+      <h3>5.3 Competency question과 research question</h3>
+      <p>Grüninger와 Fox(1995)는 ontology evaluation을 competency question(CQ)으로 고정한다. CQ는 ontology가 답할 수 있어야 하는 natural-language query다. 예컨대 counseling ontology의 CQ는 “Which intervention strategies are associated with client resistance?”일 수 있다. ontology가 필요한 class와 relation을 갖고 있고, axiom이 답을 entail하면 CQ는 통과한다.</p>
+      <p>질적 연구의 research question은 다르게 작동한다. “How do novice teachers frame AI feedback when it contradicts their pedagogical judgment?”는 database query가 아니다. 이것은 code를 만들고, comparison을 수행하고, memo를 쓰고, theme을 구성하고, excerpt를 고르는 과정을 조직한다. CQ는 formal sufficiency를 test한다. RQ는 interpretive inquiry를 guide한다.</p>
+      <h3>5.4 Reliability index는 조심해서 사용하기</h3>
+      <p>Cohen의 κ, Krippendorff의 α 같은 지표는 coding-reliability tradition에서 유용하다. McHugh(2012)는 κ benchmark를 정리했고, Hayes와 Krippendorff(2007)는 α가 coder 수, measurement level, missing data를 유연하게 다룬다고 설명한다. 하지만 이런 숫자는 reflexive TA 전체를 검증하지 않는다. 어떤 전통에서는 reliability가 필수이고, 어떤 전통에서는 category mistake다.</p>
+      <h3>5.5 Mutual exclusivity vs. overlap</h3>
+      <p>Ontology class는 종종 disjointness를 명시한다. <code>ex:Student</code>와 <code>ex:Instructor</code>가 disjoint하다고 선언하면 한 individual은 동시에 둘일 수 없다. 그러나 질적 coding에서 overlap은 흔히 feature다. 같은 utterance는 uncertainty, authority, identity work를 동시에 할 수 있다. Simultaneous coding은 바로 이런 multi-functionality를 포착한다.</p>
+      <div class="callout bridge"><div class="label">Takeaway</div><p>Consistency check, κ/α, trustworthiness, memo trail은 서로 다른 질문에 답한다. artifact와 epistemic stance에 맞는 warrant를 선택해야 한다.</p></div>
     </section>
 
     <section id="s6">
-      <h2><span><span class="num">§6</span>흔한 오해 여섯 가지</span><span class="tag">실수 방지</span></h2>
-      <figure>
-        <img src="../ontology-vs-coding-handbook/assets/imagegen-six-misconceptions.png" alt="온톨로지와 질적 코딩에 관한 여섯 가지 오해를 보여주는 카드형 이미지" loading="lazy" />
-        <figcaption>가장 흔한 실수는 서로 다른 방법의 평가 기준을 섞어 버리는 것이다.</figcaption>
-      </figure>
-      <ol>
-        <li><strong>코드는 태그와 같다.</strong> 아니다. 코드는 해석 단위이며, 메모와 함께 의미가 축적된다.</li>
-        <li><strong>코드북은 온톨로지로 바로 바꿀 수 있다.</strong> 아니다. 코드북은 연구 맥락에 묶여 있고, 형식 공리가 부족한 경우가 많다.</li>
-        <li><strong>높은 일치도면 질적 분석이 좋다.</strong> 일부 연구에는 유용하지만, reflexive thematic analysis에서는 핵심 검증 기준이 아니다.</li>
-        <li><strong>LLM이 코딩하면 연구자가 덜 필요하다.</strong> 오히려 어떤 판단을 자동화했는지 더 분명히 기록해야 한다.</li>
-        <li><strong>SKOS면 항상 온톨로지다.</strong> SKOS는 통제어휘와 thesaurus에 강하고, OWL 수준의 논리 표현과는 다르다.</li>
-        <li><strong>네트워크 시각화가 있으면 분석이 객관적이다.</strong> 네트워크는 코딩 판단 위에 서 있으므로, 코드의 해석적 근거가 먼저 필요하다.</li>
-      </ol>
+      <h2><span><span class="num">§6</span>여섯 가지 오해</span><span class="reading">약 4분</span></h2>
+      <figure class="figure"><img src="../ontology-vs-coding-handbook/assets/imagegen-dialectic-misconceptions.png" alt="온톨로지, 코딩, 인식론적 프레이밍을 하나의 artifact로 collapse할 때 생기는 여섯 가지 category mistake 그림" loading="lazy" /><figcaption>변증법에서 생기는 여섯 가지 category mistake: codebook을 ontology box에 억지로 넣기, ontology class를 label로 취급하기, learner framing 무시하기, reflexivity를 metric으로 대체하기, mapping을 validation으로 착각하기, LLM으로 close reading을 우회하기.</figcaption></figure>
+      <ol class="misconceptions"><li><h3>“Krippendorff's α는 coding에서 OWL consistency와 같다.”</h3><p>둘 다 quality signal이지만 같은 것이 아니다. OWL consistency는 formal property다. α는 coder behavior의 agreement statistic이다. 어느 쪽도 interpretation의 질 전체를 보장하지 않는다.</p></li><li><h3>“LLM이 code를 만들었으니 objective하다.”</h3><p>LLM output은 objectivity가 아니다. prompt, training data, sampling, researcher choice가 모두 개입한다. LLM이 만든 code도 human audit, memoing, exemplar check가 필요하다.</p></li><li><h3>“Label을 lock하고 coding을 시작하면 된다.”</h3><p>Deductive content analysis에서는 가능할 수 있다. Emergent coding과 reflexive TA에서는 분석 중 code가 바뀐다. 바뀌지 않는다면 오히려 데이터를 충분히 읽지 않았을 수 있다.</p></li><li><h3>“Reflexivity memo는 optional documentation이다.”</h3><p>아니다. Reflexive memo는 interpretation이 어떻게 만들어졌는지 보여주는 warrant의 일부다. 나중에 appendix에 붙이는 장식이 아니다.</p></li><li><h3>“Category가 많을수록 theory가 정교하다.”</h3><p>많은 category는 종종 unresolved granularity를 뜻한다. 좋은 analysis는 category 수가 아니라 category 간 relation, boundary, negative case, explanatory power로 판단된다.</p></li><li><h3>“Coding scheme을 ontology에 mapping하면 검증된다.”</h3><p>매력적인 오류다. Mapping은 그 자체로 triangulation이 아니다. ontology는 community vocabulary이고, codebook은 corpus-fitted instrument다. Mapping은 publication-time interface로 유용하지만, match 자체가 proof는 아니다.</p></li></ol>
     </section>
 
     <section id="s7">
-      <h2><span><span class="num">§7</span>어떻게 섞을 것인가</span><span class="tag">하이브리드</span></h2>
-      <p>둘을 섞는 가장 안전한 방식은 역할을 분리하는 것이다. 온톨로지는 안정적인 backbone vocabulary를 제공하고, 질적 코딩은 실제 자료에서 나타나는 의미와 예외를 해석한다.</p>
-      <figure>
-        <img src="../ontology-vs-coding-handbook/assets/imagegen-backbone-plus-layer.png" alt="안정적인 백본 위에 해석적 코딩 레이어가 올라가는 구조 이미지" loading="lazy" />
-        <figcaption>권장 구조: 안정적인 SKOS/OWL backbone 위에, 연구별 코딩 레이어를 분리해서 올린다.</figcaption>
-      </figure>
-      <div class="callout note">
-        <strong>실무 원칙</strong>
-        <p>출판할 때는 SKOS/OWL 파일, 코드북, 분석 메모, 네트워크 결과를 서로 다른 산출물로 분리하라. 검증 기준도 각각 따로 적어야 한다.</p>
-      </div>
+      <h2><span><span class="num">§7</span>종합: 인식론적 프레이밍이라는 다리</span><span class="reading">약 4분</span></h2>
+      <h3>7.1 Decision tree</h3>
+      <p>첫 질문은 연구가 실제로 무엇에 답하려는가이다. 질문이 shared object에 관한 것이라면 ontology를 만든다. situated meaning에 관한 것이라면 coding scheme을 만든다. 참여자가 shared object를 evidence, authority, uncertainty, model, action으로 어떻게 orient하는지에 관한 질문이라면 synthesis zone에 있다. 이때 epistemological framing을 사용해 두 artifact를 collapse하지 않고 조정한다.</p>
+      <div class="decision-tree"><svg viewBox="0 0 760 470" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="ontology, coding scheme, hybrid 선택을 위한 decision tree"><style>.node{fill:#fff;stroke:#1a1a1a;stroke-width:1.4}.node-q{fill:#f4f1ea}.node-onto{fill:#eff6ff;stroke:#1e40af}.node-code{fill:#fdf6ec;stroke:#92400e}.node-hybrid{fill:#f3eef9;stroke:#6d28d9}.label-q{font-family:Inter,sans-serif;font-size:13px;font-weight:600;fill:#1a1a1a}.label-out{font-family:Inter,sans-serif;font-size:13px;font-weight:700}.label-edge{font-family:Inter,sans-serif;font-size:11px;fill:#424242}.edge{stroke:#6b6b6b;stroke-width:1.4;fill:none}.arrow{fill:#6b6b6b}</style><defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" class="arrow"/></marker></defs><rect class="node node-q" x="220" y="20" width="320" height="60" rx="6"/><text class="label-q" x="380" y="48" text-anchor="middle">다른 연구가 재사용할 안정된 vocabulary가 목표인가?</text><line class="edge" x1="300" y1="80" x2="180" y2="120" marker-end="url(#arrow)"/><text class="label-edge" x="220" y="105">yes</text><rect class="node node-q" x="40" y="130" width="280" height="60" rx="6"/><text class="label-q" x="180" y="158" text-anchor="middle">category가 corpus와 community를 넘어 안정적인가?</text><line class="edge" x1="100" y1="190" x2="80" y2="240" marker-end="url(#arrow)"/><rect class="node node-onto" x="20" y="250" width="200" height="60" rx="6"/><text class="label-out" x="120" y="278" text-anchor="middle" fill="#1e40af">Ontology</text><text class="label-q" x="120" y="297" text-anchor="middle">OWL / SKOS</text><line class="edge" x1="260" y1="190" x2="280" y2="240" marker-end="url(#arrow)"/><rect class="node node-hybrid" x="240" y="250" width="220" height="80" rx="6"/><text class="label-out" x="350" y="278" text-anchor="middle" fill="#6d28d9">Hybrid</text><text class="label-q" x="350" y="296" text-anchor="middle">SKOS backbone + codebook layer</text><line class="edge" x1="460" y1="80" x2="580" y2="120" marker-end="url(#arrow)"/><text class="label-edge" x="540" y="105">no</text><rect class="node node-q" x="440" y="130" width="280" height="60" rx="6"/><text class="label-q" x="580" y="158" text-anchor="middle">특정 corpus에서 theory를 만드는가?</text><line class="edge" x1="500" y1="190" x2="480" y2="240" marker-end="url(#arrow)"/><rect class="node node-code" x="420" y="250" width="200" height="60" rx="6"/><text class="label-out" x="520" y="278" text-anchor="middle" fill="#92400e">Coding scheme</text><text class="label-q" x="520" y="297" text-anchor="middle">emergent / inductive</text><line class="edge" x1="660" y1="190" x2="680" y2="240" marker-end="url(#arrow)"/><rect class="node node-code" x="630" y="250" width="120" height="60" rx="6"/><text class="label-out" x="690" y="278" text-anchor="middle" fill="#92400e">Codebook TA</text><rect class="node node-q" x="180" y="380" width="400" height="70" rx="6"/><text class="label-q" x="380" y="408" text-anchor="middle">stable vocabulary, evolving code, corpus-driven theory가 모두 있으면</text><text class="label-q" x="380" y="425" text-anchor="middle">hybrid backbone-plus-layer pattern을 사용한다.</text></svg></div>
+      <figure class="figure"><img src="../ontology-vs-coding-handbook/assets/imagegen-epistemic-frame-workflow.png" alt="ontology scaffold에서 coding uptake, frame network comparison으로 이어지는 세 단계 workflow" loading="lazy" /><figcaption>종합 workflow: epistemic scaffold를 정의하고, discourse에서 uptake와 transformation을 coding한 뒤, group이나 design condition 간 frame structure를 비교한다.</figcaption></figure>
+      <h3>7.2 Backbone-plus-layer pattern: stable object와 local orientation</h3>
+      <p>실무에서 가장 유용한 공존 패턴은 ontology가 defensibly shared across studies인 stable concept, 즉 <em>backbone</em>을 들고, coding scheme은 그 위에서 <em>evolving layer</em>로 작동하게 하는 것이다. epistemological-framing 관점에서 backbone은 참여자가 orient할 수 있는 object를 이름 붙이고, coding layer는 그 orientation이 local discourse에서 어떻게 visible해지는지 기록한다. SKOS는 OWL보다 약한 semantics를 갖기 때문에 이 backbone에 잘 맞는다.</p>
+      <p>ADDIE Lab 프로젝트의 예로 말하면, counseling-concept SKOS scheme은 backbone으로 한 번 출판되어 cohort를 넘어 재사용되고, 각 cohort study는 interview data 위에 자체 thematic-analysis layer를 돌린다. emergent code는 <code>skos:closeMatch</code>나 <code>skos:relatedMatch</code>로 backbone에 연결된다. backbone은 shared vocabulary를 안정화하고, layer는 새 corpus가 실제로 말한 것을 자유롭게 등록한다.</p>
+      <figure class="figure"><img src="../ontology-vs-coding-handbook/assets/imagegen-dialectic-synthesis.png" alt="파란 ontology layer, 주황 coding layer, 청록 epistemic-frame bridge로 구성된 layered research architecture" loading="lazy" /><figcaption>Backbone-plus-layer pattern은 변증법으로 읽을 때 더 명확하다. ontology는 reusable object를 이름 붙이고, coding은 local orientation을 기록하며, epistemological framing은 둘의 관계를 설명한다.</figcaption></figure>
+      <h3>7.3 Computational grounded theory</h3><p>Nelson(2020)의 세 단계 framework, 즉 unsupervised ML에 의한 pattern detection, qualitative deep reading에 의한 refinement, NLP에 의한 confirmation은 text-heavy data에서 computation과 interpretation을 결합하는 가장 깨끗한 template다. 엄밀한 이유는 computation이 final category를 만들도록 허용하지 않기 때문이다.</p>
+      <h3>7.4 Bridge로서의 Epistemic Network Analysis</h3><p>Shaffer(2017)의 quantitative ethnography와 ENA(Shaffer, Collier, &amp; Ruis, 2016)는 coded discourse data를 network로 다룬다. 각 utterance는 code co-occurrence에 weight를 기여하고, resulting structure는 low-dimensional space에서 group 간 비교가 가능하다. code 자체는 interpretively warranted하게 남고, network operation은 그 위에 놓인다.</p>
+      <h3>7.5 Bridge object로서의 epistemic frame</h3><p>교육학과 learning sciences 프로젝트에서 가장 방어 가능한 hybrid object는 code나 ontology class 자체가 아니라 <strong>epistemic frame</strong>인 경우가 많다. 이는 참여자가 무엇을 knowledge, evidence, authority, productive action으로 다루는지에 대한 locally coherent pattern이다. Shaffer(2006)는 epistemic game을 통해 학습자가 community의 knowledge, skill, value, identity, decision-making 방식까지 받아들이는 것을 설명한다. Scherr와 Hammer(2009)는 frame이 지식에 대한 명시적 진술뿐 아니라 observable behavior에서도 추론될 수 있음을 보였다.</p>
+      <p>실무 architecture는 다음과 같다. ontology로 claim, evidence, model, source, warrant 같은 stable epistemic object vocabulary를 정의한다. qualitative coding으로 학습자가 situated discourse에서 그 object에 어떻게 orient하는지 확인한다. 그 다음 ENA나 다른 network method로 role, group, design condition 간 frame structure를 비교한다. 이렇게 하면 ontology의 reusable structure는 보존되고 coding scheme은 local framing에 민감하게 남는다.</p>
+      <div class="callout bridge"><div class="label">Synthesis rule</div><p>ontology에게 참여자의 meaning-making을 prove하라고 요구하지 말고, codebook에게 universal infrastructure가 되라고 요구하지 말라. ontology는 reusable epistemic object를 안정화하고, coding scheme은 그 object에 대한 local orientation을 보존하게 하라. 그런 다음 framing account로 두 artifact가 같은 study에 어떻게 말 걸 수 있는지 설명하라.</p></div>
+      <div class="callout bridge"><div class="label">Takeaway</div><p>Stable object와 situated orientation이 모두 중요할 때 epistemological framing을 쓴다. ontology는 무엇이 available한지 이름 붙이고, coding은 참여자가 그것을 어떻게 uptake하는지 설명한다.</p></div>
     </section>
 
     <section id="s8">
-      <h2><span><span class="num">§8</span>연구 설계 체크리스트</span><span class="tag">질문부터</span></h2>
-      <ul>
-        <li><strong>재사용 가능한 지식 구조</strong>가 목표라면 온톨로지 또는 SKOS vocabulary가 먼저다.</li>
-        <li><strong>사람들이 어떤 의미를 구성하는지</strong>가 목표라면 질적 코딩과 thematic analysis가 먼저다.</li>
-        <li><strong>두 커뮤니티의 담론 구조 비교</strong>가 목표라면 backbone vocabulary + interpretive coding + ENA 같은 혼합 설계를 고려한다.</li>
-        <li><strong>LLM을 쓴다면</strong> 어떤 단계에서 썼는지, 사람이 무엇을 검토했는지, 코드가 어떻게 바뀌었는지 기록한다.</li>
-      </ul>
+      <h2><span><span class="num">§8</span>공존 설계 체크리스트</span><span class="reading">약 3분</span></h2>
+      <p>Ontology와 coding scheme을 함께 쓰는 프로젝트는 다음 질문을 먼저 문서화해야 한다. reviewer가 나중에 물을 질문을 먼저 답해두는 것이다.</p>
+      <ol><li><strong>이 study의 epistemic stance는 무엇인가?</strong> Realist, constructivist, critical-realist, pragmatist 중 무엇인가? stance를 이름 붙이면 method와 warrant의 일관성이 강제된다.</li><li><strong>어떤 layer가 stable하고 어떤 layer가 emergent한가?</strong> Backbone category와 corpus-fitted code를 섞지 말라.</li><li><strong>누가 category를 validate하는가?</strong> Reasoner인가, coding team인가, participant member check인가, ontology standards body인가? category마다 validator가 다를 수 있다.</li><li><strong>무엇이 언제 revise되고 무엇이 frozen되는가?</strong> Inductive coding은 cycle마다 codebook을 revise한다. Ontology release는 T-Box를 version cadence로 freeze한다.</li><li><strong>연구자 subjectivity는 어떻게 기록되는가?</strong> Positionality statement, reflexive memo, decision audit trail이 필요하다.</li><li><strong>Closed-world인가 open-world인가?</strong> downstream tooling이 CWA를 가정하고 ontology가 OWA라면 gap을 관리해야 한다.</li><li><strong>무엇을 출판할 것인가?</strong> ontology, codebook, 둘 다, 또는 empirical claim만 출판할 것인지 결정해야 한다.</li></ol>
+      <h3>Reviewer가 보통 묻는 것</h3><ul><li>“Inter-rater reliability는 어디 있는가?” — codebook TA에서는 정당한 질문이지만 reflexive TA에서는 category mistake일 수 있다.</li><li>“Ontology가 BFO/SKOS/Core/upper ontology와 align되는가?” — ontology paper에서는 정당하지만 coding-scheme study를 ontology처럼 꾸미는 방어가 되어서는 안 된다.</li><li>“Analyst bias를 어떻게 피했는가?” — 정직한 답은 “피했다”가 아니라 “기록했다”이다.</li></ul>
     </section>
 
     <section id="s9">
-      <h2><span><span class="num">§9</span>세 가지 예시</span><span class="tag">적용 장면</span></h2>
-      <div class="case">
-        <span class="case-label">Case A · Ontology-led</span>
-        <h3>상담 개념 지식그래프</h3>
-        <p>목표는 상담 문헌에서 intervention, presenting concern, protocol, modality 같은 개념을 정리해 재사용 가능한 SKOS/OWL backbone을 만드는 것이다.</p>
-        <figure>
-          <img src="../ontology-vs-coding-handbook/assets/imagegen-case-a-kg-workflow.png" alt="문헌에서 질문, 계층, 추론, 질의로 이어지는 온톨로지 워크플로" loading="lazy" />
-          <figcaption>온톨로지 중심 프로젝트는 competency question과 추론 가능성을 기준으로 검증한다.</figcaption>
-        </figure>
-      </div>
-      <div class="case">
-        <span class="case-label">Case B · Coding-scheme-led</span>
-        <h3>학생 포럼 글의 reflexive thematic analysis</h3>
-        <p>목표는 학생들이 AI 도구 사용을 어떻게 정당화하고 설명하는지 해석하는 것이다. 코드북보다 중요한 것은 자료 읽기, 메모, 주제 수정, 연구자 위치성의 기록이다.</p>
-        <figure>
-          <img src="../ontology-vs-coding-handbook/assets/imagegen-case-b-ta-workflow.png" alt="읽기, 코딩, 클러스터링, 수정, 정의, 보고로 이어지는 질적 분석 루프" loading="lazy" />
-          <figcaption>코딩 중심 프로젝트는 코드가 어떻게 생성되고 수정되었는지를 보여줘야 설득력이 생긴다.</figcaption>
-        </figure>
-      </div>
-      <div class="case">
-        <span class="case-label">Case C · Hybrid</span>
-        <h3>Learning Sciences와 Educational Technology 담론 비교</h3>
-        <p>공유 vocabulary를 만든 뒤 두 분야의 논문을 해석적으로 코딩하고, ENA로 코드 연결 구조를 비교한다. 네트워크 차이는 코딩 판단이 타당할 때만 의미가 있다.</p>
-        <figure>
-          <img src="../ontology-vs-coding-handbook/assets/imagegen-case-c-hybrid-ena.png" alt="백본, 코딩 자료, 네트워크 시각화를 연결한 하이브리드 연구 구조" loading="lazy" />
-          <figcaption>하이브리드 프로젝트는 backbone, 코드북, ENA 결과를 분리해서 보고하는 것이 좋다.</figcaption>
-        </figure>
-      </div>
+      <h2><span><span class="num">§9</span>세 가지 변증법적 사례</span><span class="reading">약 5분</span></h2>
+      <p>같은 데이터, 즉 learning에 대한 human language data라도 세 가지 다른 commitment 아래 다르게 다뤄진다. Case A는 명제다. shared object를 안정화한다. Case B는 반명제다. situated meaning-making을 보존한다. Case C는 종합이다. 어떤 epistemic object가 available하고 각 community가 valid knowledge work를 어떻게 frame하는지 설명한다.</p>
+      <div class="case"><span class="case-tag">Case A · Thesis</span><h3>Clinical literature에서 상담 개념 지식그래프 만들기</h3><p><em>목표.</em> 상담 개념을 문헌 기반으로 정리해 reusable knowledge graph를 만든다.</p><ol><li><strong>Scope.</strong> Competency question을 쓴다. 예: 어떤 intervention strategy가 client resistance와 관련되는가?</li><li><strong>Formalization.</strong> 먼저 SKOS로 encode하고, subsumption이 방어 가능할 때만 OWL class로 승격한다.</li><li><strong>Validation.</strong> CQ coverage, consistency, expert review, reuse 가능성을 점검한다.</li></ol><figure class="figure"><img src="../ontology-vs-coding-handbook/assets/imagegen-thesis-ontology.png" alt="competency question과 reusable epistemic object를 조직한 ontology scaffold" loading="lazy" /><figcaption>Case A — 명제: shared epistemic object의 SKOS / OWL backbone을 안정화하고 competency question으로 검증한다.</figcaption></figure></div>
+      <div class="case"><span class="case-tag">Case B · Antithesis</span><h3>AI 도구에 대한 학생 포럼 글의 reflexive thematic analysis</h3><p><em>목표.</em> 학생들이 AI 도구 사용을 어떻게 정당화하고, 의심하고, identity work와 연결하는지 해석한다.</p><ol><li><strong>Familiarization.</strong> 전체 corpus를 반복해서 읽고 memo를 쓴다.</li><li><strong>Coding.</strong> segment가 하는 analytic work를 code로 붙인다.</li><li><strong>Reviewing.</strong> theme을 corpus와 서로 비교하며 collapse, split, rename한다.</li><li><strong>Report.</strong> excerpt, negative case, reflexive postscript를 함께 제시한다.</li></ol><p><em>아닌 것.</em> 이것은 content analysis가 아니다. κ를 validation으로 보고하지 않는다.</p><figure class="figure"><img src="../ontology-vs-coding-handbook/assets/imagegen-antithesis-coding.png" alt="evolving code, context note, reflexive memo, negative case가 있는 질적 코딩 작업 공간" loading="lazy" /><figcaption>Case B — 반명제: iterative coding, negative case, reflexive memo를 통해 situated meaning-making을 보존한다.</figcaption></figure></div>
+      <div class="case"><span class="case-tag">Case C · Synthesis</span><h3>Learning Sciences와 Educational Technology 담론의 dual network</h3><p><em>목표.</em> LS와 ET community가 같은 현상을 어떻게 다르게 frame하는지 비교한다.</p><ol><li><strong>Backbone.</strong> learning analytics, agency, design, evidence, equity 같은 shared SKOS concept를 정의한다.</li><li><strong>Coding.</strong> LS와 ET article sample을 coding하면서 backbone concept와 emergent code를 함께 부여한다.</li><li><strong>Network.</strong> ENA로 community별 frame structure를 비교한다.</li><li><strong>Interpretation.</strong> “어떤 epistemic object가 available하며, 각 community가 valid knowledge work를 어떻게 frame하는가?”를 묻는다.</li></ol><figure class="figure"><img src="../ontology-vs-coding-handbook/assets/imagegen-epistemic-frame-workflow.png" alt="ontology scaffold, coding uptake, frame network comparison으로 구성된 hybrid workflow" loading="lazy" /><figcaption>Case C — 종합: epistemic object의 availability, community별 valid knowledge work framing, frame structure 비교를 함께 묻는다.</figcaption></figure></div>
+      <div class="callout controversy"><div class="label">살아 있는 논쟁 · #3 — LLM-assisted inductive TA</div><p>Case B와 C에서 자연스럽게 생기는 질문은 LLM이 2–3단계를 대신할 수 있는가이다. 문헌은 실제로 갈라져 있다. De Paoli(2024)는 LLM TA를 reflexive TA의 한계에 대한 provocation으로 읽고, Lennon et al.(2024)은 social-media corpus에서 breadth coverage가 가능하다고 본다. Naeem et al.(2025)은 human-in-the-loop protocol을 제시한다. 이 논쟁을 settled fact처럼 쓰지 말라.</p></div>
     </section>
 
     <section id="s10">
-      <h2><span><span class="num">§10</span>핵심 용어와 참고문헌</span><span class="tag">더 읽기</span></h2>
-      <h3>핵심 용어</h3>
-      <ul>
-        <li><strong>Competency question</strong>: 온톨로지가 답해야 하는 자연어 질문.</li>
-        <li><strong>Open-world assumption</strong>: 모른다는 것은 거짓이 아니라 아직 알려지지 않았다는 뜻.</li>
-        <li><strong>Codebook</strong>: 코드 정의, 포함/제외 기준, 예시, 메모를 담은 분석 문서.</li>
-        <li><strong>Interpretive coding</strong>: 자료 조각에 단순 라벨을 붙이는 것이 아니라, 연구 질문과 맥락 속에서 그 조각이 어떤 의미를 수행하는지 해석하는 질적 코딩.</li>
-        <li><strong>Reflexivity</strong>: 연구자의 위치, 선택, 해석이 분석에 미친 영향을 기록하는 실천.</li>
-        <li><strong>Trustworthiness</strong>: 질적 연구의 신뢰가능성을 설명하는 기준 묶음.</li>
-      </ul>
-      <h3>대표 참고문헌</h3>
-      <p>Gruber (1993), Studer et al. (1998), Guarino (1998), Miles &amp; Bechhofer (2009), Hogan et al. (2021), Braun &amp; Clarke (2006, 2019), Charmaz (2014), Saldaña (2021), Lincoln &amp; Guba (1985), Shaffer et al. (2016), De Paoli (2024), Christou (2024), Deiner et al. (2024), Naeem et al. (2025), Schroeder et al. (2025).</p>
-      <p>전체 참고문헌과 더 긴 설명은 <a href="../ontology-vs-coding-handbook/#s10">영어판 §10</a>에 정리되어 있다.</p>
+      <h2><span><span class="num">§10</span>용어집과 참고문헌</span><span class="reading">reference</span></h2>
+      <h3>10.1 용어집</h3>
+      <dl class="glossary"><dt>A-Box</dt><dd>Assertion box. ontology의 instance-level part. individual과 그들에 대한 fact를 담는다.</dd><dt>Axial coding</dt><dd>Grounded theory에서 category와 subcategory의 relation을 정리하는 coding 단계.</dd><dt>Closed-world assumption (CWA)</dt><dd>Knowledge base에서 증명되지 않는 것은 false로 간주하는 가정(Reiter, 1978).</dd><dt>Competency question (CQ)</dt><dd>Ontology가 답할 수 있어야 하는 자연어 query. ontology engineering project의 scope를 정한다.</dd><dt>Constant comparison</dt><dd>새로운 data segment를 이전 segment, code, category와 계속 비교하는 grounded-theory 절차.</dd><dt>Emergent coding</dt><dd>prior framework에서 부과하지 않고 data에서 code를 생성하는 coding.</dd><dt>Epistemic Network Analysis (ENA)</dt><dd>Coded discourse data를 code co-occurrence network로 표현하고 비교 가능한 저차원 공간에 투사하는 방법.</dd><dt>Epistemological framing</dt><dd>참여자가 지금 어떤 종류의 knowledge activity가 일어나고 있다고 이해하는지에 대한 교육연구 construct. 이 가이드에서는 stable epistemic object와 situated meaning-making을 연결하는 synthesis term이다.</dd><dt>Interpretive coding</dt><dd>Label assignment가 아니라 meaning-making으로서의 qualitative coding. code는 segment가 study question, context, theory와 관련해 무엇을 하는지에 대한 analytic claim이다.</dd><dt>OntoClean</dt><dd>Rigidity, identity, unity, dependence 같은 meta-property로 class를 검토하는 formal ontology engineering methodology.</dd><dt>Open-world assumption (OWA)</dt><dd>증명되지 않는 것은 false가 아니라 unknown이라는 가정. OWL / Semantic Web의 기본값.</dd><dt>Reflexivity</dt><dd>연구자의 위치, 가정, 판단이 analysis를 어떻게 형성하는지 문서화하고 해석에 포함하는 실천.</dd><dt>Saturation</dt><dd>새 데이터가 새 category를 더 이상 산출하지 않는다고 보는 grounded-theory stopping criterion. Braun &amp; Clarke(2019)의 reflexive TA에서는 거부된다.</dd><dt>T-Box</dt><dd>Terminology box. ontology의 schema-level part. class, property, axiom을 담는다.</dd><dt>Thematic analysis (TA)</dt><dd>질적 dataset 전반의 meaning pattern을 식별하는 방법 family. reflexive TA, codebook TA, coding-reliability TA는 epistemology와 validation이 다르다.</dd><dt>Thesis / antithesis / synthesis</dt><dd>이 핸드북의 reader path. ontology는 shared object를 안정화하고, coding은 situated meaning-making을 보존하며, epistemological framing은 둘의 공존을 설명한다.</dd><dt>Trustworthiness</dt><dd>Lincoln과 Guba(1985)의 qualitative warrant criteria: credibility, transferability, dependability, confirmability.</dd></dl>
+      <h3>10.2 참고문헌</h3>
+      <ol class="refs"><li>Bowker, G. C., &amp; Star, S. L. (1999). <em>Sorting things out: Classification and its consequences</em>. MIT Press.</li><li>Braun, V., &amp; Clarke, V. (2006). Using thematic analysis in psychology. <em>Qualitative Research in Psychology, 3</em>(2), 77–101. https://doi.org/10.1191/1478088706qp063oa</li><li>Braun, V., &amp; Clarke, V. (2019). Reflecting on reflexive thematic analysis. <em>Qualitative Research in Sport, Exercise and Health, 11</em>(4), 589–597. https://doi.org/10.1080/2159676X.2019.1628806</li><li>Charmaz, K. (2014). <em>Constructing grounded theory</em> (2nd ed.). SAGE.</li><li>Christou, P. A. (2024). Thematic analysis through artificial intelligence (AI). <em>The Qualitative Report, 29</em>(2), 560–576.</li><li>De Paoli, S. (2024). Performing an inductive thematic analysis of semi-structured interviews with a large language model. <em>Social Science Computer Review, 42</em>(4), 997–1019.</li><li>Elby, A., &amp; Hammer, D. (2010). Epistemological resources and framing. In <em>Personal epistemology in the classroom</em>. Cambridge University Press.</li><li>Glaser, B. G., &amp; Strauss, A. L. (1967). <em>The discovery of grounded theory</em>. Aldine.</li><li>Gruber, T. R. (1993). A translation approach to portable ontology specifications. <em>Knowledge Acquisition, 5</em>(2), 199–220.</li><li>Guarino, N. (1998). Formal ontology and information systems. In <em>Formal ontology in information systems</em>.</li><li>Hogan, A., et al. (2021). Knowledge graphs. <em>ACM Computing Surveys, 54</em>(4), Article 71.</li><li>Lincoln, Y. S., &amp; Guba, E. G. (1985). <em>Naturalistic inquiry</em>. SAGE.</li><li>Louca, L., Elby, A., Hammer, D., &amp; Kagey, T. (2004). Epistemological resources. <em>Educational Psychologist, 39</em>(1), 57–68.</li><li>Miles, A., &amp; Bechhofer, S. (2009). <em>SKOS Simple Knowledge Organization System reference</em>. W3C.</li><li>Nelson, L. K. (2020). Computational grounded theory. <em>Sociological Methods &amp; Research, 49</em>(1), 3–42.</li><li>Saldaña, J. (2021). <em>The coding manual for qualitative researchers</em> (4th ed.). SAGE.</li><li>Sandoval, W. A. (2005). Understanding students' practical epistemologies. <em>Science Education, 89</em>(4), 634–656.</li><li>Sandoval, W. A., &amp; Reiser, B. J. (2004). Explanation-driven inquiry. <em>Science Education, 88</em>(3), 345–372.</li><li>Scherr, R. E., &amp; Hammer, D. (2009). Student behavior and epistemological framing. <em>Cognition and Instruction, 27</em>(2), 147–174.</li><li>Shaffer, D. W. (2006). Epistemic frames for epistemic games. <em>Computers &amp; Education, 46</em>(3), 223–234.</li><li>Shaffer, D. W. (2017). <em>Quantitative ethnography</em>. Cathcart Press.</li><li>Shaffer, D. W., Collier, W., &amp; Ruis, A. R. (2016). A tutorial on epistemic network analysis. <em>Journal of Learning Analytics, 3</em>(3), 9–45.</li><li>Smith, B., &amp; Welty, C. (2001). Ontology: Towards a new synthesis. In <em>FOIS 2001</em>.</li><li>Studer, R., Benjamins, V. R., &amp; Fensel, D. (1998). Knowledge engineering. <em>Data &amp; Knowledge Engineering, 25</em>(1–2), 161–197.</li><li>Suárez-Figueroa, M. C., Gómez-Pérez, A., Motta, E., &amp; Gangemi, A. (Eds.). (2012). <em>Ontology engineering in a networked world</em>. Springer.</li><li>Xiao, Z., Yuan, X., Liao, Q. V., Abdelghani, R., &amp; Oudeyer, P.-Y. (2023). Supporting qualitative analysis with large language models. <em>IUI '23 Companion</em>.</li><li>Deiner, M. S., Honcharov, V., Li, J., Mackey, T. K., Porco, T. C., &amp; Sarkar, U. (2024). Large language models can enable inductive thematic analysis of a social media corpus in a single prompt: Human validation study. <em>JMIR Infodemiology, 4</em>, e59641.</li><li>Fernández-López, M., Gómez-Pérez, A., &amp; Juristo, N. (1997). METHONTOLOGY: From ontological art towards ontological engineering. In <em>AAAI-97 Spring Symposium Series on Ontological Engineering</em>.</li><li>Grüninger, M., &amp; Fox, M. S. (1995). Methodology for the design and evaluation of ontologies. In <em>IJCAI-95 Workshop on Basic Ontological Issues in Knowledge Sharing</em>.</li><li>Hayes, A. F., &amp; Krippendorff, K. (2007). Answering the call for a standard reliability measure for coding data. <em>Communication Methods and Measures, 1</em>(1), 77–89.</li><li>McHugh, M. L. (2012). Interrater reliability: The kappa statistic. <em>Biochemia Medica, 22</em>(3), 276–282.</li><li>Morgan, D. L. (2023). Exploring the use of artificial intelligence for qualitative data analysis: The case of ChatGPT. <em>International Journal of Qualitative Methods, 22</em>.</li><li>Naeem, M., Smith, T., &amp; Thomas, L. (2025). Thematic analysis and artificial intelligence: A step-by-step process for using ChatGPT in thematic analysis. <em>International Journal of Qualitative Methods, 24</em>.</li><li>Reiter, R. (1978). On closed world data bases. In H. Gallaire &amp; J. Minker (Eds.), <em>Logic and data bases</em> (pp. 55–76). Plenum Press.</li><li>Schroeder, H., Aubin Le Quéré, M., Randazzo, C., Mimno, D., &amp; Schoenebeck, S. (2025). Large language models in qualitative research: Uses, tensions, and intentions. In <em>Proceedings of the 2025 CHI Conference on Human Factors in Computing Systems</em>.</li></ol>
     </section>
 
     <footer>
-      <p><strong>작성</strong> · Dr. Jewoong Moon · ADDIE Lab · The University of Alabama</p>
-      <p><strong>버전</strong> 0.1 · 2026-05-07 · 영어판과 함께 제공되는 한국어 요약/가이드 페이지.</p>
+      <p><strong>Author</strong> · Dr. Jewoong Moon · ADDIE Lab · College of Education · The University of Alabama</p>
+      <p><strong>Version</strong> 0.1 · 2026-05-07 · 질적 방법에 입문하는 대학원 AI 연구자를 위해 작성.</p>
+      <p><strong>Citation source</strong> · 검증된 문헌 스캔: <code>Desktop/_research/2026-05-07_ontology-vs-coding-scheme.md</code> (35 sources).</p>
+      <p><strong>License</strong> · CC BY 4.0 · 인용: Moon, J. (2026). <em>온톨로지, 코딩, 인식론적 프레이밍: 변증법적 온보딩 가이드</em> (v0.1). ADDIE Lab Methodological Handbook.</p>
+      <p><strong>주의</strong> · 이 문서는 실전 온보딩 가이드이며 canonical reference가 아니다. 핵심 근거 문헌은 §10에 정리했다.</p>
     </footer>
   </main>
 </div>
-
-<script>
-  (function () {
-    var sections = Array.from(document.querySelectorAll('main section[id]'));
-    var links = Array.from(document.querySelectorAll('aside nav a'));
-    var byHash = {};
-    links.forEach(function (a) { byHash[a.getAttribute('href').slice(1)] = a; });
-    function setActive(id) {
-      links.forEach(function (a) { a.classList.remove('active'); });
-      if (id && byHash[id]) byHash[id].classList.add('active');
-    }
-    if ('IntersectionObserver' in window) {
-      var io = new IntersectionObserver(function (entries) {
-        var visible = entries.filter(function (e) { return e.isIntersecting; })
-          .sort(function (a, b) { return a.target.offsetTop - b.target.offsetTop; });
-        if (visible.length) setActive(visible[0].target.id);
-      }, { rootMargin: '-15% 0px -70% 0px', threshold: 0 });
-      sections.forEach(function (s) { io.observe(s); });
-    }
-  })();
-</script>
 </body>
 </html>

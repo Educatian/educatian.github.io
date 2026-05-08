@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>1페이지 비교표: 온톨로지, 코딩, 프레이밍</title>
+<style>
+  :root { --ink:#1a1a1a; --muted:#5f6368; --rule:#d9d6cf; --paper:#fbfaf6; --blue:#1d4e89; --amber:#92400e; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--paper); color:var(--ink); font:14px/1.55 Inter, "Noto Sans KR", system-ui, -apple-system, "Segoe UI", Arial, sans-serif; word-break:keep-all; }
+  main { max-width:1060px; margin:0 auto; padding:28px; }
+  header { border-bottom:2px solid var(--ink); padding-bottom:12px; margin-bottom:18px; }
+  h1 { margin:0; font-size:27px; line-height:1.15; }
+  .sub { margin:8px 0 0; color:var(--muted); }
+  .example { border:1px solid var(--rule); background:white; padding:12px 14px; margin:16px 0; }
+  .example strong { color:var(--blue); }
+  table { width:100%; border-collapse:collapse; background:white; border:1px solid var(--rule); }
+  th, td { text-align:left; vertical-align:top; padding:10px 12px; border-bottom:1px solid var(--rule); }
+  thead th { background:#f4f1ea; font-size:12px; text-transform:uppercase; letter-spacing:.04em; }
+  tbody th { width:15%; color:var(--ink); }
+  .ont { border-left:4px solid var(--blue); }
+  .code { border-left:4px solid var(--amber); }
+  .frame { border-left:4px solid #047857; }
+  code { background:#f6f3ec; padding:1px 4px; border-radius:3px; }
+  .grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:16px; }
+  .box { border:1px solid var(--rule); background:white; padding:12px 14px; }
+  h2 { font-size:15px; margin:0 0 8px; }
+  ul { margin:0; padding-left:18px; }
+  footer { color:var(--muted); font-size:12px; margin-top:14px; }
+  @media print {
+    @page { size: letter landscape; margin: 0.35in; }
+    body { background:white; font-size:11px; }
+    main { max-width:none; padding:0; }
+    h1 { font-size:22px; }
+    .example, .box, table { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>온톨로지 vs. 코딩 스키마 vs. 인식론적 프레이밍</h1>
+    <p class="sub">온보딩 가이드 수업용 1페이지 핸드아웃. 전체 35분 읽기 전에 먼저 사용한다.</p>
+  </header>
+
+  <div class="example">
+    <strong>러닝 예시:</strong> 한 학생이 말한다. “ChatGPT가 생각하는 데 도움을 줬지만, 지어낼 수도 있어서 답은 다시 확인했어요.”
+  </div>
+
+  <table>
+    <thead>
+      <tr><th>질문</th><th>온톨로지</th><th>코딩 스키마</th><th>인식론적 프레이밍</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th>무엇인가?</th>
+        <td class="ont">공유 가능한 object와 relation을 형식적 또는 준형식적으로 표현한 것.</td>
+        <td class="code">특정 corpus의 data segment를 해석하기 위한 분석 도구.</td>
+        <td class="frame">참여자가 knowledge practice에 어떻게 orient하는지 설명하는 교육학 construct.</td>
+      </tr>
+      <tr>
+        <th>예시를 읽는 방식</th>
+        <td class="ont"><code>AI tool</code>, <code>student</code>, <code>claim</code>, <code>verification</code>, <code>uncertainty</code>, <code>checksAgainst</code>.</td>
+        <td class="code"><code>AI-trust-hedge</code>, <code>verification practice</code>, <code>responsible-student identity work</code>.</td>
+        <td class="frame">Sensemaking-with-verification. AI는 unquestioned authority가 아니라 provisional epistemic partner다.</td>
+      </tr>
+      <tr>
+        <th>좋은 산출물</th>
+        <td class="ont">RDF, OWL, SKOS, competency question, reusable vocabulary.</td>
+        <td class="code">Codebook, definition, inclusion/exclusion rule, excerpt, memo.</td>
+        <td class="frame">Evidence, authority, uncertainty, action에 대한 local orientation 설명.</td>
+      </tr>
+      <tr>
+        <th>검증</th>
+        <td class="ont">Logical consistency, competency question coverage, expert review, reuse.</td>
+        <td class="code">Trustworthiness, 필요한 경우 inter-rater agreement, audit trail, reflexivity.</td>
+        <td class="frame">Discourse, behavior, task context, theoretical account 사이의 coherence.</td>
+      </tr>
+      <tr>
+        <th>Reviewer 위험</th>
+        <td class="ont">Local interpretive category를 universal infrastructure처럼 다루는 것.</td>
+        <td class="code">Code assignment를 단순 annotation이나 ground-truth labeling으로 축소하는 것.</td>
+        <td class="frame">구체적인 orientation shift 없이 “framing”을 추상어로만 쓰는 것.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="grid">
+    <div class="box">
+      <h2>10분 스킴 경로</h2>
+      <ul>
+        <li>§1: 변증법과 러닝 예시</li>
+        <li>§5: 운영 방식의 차이</li>
+        <li>§6: 여섯 가지 흔한 오해</li>
+        <li>§8: 공존 설계 체크리스트</li>
+      </ul>
+    </div>
+    <div class="box">
+      <h2>실무 규칙</h2>
+      <ul>
+        <li>온톨로지는 reusable epistemic object를 안정화할 때 쓴다.</li>
+        <li>코딩은 situated meaning-making을 보존할 때 쓴다.</li>
+        <li>인식론적 프레이밍은 학습자가 object를 knowledge practice로 어떻게 uptake하는지 설명할 때 쓴다.</li>
+      </ul>
+    </div>
+  </div>
+
+  <footer>Moon, J. (2026). ADDIE Lab Methodological Handbook. CC BY 4.0.</footer>
+</main>
+</body>
+</html>

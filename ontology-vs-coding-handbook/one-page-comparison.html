@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>One-Page Comparison: Ontology, Coding, Framing</title>
+<style>
+  :root { --ink:#1a1a1a; --muted:#5f6368; --rule:#d9d6cf; --paper:#fbfaf6; --blue:#1d4e89; --amber:#92400e; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--paper); color:var(--ink); font:14px/1.45 Inter, system-ui, -apple-system, "Segoe UI", Arial, sans-serif; }
+  main { max-width:1060px; margin:0 auto; padding:28px; }
+  header { border-bottom:2px solid var(--ink); padding-bottom:12px; margin-bottom:18px; }
+  h1 { margin:0; font-size:28px; line-height:1.1; }
+  .sub { margin:8px 0 0; color:var(--muted); }
+  .example { border:1px solid var(--rule); background:white; padding:12px 14px; margin:16px 0; }
+  .example strong { color:var(--blue); }
+  table { width:100%; border-collapse:collapse; background:white; border:1px solid var(--rule); }
+  th, td { text-align:left; vertical-align:top; padding:10px 12px; border-bottom:1px solid var(--rule); }
+  thead th { background:#f4f1ea; font-size:12px; text-transform:uppercase; letter-spacing:.04em; }
+  tbody th { width:15%; color:var(--ink); }
+  .ont { border-left:4px solid var(--blue); }
+  .code { border-left:4px solid var(--amber); }
+  .frame { border-left:4px solid #047857; }
+  code { background:#f6f3ec; padding:1px 4px; border-radius:3px; }
+  .grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:16px; }
+  .box { border:1px solid var(--rule); background:white; padding:12px 14px; }
+  h2 { font-size:15px; margin:0 0 8px; }
+  ul { margin:0; padding-left:18px; }
+  footer { color:var(--muted); font-size:12px; margin-top:14px; }
+  @media print {
+    @page { size: letter landscape; margin: 0.35in; }
+    body { background:white; font-size:11px; }
+    main { max-width:none; padding:0; }
+    h1 { font-size:22px; }
+    .example, .box, table { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>Ontology vs. Coding Scheme vs. Epistemological Framing</h1>
+    <p class="sub">One-page teaching handout for the onboarding guide. Use this before the full 35-minute reading.</p>
+  </header>
+
+  <div class="example">
+    <strong>Running example:</strong> A student says, "ChatGPT helped me think, but I still checked the answer because it might be making things up."
+  </div>
+
+  <table>
+    <thead>
+      <tr><th>Question</th><th>Ontology</th><th>Coding Scheme</th><th>Epistemological Framing</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th>What is it?</th>
+        <td class="ont">A formal or semi-formal representation of shared objects and relations.</td>
+        <td class="code">An analytic instrument for interpreting segments of data in a corpus.</td>
+        <td class="frame">A construct for explaining how participants orient to knowledge practices.</td>
+      </tr>
+      <tr>
+        <th>Reads the example as...</th>
+        <td class="ont"><code>AI tool</code>, <code>student</code>, <code>claim</code>, <code>verification</code>, <code>uncertainty</code>, <code>checksAgainst</code>.</td>
+        <td class="code"><code>AI-trust-hedge</code>, <code>verification practice</code>, <code>responsible-student identity work</code>.</td>
+        <td class="frame">Sensemaking-with-verification: AI is a provisional epistemic partner, not an unquestioned authority.</td>
+      </tr>
+      <tr>
+        <th>Best output</th>
+        <td class="ont">RDF, OWL, SKOS, competency questions, reusable vocabulary.</td>
+        <td class="code">Codebook, definitions, inclusion/exclusion rules, excerpts, memos.</td>
+        <td class="frame">Account of local orientation to evidence, authority, uncertainty, and action.</td>
+      </tr>
+      <tr>
+        <th>Validation</th>
+        <td class="ont">Logical consistency, competency question coverage, expert review, reuse.</td>
+        <td class="code">Trustworthiness, inter-rater agreement when appropriate, audit trail, reflexivity.</td>
+        <td class="frame">Coherence across discourse, behavior, task context, and theoretical account.</td>
+      </tr>
+      <tr>
+        <th>Reviewer risk</th>
+        <td class="ont">Treating local interpretive categories as universal infrastructure.</td>
+        <td class="code">Treating code assignment as mere annotation or ground-truth labeling.</td>
+        <td class="frame">Invoking "framing" abstractly without showing a concrete shift in orientation.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="grid">
+    <div class="box">
+      <h2>10-Minute Skim Path</h2>
+      <ul>
+        <li>§1: Dialectic and running example</li>
+        <li>§5: Operational differences</li>
+        <li>§6: Six common misconceptions</li>
+        <li>§8: Coexistence design checklist</li>
+      </ul>
+    </div>
+    <div class="box">
+      <h2>Rule of Thumb</h2>
+      <ul>
+        <li>Use ontology to stabilize reusable epistemic objects.</li>
+        <li>Use coding to preserve situated meaning-making.</li>
+        <li>Use epistemological framing to explain how learners take up objects as knowledge practices.</li>
+      </ul>
+    </div>
+  </div>
+
+  <footer>Moon, J. (2026). ADDIE Lab Methodological Handbook. CC BY 4.0.</footer>
+</main>
+</body>
+</html>
