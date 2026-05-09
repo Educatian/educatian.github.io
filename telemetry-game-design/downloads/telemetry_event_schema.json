@@ -1,0 +1,46 @@
+{
+  "schema_version": "telemetry-game-design-v1",
+  "description": "Public-safe starter schema for educational game telemetry. Extend the payload object for each game.",
+  "required_fields": [
+    "schema_version",
+    "game_id",
+    "game_version",
+    "session_id",
+    "attempt_id",
+    "player_pseudonym",
+    "timestamp_utc",
+    "elapsed_ms",
+    "sequence_index",
+    "level_id",
+    "mission_id",
+    "state_id",
+    "event_type",
+    "actor_action",
+    "target_type",
+    "target_id",
+    "result_status",
+    "attempt_number",
+    "available_supports",
+    "support_used",
+    "pre_state",
+    "post_state",
+    "privacy_tier",
+    "payload"
+  ],
+  "event_type_examples": [
+    "mission_started",
+    "node_inspected",
+    "choice_submitted",
+    "hint_opened",
+    "failure_triggered",
+    "replay_started",
+    "evidence_linked",
+    "reflection_submitted",
+    "report_exported"
+  ],
+  "privacy_tiers": {
+    "low": "Pseudonymous gameplay event with no free text or media.",
+    "moderate": "Free-text rationale, open response, or derived feature that may reveal sensitive information.",
+    "sensitive": "Raw audio, video, face, gaze, biometric, exact location, or directly identifying data."
+  }
+}

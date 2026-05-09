@@ -1,0 +1,528 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Telemetry Design for Educational Games</title>
+<meta name="description" content="A practical, visually rich onboarding guide for deciding what to log before an educational game becomes impossible to study.">
+<link rel="canonical" href="https://educatian.github.io/telemetry-game-design/">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Telemetry Design for Educational Games">
+<meta property="og:description" content="What to log before your learning game becomes impossible to study.">
+<meta property="og:url" content="https://educatian.github.io/telemetry-game-design/">
+<meta property="og:image" content="https://educatian.github.io/telemetry-game-design/thumbnails/hero_og_1200x630.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://educatian.github.io/telemetry-game-design/thumbnails/hero_og_1200x630.png">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,800;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700;800&display=swap');
+:root{
+  --bg:#efe7d8;--paper:#fffdf7;--ink:#151b1f;--muted:#65706e;--line:#cfc3ad;
+  --teal:#0a6f66;--teal2:#073f3b;--teal-soft:rgba(10,111,102,.12);
+  --rust:#b73a29;--rust2:#7e241a;--rust-soft:rgba(183,58,41,.12);
+  --gold:#c28b2c;--gold-soft:rgba(194,139,44,.16);--cyan:#24a7b0;
+  --blue:#1f4b68;--blue-soft:rgba(31,75,104,.12);
+  --shadow:0 22px 52px rgba(21,27,31,.14);--radius:12px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,sans-serif;line-height:1.62;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+.grid-bg{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.34;background-image:linear-gradient(rgba(21,27,31,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(21,27,31,.06) 1px,transparent 1px);background-size:44px 44px;mask-image:radial-gradient(ellipse at 24% 10%,black 30%,transparent 82%)}
+.shell{position:relative;z-index:1;display:grid;grid-template-columns:292px minmax(0,1fr);gap:54px;max-width:1440px;margin:0 auto;padding:58px 76px 92px}
+.toc{position:sticky;top:28px;align-self:start;max-height:calc(100vh - 56px);overflow:auto;background:var(--paper);border:2px solid var(--ink);border-radius:16px;padding:22px;box-shadow:9px 9px 0 rgba(183,58,41,.10)}
+.toc-kicker,.kicker,.eyebrow{font-size:11px;font-weight:900;letter-spacing:3.2px;text-transform:uppercase;color:var(--rust)}
+.toc h2{font-size:18px;line-height:1.18;margin:8px 0 15px;font-weight:900}
+.toc ol{list-style:none;margin:0;padding:0;counter-reset:item}.toc li{counter-increment:item;border-top:1px solid var(--line)}.toc li:first-child{border-top:0}
+.toc a{display:flex;gap:10px;padding:9px 0;color:var(--ink);text-decoration:none;font-size:13px;line-height:1.35;font-weight:700}.toc a::before{content:counter(item,decimal-leading-zero);font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);width:20px;flex:none}.toc a:hover,.toc a.active{color:var(--teal)}.toc a.active{background:var(--teal-soft);border-radius:9px;padding-left:8px;padding-right:8px}
+.toc-downloads{border-top:1px solid var(--line);margin-top:16px;padding-top:13px}.toc-downloads a{display:block;color:var(--teal);font-size:12px;font-weight:900;text-decoration:none;padding:5px 0}.toc-downloads a::before{content:none}
+main{min-width:0}.home-link{display:inline-block;color:var(--teal);font-weight:850;text-decoration:none;margin-bottom:24px}
+.hero{position:relative;border-bottom:1px solid var(--line);padding:10px 0 56px;margin-bottom:58px}
+h1{max-width:980px;font-size:72px;line-height:1.02;letter-spacing:0;margin:14px 0 22px;font-weight:900}.serif{font-family:'Playfair Display',Georgia,serif;font-style:italic;font-weight:400;color:var(--rust)}
+.lede{max-width:880px;font-size:21px;line-height:1.55;color:#2e3c3f;font-weight:350;margin:0 0 26px}
+.hero-meta,.pills{display:flex;flex-wrap:wrap;gap:9px;margin:19px 0}.pill{display:inline-flex;align-items:center;border:1.5px solid var(--ink);border-radius:999px;background:#fff;padding:6px 10px;min-height:28px;font-size:11px;font-family:'JetBrains Mono',monospace;font-weight:800;letter-spacing:.9px;text-transform:uppercase}.pill.hot{background:var(--teal);border-color:var(--teal);color:#fff}.pill.warn{background:var(--rust);border-color:var(--rust);color:#fff}
+.hero-image{position:relative;margin:32px 0 0;border:2px solid var(--ink);border-radius:18px;overflow:hidden;background:#111;box-shadow:var(--shadow)}.hero-image img{display:block;width:100%;height:auto}.hero-overlay{position:absolute;left:24px;bottom:24px;max-width:520px;background:rgba(255,253,247,.90);border:2px solid var(--ink);border-radius:12px;padding:18px 20px;backdrop-filter:blur(8px)}.hero-overlay b{display:block;font-size:15px;letter-spacing:1px;text-transform:uppercase;color:var(--teal);margin-bottom:5px}.hero-overlay p{margin:0;color:#263234;font-size:14px}
+.section{scroll-margin-top:26px;margin-bottom:74px}.section-label{display:flex;align-items:center;gap:14px;margin-bottom:12px}.section-label::after{content:"";height:1px;background:var(--line);flex:1}
+h2{font-size:42px;line-height:1.1;margin:0 0 16px;font-weight:900;letter-spacing:0}h3{font-size:24px;line-height:1.22;margin:30px 0 12px;font-weight:900}p{font-size:15.5px;color:#2e3c3f;margin:0 0 14px}
+.grid-2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.grid-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}.grid-4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.card{background:var(--paper);border:2px solid var(--ink);border-radius:var(--radius);padding:21px 23px}.card.soft{background:var(--teal-soft);border-color:var(--teal)}.card.warn{background:var(--rust-soft);border-color:var(--rust)}.card.dark{background:var(--ink);color:#fff}.card.dark p,.card.dark li{color:#dde6e3}.card-title{font-size:11px;font-weight:900;letter-spacing:2.1px;text-transform:uppercase;color:var(--teal);margin-bottom:8px}.card strong{color:#111}.card.dark strong{color:#fff}
+.image-card{background:#fff;border:2px solid var(--ink);border-radius:16px;overflow:hidden;box-shadow:var(--shadow);margin:24px 0}.image-card img{display:block;width:100%;height:auto}.image-card .caption{padding:13px 16px;border-top:1px solid var(--line);font-size:12px;color:var(--muted);font-weight:700}
+.figure{background:var(--paper);border:2px solid var(--ink);border-radius:14px;padding:18px;margin:22px 0}.figure svg{display:block;width:100%;height:auto}
+.pipeline{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:9px;margin:24px 0}.pipe-step{background:#fff;border:2px solid var(--ink);border-radius:12px;padding:15px;min-height:126px}.pipe-step.hot{background:var(--teal);border-color:var(--teal);color:#fff;transform:translateY(-8px);box-shadow:0 14px 32px rgba(10,111,102,.20)}.pipe-step .n{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1.4px;text-transform:uppercase;color:var(--muted);font-weight:900}.pipe-step.hot .n,.pipe-step.hot p{color:rgba(255,255,255,.78)}.pipe-step b{display:block;font-size:16px;line-height:1.17;margin:8px 0}.pipe-step p{font-size:12.5px;line-height:1.42;margin:0;color:#405052}
+.table-wrap{overflow:auto;border:2px solid var(--ink);border-radius:12px;background:#fff;margin:18px 0}table{width:100%;border-collapse:collapse;font-size:14px}th{text-align:left;background:var(--ink);color:#fff;font-size:11px;letter-spacing:1.4px;text-transform:uppercase;padding:12px 14px}td{padding:12px 14px;border-top:1px solid var(--line);vertical-align:top}td.k{font-family:'JetBrains Mono',monospace;font-weight:800;color:var(--teal);white-space:nowrap}
+code{font-family:'JetBrains Mono',Consolas,monospace;font-size:13px;background:#fff;border:1px solid var(--line);border-radius:5px;padding:1px 6px;color:var(--teal);font-weight:650}.code{background:var(--ink);color:#f7f1e7;border:2px solid var(--ink);border-radius:12px;padding:17px 19px;overflow:auto;font-family:'JetBrains Mono',Consolas,monospace;font-size:13px;line-height:1.62;white-space:pre;margin:14px 0}
+.lab{display:grid;grid-template-columns:330px minmax(0,1fr);gap:18px;margin:24px 0}.lab-panel,.lab-output{background:#fff;border:2px solid var(--ink);border-radius:14px;padding:18px}.control{margin-bottom:16px}.control label{display:block;font-size:12px;font-weight:900;letter-spacing:1.2px;text-transform:uppercase;color:var(--teal);margin-bottom:8px}.select{width:100%;padding:10px 12px;border:1.5px solid var(--line);border-radius:10px;background:#fff;color:var(--ink);font:inherit}.lab-result{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.result-cell{background:var(--teal-soft);border:1px solid rgba(10,111,102,.25);border-radius:10px;padding:13px}.result-cell b{display:block;color:var(--teal);font-size:11px;letter-spacing:1.2px;text-transform:uppercase;margin-bottom:5px}.result-cell span{font-size:14px;color:#263234}
+details{border:2px solid var(--ink);border-radius:12px;background:#fff;margin:10px 0;overflow:hidden}summary{cursor:pointer;padding:15px 18px;font-weight:850}details[open]{border-color:var(--teal)}details[open] summary{border-bottom:1px solid var(--line);color:var(--teal)}details p,details ul{padding:0 18px 16px;margin:0}
+.video-frame{position:relative;overflow:hidden;border:2px solid var(--ink);border-radius:16px;background:#111;box-shadow:var(--shadow);aspect-ratio:16/9;margin:22px 0}.video-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}.resource-link{display:inline-flex;align-items:center;gap:8px;color:var(--teal);font-weight:900;text-decoration:none;border-bottom:2px solid rgba(10,111,102,.26)}.resource-link:hover{border-bottom-color:var(--teal)}
+.download-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:20px 0}.download{display:block;background:#fff;border:2px solid var(--ink);border-radius:14px;padding:18px;text-decoration:none;color:var(--ink);transition:transform .12s,box-shadow .12s}.download:hover{transform:translateY(-2px);border-color:var(--teal);box-shadow:var(--shadow)}.download .name{font-size:17px;font-weight:900;line-height:1.25;margin-bottom:8px}.download .meta{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px}
+.refs li{margin:8px 0;color:#2e3c3f}.foot{margin-top:80px;padding-top:30px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;font-size:11px;color:var(--muted);letter-spacing:.15em;text-transform:uppercase;font-weight:800}
+@media(max-width:1080px){.shell{grid-template-columns:1fr;padding:36px 24px 68px}.toc{position:relative;top:auto;max-height:none}.grid-2,.grid-3,.grid-4,.lab,.download-grid{grid-template-columns:1fr}.pipeline{grid-template-columns:repeat(2,minmax(0,1fr))}.hero-overlay{position:relative;left:auto;bottom:auto;margin:0;border-left:0;border-right:0;border-bottom:0;border-radius:0}.lab-result{grid-template-columns:1fr}h1{font-size:52px}}
+@media(max-width:620px){.shell{display:block;width:100%;max-width:100%;padding:28px 16px 60px;overflow:hidden}.toc{width:100%;max-width:100%;min-width:0;margin:0 0 28px;padding:20px}.toc a{font-size:12.5px}.toc-downloads a{font-size:12px}main{width:100%;max-width:100%;overflow:hidden}.kicker{font-size:10px;letter-spacing:1.6px;line-height:1.8;overflow-wrap:break-word}h1{font-size:30px;line-height:1.08;max-width:100%;overflow-wrap:break-word}h1 .serif{display:block}h2{font-size:31px}.lede{font-size:18px;max-width:100%;overflow-wrap:break-word}.pipeline{grid-template-columns:1fr}.hero-image{border-radius:12px}.pipe-step.hot{transform:none}}
+@media print{.toc,.grid-bg,.home-link{display:none}.shell{display:block;padding:0;max-width:none}body{background:#fff}.card,.image-card,.figure,.download,.pipe-step{break-inside:avoid}}
+</style>
+</head>
+<body>
+<div class="grid-bg"></div>
+<div class="shell">
+  <aside class="toc" aria-label="Table of contents">
+    <div class="toc-kicker">Game telemetry</div>
+    <h2>What to log before analysis</h2>
+    <ol>
+      <li><a href="#purpose">Why this guide exists</a></li>
+      <li><a href="#pipeline">Evidence pipeline</a></li>
+      <li><a href="#schema">Telemetry envelope</a></li>
+      <li><a href="#events">Event families</a></li>
+      <li><a href="#mmla">MMLA case</a></li>
+      <li><a href="#video">YouTube embed</a></li>
+      <li><a href="#challenge">Challenge lab</a></li>
+      <li><a href="#troubleshooting">Troubleshooting</a></li>
+      <li><a href="#privacy">Privacy and retention</a></li>
+      <li><a href="#downloads">Starter downloads</a></li>
+      <li><a href="#references">References</a></li>
+    </ol>
+    <div class="toc-downloads">
+      <a href="downloads/telemetry_event_schema.json">Schema JSON</a>
+      <a href="downloads/event_dictionary.csv">Event dictionary</a>
+      <a href="downloads/synthetic_gameplay_log.csv">Synthetic log</a>
+    </div>
+  </aside>
+
+  <main>
+    <header class="hero">
+      <a class="home-link" href="../">Back to Educatian open guides</a>
+      <div class="kicker">Educational games · telemetry · ECD</div>
+      <h1>Telemetry Design for <span class="serif">Educational Games</span></h1>
+      <p class="lede">What to log before your learning game becomes impossible to study. A visual onboarding guide for turning gameplay into defensible evidence without confusing clicks, struggle, hints, sensors, or dashboards with learning itself.</p>
+      <div class="hero-meta">
+        <span class="pill hot">Game logs</span>
+        <span class="pill">ECD</span>
+        <span class="pill">Stealth assessment</span>
+        <span class="pill">MMLA</span>
+        <span class="pill warn">Troubleshooting</span>
+        <span class="pill">Public-safe templates</span>
+      </div>
+      <div class="hero-image">
+        <img src="assets/imagegen2-telemetry-hero.png" alt="Educational game telemetry studio with gameplay, event streams, evidence cards, and dashboard panels">
+        <div class="hero-overlay">
+          <b>Core rule</b>
+          <p>Do not log everything. Log the observable behavior and game state needed to support the claim you intend to make.</p>
+        </div>
+      </div>
+    </header>
+
+    <section id="purpose" class="section">
+      <div class="section-label"><span class="eyebrow">01 · Purpose</span></div>
+      <h2>Educational games fail as research instruments when logging is added last.</h2>
+      <p>A game can be engaging, beautiful, and still impossible to study. If the only exported fields are final score, completion, and time, later analysis cannot reconstruct strategy, support use, failure recovery, misconception patterns, or ethical reasoning.</p>
+      <div class="grid-3">
+        <div class="card warn"><div class="card-title">Underlogging</div><p>Only saves score, completion, and total time. Process evidence disappears.</p></div>
+        <div class="card warn"><div class="card-title">Overlogging</div><p>Records every click but not the game state, available choices, task meaning, or support context.</p></div>
+        <div class="card soft"><div class="card-title">Instrumented design</div><p>Maps learning claims to game mechanics, observable actions, structured events, and cautious interpretations.</p></div>
+      </div>
+    </section>
+
+    <section id="pipeline" class="section">
+      <div class="section-label"><span class="eyebrow">02 · Evidence pipeline</span></div>
+      <h2>Design the evidence chain before the event logger.</h2>
+      <p>The strongest telemetry starts with the research claim, not the database table.</p>
+      <div class="pipeline">
+        <div class="pipe-step"><div class="n">01</div><b>Learning claim</b><p>What do you want to say?</p></div>
+        <div class="pipe-step"><div class="n">02</div><b>Competency</b><p>What capability or construct is implied?</p></div>
+        <div class="pipe-step hot"><div class="n">03</div><b>Game mechanic</b><p>Which task can elicit evidence?</p></div>
+        <div class="pipe-step"><div class="n">04</div><b>Observable action</b><p>What can be seen without guessing?</p></div>
+        <div class="pipe-step"><div class="n">05</div><b>Event record</b><p>What fields preserve context?</p></div>
+        <div class="pipe-step"><div class="n">06</div><b>Interpretation</b><p>What can be claimed safely?</p></div>
+      </div>
+      <div class="figure">
+        <svg viewBox="0 0 1100 250" role="img" aria-label="Evidence-centered game telemetry pathway">
+          <defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#0a6f66"/></marker></defs>
+          <rect width="1100" height="250" rx="18" fill="#fffdf7"/>
+          <g font-family="Inter, Arial">
+            <g transform="translate(34 62)"><rect width="170" height="98" rx="12" fill="#f8e4df" stroke="#151b1f" stroke-width="2"/><text x="18" y="39" font-size="18" font-weight="900" fill="#7e241a">Claim</text><text x="18" y="68" font-size="13" fill="#2e3c3f">persistence, reasoning, support use</text></g>
+            <g transform="translate(248 62)"><rect width="170" height="98" rx="12" fill="#e5f3ef" stroke="#151b1f" stroke-width="2"/><text x="18" y="39" font-size="18" font-weight="900" fill="#0a6f66">Mechanic</text><text x="18" y="68" font-size="13" fill="#2e3c3f">choice, puzzle, evidence board</text></g>
+            <g transform="translate(462 62)"><rect width="170" height="98" rx="12" fill="#fff7df" stroke="#151b1f" stroke-width="2"/><text x="18" y="39" font-size="18" font-weight="900" fill="#8a5b08">Action</text><text x="18" y="68" font-size="13" fill="#2e3c3f">inspect, retry, revise, submit</text></g>
+            <g transform="translate(676 62)"><rect width="170" height="98" rx="12" fill="#edf4f8" stroke="#151b1f" stroke-width="2"/><text x="18" y="39" font-size="18" font-weight="900" fill="#1f4b68">Record</text><text x="18" y="68" font-size="13" fill="#2e3c3f">time, state, result, support</text></g>
+            <g transform="translate(890 62)"><rect width="176" height="98" rx="12" fill="#e5f3ef" stroke="#151b1f" stroke-width="2"/><text x="18" y="39" font-size="18" font-weight="900" fill="#0a6f66">Evidence</text><text x="18" y="68" font-size="13" fill="#2e3c3f">bounded claim, not diagnosis</text></g>
+          </g>
+          <g stroke="#0a6f66" stroke-width="4" marker-end="url(#arrow)"><line x1="204" y1="111" x2="238" y2="111"/><line x1="418" y1="111" x2="452" y2="111"/><line x1="632" y1="111" x2="666" y2="111"/><line x1="846" y1="111" x2="880" y2="111"/></g>
+          <text x="34" y="207" font-family="JetBrains Mono, monospace" font-size="14" font-weight="800" fill="#65706e">If the evidence chain is missing, more logs usually create more ambiguity.</text>
+        </svg>
+      </div>
+    </section>
+
+    <section id="schema" class="section">
+      <div class="section-label"><span class="eyebrow">03 · Minimum viable telemetry envelope</span></div>
+      <h2>The same click means different things in different game states.</h2>
+      <p>A useful event row preserves enough context to reconstruct what the learner could see, what they tried, what support was available, and what changed next.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Field</th><th>Why it matters</th><th>Example</th></tr></thead>
+          <tbody>
+            <tr><td class="k">schema_version</td><td>Keeps old logs interpretable after schema changes.</td><td><code>telemetry-game-design-v1</code></td></tr>
+            <tr><td class="k">game_version</td><td>Separates content effects from learner effects.</td><td><code>0.3.2</code></td></tr>
+            <tr><td class="k">session_id / attempt_id</td><td>Preserves replay, persistence, and within-player structure.</td><td><code>S001 / A002</code></td></tr>
+            <tr><td class="k">timestamp_utc / elapsed_ms / sequence_index</td><td>Supports time-on-task, process, and synchronization.</td><td><code>seq=42</code></td></tr>
+            <tr><td class="k">mission_id / state_id</td><td>Reconstructs where the event happened in game logic.</td><td><code>phishing-inn / evidence_board</code></td></tr>
+            <tr><td class="k">event_type</td><td>Controlled vocabulary for analysis.</td><td><code>hint_opened</code></td></tr>
+            <tr><td class="k">pre_state / post_state</td><td>Makes action meaning visible.</td><td><code>blocked_path -> hint_seen</code></td></tr>
+            <tr><td class="k">privacy_tier</td><td>Controls retention, sharing, and export decisions.</td><td><code>low / moderate / sensitive</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="events" class="section">
+      <div class="section-label"><span class="eyebrow">04 · Event families</span></div>
+      <h2>Log by game mechanic, not by screen widget.</h2>
+      <div class="grid-4">
+        <div class="card"><div class="card-title">TeachPlay</div><p>Design task started, AI disclosure edited, prototype evidence uploaded, feedback revised, reflection submitted.</p></div>
+        <div class="card"><div class="card-title">Cyber_Grid</div><p>Node inspected, route rotated, trace run, threat port identified, quarantine attempted, debrief submitted.</p></div>
+        <div class="card"><div class="card-title">Shadow Packet</div><p>Evidence inspected, NPC interviewed, Packet Lens opened, evidence linked, resolution submitted, misconception flagged.</p></div>
+        <div class="card"><div class="card-title">AI Ethics Voyage</div><p>Council scenario opened, choice selected, rationale entered, stakeholder consequence viewed, compass guidance accessed.</p></div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Claim</th><th>Minimum telemetry</th><th>Unsafe shortcut</th></tr></thead>
+          <tbody>
+            <tr><td>Persistence after failure</td><td>Failure type, retry/replay, time gap, later success.</td><td>Counting total attempts without failure context.</td></tr>
+            <tr><td>Evidence-based reasoning</td><td>Evidence inspected, link created, claim submitted, sequence, revision.</td><td>Counting evidence clicks as reasoning.</td></tr>
+            <tr><td>Hint-supported learning</td><td>Hint availability, prior attempts, hint timing, post-hint recovery.</td><td>Comparing hint users vs non-users without prior struggle.</td></tr>
+            <tr><td>Ethical reasoning</td><td>Scenario state, choice, rationale, tradeoff viewed, revision or replay.</td><td>Treating selected option as moral reasoning.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="mmla" class="section">
+      <div class="section-label"><span class="eyebrow">05 · MMLA case</span></div>
+      <h2>When logs are not enough, add modalities carefully.</h2>
+      <p>Moon et al. tracked distress during educational gameplay by fusing gameplay logs with facial-expression data. The lesson is not that every game needs cameras. The lesson is that affective and embodied claims require evidence beyond raw game actions or much stronger contextual logging.</p>
+      <div class="image-card">
+        <img src="assets/imagegen2-mmla-fusion.png" alt="Multimodal learning analytics fusion pipeline for educational gameplay">
+        <div class="caption">MMLA adds interpretive power and methodological burden: synchronization, sensor quality, privacy, missing data, and uncertainty.</div>
+      </div>
+      <div class="grid-3">
+        <div class="card soft"><div class="card-title">Use MMLA when</div><p>The construct is affective, collaborative, embodied, or strategic and gameplay logs alone cannot distinguish likely interpretations.</p></div>
+        <div class="card warn"><div class="card-title">Do not use it when</div><p>The claim can be supported by structured gameplay events, or raw media would create unnecessary privacy risk.</p></div>
+        <div class="card"><div class="card-title">Log the quality</div><p>Record modality availability, sync offset, missingness, and confidence. A missing sensor stream is data about the study design.</p></div>
+      </div>
+    </section>
+
+    <section id="video" class="section">
+      <div class="section-label"><span class="eyebrow">06 - YouTube embed tutorial</span></div>
+      <h2>Embed videos only when they carry the evidence logic.</h2>
+      <p>This guide embeds one topic-matched YouTube video because it explains the assessment design idea behind educational game telemetry: gameplay actions become useful evidence only when the target claims, observable behaviors, and interpretation rules are planned in advance.</p>
+      <div class="video-frame">
+        <iframe src="https://www.youtube-nocookie.com/embed/tvWtOn-ArVY?start=950" title="Stealth assessment: embedded evidence-based assessment in games" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+      </div>
+      <div class="grid-2">
+        <div class="card soft">
+          <div class="card-title">Embedded video</div>
+          <p><strong>Valerie Shute, "Stealth assessment: embedded evidence-based assessment in games."</strong> Watch it for the ECD logic: define the competency, identify observable gameplay evidence, and design tasks so logs can support a defensible interpretation.</p>
+          <p><a class="resource-link" href="https://transformingassessment.com/events_7_september_2011.php">Source archive and session note</a></p>
+        </div>
+        <div class="card warn">
+          <div class="card-title">Why not embed loosely related videos?</div>
+          <p>A motivational game-based learning talk may be interesting, but it does not automatically explain telemetry design. Embed only videos that directly clarify logging, evidence, assessment, multimodal traces, privacy, or validity.</p>
+        </div>
+      </div>
+      <h3>How to choose and embed a YouTube video</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Step</th><th>Decision rule</th><th>What to write beside the embed</th></tr></thead>
+          <tbody>
+            <tr><td class="k">1 - Match</td><td>The video must support a specific claim in the guide, not just the general topic.</td><td>"This video is here because it explains..."</td></tr>
+            <tr><td class="k">2 - Verify</td><td>Check the speaker, title, host page, date, and whether the content is still accessible.</td><td>Link the source archive or official page near the iframe.</td></tr>
+            <tr><td class="k">3 - Narrow</td><td>If only part of the video is relevant, start at the useful timestamp.</td><td>Tell readers what to watch for in that segment.</td></tr>
+            <tr><td class="k">4 - Protect</td><td>Use the privacy-enhanced YouTube domain when possible.</td><td>Use <code>youtube-nocookie.com</code> in the iframe source.</td></tr>
+            <tr><td class="k">5 - Bound</td><td>State what the video does not cover.</td><td>Pair the video with schema, evidence-map, or troubleshooting sections.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <h3>Embed pattern used here</h3>
+      <div class="code">&lt;div class="video-frame"&gt;
+  &lt;iframe
+    src="https://www.youtube-nocookie.com/embed/tvWtOn-ArVY?start=950"
+    title="Stealth assessment: embedded evidence-based assessment in games"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    allowfullscreen&gt;&lt;/iframe&gt;
+&lt;/div&gt;</div>
+      <div class="card">
+        <div class="card-title">Companion MMLA resource</div>
+        <p>For multimodal learning analytics, Marcelo Worsley's CIRCL webinar archive is a strong companion resource. It is linked rather than embedded here because the verified archive page is not a YouTube embed target.</p>
+        <p><a class="resource-link" href="https://circlcenter.org/events/making-sense-of-multimodal-learning-analytics/">Making Sense of Multimodal Learning Analytics</a></p>
+      </div>
+    </section>
+
+    <section id="challenge" class="section">
+      <div class="section-label"><span class="eyebrow">07 - Telemetry Challenge Lab</span></div>
+      <h2>Pick a game pattern and a claim. The logging plan changes.</h2>
+      <div class="image-card">
+        <img src="assets/imagegen2-challenge-lab.png" alt="Educational game telemetry challenge lab with puzzle, evidence, ethics, and portfolio cards">
+        <div class="caption">The challenge is not technical first. It is matching the game mechanic to the claim and the evidence burden.</div>
+      </div>
+      <div class="lab">
+        <div class="lab-panel">
+          <div class="control">
+            <label for="pattern">Game pattern</label>
+            <select id="pattern" class="select">
+              <option value="puzzle">Puzzle rotation</option>
+              <option value="mystery">Evidence-board mystery</option>
+              <option value="ethics">Ethical choice scenario</option>
+              <option value="portfolio">AI-assisted design portfolio</option>
+            </select>
+          </div>
+          <div class="control">
+            <label for="claim">Claim</label>
+            <select id="claim" class="select">
+              <option value="persistence">Persistence</option>
+              <option value="reasoning">Evidence or ethical reasoning</option>
+              <option value="support">Support use</option>
+              <option value="progress">Learning progress</option>
+            </select>
+          </div>
+          <p>Use the output as a first-pass telemetry design review, not as a substitute for an IRB, validity, or analysis plan.</p>
+        </div>
+        <div class="lab-output">
+          <div class="lab-result">
+            <div class="result-cell"><b>Events to log</b><span id="eventsOut"></span></div>
+            <div class="result-cell"><b>Context fields</b><span id="fieldsOut"></span></div>
+            <div class="result-cell"><b>Optional MMLA</b><span id="mmlaOut"></span></div>
+            <div class="result-cell"><b>Risky overclaim</b><span id="riskOut"></span></div>
+            <div class="result-cell"><b>Troubleshooting warning</b><span id="troubleOut"></span></div>
+            <div class="result-cell"><b>Safe wording</b><span id="safeOut"></span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="troubleshooting" class="section">
+      <div class="section-label"><span class="eyebrow">08 - Troubleshooting</span></div>
+      <h2>When your logs are already messy, diagnose the failure mode.</h2>
+      <div class="image-card">
+        <img src="assets/imagegen2-troubleshooting.png" alt="Troubleshooting board for messy educational game telemetry">
+        <div class="caption">Most telemetry problems are recoverable only if you know which assumption failed: time, identity, state, meaning, privacy, or versioning.</div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Symptom</th><th>Likely cause</th><th>How to troubleshoot</th></tr></thead>
+          <tbody>
+            <tr><td>Events are out of order</td><td>Client clock drift, async writes, offline upload.</td><td>Sort by <code>sequence_index</code>; keep server receipt time separate.</td></tr>
+            <tr><td>Same action has different meanings</td><td>Game state was not logged.</td><td>Add <code>pre_state</code>, <code>post_state</code>, <code>mission_id</code>, and <code>available_actions</code>.</td></tr>
+            <tr><td>Hint analysis is misleading</td><td>Hint use is confounded with prior struggle.</td><td>Rebuild around pre-hint attempts, errors, elapsed time, and recovery.</td></tr>
+            <tr><td>Time-on-task is inflated</td><td>Idle time, tab switching, classroom interruptions.</td><td>Log focus/blur, pause/resume, inactivity thresholds, and active windows.</td></tr>
+            <tr><td>MMLA streams do not align</td><td>Video/audio/sensor start times differ from game time.</td><td>Add sync markers and store sensor start offsets.</td></tr>
+            <tr><td>Model accuracy looks high but useless</td><td>Leakage from outcome or post-outcome events.</td><td>Train only on features available before the prediction point.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="privacy" class="section">
+      <div class="section-label"><span class="eyebrow">09 - Privacy and retention</span></div>
+      <h2>More sensitive data needs a stronger reason.</h2>
+      <div class="grid-3">
+        <div class="card"><div class="card-title">Low</div><p>Pseudonymous gameplay events with no free text or media. Usually enough for sequence, support-use, and completion analyses.</p></div>
+        <div class="card warn"><div class="card-title">Moderate</div><p>Free-text rationale, open response, or derived feature that may reveal sensitive information. Needs careful export rules.</p></div>
+        <div class="card dark"><div class="card-title">Sensitive</div><p>Raw audio, video, face, gaze, biometric, exact location, or directly identifying data. Collect only when the claim needs it.</p></div>
+      </div>
+    </section>
+
+    <section id="downloads" class="section">
+      <div class="section-label"><span class="eyebrow">10 - Starter downloads</span></div>
+      <h2>Public-safe files for teams and agents.</h2>
+      <div class="download-grid">
+        <a class="download" href="downloads/telemetry_event_schema.json"><div class="name">Telemetry event schema</div><div class="meta">JSON</div></a>
+        <a class="download" href="downloads/event_dictionary.csv"><div class="name">Event dictionary</div><div class="meta">CSV</div></a>
+        <a class="download" href="downloads/ecd_evidence_map_template.md"><div class="name">ECD evidence map</div><div class="meta">Markdown</div></a>
+      <a class="download" href="downloads/synthetic_gameplay_log.csv"><div class="name">Synthetic gameplay log</div><div class="meta">CSV</div></a>
+      <a class="download" href="downloads/privacy_retention_checklist.md"><div class="name">Privacy checklist</div><div class="meta">Markdown</div></a>
+      <a class="download" href="downloads/agent_prompt_telemetry_audit.md"><div class="name">Agent audit prompt</div><div class="meta">Markdown</div></a>
+        <a class="download" href="downloads/youtube_embed_tutorial.md"><div class="name">YouTube embed tutorial</div><div class="meta">Markdown</div></a>
+      </div>
+    </section>
+
+    <section id="references" class="section">
+      <div class="section-label"><span class="eyebrow">11 - References</span></div>
+      <h2>Selected sources for this guide.</h2>
+      <details open><summary>Core sources</summary>
+        <ul class="refs">
+          <li>Alonso-Fernandez, C., Calvo-Morata, A., Freire, M., Martinez-Ortiz, I., & Fernandez-Manjon, B. (2022). Game learning analytics. <em>Journal of Learning Analytics, 9</em>(3), 32-49. https://doi.org/10.18608/jla.2022.7633</li>
+          <li>Chung, G. K. W. K. (2015). Guidelines for the design, implementation, and analysis of game telemetry. In <em>Serious games analytics</em>. https://doi.org/10.1007/978-3-319-05834-4_3</li>
+          <li>Lu, W., Griffin, J., Sadler, T. D., Laffey, J. M., & Goggins, S. P. (2023). Serious game analytics by design. <em>Journal of Learning Analytics, 10</em>(1), 168-188. https://doi.org/10.18608/jla.2023.7681</li>
+          <li>Mislevy, R. J., Almond, R. G., & Lukas, J. F. (2003). A brief introduction to evidence-centered design. <em>ETS Research Report Series</em>. https://doi.org/10.1002/j.2333-8504.2003.tb01908.x</li>
+          <li>Moon, J., Ke, F., Sokolikj, Z., & Dahlstrom-Hakki, I. (2022). Multimodal data fusion to track students' distress during educational gameplay. <em>Journal of Learning Analytics, 9</em>(3), 97-117. https://doi.org/10.18608/jla.2022.7631</li>
+          <li>Shoukry, L., & Gobel, S. (2019). StoryPlay Multimodal. <em>International Journal of Serious Games, 6</em>(4), 61-84. https://doi.org/10.17083/ijsg.v6i4.323</li>
+          <li>Shute, V. J., & Ventura, M. (2013). <em>Measuring and supporting learning in games: Stealth assessment</em>. MIT Press. https://doi.org/10.7551/mitpress/9589.001.0001</li>
+          <li>Winne, P. H. (2020). Construct and consequential validity for learning analytics based on trace data. <em>Computers in Human Behavior, 112</em>, 106457. https://doi.org/10.1016/j.chb.2020.106457</li>
+          <li>Transforming Assessment. (2011). Valerie Shute: <em>Stealth assessment: embedded evidence-based assessment in games</em>. https://transformingassessment.com/events_7_september_2011.php</li>
+          <li>CIRCL Center. (2016). Marcelo Worsley: <em>Making Sense of Multimodal Learning Analytics</em>. https://circlcenter.org/events/making-sense-of-multimodal-learning-analytics/</li>
+        </ul>
+      </details>
+    </section>
+
+    <footer class="foot">
+      <span>Educatian · telemetry design for educational games</span>
+      <span>Research instrumentation before analysis</span>
+    </footer>
+  </main>
+</div>
+
+<script>
+const data={
+  puzzle:{
+    persistence:{
+      events:"failure_triggered, route_changed, replay_started, mission_completed",
+      fields:"failure_type, attempt_number, elapsed_ms, pre_state, post_state",
+      mmla:"Optional facial/video distress only if affective struggle is a target construct.",
+      risk:"Total attempts prove persistence.",
+      trouble:"Generic failure events hide whether the player recovered from the same obstacle.",
+      safe:"Some players recovered from blocked paths through repeated route testing and later success."
+    },
+    reasoning:{
+      events:"node_inspected, route_tested, threat_port_identified, debrief_submitted",
+      fields:"node_role, target_id, sequence_index, result_status, reflection_prompt",
+      mmla:"Think-aloud or screen recording for a small validation subset.",
+      risk:"Correct route proves cybersecurity reasoning.",
+      trouble:"Fast players may rely on game skill rather than domain reasoning.",
+      safe:"Players' inspection and debrief patterns were consistent with route-based threat reasoning."
+    },
+    support:{
+      events:"hint_available, hint_opened, route_changed, later_success",
+      fields:"prior_attempts, failure_type, hint_id, hint_timing, post_hint_action",
+      mmla:"Not usually needed unless help seeking is tied to affect.",
+      risk:"Hints caused lower scores.",
+      trouble:"Hint users were probably already struggling.",
+      safe:"Hint use was analyzed relative to prior struggle and post-hint recovery."
+    },
+    progress:{
+      events:"mission_started, skill_target_attempted, mission_completed, posttest_linked",
+      fields:"skill_id, content_version, outcome_timing, player_pseudonym",
+      mmla:"Optional if progress includes affect or collaboration.",
+      risk:"Completion equals learning.",
+      trouble:"Version drift changes what each mission measures.",
+      safe:"Progress claims are bounded to the logged mission version and linked outcome evidence."
+    }
+  },
+  mystery:{
+    persistence:{
+      events:"wrong_resolution, evidence_reopened, claim_revised, resolution_submitted",
+      fields:"evidence_id, revision_number, time_gap, misconception_flag",
+      mmla:"Optional screen recording to validate revision pathways.",
+      risk:"Revisions prove persistence.",
+      trouble:"Revision events without evidence IDs do not show what changed.",
+      safe:"Some players revised claims after returning to relevant evidence."
+    },
+    reasoning:{
+      events:"evidence_inspected, evidence_linked, claim_revised, resolution_submitted",
+      fields:"evidence_relevance, claim_id, sequence_index, revision_number",
+      mmla:"Think-aloud or screen recording for construct validation.",
+      risk:"Evidence clicks measure reasoning.",
+      trouble:"Inspection without linking cannot support reasoning claims.",
+      safe:"Players who connected relevant evidence before submission showed stronger evidence-use patterns."
+    },
+    support:{
+      events:"mentor_prompt_shown, packet_lens_opened, evidence_linked_after_support",
+      fields:"support_id, prior_attempts, timing, post_support_action",
+      mmla:"Not required unless support experience is the construct.",
+      risk:"Support improved reasoning.",
+      trouble:"Support may appear after failure by design.",
+      safe:"Support access was followed by specific evidence-linking actions in the logged task."
+    },
+    progress:{
+      events:"case_started, evidence_coverage_updated, resolution_submitted, report_exported",
+      fields:"case_id, evidence_coverage, claim_quality, rubric_version",
+      mmla:"Optional for validating rubric interpretation.",
+      risk:"Report export means learning.",
+      trouble:"Teacher reports may overstate telemetry signals.",
+      safe:"The report summarizes observed evidence-use indicators, not a diagnosis of mastery."
+    }
+  },
+  ethics:{
+    persistence:{
+      events:"consequence_viewed, scenario_replayed, choice_revised, rationale_submitted",
+      fields:"scenario_id, choice_id, stakeholder_id, revision_number",
+      mmla:"Optional discussion audio only for collaborative ethical reasoning.",
+      risk:"Replay proves reflection.",
+      trouble:"Replay may be curiosity or grade seeking.",
+      safe:"Replay and revision were treated as indicators of reconsideration within the scenario."
+    },
+    reasoning:{
+      events:"choice_submitted, rationale_submitted, tradeoff_viewed, revision_submitted",
+      fields:"stakeholder_id, tradeoff_type, rationale_type, scenario_state",
+      mmla:"Audio/video discussion if reasoning is social or dialogic.",
+      risk:"Selected option proves ethical reasoning.",
+      trouble:"Choice data without rationale collapses decision and reasoning.",
+      safe:"Choices and rationales reflected attention to stakeholder tradeoffs coded in the scenario."
+    },
+    support:{
+      events:"compass_guidance_opened, stakeholder_panel_viewed, choice_revised",
+      fields:"guidance_id, prior_choice, timing, post_guidance_revision",
+      mmla:"Not needed unless guidance interpretation is studied.",
+      risk:"Guidance caused better ethics.",
+      trouble:"Guidance may be opened after uncertainty or failure.",
+      safe:"Guidance use was analyzed as part of the decision path, not as a causal effect."
+    },
+    progress:{
+      events:"scenario_completed, rubric_dimension_scored, rationale_revised",
+      fields:"rubric_version, content_version, scenario_id, revision_number",
+      mmla:"Optional if progress includes collaborative deliberation.",
+      risk:"Ethical maturity increased.",
+      trouble:"Scenario difficulty and version changes can mimic progress.",
+      safe:"Logged rationales showed changes in attention to specified tradeoff dimensions."
+    }
+  },
+  portfolio:{
+    persistence:{
+      events:"prototype_uploaded, feedback_received, revision_uploaded, reflection_submitted",
+      fields:"artifact_id, revision_number, feedback_type, elapsed_days",
+      mmla:"Not usually needed.",
+      risk:"Multiple uploads prove learning.",
+      trouble:"Revision events need artifact lineage.",
+      safe:"Students iterated prototypes after receiving feedback, as shown by artifact revision records."
+    },
+    reasoning:{
+      events:"design_decision_logged, ai_use_disclosed, rubric_self_rating, reflection_submitted",
+      fields:"decision_type, evidence_link, disclosure_type, rubric_dimension",
+      mmla:"Optional screen capture for design-process validation.",
+      risk:"Reflection proves design reasoning.",
+      trouble:"Free text cannot be public without review.",
+      safe:"Reflections and linked artifacts provided bounded evidence of design rationale."
+    },
+    support:{
+      events:"ai_prompt_used, exemplar_viewed, instructor_feedback_opened, revision_uploaded",
+      fields:"support_type, prompt_category, prior_attempts, post_support_revision",
+      mmla:"Not needed unless tool-use process is studied.",
+      risk:"AI support improved design quality.",
+      trouble:"Support use is confounded with assignment difficulty and learner need.",
+      safe:"Support use was documented as part of the design process and related to later revisions."
+    },
+    progress:{
+      events:"checkpoint_submitted, rubric_score_recorded, revision_uploaded, portfolio_completed",
+      fields:"checkpoint_id, rubric_version, artifact_id, scorer_type",
+      mmla:"Optional for validating live design sessions.",
+      risk:"Portfolio completion equals competency.",
+      trouble:"Rubric versions and scorer roles must be tracked.",
+      safe:"Progress claims are tied to checkpoint artifacts and rubric-scored evidence."
+    }
+  }
+};
+const pattern=document.getElementById('pattern'),claim=document.getElementById('claim');
+function updateLab(){
+  const item=data[pattern.value][claim.value];
+  document.getElementById('eventsOut').textContent=item.events;
+  document.getElementById('fieldsOut').textContent=item.fields;
+  document.getElementById('mmlaOut').textContent=item.mmla;
+  document.getElementById('riskOut').textContent=item.risk;
+  document.getElementById('troubleOut').textContent=item.trouble;
+  document.getElementById('safeOut').textContent=item.safe;
+}
+pattern.addEventListener('change',updateLab);claim.addEventListener('change',updateLab);updateLab();
+const links=[...document.querySelectorAll('.toc a')],sections=links.map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
+const observer=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){links.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+e.target.id));}})},{rootMargin:'-18% 0px -70% 0px'});
+sections.forEach(s=>observer.observe(s));
+</script>
+</body>
+</html>

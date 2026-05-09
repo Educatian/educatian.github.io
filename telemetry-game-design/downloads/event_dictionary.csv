@@ -1,0 +1,10 @@
+event_type,plain_meaning,minimum_context,common_research_use,unsafe_inference
+mission_started,Player entered a mission or level,game_version;mission_id;attempt_number,Exposure and completion denominator,Learning began
+mission_completed,Player reached an end state,mission_id;result_status;elapsed_ms;attempt_number,Completion and progression,Mastery
+choice_submitted,Player selected an option or path,scenario_id;choice_id;available_choices;pre_state;post_state,Decision pattern,Ethical reasoning without rationale
+hint_opened,Player viewed a support,available_supports;prior_attempts;elapsed_ms;hint_id,Support use and help seeking,Hint caused low performance
+failure_triggered,Game marked an error or blocked state,failure_type;pre_state;target_id;attempt_number,Failure/recovery analysis,Poor learning
+replay_started,Player restarted or replayed a segment,prior_failure_type;time_gap;mission_id,Persistence after failure,Engagement
+evidence_linked,Player connected evidence to a claim,evidence_id;claim_id;sequence_index;revision_number,Evidence-based reasoning,Understanding
+reflection_submitted,Player wrote or selected a rationale,prompt_id;response_type;privacy_tier,Reasoning evidence,Population attitude
+sensor_quality_logged,System recorded MMLA stream quality,modality;quality_flag;sync_offset_ms,MMLA missingness and alignment,Learner state
