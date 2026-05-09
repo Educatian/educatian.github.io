@@ -49,7 +49,7 @@ h1{font-size:64px;font-weight:900;line-height:1.04;letter-spacing:-.02em;margin:
 .lede{font-size:20px;line-height:1.55;color:#314048;font-weight:300;max-width:840px;margin:0 0 28px}
 .hero-meta{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px}.hero-meta span{border:1.5px solid var(--ink);border-radius:6px;padding:6px 11px;background:rgba(255,253,248,.72);font-size:11px;font-family:'JetBrains Mono',monospace;font-weight:800;letter-spacing:1.2px;text-transform:uppercase}
 .hero-visual{margin:32px 0 10px;background:var(--paper);border:2px solid var(--ink);border-radius:16px;overflow:hidden;box-shadow:0 18px 42px rgba(24,33,38,.13)}
-.hero-visual img{display:block;width:100%;height:auto}
+.hero-visual img{display:block;width:100%;height:auto}.concept-visual{margin:20px 0 22px;background:var(--paper);border:2px solid var(--ink);border-radius:14px;overflow:hidden;box-shadow:0 14px 32px rgba(24,33,38,.1)}.concept-visual img{display:block;width:100%;height:auto}.concept-visual figcaption{padding:10px 14px;border-top:1px solid var(--line);font-size:12px;color:var(--muted);font-weight:700;background:#fbf7ef}
 .quick-strip{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:22px 0}@media(max-width:900px){.quick-strip{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:560px){.quick-strip{grid-template-columns:1fr}}
 .quick{background:var(--paper);border:1.5px solid var(--line);border-radius:12px;padding:14px;min-height:110px}.quick .icon{font-size:30px;line-height:1;margin-bottom:8px}.quick b{display:block;color:var(--green);font-size:14px}.quick span{display:block;color:var(--muted);font-size:13px;line-height:1.4;margin-top:5px}
 .dialectic{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:20px 0}@media(max-width:900px){.dialectic{grid-template-columns:1fr}}
@@ -91,6 +91,7 @@ footer{position:relative;z-index:1;border-top:1px solid var(--line);padding:28px
       <li><a href="#taxonomy">Pick the table</a></li>
       <li><a href="#clinic">Claim wording clinic</a></li>
       <li><a href="#agent">Agent-ready prompt</a></li>
+      <li><a href="#build-tutorial">Claude/Codex tutorial</a></li>
       <li><a href="#downloads">Starter downloads</a></li>
       <li><a href="#faq">FAQ</a></li>
       <li><a href="#evidence-map">Evidence anchors</a></li>
@@ -100,6 +101,7 @@ footer{position:relative;z-index:1;border-top:1px solid var(--line);padding:28px
       <a href="downloads/rq_fit_matrix.csv">Download matrix</a>
       <a href="downloads/claim_wording_clinic.md">Download wording clinic</a>
       <a href="downloads/agent_prompt_rq_fit.md">Download agent prompt</a>
+      <a href="downloads/claude_codex_build_prompt.md">Build with Codex</a>
     </div>
   </aside>
   <main>
@@ -254,6 +256,10 @@ footer{position:relative;z-index:1;border-top:1px solid var(--line);padding:28px
       <div class="section-kicker">06 &middot; Pick the table</div>
       <h2>Pick the table that matches the research question</h2>
       <p>The "right table" is the analysis-ready view your question needs. If the dataset cannot be reshaped into that view without inventing missing columns, the research question is too strong for the current evidence.</p>
+      <figure class="concept-visual">
+        <img src="assets/imagegen2-table-picker-flow.jpg" alt="Illustration of a research question moving into analysis-ready tables and then into safe claim wording">
+        <figcaption>Use the research question verb to choose the analysis-ready table before choosing a method.</figcaption>
+      </figure>
       <div class="callout"><b>How to use this:</b> identify the verb in the RQ, build the matching analysis table, then check whether the required columns, timing, and reviewer question are actually satisfied.</div>
       <div class="matrix-wrap">
         <table>
@@ -288,6 +294,10 @@ footer{position:relative;z-index:1;border-top:1px solid var(--line);padding:28px
       <div class="section-kicker">07 &middot; Wording clinic</div>
       <h2>Rewrite claims until the design can carry them</h2>
       <p>Five common overclaims, rewritten into safer language.</p>
+      <figure class="concept-visual">
+        <img src="assets/imagegen2-claim-clinic-flow.jpg" alt="Illustration of risky claim wording passing through evidence checks and becoming safer claim wording">
+        <figcaption>Strong writing keeps the ambition visible while lowering the claim to what the evidence can defend.</figcaption>
+      </figure>
       <div class="clinic">
         <div class="clinic-card"><div class="bad">Risky: The dashboard improved learning.</div><p>Needs causal design and outcome evidence.</p><div class="good">Safer: Learners using the dashboard showed higher post-task scores in this sample; the design does not isolate a causal effect.</div></div>
         <div class="clinic-card"><div class="bad">Risky: Click counts measured engagement.</div><p>Clicks are only behavioral traces and may not represent engagement.</p><div class="good">Safer: Click counts were treated as a behavioral proxy for platform activity; engagement interpretation requires additional validity evidence.</div></div>
@@ -315,20 +325,59 @@ Create a table with: data/design evidence available, supported claim type, fitti
 Do not invent missing data. If the dataset cannot support a question, say so directly.</div>
     </section>
 
+    <section id="build-tutorial">
+      <div class="section-kicker">09 &middot; Claude Code / Codex tutorial</div>
+      <h2>Build this kind of guide through conversation</h2>
+      <p>Use Claude Code or Codex as a research-design collaborator, not just a page generator. The workflow is: define the claim problem, force evidence boundaries, then ask the agent to turn that structure into a public guide.</p>
+      <div class="ladder">
+        <div><b>1. Frame the job</b><p>Tell the agent the audience, topic, language, repo path, and that the first screen should be the usable guide, not a landing page.</p></div>
+        <div><b>2. Demand fit logic</b><p>Ask for a table that maps RQ verbs to required data views, minimum columns, safe claims, and reviewer objections.</p></div>
+        <div><b>3. Verify content</b><p>Push the agent to check the argument dialectically: thesis, overclaim risk, synthesis, missing evidence, and citation anchors.</p></div>
+      </div>
+      <div class="card-grid">
+        <div class="card"><strong>Prompt move</strong><p>"Do not just make it pretty. Identify where the content is redundant, where it is under-specified, and which table a reader should build for each research question."</p></div>
+        <div class="card"><strong>Visual move</strong><p>"Find the two places where an image would reduce text pressure. Generate project-bound assets and insert them only where they teach the decision."</p></div>
+        <div class="card"><strong>Publish move</strong><p>"Stage only this guide, verify local assets and anchors, then push to GitHub Pages. Do not stage unrelated dirty worktree files."</p></div>
+      </div>
+      <details><summary>Copy-ready build prompt</summary><div class="codeblock">You are helping me create an English GitHub Pages onboarding guide.
+
+Topic:
+&lt;topic&gt;
+
+Audience:
+&lt;students, researchers, lab team, instructors&gt;
+
+Repository path:
+&lt;repo/path&gt;
+
+Requirements:
+- Build a usable guide, not a marketing page.
+- Start from the decision the reader must make.
+- Include a compact visual explanation.
+- Include a table that maps question types to data requirements, safe claims, red flags, and reviewer objections.
+- Remove redundant sections, but do not remove methodological detail.
+- Add 1-2 image assets only where they reduce text pressure.
+- Cite primary or credible sources.
+- Verify local links, anchors, rendering, and GitHub Pages readiness.
+
+Before publishing, tell me exactly which files will be staged.</div></details>
+    </section>
+
     <section id="downloads">
-      <div class="section-kicker">09 &middot; Downloads</div>
+      <div class="section-kicker">10 &middot; Downloads</div>
       <h2>Starter files for teams and agents</h2>
       <div class="downloads">
         <a class="download" href="downloads/rq_fit_matrix.csv"><b>RQ fit matrix</b><span>CSV table for verbs, evidence burden, safe claims, and methods.</span></a>
         <a class="download" href="downloads/claim_wording_clinic.md"><b>Claim wording clinic</b><span>Risky-to-safe wording examples for papers and slides.</span></a>
         <a class="download" href="downloads/data_sufficiency_checklist.md"><b>Data sufficiency checklist</b><span>Rows, IDs, timing, measurement, design, and validity checks.</span></a>
         <a class="download" href="downloads/agent_prompt_rq_fit.md"><b>Agent prompt</b><span>Prompt template for pre-analysis RQ fit audits.</span></a>
+        <a class="download" href="downloads/claude_codex_build_prompt.md"><b>Claude/Codex build prompt</b><span>Conversation script for creating a similar guide from scratch.</span></a>
         <a class="download" href="downloads/reviewer_objection_bank.md"><b>Reviewer objection bank</b><span>Questions to answer before submission.</span></a>
       </div>
     </section>
 
     <section id="faq">
-      <div class="section-kicker">10 &middot; FAQ</div>
+      <div class="section-kicker">11 &middot; FAQ</div>
       <h2>Common confusion points</h2>
       <details><summary>Is this a guide to choosing statistical tests?</summary><p>No. It comes before that. It helps decide what claim type is defensible, then points toward method families.</p></details>
       <details><summary>Can observational data ever support causal claims?</summary><p>Sometimes, but only with a credible identification strategy and transparent assumptions. Simple convenience comparisons, correlations, or one-group pre/post changes are not enough.</p></details>
@@ -339,7 +388,7 @@ Do not invent missing data. If the dataset cannot support a question, say so dir
     </section>
 
     <section id="evidence-map">
-      <div class="section-kicker">11 &middot; Evidence anchors</div>
+      <div class="section-kicker">12 &middot; Evidence anchors</div>
       <h2>Where the guide's rules come from</h2>
       <p>This section keeps the guide honest: each practical rule points to a reporting, validity, or design tradition rather than personal preference.</p>
       <div class="evidence-map">
@@ -353,7 +402,7 @@ Do not invent missing data. If the dataset cannot support a question, say so dir
     </section>
 
     <section id="references">
-      <div class="section-kicker">12 &middot; References</div>
+      <div class="section-kicker">13 &middot; References</div>
       <h2>Foundational and checked sources</h2>
       <details><summary>Show references</summary><ul class="refs">
         <li>American Educational Research Association. (2006). Standards for reporting on empirical social science research in AERA publications. <em>Educational Researcher, 35</em>(6), 33-40. <a href="https://doi.org/10.3102/0013189X035006033">https://doi.org/10.3102/0013189X035006033</a></li>
