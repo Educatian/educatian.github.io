@@ -79,7 +79,7 @@ h4{font-size:17px;line-height:1.3;margin:22px 0 8px;font-weight:850}
 .rule-list li:first-child{border-top:0}
 .rule-list strong{color:#111}
 .figure{background:#fff;border:2px solid var(--ink);border-radius:14px;padding:18px;margin:22px 0}
-.figure svg{width:100%;height:auto;display:block}
+.figure svg,.figure img{width:100%;height:auto;display:block;border-radius:8px}
 .caption{font-size:12.5px;color:var(--ink3);margin-top:10px;font-weight:650}
 .table-wrap{overflow:auto;border:2px solid var(--ink);border-radius:12px;background:#fff;margin:18px 0}
 table{width:100%;border-collapse:collapse;font-size:14px}
@@ -213,27 +213,7 @@ details p,details ul{padding:0 18px 16px;margin:0}
       <div class="section-label"><span class="eyebrow">02 · Event Grammar</span></div>
       <h2>The minimum grammar: actor, time, action, object, context.</h2>
       <div class="figure">
-        <svg viewBox="0 0 1040 330" role="img" aria-label="Event grammar diagram">
-          <rect x="24" y="34" width="180" height="92" rx="14" fill="#E5F3EF" stroke="#152427" stroke-width="3"/>
-          <rect x="232" y="34" width="180" height="92" rx="14" fill="#fff" stroke="#152427" stroke-width="3"/>
-          <rect x="440" y="34" width="180" height="92" rx="14" fill="#F7DFD8" stroke="#B5392A" stroke-width="3"/>
-          <rect x="648" y="34" width="180" height="92" rx="14" fill="#fff" stroke="#152427" stroke-width="3"/>
-          <rect x="856" y="34" width="160" height="92" rx="14" fill="#152427" stroke="#152427" stroke-width="3"/>
-          <text x="54" y="74" font-family="Inter" font-size="20" font-weight="900" fill="#152427">Actor</text>
-          <text x="54" y="102" font-family="JetBrains Mono" font-size="13" fill="#405458">learner_id</text>
-          <text x="262" y="74" font-family="Inter" font-size="20" font-weight="900" fill="#152427">Time</text>
-          <text x="262" y="102" font-family="JetBrains Mono" font-size="13" fill="#405458">event_time</text>
-          <text x="470" y="74" font-family="Inter" font-size="20" font-weight="900" fill="#152427">Action</text>
-          <text x="470" y="102" font-family="JetBrains Mono" font-size="13" fill="#405458">event_type</text>
-          <text x="678" y="74" font-family="Inter" font-size="20" font-weight="900" fill="#152427">Object</text>
-          <text x="678" y="102" font-family="JetBrains Mono" font-size="13" fill="#405458">object_id</text>
-          <text x="886" y="74" font-family="Inter" font-size="20" font-weight="900" fill="#fff">Context</text>
-          <text x="886" y="102" font-family="JetBrains Mono" font-size="13" fill="#DDE9E5">activity</text>
-          <path d="M114 168C114 238 518 268 928 170" fill="none" stroke="#0B766E" stroke-width="5" stroke-linecap="round"/>
-          <path d="M920 169l-20-8 7 21z" fill="#0B766E"/>
-          <text x="165" y="235" font-family="Inter" font-size="26" font-weight="900" fill="#152427">One interpretable event</text>
-          <text x="165" y="270" font-family="JetBrains Mono" font-size="15" fill="#405458">P014 · 2026-02-10T14:03Z · opened_help · hint_panel · algebra_practice</text>
-        </svg>
+        <img src="assets/event_grammar_flow.png" alt="Event grammar diagram showing actor, time, action, object, and context becoming one interpretable learning analytics event row.">
         <div class="caption">A row is research-ready only when the action is interpretable in relation to a learner, timestamp, object, and learning context.</div>
       </div>
       <div class="card warn">
