@@ -1,0 +1,11 @@
+field_name,description,example,required_check
+learner_id,"Stable anonymized learner identifier","P001","No raw names, emails, or student IDs"
+event_id,"Unique event or record identifier","evt_0001","Unique within file"
+timestamp,"Date/time or ordered turn marker","2026-05-09T14:32:10","Timezone and ordering documented"
+data_type,"Primary source category","trace log","Matches matrix taxonomy"
+unit_of_analysis,"Row meaning","learner-event","One row meaning stated"
+construct_target,"Construct the record is intended to inform","engagement","Construct definition provided"
+raw_value,"Original recorded value","view_resource","Preserve unmodified source value where possible"
+derived_feature,"Feature derived from raw data","session_duration_sec","Derivation rule documented"
+missing_rule,"How missingness was handled","no event recorded","Missingness not silently converted to zero"
+validity_note,"Known interpretation limit","clicks do not prove attention","Reviewer risk documented"
