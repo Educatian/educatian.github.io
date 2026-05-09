@@ -70,6 +70,7 @@ select{width:100%;background:var(--paper);border:2px solid var(--ink);border-rad
 table{width:100%;border-collapse:collapse;margin:18px 0;background:var(--paper);font-size:14px}th,td{border-bottom:1px solid var(--line);padding:10px 11px;text-align:left;vertical-align:top}th{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--green);background:var(--green-soft)}.matrix-wrap{overflow:auto;border:1px solid var(--line);border-radius:10px;background:var(--paper);margin:18px 0}.matrix-wrap table{margin:0;min-width:980px}.matrix-wrap td:first-child,.matrix-wrap th:first-child{font-weight:850;color:var(--green)}
 .clinic{display:grid;grid-template-columns:1fr;gap:12px;margin:18px 0}.clinic-card{background:var(--paper);border:1.5px solid var(--line);border-left:5px solid var(--rust);border-radius:10px;padding:16px}.clinic-card .bad{font-weight:900;color:var(--red)}.clinic-card .good{font-weight:800;color:var(--green)}
 .downloads{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:18px 0}@media(max-width:760px){.downloads{grid-template-columns:1fr}}.download{display:block;background:var(--paper);border:1.5px solid var(--ink);border-radius:10px;padding:16px;text-decoration:none;color:var(--ink);transition:transform .12s,box-shadow .12s}.download:hover{transform:translateY(-2px);box-shadow:0 12px 26px rgba(31,79,70,.16)}.download b{display:block;color:var(--green);font-size:14px;margin-bottom:5px}.download span{font-size:13px;color:var(--muted)}
+.video-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:22px 0}@media(max-width:900px){.video-grid{grid-template-columns:1fr}}.video-card{background:var(--paper);border:2px solid var(--ink);border-radius:12px;overflow:hidden;box-shadow:0 14px 32px rgba(24,33,38,.1)}.video-frame{aspect-ratio:16/9;background:#111}.video-frame iframe{width:100%;height:100%;border:0;display:block}.video-copy{padding:15px}.video-copy b{display:block;color:var(--green);font-size:14px;margin-bottom:6px}.video-copy p{margin:0;color:#3b484e;font-size:14px}.video-copy a{display:inline-block;margin-top:9px;font-size:12px;font-weight:850;text-decoration:none}
 .evidence-map{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:20px 0}@media(max-width:820px){.evidence-map{grid-template-columns:1fr}}.anchor{background:var(--paper);border:1.5px solid var(--line);border-left:5px solid var(--green);border-radius:10px;padding:15px}.anchor b{display:block;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--green);margin-bottom:6px}.anchor p{margin:0;color:#3b484e;font-size:14px}.anchor em{font-style:normal;font-weight:850;color:var(--rust)}
 details{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:12px 14px;margin:10px 0}summary{font-weight:850;cursor:pointer}
 .refs li{margin:8px 0}.codeblock{background:var(--code);color:#f3ecdd;border-radius:10px;padding:16px 18px;font-family:'JetBrains Mono',Consolas,monospace;font-size:13px;line-height:1.55;overflow:auto}
@@ -89,6 +90,7 @@ footer{position:relative;z-index:1;border-top:1px solid var(--line);padding:28px
       <li><a href="#gate">Interactive fit gate</a></li>
       <li><a href="#cases">Worked examples</a></li>
       <li><a href="#taxonomy">Pick the table</a></li>
+      <li><a href="#related-videos">Related videos</a></li>
       <li><a href="#clinic">Claim wording clinic</a></li>
       <li><a href="#agent">Agent-ready prompt</a></li>
       <li><a href="#build-tutorial">Claude/Codex tutorial</a></li>
@@ -290,8 +292,36 @@ footer{position:relative;z-index:1;border-top:1px solid var(--line);padding:28px
       </details>
     </section>
 
+    <section id="related-videos">
+      <div class="section-kicker">07 &middot; Video tutorials</div>
+      <h2>Watch the idea from two useful angles</h2>
+      <p>These videos are not about tools. They support the guide's core idea: first make the research question precise, then choose data and methods that can actually answer it.</p>
+      <div class="video-grid">
+        <div class="video-card">
+          <div class="video-frame">
+            <iframe src="https://www.youtube.com/embed/2xsHHGhM_fk" title="Developing a Research Question by Western University" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+          </div>
+          <div class="video-copy">
+            <b>Start here: topic to research question</b>
+            <p>Western Libraries' short tutorial is useful before the fit matrix because it explains why a broad topic has to become a focused, answerable question.</p>
+            <a href="https://www.youtube.com/watch?v=2xsHHGhM_fk">Open on YouTube</a>
+          </div>
+        </div>
+        <div class="video-card">
+          <div class="video-frame">
+            <iframe src="https://www.youtube.com/embed/fm3ox9wlAXk" title="How To Find Research Methods To Test A Hypothesis or Research Question" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+          </div>
+          <div class="video-copy">
+            <b>Then check: method and data fit</b>
+            <p>This methods tutorial aligns closely with the table-picker section: it asks what data type, design, measurement, constraints, validity, and reliability are needed to test the question.</p>
+            <a href="https://www.youtube.com/watch?v=fm3ox9wlAXk">Open on YouTube</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section id="clinic">
-      <div class="section-kicker">07 &middot; Wording clinic</div>
+      <div class="section-kicker">08 &middot; Wording clinic</div>
       <h2>Rewrite claims until the design can carry them</h2>
       <p>Five common overclaims, rewritten into safer language.</p>
       <figure class="concept-visual">
@@ -308,7 +338,7 @@ footer{position:relative;z-index:1;border-top:1px solid var(--line);padding:28px
     </section>
 
     <section id="agent">
-      <div class="section-kicker">08 &middot; Agent-ready</div>
+      <div class="section-kicker">09 &middot; Agent-ready</div>
       <h2>Prompt an AI assistant to audit fit before analysis</h2>
       <p>Use this before asking an agent to run statistics or build a dashboard.</p>
       <div class="codeblock">You are helping me audit research-question fit before analysis.
@@ -326,7 +356,7 @@ Do not invent missing data. If the dataset cannot support a question, say so dir
     </section>
 
     <section id="build-tutorial">
-      <div class="section-kicker">09 &middot; Claude Code / Codex tutorial</div>
+      <div class="section-kicker">10 &middot; Claude Code / Codex tutorial</div>
       <h2>Build this kind of guide through conversation</h2>
       <p>Use Claude Code or Codex as a research-design collaborator, not just a page generator. The workflow is: define the claim problem, force evidence boundaries, then ask the agent to turn that structure into a public guide.</p>
       <div class="ladder">
@@ -364,7 +394,7 @@ Before publishing, tell me exactly which files will be staged.</div></details>
     </section>
 
     <section id="downloads">
-      <div class="section-kicker">10 &middot; Downloads</div>
+      <div class="section-kicker">11 &middot; Downloads</div>
       <h2>Starter files for teams and agents</h2>
       <div class="downloads">
         <a class="download" href="downloads/rq_fit_matrix.csv"><b>RQ fit matrix</b><span>CSV table for verbs, evidence burden, safe claims, and methods.</span></a>
@@ -377,7 +407,7 @@ Before publishing, tell me exactly which files will be staged.</div></details>
     </section>
 
     <section id="faq">
-      <div class="section-kicker">11 &middot; FAQ</div>
+      <div class="section-kicker">12 &middot; FAQ</div>
       <h2>Common confusion points</h2>
       <details><summary>Is this a guide to choosing statistical tests?</summary><p>No. It comes before that. It helps decide what claim type is defensible, then points toward method families.</p></details>
       <details><summary>Can observational data ever support causal claims?</summary><p>Sometimes, but only with a credible identification strategy and transparent assumptions. Simple convenience comparisons, correlations, or one-group pre/post changes are not enough.</p></details>
@@ -388,7 +418,7 @@ Before publishing, tell me exactly which files will be staged.</div></details>
     </section>
 
     <section id="evidence-map">
-      <div class="section-kicker">12 &middot; Evidence anchors</div>
+      <div class="section-kicker">13 &middot; Evidence anchors</div>
       <h2>Where the guide's rules come from</h2>
       <p>This section keeps the guide honest: each practical rule points to a reporting, validity, or design tradition rather than personal preference.</p>
       <div class="evidence-map">
@@ -402,7 +432,7 @@ Before publishing, tell me exactly which files will be staged.</div></details>
     </section>
 
     <section id="references">
-      <div class="section-kicker">13 &middot; References</div>
+      <div class="section-kicker">14 &middot; References</div>
       <h2>Foundational and checked sources</h2>
       <details><summary>Show references</summary><ul class="refs">
         <li>American Educational Research Association. (2006). Standards for reporting on empirical social science research in AERA publications. <em>Educational Researcher, 35</em>(6), 33-40. <a href="https://doi.org/10.3102/0013189X035006033">https://doi.org/10.3102/0013189X035006033</a></li>
