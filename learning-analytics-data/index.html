@@ -128,8 +128,15 @@ details p,details ul{padding:0 18px 16px;margin:0}
 .download:hover{border-color:var(--teal);box-shadow:var(--shadow);transform:translateY(-2px)}
 .download .name{font-size:17px;font-weight:900;line-height:1.25;margin-bottom:8px}
 .download .meta{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink3);text-transform:uppercase;letter-spacing:1px}
+.video-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:20px 0}
+.video{background:#fff;border:2px solid var(--ink);border-radius:14px;padding:14px}
+.video-frame{position:relative;width:100%;aspect-ratio:16/9;background:var(--ink);border-radius:8px;overflow:hidden}
+.video-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.video h4{margin:14px 0 8px}
+.video p{font-size:14px;line-height:1.55;margin-bottom:10px}
+.video .meta{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink3);text-transform:uppercase;letter-spacing:1px}
 .foot{margin-top:80px;padding-top:30px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;font-size:11px;color:var(--ink3);letter-spacing:.15em;text-transform:uppercase;font-weight:800}
-@media (max-width:1080px){.shell{grid-template-columns:1fr;padding:36px 24px 64px}.toc{position:relative;top:auto;max-height:none}.hero-grid,.grid-2,.grid-3,.grid-4,.lab,.download-grid{grid-template-columns:1fr}.steps{grid-template-columns:1fr 1fr}.matrix{grid-template-columns:1fr}h1{font-size:52px}}
+@media (max-width:1080px){.shell{grid-template-columns:1fr;padding:36px 24px 64px}.toc{position:relative;top:auto;max-height:none}.hero-grid,.grid-2,.grid-3,.grid-4,.lab,.download-grid,.video-grid{grid-template-columns:1fr}.steps{grid-template-columns:1fr 1fr}.matrix{grid-template-columns:1fr}h1{font-size:52px}}
 @media (max-width:620px){.shell{padding-left:18px;padding-right:18px}h1{font-size:40px}h2{font-size:31px}.steps{grid-template-columns:1fr}.lede{font-size:18px}}
 @media print{.toc,.grid-bg,.home-link{display:none}.shell{display:block;padding:0;max-width:none}body{background:#fff}.card,.figure,.step,.download{break-inside:avoid}}
 </style>
@@ -157,6 +164,8 @@ details p,details ul{padding:0 18px 16px;margin:0}
       <li><a href="#schemas">Research-ready schemas</a></li>
       <li><a href="#visualization">Visualization matrix</a></li>
       <li><a href="#lab">Interactive fit lab</a></li>
+      <li><a href="#videos">Topic video primer</a></li>
+      <li><a href="#agent-tutorial">Claude Code / Codex build tutorial</a></li>
       <li><a href="#reviewer">Reviewer-risk audit</a></li>
       <li><a href="#faq">Practical FAQ</a></li>
       <li><a href="#downloads">Starter downloads</a></li>
@@ -690,8 +699,173 @@ metadata/
       </div>
     </section>
 
+    <section id="videos" class="section">
+      <div class="section-label"><span class="eyebrow">10 · Video Primer</span></div>
+      <h2>Watch the topic before choosing the table.</h2>
+      <p>These videos match the guide's core topic: what learning analytics is, how educational data mining fits the workflow, and how xAPI-style event data can be retrieved from a learning record store. Use them as orientation videos before the hands-on data transformation work.</p>
+      <div class="video-grid">
+        <div class="video">
+          <div class="video-frame">
+            <iframe src="https://www.youtube.com/embed/XscUZ8dIa-8" title="Learning analytics in a nutshell by SoLAR" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+          </div>
+          <h4>Learning analytics in a nutshell</h4>
+          <p>SoLAR's short overview is the best first watch for readers who need the field-level frame: learning analytics is not just click counting, but the collection, analysis, interpretation, and communication of learning data to improve teaching and learning.</p>
+          <div class="meta">SoLAR · YouTube · Field overview</div>
+        </div>
+        <div class="video">
+          <div class="video-frame">
+            <iframe src="https://www.youtube.com/embed/bv9dpnP6-og" title="Introduction to Data Mining for Educational Researchers by SoLAR" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+          </div>
+          <h4>Introduction to data mining for educational researchers</h4>
+          <p>This LASI workshop connects raw educational data to classical EDM tasks such as clustering and decision trees. It fits the guide's analysis-fit matrix because it reminds readers to choose a method that matches the research question and table structure.</p>
+          <div class="meta">SoLAR LASI · YouTube · EDM methods</div>
+        </div>
+        <div class="video">
+          <div class="video-frame">
+            <iframe src="https://www.youtube.com/embed/mgn9n7zGGP4" title="How to Query the Learning Record Store" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+          </div>
+          <h4>How to query a Learning Record Store</h4>
+          <p>This xAPI/LRS tutorial is directly relevant to the event-data side of the guide. It shows the retrieval step behind many learning analytics pipelines: pulling statements from an LRS before cleaning, normalizing, deriving features, and visualizing learning activity.</p>
+          <div class="meta">xAPI / LRS · YouTube · Event retrieval</div>
+        </div>
+      </div>
+      <div class="grid-3">
+        <div class="card">
+          <div class="card-title">Why this one</div>
+          <p>The SoLAR overview gives the field definition and purpose of learning analytics before readers touch event tables or dashboards. <a class="inline" href="https://www.solaresearch.org/about/what-is-learning-analytics/" rel="noreferrer">Source page</a></p>
+        </div>
+        <div class="card">
+          <div class="card-title">Why this one</div>
+          <p>The LASI data-mining workshop is method-facing: it connects classroom data preparation to educational data mining choices such as clustering and decision trees. <a class="inline" href="https://www.solaresearch.org/core/lasi14-introduction-to-data-mining-for-educational-researchers-part-1/" rel="noreferrer">Source page</a></p>
+        </div>
+        <div class="card">
+          <div class="card-title">Why this one</div>
+          <p>The LRS tutorial is included for the data pipeline step only: retrieving xAPI statements before cleaning, normalizing, and deriving method-ready tables. <a class="inline" href="https://www.youtube.com/watch?v=mgn9n7zGGP4" rel="noreferrer">YouTube source</a></p>
+        </div>
+      </div>
+    </section>
+
+    <section id="agent-tutorial" class="section">
+      <div class="section-label"><span class="eyebrow">11 · Agent Tutorial</span></div>
+      <h2>Build a guide like this through a Claude Code or Codex conversation.</h2>
+      <p>This page can be produced as an agent-assisted workflow, but the useful pattern is not "generate a website." It is a sequence of small requests: inspect the existing GitHub Pages style, design the content architecture, build the page, verify rendering, and publish only the intended files.</p>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">Step 01</div>
+          <div class="step-title">Anchor the house style</div>
+          <div class="step-body">Ask the agent to inspect the existing GitHub Pages repository before writing. The output should be a short style summary: typography, layout, colors, cards, navigation, and thumbnail conventions.</div>
+        </div>
+        <div class="step">
+          <div class="step-num">Step 02</div>
+          <div class="step-title">Define the guide contract</div>
+          <div class="step-body">Give the title, target audience, and the non-negotiable sections. For this guide: event grammar, privacy, workflow, method-fit matrix, visualization, reviewer risk, downloads, and references.</div>
+        </div>
+        <div class="step hot">
+          <div class="step-num">Step 03</div>
+          <div class="step-title">Build public-safe examples</div>
+          <div class="step-body">Use synthetic learner IDs, toy event rows, and method-neutral examples. Never paste raw student records, course rosters, emails, grades, or identifiable classroom artifacts into the agent conversation.</div>
+        </div>
+        <div class="step">
+          <div class="step-num">Step 04</div>
+          <div class="step-title">Verify in browser</div>
+          <div class="step-body">Ask the agent to run a local static server, check links and image paths, inspect desktop and mobile layout, and fix any broken table, diagram, or text wrapping.</div>
+        </div>
+        <div class="step">
+          <div class="step-num">Step 05</div>
+          <div class="step-title">Publish narrowly</div>
+          <div class="step-body">Commit only the guide folder, thumbnail asset, starter downloads, and homepage link. Keep unrelated dirty files out of the commit.</div>
+        </div>
+      </div>
+
+      <h3>Conversation script</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Phase</th>
+              <th>Prompt to Claude Code or Codex</th>
+              <th>Expected output</th>
+              <th>Human check</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="k">Orient</td>
+              <td>Inspect my GitHub Pages repo and summarize the existing guide style. Do not edit yet.</td>
+              <td>Style inventory, page structure, reusable components, and likely files to touch.</td>
+              <td>Does the agent understand the current site rather than inventing a new design?</td>
+            </tr>
+            <tr>
+              <td class="k">Plan</td>
+              <td>Create an English outline for "From Classroom Logs to Research-Ready Learning Analytics Data" in my existing guide style.</td>
+              <td>Section map, reader path, method coverage, downloadable artifacts, and thumbnail concept.</td>
+              <td>Does the outline match LA/EDM practice and avoid overclaiming?</td>
+            </tr>
+            <tr>
+              <td class="k">Draft</td>
+              <td>Build the guide as a self-contained GitHub Pages topic page. Include method matrices, practical examples, visualization guidance, and public-safe starter downloads.</td>
+              <td>HTML page, assets, starter files, and homepage card if needed.</td>
+              <td>Is the content useful without private data or internal-only assumptions?</td>
+            </tr>
+            <tr>
+              <td class="k">Visualize</td>
+              <td>Add diagrams and chart examples that show how event logs become sequence, Sankey, network, KT, dashboard, and comparison views.</td>
+              <td>Readable in-page visuals with stable dimensions and no text overflow.</td>
+              <td>Can a reader tell which chart belongs to which data structure?</td>
+            </tr>
+            <tr>
+              <td class="k">Fact-check</td>
+              <td>Fact-check standards, method labels, privacy language, and any product or organization names against primary sources.</td>
+              <td>Corrections, softened claims, and reference updates.</td>
+              <td>Are sources primary or authoritative enough for a public guide?</td>
+            </tr>
+            <tr>
+              <td class="k">Verify</td>
+              <td>Run the site locally, check all href and image src paths, inspect mobile and desktop rendering, then fix failures.</td>
+              <td>Local verification report and patched page.</td>
+              <td>Does the page open from the intended public URL path?</td>
+            </tr>
+            <tr>
+              <td class="k">Publish</td>
+              <td>Stage only the topic folder and homepage link, commit with a specific message, push to GitHub Pages, and confirm the live page.</td>
+              <td>Commit hash, pushed branch, public URL, and deployment status.</td>
+              <td>Did the commit avoid unrelated local changes?</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Reusable prompt block</h3>
+      <div class="code">You are helping me create a public GitHub Pages guide in the style of my existing Educatian pages.
+
+Topic: From Classroom Logs to Research-Ready Learning Analytics Data
+Audience: education researchers, learning analytics students, and collaborators preparing classroom platform data for analysis.
+Style: inspect the existing repo first; match the current guide layout, typography, cards, tables, thumbnails, and tone.
+Content requirements:
+- Explain the event grammar: actor, time, action, object, context.
+- Show how to keep one general event table and derive method-specific tables.
+- Cover sequence mining, process mining, knowledge tracing, ONA/ENA, SNA, dashboards, NLP coding, prediction, causal/quasi-experimental designs, multilevel models, and cross-method comparison.
+- Include visualization guidance: timelines, Sankey/alluvial, heatmaps, networks, ONA/ENA, KT curves, dashboards, and comparison matrices.
+- Use synthetic data only. Do not include private student records, grades, emails, or identifiable classroom artifacts.
+- Add public-safe downloads and a thumbnail.
+- Verify locally, fix rendering problems, then stage only the intended files for GitHub Pages.</div>
+
+      <div class="grid-2">
+        <div class="card soft">
+          <div class="card-title">Good agent instruction</div>
+          <p>"Inspect the current guide style first, then build a page that fits it. Use synthetic examples, cite primary sources, and verify links before publishing."</p>
+        </div>
+        <div class="card warn">
+          <div class="card-title">Bad agent instruction</div>
+          <p>"Make a cool page about my class data." This is too vague, invites private-data leakage, and gives the agent no house style, audience, method scope, or verification standard.</p>
+        </div>
+      </div>
+
+    </section>
+
     <section id="reviewer" class="section">
-      <div class="section-label"><span class="eyebrow">10 · Reviewer Risk</span></div>
+      <div class="section-label"><span class="eyebrow">12 · Reviewer Risk</span></div>
       <h2>Write down what the logs cannot prove.</h2>
       <div class="grid-2">
         <div class="card warn">
@@ -712,7 +886,7 @@ metadata/
     </section>
 
     <section id="faq" class="section">
-      <div class="section-label"><span class="eyebrow">11 · FAQ</span></div>
+      <div class="section-label"><span class="eyebrow">13 · FAQ</span></div>
       <h2>Questions that usually appear in the first week.</h2>
       <details open>
         <summary>Can I just merge the LMS export with grades and start modeling?</summary>
@@ -733,17 +907,18 @@ metadata/
     </section>
 
     <section id="downloads" class="section">
-      <div class="section-label"><span class="eyebrow">12 · Downloads</span></div>
+      <div class="section-label"><span class="eyebrow">14 · Downloads</span></div>
       <h2>Public-safe starter files.</h2>
       <div class="download-grid">
         <a class="download" href="downloads/la_event_schema_template.csv"><div class="name">Event schema template</div><div class="meta">CSV · data dictionary starter</div></a>
         <a class="download" href="downloads/la_data_readiness_checklist.md"><div class="name">Data readiness checklist</div><div class="meta">Markdown · review gate</div></a>
         <a class="download" href="downloads/la_transformation_plan.md"><div class="name">Transformation plan</div><div class="meta">Markdown · project memo</div></a>
+        <a class="download" href="downloads/agent_conversation_script.md"><div class="name">Agent conversation script</div><div class="meta">Markdown · Claude Code / Codex prompts</div></a>
       </div>
     </section>
 
     <section id="references" class="section">
-      <div class="section-label"><span class="eyebrow">13 · References</span></div>
+      <div class="section-label"><span class="eyebrow">15 · References</span></div>
       <h2>Primary and official sources to keep nearby.</h2>
       <ul class="rule-list">
         <li><strong>1EdTech Caliper Analytics:</strong> official learning activity data standard built around metric profiles, shared vocabularies, and Sensor API guidance. <a class="inline" href="https://www.1edtech.org/standards/caliper" rel="noreferrer">1EdTech Caliper Analytics</a></li>
