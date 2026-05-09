@@ -1,0 +1,21 @@
+field,required,type,example,notes
+learner_id,yes,string,P001,Use a study-specific pseudonym; do not publish SIS IDs or names.
+session_id,yes,string,S001,Stable identifier for one class period, activity, or platform session.
+event_time,yes,datetime,2026-02-10T14:03:22Z,Use ISO 8601; preserve timezone when available.
+event_index,yes,integer,12,Sequence order within learner/session after sorting.
+source_system,yes,string,lms,Examples: lms, simulation, discussion, video, assessment.
+event_type,yes,string,resource_view,Controlled vocabulary; keep raw platform labels in raw_event_type.
+raw_event_type,no,string,viewed_page,Original platform-specific action label.
+object_id,yes,string,module_02_reading,Resource, task, problem, message, tool, or page acted on.
+object_type,no,string,reading,Examples: reading, problem, video, discussion_post, simulation_tool.
+course_id,no,string,course_alpha,Use course pseudonym if public.
+activity_id,no,string,activity_03,Useful bridge to lesson design or intervention condition.
+attempt_no,no,integer,1,Required for assessments, practice items, and retries.
+correct,no,boolean,true,Leave blank when correctness is not meaningful.
+score,no,number,0.82,Keep scale documented in metadata.
+duration_sec,no,number,47,Only if reliable; platform idle time can be misleading.
+text_length,no,integer,184,Prefer derived text features over raw student text in public files.
+group_id,no,string,G02,Useful for collaborative analytics.
+condition,no,string,comparison,Only include when assigned by the study design.
+privacy_tier,yes,string,deidentified,Examples: raw_private, limited, deidentified, synthetic.
+include_public,yes,boolean,false,True only for synthetic or disclosure-approved records.

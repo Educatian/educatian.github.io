@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>From Classroom Logs to Research-Ready Learning Analytics Data</title>
+<meta name="description" content="A practical onboarding guide for turning classroom, LMS, assessment, discussion, and simulation logs into privacy-safe, analysis-ready learning analytics datasets.">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+:root{
+  --bg:#EEF4F1;
+  --paper:#FFFDF8;
+  --ink:#152427;
+  --ink2:#405458;
+  --ink3:#738680;
+  --line:#C4D1CF;
+  --teal:#0B766E;
+  --teal-soft:rgba(11,118,110,.10);
+  --rust:#B5392A;
+  --rust-soft:rgba(181,57,42,.12);
+  --gold:#C9902E;
+  --blue:#1D4ED8;
+  --code-bg:#152427;
+  --code-fg:#EEF4F1;
+  --shadow:0 18px 42px rgba(21,36,39,.12);
+  --radius:12px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Inter',sans-serif;line-height:1.66;-webkit-font-smoothing:antialiased}
+.grid-bg{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.34;background-image:linear-gradient(rgba(21,36,39,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(21,36,39,.06) 1px,transparent 1px);background-size:48px 48px;mask-image:radial-gradient(ellipse at 28% 16%,black 30%,transparent 80%)}
+.shell{position:relative;z-index:1;display:grid;grid-template-columns:286px minmax(0,1fr);gap:58px;max-width:1420px;margin:0 auto;padding:60px 76px 84px}
+.toc{position:sticky;top:28px;align-self:start;max-height:calc(100vh - 56px);overflow:auto;background:#fff;border:2px solid var(--ink);border-radius:14px;padding:24px 22px;box-shadow:8px 8px 0 rgba(11,118,110,.10)}
+.toc-kicker,.kicker,.eyebrow{font-size:11px;font-weight:900;letter-spacing:3.4px;text-transform:uppercase;color:var(--teal)}
+.toc h2{font-size:18px;line-height:1.2;margin:8px 0 15px;font-weight:900}
+.toc ol{list-style:none;margin:0;padding:0;counter-reset:item}
+.toc li{counter-increment:item;border-top:1px solid var(--line)}
+.toc li:first-child{border-top:0}
+.toc a{display:flex;gap:10px;padding:9px 0;color:var(--ink);text-decoration:none;font-size:13px;line-height:1.35;font-weight:650}
+.toc a::before{content:counter(item,decimal-leading-zero);font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--ink3);width:18px;flex-shrink:0}
+.toc a:hover,.toc a.active{color:var(--teal)}
+.toc a.active{background:var(--teal-soft);border-radius:9px;padding-left:9px;padding-right:9px}
+.content{min-width:0}
+.hero{border-bottom:1px solid var(--line);padding:20px 0 54px;margin-bottom:56px}
+.home-link{display:inline-block;color:var(--teal);font-weight:850;text-decoration:none;margin-bottom:28px}
+h1{max-width:980px;font-size:70px;line-height:1.03;letter-spacing:0;margin:16px 0 22px;font-weight:900;color:#111}
+h1 .serif{font-family:'Playfair Display',Georgia,serif;font-style:italic;font-weight:400;color:var(--rust)}
+.lede{max-width:850px;font-size:21px;line-height:1.56;color:var(--ink2);font-weight:350;margin:0 0 28px}
+.hero-meta{display:flex;flex-wrap:wrap;gap:10px;margin:22px 0 0}
+.pill{display:inline-flex;align-items:center;min-height:29px;padding:6px 11px;border:1.5px solid var(--ink);border-radius:999px;background:#fff;font-size:11px;font-weight:900;letter-spacing:1.1px;text-transform:uppercase;color:var(--ink)}
+.pill.accent{background:var(--teal);border-color:var(--teal);color:#fff}
+.hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:34px}
+.statement{background:#fff;border:2px solid var(--ink);border-radius:var(--radius);padding:22px 24px;box-shadow:8px 8px 0 rgba(181,57,42,.10)}
+.statement.dark{background:var(--ink);color:var(--code-fg);box-shadow:none}
+.statement.dark p{color:#DDE9E5}
+.statement strong{display:block;font-size:19px;line-height:1.25;margin-bottom:8px}
+p{font-size:15.5px;color:#26383B;margin:0 0 14px}
+a.inline{color:var(--teal);font-weight:750;text-decoration:none;border-bottom:1px solid currentColor}
+.section{scroll-margin-top:24px;margin-bottom:72px}
+.section-label{display:flex;align-items:center;gap:14px;margin-bottom:14px}
+.section-label::after{content:"";height:1px;background:var(--line);flex:1}
+h2{font-size:42px;line-height:1.1;letter-spacing:0;margin:0 0 16px;font-weight:900}
+h3{font-size:24px;line-height:1.25;margin:34px 0 12px;font-weight:850}
+h4{font-size:17px;line-height:1.3;margin:22px 0 8px;font-weight:850}
+.grid-2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.grid-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.grid-4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.card{background:#fff;border:2px solid var(--ink);border-radius:var(--radius);padding:22px 24px}
+.card.soft{background:var(--teal-soft);border-color:var(--teal)}
+.card.warn{background:var(--rust-soft);border-color:var(--rust)}
+.card.dark{background:var(--code-bg);color:var(--code-fg)}
+.card.dark p,.card.dark li{color:#DDE9E5}
+.card-title{font-size:11px;font-weight:900;letter-spacing:2.3px;text-transform:uppercase;color:var(--teal);margin-bottom:9px}
+.rule-list{margin:0;padding:0;list-style:none}
+.rule-list li{padding:12px 0;border-top:1px solid var(--line);font-size:15px;color:#26383B}
+.rule-list li:first-child{border-top:0}
+.rule-list strong{color:#111}
+.figure{background:#fff;border:2px solid var(--ink);border-radius:14px;padding:18px;margin:22px 0}
+.figure svg{width:100%;height:auto;display:block}
+.caption{font-size:12.5px;color:var(--ink3);margin-top:10px;font-weight:650}
+.table-wrap{overflow:auto;border:2px solid var(--ink);border-radius:12px;background:#fff;margin:18px 0}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{text-align:left;background:var(--ink);color:var(--code-fg);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;padding:13px 16px}
+td{padding:13px 16px;border-top:1px solid var(--line);vertical-align:top}
+td.k{font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--teal);white-space:nowrap}
+code{font-family:'JetBrains Mono',Consolas,monospace;font-size:13px;background:#fff;border:1px solid var(--line);border-radius:5px;padding:1px 6px;color:var(--teal);font-weight:650}
+.code{background:var(--code-bg);color:var(--code-fg);border:2px solid var(--ink);border-radius:12px;padding:18px 20px;overflow:auto;font-family:'JetBrains Mono',Consolas,monospace;font-size:13px;line-height:1.65;white-space:pre;margin:14px 0}
+.steps{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin:24px 0}
+.step{background:#fff;border:2px solid var(--ink);border-radius:12px;padding:18px;min-height:176px;display:flex;flex-direction:column}
+.step.hot{background:var(--teal);border-color:var(--teal);color:#fff;box-shadow:0 12px 30px rgba(11,118,110,.20);transform:translateY(-8px)}
+.step-num{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:800;letter-spacing:1.8px;text-transform:uppercase;color:var(--ink3);margin-bottom:8px}
+.step.hot .step-num,.step.hot .step-body{color:rgba(255,255,255,.78)}
+.step-title{font-size:18px;font-weight:900;line-height:1.15;margin-bottom:8px}
+.step-body{font-size:13px;line-height:1.5;color:var(--ink2);margin-top:auto}
+.lab{display:grid;grid-template-columns:330px 1fr;gap:18px;margin:24px 0}
+.lab-panel,.lab-output{background:#fff;border:2px solid var(--ink);border-radius:14px;padding:18px}
+.control{margin-bottom:16px}
+.control label{display:block;font-size:12px;font-weight:900;letter-spacing:1.2px;text-transform:uppercase;color:var(--teal);margin-bottom:8px}
+.select,.input{width:100%;padding:10px 12px;border:1.5px solid var(--line);border-radius:10px;background:#fff;color:var(--ink);font:inherit}
+.seg{display:flex;flex-wrap:wrap;gap:8px}
+.seg button{border:1.5px solid var(--ink);background:#fff;color:var(--ink);padding:9px 11px;border-radius:999px;font-size:12px;font-weight:800;cursor:pointer}
+.seg button.active{background:var(--teal);border-color:var(--teal);color:#fff}
+.lab-result{background:var(--teal-soft);border-radius:12px;padding:16px;font-size:14.5px;line-height:1.65}
+.matrix-card{background:#fff;border:2px solid var(--ink);border-radius:14px;padding:16px;margin:18px 0;overflow:auto}
+.matrix{display:grid;grid-template-columns:185px repeat(10, minmax(52px,1fr));gap:5px;min-width:0}
+.matrix div{background:#fff;border:1.5px solid var(--line);border-radius:8px;padding:7px;font-size:11px;min-height:44px;line-height:1.2;display:flex;align-items:center}
+.matrix .head{background:var(--ink);color:#fff;font-weight:900;text-transform:uppercase;letter-spacing:1px}
+.matrix .fit{border-color:var(--teal);background:var(--teal-soft);justify-content:center;font-weight:900;color:var(--teal)}
+.matrix .risk{border-color:var(--rust);background:var(--rust-soft);justify-content:center;font-weight:900;color:var(--rust)}
+.matrix .maybe{border-color:var(--gold);background:rgba(201,144,46,.13);justify-content:center;font-weight:900;color:#8A5B08}
+.matrix .rowhead{font-weight:900;color:#111;background:var(--paper);border-color:var(--ink)}
+.legend{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 0}
+.legend span{display:inline-flex;align-items:center;gap:6px;border:1.5px solid var(--line);border-radius:999px;background:#fff;padding:6px 10px;font-size:12px;font-weight:800}
+.legend b{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:999px;font-family:'JetBrains Mono',monospace;font-size:12px}
+.legend .g b{background:var(--teal-soft);color:var(--teal);border:1.5px solid var(--teal)}
+.legend .y b{background:rgba(201,144,46,.13);color:#8A5B08;border:1.5px solid var(--gold)}
+.legend .r b{background:var(--rust-soft);color:var(--rust);border:1.5px solid var(--rust)}
+details{border:2px solid var(--ink);border-radius:12px;background:#fff;margin:10px 0;overflow:hidden}
+summary{cursor:pointer;padding:15px 18px;font-weight:850}
+details[open]{border-color:var(--teal)}
+details[open] summary{border-bottom:1px solid var(--line);color:var(--teal)}
+details p,details ul{padding:0 18px 16px;margin:0}
+.download-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:20px 0}
+.download{display:block;background:#fff;border:2px solid var(--ink);border-radius:14px;padding:18px;text-decoration:none;color:var(--ink)}
+.download:hover{border-color:var(--teal);box-shadow:var(--shadow);transform:translateY(-2px)}
+.download .name{font-size:17px;font-weight:900;line-height:1.25;margin-bottom:8px}
+.download .meta{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink3);text-transform:uppercase;letter-spacing:1px}
+.foot{margin-top:80px;padding-top:30px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;font-size:11px;color:var(--ink3);letter-spacing:.15em;text-transform:uppercase;font-weight:800}
+@media (max-width:1080px){.shell{grid-template-columns:1fr;padding:36px 24px 64px}.toc{position:relative;top:auto;max-height:none}.hero-grid,.grid-2,.grid-3,.grid-4,.lab,.download-grid{grid-template-columns:1fr}.steps{grid-template-columns:1fr 1fr}.matrix{grid-template-columns:1fr}h1{font-size:52px}}
+@media (max-width:620px){.shell{padding-left:18px;padding-right:18px}h1{font-size:40px}h2{font-size:31px}.steps{grid-template-columns:1fr}.lede{font-size:18px}}
+@media print{.toc,.grid-bg,.home-link{display:none}.shell{display:block;padding:0;max-width:none}body{background:#fff}.card,.figure,.step,.download{break-inside:avoid}}
+</style>
+<meta property="og:type" content="article">
+<meta property="og:title" content="From Classroom Logs to Research-Ready Learning Analytics Data">
+<meta property="og:description" content="A practical onboarding guide for turning classroom logs into privacy-safe, analysis-ready learning analytics datasets.">
+<meta property="og:url" content="https://educatian.github.io/learning-analytics-data/">
+<meta property="og:image" content="https://educatian.github.io/learning-analytics-data/assets/hero_og_1200x630.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://educatian.github.io/learning-analytics-data/">
+</head>
+<body>
+<div class="grid-bg"></div>
+<div class="shell">
+  <aside class="toc" aria-label="Table of contents">
+    <div class="toc-kicker">Onboarding guide</div>
+    <h2>LA Data</h2>
+    <ol>
+      <li><a href="#purpose">What this guide is for</a></li>
+      <li><a href="#grammar">The event grammar</a></li>
+      <li><a href="#sources">Common classroom sources</a></li>
+      <li><a href="#privacy">Privacy and governance gate</a></li>
+      <li><a href="#workflow">Transformation workflow</a></li>
+      <li><a href="#fit">Analysis fit matrix</a></li>
+      <li><a href="#schemas">Research-ready schemas</a></li>
+      <li><a href="#visualization">Visualization matrix</a></li>
+      <li><a href="#lab">Interactive fit lab</a></li>
+      <li><a href="#reviewer">Reviewer-risk audit</a></li>
+      <li><a href="#faq">Practical FAQ</a></li>
+      <li><a href="#downloads">Starter downloads</a></li>
+      <li><a href="#references">References</a></li>
+    </ol>
+  </aside>
+
+  <main class="content">
+    <header class="hero">
+      <a class="home-link" href="../">Back to Educatian open guides</a>
+      <div class="kicker">Learning Analytics Data · Practical Onboarding</div>
+      <h1>From classroom logs to <span class="serif">research-ready learning analytics data</span></h1>
+      <p class="lede">A practical guide for turning LMS clicks, assessment attempts, discussion posts, video events, and simulation traces into privacy-safe datasets that can support sequence mining, ONA/ENA, knowledge tracing, dashboards, and reviewer-safe educational research claims.</p>
+      <div class="hero-meta">
+        <span class="pill accent">Event logs</span>
+        <span class="pill">Privacy gate</span>
+        <span class="pill">Data contracts</span>
+        <span class="pill">LA · EDM · KT · ONA</span>
+        <span class="pill">Synthetic examples only</span>
+      </div>
+      <div class="hero-grid">
+        <div class="statement">
+          <strong>Not every platform export is learning analytics data.</strong>
+          <p>Research-ready data needs a stable event grammar, defensible privacy treatment, documented transformations, and a clear match between the research question and the analytic table.</p>
+        </div>
+        <div class="statement dark">
+          <strong>North star</strong>
+          <p>A collaborator should be able to inspect the dataset and know who acted, when, what action occurred, what object was involved, what was derived, and what claims the table can and cannot support.</p>
+        </div>
+      </div>
+    </header>
+
+    <section id="purpose" class="section">
+      <div class="section-label"><span class="eyebrow">01 · Purpose</span></div>
+      <h2>Start with the dataset the analysis actually needs.</h2>
+      <p>Learning analytics often starts with messy exports: one LMS CSV, one gradebook, a discussion scrape, a video log, and a simulation trace that use different identifiers and timestamp conventions. The first research task is not modeling. It is deciding what the record means.</p>
+      <div class="grid-3">
+        <div class="card">
+          <div class="card-title">Raw export</div>
+          <p>Platform-specific rows. Useful as evidence, but usually not yet interpretable across systems or analysis methods.</p>
+        </div>
+        <div class="card soft">
+          <div class="card-title">Analysis-ready event table</div>
+          <p>One row per meaningful event with pseudonymous learner, time, action, object, context, and documented derived fields.</p>
+        </div>
+        <div class="card">
+          <div class="card-title">Method-specific table</div>
+          <p>Reshaped for the target method: sequences, code co-occurrences, skill attempts, weekly aggregates, or temporally honest prediction rows.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="grammar" class="section">
+      <div class="section-label"><span class="eyebrow">02 · Event Grammar</span></div>
+      <h2>The minimum grammar: actor, time, action, object, context.</h2>
+      <div class="figure">
+        <svg viewBox="0 0 1040 330" role="img" aria-label="Event grammar diagram">
+          <rect x="24" y="34" width="180" height="92" rx="14" fill="#E5F3EF" stroke="#152427" stroke-width="3"/>
+          <rect x="232" y="34" width="180" height="92" rx="14" fill="#fff" stroke="#152427" stroke-width="3"/>
+          <rect x="440" y="34" width="180" height="92" rx="14" fill="#F7DFD8" stroke="#B5392A" stroke-width="3"/>
+          <rect x="648" y="34" width="180" height="92" rx="14" fill="#fff" stroke="#152427" stroke-width="3"/>
+          <rect x="856" y="34" width="160" height="92" rx="14" fill="#152427" stroke="#152427" stroke-width="3"/>
+          <text x="54" y="74" font-family="Inter" font-size="20" font-weight="900" fill="#152427">Actor</text>
+          <text x="54" y="102" font-family="JetBrains Mono" font-size="13" fill="#405458">learner_id</text>
+          <text x="262" y="74" font-family="Inter" font-size="20" font-weight="900" fill="#152427">Time</text>
+          <text x="262" y="102" font-family="JetBrains Mono" font-size="13" fill="#405458">event_time</text>
+          <text x="470" y="74" font-family="Inter" font-size="20" font-weight="900" fill="#152427">Action</text>
+          <text x="470" y="102" font-family="JetBrains Mono" font-size="13" fill="#405458">event_type</text>
+          <text x="678" y="74" font-family="Inter" font-size="20" font-weight="900" fill="#152427">Object</text>
+          <text x="678" y="102" font-family="JetBrains Mono" font-size="13" fill="#405458">object_id</text>
+          <text x="886" y="74" font-family="Inter" font-size="20" font-weight="900" fill="#fff">Context</text>
+          <text x="886" y="102" font-family="JetBrains Mono" font-size="13" fill="#DDE9E5">activity</text>
+          <path d="M114 168C114 238 518 268 928 170" fill="none" stroke="#0B766E" stroke-width="5" stroke-linecap="round"/>
+          <path d="M920 169l-20-8 7 21z" fill="#0B766E"/>
+          <text x="165" y="235" font-family="Inter" font-size="26" font-weight="900" fill="#152427">One interpretable event</text>
+          <text x="165" y="270" font-family="JetBrains Mono" font-size="15" fill="#405458">P014 · 2026-02-10T14:03Z · opened_help · hint_panel · algebra_practice</text>
+        </svg>
+        <div class="caption">A row is research-ready only when the action is interpretable in relation to a learner, timestamp, object, and learning context.</div>
+      </div>
+      <div class="card warn">
+        <div class="card-title">Common mistake</div>
+        <p>A field named <code>event</code> is not enough. <code>click</code>, <code>view</code>, and <code>submit</code> mean different things depending on the object, activity, interface affordance, and course design.</p>
+      </div>
+    </section>
+
+    <section id="sources" class="section">
+      <div class="section-label"><span class="eyebrow">03 · Source Systems</span></div>
+      <h2>Classroom logs arrive with different units of meaning.</h2>
+      <div class="grid-3">
+        <div class="card"><div class="card-title">LMS</div><p>Navigation, submissions, page views, module completion, grades. Strong for participation timing, weak for cognitive intent.</p></div>
+        <div class="card"><div class="card-title">Assessment</div><p>Attempts, items, skills, correctness, score, retries. Strong for KT and practice models when skill mapping is credible.</p></div>
+        <div class="card"><div class="card-title">Discussion</div><p>Posts, replies, timestamps, thread structure, text features. Treat raw text as sensitive; public examples should use derived or synthetic features.</p></div>
+        <div class="card"><div class="card-title">Video</div><p>Play, pause, seek, watch percentage. Useful, but idle tabs and background playback can distort engagement claims.</p></div>
+        <div class="card"><div class="card-title">Simulation and games</div><p>Tool use, decisions, states, scores, traces. Excellent for process analytics when event grammar is designed before deployment.</p></div>
+        <div class="card"><div class="card-title">Survey and roster</div><p>Background, consent, grouping, outcomes. Keep identifiers separated and merge with pseudonymous keys.</p></div>
+      </div>
+    </section>
+
+    <section id="privacy" class="section">
+      <div class="section-label"><span class="eyebrow">04 · Privacy Gate</span></div>
+      <h2>De-identification is a process, not a filename.</h2>
+      <p>Before analysis or publication, decide which copy of the data you are handling. Raw private data, internal limited data, de-identified analysis data, and synthetic public examples should not be mixed.</p>
+      <div class="steps">
+        <div class="step"><div class="step-num">Gate 01</div><div class="step-title">Preserve raw</div><div class="step-body">Keep original exports unchanged in a private location with access control.</div></div>
+        <div class="step hot"><div class="step-num">Gate 02</div><div class="step-title">Separate identity</div><div class="step-body">Move names, emails, SIS IDs, and mapping tables away from analysis copies.</div></div>
+        <div class="step"><div class="step-num">Gate 03</div><div class="step-title">Pseudonymize</div><div class="step-body">Use study-specific IDs such as P001. Do not reuse public-facing identifiers across studies.</div></div>
+        <div class="step"><div class="step-num">Gate 04</div><div class="step-title">Check small cells</div><div class="step-body">Aggregation can still expose people when groups are tiny or rare events are unique.</div></div>
+        <div class="step"><div class="step-num">Gate 05</div><div class="step-title">Publish synthetic</div><div class="step-body">For public GitHub examples, use synthetic or disclosure-approved records.</div></div>
+      </div>
+      <p>For U.S. education records, the relevant legal and institutional interpretation usually runs through FERPA plus IRB, consent, and data-use agreements. The U.S. Department of Education's FERPA guidance emphasizes that de-identification depends on reasonable re-identification risk, not just removal of names.</p>
+    </section>
+
+    <section id="workflow" class="section">
+      <div class="section-label"><span class="eyebrow">05 · Workflow</span></div>
+      <h2>A practical transformation path.</h2>
+      <div class="figure">
+        <svg viewBox="0 0 1040 360" role="img" aria-label="Transformation workflow">
+          <rect x="30" y="42" width="190" height="92" rx="14" fill="#fff" stroke="#152427" stroke-width="3"/>
+          <rect x="250" y="42" width="190" height="92" rx="14" fill="#e5f3ef" stroke="#152427" stroke-width="3"/>
+          <rect x="470" y="42" width="190" height="92" rx="14" fill="#fff" stroke="#152427" stroke-width="3"/>
+          <rect x="690" y="42" width="190" height="92" rx="14" fill="#f7dfd8" stroke="#b5392a" stroke-width="3"/>
+          <rect x="360" y="210" width="320" height="92" rx="14" fill="#152427" stroke="#152427" stroke-width="3"/>
+          <text x="58" y="82" font-family="Inter" font-size="18" font-weight="900" fill="#152427">Inventory</text>
+          <text x="58" y="111" font-family="JetBrains Mono" font-size="12" fill="#405458">exports + metadata</text>
+          <text x="278" y="82" font-family="Inter" font-size="18" font-weight="900" fill="#152427">Normalize</text>
+          <text x="278" y="111" font-family="JetBrains Mono" font-size="12" fill="#405458">time + IDs + objects</text>
+          <text x="498" y="82" font-family="Inter" font-size="18" font-weight="900" fill="#152427">Map events</text>
+          <text x="498" y="111" font-family="JetBrains Mono" font-size="12" fill="#405458">controlled vocabulary</text>
+          <text x="718" y="82" font-family="Inter" font-size="18" font-weight="900" fill="#152427">Validate</text>
+          <text x="718" y="111" font-family="JetBrains Mono" font-size="12" fill="#405458">duplicates + gaps</text>
+          <text x="399" y="251" font-family="Inter" font-size="22" font-weight="900" fill="#fff">Method-specific tables</text>
+          <text x="399" y="280" font-family="JetBrains Mono" font-size="13" fill="#dde9e5">sequence · ONA/ENA · KT · prediction · dashboard</text>
+          <path d="M220 88h28M440 88h28M660 88h28" stroke="#152427" stroke-width="4" stroke-linecap="round"/>
+          <path d="M880 88C920 88 932 158 680 218" fill="none" stroke="#0B766E" stroke-width="4"/>
+          <path d="M125 134C165 230 255 256 358 256" fill="none" stroke="#0B766E" stroke-width="4"/>
+        </svg>
+        <div class="caption">The same cleaned event table can feed multiple analytic tables, but each method needs a different unit of analysis.</div>
+      </div>
+      <div class="code">raw_exports/
+  lms_events_private.csv
+  assessment_attempts_private.csv
+working/
+  01_inventory_sources.md
+  02_clean_events.py
+  03_validate_events.py
+results/
+  events_analysis_ready.csv
+  sequences_by_session.csv
+  kt_attempt_table.csv
+  ona_unit_code_table.csv
+metadata/
+  data_dictionary.md
+  transformation_log.md</div>
+    </section>
+
+    <section id="fit" class="section">
+      <div class="section-label"><span class="eyebrow">06 · Analysis Fit</span></div>
+      <h2>Pick the table that matches the research question.</h2>
+      <p>This table is a fast routing layer, not the full data contract. Use it to choose the first derived table to build, then jump to the <a class="inline" href="#method-matrix">full method-table matrix</a> for fields, metrics, and safer claim language.</p>
+      <div class="matrix-card">
+        <div class="matrix" aria-label="Research question by method family fit heatmap">
+          <div class="head">Research question</div><div class="head">Event</div><div class="head">Seq</div><div class="head">Proc</div><div class="head">ONA</div><div class="head">SNA</div><div class="head">Text</div><div class="head">KT</div><div class="head">Pred</div><div class="head">Causal</div><div class="head">Multi</div>
+          <div class="rowhead">What happened when?</div><div class="fit" title="Build the cleaned event table first.">A</div><div class="maybe" title="Use if event order matters.">B</div><div class="maybe" title="Use for workflow traces.">B</div><div class="risk" title="Too interpretive unless events are coded.">C</div><div class="risk" title="Only if actors interact.">C</div><div class="maybe" title="Use for text events.">B</div><div class="risk" title="Needs attempts or items.">C</div><div class="risk" title="Too early for prediction.">C</div><div class="risk" title="Needs design and timing structure.">C</div><div class="maybe" title="Use for video or sensor traces.">B</div>
+          <div class="rowhead">Which pathways differ by group?</div><div class="maybe" title="Needs ordered rows.">B</div><div class="fit" title="Strong fit for tokens, transitions, paths.">A</div><div class="fit" title="Strong fit for variants and conformance.">A</div><div class="maybe" title="Fit if pathways are coded.">B</div><div class="risk" title="Not the primary table.">C</div><div class="maybe" title="Fit for discourse moves.">B</div><div class="maybe" title="Fit if attempts map to skills.">B</div><div class="maybe" title="Use path features.">B</div><div class="maybe" title="Use for growth or treatment pathways.">B</div><div class="fit" title="Strong fit for logged embodied traces.">A</div>
+          <div class="rowhead">Which ideas or behaviors co-occur?</div><div class="risk" title="Counts hide co-occurrence logic.">C</div><div class="maybe" title="Use windowed tokens.">B</div><div class="risk" title="Not the primary table.">C</div><div class="fit" title="Strong fit for units, stanzas, codes.">A</div><div class="maybe" title="Use if co-occurrence is actor-to-actor.">B</div><div class="fit" title="Strong after coding or NLP labels.">A</div><div class="risk" title="Not the primary table.">C</div><div class="maybe" title="Feature engineering only.">B</div><div class="risk" title="Not a causal design by itself.">C</div><div class="maybe" title="Use coded multimodal episodes.">B</div>
+          <div class="rowhead">How does mastery change?</div><div class="risk" title="Dashboard summaries are insufficient.">C</div><div class="maybe" title="Attempt pathways can help.">B</div><div class="risk" title="Not the primary table.">C</div><div class="risk" title="Not the primary table.">C</div><div class="risk" title="Not the primary table.">C</div><div class="maybe" title="Use explanations as features.">B</div><div class="fit" title="Strong fit: KT, IRT, CDM, Rasch.">A</div><div class="maybe" title="Predict next response.">B</div><div class="fit" title="Use for growth over time.">A</div><div class="maybe" title="Use if performance episodes are logged.">B</div>
+          <div class="rowhead">Can we predict later risk or performance?</div><div class="maybe" title="Build prior-window features.">B</div><div class="maybe" title="Use sequence features.">B</div><div class="maybe" title="Use process variants.">B</div><div class="maybe" title="Use network or code features.">B</div><div class="maybe" title="Use interaction features.">B</div><div class="maybe" title="Use language features carefully.">B</div><div class="fit" title="Strong for next-attempt or mastery.">A</div><div class="fit" title="Strong fit with honest split.">A</div><div class="risk" title="Prediction is not causal effect.">C</div><div class="maybe" title="Use fused features with validation.">B</div>
+          <div class="rowhead">Did an intervention cause change?</div><div class="maybe" title="Outcome and covariate source.">B</div><div class="maybe" title="Mechanism evidence only.">B</div><div class="maybe" title="Implementation evidence.">B</div><div class="maybe" title="Mechanism evidence only.">B</div><div class="maybe" title="Spillover or network exposure.">B</div><div class="maybe" title="Mechanism evidence only.">B</div><div class="maybe" title="Outcome model possible.">B</div><div class="risk" title="Predictive accuracy is not impact.">C</div><div class="fit" title="Strong if design supports causal inference.">A</div><div class="maybe" title="Design iteration evidence.">B</div>
+          <div class="rowhead">How do learners interact with peers/resources?</div><div class="maybe" title="Counts and exposure.">B</div><div class="maybe" title="Interaction sequences.">B</div><div class="maybe" title="Collaborative workflow.">B</div><div class="maybe" title="Code co-occurrence in teams.">B</div><div class="fit" title="Strong fit: actor-resource edges.">A</div><div class="fit" title="Strong for replies and uptake.">A</div><div class="risk" title="Not the primary table.">C</div><div class="maybe" title="Network features possible.">B</div><div class="maybe" title="Use nested or team models.">B</div><div class="maybe" title="Use collaboration traces.">B</div>
+          <div class="rowhead">What discourse moves or meanings appear?</div><div class="risk" title="Event table is only provenance.">C</div><div class="maybe" title="Order of moves.">B</div><div class="risk" title="Not the primary table.">C</div><div class="fit" title="Strong if moves are coded.">A</div><div class="maybe" title="Reply network context.">B</div><div class="fit" title="Strong fit: coding, NLP, topic modeling.">A</div><div class="risk" title="Not the primary table.">C</div><div class="maybe" title="Classifier outputs possible.">B</div><div class="risk" title="Needs stronger design for effect claims.">C</div><div class="maybe" title="Use if paired with video/audio.">B</div>
+          <div class="rowhead">How do behaviors unfold inside tasks?</div><div class="maybe" title="Event table required.">B</div><div class="fit" title="Strong fit: within-task order.">A</div><div class="fit" title="Strong fit: task workflow model.">A</div><div class="maybe" title="Use task episodes as stanzas.">B</div><div class="maybe" title="Use if task is collaborative.">B</div><div class="maybe" title="Use if explanations are logged.">B</div><div class="maybe" title="Use if attempts and skills exist.">B</div><div class="maybe" title="Use temporal features.">B</div><div class="maybe" title="Use longitudinal task models.">B</div><div class="fit" title="Strong for simulation or video traces.">A</div>
+          <div class="rowhead">How do groups/classes/instructors vary?</div><div class="maybe" title="Aggregate by level.">B</div><div class="maybe" title="Compare path distributions.">B</div><div class="maybe" title="Compare workflow variants.">B</div><div class="maybe" title="Compare network centroids.">B</div><div class="maybe" title="Compare graph structure.">B</div><div class="maybe" title="Compare discourse profiles.">B</div><div class="maybe" title="Measurement invariance or DIF.">B</div><div class="maybe" title="Group-aware prediction.">B</div><div class="fit" title="Strong fit: multilevel models.">A</div><div class="maybe" title="Compare implementation cycles.">B</div>
+          <div class="rowhead">What design feature should be revised?</div><div class="maybe" title="Locate friction points.">B</div><div class="maybe" title="Find recurring path problems.">B</div><div class="fit" title="Strong for bottlenecks.">A</div><div class="maybe" title="Find missing knowledge practices.">B</div><div class="maybe" title="Find isolated actors or resources.">B</div><div class="maybe" title="Find confusing prompts or responses.">B</div><div class="maybe" title="Find weak items or skills.">B</div><div class="maybe" title="Find risk indicators.">B</div><div class="maybe" title="Estimate subgroup differences.">B</div><div class="fit" title="Strong fit: DBR / learning engineering.">A</div>
+          <div class="rowhead">What should be shown to students/instructors?</div><div class="fit" title="Strong for dashboards if privacy-safe.">A</div><div class="maybe" title="Pathway feedback possible.">B</div><div class="maybe" title="Workflow feedback possible.">B</div><div class="maybe" title="Network reflection possible.">B</div><div class="maybe" title="Participation network feedback.">B</div><div class="maybe" title="Text feedback needs safeguards.">B</div><div class="maybe" title="Mastery feedback possible.">B</div><div class="maybe" title="Risk alerts need calibration.">B</div><div class="risk" title="Causal estimates rarely direct feedback.">C</div><div class="maybe" title="Design feedback and reflection.">B</div>
+        </div>
+        <div class="legend">
+          <span class="g"><b>A</b> center this table</span>
+          <span class="y"><b>B</b> use as support / feature / triangulation</span>
+          <span class="r"><b>C</b> usually not the main claim</span>
+        </div>
+      </div>
+      <div class="grid-3">
+        <div class="card soft"><div class="card-title">Green cells</div><p>Build this table first. The research question naturally matches the unit, ordering, and evidence type of that method family.</p></div>
+        <div class="card"><div class="card-title">Gold cells</div><p>Useful as a secondary table, feature source, triangulation layer, or mechanism evidence. Check assumptions before centering it.</p></div>
+        <div class="card warn"><div class="card-title">Red cells</div><p>Usually a mismatch. You may still use the data for context, but the method should not carry the main claim.</p></div>
+      </div>
+    </section>
+
+    <section id="schemas" class="section">
+      <div class="section-label"><span class="eyebrow">07 · Schemas</span></div>
+      <h2>Keep one general event table, then derive method tables.</h2>
+      <p>The general event table is the durable middle layer. It should stay broad enough to preserve learning activity across systems, but disciplined enough that every downstream table can be reproduced. The table below is the practical map: each method family starts from the same event grammar, then changes the unit of analysis, required fields, derived metrics, and claim language.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Field</th><th>Meaning</th><th>Why it matters</th></tr></thead>
+          <tbody>
+            <tr><td class="k">learner_id</td><td>Pseudonymous learner key.</td><td>Connects actions over time without exposing identity.</td></tr>
+            <tr><td class="k">event_time</td><td>Parseable timestamp with timezone when available.</td><td>Required for temporal order, lag features, and train/test integrity.</td></tr>
+            <tr><td class="k">event_type</td><td>Controlled action label.</td><td>Lets multiple platforms share one analysis vocabulary.</td></tr>
+            <tr><td class="k">object_id</td><td>The resource, item, tool, post, or page acted on.</td><td>Prevents vague clickstream interpretation.</td></tr>
+            <tr><td class="k">activity_id</td><td>Instructional context.</td><td>Connects behavior to design, condition, or module.</td></tr>
+            <tr><td class="k">privacy_tier</td><td>Raw private, limited, deidentified, or synthetic.</td><td>Keeps public examples and private research data separated.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <h3 id="method-matrix">Learning-sciences method table matrix</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Method family</th>
+              <th>Derived unit</th>
+              <th>Minimum fields</th>
+              <th>Typical metrics</th>
+              <th>Safe claim language</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="k">Descriptive LA / dashboards</td>
+              <td>Learner-week, activity, course module, or group summary.</td>
+              <td><code>learner_id</code>, <code>week</code>, <code>activity_id</code>, event counts, duration, completion, outcome.</td>
+              <td>Activity counts, active days, completion rate, time-on-task proxy, submission timing, resource coverage.</td>
+              <td>Describe participation and platform use; do not equate clicks with engagement without validation.</td>
+            </tr>
+            <tr>
+              <td class="k">Sequence mining / TNA / LSA / SPM / HMM</td>
+              <td>Ordered event tokens within learner, session, group, or task episode.</td>
+              <td><code>unit_id</code>, <code>event_index</code>, <code>token</code>, <code>timestamp</code>, optional group/outcome.</td>
+              <td>Transition probabilities, frequent subsequences, sequence distances, state paths, entropy, dwell time, path prevalence.</td>
+              <td>Compare pathways, routines, and temporal patterns; avoid claiming mental states from order alone.</td>
+            </tr>
+            <tr>
+              <td class="k">Process mining</td>
+              <td>Case trace, usually one learner-task, group-project, or assignment workflow.</td>
+              <td><code>case_id</code>, <code>activity</code>, <code>timestamp</code>, lifecycle marker, resource/actor when available.</td>
+              <td>Process model, conformance, bottlenecks, variants, throughput time, rework loops.</td>
+              <td>Characterize workflow structure and deviations; do not assume all off-model paths are poor learning.</td>
+            </tr>
+            <tr>
+              <td class="k">ONA / ENA / epistemic networks</td>
+              <td>Codes nested in stanzas, conversations, design episodes, or learner units.</td>
+              <td><code>unit_id</code>, <code>stanza_id</code>, <code>code</code>, <code>group</code>, optional time/order.</td>
+              <td>Code co-occurrence edges, network centroid, group separation, edge differences, node strength.</td>
+              <td>Compare configurations of coded behaviors or ideas; keep coding scheme and stanza logic explicit.</td>
+            </tr>
+            <tr>
+              <td class="k">Social network analysis</td>
+              <td>Actor-actor, actor-resource, reply, mention, collaboration, or help-seeking edge.</td>
+              <td><code>source_id</code>, <code>target_id</code>, <code>edge_type</code>, <code>weight</code>, <code>time_window</code>.</td>
+              <td>Degree, centrality, density, reciprocity, modularity, brokerage, isolates, community structure.</td>
+              <td>Describe interaction structure and position; avoid treating centrality as learning quality by itself.</td>
+            </tr>
+            <tr>
+              <td class="k">Discourse / content analysis</td>
+              <td>Utterance, post, turn, message, segment, or coded excerpt.</td>
+              <td><code>text_unit_id</code>, <code>speaker_id</code>, <code>thread_id</code>, <code>timestamp</code>, code labels or features.</td>
+              <td>Code frequencies, uptake, reply depth, stance, argument moves, cognitive presence, inter-rater reliability.</td>
+              <td>Make interpretive claims grounded in coding rules; protect raw student text in public artifacts.</td>
+            </tr>
+            <tr>
+              <td class="k">NLP / text mining / topic modeling</td>
+              <td>Document, post, sentence, turn, abstract, reflection, or response.</td>
+              <td><code>doc_id</code>, cleaned text or private text pointer, metadata, timestamp, model version, feature set.</td>
+              <td>Embeddings, topics, keywords, sentiment/stance, semantic similarity, classifier scores, uncertainty.</td>
+              <td>Treat model outputs as features or annotations; validate labels before using them as constructs.</td>
+            </tr>
+            <tr>
+              <td class="k">Knowledge tracing / mastery modeling</td>
+              <td>Learner-skill attempt sequence.</td>
+              <td><code>learner_id</code>, <code>skill_id</code>, <code>attempt_order</code>, <code>correct</code>, optional hint/time/item.</td>
+              <td>Mastery probability, learning rate, slip/guess, next-response accuracy, AUC, calibration.</td>
+              <td>Estimate evolving performance or mastery proxies; require credible skill mapping and attempt order.</td>
+            </tr>
+            <tr>
+              <td class="k">IRT / Rasch / CDM / psychometrics</td>
+              <td>Learner-item response matrix, often cross-sectional or test-session based.</td>
+              <td><code>learner_id</code>, <code>item_id</code>, response/correct, item metadata, skill/Q-matrix for CDM.</td>
+              <td>Ability, item difficulty, discrimination, fit, reliability, mastery class, DIF, Q-matrix diagnostics.</td>
+              <td>Make measurement claims about ability, item quality, or diagnostic mastery; separate from process claims.</td>
+            </tr>
+            <tr>
+              <td class="k">Predictive modeling / EDM</td>
+              <td>Learner-time window, learner-course, attempt, or future-outcome prediction row.</td>
+              <td>Feature window before target time, target outcome, split indicator, learner/course metadata.</td>
+              <td>AUC, F1, precision/recall, calibration, feature importance, SHAP-style explanations, fairness checks.</td>
+              <td>Predict risk or outcomes under a specified split; do not imply intervention effectiveness.</td>
+            </tr>
+            <tr>
+              <td class="k">Causal / quasi-experimental</td>
+              <td>Learner, class, school, section, or time-period treatment unit.</td>
+              <td>Treatment/condition, pretest/covariates, outcome, assignment mechanism, clustering, timing.</td>
+              <td>ATE/CATE, regression coefficient, propensity balance, DiD estimate, RD estimate, confidence/credible interval.</td>
+              <td>Use causal language only when design assumptions are defensible and stated.</td>
+            </tr>
+            <tr>
+              <td class="k">Multilevel / longitudinal modeling</td>
+              <td>Repeated measures nested in learners, groups, classes, instructors, or schools.</td>
+              <td><code>learner_id</code>, time point, outcome, predictors, nesting IDs, condition/covariates.</td>
+              <td>Growth rate, random effects, ICC, cross-level interaction, variance components, time-varying effects.</td>
+              <td>Estimate change and nested variation; do not flatten repeated observations as independent rows.</td>
+            </tr>
+            <tr>
+              <td class="k">SEM / path / mediation</td>
+              <td>Learner-level scale scores, latent variables, or longitudinal constructs.</td>
+              <td>Validated indicators, scale scores, time order, sample size, missing-data plan, covariates.</td>
+              <td>Factor loadings, fit indices, path coefficients, indirect effects, reliability, measurement invariance.</td>
+              <td>Model construct relationships; avoid strong causal mediation without design support.</td>
+            </tr>
+            <tr>
+              <td class="k">Qualitative case / trace ethnography</td>
+              <td>Case, episode, artifact, interview, observation, or thick-description memo.</td>
+              <td>Case ID, source type, timestamp/context, excerpt pointer, analytic memo, code trail.</td>
+              <td>Themes, episodes, negative cases, triangulation matrix, analytic memos, trustworthiness evidence.</td>
+              <td>Explain situated meaning and mechanism hypotheses; do not oversell generalizability.</td>
+            </tr>
+            <tr>
+              <td class="k">Video / sensor / multimodal analytics</td>
+              <td>Time-windowed signal, frame segment, behavior episode, utterance, or fused event.</td>
+              <td>Participant ID, timestamp, modality, segment label, confidence, synchronization key, privacy tier.</td>
+              <td>Behavior frequency, duration, multimodal alignment, affect proxy, classifier F1, latency, state transitions.</td>
+              <td>Report inferred signals with model uncertainty and validation; treat biometrics and video as high-risk data.</td>
+            </tr>
+            <tr>
+              <td class="k">Design-based / learning engineering analytics</td>
+              <td>Design conjecture, feature version, iteration, class cycle, or implementation episode.</td>
+              <td>Version, design change, intended mechanism, evidence source, outcome/process indicators, memo.</td>
+              <td>Iteration deltas, implementation fidelity, conjecture-evidence alignment, usability issues, redesign triggers.</td>
+              <td>Connect evidence to design refinement; frame as iterative learning, not one-shot proof.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="grid-3">
+        <div class="card soft"><div class="card-title">Event-level methods</div><p>Use when order and context matter: sequence mining, TNA, LSA, process mining, KT, predictive modeling, and multimodal state detection.</p></div>
+        <div class="card"><div class="card-title">Code/network methods</div><p>Use when the core evidence is relation or co-occurrence: ONA, ENA, SNA, discourse coding, epistemic networks, and collaboration analysis.</p></div>
+        <div class="card warn"><div class="card-title">Construct-level methods</div><p>Use when claims involve latent constructs or treatment effects: psychometrics, SEM, multilevel models, causal inference, and design-based iteration evidence.</p></div>
+      </div>
+    </section>
+
+    <section id="visualization" class="section">
+      <div class="section-label"><span class="eyebrow">08 · Visualization</span></div>
+      <h2>Chart the data in ways that preserve comparison.</h2>
+      <p>The chart should match both the data structure and the comparison target. For learning analytics, the common mistake is to show one attractive flow or network without a common scale, baseline, or grouping logic. Cross-comparison usually needs aligned axes, repeated panels, shared node positions, shared edge scales, or normalized transition weights.</p>
+      <div class="figure">
+        <svg viewBox="0 0 1040 430" role="img" aria-label="Cross-comparison learning analytics visualization examples">
+          <rect x="20" y="26" width="1000" height="378" rx="18" fill="#fffdf8" stroke="#152427" stroke-width="3"/>
+          <text x="48" y="70" font-family="Inter" font-size="23" font-weight="900" fill="#152427">One event table, multiple comparable views</text>
+          <text x="48" y="98" font-family="JetBrains Mono" font-size="13" fill="#405458">same IDs · same time windows · same group definitions · same scales</text>
+
+          <g transform="translate(50 136)">
+            <text x="0" y="-12" font-family="Inter" font-size="15" font-weight="900" fill="#0B766E">Sankey / pathway</text>
+            <rect x="0" y="8" width="48" height="34" rx="8" fill="#e5f3ef" stroke="#152427" stroke-width="2"/>
+            <rect x="126" y="0" width="48" height="34" rx="8" fill="#fff" stroke="#152427" stroke-width="2"/>
+            <rect x="126" y="56" width="48" height="34" rx="8" fill="#fff" stroke="#152427" stroke-width="2"/>
+            <rect x="252" y="8" width="48" height="34" rx="8" fill="#f7dfd8" stroke="#B5392A" stroke-width="2"/>
+            <path d="M48 25C83 25 92 17 126 17" fill="none" stroke="#0B766E" stroke-width="12" stroke-opacity=".55"/>
+            <path d="M48 25C83 25 92 73 126 73" fill="none" stroke="#C9902E" stroke-width="7" stroke-opacity=".55"/>
+            <path d="M174 17C207 17 219 25 252 25" fill="none" stroke="#0B766E" stroke-width="9" stroke-opacity=".55"/>
+            <path d="M174 73C207 73 219 25 252 25" fill="none" stroke="#C9902E" stroke-width="5" stroke-opacity=".55"/>
+            <text x="10" y="30" font-family="JetBrains Mono" font-size="11" fill="#152427">Start</text>
+            <text x="137" y="22" font-family="JetBrains Mono" font-size="11" fill="#152427">Read</text>
+            <text x="137" y="78" font-family="JetBrains Mono" font-size="11" fill="#152427">Help</text>
+            <text x="263" y="30" font-family="JetBrains Mono" font-size="11" fill="#152427">Quiz</text>
+          </g>
+
+          <g transform="translate(392 136)">
+            <text x="0" y="-12" font-family="Inter" font-size="15" font-weight="900" fill="#0B766E">Heatmap / matrix</text>
+            <g>
+              <rect x="0" y="0" width="34" height="34" fill="#e5f3ef" stroke="#fff"/>
+              <rect x="36" y="0" width="34" height="34" fill="#b9ded7" stroke="#fff"/>
+              <rect x="72" y="0" width="34" height="34" fill="#f7dfd8" stroke="#fff"/>
+              <rect x="108" y="0" width="34" height="34" fill="#fff8ed" stroke="#fff"/>
+              <rect x="0" y="36" width="34" height="34" fill="#f7dfd8" stroke="#fff"/>
+              <rect x="36" y="36" width="34" height="34" fill="#e5f3ef" stroke="#fff"/>
+              <rect x="72" y="36" width="34" height="34" fill="#88c8bd" stroke="#fff"/>
+              <rect x="108" y="36" width="34" height="34" fill="#fff8ed" stroke="#fff"/>
+              <rect x="0" y="72" width="34" height="34" fill="#fff8ed" stroke="#fff"/>
+              <rect x="36" y="72" width="34" height="34" fill="#f7dfd8" stroke="#fff"/>
+              <rect x="72" y="72" width="34" height="34" fill="#e5f3ef" stroke="#fff"/>
+              <rect x="108" y="72" width="34" height="34" fill="#0B766E" stroke="#fff"/>
+            </g>
+            <text x="160" y="32" font-family="JetBrains Mono" font-size="12" fill="#405458">method fit</text>
+            <text x="160" y="58" font-family="JetBrains Mono" font-size="12" fill="#405458">transition rate</text>
+            <text x="160" y="84" font-family="JetBrains Mono" font-size="12" fill="#405458">code intensity</text>
+          </g>
+
+          <g transform="translate(690 136)">
+            <text x="0" y="-12" font-family="Inter" font-size="15" font-weight="900" fill="#0B766E">Small multiples</text>
+            <rect x="0" y="0" width="108" height="78" rx="8" fill="#fff" stroke="#152427" stroke-width="2"/>
+            <rect x="126" y="0" width="108" height="78" rx="8" fill="#fff" stroke="#152427" stroke-width="2"/>
+            <path d="M12 58C34 52 48 31 68 37S92 22 100 16" fill="none" stroke="#0B766E" stroke-width="4"/>
+            <path d="M138 58C160 59 173 48 194 28S218 34 226 19" fill="none" stroke="#B5392A" stroke-width="4"/>
+            <text x="24" y="96" font-family="JetBrains Mono" font-size="11" fill="#405458">Group A</text>
+            <text x="152" y="96" font-family="JetBrains Mono" font-size="11" fill="#405458">Group B</text>
+          </g>
+
+          <g transform="translate(50 306)">
+            <rect x="0" y="0" width="18" height="18" rx="4" fill="#e5f3ef" stroke="#0B766E"/>
+            <text x="28" y="14" font-family="Inter" font-size="13" font-weight="800" fill="#152427">Use shared scales for cross-group comparison.</text>
+            <rect x="360" y="0" width="18" height="18" rx="4" fill="#f7dfd8" stroke="#B5392A"/>
+            <text x="388" y="14" font-family="Inter" font-size="13" font-weight="800" fill="#152427">Normalize flows when cohort sizes differ.</text>
+            <rect x="704" y="0" width="18" height="18" rx="4" fill="#fff8ed" stroke="#C9902E"/>
+            <text x="732" y="14" font-family="Inter" font-size="13" font-weight="800" fill="#152427">Keep raw N visible next to percentages.</text>
+          </g>
+        </svg>
+        <div class="caption">Sankey charts are useful for pathway comparison, but only when the same event vocabulary, stage boundaries, and normalization rules are used across groups.</div>
+      </div>
+      <h3>Visualization decision matrix</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Data / method table</th>
+              <th>Best chart types</th>
+              <th>Cross-comparison design</th>
+              <th>What to show beside the chart</th>
+              <th>Common mistake</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="k">Event / dashboard summaries</td>
+              <td>Aligned bar charts, calendar heatmaps, line charts, dot plots, completion funnels.</td>
+              <td>Same time window and denominator across groups; show per-learner and aggregate views separately.</td>
+              <td>Raw N, active learner count, missing logging days, course/module boundaries.</td>
+              <td>Comparing raw click counts when group size or course length differs.</td>
+            </tr>
+            <tr>
+              <td class="k">Sequence mining / TNA / SPM</td>
+              <td>Sankey/alluvial, transition heatmap, state sequence plot, frequent-pattern bar chart, Markov edge diagram.</td>
+              <td>Use identical token vocabulary and stage boundaries; normalize transition weights within group.</td>
+              <td>Sequence count, median length, top-k path coverage, entropy or path diversity.</td>
+              <td>Showing one beautiful Sankey without proving that groups share comparable event grammar.</td>
+            </tr>
+            <tr>
+              <td class="k">Process mining</td>
+              <td>Process map, variant explorer, conformance heatmap, throughput boxplot, bottleneck timeline.</td>
+              <td>Fix the same case definition; compare variants by percentage and median time, not only absolute counts.</td>
+              <td>Number of cases, variant coverage threshold, excluded rare paths, duration distribution.</td>
+              <td>Treating the "ideal" workflow as pedagogically best without design evidence.</td>
+            </tr>
+            <tr>
+              <td class="k">ONA / ENA / epistemic networks</td>
+              <td>Network panels, edge-difference plot, centroid scatter, node-strength lollipop, adjacency heatmap.</td>
+              <td>Use shared node positions, shared edge-width scale, and matched unit/stanza definitions.</td>
+              <td>Unit count, stanza rule, coding reliability, edge normalization method.</td>
+              <td>Moving nodes independently by group, which makes visual differences look larger than they are.</td>
+            </tr>
+            <tr>
+              <td class="k">Social network analysis</td>
+              <td>Network small multiples, adjacency matrix, degree distribution, centrality dot plot, community map.</td>
+              <td>Use same edge threshold and layout seed; compare graph metrics with uncertainty or permutation baseline.</td>
+              <td>Density, isolates, reciprocity, edge definition, observation window.</td>
+              <td>Calling central students "better learners" without outcome or qualitative support.</td>
+            </tr>
+            <tr>
+              <td class="k">Discourse / content analysis</td>
+              <td>Stacked bars, code co-occurrence heatmap, uptake arcs, timeline of moves, quote-linked code matrix.</td>
+              <td>Use the same codebook and unitization; compare proportions plus raw counts.</td>
+              <td>Coder agreement, examples of coded units, denominator, excluded private text policy.</td>
+              <td>Comparing percentages without showing that one group produced far fewer words or turns.</td>
+            </tr>
+            <tr>
+              <td class="k">NLP / topic modeling</td>
+              <td>Topic prevalence bars, embedding map, similarity heatmap, classifier calibration, uncertainty intervals.</td>
+              <td>Keep model version fixed; compare topic prevalence with confidence or bootstrap intervals.</td>
+              <td>Prompt/model version, validation sample, label accuracy, representative examples.</td>
+              <td>Treating model-generated labels as ground truth.</td>
+            </tr>
+            <tr>
+              <td class="k">Knowledge tracing / mastery</td>
+              <td>Mastery trajectory, learning curve, item-skill heatmap, calibration curve, attempt-level spaghetti + summary.</td>
+              <td>Align by attempt number or instructional time; compare with shared skill map and item pool.</td>
+              <td>Skill mapping, item count per skill, model fit, calibration, uncertainty bands.</td>
+              <td>Plotting smooth mastery curves without enough attempts per learner/skill.</td>
+            </tr>
+            <tr>
+              <td class="k">IRT / Rasch / CDM</td>
+              <td>Item-person map, Wright map, item characteristic curves, Q-matrix heatmap, mastery profile bars.</td>
+              <td>Use same item scale and check measurement invariance before group comparison.</td>
+              <td>Reliability, fit statistics, item count, DIF/invariance notes, Q-matrix source.</td>
+              <td>Comparing raw scores when item difficulty differs.</td>
+            </tr>
+            <tr>
+              <td class="k">Prediction / EDM</td>
+              <td>ROC/PR curves, calibration plot, confusion matrix, lift chart, feature importance with stability.</td>
+              <td>Use identical train/test split logic; compare models by held-out performance and calibration.</td>
+              <td>Base rate, threshold, false-positive cost, split method, subgroup performance.</td>
+              <td>Reporting AUC only when the operational decision depends on precision/recall or calibration.</td>
+            </tr>
+            <tr>
+              <td class="k">Causal / longitudinal / multilevel</td>
+              <td>Coefficient plot, event-study plot, growth curves, marginal effects, forest plot, balance Love plot.</td>
+              <td>Use shared covariate adjustment and clustering; compare effects with intervals, not just p-values.</td>
+              <td>Assignment mechanism, covariate balance, ICC, cluster count, robustness checks.</td>
+              <td>Using before/after line charts as if they prove treatment effects.</td>
+            </tr>
+            <tr>
+              <td class="k">Multimodal / video / sensor</td>
+              <td>Timeline raster, state-transition Sankey, synchronized signal panels, behavior-duration bars, confusion matrix.</td>
+              <td>Synchronize clocks and use shared behavior codes; compare rates per minute and uncertainty.</td>
+              <td>Classifier F1, human-coding baseline, sensor missingness, segment definition, privacy tier.</td>
+              <td>Showing high-resolution traces without validation of the inferred behavior labels.</td>
+            </tr>
+            <tr>
+              <td class="k">DBR / learning engineering</td>
+              <td>Iteration timeline, conjecture map, design-change matrix, before/after small multiples, evidence dashboard.</td>
+              <td>Compare versions by the same mechanism indicators, not only final outcomes.</td>
+              <td>Design change log, intended mechanism, implementation fidelity, sample/context shift.</td>
+              <td>Claiming "the redesign worked" without separating design changes from cohort/context differences.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="grid-3">
+        <div class="card soft"><div class="card-title">Sankey rule</div><p>Use Sankey/alluvial charts for ordered stage-to-stage flow. Normalize within group when comparing groups, and show raw path counts nearby.</p></div>
+        <div class="card"><div class="card-title">Small multiple rule</div><p>When comparing groups, keep axes, node positions, color mapping, and aggregation windows fixed across panels.</p></div>
+        <div class="card warn"><div class="card-title">Reviewer rule</div><p>Every chart should make the denominator visible: learners, sessions, events, turns, attempts, or cases.</p></div>
+      </div>
+    </section>
+
+    <section id="lab" class="section">
+      <div class="section-label"><span class="eyebrow">09 · Interactive Lab</span></div>
+      <h2>Try the fit logic before you clean data.</h2>
+      <div class="lab">
+        <div class="lab-panel">
+          <div class="control">
+            <label for="source">Primary source</label>
+            <select id="source" class="select">
+              <option value="lms">LMS clickstream</option>
+              <option value="assessment">Assessment attempts</option>
+              <option value="discussion">Discussion posts</option>
+              <option value="simulation">Simulation/game traces</option>
+            </select>
+          </div>
+          <div class="control">
+            <label>Research aim</label>
+            <div class="seg" id="aims">
+              <button type="button" class="active" data-aim="sequence">Pathways</button>
+              <button type="button" data-aim="ona">Co-occurrence</button>
+              <button type="button" data-aim="kt">Mastery</button>
+              <button type="button" data-aim="prediction">Prediction</button>
+            </div>
+          </div>
+        </div>
+        <div class="lab-output">
+          <div class="card-title">Recommended first table</div>
+          <div class="lab-result" id="labResult"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="reviewer" class="section">
+      <div class="section-label"><span class="eyebrow">10 · Reviewer Risk</span></div>
+      <h2>Write down what the logs cannot prove.</h2>
+      <div class="grid-2">
+        <div class="card warn">
+          <div class="card-title">Risky claim</div>
+          <p>"Students who clicked more were more engaged and learned more."</p>
+        </div>
+        <div class="card soft">
+          <div class="card-title">Safer claim</div>
+          <p>"In this platform log, higher resource-access frequency was associated with later assessment performance. We interpret this as a behavioral trace of platform use, not a direct measure of engagement."</p>
+        </div>
+      </div>
+      <ul class="rule-list">
+        <li><strong>Logging gaps:</strong> document missing mobile events, offline work, background tabs, and platform changes.</li>
+        <li><strong>Construct validity:</strong> explain why event types are reasonable proxies for the construct.</li>
+        <li><strong>Temporal leakage:</strong> do not use future events to predict earlier outcomes.</li>
+        <li><strong>Causal wording:</strong> use causal language only when the study design supports it.</li>
+      </ul>
+    </section>
+
+    <section id="faq" class="section">
+      <div class="section-label"><span class="eyebrow">11 · FAQ</span></div>
+      <h2>Questions that usually appear in the first week.</h2>
+      <details open>
+        <summary>Can I just merge the LMS export with grades and start modeling?</summary>
+        <p>No. First inspect identifiers, timestamps, duplicated events, missingness, and whether each event means the same thing across modules. A model can run on a bad merge and still produce polished nonsense.</p>
+      </details>
+      <details>
+        <summary>Should I keep raw discussion text?</summary>
+        <p>For private analysis, maybe, if the study protocol allows it. For public examples, avoid raw student text. Use synthetic text, derived features, or aggregate code labels.</p>
+      </details>
+      <details>
+        <summary>What is the difference between de-identified and synthetic?</summary>
+        <p>De-identified data began as real participant data and has been transformed to reduce re-identification risk. Synthetic data is generated for illustration and should not be described as real evidence.</p>
+      </details>
+      <details>
+        <summary>When should I move from event tables to KT or sequence mining?</summary>
+        <p>Move only after the target unit is clear. KT needs attempts mapped to skills. Sequence mining needs ordered tokens. ONA/ENA needs interpretable codes within units or stanzas.</p>
+      </details>
+    </section>
+
+    <section id="downloads" class="section">
+      <div class="section-label"><span class="eyebrow">12 · Downloads</span></div>
+      <h2>Public-safe starter files.</h2>
+      <div class="download-grid">
+        <a class="download" href="downloads/la_event_schema_template.csv"><div class="name">Event schema template</div><div class="meta">CSV · data dictionary starter</div></a>
+        <a class="download" href="downloads/la_data_readiness_checklist.md"><div class="name">Data readiness checklist</div><div class="meta">Markdown · review gate</div></a>
+        <a class="download" href="downloads/la_transformation_plan.md"><div class="name">Transformation plan</div><div class="meta">Markdown · project memo</div></a>
+      </div>
+    </section>
+
+    <section id="references" class="section">
+      <div class="section-label"><span class="eyebrow">13 · References</span></div>
+      <h2>Primary and official sources to keep nearby.</h2>
+      <ul class="rule-list">
+        <li><strong>1EdTech Caliper Analytics:</strong> official event model specification for learning activity data. <a class="inline" href="https://www.1edtech.org/standards/caliper" rel="noreferrer">1EdTech Caliper Analytics</a></li>
+        <li><strong>ADL xAPI:</strong> official Experience API specification using actor, verb, and object statements. <a class="inline" href="https://adlnet.gov/projects/xapi/" rel="noreferrer">ADL xAPI</a></li>
+        <li><strong>U.S. Department of Education FERPA guidance:</strong> official privacy guidance for education records and de-identification. <a class="inline" href="https://studentprivacy.ed.gov/" rel="noreferrer">Student Privacy Policy Office</a></li>
+        <li><strong>Society for Learning Analytics Research:</strong> field-level learning analytics community and conference context. <a class="inline" href="https://www.solaresearch.org/" rel="noreferrer">SoLAR</a></li>
+        <li><strong>What Works Clearinghouse:</strong> useful contrast for evidence standards and causal claim discipline in education research. <a class="inline" href="https://ies.ed.gov/ncee/wwc/Handbooks" rel="noreferrer">WWC Handbooks</a></li>
+      </ul>
+    </section>
+
+    <footer class="foot">
+      <span>Educatian · learning analytics data onboarding</span>
+      <span>Jewoong Moon · The University of Alabama</span>
+    </footer>
+  </main>
+</div>
+
+<script>
+const links = [...document.querySelectorAll('.toc a')];
+const sections = links.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (!entry.isIntersecting) return;
+    links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + entry.target.id));
+  });
+}, {rootMargin:'-18% 0px -70% 0px', threshold:0.01});
+sections.forEach(s => obs.observe(s));
+
+const labText = {
+  lms: {
+    sequence: 'Start with a session-level sequence table: learner_id, session_id, event_index, event_type, object_type. Use it to compare navigation or resource-use pathways. Do not call clicks engagement without additional validity evidence.',
+    ona: 'Create coded events first. LMS actions alone are usually too literal for ONA/ENA; map them to meaningful learning behaviors or design-relevant categories.',
+    kt: 'LMS clicks are weak KT inputs unless they include practice attempts tied to skills. Bring in assessment rows before estimating mastery.',
+    prediction: 'Build time-window features from events before the outcome date. Split by time or learner to avoid leakage.'
+  },
+  assessment: {
+    sequence: 'Use attempt_order within each learner and skill. Sequence mining can reveal retry, hint, and success pathways.',
+    ona: 'Use codes such as attempt, hint, revise, explain, and success within problem-solving stanzas if those actions are logged.',
+    kt: 'Strong fit. Build learner_id, skill_id, attempt_order, correct, and optional time features. Begin with interpretable BKT or logistic KT baselines.',
+    prediction: 'Strong fit if timestamps are honest. Predict next attempt or later outcome using only prior attempts.'
+  },
+  discussion: {
+    sequence: 'Use ordered post/reply/code tokens by thread or week. Preserve conversational order and avoid publishing raw text.',
+    ona: 'Strong fit after qualitative or NLP coding. Units can be learners, groups, threads, or weeks depending on the claim.',
+    kt: 'Usually poor fit unless discussion posts are tied to explicit skill demonstrations and scored attempts.',
+    prediction: 'Use derived features carefully. Raw language can encode sensitive identity signals and should be governed tightly.'
+  },
+  simulation: {
+    sequence: 'Strong fit. Simulation traces often provide rich ordered actions, decisions, and states. Design the event vocabulary before deployment.',
+    ona: 'Strong fit when events can be mapped to conceptual or strategic codes within task episodes.',
+    kt: 'Possible if tasks map to skills and attempts have success indicators. Otherwise, treat as process analytics rather than mastery tracing.',
+    prediction: 'Strong fit for temporally honest process-to-outcome models, but document interface changes and telemetry gaps.'
+  }
+};
+const source = document.getElementById('source');
+const buttons = [...document.querySelectorAll('#aims button')];
+const result = document.getElementById('labResult');
+function updateLab(){
+  const aim = document.querySelector('#aims button.active').dataset.aim;
+  result.textContent = labText[source.value][aim];
+}
+buttons.forEach(btn => btn.addEventListener('click', () => {
+  buttons.forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  updateLab();
+}));
+source.addEventListener('change', updateLab);
+updateLab();
+</script>
+</body>
+</html>

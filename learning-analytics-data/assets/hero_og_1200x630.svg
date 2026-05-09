@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse">
+      <path d="M48 0H0V48" fill="none" stroke="#c4d1cf" stroke-width="1"/>
+    </pattern>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#eef4f1"/>
+      <stop offset="1" stop-color="#fff8ed"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#grid)" opacity=".55"/>
+  <rect x="58" y="62" width="1084" height="506" rx="26" fill="#fffdf8" stroke="#152427" stroke-width="5"/>
+  <text x="100" y="128" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="800" letter-spacing="5" fill="#0b766e">LEARNING ANALYTICS DATA</text>
+  <text x="100" y="218" font-family="Inter, Arial, sans-serif" font-size="66" font-weight="900" fill="#152427">From classroom logs</text>
+  <text x="100" y="294" font-family="Georgia, serif" font-size="68" font-style="italic" fill="#b5392a">to research-ready data</text>
+  <g transform="translate(100 354)">
+    <rect x="0" y="0" width="188" height="94" rx="14" fill="#e5f3ef" stroke="#152427" stroke-width="3"/>
+    <rect x="242" y="0" width="188" height="94" rx="14" fill="#fff" stroke="#152427" stroke-width="3"/>
+    <rect x="484" y="0" width="188" height="94" rx="14" fill="#f7dfd8" stroke="#b5392a" stroke-width="3"/>
+    <rect x="726" y="0" width="188" height="94" rx="14" fill="#152427" stroke="#152427" stroke-width="3"/>
+    <path d="M198 47h34M440 47h34M682 47h34" stroke="#152427" stroke-width="5" stroke-linecap="round"/>
+    <path d="M230 47l-12-9v18zM472 47l-12-9v18zM714 47l-12-9v18z" fill="#152427"/>
+    <text x="24" y="38" font-family="Inter, Arial, sans-serif" font-size="17" font-weight="900" fill="#152427">Raw events</text>
+    <text x="24" y="66" font-family="JetBrains Mono, Consolas, monospace" font-size="12" fill="#405458">clicks · posts · tries</text>
+    <text x="266" y="38" font-family="Inter, Arial, sans-serif" font-size="17" font-weight="900" fill="#152427">Privacy gate</text>
+    <text x="266" y="66" font-family="JetBrains Mono, Consolas, monospace" font-size="13" fill="#405458">pseudonym · scope</text>
+    <text x="508" y="38" font-family="Inter, Arial, sans-serif" font-size="17" font-weight="900" fill="#152427">Event grammar</text>
+    <text x="508" y="66" font-family="JetBrains Mono, Consolas, monospace" font-size="13" fill="#405458">actor · action · object</text>
+    <text x="750" y="38" font-family="Inter, Arial, sans-serif" font-size="17" font-weight="900" fill="#fff8ed">Analysis tables</text>
+    <text x="750" y="66" font-family="JetBrains Mono, Consolas, monospace" font-size="13" fill="#d7e4df">ONA · sequence · KT</text>
+  </g>
+  <text x="100" y="520" font-family="Inter, Arial, sans-serif" font-size="24" fill="#405458">A practical onboarding guide for educational technology researchers</text>
+</svg>
