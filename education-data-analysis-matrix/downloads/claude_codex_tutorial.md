@@ -2,6 +2,14 @@
 
 Use this as a conversation recipe for creating a GitHub Pages guide that maps education and learning-sciences data types to analysis methods, claim limits, validity checks, and interactive visualizations.
 
+## Topic video primers
+
+These videos are about the guide topic itself, not about Claude Code or Codex:
+
+- Learning analytics in a nutshell, SoLAR: https://youtu.be/XscUZ8dIa-8
+- Educational Data Mining (EDM): Turning Big Data into Big Gains for Students: https://www.youtube.com/watch?v=mEWBdf1dvdw
+- LASI14 panel: Learning Analytics and Learning Science, SoLAR: https://youtu.be/gR7FKMzzbOc
+
 ## 1. Start with a research brief
 
 ```text
