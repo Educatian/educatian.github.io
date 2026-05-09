@@ -1,0 +1,419 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="theme-color" content="#1f4f46" />
+<title>Research Question Fit - What Your Data Can and Cannot Answer</title>
+<meta name="description" content="A practical onboarding guide for matching research questions to the data, design, measurement, and validity evidence needed to support them." />
+<link rel="canonical" href="https://educatian.github.io/research-question-fit/">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Research Question Fit">
+<meta property="og:description" content="Inspect a dataset and decide which research questions, claims, and methods are defensible before analysis begins.">
+<meta property="og:url" content="https://educatian.github.io/research-question-fit/">
+<meta property="og:image" content="https://educatian.github.io/research-question-fit/thumbnails/hero_og_1200x630.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://educatian.github.io/research-question-fit/thumbnails/hero_og_1200x630.png">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,800;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700;800&display=swap');
+:root{
+  --bg:#f0eae0;--paper:#fffdf8;--ink:#182126;--muted:#657178;--line:#cfc4b1;
+  --green:#1f4f46;--green2:#12342e;--green-soft:rgba(31,79,70,.12);
+  --rust:#b5392a;--rust-soft:rgba(181,57,42,.12);
+  --gold:#b4862e;--gold-soft:rgba(180,134,46,.14);
+  --blue:#284c63;--blue-soft:rgba(40,76,99,.12);
+  --red:#9d2d2d;--red-soft:rgba(157,45,45,.10);
+  --code:#111b1b;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Inter',system-ui,sans-serif;line-height:1.65;font-size:16px;-webkit-font-smoothing:antialiased}
+a{color:var(--green);text-decoration-thickness:1px;text-underline-offset:3px}
+code{font-family:'JetBrains Mono',Consolas,monospace;background:rgba(24,33,38,.07);padding:1px 5px;border-radius:4px;font-size:.92em}
+.grid-bg{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.32;background-image:linear-gradient(rgba(24,33,38,.055) 1px,transparent 1px),linear-gradient(90deg,rgba(24,33,38,.055) 1px,transparent 1px);background-size:48px 48px;mask-image:radial-gradient(ellipse at 28% 10%,black 30%,transparent 82%)}
+.shell{position:relative;z-index:1;display:grid;grid-template-columns:284px 1fr;gap:54px;max-width:1380px;margin:0 auto;padding:64px 76px 96px}
+@media(max-width:1080px){.shell{grid-template-columns:1fr;padding:34px 22px}.toc{position:relative!important;top:auto!important;max-height:none!important}}
+.toc{position:sticky;top:28px;align-self:start;max-height:calc(100vh - 56px);overflow:auto;background:var(--paper);border:2px solid var(--ink);border-radius:14px;padding:22px;box-shadow:0 14px 36px rgba(24,33,38,.1)}
+.toc-kicker{font-size:11px;font-weight:900;letter-spacing:3.5px;text-transform:uppercase;color:var(--green);margin-bottom:12px}
+.toc h2{font-size:18px;line-height:1.2;margin:0 0 14px;font-weight:900}
+.toc ol{counter-reset:toc;list-style:none;margin:0;padding:0}.toc li{counter-increment:toc;border-top:1px solid var(--line)}.toc li:first-child{border-top:0}
+.toc a{display:flex;gap:10px;padding:8px 0;color:var(--ink);text-decoration:none;font-size:13px;line-height:1.35;font-weight:650}.toc a::before{content:counter(toc,decimal-leading-zero);font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);width:20px;flex:none}.toc a:hover,.toc a.active{color:var(--green)}.toc a.active{background:var(--green-soft);border-radius:9px;padding-left:8px;padding-right:8px;transform:translateX(3px)}
+.download-mini{margin-top:18px;border-top:1px solid var(--line);padding-top:14px}.download-mini a{display:block;font-size:12px;font-weight:800;text-decoration:none;color:var(--green);padding:5px 0}
+main{min-width:0}.hero{padding-bottom:54px;margin-bottom:48px;border-bottom:1px solid var(--line)}
+.kicker{font-size:13px;font-weight:900;letter-spacing:4px;text-transform:uppercase;color:var(--green);margin-bottom:18px}
+h1{font-size:64px;font-weight:900;line-height:1.04;letter-spacing:-.02em;margin:0 0 22px}.serif{font-family:'Playfair Display',Georgia,serif;font-style:italic;font-weight:400}.em{color:var(--green)}
+.lede{font-size:20px;line-height:1.55;color:#314048;font-weight:300;max-width:840px;margin:0 0 28px}
+.hero-meta{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px}.hero-meta span{border:1.5px solid var(--ink);border-radius:6px;padding:6px 11px;background:rgba(255,253,248,.72);font-size:11px;font-family:'JetBrains Mono',monospace;font-weight:800;letter-spacing:1.2px;text-transform:uppercase}
+.hero-visual{margin:32px 0 10px;background:var(--paper);border:2px solid var(--ink);border-radius:16px;overflow:hidden;box-shadow:0 18px 42px rgba(24,33,38,.13)}
+.hero-visual img{display:block;width:100%;height:auto}
+.quick-strip{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:22px 0}@media(max-width:900px){.quick-strip{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:560px){.quick-strip{grid-template-columns:1fr}}
+.quick{background:var(--paper);border:1.5px solid var(--line);border-radius:12px;padding:14px;min-height:110px}.quick .icon{font-size:30px;line-height:1;margin-bottom:8px}.quick b{display:block;color:var(--green);font-size:14px}.quick span{display:block;color:var(--muted);font-size:13px;line-height:1.4;margin-top:5px}
+.dialectic{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:20px 0}@media(max-width:900px){.dialectic{grid-template-columns:1fr}}
+.dialectic-card{background:var(--paper);border:2px solid var(--ink);border-radius:14px;padding:18px;box-shadow:0 12px 28px rgba(24,33,38,.08)}.dialectic-card.thesis{border-top:7px solid var(--green)}.dialectic-card.anti{border-top:7px solid var(--rust)}.dialectic-card.syn{border-top:7px solid var(--gold)}.dialectic-card b{display:block;font-size:12px;letter-spacing:.16em;text-transform:uppercase;margin-bottom:8px}.dialectic-card p{margin:0;color:#3b484e;font-size:14px}
+.ladder{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;margin:18px 0;background:var(--paper);border:2px solid var(--ink);border-radius:14px;overflow:hidden}.ladder div{padding:16px;border-right:1px solid var(--line)}.ladder div:last-child{border-right:0}.ladder b{display:block;font-size:11px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:8px;color:var(--green)}.ladder p{margin:0;font-size:14px;color:#3b484e}@media(max-width:820px){.ladder{grid-template-columns:1fr}.ladder div{border-right:0;border-bottom:1px solid var(--line)}.ladder div:last-child{border-bottom:0}}
+section{margin:0 0 58px}.section-kicker{font-size:11px;font-weight:900;letter-spacing:3px;text-transform:uppercase;color:var(--rust);margin-bottom:8px}
+h2{font-size:33px;line-height:1.16;margin:0 0 16px;font-weight:900;letter-spacing:-.01em}h3{font-size:20px;line-height:1.25;margin:26px 0 8px;font-weight:900}
+.callout{background:var(--green-soft);border-left:5px solid var(--green);padding:16px 18px;border-radius:8px;margin:18px 0}.callout.warn{background:#fff7df;border-left-color:var(--gold)}.callout.danger{background:#fff1ed;border-left-color:var(--red)}.callout b{color:var(--green)}
+.card-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin:22px 0}@media(max-width:900px){.card-grid{grid-template-columns:1fr}}
+.card{background:var(--paper);border:1.5px solid var(--line);border-radius:10px;padding:18px}.card strong{display:block;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--green);margin-bottom:7px}.card p{margin:0;color:#3b484e;font-size:14px}
+.workflow{background:var(--paper);border:2px solid var(--ink);border-radius:14px;padding:18px;margin:24px 0;box-shadow:0 16px 36px rgba(24,33,38,.1)}.workflow svg{width:100%;height:auto;display:block}
+.gate{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:18px 0}@media(max-width:760px){.gate{grid-template-columns:1fr}}
+label{display:block;font-size:11px;font-weight:900;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+select{width:100%;background:var(--paper);border:2px solid var(--ink);border-radius:9px;padding:12px 13px;font:700 15px 'Inter',sans-serif;color:var(--ink)}
+.result{background:var(--paper);border:2px solid var(--ink);border-radius:14px;margin-top:16px;overflow:hidden;box-shadow:0 16px 34px rgba(24,33,38,.09)}
+.result-head{display:flex;justify-content:space-between;gap:12px;align-items:center;background:var(--green2);color:#fff;padding:16px 18px}.result-head h3{margin:0;font-size:20px}.badge{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;background:#f5c86a;color:#1f2a1d;border-radius:999px;padding:5px 9px;white-space:nowrap}
+.result-body{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0}@media(max-width:760px){.result-body{grid-template-columns:1fr}}.result-cell{padding:16px 18px;border-top:1px solid var(--line)}.result-cell:nth-child(odd){border-right:1px solid var(--line)}@media(max-width:760px){.result-cell:nth-child(odd){border-right:0}}.result-cell b{display:block;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--green);margin-bottom:5px}
+table{width:100%;border-collapse:collapse;margin:18px 0;background:var(--paper);font-size:14px}th,td{border-bottom:1px solid var(--line);padding:10px 11px;text-align:left;vertical-align:top}th{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--green);background:var(--green-soft)}.matrix-wrap{overflow:auto;border:1px solid var(--line);border-radius:10px;background:var(--paper);margin:18px 0}.matrix-wrap table{margin:0;min-width:980px}.matrix-wrap td:first-child,.matrix-wrap th:first-child{font-weight:850;color:var(--green)}
+.clinic{display:grid;grid-template-columns:1fr;gap:12px;margin:18px 0}.clinic-card{background:var(--paper);border:1.5px solid var(--line);border-left:5px solid var(--rust);border-radius:10px;padding:16px}.clinic-card .bad{font-weight:900;color:var(--red)}.clinic-card .good{font-weight:800;color:var(--green)}
+.downloads{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:18px 0}@media(max-width:760px){.downloads{grid-template-columns:1fr}}.download{display:block;background:var(--paper);border:1.5px solid var(--ink);border-radius:10px;padding:16px;text-decoration:none;color:var(--ink);transition:transform .12s,box-shadow .12s}.download:hover{transform:translateY(-2px);box-shadow:0 12px 26px rgba(31,79,70,.16)}.download b{display:block;color:var(--green);font-size:14px;margin-bottom:5px}.download span{font-size:13px;color:var(--muted)}
+.evidence-map{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:20px 0}@media(max-width:820px){.evidence-map{grid-template-columns:1fr}}.anchor{background:var(--paper);border:1.5px solid var(--line);border-left:5px solid var(--green);border-radius:10px;padding:15px}.anchor b{display:block;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--green);margin-bottom:6px}.anchor p{margin:0;color:#3b484e;font-size:14px}.anchor em{font-style:normal;font-weight:850;color:var(--rust)}
+details{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:12px 14px;margin:10px 0}summary{font-weight:850;cursor:pointer}
+.refs li{margin:8px 0}.codeblock{background:var(--code);color:#f3ecdd;border-radius:10px;padding:16px 18px;font-family:'JetBrains Mono',Consolas,monospace;font-size:13px;line-height:1.55;overflow:auto}
+footer{position:relative;z-index:1;border-top:1px solid var(--line);padding:28px 8%;font-size:12px;color:var(--muted);background:#eee3d2}
+</style>
+</head>
+<body>
+<div class="grid-bg"></div>
+<div class="shell">
+  <aside class="toc" aria-label="Table of contents">
+    <div class="toc-kicker">RQ fit</div>
+    <h2>Claim discipline before analysis</h2>
+    <ol>
+      <li><a href="#identity">What this guide is</a></li>
+      <li><a href="#pipeline">The decision path</a></li>
+      <li><a href="#dialectic">Dialectic check</a></li>
+      <li><a href="#gate">Interactive fit gate</a></li>
+      <li><a href="#cases">Worked examples</a></li>
+      <li><a href="#taxonomy">Pick the table</a></li>
+      <li><a href="#clinic">Claim wording clinic</a></li>
+      <li><a href="#agent">Agent-ready prompt</a></li>
+      <li><a href="#downloads">Starter downloads</a></li>
+      <li><a href="#faq">FAQ</a></li>
+      <li><a href="#evidence-map">Evidence anchors</a></li>
+      <li><a href="#references">References</a></li>
+    </ol>
+    <div class="download-mini">
+      <a href="downloads/rq_fit_matrix.csv">Download matrix</a>
+      <a href="downloads/claim_wording_clinic.md">Download wording clinic</a>
+      <a href="downloads/agent_prompt_rq_fit.md">Download agent prompt</a>
+    </div>
+  </aside>
+  <main>
+    <header class="hero">
+      <div class="kicker">Research onboarding &middot; evidence fit &middot; claim discipline</div>
+      <h1>Research Question <span class="serif">Fit</span>: what your data <span class="em">can and cannot answer</span></h1>
+      <p class="lede">A visual decision guide for one question: <b>what claim can this dataset honestly support?</b></p>
+      <div class="hero-visual">
+        <img src="assets/imagegen2-rqfit-hero.png" alt="Research Question Fit decision board showing data artifacts, question verbs, and claim responsibility cards">
+      </div>
+      <div class="hero-meta">
+        <span>Not a stats menu</span>
+        <span>Before method choice</span>
+        <span>Reviewer-safe wording</span>
+        <span>Agent-ready</span>
+      </div>
+    </header>
+
+    <section id="identity">
+      <div class="section-kicker">01 &middot; Topic identity</div>
+      <h2>This is a narrow guide, not a general methods course</h2>
+      <p>This guide is about one early research decision: <b>before choosing a method, decide what kind of question your data can legitimately answer.</b></p>
+      <div class="callout"><b>Core rule:</b> a research question is fit when the available data, design, measurement, and analysis can warrant the kind of claim the question asks for.</div>
+      <div class="quick-strip">
+        <div class="quick"><div class="icon">1</div><b>Look</b><span>What data do you actually have?</span></div>
+        <div class="quick"><div class="icon">2</div><b>Fit</b><span>Which question verb is defensible?</span></div>
+        <div class="quick"><div class="icon">3</div><b>Claim</b><span>How strong can the wording be?</span></div>
+        <div class="quick"><div class="icon">4</div><b>Method</b><span>Only then choose analysis.</span></div>
+      </div>
+      <div class="callout warn"><b>What this guide does not do:</b> it does not teach every statistical test, replace a methodology course, turn weak designs into causal evidence, or treat AI/ML prediction as explanation.</div>
+    </section>
+
+    <section id="pipeline">
+      <div class="section-kicker">02 &middot; Decision path</div>
+      <h2>Start from evidence, not the method you want to run</h2>
+      <p>Use the path below as the whole guide in one picture.</p>
+      <div class="workflow" role="img" aria-label="Data shape to claim wording decision path">
+        <svg viewBox="0 0 1120 330" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <marker id="arrow" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#1f4f46"/></marker>
+            <filter id="shadow" x="-10%" y="-10%" width="120%" height="130%"><feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#182126" flood-opacity=".14"/></filter>
+          </defs>
+          <rect width="1120" height="330" rx="18" fill="#fffdf8"/>
+          <g font-family="Inter, Arial" filter="url(#shadow)">
+            <g transform="translate(34 72)"><rect width="180" height="128" rx="12" fill="#e8f1ec" stroke="#182126" stroke-width="2"/><text x="20" y="42" font-size="18" font-weight="900" fill="#1f4f46">Data shape</text><text x="20" y="72" font-size="13" fill="#314048">Rows, IDs, timing,</text><text x="20" y="94" font-size="13" fill="#314048">nesting, missingness</text></g>
+            <g transform="translate(254 72)"><rect width="180" height="128" rx="12" fill="#fff7df" stroke="#182126" stroke-width="2"/><text x="20" y="42" font-size="18" font-weight="900" fill="#8b5e14">Design support</text><text x="20" y="72" font-size="13" fill="#314048">Assignment, baseline,</text><text x="20" y="94" font-size="13" fill="#314048">comparison, context</text></g>
+            <g transform="translate(474 72)"><rect width="180" height="128" rx="12" fill="#eef5f8" stroke="#182126" stroke-width="2"/><text x="20" y="42" font-size="18" font-weight="900" fill="#284c63">Validity burden</text><text x="20" y="72" font-size="13" fill="#314048">Construct, reliability,</text><text x="20" y="94" font-size="13" fill="#314048">generalizability</text></g>
+            <g transform="translate(694 72)"><rect width="180" height="128" rx="12" fill="#fff1ed" stroke="#182126" stroke-width="2"/><text x="20" y="42" font-size="18" font-weight="900" fill="#9d2d2d">RQ verb</text><text x="20" y="72" font-size="13" fill="#314048">Describe, predict,</text><text x="20" y="94" font-size="13" fill="#314048">measure, evaluate</text></g>
+            <g transform="translate(914 72)"><rect width="172" height="128" rx="12" fill="#f2eadc" stroke="#182126" stroke-width="2"/><text x="20" y="42" font-size="18" font-weight="900" fill="#b5392a">Claim wording</text><text x="20" y="72" font-size="13" fill="#314048">Safe language and</text><text x="20" y="94" font-size="13" fill="#314048">reviewer warning</text></g>
+          </g>
+          <g stroke="#1f4f46" stroke-width="4" marker-end="url(#arrow)"><line x1="214" y1="136" x2="246" y2="136"/><line x1="434" y1="136" x2="466" y2="136"/><line x1="654" y1="136" x2="686" y2="136"/><line x1="874" y1="136" x2="906" y2="136"/></g>
+          <text x="34" y="260" font-family="JetBrains Mono, monospace" font-size="14" font-weight="800" fill="#657178">If the claim says cause, improve, measure, explain, predict, or generalize, the data must carry that burden.</text>
+        </svg>
+      </div>
+    </section>
+
+    <section id="dialectic">
+      <div class="section-kicker">03 &middot; Dialectic check</div>
+      <h2>Constraint should become better questioning, not silence</h2>
+      <p>The guide is strongest when it holds two ideas together: evidence limits claims, but those limits help researchers ask sharper questions.</p>
+      <div class="dialectic">
+        <div class="dialectic-card thesis"><b>Thesis</b><p>Data shape, design, and validity evidence set the boundary for what a study can claim.</p></div>
+        <div class="dialectic-card anti"><b>Antithesis</b><p>If the page only says "you cannot claim that," beginners may stop generating useful questions.</p></div>
+        <div class="dialectic-card syn"><b>Synthesis</b><p>RQ fit is a revision tool: transform an overclaim into a defensible question, then name what evidence would support a stronger claim.</p></div>
+      </div>
+      <div class="ladder">
+        <div><b>Weak but tempting</b><p>Did the AI tutor improve learning?</p></div>
+        <div><b>Defensible now</b><p>How did learners' scores, actions, and perceptions change during this implementation?</p></div>
+        <div><b>Stronger with added evidence</b><p>What is the tutor's effect on learning compared with a matched or randomized alternative?</p></div>
+      </div>
+    </section>
+
+    <section id="gate">
+      <div class="section-kicker">04 &middot; Interactive fit gate</div>
+      <h2>Choose the question verb and data type</h2>
+      <p>This is the page's main onboarding tool. It does not approve a study; it shows the first claim boundary to inspect.</p>
+      <div class="gate">
+        <div><label for="verb">Question verb</label><select id="verb"></select></div>
+        <div><label for="datatype">Data type</label><select id="datatype"></select></div>
+      </div>
+      <div class="result" aria-live="polite">
+        <div class="result-head"><h3 id="resultTitle">Describe + Survey</h3><span class="badge" id="riskBadge">Bounded</span></div>
+        <div class="result-body">
+          <div class="result-cell"><b>Safe claim</b><div id="safeClaim"></div></div>
+          <div class="result-cell"><b>Evidence burden</b><div id="evidenceBurden"></div></div>
+          <div class="result-cell"><b>Common overclaim</b><div id="overclaim"></div></div>
+          <div class="result-cell"><b>Method family</b><div id="methodFamily"></div></div>
+          <div class="result-cell"><b>Reviewer question</b><div id="reviewerQuestion"></div></div>
+          <div class="result-cell"><b>Safer wording</b><div id="saferWording"></div></div>
+        </div>
+      </div>
+      <div class="callout warn"><b>Use as a first-pass audit:</b> the gate identifies the claim boundary. It does not replace design review, measurement review, or discipline-specific reporting standards.</div>
+    </section>
+
+    <section id="cases">
+      <div class="section-kicker">05 &middot; Worked examples</div>
+      <h2>See the fit decision in context</h2>
+      <p>Each example starts with an ambitious question, then narrows it into a claim the dataset can actually support.</p>
+      <div class="card-grid">
+        <div class="card"><strong>Survey case</strong><p>Perception ratings can describe attitudes and compare groups, but they do not prove behavior change.</p></div>
+        <div class="card"><strong>Trace-log case</strong><p>Clickstreams can show pathways and prediction signals, but they need validity evidence before becoming engagement measures.</p></div>
+        <div class="card"><strong>Intervention case</strong><p>Pre/post scores can show change over time; causal wording needs comparison or identification support.</p></div>
+      </div>
+      <details>
+        <summary>Example 1: Student survey after an AI learning activity</summary>
+        <table>
+          <thead><tr><th>Step</th><th>Decision</th></tr></thead>
+          <tbody>
+            <tr><td>Available data</td><td>Post-activity Likert survey, self-reported confidence, open comments, no comparison group.</td></tr>
+            <tr><td>Risky RQ</td><td>Did the AI activity improve students' learning?</td></tr>
+            <tr><td>Why risky</td><td>The dataset has perceptions after the activity, not a causal design or independent learning outcome.</td></tr>
+            <tr><td>Better RQ</td><td>How did students perceive the usefulness, difficulty, and confidence effects of the AI activity?</td></tr>
+            <tr><td>Safe claim</td><td>Students reported favorable perceptions and confidence after the activity; learning effects require additional outcome/design evidence.</td></tr>
+            <tr><td>Method family</td><td>Descriptive statistics, scale reliability, item-level visualization, thematic summary of comments.</td></tr>
+            <tr><td>Upgrade path</td><td>Add a pre-measure, independent performance outcome, comparison activity, and follow-up interview to move toward change or mechanism claims.</td></tr>
+          </tbody>
+        </table>
+      </details>
+      <details>
+        <summary>Example 2: Learning platform clickstream logs</summary>
+        <table>
+          <thead><tr><th>Step</th><th>Decision</th></tr></thead>
+          <tbody>
+            <tr><td>Available data</td><td>Timestamped events, task IDs, hint requests, attempts, final score, no interview or validated engagement scale.</td></tr>
+            <tr><td>Risky RQ</td><td>Which engagement patterns caused better learning?</td></tr>
+            <tr><td>Why risky</td><td>Logs can support sequence, prediction, and association; they do not directly measure engagement or causality.</td></tr>
+            <tr><td>Better RQ</td><td>What action pathways are associated with final task performance?</td></tr>
+            <tr><td>Safe claim</td><td>Certain recorded pathways were associated with higher final scores; interpretation as engagement requires construct evidence.</td></tr>
+            <tr><td>Method family</td><td>Sequence mining, transition network analysis, process mining, predictive validation.</td></tr>
+            <tr><td>Upgrade path</td><td>Add construct validation through observation, self-report, or external criteria before naming the pattern as engagement or SRL.</td></tr>
+          </tbody>
+        </table>
+      </details>
+      <details>
+        <summary>Example 3: Classroom intervention with pre/post scores</summary>
+        <table>
+          <thead><tr><th>Step</th><th>Decision</th></tr></thead>
+          <tbody>
+            <tr><td>Available data</td><td>One class, intervention lesson, pre/post concept score, no comparison class, no random assignment.</td></tr>
+            <tr><td>Risky RQ</td><td>Did the intervention cause learning gains?</td></tr>
+            <tr><td>Why risky</td><td>One-group pre/post change cannot rule out maturation, testing, selection, or classroom events.</td></tr>
+            <tr><td>Better RQ</td><td>How did scores change from pre to post during the intervention implementation?</td></tr>
+            <tr><td>Safe claim</td><td>Scores increased from pre to post in this implementation; causal attribution remains tentative.</td></tr>
+            <tr><td>Method family</td><td>Paired descriptive analysis, effect-size estimation with uncertainty, implementation notes, future QED/RCT planning.</td></tr>
+            <tr><td>Upgrade path</td><td>Add a comparison class, random assignment, matched historical cohort, regression discontinuity, or interrupted time-series design before using causal language.</td></tr>
+          </tbody>
+        </table>
+      </details>
+    </section>
+
+    <section id="taxonomy">
+      <div class="section-kicker">06 &middot; Pick the table</div>
+      <h2>Pick the table that matches the research question</h2>
+      <p>The "right table" is the analysis-ready view your question needs. If the dataset cannot be reshaped into that view without inventing missing columns, the research question is too strong for the current evidence.</p>
+      <div class="callout"><b>How to use this:</b> identify the verb in the RQ, build the matching analysis table, then check whether the required columns, timing, and reviewer question are actually satisfied.</div>
+      <div class="matrix-wrap">
+        <table>
+          <thead><tr><th>RQ verb</th><th>Build this table/view</th><th>Minimum columns or evidence</th><th>Defensible output</th><th>Reviewer challenge</th></tr></thead>
+          <tbody>
+            <tr><td>Describe</td><td>One row per person, task, artifact, event, or session being summarized.</td><td>Stable unit ID, clear inclusion/exclusion rules, missingness, timestamps or context when relevant.</td><td>Frequency, distribution, pattern, or descriptive profile in this dataset.</td><td>Are the records complete enough for the pattern being reported?</td></tr>
+            <tr><td>Compare</td><td>One row per comparable unit with group labels and the same outcome definition.</td><td>Group membership, outcome, measurement timing, baseline/context variables, sampling notes.</td><td>Observed group difference, not an intervention effect.</td><td>Are the groups meaningfully comparable, and what does the label actually represent?</td></tr>
+            <tr><td>Associate</td><td>One row per unit with X, Y, timing, and planned covariates.</td><td>Measured predictor/outcome, temporal ordering if implied, missingness, non-overlapping measures, adjustment logic.</td><td>Association or model-adjusted relation.</td><td>Could timing, confounding, or measurement overlap explain the relation?</td></tr>
+            <tr><td>Predict</td><td>Prediction table with features available before the target outcome.</td><td>Outcome timing, train/test or external split, leakage check, feature provenance, metrics chosen before inspection.</td><td>Predictive performance under validation.</td><td>Was future or outcome information accidentally leaked into predictors?</td></tr>
+            <tr><td>Sequence</td><td>Event table: one row per action, turn, move, code, or timestamped state.</td><td>Actor/session ID, event label, order, timestamp or turn number, event-definition logic.</td><td>Pathway, transition, process pattern, or trajectory.</td><td>Did the analysis preserve order, or flatten the process into independent rows?</td></tr>
+            <tr><td>Explain</td><td>Case/evidence table linking excerpts, observations, artifacts, and analytic memos.</td><td>Sampling logic, context, transcript/artifact source, coding trail, rival interpretations, memo evidence.</td><td>Interpretation, account, or plausible mechanism.</td><td>What evidence supports this interpretation over alternatives?</td></tr>
+            <tr><td>Measure</td><td>Indicator table connecting constructs to items, scores, traces, codes, or detectors.</td><td>Construct definition, indicator rationale, reliability, validity evidence, population/context fit.</td><td>Bounded proxy or score interpretation.</td><td>Why should this indicator represent the construct here?</td></tr>
+            <tr><td>Evaluate</td><td>Design table linking units, treatment/comparison, timing, outcome, and identification feature.</td><td>Assignment or comparison logic, baseline equivalence, attrition, contamination checks, outcome timing.</td><td>Effect estimate when design assumptions are met; otherwise implementation-associated change.</td><td>What design feature rules out plausible alternative explanations?</td></tr>
+            <tr><td>Generalize</td><td>Transport table comparing source sample/context to target population/context.</td><td>Sampling frame, platform/task context, subgroup coverage, external validation, replication, or population evidence.</td><td>Bounded generalization.</td><td>What population, platform, task, and time period does this evidence actually represent?</td></tr>
+            <tr><td>Integrate</td><td>Joint-display table where each row connects quantitative result, qualitative evidence, and inference.</td><td>Mixed-methods design, integration point, role of each data source, convergence/divergence logic.</td><td>Integrated interpretation across evidence types.</td><td>Where exactly do the evidence sources inform or challenge each other?</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <details><summary>Data-source traps to keep while choosing the table</summary>
+        <div class="card-grid">
+          <div class="card"><strong>Surveys</strong><p>Attitudes are not behavior; convenience responses are not population prevalence.</p></div>
+          <div class="card"><strong>Trace logs</strong><p>Raw clicks are not cognition. Event definitions, omitted actions, and platform affordances shape the evidence.</p></div>
+          <div class="card"><strong>Transcripts</strong><p>Themes interpret meaning; they do not become population rates unless sampling supports prevalence.</p></div>
+          <div class="card"><strong>Video codes</strong><p>Coder agreement, event boundaries, camera blind spots, and observation windows carry the claim.</p></div>
+          <div class="card"><strong>Scores</strong><p>Scale meaning, timing, reliability, and alignment with the outcome claim must be explicit.</p></div>
+          <div class="card"><strong>Models</strong><p>Accuracy is not construct validity, explanation, or causal evidence.</p></div>
+        </div>
+      </details>
+    </section>
+
+    <section id="clinic">
+      <div class="section-kicker">07 &middot; Wording clinic</div>
+      <h2>Rewrite claims until the design can carry them</h2>
+      <p>Five common overclaims, rewritten into safer language.</p>
+      <div class="clinic">
+        <div class="clinic-card"><div class="bad">Risky: The dashboard improved learning.</div><p>Needs causal design and outcome evidence.</p><div class="good">Safer: Learners using the dashboard showed higher post-task scores in this sample; the design does not isolate a causal effect.</div></div>
+        <div class="clinic-card"><div class="bad">Risky: Click counts measured engagement.</div><p>Clicks are only behavioral traces and may not represent engagement.</p><div class="good">Safer: Click counts were treated as a behavioral proxy for platform activity; engagement interpretation requires additional validity evidence.</div></div>
+        <div class="clinic-card"><div class="bad">Risky: The model explains student success.</div><p>Prediction does not equal explanation.</p><div class="good">Safer: The model predicted later scores with held-out validation; explanatory mechanisms require separate evidence.</div></div>
+        <div class="clinic-card"><div class="bad">Risky: Students became self-regulated.</div><p>Trace patterns alone rarely prove construct change.</p><div class="good">Safer: Trace patterns were consistent with selected SRL behaviors defined in the coding scheme.</div></div>
+        <div class="clinic-card"><div class="bad">Risky: Interviews proved the pattern.</div><p>Qualitative evidence usually interprets or contextualizes.</p><div class="good">Safer: Interviews helped interpret why the observed pattern may have occurred.</div></div>
+      </div>
+    </section>
+
+    <section id="agent">
+      <div class="section-kicker">08 &middot; Agent-ready</div>
+      <h2>Prompt an AI assistant to audit fit before analysis</h2>
+      <p>Use this before asking an agent to run statistics or build a dashboard.</p>
+      <div class="codeblock">You are helping me audit research-question fit before analysis.
+
+Available data:
+&lt;files, row units, variables, IDs, timestamps, outcome variables, comparison details, qualitative sources&gt;
+
+Candidate research questions:
+1. &lt;RQ1&gt;
+2. &lt;RQ2&gt;
+
+Create a table with: data/design evidence available, supported claim type, fitting methods, assumptions, validity threats, claims to avoid, safer wording, and extra evidence needed for stronger claims.
+
+Do not invent missing data. If the dataset cannot support a question, say so directly.</div>
+    </section>
+
+    <section id="downloads">
+      <div class="section-kicker">09 &middot; Downloads</div>
+      <h2>Starter files for teams and agents</h2>
+      <div class="downloads">
+        <a class="download" href="downloads/rq_fit_matrix.csv"><b>RQ fit matrix</b><span>CSV table for verbs, evidence burden, safe claims, and methods.</span></a>
+        <a class="download" href="downloads/claim_wording_clinic.md"><b>Claim wording clinic</b><span>Risky-to-safe wording examples for papers and slides.</span></a>
+        <a class="download" href="downloads/data_sufficiency_checklist.md"><b>Data sufficiency checklist</b><span>Rows, IDs, timing, measurement, design, and validity checks.</span></a>
+        <a class="download" href="downloads/agent_prompt_rq_fit.md"><b>Agent prompt</b><span>Prompt template for pre-analysis RQ fit audits.</span></a>
+        <a class="download" href="downloads/reviewer_objection_bank.md"><b>Reviewer objection bank</b><span>Questions to answer before submission.</span></a>
+      </div>
+    </section>
+
+    <section id="faq">
+      <div class="section-kicker">10 &middot; FAQ</div>
+      <h2>Common confusion points</h2>
+      <details><summary>Is this a guide to choosing statistical tests?</summary><p>No. It comes before that. It helps decide what claim type is defensible, then points toward method families.</p></details>
+      <details><summary>Can observational data ever support causal claims?</summary><p>Sometimes, but only with a credible identification strategy and transparent assumptions. Simple convenience comparisons, correlations, or one-group pre/post changes are not enough.</p></details>
+      <details><summary>Are qualitative questions weaker?</summary><p>No. They answer different kinds of questions and need different warrants: sampling logic, context, analytic memoing, coding transparency, and interpretive grounding.</p></details>
+      <details><summary>Why separate prediction from explanation?</summary><p>A model can predict well using patterns that are not explanatory mechanisms. Explanation needs theory, measurement, design, and often additional evidence.</p></details>
+      <details><summary>Why are trace data risky?</summary><p>Trace data are produced by platforms, tasks, event definitions, and theory-laden logging choices. They can be powerful, but they are not direct windows into cognition.</p></details>
+      <details><summary>What should I do when my favorite RQ is unsupported?</summary><p>Use the ladder: write the question you wanted, rewrite what the current data can support, then specify the design or measurement evidence needed for the stronger version.</p></details>
+    </section>
+
+    <section id="evidence-map">
+      <div class="section-kicker">11 &middot; Evidence anchors</div>
+      <h2>Where the guide's rules come from</h2>
+      <p>This section keeps the guide honest: each practical rule points to a reporting, validity, or design tradition rather than personal preference.</p>
+      <div class="evidence-map">
+        <div class="anchor"><b>Reporting standards</b><p><em>AERA</em> and <em>APA JARS</em> anchor the demand to state the problem, design, measures, analysis, assumptions, and limits. That is why this guide starts with evidence and claim wording before method choice.</p></div>
+        <div class="anchor"><b>Causal burden</b><p><em>WWC standards</em> anchor the red warning on evaluation claims: causal language needs a design feature that addresses plausible alternatives, not just a pre/post contrast or convenient comparison.</p></div>
+        <div class="anchor"><b>Trace-data validity</b><p><em>Winne</em> and <em>Gasevic, Greiff, and Shaffer</em> anchor the warning that logs, detectors, and dashboards need construct and consequential validity evidence before becoming learning or engagement claims.</p></div>
+        <div class="anchor"><b>Generalization</b><p><em>Ocumpaugh et al.</em> anchor the population-validity warning: models and patterns trained in one platform, sample, or course may not travel without external validation or replication.</p></div>
+        <div class="anchor"><b>Process claims</b><p><em>Reimann et al.</em> and <em>Berland et al.</em> anchor the sequence warning: if the research question is about pathways, transitions, or learning process, the analysis must preserve order and event meaning.</p></div>
+        <div class="anchor"><b>Validity vs. reliability</b><p><em>Moss</em> anchors the distinction between consistent measurement and defensible interpretation. Reliable scores or codes can still support the wrong construct claim.</p></div>
+      </div>
+    </section>
+
+    <section id="references">
+      <div class="section-kicker">12 &middot; References</div>
+      <h2>Foundational and checked sources</h2>
+      <details><summary>Show references</summary><ul class="refs">
+        <li>American Educational Research Association. (2006). Standards for reporting on empirical social science research in AERA publications. <em>Educational Researcher, 35</em>(6), 33-40. <a href="https://doi.org/10.3102/0013189X035006033">https://doi.org/10.3102/0013189X035006033</a></li>
+        <li>Appelbaum, M., Cooper, H., Kline, R. B., Mayo-Wilson, E., Nezu, A. M., & Rao, S. M. (2018). Journal article reporting standards for quantitative research in psychology. <em>American Psychologist, 73</em>(1), 3-25. <a href="https://doi.org/10.1037/amp0000191">https://doi.org/10.1037/amp0000191</a></li>
+        <li>Levitt, H. M., Bamberg, M., Creswell, J. W., Frost, D. M., Josselson, R., & Suarez-Orozco, C. (2018). Journal article reporting standards for qualitative primary, qualitative meta-analytic, and mixed methods research. <em>American Psychologist, 73</em>(1), 26-46. <a href="https://doi.org/10.1037/amp0000151">https://doi.org/10.1037/amp0000151</a></li>
+        <li>Moss, P. A. (1992). Shifting conceptions of validity in educational measurement: Implications for performance assessment. <em>Review of Educational Research, 62</em>(3), 229-258. <a href="https://doi.org/10.3102/00346543062003229">https://doi.org/10.3102/00346543062003229</a></li>
+        <li>Keselman, H. J., Huberty, C. J., Lix, L. M., Olejnik, S., Cribbie, R. A., Donahue, B., Kowalchuk, R. K., Lowman, L. L., Petoskey, M. D., Keselman, J. C., & Levin, J. R. (1998). Statistical practices of educational researchers: An analysis of their ANOVA, MANOVA, and ANCOVA analyses. <em>Review of Educational Research, 68</em>(3), 350-386. <a href="https://doi.org/10.3102/00346543068003350">https://doi.org/10.3102/00346543068003350</a></li>
+        <li>Winne, P. H. (2020). Construct and consequential validity for learning analytics based on trace data. <em>Computers in Human Behavior, 112</em>, 106457. <a href="https://doi.org/10.1016/j.chb.2020.106457">https://doi.org/10.1016/j.chb.2020.106457</a></li>
+        <li>Gasevic, D., Greiff, S., & Shaffer, D. W. (2022). Towards strengthening links between learning analytics and assessment. <em>Computers in Human Behavior, 134</em>, 107304. <a href="https://doi.org/10.1016/j.chb.2022.107304">https://doi.org/10.1016/j.chb.2022.107304</a></li>
+        <li>Ocumpaugh, J., Baker, R. S., Gowda, S. M., Heffernan, N. T., & Heffernan, C. L. (2014). Population validity for educational data mining models. <em>British Journal of Educational Technology, 45</em>(3), 487-501. <a href="https://doi.org/10.1111/bjet.12156">https://doi.org/10.1111/bjet.12156</a></li>
+        <li>Reimann, P., Markauskaite, L., & Bannert, M. (2014). e-Research and learning theory: What do sequence and process mining methods contribute? <em>British Journal of Educational Technology, 45</em>(3), 528-540. <a href="https://doi.org/10.1111/bjet.12146">https://doi.org/10.1111/bjet.12146</a></li>
+        <li>Berland, M., Martin, T., Benton, T., Smith, C. P., & Davis, D. (2013). Using learning analytics to understand the learning pathways of novice programmers. <em>Journal of the Learning Sciences, 22</em>(4), 564-599. <a href="https://doi.org/10.1080/10508406.2013.836655">https://doi.org/10.1080/10508406.2013.836655</a></li>
+        <li>What Works Clearinghouse. (2022). <em>Procedures and Standards Handbook, Version 5.0</em>. <a href="https://ies.ed.gov/ncee/wwc/Handbooks">https://ies.ed.gov/ncee/wwc/Handbooks</a></li>
+        <li>OpenAlex. (2026). Works filter documentation. <a href="https://docs.openalex.org/api-entities/works/filter-works">https://docs.openalex.org/api-entities/works/filter-works</a></li>
+      </ul></details>
+    </section>
+  </main>
+</div>
+<footer>Educatian &middot; Research Question Fit &middot; claim discipline before analysis</footer>
+<script>
+const verbData={
+  Describe:{risk:"Bounded",safe:"Descriptive pattern in this dataset.",burden:"Complete enough records, clear unit of analysis, visible missingness and exclusions.",over:"Claiming cause, mechanism, or generalization from a descriptive summary.",method:"Descriptive statistics, event summaries, visual inspection, artifact inventories.",review:"Are records complete enough for the pattern you report?",wording:"In this dataset, learners most often..."},
+  Compare:{risk:"Moderate",safe:"Observed group difference.",burden:"Group labels, comparable measures, context, and attention to sampling or baseline differences.",over:"Using group difference language as if it proves intervention effect.",method:"Group summaries, regression, nonparametric comparison, multilevel models when nested.",review:"Are groups comparable, and what does the group label actually mean?",wording:"Group A showed higher scores than Group B in this sample."},
+  Associate:{risk:"Moderate",safe:"Association or model-adjusted relation.",burden:"Measured X and Y, timing, missingness, and transparent covariate logic.",over:"Saying X influenced or changed Y.",method:"Correlation, regression, SEM, multilevel association models.",review:"Could timing, confounding, or measurement overlap explain the relation?",wording:"X was associated with Y after accounting for..."},
+  Predict:{risk:"Amber",safe:"Predictive performance under validation.",burden:"Held-out validation or appropriate cross-validation, leakage check, outcome timing, meaningful metrics.",over:"Treating predictive accuracy as explanation or mechanism.",method:"Regularized regression, tree models, supervised ML, calibration and validation checks.",review:"Was any future or outcome information leaked into predictors?",wording:"The model predicted later outcomes with..."},
+  Sequence:{risk:"Amber",safe:"Process pattern, transition, pathway, or trajectory.",burden:"Ordered events, timestamps or turns, stable unit of analysis, meaningful event definitions.",over:"Flattening sequence data and then claiming a process finding.",method:"Sequence mining, TNA, process mining, Markov/HMM, transition graphs.",review:"Did the analysis preserve order and event meaning?",wording:"Recorded actions followed recurring pathways such as..."},
+  Explain:{risk:"Amber",safe:"Interpretation or plausible mechanism.",burden:"Qualitative/contextual evidence, sampling logic, coding transparency, memo trail, rival interpretations.",over:"Claiming universal reasons or population prevalence.",method:"Thematic, discourse, interaction, case, or mechanism-oriented qualitative analysis.",review:"What evidence supports this interpretation over alternatives?",wording:"Participants' accounts suggest that..."},
+  Measure:{risk:"Red",safe:"Bounded indicator or proxy interpretation.",burden:"Construct definition, indicator logic, reliability, validity evidence, and population/context fit.",over:"Treating raw clicks, detector output, or scores as construct truth.",method:"Validity argument, reliability checks, measurement modeling, external validation.",review:"Why should this indicator represent the construct here?",wording:"We treated this trace as a proxy for..."},
+  Evaluate:{risk:"Red",safe:"Effect estimate when design assumptions are met; otherwise implementation-associated change.",burden:"Randomization, strong quasi-experimental design, RD, ITS, SCED, or credible causal identification.",over:"Causal language from convenience pre/post or correlational data.",method:"RCT/QED/RD/ITS/SCED analysis, causal models where assumptions are defendable.",review:"What design feature rules out plausible alternative explanations?",wording:"Under the study design assumptions, X was associated with an estimated effect on Y."},
+  Generalize:{risk:"Red",safe:"Bounded generalization.",burden:"Representative sampling, external validation, replication, or cross-context evidence.",over:"Universal claims from one sample, platform, or course.",method:"External validation, replication, subgroup analysis, transportability checks.",review:"What population and context does this evidence actually represent?",wording:"Findings are bounded to the sampled learners and platform context."},
+  Integrate:{risk:"Amber",safe:"Integrated interpretation across evidence types.",burden:"Mixed-methods design, integration point, joint display logic, and clear role for each data source.",over:"Putting qualitative and quantitative findings side-by-side without integration.",method:"Joint displays, triangulation, explanatory sequential or convergent mixed methods.",review:"Where exactly do the data sources inform each other?",wording:"The interview themes help interpret the log pattern by..."}
+};
+const dataWarnings={
+  Survey:"Check scale meaning, response bias, sampling, missingness, and whether attitudes are being mistaken for behavior.",
+  "Trace logs":"Check event definitions, platform affordances, timestamps, omitted actions, and construct-validity limits.",
+  Transcript:"Check sampling, speaker roles, translation, segmentation, coding logic, and whether prevalence claims are warranted.",
+  "Video codes":"Check observation windows, coder agreement, event boundaries, camera blind spots, and codebook stability.",
+  Scores:"Check scale construction, timing, reliability, scoring rules, and whether the outcome aligns with the claim.",
+  Intervention:"Check assignment, comparison condition, baseline equivalence, attrition, contamination, and outcome timing.",
+  Sensor:"Check calibration, noise, synchronization, labeling logic, and whether the sensor maps to the construct.",
+  Mixed:"Check integration design. Multiple sources do not automatically triangulate; they need an explicit connection."
+};
+const verbSelect=document.getElementById('verb'), dataSelect=document.getElementById('datatype');
+Object.keys(verbData).forEach(v=>verbSelect.add(new Option(v,v)));
+Object.keys(dataWarnings).forEach(v=>dataSelect.add(new Option(v,v)));
+function updateGate(){
+  const v=verbSelect.value,d=dataSelect.value,item=verbData[v];
+  document.getElementById('resultTitle').textContent=v+" + "+d;
+  document.getElementById('riskBadge').textContent=item.risk;
+  document.getElementById('safeClaim').textContent=item.safe;
+  document.getElementById('evidenceBurden').textContent=item.burden+" Data-specific check: "+dataWarnings[d];
+  document.getElementById('overclaim').textContent=item.over;
+  document.getElementById('methodFamily').textContent=item.method;
+  document.getElementById('reviewerQuestion').textContent=item.review;
+  document.getElementById('saferWording').textContent=item.wording;
+}
+verbSelect.value="Describe";dataSelect.value="Survey";verbSelect.addEventListener('change',updateGate);dataSelect.addEventListener('change',updateGate);updateGate();
+const links=[...document.querySelectorAll('.toc a')],sections=links.map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
+const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){links.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+e.target.id));}})},{rootMargin:'-20% 0px -68% 0px'});
+sections.forEach(s=>obs.observe(s));
+</script>
+</body>
+</html>

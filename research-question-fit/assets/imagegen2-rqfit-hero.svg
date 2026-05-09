@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 760" role="img" aria-labelledby="title desc">
+  <title id="title">Research Question Fit decision board</title>
+  <desc id="desc">An editorial infographic showing data artifacts feeding into question verbs and claim responsibility cards.</desc>
+  <defs>
+    <pattern id="grid" width="42" height="42" patternUnits="userSpaceOnUse">
+      <path d="M42 0H0V42" fill="none" stroke="#d9cfbd" stroke-width="1"/>
+    </pattern>
+    <filter id="shadow" x="-15%" y="-15%" width="130%" height="140%">
+      <feDropShadow dx="0" dy="12" stdDeviation="10" flood-color="#182126" flood-opacity=".18"/>
+    </filter>
+    <marker id="arr" markerWidth="12" markerHeight="12" refX="9" refY="4" orient="auto">
+      <path d="M0,0 L0,8 L10,4 z" fill="#1f4f46"/>
+    </marker>
+    <style>
+      .sans{font-family:Inter,Arial,sans-serif}.serif{font-family:Georgia,serif}.mono{font-family:Consolas,monospace}
+      .ink{fill:#182126}.muted{fill:#657178}.green{fill:#1f4f46}.rust{fill:#b5392a}.gold{fill:#b4862e}
+      .panel{fill:#fffdf8;stroke:#182126;stroke-width:3}.thin{stroke:#cfc4b1;stroke-width:2}.dash{fill:none;stroke:#1f4f46;stroke-width:4;stroke-dasharray:10 10;marker-end:url(#arr)}
+      .label{font-size:24px;font-weight:900}.small{font-size:17px}.tiny{font-size:14px}
+    </style>
+  </defs>
+  <rect width="1400" height="760" fill="#f0eae0"/>
+  <rect width="1400" height="760" fill="url(#grid)" opacity=".58"/>
+  <text x="700" y="80" text-anchor="middle" class="serif ink" font-size="68" font-weight="700">Research Question Fit</text>
+  <text x="700" y="124" text-anchor="middle" class="sans rust" font-size="20" font-weight="900" letter-spacing="2">MATCH THE QUESTION TO THE EVIDENCE BEFORE YOU CLAIM</text>
+
+  <g filter="url(#shadow)">
+    <rect x="60" y="170" width="300" height="92" rx="14" class="panel"/>
+    <circle cx="105" cy="216" r="28" fill="#e8f1ec" stroke="#1f4f46" stroke-width="3"/>
+    <path d="M96 215h18M96 225h22M96 205h15" stroke="#1f4f46" stroke-width="4" stroke-linecap="round"/>
+    <text x="148" y="205" class="sans label green">Survey</text>
+    <text x="148" y="232" class="sans small muted">Attitudes, scores, scales</text>
+
+    <rect x="60" y="286" width="300" height="92" rx="14" class="panel"/>
+    <circle cx="105" cy="332" r="28" fill="#fff7df" stroke="#b4862e" stroke-width="3"/>
+    <path d="M92 342l14-20 13 10 14-24" fill="none" stroke="#b4862e" stroke-width="5" stroke-linecap="round"/>
+    <text x="148" y="321" class="sans label gold">Trace logs</text>
+    <text x="148" y="348" class="sans small muted">Clicks, time, events</text>
+
+    <rect x="60" y="402" width="300" height="92" rx="14" class="panel"/>
+    <circle cx="105" cy="448" r="28" fill="#fff1ed" stroke="#b5392a" stroke-width="3"/>
+    <path d="M88 436h34a12 12 0 010 24H105l-13 11v-11h-4a12 12 0 010-24z" fill="none" stroke="#b5392a" stroke-width="4"/>
+    <text x="148" y="437" class="sans label rust">Talk & video</text>
+    <text x="148" y="464" class="sans small muted">Codes, turns, context</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="472" y="176" width="456" height="380" rx="22" fill="#183a33" stroke="#182126" stroke-width="5"/>
+    <text x="700" y="224" text-anchor="middle" class="sans" fill="#fffdf8" font-size="22" font-weight="900" letter-spacing="2">WHAT KIND OF QUESTION?</text>
+    <g class="sans" font-weight="900" font-size="27">
+      <rect x="520" y="258" width="360" height="54" rx="27" fill="#fffdf8"/>
+      <text x="565" y="294" class="green">Describe</text><text x="720" y="292" class="tiny muted">what happened?</text>
+      <rect x="520" y="330" width="360" height="54" rx="27" fill="#fff7df"/>
+      <text x="565" y="366" class="gold">Predict</text><text x="720" y="364" class="tiny muted">what is likely?</text>
+      <rect x="520" y="402" width="360" height="54" rx="27" fill="#fff1ed"/>
+      <text x="565" y="438" class="rust">Explain</text><text x="720" y="436" class="tiny muted">why might it be?</text>
+      <rect x="520" y="474" width="360" height="54" rx="27" fill="#eef5f8"/>
+      <text x="565" y="510" fill="#284c63">Evaluate</text><text x="720" y="508" class="tiny muted">did it work?</text>
+    </g>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="1032" y="184" width="300" height="98" rx="16" class="panel"/>
+    <circle cx="1078" cy="233" r="29" fill="#e8f1ec" stroke="#1f4f46" stroke-width="3"/>
+    <path d="M1064 233l10 11 20-25" fill="none" stroke="#1f4f46" stroke-width="6" stroke-linecap="round"/>
+    <text x="1124" y="223" class="sans label green">Safe claim</text>
+    <text x="1124" y="250" class="sans tiny muted">Clear, bounded, defensible</text>
+
+    <rect x="1032" y="320" width="300" height="98" rx="16" class="panel"/>
+    <circle cx="1078" cy="369" r="29" fill="#fff7df" stroke="#b4862e" stroke-width="3"/>
+    <path d="M1062 382h32M1078 344v38M1060 360l18-14 18 14" fill="none" stroke="#b4862e" stroke-width="5" stroke-linecap="round"/>
+    <text x="1124" y="359" class="sans label gold">Evidence burden</text>
+    <text x="1124" y="386" class="sans tiny muted">Design must carry the claim</text>
+
+    <rect x="1032" y="456" width="300" height="98" rx="16" class="panel"/>
+    <circle cx="1078" cy="505" r="29" fill="#fff1ed" stroke="#b5392a" stroke-width="3"/>
+    <path d="M1078 484v24M1078 519v2" stroke="#b5392a" stroke-width="7" stroke-linecap="round"/>
+    <text x="1124" y="495" class="sans label rust">Reviewer warning</text>
+    <text x="1124" y="522" class="sans tiny muted">Narrow or reframe</text>
+  </g>
+
+  <path class="dash" d="M360 216 C420 216 424 274 508 282"/>
+  <path class="dash" d="M360 332 C430 332 432 360 508 358"/>
+  <path class="dash" d="M360 448 C430 448 430 500 508 498"/>
+  <path class="dash" d="M892 286 C972 286 958 230 1030 230"/>
+  <path class="dash" d="M892 374 C972 374 958 368 1030 368"/>
+  <path class="dash" d="M892 500 C972 500 958 504 1030 504"/>
+
+  <rect x="220" y="620" width="960" height="64" rx="32" fill="#fffdf8" stroke="#182126" stroke-width="3"/>
+  <text x="700" y="660" text-anchor="middle" class="sans ink" font-size="25" font-weight="900">Better fit means stronger questions, cleaner claims, and fewer reviewer surprises.</text>
+</svg>
