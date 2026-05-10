@@ -27,7 +27,7 @@
   --gold:#b4862e;--gold-soft:rgba(180,134,46,.14);
   --blue:#284c63;--blue-soft:rgba(40,76,99,.12);
   --red:#9d2d2d;--red-soft:rgba(157,45,45,.10);
-  --code:#111b1b;
+  --code:#111b1b;--shadow:0 22px 52px rgba(24,33,38,.14);
 }
 *,*::before,*::after{box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -35,31 +35,36 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:'Inter',system-u
 a{color:var(--green);text-decoration-thickness:1px;text-underline-offset:3px}
 code{font-family:'JetBrains Mono',Consolas,monospace;background:rgba(24,33,38,.07);padding:1px 5px;border-radius:4px;font-size:.92em}
 .grid-bg{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.32;background-image:linear-gradient(rgba(24,33,38,.055) 1px,transparent 1px),linear-gradient(90deg,rgba(24,33,38,.055) 1px,transparent 1px);background-size:48px 48px;mask-image:radial-gradient(ellipse at 28% 10%,black 30%,transparent 82%)}
-.shell{position:relative;z-index:1;display:grid;grid-template-columns:284px 1fr;gap:54px;max-width:1380px;margin:0 auto;padding:64px 76px 96px}
-@media(max-width:1080px){.shell{grid-template-columns:1fr;padding:34px 22px}.toc{position:relative!important;top:auto!important;max-height:none!important}}
-.toc{position:sticky;top:28px;align-self:start;max-height:calc(100vh - 56px);overflow:auto;background:var(--paper);border:2px solid var(--ink);border-radius:14px;padding:22px;box-shadow:0 14px 36px rgba(24,33,38,.1)}
+.shell{position:relative;z-index:1;display:grid;grid-template-columns:292px minmax(0,1fr);gap:54px;max-width:1440px;margin:0 auto;padding:58px 76px 96px}
+.toc{position:sticky;top:28px;align-self:start;max-height:calc(100vh - 56px);overflow:auto;background:var(--paper);border:2px solid var(--ink);border-radius:16px;padding:22px;box-shadow:9px 9px 0 rgba(181,57,42,.10)}
 .toc-kicker{font-size:11px;font-weight:900;letter-spacing:3.5px;text-transform:uppercase;color:var(--green);margin-bottom:12px}
 .toc h2{font-size:18px;line-height:1.2;margin:0 0 14px;font-weight:900}
 .toc ol{counter-reset:toc;list-style:none;margin:0;padding:0}.toc li{counter-increment:toc;border-top:1px solid var(--line)}.toc li:first-child{border-top:0}
 .toc a{display:flex;gap:10px;padding:8px 0;color:var(--ink);text-decoration:none;font-size:13px;line-height:1.35;font-weight:650}.toc a::before{content:counter(toc,decimal-leading-zero);font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);width:20px;flex:none}.toc a:hover,.toc a.active{color:var(--green)}.toc a.active{background:var(--green-soft);border-radius:9px;padding-left:8px;padding-right:8px;transform:translateX(3px)}
-.download-mini{margin-top:18px;border-top:1px solid var(--line);padding-top:14px}.download-mini a{display:block;font-size:12px;font-weight:800;text-decoration:none;color:var(--green);padding:5px 0}
-main{min-width:0}.hero{padding-bottom:54px;margin-bottom:48px;border-bottom:1px solid var(--line)}
+.download-mini{margin-top:18px;border-top:1px solid var(--line);padding-top:14px}.download-mini a{display:block;font-size:12px;font-weight:800;text-decoration:none;color:var(--green);padding:5px 0}.download-mini a::before{content:none!important}
+main{min-width:0}.topbar{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:24px}.home-link{display:inline-block;color:var(--green);font-weight:850;text-decoration:none}.guide-actions{display:flex;gap:8px;flex-wrap:wrap}.guide-actions a,.guide-actions button{border:2px solid var(--ink);border-radius:999px;background:#fffdf8;color:var(--ink);padding:7px 12px;text-decoration:none;font:900 11px 'Inter',system-ui,sans-serif;letter-spacing:1px;text-transform:uppercase;cursor:pointer}.guide-actions button:hover,.guide-actions a:hover{background:var(--ink);color:#fff}
+.hero{position:relative;padding:10px 0 56px;margin-bottom:58px;border-bottom:1px solid var(--line)}
 .kicker{font-size:13px;font-weight:900;letter-spacing:4px;text-transform:uppercase;color:var(--green);margin-bottom:18px}
 h1{font-size:64px;font-weight:900;line-height:1.04;letter-spacing:-.02em;margin:0 0 22px}.serif{font-family:'Playfair Display',Georgia,serif;font-style:italic;font-weight:400}.em{color:var(--green)}
 .lede{font-size:20px;line-height:1.55;color:#314048;font-weight:300;max-width:840px;margin:0 0 28px}
-.hero-meta{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px}.hero-meta span{border:1.5px solid var(--ink);border-radius:6px;padding:6px 11px;background:rgba(255,253,248,.72);font-size:11px;font-family:'JetBrains Mono',monospace;font-weight:800;letter-spacing:1.2px;text-transform:uppercase}
-.hero-visual{margin:32px 0 10px;background:var(--paper);border:2px solid var(--ink);border-radius:16px;overflow:hidden;box-shadow:0 18px 42px rgba(24,33,38,.13)}
-.hero-visual img{display:block;width:100%;height:auto}.concept-visual{margin:20px 0 22px;background:var(--paper);border:2px solid var(--ink);border-radius:14px;overflow:hidden;box-shadow:0 14px 32px rgba(24,33,38,.1)}.concept-visual img{display:block;width:100%;height:auto}.concept-visual figcaption{padding:10px 14px;border-top:1px solid var(--line);font-size:12px;color:var(--muted);font-weight:700;background:#fbf7ef}
+.byline{font-size:15px;font-weight:750;color:#314048;margin:-8px 0 20px}.byline a{font-weight:900;text-decoration:none;border-bottom:2px solid rgba(31,79,70,.22)}
+.hero-meta{display:flex;gap:9px;flex-wrap:wrap;margin-top:24px}.hero-meta span{border:1.5px solid var(--ink);border-radius:999px;padding:6px 11px;background:#fffdf8;font-size:11px;font-family:'JetBrains Mono',monospace;font-weight:800;letter-spacing:.9px;text-transform:uppercase}.hero-meta span.hot{background:var(--green);border-color:var(--green);color:#fff}.hero-meta span.warn{background:var(--rust);border-color:var(--rust);color:#fff}
+.hero-visual{position:relative;margin:32px 0 10px;background:var(--paper);border:2px solid var(--ink);border-radius:18px;overflow:hidden;box-shadow:var(--shadow)}
+.hero-visual img{display:block;width:100%;height:auto}
+.hero-overlay{position:absolute;left:24px;bottom:24px;max-width:540px;background:rgba(255,253,248,.91);border:2px solid var(--ink);border-radius:12px;padding:18px 20px;backdrop-filter:blur(8px)}.hero-overlay b{display:block;font-size:14px;letter-spacing:1.2px;text-transform:uppercase;color:var(--green);margin-bottom:5px}.hero-overlay p{margin:0;color:#314048;font-size:14px;line-height:1.48}
+.concept-visual{margin:20px 0 22px;background:var(--paper);border:2px solid var(--ink);border-radius:14px;overflow:hidden;box-shadow:0 14px 32px rgba(24,33,38,.1)}.concept-visual img{display:block;width:100%;height:auto}.concept-visual figcaption{padding:10px 14px;border-top:1px solid var(--line);font-size:12px;color:var(--muted);font-weight:700;background:#fbf7ef}
 .quick-strip{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:22px 0}@media(max-width:900px){.quick-strip{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:560px){.quick-strip{grid-template-columns:1fr}}
 .quick{background:var(--paper);border:1.5px solid var(--line);border-radius:12px;padding:14px;min-height:110px}.quick .icon{font-size:30px;line-height:1;margin-bottom:8px}.quick b{display:block;color:var(--green);font-size:14px}.quick span{display:block;color:var(--muted);font-size:13px;line-height:1.4;margin-top:5px}
 .dialectic{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:20px 0}@media(max-width:900px){.dialectic{grid-template-columns:1fr}}
 .dialectic-card{background:var(--paper);border:2px solid var(--ink);border-radius:14px;padding:18px;box-shadow:0 12px 28px rgba(24,33,38,.08)}.dialectic-card.thesis{border-top:7px solid var(--green)}.dialectic-card.anti{border-top:7px solid var(--rust)}.dialectic-card.syn{border-top:7px solid var(--gold)}.dialectic-card b{display:block;font-size:12px;letter-spacing:.16em;text-transform:uppercase;margin-bottom:8px}.dialectic-card p{margin:0;color:#3b484e;font-size:14px}
 .ladder{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;margin:18px 0;background:var(--paper);border:2px solid var(--ink);border-radius:14px;overflow:hidden}.ladder div{padding:16px;border-right:1px solid var(--line)}.ladder div:last-child{border-right:0}.ladder b{display:block;font-size:11px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:8px;color:var(--green)}.ladder p{margin:0;font-size:14px;color:#3b484e}@media(max-width:820px){.ladder{grid-template-columns:1fr}.ladder div{border-right:0;border-bottom:1px solid var(--line)}.ladder div:last-child{border-bottom:0}}
-section{margin:0 0 58px}.section-kicker{font-size:11px;font-weight:900;letter-spacing:3px;text-transform:uppercase;color:var(--rust);margin-bottom:8px}
+section{scroll-margin-top:28px;margin:0 0 70px}.section-kicker{font-size:11px;font-weight:900;letter-spacing:3px;text-transform:uppercase;color:var(--rust);margin-bottom:8px}.section-label{display:flex;align-items:center;gap:14px;margin-bottom:12px}.section-label::after{content:"";height:1px;background:var(--line);flex:1}
 h2{font-size:33px;line-height:1.16;margin:0 0 16px;font-weight:900;letter-spacing:-.01em}h3{font-size:20px;line-height:1.25;margin:26px 0 8px;font-weight:900}
 .callout{background:var(--green-soft);border-left:5px solid var(--green);padding:16px 18px;border-radius:8px;margin:18px 0}.callout.warn{background:#fff7df;border-left-color:var(--gold)}.callout.danger{background:#fff1ed;border-left-color:var(--red)}.callout b{color:var(--green)}
 .card-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin:22px 0}@media(max-width:900px){.card-grid{grid-template-columns:1fr}}
 .card{background:var(--paper);border:1.5px solid var(--line);border-radius:10px;padding:18px}.card strong{display:block;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--green);margin-bottom:7px}.card p{margin:0;color:#3b484e;font-size:14px}
+.checklist{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:20px 0}@media(max-width:820px){.checklist{grid-template-columns:1fr}}.check{background:var(--paper);border:2px solid var(--ink);border-radius:12px;padding:17px 18px}.check b{display:block;color:var(--green);font-size:12px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:7px}.check p{margin:0;color:#3b484e;font-size:14px}.check.warn{background:var(--rust-soft);border-color:var(--rust)}.check.good{background:var(--green-soft);border-color:var(--green)}
+.claim-ladder{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;margin:22px 0;background:var(--paper);border:2px solid var(--ink);border-radius:14px;overflow:hidden}.claim-step{padding:17px;border-right:1px solid var(--line);min-height:155px}.claim-step:last-child{border-right:0}.claim-step .level{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:900;letter-spacing:1.3px;text-transform:uppercase;color:var(--muted)}.claim-step b{display:block;color:var(--green);margin:8px 0 6px}.claim-step p{margin:0;color:#3b484e;font-size:13.5px;line-height:1.45}@media(max-width:900px){.claim-ladder{grid-template-columns:1fr}.claim-step{border-right:0;border-bottom:1px solid var(--line)}.claim-step:last-child{border-bottom:0}}
 .workflow{background:var(--paper);border:2px solid var(--ink);border-radius:14px;padding:18px;margin:24px 0;box-shadow:0 16px 36px rgba(24,33,38,.1)}.workflow svg{width:100%;height:auto;display:block}
 .gate{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:18px 0}@media(max-width:760px){.gate{grid-template-columns:1fr}}
 label{display:block;font-size:11px;font-weight:900;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
@@ -67,14 +72,18 @@ select{width:100%;background:var(--paper);border:2px solid var(--ink);border-rad
 .result{background:var(--paper);border:2px solid var(--ink);border-radius:14px;margin-top:16px;overflow:hidden;box-shadow:0 16px 34px rgba(24,33,38,.09)}
 .result-head{display:flex;justify-content:space-between;gap:12px;align-items:center;background:var(--green2);color:#fff;padding:16px 18px}.result-head h3{margin:0;font-size:20px}.badge{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;background:#f5c86a;color:#1f2a1d;border-radius:999px;padding:5px 9px;white-space:nowrap}
 .result-body{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0}@media(max-width:760px){.result-body{grid-template-columns:1fr}}.result-cell{padding:16px 18px;border-top:1px solid var(--line)}.result-cell:nth-child(odd){border-right:1px solid var(--line)}@media(max-width:760px){.result-cell:nth-child(odd){border-right:0}}.result-cell b{display:block;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--green);margin-bottom:5px}
+.map-shell{display:grid;grid-template-columns:1fr;gap:16px;margin:22px 0}.semantic-map{background:var(--paper);border:2px solid var(--ink);border-radius:14px;padding:16px;box-shadow:0 16px 34px rgba(24,33,38,.09);overflow:hidden}.semantic-map svg{width:100%;height:auto;display:block}.map-node{cursor:pointer}.map-node rect{fill:#fffdf8;stroke:var(--line);stroke-width:2;rx:10}.map-node text{font-family:'Inter',system-ui,sans-serif;font-size:13px;font-weight:900;fill:var(--ink)}.map-node .sub{font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:800;letter-spacing:1px;fill:var(--muted);text-transform:uppercase}.map-node.active rect{stroke:var(--green);stroke-width:4;fill:var(--green-soft)}.map-node.dim{opacity:.36}.map-edge{stroke:#8f9a8f;stroke-width:2.2;fill:none;opacity:.42}.map-edge.active{stroke:var(--green);stroke-width:4;opacity:1}.map-edge.dim{opacity:.14}.map-panel{background:var(--paper);border:2px solid var(--ink);border-radius:14px;padding:18px;display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:18px}.map-panel h3{margin-top:0}.map-panel .mini{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:900;letter-spacing:1.2px;text-transform:uppercase;color:var(--rust);margin-bottom:8px}.map-panel dl{margin:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 18px}.map-panel dt{font-size:11px;font-weight:900;letter-spacing:.13em;text-transform:uppercase;color:var(--green);margin-top:0}.map-panel dd{margin:3px 0 0;color:#3b484e;font-size:14px}.map-controls{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 0}.map-controls button{border:1.5px solid var(--ink);background:#fffdf8;border-radius:999px;padding:7px 10px;font:800 11px 'Inter',system-ui,sans-serif;letter-spacing:.7px;text-transform:uppercase;cursor:pointer}.map-controls button.active{background:var(--green);border-color:var(--green);color:#fff}@media(max-width:760px){.map-panel,.map-panel dl{grid-template-columns:1fr}}
 table{width:100%;border-collapse:collapse;margin:18px 0;background:var(--paper);font-size:14px}th,td{border-bottom:1px solid var(--line);padding:10px 11px;text-align:left;vertical-align:top}th{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--green);background:var(--green-soft)}.matrix-wrap{overflow:auto;border:1px solid var(--line);border-radius:10px;background:var(--paper);margin:18px 0}.matrix-wrap table{margin:0;min-width:980px}.matrix-wrap td:first-child,.matrix-wrap th:first-child{font-weight:850;color:var(--green)}
 .clinic{display:grid;grid-template-columns:1fr;gap:12px;margin:18px 0}.clinic-card{background:var(--paper);border:1.5px solid var(--line);border-left:5px solid var(--rust);border-radius:10px;padding:16px}.clinic-card .bad{font-weight:900;color:var(--red)}.clinic-card .good{font-weight:800;color:var(--green)}
-.downloads{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:18px 0}@media(max-width:760px){.downloads{grid-template-columns:1fr}}.download{display:block;background:var(--paper);border:1.5px solid var(--ink);border-radius:10px;padding:16px;text-decoration:none;color:var(--ink);transition:transform .12s,box-shadow .12s}.download:hover{transform:translateY(-2px);box-shadow:0 12px 26px rgba(31,79,70,.16)}.download b{display:block;color:var(--green);font-size:14px;margin-bottom:5px}.download span{font-size:13px;color:var(--muted)}
+.downloads{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:18px 0}@media(max-width:900px){.downloads{grid-template-columns:1fr}}.download{display:block;background:var(--paper);border:2px solid var(--ink);border-radius:12px;padding:16px;text-decoration:none;color:var(--ink);transition:transform .12s,box-shadow .12s}.download:hover{transform:translateY(-2px);box-shadow:0 12px 26px rgba(31,79,70,.16)}.download b{display:block;color:var(--green);font-size:15px;margin-bottom:5px}.download span{font-size:13px;color:var(--muted)}
 .video-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:22px 0}@media(max-width:900px){.video-grid{grid-template-columns:1fr}}.video-card{background:var(--paper);border:2px solid var(--ink);border-radius:12px;overflow:hidden;box-shadow:0 14px 32px rgba(24,33,38,.1)}.video-frame{aspect-ratio:16/9;background:#111}.video-frame iframe{width:100%;height:100%;border:0;display:block}.video-copy{padding:15px}.video-copy b{display:block;color:var(--green);font-size:14px;margin-bottom:6px}.video-copy p{margin:0;color:#3b484e;font-size:14px}.video-copy a{display:inline-block;margin-top:9px;font-size:12px;font-weight:850;text-decoration:none}
 .evidence-map{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:20px 0}@media(max-width:820px){.evidence-map{grid-template-columns:1fr}}.anchor{background:var(--paper);border:1.5px solid var(--line);border-left:5px solid var(--green);border-radius:10px;padding:15px}.anchor b{display:block;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--green);margin-bottom:6px}.anchor p{margin:0;color:#3b484e;font-size:14px}.anchor em{font-style:normal;font-weight:850;color:var(--rust)}
 details{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:12px 14px;margin:10px 0}summary{font-weight:850;cursor:pointer}
 .refs li{margin:8px 0}.codeblock{background:var(--code);color:#f3ecdd;border-radius:10px;padding:16px 18px;font-family:'JetBrains Mono',Consolas,monospace;font-size:13px;line-height:1.55;overflow:auto}
 footer{position:relative;z-index:1;border-top:1px solid var(--line);padding:28px 8%;font-size:12px;color:var(--muted);background:#eee3d2}
+@media(max-width:1080px){.shell{grid-template-columns:1fr;padding:36px 24px 68px}.toc{position:relative!important;top:auto!important;max-height:none!important}.hero-overlay{position:relative;left:auto;bottom:auto;margin:0;border-left:0;border-right:0;border-bottom:0;border-radius:0}}
+@media(max-width:620px){.shell{display:block;width:100%;max-width:100%;padding:28px 16px 60px;overflow:hidden}.toc{width:100%;max-width:100%;min-width:0;margin:0 0 28px;padding:20px}main{width:100%;max-width:100%;overflow:hidden}.kicker{font-size:10px;letter-spacing:1.6px;line-height:1.8;overflow-wrap:break-word}h1{font-size:30px;line-height:1.1;max-width:100%;overflow-wrap:break-word}h2{font-size:30px}.lede{font-size:18px}.hero-visual{border-radius:12px}.guide-actions{width:100%}.guide-actions a,.guide-actions button{flex:1;text-align:center;min-width:112px}.quick-strip{grid-template-columns:1fr}.result-head{align-items:flex-start;flex-direction:column}.semantic-map svg{min-width:760px}}
+@media print{.toc,.grid-bg,.topbar{display:none}.shell{display:block;padding:0;max-width:none}body{background:#fff}.card,.check,.workflow,.download,.result,.claim-step,.clinic-card{break-inside:avoid}a{color:#000}}
 </style>
 </head>
 <body>
@@ -88,10 +97,13 @@ footer{position:relative;z-index:1;border-top:1px solid var(--line);padding:28px
       <li><a href="#pipeline">The decision path</a></li>
       <li><a href="#dialectic">Dialectic check</a></li>
       <li><a href="#gate">Interactive fit gate</a></li>
+      <li><a href="#map">RQ fit semantic map</a></li>
       <li><a href="#cases">Worked examples</a></li>
       <li><a href="#taxonomy">Pick the table</a></li>
       <li><a href="#related-videos">Related videos</a></li>
       <li><a href="#clinic">Claim wording clinic</a></li>
+      <li><a href="#upgrade">Upgrade path</a></li>
+      <li><a href="#method">Method guardrail</a></li>
       <li><a href="#agent">Agent-ready prompt</a></li>
       <li><a href="#build-tutorial">Claude/Codex tutorial</a></li>
       <li><a href="#downloads">Starter downloads</a></li>
@@ -102,28 +114,43 @@ footer{position:relative;z-index:1;border-top:1px solid var(--line);padding:28px
     <div class="download-mini">
       <a href="downloads/rq_fit_matrix.csv">Download matrix</a>
       <a href="downloads/claim_wording_clinic.md">Download wording clinic</a>
+      <a href="downloads/rq_fit_audit_checklist.md">Download audit checklist</a>
       <a href="downloads/agent_prompt_rq_fit.md">Download agent prompt</a>
       <a href="downloads/claude_codex_build_prompt.md">Build with Codex</a>
     </div>
   </aside>
   <main>
     <header class="hero">
+      <div class="topbar">
+        <a class="home-link" href="../">Back to Educatian open guides</a>
+        <div class="guide-actions" aria-label="Guide actions">
+          <a href="downloads/rq_fit_matrix.csv">Matrix CSV</a>
+          <a href="downloads/rq_fit_audit_checklist.md">Audit checklist</a>
+          <button type="button" onclick="window.print()">Print</button>
+        </div>
+      </div>
       <div class="kicker">Research onboarding &middot; evidence fit &middot; claim discipline</div>
       <h1>Research Question <span class="serif">Fit</span>: what your data <span class="em">can and cannot answer</span></h1>
-      <p class="lede">A visual decision guide for one question: <b>what claim can this dataset honestly support?</b></p>
+      <p class="lede">A visual decision guide for one question: <b>what claim can this dataset honestly support?</b> Use it before choosing a statistical test, building a dashboard, or asking an AI agent to analyze a dataset.</p>
+      <p class="byline">Author: Jewoong Moon, The University of Alabama &middot; <a href="mailto:jmoon19@ua.edu">jmoon19@ua.edu</a></p>
       <div class="hero-visual">
         <img src="assets/imagegen2-rqfit-hero.png" alt="Research Question Fit decision board showing data artifacts, question verbs, and claim responsibility cards">
+        <div class="hero-overlay">
+          <b>Core rule</b>
+          <p>Start with row unit, timing, measurement, comparison, and validity burden. Then choose the research question verb and claim wording.</p>
+        </div>
       </div>
       <div class="hero-meta">
-        <span>Not a stats menu</span>
+        <span class="hot">Not a stats menu</span>
         <span>Before method choice</span>
         <span>Reviewer-safe wording</span>
+        <span class="warn">Overclaim control</span>
         <span>Agent-ready</span>
       </div>
     </header>
 
     <section id="identity">
-      <div class="section-kicker">01 &middot; Topic identity</div>
+      <div class="section-label"><span class="section-kicker">01 &middot; Topic identity</span></div>
       <h2>This is a narrow guide, not a general methods course</h2>
       <p>This guide is about one early research decision: <b>before choosing a method, decide what kind of question your data can legitimately answer.</b></p>
       <div class="callout"><b>Core rule:</b> a research question is fit when the available data, design, measurement, and analysis can warrant the kind of claim the question asks for.</div>
@@ -134,10 +161,14 @@ footer{position:relative;z-index:1;border-top:1px solid var(--line);padding:28px
         <div class="quick"><div class="icon">4</div><b>Method</b><span>Only then choose analysis.</span></div>
       </div>
       <div class="callout warn"><b>What this guide does not do:</b> it does not teach every statistical test, replace a methodology course, turn weak designs into causal evidence, or treat AI/ML prediction as explanation.</div>
+      <div class="checklist">
+        <div class="check good"><b>Use it when</b><p>You have data files, a draft research question, and pressure to start analysis before the claim boundary is clear.</p></div>
+        <div class="check warn"><b>Do not use it as</b><p>A license to make causal, construct, or population claims after selecting a method that sounds advanced.</p></div>
+      </div>
     </section>
 
     <section id="pipeline">
-      <div class="section-kicker">02 &middot; Decision path</div>
+      <div class="section-label"><span class="section-kicker">02 &middot; Decision path</span></div>
       <h2>Start from evidence, not the method you want to run</h2>
       <p>Use the path below as the whole guide in one picture.</p>
       <div class="workflow" role="img" aria-label="Data shape to claim wording decision path">
@@ -161,7 +192,7 @@ footer{position:relative;z-index:1;border-top:1px solid var(--line);padding:28px
     </section>
 
     <section id="dialectic">
-      <div class="section-kicker">03 &middot; Dialectic check</div>
+      <div class="section-label"><span class="section-kicker">03 &middot; Dialectic check</span></div>
       <h2>Constraint should become better questioning, not silence</h2>
       <p>The guide is strongest when it holds two ideas together: evidence limits claims, but those limits help researchers ask sharper questions.</p>
       <div class="dialectic">
@@ -174,10 +205,18 @@ footer{position:relative;z-index:1;border-top:1px solid var(--line);padding:28px
         <div><b>Defensible now</b><p>How did learners' scores, actions, and perceptions change during this implementation?</p></div>
         <div><b>Stronger with added evidence</b><p>What is the tutor's effect on learning compared with a matched or randomized alternative?</p></div>
       </div>
+      <h3>Claim strength ladder</h3>
+      <p>Many weak RQs can be repaired by moving one rung down the ladder. The repair should be explicit, not hidden in vague wording.</p>
+      <div class="claim-ladder">
+        <div class="claim-step"><div class="level">Level 1</div><b>Describe</b><p>What happened in this dataset? Requires clear units, inclusion rules, and visible missingness.</p></div>
+        <div class="claim-step"><div class="level">Level 2</div><b>Relate or predict</b><p>What patterns co-occur or predict later outcomes? Requires timing, leakage checks, and validation.</p></div>
+        <div class="claim-step"><div class="level">Level 3</div><b>Interpret or measure</b><p>What construct or mechanism is plausible? Requires validity evidence, context, coding transparency, and rival explanations.</p></div>
+        <div class="claim-step"><div class="level">Level 4</div><b>Evaluate or generalize</b><p>What effect or population claim is warranted? Requires identification, representative sampling, external validation, or replication.</p></div>
+      </div>
     </section>
 
     <section id="gate">
-      <div class="section-kicker">04 &middot; Interactive fit gate</div>
+      <div class="section-label"><span class="section-kicker">04 &middot; Interactive fit gate</span></div>
       <h2>Choose the question verb and data type</h2>
       <p>This is the page's main onboarding tool. It does not approve a study; it shows the first claim boundary to inspect.</p>
       <div class="gate">
@@ -198,8 +237,38 @@ footer{position:relative;z-index:1;border-top:1px solid var(--line);padding:28px
       <div class="callout warn"><b>Use as a first-pass audit:</b> the gate identifies the claim boundary. It does not replace design review, measurement review, or discipline-specific reporting standards.</div>
     </section>
 
+    <section id="map">
+      <div class="section-label"><span class="section-kicker">05 &middot; RQ fit semantic map</span></div>
+      <h2>See how question verbs connect to evidence, claims, methods, and reviewer objections</h2>
+      <p>This map turns the guide into a navigable network. Click a research-question verb to highlight the evidence path it activates. The point is not that one method belongs to one verb forever; the point is that every verb creates a different warrant.</p>
+      <div class="map-shell">
+        <div class="semantic-map" aria-label="Interactive semantic map of research question fit">
+          <svg id="rqMap" viewBox="0 0 920 610" role="img" aria-label="Research question verbs connected to evidence burdens, claim wording, method families, and reviewer objections">
+            <defs>
+              <marker id="mapArrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#1f4f46"/></marker>
+            </defs>
+            <g id="mapEdges"></g>
+            <g id="mapNodes"></g>
+          </svg>
+        </div>
+        <aside class="map-panel" aria-live="polite">
+          <div class="mini">Selected path</div>
+          <h3 id="mapTitle">Describe</h3>
+          <p id="mapIntro">Click a node to inspect the claim path. Start with a verb, then check what evidence burden and reviewer question it creates.</p>
+          <dl>
+            <dt>Evidence burden</dt><dd id="mapBurden">Complete enough records, clear unit of analysis, visible missingness and exclusions.</dd>
+            <dt>Safe wording</dt><dd id="mapWording">In this dataset, learners most often...</dd>
+            <dt>Method family</dt><dd id="mapMethod">Descriptive statistics, event summaries, visual inspection, artifact inventories.</dd>
+            <dt>Reviewer challenge</dt><dd id="mapReview">Are records complete enough for the pattern you report?</dd>
+          </dl>
+          <div class="map-controls" id="mapControls" aria-label="Choose a research question verb"></div>
+        </aside>
+      </div>
+      <div class="callout"><b>How to read the map:</b> if the highlighted path crosses measurement, causality, or generalization, the study needs more than a convenient analysis table. It needs validity, design, or population evidence.</div>
+    </section>
+
     <section id="cases">
-      <div class="section-kicker">05 &middot; Worked examples</div>
+      <div class="section-label"><span class="section-kicker">06 &middot; Worked examples</span></div>
       <h2>See the fit decision in context</h2>
       <p>Each example starts with an ambitious question, then narrows it into a claim the dataset can actually support.</p>
       <div class="card-grid">
@@ -255,7 +324,7 @@ footer{position:relative;z-index:1;border-top:1px solid var(--line);padding:28px
     </section>
 
     <section id="taxonomy">
-      <div class="section-kicker">06 &middot; Pick the table</div>
+      <div class="section-label"><span class="section-kicker">07 &middot; Pick the table</span></div>
       <h2>Pick the table that matches the research question</h2>
       <p>The "right table" is the analysis-ready view your question needs. If the dataset cannot be reshaped into that view without inventing missing columns, the research question is too strong for the current evidence.</p>
       <figure class="concept-visual">
@@ -293,7 +362,7 @@ footer{position:relative;z-index:1;border-top:1px solid var(--line);padding:28px
     </section>
 
     <section id="related-videos">
-      <div class="section-kicker">07 &middot; Video tutorials</div>
+      <div class="section-label"><span class="section-kicker">08 &middot; Video tutorials</span></div>
       <h2>Watch the idea from two useful angles</h2>
       <p>These videos are not about tools. They support the guide's core idea: first make the research question precise, then choose data and methods that can actually answer it.</p>
       <div class="video-grid">
@@ -321,7 +390,7 @@ footer{position:relative;z-index:1;border-top:1px solid var(--line);padding:28px
     </section>
 
     <section id="clinic">
-      <div class="section-kicker">08 &middot; Wording clinic</div>
+      <div class="section-label"><span class="section-kicker">09 &middot; Wording clinic</span></div>
       <h2>Rewrite claims until the design can carry them</h2>
       <p>Five common overclaims, rewritten into safer language.</p>
       <figure class="concept-visual">
@@ -337,8 +406,41 @@ footer{position:relative;z-index:1;border-top:1px solid var(--line);padding:28px
       </div>
     </section>
 
+    <section id="upgrade">
+      <div class="section-label"><span class="section-kicker">10 &middot; Upgrade path</span></div>
+      <h2>When the current data are too weak, specify what would make the stronger question possible</h2>
+      <p>A good fit audit should not stop at "unsupported." It should name the nearest defensible question and the concrete evidence needed to support the stronger one.</p>
+      <div class="checklist">
+        <div class="check"><b>If you want change</b><p>Add pre/post timing, a meaningful outcome, missingness checks, and language that separates observed change from causal improvement.</p></div>
+        <div class="check"><b>If you want cause</b><p>Add randomization, a credible quasi-experimental feature, regression discontinuity, interrupted time series, SCED logic, or a carefully justified identification strategy.</p></div>
+        <div class="check"><b>If you want measurement</b><p>Add construct definitions, indicator rationale, reliability/coder evidence, external criteria, and interpretation limits.</p></div>
+        <div class="check"><b>If you want generalization</b><p>Add sampling-frame evidence, subgroup coverage, external validation, replication, or a clear bounded-population statement.</p></div>
+        <div class="check"><b>If you want process</b><p>Preserve ordered event rows, timestamps or turns, event definitions, session IDs, and the task state that made each action meaningful.</p></div>
+        <div class="check"><b>If you want explanation</b><p>Add qualitative/contextual evidence, analytic memos, rival interpretations, and transparent links between excerpts and claims.</p></div>
+      </div>
+      <div class="callout"><b>Practical output:</b> every unsupported RQ should leave the audit with two artifacts: a safer RQ for the current dataset and an evidence plan for the stronger future claim.</div>
+    </section>
+
+    <section id="method">
+      <div class="section-label"><span class="section-kicker">11 &middot; Method guardrail</span></div>
+      <h2>A sophisticated method cannot rescue a mismatched claim</h2>
+      <p>Method choice matters after the claim type is aligned. The table below catches a common failure: selecting an impressive method and then letting the method's vocabulary inflate the claim.</p>
+      <div class="matrix-wrap">
+        <table>
+          <thead><tr><th>Tempting move</th><th>Why it fails</th><th>Safer decision</th></tr></thead>
+          <tbody>
+            <tr><td>Run machine learning, then call top predictors "causes."</td><td>Prediction features can be proxies, leakage, or context artifacts rather than mechanisms.</td><td>Report predictive performance and treat explanations as hypotheses unless supported by theory/design.</td></tr>
+            <tr><td>Use sequence mining, then claim learning progression.</td><td>Order is preserved, but construct interpretation still depends on event meaning and outcome evidence.</td><td>Call them pathways, transitions, or process patterns until construct validity is established.</td></tr>
+            <tr><td>Use a pre/post test, then claim intervention effect.</td><td>Change over time does not rule out alternative explanations.</td><td>Report implementation-associated change unless a causal design feature is present.</td></tr>
+            <tr><td>Use factor analysis, then treat factors as validated constructs.</td><td>Statistical structure is not enough for construct interpretation.</td><td>Combine dimensional evidence with theory, item content, reliability, and external validity checks.</td></tr>
+            <tr><td>Use interviews to "prove" the quantitative result.</td><td>Qualitative data usually contextualize, explain, complicate, or challenge patterns rather than certify them.</td><td>State the integration logic: convergence, expansion, explanation, contradiction, or case illustration.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
     <section id="agent">
-      <div class="section-kicker">09 &middot; Agent-ready</div>
+      <div class="section-label"><span class="section-kicker">12 &middot; Agent-ready</span></div>
       <h2>Prompt an AI assistant to audit fit before analysis</h2>
       <p>Use this before asking an agent to run statistics or build a dashboard.</p>
       <div class="codeblock">You are helping me audit research-question fit before analysis.
@@ -356,7 +458,7 @@ Do not invent missing data. If the dataset cannot support a question, say so dir
     </section>
 
     <section id="build-tutorial">
-      <div class="section-kicker">10 &middot; Claude Code / Codex tutorial</div>
+      <div class="section-label"><span class="section-kicker">13 &middot; Claude Code / Codex tutorial</span></div>
       <h2>Build this kind of guide through conversation</h2>
       <p>Use Claude Code or Codex as a research-design collaborator, not just a page generator. The workflow is: define the claim problem, force evidence boundaries, then ask the agent to turn that structure into a public guide.</p>
       <div class="ladder">
@@ -394,7 +496,7 @@ Before publishing, tell me exactly which files will be staged.</div></details>
     </section>
 
     <section id="downloads">
-      <div class="section-kicker">11 &middot; Downloads</div>
+      <div class="section-label"><span class="section-kicker">14 &middot; Downloads</span></div>
       <h2>Starter files for teams and agents</h2>
       <div class="downloads">
         <a class="download" href="downloads/rq_fit_matrix.csv"><b>RQ fit matrix</b><span>CSV table for verbs, evidence burden, safe claims, and methods.</span></a>
@@ -403,11 +505,12 @@ Before publishing, tell me exactly which files will be staged.</div></details>
         <a class="download" href="downloads/agent_prompt_rq_fit.md"><b>Agent prompt</b><span>Prompt template for pre-analysis RQ fit audits.</span></a>
         <a class="download" href="downloads/claude_codex_build_prompt.md"><b>Claude/Codex build prompt</b><span>Conversation script for creating a similar guide from scratch.</span></a>
         <a class="download" href="downloads/reviewer_objection_bank.md"><b>Reviewer objection bank</b><span>Questions to answer before submission.</span></a>
+        <a class="download" href="downloads/rq_fit_audit_checklist.md"><b>RQ fit audit checklist</b><span>Step-by-step pre-analysis review for teams, advisors, and agents.</span></a>
       </div>
     </section>
 
     <section id="faq">
-      <div class="section-kicker">12 &middot; FAQ</div>
+      <div class="section-label"><span class="section-kicker">15 &middot; FAQ</span></div>
       <h2>Common confusion points</h2>
       <details><summary>Is this a guide to choosing statistical tests?</summary><p>No. It comes before that. It helps decide what claim type is defensible, then points toward method families.</p></details>
       <details><summary>Can observational data ever support causal claims?</summary><p>Sometimes, but only with a credible identification strategy and transparent assumptions. Simple convenience comparisons, correlations, or one-group pre/post changes are not enough.</p></details>
@@ -415,10 +518,12 @@ Before publishing, tell me exactly which files will be staged.</div></details>
       <details><summary>Why separate prediction from explanation?</summary><p>A model can predict well using patterns that are not explanatory mechanisms. Explanation needs theory, measurement, design, and often additional evidence.</p></details>
       <details><summary>Why are trace data risky?</summary><p>Trace data are produced by platforms, tasks, event definitions, and theory-laden logging choices. They can be powerful, but they are not direct windows into cognition.</p></details>
       <details><summary>What should I do when my favorite RQ is unsupported?</summary><p>Use the ladder: write the question you wanted, rewrite what the current data can support, then specify the design or measurement evidence needed for the stronger version.</p></details>
+      <details><summary>How much explanation belongs in the paper?</summary><p>Enough for a reviewer to see the chain from data shape to claim wording: unit of analysis, timing, design support, measurement limits, analysis choice, and the claims intentionally avoided.</p></details>
+      <details><summary>Can an AI assistant decide fit for me?</summary><p>No. It can surface mismatches and draft safer wording, but the researcher remains responsible for the design assumptions, construct interpretation, and reporting limits.</p></details>
     </section>
 
     <section id="evidence-map">
-      <div class="section-kicker">13 &middot; Evidence anchors</div>
+      <div class="section-label"><span class="section-kicker">16 &middot; Evidence anchors</span></div>
       <h2>Where the guide's rules come from</h2>
       <p>This section keeps the guide honest: each practical rule points to a reporting, validity, or design tradition rather than personal preference.</p>
       <div class="evidence-map">
@@ -432,7 +537,7 @@ Before publishing, tell me exactly which files will be staged.</div></details>
     </section>
 
     <section id="references">
-      <div class="section-kicker">14 &middot; References</div>
+      <div class="section-label"><span class="section-kicker">17 &middot; References</span></div>
       <h2>Foundational and checked sources</h2>
       <details><summary>Show references</summary><ul class="refs">
         <li>American Educational Research Association. (2006). Standards for reporting on empirical social science research in AERA publications. <em>Educational Researcher, 35</em>(6), 33-40. <a href="https://doi.org/10.3102/0013189X035006033">https://doi.org/10.3102/0013189X035006033</a></li>
@@ -490,7 +595,100 @@ function updateGate(){
   document.getElementById('saferWording').textContent=item.wording;
 }
 verbSelect.value="Describe";dataSelect.value="Survey";verbSelect.addEventListener('change',updateGate);dataSelect.addEventListener('change',updateGate);updateGate();
-const links=[...document.querySelectorAll('.toc a')],sections=links.map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
+const mapNodes=[
+  {id:"Data shape",type:"Evidence",x:40,y:60,w:155,h:54},
+  {id:"Design support",type:"Evidence",x:40,y:150,w:155,h:54},
+  {id:"Measurement",type:"Evidence",x:40,y:240,w:155,h:54},
+  {id:"Population",type:"Evidence",x:40,y:330,w:155,h:54},
+  {id:"Describe",type:"RQ verb",x:285,y:34,w:135,h:48},
+  {id:"Compare",type:"RQ verb",x:285,y:92,w:135,h:48},
+  {id:"Associate",type:"RQ verb",x:285,y:150,w:135,h:48},
+  {id:"Predict",type:"RQ verb",x:285,y:208,w:135,h:48},
+  {id:"Sequence",type:"RQ verb",x:285,y:266,w:135,h:48},
+  {id:"Explain",type:"RQ verb",x:285,y:324,w:135,h:48},
+  {id:"Measure",type:"RQ verb",x:285,y:382,w:135,h:48},
+  {id:"Evaluate",type:"RQ verb",x:285,y:440,w:135,h:48},
+  {id:"Generalize",type:"RQ verb",x:285,y:498,w:135,h:48},
+  {id:"Safe claim",type:"Claim",x:535,y:92,w:150,h:56},
+  {id:"Proxy claim",type:"Claim",x:535,y:196,w:150,h:56},
+  {id:"Effect claim",type:"Claim",x:535,y:300,w:150,h:56},
+  {id:"Bounded scope",type:"Claim",x:535,y:404,w:150,h:56},
+  {id:"Methods",type:"Analysis",x:755,y:120,w:130,h:56},
+  {id:"Reviewer objection",type:"Review",x:755,y:312,w:130,h:62}
+];
+const mapPaths={
+  Describe:["Data shape","Describe","Safe claim","Methods","Reviewer objection"],
+  Compare:["Data shape","Design support","Compare","Safe claim","Methods","Reviewer objection"],
+  Associate:["Data shape","Design support","Associate","Safe claim","Methods","Reviewer objection"],
+  Predict:["Data shape","Design support","Predict","Safe claim","Methods","Reviewer objection"],
+  Sequence:["Data shape","Sequence","Safe claim","Methods","Reviewer objection"],
+  Explain:["Design support","Measurement","Explain","Proxy claim","Methods","Reviewer objection"],
+  Measure:["Measurement","Measure","Proxy claim","Methods","Reviewer objection"],
+  Evaluate:["Design support","Evaluate","Effect claim","Methods","Reviewer objection"],
+  Generalize:["Population","Generalize","Bounded scope","Methods","Reviewer objection"],
+  Integrate:["Data shape","Design support","Measurement","Safe claim","Methods","Reviewer objection"]
+};
+const mapEdges=[
+  ["Data shape","Describe"],["Data shape","Compare"],["Data shape","Associate"],["Data shape","Predict"],["Data shape","Sequence"],
+  ["Design support","Compare"],["Design support","Associate"],["Design support","Evaluate"],["Design support","Explain"],
+  ["Measurement","Explain"],["Measurement","Measure"],["Population","Generalize"],
+  ["Describe","Safe claim"],["Compare","Safe claim"],["Associate","Safe claim"],["Predict","Safe claim"],["Sequence","Safe claim"],
+  ["Explain","Proxy claim"],["Measure","Proxy claim"],["Evaluate","Effect claim"],["Generalize","Bounded scope"],
+  ["Safe claim","Methods"],["Proxy claim","Methods"],["Effect claim","Methods"],["Bounded scope","Methods"],
+  ["Methods","Reviewer objection"]
+];
+const nodeById=Object.fromEntries(mapNodes.map(n=>[n.id,n]));
+function centerRight(n){return {x:n.x+n.w,y:n.y+n.h/2}}
+function centerLeft(n){return {x:n.x,y:n.y+n.h/2}}
+function drawMap(){
+  const nodeLayer=document.getElementById("mapNodes"),edgeLayer=document.getElementById("mapEdges"),controls=document.getElementById("mapControls");
+  if(!nodeLayer||!edgeLayer||!controls)return;
+  edgeLayer.innerHTML="";nodeLayer.innerHTML="";controls.innerHTML="";
+  mapEdges.forEach(([a,b])=>{
+    const from=centerRight(nodeById[a]),to=centerLeft(nodeById[b]),mid=(from.x+to.x)/2;
+    const path=document.createElementNS("http://www.w3.org/2000/svg","path");
+    path.setAttribute("d",`M ${from.x} ${from.y} C ${mid} ${from.y}, ${mid} ${to.y}, ${to.x} ${to.y}`);
+    path.setAttribute("class","map-edge");
+    path.dataset.from=a;path.dataset.to=b;
+    edgeLayer.appendChild(path);
+  });
+  mapNodes.forEach(n=>{
+    const g=document.createElementNS("http://www.w3.org/2000/svg","g");
+    g.setAttribute("class","map-node");
+    g.setAttribute("transform",`translate(${n.x} ${n.y})`);
+    g.dataset.id=n.id;
+    const r=document.createElementNS("http://www.w3.org/2000/svg","rect");
+    r.setAttribute("width",n.w);r.setAttribute("height",n.h);r.setAttribute("rx",10);
+    const t=document.createElementNS("http://www.w3.org/2000/svg","text");
+    t.setAttribute("x",14);t.setAttribute("y",24);t.textContent=n.id;
+    const s=document.createElementNS("http://www.w3.org/2000/svg","text");
+    s.setAttribute("x",14);s.setAttribute("y",42);s.setAttribute("class","sub");s.textContent=n.type;
+    g.append(r,t,s);nodeLayer.appendChild(g);
+    if(verbData[n.id])g.addEventListener("click",()=>selectMap(n.id));
+  });
+  Object.keys(verbData).forEach(v=>{
+    const btn=document.createElement("button");
+    btn.type="button";btn.textContent=v;btn.addEventListener("click",()=>selectMap(v));
+    controls.appendChild(btn);
+  });
+  selectMap("Describe");
+}
+function selectMap(verb){
+  const item=verbData[verb],path=new Set(mapPaths[verb]||[]);
+  document.querySelectorAll(".map-node").forEach(n=>{n.classList.toggle("active",path.has(n.dataset.id));n.classList.toggle("dim",path.size&& !path.has(n.dataset.id));});
+  document.querySelectorAll(".map-edge").forEach(e=>{const on=path.has(e.dataset.from)&&path.has(e.dataset.to);e.classList.toggle("active",on);e.classList.toggle("dim",!on);});
+  document.querySelectorAll("#mapControls button").forEach(b=>b.classList.toggle("active",b.textContent===verb));
+  if(item){
+    document.getElementById("mapTitle").textContent=verb;
+    document.getElementById("mapIntro").textContent=`${verb} questions support ${item.safe.toLowerCase()} The map highlights the evidence path a reviewer will inspect.`;
+    document.getElementById("mapBurden").textContent=item.burden;
+    document.getElementById("mapWording").textContent=item.wording;
+    document.getElementById("mapMethod").textContent=item.method;
+    document.getElementById("mapReview").textContent=item.review;
+  }
+}
+drawMap();
+const links=[...document.querySelectorAll('.toc a')].filter(a=>a.getAttribute('href')?.startsWith('#')),sections=links.map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
 const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){links.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+e.target.id));}})},{rootMargin:'-20% 0px -68% 0px'});
 sections.forEach(s=>obs.observe(s));
 </script>
