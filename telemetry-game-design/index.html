@@ -74,6 +74,10 @@ details{border:2px solid var(--ink);border-radius:12px;background:#fff;margin:10
       <li><a href="#pipeline">Evidence pipeline</a></li>
       <li><a href="#schema">Telemetry envelope</a></li>
       <li><a href="#events">Event families</a></li>
+      <li><a href="#review">Design review checklist</a></li>
+      <li><a href="#clinic">Interpretation clinic</a></li>
+      <li><a href="#case">Worked mini case</a></li>
+      <li><a href="#standards">xAPI / Caliper map</a></li>
       <li><a href="#mmla">MMLA case</a></li>
       <li><a href="#video">YouTube embed</a></li>
       <li><a href="#challenge">Challenge lab</a></li>
@@ -136,18 +140,56 @@ details{border:2px solid var(--ink);border-radius:12px;background:#fff;margin:10
         <div class="pipe-step"><div class="n">06</div><b>Interpretation</b><p>What can be claimed safely?</p></div>
       </div>
       <div class="figure">
-        <svg viewBox="0 0 1100 250" role="img" aria-label="Evidence-centered game telemetry pathway">
-          <defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#0a6f66"/></marker></defs>
-          <rect width="1100" height="250" rx="18" fill="#fffdf7"/>
+        <svg viewBox="0 0 1100 310" role="img" aria-label="Evidence-centered game telemetry pathway">
+          <defs>
+            <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#0a6f66"/></marker>
+          </defs>
+          <rect width="1100" height="310" rx="18" fill="#fffdf7"/>
           <g font-family="Inter, Arial">
-            <g transform="translate(34 62)"><rect width="170" height="98" rx="12" fill="#f8e4df" stroke="#151b1f" stroke-width="2"/><text x="18" y="39" font-size="18" font-weight="900" fill="#7e241a">Claim</text><text x="18" y="68" font-size="13" fill="#2e3c3f">persistence, reasoning, support use</text></g>
-            <g transform="translate(248 62)"><rect width="170" height="98" rx="12" fill="#e5f3ef" stroke="#151b1f" stroke-width="2"/><text x="18" y="39" font-size="18" font-weight="900" fill="#0a6f66">Mechanic</text><text x="18" y="68" font-size="13" fill="#2e3c3f">choice, puzzle, evidence board</text></g>
-            <g transform="translate(462 62)"><rect width="170" height="98" rx="12" fill="#fff7df" stroke="#151b1f" stroke-width="2"/><text x="18" y="39" font-size="18" font-weight="900" fill="#8a5b08">Action</text><text x="18" y="68" font-size="13" fill="#2e3c3f">inspect, retry, revise, submit</text></g>
-            <g transform="translate(676 62)"><rect width="170" height="98" rx="12" fill="#edf4f8" stroke="#151b1f" stroke-width="2"/><text x="18" y="39" font-size="18" font-weight="900" fill="#1f4b68">Record</text><text x="18" y="68" font-size="13" fill="#2e3c3f">time, state, result, support</text></g>
-            <g transform="translate(890 62)"><rect width="176" height="98" rx="12" fill="#e5f3ef" stroke="#151b1f" stroke-width="2"/><text x="18" y="39" font-size="18" font-weight="900" fill="#0a6f66">Evidence</text><text x="18" y="68" font-size="13" fill="#2e3c3f">bounded claim, not diagnosis</text></g>
+            <g transform="translate(34 58)">
+              <rect width="178" height="128" rx="12" fill="#f8e4df" stroke="#151b1f" stroke-width="2"/>
+              <text x="18" y="38" font-size="18" font-weight="900" fill="#7e241a">Claim</text>
+              <text x="18" y="66" font-size="13" fill="#2e3c3f">persistence</text>
+              <text x="18" y="86" font-size="13" fill="#2e3c3f">reasoning</text>
+              <text x="18" y="106" font-size="13" fill="#2e3c3f">support use</text>
+            </g>
+            <g transform="translate(250 58)">
+              <rect width="178" height="128" rx="12" fill="#e5f3ef" stroke="#151b1f" stroke-width="2"/>
+              <text x="18" y="38" font-size="18" font-weight="900" fill="#0a6f66">Mechanic</text>
+              <text x="18" y="66" font-size="13" fill="#2e3c3f">choice</text>
+              <text x="18" y="86" font-size="13" fill="#2e3c3f">puzzle</text>
+              <text x="18" y="106" font-size="13" fill="#2e3c3f">evidence board</text>
+            </g>
+            <g transform="translate(466 58)">
+              <rect width="178" height="128" rx="12" fill="#fff7df" stroke="#151b1f" stroke-width="2"/>
+              <text x="18" y="38" font-size="18" font-weight="900" fill="#8a5b08">Action</text>
+              <text x="18" y="66" font-size="13" fill="#2e3c3f">inspect</text>
+              <text x="18" y="86" font-size="13" fill="#2e3c3f">retry or revise</text>
+              <text x="18" y="106" font-size="13" fill="#2e3c3f">submit</text>
+            </g>
+            <g transform="translate(682 58)">
+              <rect width="178" height="128" rx="12" fill="#edf4f8" stroke="#151b1f" stroke-width="2"/>
+              <text x="18" y="38" font-size="18" font-weight="900" fill="#1f4b68">Record</text>
+              <text x="18" y="66" font-size="13" fill="#2e3c3f">time + sequence</text>
+              <text x="18" y="86" font-size="13" fill="#2e3c3f">state + result</text>
+              <text x="18" y="106" font-size="13" fill="#2e3c3f">support context</text>
+            </g>
+            <g transform="translate(898 58)">
+              <rect width="168" height="128" rx="12" fill="#e5f3ef" stroke="#151b1f" stroke-width="2"/>
+              <text x="18" y="38" font-size="18" font-weight="900" fill="#0a6f66">Evidence</text>
+              <text x="18" y="66" font-size="13" fill="#2e3c3f">bounded claim</text>
+              <text x="18" y="86" font-size="13" fill="#2e3c3f">with uncertainty</text>
+              <text x="18" y="106" font-size="13" fill="#2e3c3f">not diagnosis</text>
+            </g>
           </g>
-          <g stroke="#0a6f66" stroke-width="4" marker-end="url(#arrow)"><line x1="204" y1="111" x2="238" y2="111"/><line x1="418" y1="111" x2="452" y2="111"/><line x1="632" y1="111" x2="666" y2="111"/><line x1="846" y1="111" x2="880" y2="111"/></g>
-          <text x="34" y="207" font-family="JetBrains Mono, monospace" font-size="14" font-weight="800" fill="#65706e">If the evidence chain is missing, more logs usually create more ambiguity.</text>
+          <g stroke="#0a6f66" stroke-width="4" marker-end="url(#arrow)">
+            <line x1="214" y1="122" x2="240" y2="122"/>
+            <line x1="430" y1="122" x2="456" y2="122"/>
+            <line x1="646" y1="122" x2="672" y2="122"/>
+            <line x1="862" y1="122" x2="888" y2="122"/>
+          </g>
+          <rect x="34" y="225" width="1032" height="48" rx="12" fill="#ffffff" stroke="#cfc3ad" stroke-width="1.5"/>
+          <text x="56" y="255" font-family="JetBrains Mono, monospace" font-size="14" font-weight="800" fill="#65706e">If the evidence chain is missing, more logs usually create more ambiguity.</text>
         </svg>
       </div>
     </section>
@@ -195,8 +237,96 @@ details{border:2px solid var(--ink);border-radius:12px;background:#fff;margin:10
       </div>
     </section>
 
+    <section id="review" class="section">
+      <div class="section-label"><span class="eyebrow">05 - Design Review Checklist</span></div>
+      <h2>Before coding the logger, make the study claim inspectable.</h2>
+      <p>A telemetry design review should happen before implementation freezes. The goal is to catch claims that cannot be supported, events that lack game-state context, and data that creates risk without adding evidence.</p>
+      <div class="grid-2">
+        <div class="card soft"><div class="card-title">Review question</div><p><strong>What claim are we trying to make?</strong> Write the sentence you hope to publish before deciding what to log.</p></div>
+        <div class="card"><div class="card-title">Evidence check</div><p><strong>Which action could support or weaken that claim?</strong> If the answer is "completion," the event plan is probably too thin.</p></div>
+        <div class="card"><div class="card-title">State check</div><p><strong>Do we log game state before and after the action?</strong> A click has no meaning without available options, mission state, failure state, and support context.</p></div>
+        <div class="card warn"><div class="card-title">Interpretation boundary</div><p><strong>What should never be inferred?</strong> Name the off-limits claims: motivation, ability, distress, ethics, or collaboration if the design cannot support them.</p></div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Gate</th><th>Pass condition</th><th>Red flag</th></tr></thead>
+          <tbody>
+            <tr><td class="k">Claim</td><td>The claim names a bounded behavior in a specific game task.</td><td>The claim uses broad traits such as ability, engagement, or motivation.</td></tr>
+            <tr><td class="k">Opportunity</td><td>The mission gives players a real chance to show the behavior.</td><td>The task can be completed without producing the intended evidence.</td></tr>
+            <tr><td class="k">Observable</td><td>Events describe actions, targets, states, and results.</td><td>Event names already contain interpretations such as <code>understood</code> or <code>struggled</code>.</td></tr>
+            <tr><td class="k">Support</td><td>Hints, feedback, retries, and idle time are logged separately.</td><td>Hint users are compared to non-users without prior-struggle context.</td></tr>
+            <tr><td class="k">Governance</td><td>Each field has a purpose, privacy tier, and retention rule.</td><td>Raw text, audio, video, or face data is collected "just in case."</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="clinic" class="section">
+      <div class="section-label"><span class="eyebrow">06 - Unsafe Interpretation Clinic</span></div>
+      <h2>Most telemetry mistakes are interpretation mistakes.</h2>
+      <p>Logs are traces of interaction, not direct measures of learning. Use the clinic below to rewrite common overclaims into defensible evidence statements.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Raw signal</th><th>Bad claim</th><th>Safer claim</th><th>Needed evidence</th></tr></thead>
+          <tbody>
+            <tr><td class="k">More clicks</td><td>The learner was more engaged.</td><td>The learner interacted with more objects or options.</td><td>Object relevance, mission state, sequence, and whether clicks were exploratory or repetitive.</td></tr>
+            <tr><td class="k">Longer time</td><td>The learner persisted.</td><td>The learner spent more active time in the mission.</td><td>Focus state, idle filtering, failures, retries, pauses, and later recovery.</td></tr>
+            <tr><td class="k">Hint use</td><td>The learner was weaker.</td><td>The learner accessed support after a particular prior state.</td><td>Hint availability, pre-hint attempts, error type, timing, and post-hint recovery.</td></tr>
+            <tr><td class="k">Failure count</td><td>The learner has low ability.</td><td>The learner encountered repeated failure states in this task.</td><td>Failure type, difficulty, optional replay, feedback, revisions, and eventual success.</td></tr>
+            <tr><td class="k">Facial distress</td><td>The learner was failing to learn.</td><td>The model detected affective distress signals during a gameplay window.</td><td>Sensor quality, synchronization, classifier confidence, task context, and triangulation with game events.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="case" class="section">
+      <div class="section-label"><span class="eyebrow">07 - Worked Mini Case</span></div>
+      <h2>Shadow Packet: from mystery-board play to evidence-use traces.</h2>
+      <p>In a Shadow Packet mission, players inspect artifacts, interview non-player characters, link evidence to a resolution, and revise after contradictions. The telemetry design should make those reasoning opportunities visible without pretending that clicks directly equal reasoning.</p>
+      <div class="grid-3">
+        <div class="card soft"><div class="card-title">Claim</div><p>Players used evidence to justify a cybersecurity decision during the packet-trace mystery.</p></div>
+        <div class="card"><div class="card-title">Core state</div><p><code>mission_id</code>, suspect board state, evidence unlocked, current hypothesis, contradiction flags, and available evidence links.</p></div>
+        <div class="card warn"><div class="card-title">Unsafe shortcut</div><p>Counting inspected evidence items as reasoning quality without knowing whether the evidence was relevant or linked to a claim.</p></div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Moment</th><th>Event</th><th>Key fields</th><th>Interpretation boundary</th></tr></thead>
+          <tbody>
+            <tr><td>Artifact opens</td><td><code>evidence_inspected</code></td><td><code>evidence_id</code>, relevance tag, board state, sequence.</td><td>Shows exposure to evidence, not understanding.</td></tr>
+            <tr><td>Evidence is attached</td><td><code>evidence_linked</code></td><td><code>claim_id</code>, evidence id, link type, pre/post hypothesis.</td><td>Shows constructed relation, not necessarily correctness.</td></tr>
+            <tr><td>Contradiction appears</td><td><code>contradiction_flagged</code></td><td>Contradiction type, related evidence, whether the player opens it.</td><td>Shows an opportunity for revision.</td></tr>
+            <tr><td>Resolution changes</td><td><code>claim_revised</code></td><td>Prior claim, new claim, evidence added or removed, elapsed active time.</td><td>Shows revision behavior, not a complete reasoning diagnosis.</td></tr>
+            <tr><td>Mission ends</td><td><code>resolution_submitted</code></td><td>Final claim, evidence coverage, unresolved contradictions, support use.</td><td>Supports bounded claims about evidence-use patterns in this mission.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="standards" class="section">
+      <div class="section-label"><span class="eyebrow">08 - xAPI / Caliper Translation</span></div>
+      <h2>Use standards logic even when your game needs custom events.</h2>
+      <p>Educational games often require domain-specific events, but the actor-action-object-context pattern from xAPI and Caliper keeps logs portable and easier to explain to collaborators.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Local field</th><th>xAPI-style role</th><th>Caliper-style role</th><th>Game-specific note</th></tr></thead>
+          <tbody>
+            <tr><td class="k">user_id</td><td>Actor</td><td>Actor</td><td>Pseudonymous player or team id.</td></tr>
+            <tr><td class="k">event_name / action</td><td>Verb</td><td>Action</td><td>Controlled vocabulary such as <code>evidence_linked</code> or <code>hint_used</code>.</td></tr>
+            <tr><td class="k">target_id</td><td>Object</td><td>Object / entity</td><td>Evidence item, NPC, puzzle node, route, prompt, or artifact.</td></tr>
+            <tr><td class="k">mission_id / level_id</td><td>Context</td><td>Generated event context</td><td>Needed for comparing the same action across tasks.</td></tr>
+            <tr><td class="k">pre_state / post_state</td><td>Extensions</td><td>Extensions / entity data</td><td>Preserves the state transition that gives an action meaning.</td></tr>
+            <tr><td class="k">privacy_tier</td><td>Local governance extension</td><td>Local governance extension</td><td>Not an assessment construct; used for retention and sharing rules.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="grid-2">
+        <div class="card soft"><div class="card-title">Good standardization</div><p>Preserve actor, action, object, result, context, time, and versioning even when the game vocabulary is custom.</p></div>
+        <div class="card warn"><div class="card-title">Bad standardization</div><p>Forcing all game activity into generic verbs until mission state, failure states, hints, and evidence links disappear.</p></div>
+      </div>
+    </section>
+
     <section id="mmla" class="section">
-      <div class="section-label"><span class="eyebrow">05 · MMLA case</span></div>
+      <div class="section-label"><span class="eyebrow">09 - MMLA case</span></div>
       <h2>When logs are not enough, add modalities carefully.</h2>
       <p>Moon et al. tracked distress during educational gameplay by fusing gameplay logs with facial-expression data. The lesson is not that every game needs cameras. The lesson is that affective and embodied claims require evidence beyond raw game actions or much stronger contextual logging.</p>
       <div class="image-card">
@@ -211,7 +341,7 @@ details{border:2px solid var(--ink);border-radius:12px;background:#fff;margin:10
     </section>
 
     <section id="video" class="section">
-      <div class="section-label"><span class="eyebrow">06 - YouTube embed tutorial</span></div>
+      <div class="section-label"><span class="eyebrow">10 - YouTube embed tutorial</span></div>
       <h2>Embed videos only when they carry the evidence logic.</h2>
       <p>This guide embeds one topic-matched YouTube video because it explains the assessment design idea behind educational game telemetry: gameplay actions become useful evidence only when the target claims, observable behaviors, and interpretation rules are planned in advance.</p>
       <div class="video-frame">
@@ -257,7 +387,7 @@ details{border:2px solid var(--ink);border-radius:12px;background:#fff;margin:10
     </section>
 
     <section id="challenge" class="section">
-      <div class="section-label"><span class="eyebrow">07 - Telemetry Challenge Lab</span></div>
+      <div class="section-label"><span class="eyebrow">11 - Telemetry Challenge Lab</span></div>
       <h2>Pick a game pattern and a claim. The logging plan changes.</h2>
       <div class="image-card">
         <img src="assets/imagegen2-challenge-lab.png" alt="Educational game telemetry challenge lab with puzzle, evidence, ethics, and portfolio cards">
@@ -299,7 +429,7 @@ details{border:2px solid var(--ink);border-radius:12px;background:#fff;margin:10
     </section>
 
     <section id="troubleshooting" class="section">
-      <div class="section-label"><span class="eyebrow">08 - Troubleshooting</span></div>
+      <div class="section-label"><span class="eyebrow">12 - Troubleshooting</span></div>
       <h2>When your logs are already messy, diagnose the failure mode.</h2>
       <div class="image-card">
         <img src="assets/imagegen2-troubleshooting.png" alt="Troubleshooting board for messy educational game telemetry">
@@ -321,7 +451,7 @@ details{border:2px solid var(--ink);border-radius:12px;background:#fff;margin:10
     </section>
 
     <section id="privacy" class="section">
-      <div class="section-label"><span class="eyebrow">09 - Privacy and retention</span></div>
+      <div class="section-label"><span class="eyebrow">13 - Privacy and retention</span></div>
       <h2>More sensitive data needs a stronger reason.</h2>
       <div class="grid-3">
         <div class="card"><div class="card-title">Low</div><p>Pseudonymous gameplay events with no free text or media. Usually enough for sequence, support-use, and completion analyses.</p></div>
@@ -331,32 +461,52 @@ details{border:2px solid var(--ink);border-radius:12px;background:#fff;margin:10
     </section>
 
     <section id="downloads" class="section">
-      <div class="section-label"><span class="eyebrow">10 - Starter downloads</span></div>
+      <div class="section-label"><span class="eyebrow">14 - Starter downloads</span></div>
       <h2>Public-safe files for teams and agents.</h2>
       <div class="download-grid">
         <a class="download" href="downloads/telemetry_event_schema.json"><div class="name">Telemetry event schema</div><div class="meta">JSON</div></a>
         <a class="download" href="downloads/event_dictionary.csv"><div class="name">Event dictionary</div><div class="meta">CSV</div></a>
         <a class="download" href="downloads/ecd_evidence_map_template.md"><div class="name">ECD evidence map</div><div class="meta">Markdown</div></a>
-      <a class="download" href="downloads/synthetic_gameplay_log.csv"><div class="name">Synthetic gameplay log</div><div class="meta">CSV</div></a>
-      <a class="download" href="downloads/privacy_retention_checklist.md"><div class="name">Privacy checklist</div><div class="meta">Markdown</div></a>
-      <a class="download" href="downloads/agent_prompt_telemetry_audit.md"><div class="name">Agent audit prompt</div><div class="meta">Markdown</div></a>
+        <a class="download" href="downloads/synthetic_gameplay_log.csv"><div class="name">Synthetic gameplay log</div><div class="meta">CSV</div></a>
+        <a class="download" href="downloads/privacy_retention_checklist.md"><div class="name">Privacy checklist</div><div class="meta">Markdown</div></a>
+        <a class="download" href="downloads/telemetry_design_review_checklist.md"><div class="name">Design review checklist</div><div class="meta">Markdown</div></a>
+        <a class="download" href="downloads/agent_prompt_telemetry_audit.md"><div class="name">Agent audit prompt</div><div class="meta">Markdown</div></a>
         <a class="download" href="downloads/youtube_embed_tutorial.md"><div class="name">YouTube embed tutorial</div><div class="meta">Markdown</div></a>
       </div>
     </section>
 
     <section id="references" class="section">
-      <div class="section-label"><span class="eyebrow">11 - References</span></div>
+      <div class="section-label"><span class="eyebrow">15 - References</span></div>
       <h2>Selected sources for this guide.</h2>
-      <details open><summary>Core sources</summary>
+      <details open><summary>Assessment and validity anchors</summary>
         <ul class="refs">
-          <li>Alonso-Fernandez, C., Calvo-Morata, A., Freire, M., Martinez-Ortiz, I., & Fernandez-Manjon, B. (2022). Game learning analytics. <em>Journal of Learning Analytics, 9</em>(3), 32-49. https://doi.org/10.18608/jla.2022.7633</li>
-          <li>Chung, G. K. W. K. (2015). Guidelines for the design, implementation, and analysis of game telemetry. In <em>Serious games analytics</em>. https://doi.org/10.1007/978-3-319-05834-4_3</li>
-          <li>Lu, W., Griffin, J., Sadler, T. D., Laffey, J. M., & Goggins, S. P. (2023). Serious game analytics by design. <em>Journal of Learning Analytics, 10</em>(1), 168-188. https://doi.org/10.18608/jla.2023.7681</li>
           <li>Mislevy, R. J., Almond, R. G., & Lukas, J. F. (2003). A brief introduction to evidence-centered design. <em>ETS Research Report Series</em>. https://doi.org/10.1002/j.2333-8504.2003.tb01908.x</li>
-          <li>Moon, J., Ke, F., Sokolikj, Z., & Dahlstrom-Hakki, I. (2022). Multimodal data fusion to track students' distress during educational gameplay. <em>Journal of Learning Analytics, 9</em>(3), 97-117. https://doi.org/10.18608/jla.2022.7631</li>
-          <li>Shoukry, L., & Gobel, S. (2019). StoryPlay Multimodal. <em>International Journal of Serious Games, 6</em>(4), 61-84. https://doi.org/10.17083/ijsg.v6i4.323</li>
           <li>Shute, V. J., & Ventura, M. (2013). <em>Measuring and supporting learning in games: Stealth assessment</em>. MIT Press. https://doi.org/10.7551/mitpress/9589.001.0001</li>
           <li>Winne, P. H. (2020). Construct and consequential validity for learning analytics based on trace data. <em>Computers in Human Behavior, 112</em>, 106457. https://doi.org/10.1016/j.chb.2020.106457</li>
+          <li>Gasevic, D., Greiff, S., & Shaffer, D. W. (2022). Towards strengthening links between learning analytics and assessment. <em>Computers in Human Behavior, 134</em>, 107304. https://doi.org/10.1016/j.chb.2022.107304</li>
+        </ul>
+      </details>
+      <details><summary>Game telemetry and serious-game analytics</summary>
+        <ul class="refs">
+          <li>Chung, G. K. W. K. (2015). Guidelines for the design, implementation, and analysis of game telemetry. In <em>Serious games analytics</em>. https://doi.org/10.1007/978-3-319-05834-4_3</li>
+          <li>Lu, W., Griffin, J., Sadler, T. D., Laffey, J. M., & Goggins, S. P. (2023). Serious game analytics by design. <em>Journal of Learning Analytics, 10</em>(1), 168-188. https://doi.org/10.18608/jla.2023.7681</li>
+          <li>Alonso-Fernandez, C., Calvo-Morata, A., Freire, M., Martinez-Ortiz, I., & Fernandez-Manjon, B. (2022). Game learning analytics. <em>Journal of Learning Analytics, 9</em>(3), 32-49. https://doi.org/10.18608/jla.2022.7633</li>
+          <li>Westera, W., Nadolski, R., & Hummel, H. (2014). Serious gaming analytics: What students' log files tell us about gaming and learning. <em>International Journal of Serious Games, 1</em>(2). https://doi.org/10.17083/ijsg.v1i2.9</li>
+        </ul>
+      </details>
+      <details><summary>Standards and implementation</summary>
+        <ul class="refs">
+          <li>1EdTech Consortium. (2020). <em>Caliper Analytics specification, version 1.2</em>. https://www.imsglobal.org/spec/caliper/v1p2/</li>
+          <li>xAPI.com. (n.d.). <em>xAPI overview</em>. https://xapi.com/overview/</li>
+          <li>Serrano-Laguna, A., Martinez-Ortiz, I., Haag, J., Regan, D., Johnson, A., & Fernandez-Manjon, B. (2017). Applying standards to systematize learning analytics in serious games. <em>Computer Standards & Interfaces, 50</em>, 116-123. https://doi.org/10.1016/j.csi.2016.09.014</li>
+        </ul>
+      </details>
+      <details><summary>MMLA, privacy, and video resources</summary>
+        <ul class="refs">
+          <li>Moon, J., Ke, F., Sokolikj, Z., & Dahlstrom-Hakki, I. (2022). Multimodal data fusion to track students' distress during educational gameplay. <em>Journal of Learning Analytics, 9</em>(3), 97-117. https://doi.org/10.18608/jla.2022.7631</li>
+          <li>Emerson, A., Cloude, E. B., Azevedo, R., & Lester, J. (2020). Multimodal learning analytics for game-based learning. <em>British Journal of Educational Technology, 51</em>(5), 1505-1526. https://doi.org/10.1111/bjet.12992</li>
+          <li>Ochoa, X., & Worsley, M. (2016). Augmenting learning analytics with multimodal sensory data. <em>Journal of Learning Analytics, 3</em>(2), 213-219. https://doi.org/10.18608/jla.2016.32.10</li>
+          <li>Cormack, A. N. (2016). A data protection framework for learning analytics. <em>Journal of Learning Analytics, 3</em>(1), 91-106. https://doi.org/10.18608/jla.2016.31.6</li>
           <li>Transforming Assessment. (2011). Valerie Shute: <em>Stealth assessment: embedded evidence-based assessment in games</em>. https://transformingassessment.com/events_7_september_2011.php</li>
           <li>CIRCL Center. (2016). Marcelo Worsley: <em>Making Sense of Multimodal Learning Analytics</em>. https://circlcenter.org/events/making-sense-of-multimodal-learning-analytics/</li>
         </ul>
