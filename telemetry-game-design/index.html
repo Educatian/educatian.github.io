@@ -38,7 +38,7 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,
 .toc ol{list-style:none;margin:0;padding:0;counter-reset:item}.toc li{counter-increment:item;border-top:1px solid var(--line)}.toc li:first-child{border-top:0}
 .toc a{display:flex;gap:10px;padding:9px 0;color:var(--ink);text-decoration:none;font-size:13px;line-height:1.35;font-weight:700}.toc a::before{content:counter(item,decimal-leading-zero);font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);width:20px;flex:none}.toc a:hover,.toc a.active{color:var(--teal)}.toc a.active{background:var(--teal-soft);border-radius:9px;padding-left:8px;padding-right:8px}
 .toc-downloads{border-top:1px solid var(--line);margin-top:16px;padding-top:13px}.toc-downloads a{display:block;color:var(--teal);font-size:12px;font-weight:900;text-decoration:none;padding:5px 0}.toc-downloads a::before{content:none}
-main{min-width:0}.home-link{display:inline-block;color:var(--teal);font-weight:850;text-decoration:none;margin-bottom:24px}
+main{min-width:0}.topbar{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:24px}.home-link{display:inline-block;color:var(--teal);font-weight:850;text-decoration:none}.lang-toggle{display:inline-flex;border:2px solid var(--ink);border-radius:999px;overflow:hidden;background:#fff}.lang-toggle a{padding:7px 12px;text-decoration:none;color:var(--ink);font-size:11px;font-weight:900;letter-spacing:1px;text-transform:uppercase}.lang-toggle a.active{background:var(--ink);color:#fff}
 .hero{position:relative;border-bottom:1px solid var(--line);padding:10px 0 56px;margin-bottom:58px}
 h1{max-width:980px;font-size:72px;line-height:1.02;letter-spacing:0;margin:14px 0 22px;font-weight:900}.serif{font-family:'Playfair Display',Georgia,serif;font-style:italic;font-weight:400;color:var(--rust)}
 .lede{max-width:880px;font-size:21px;line-height:1.55;color:#2e3c3f;font-weight:350;margin:0 0 26px}
@@ -61,7 +61,7 @@ details{border:2px solid var(--ink);border-radius:12px;background:#fff;margin:10
 .refs li{margin:8px 0;color:#2e3c3f}.refs a{color:var(--teal);font-weight:800;text-decoration:none;border-bottom:1.5px solid rgba(10,111,102,.28)}.refs a:hover{border-bottom-color:var(--teal)}.foot{margin-top:80px;padding-top:30px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;font-size:11px;color:var(--muted);letter-spacing:.15em;text-transform:uppercase;font-weight:800}
 @media(max-width:1080px){.shell{grid-template-columns:1fr;padding:36px 24px 68px}.toc{position:relative;top:auto;max-height:none}.grid-2,.grid-3,.grid-4,.lab,.sim,.download-grid{grid-template-columns:1fr}.pipeline{grid-template-columns:repeat(2,minmax(0,1fr))}.hero-overlay{position:relative;left:auto;bottom:auto;margin:0;border-left:0;border-right:0;border-bottom:0;border-radius:0}.lab-result{grid-template-columns:1fr}h1{font-size:52px}}
 @media(max-width:620px){.shell{display:block;width:100%;max-width:100%;padding:28px 16px 60px;overflow:hidden}.toc{width:100%;max-width:100%;min-width:0;margin:0 0 28px;padding:20px}.toc a{font-size:12.5px}.toc-downloads a{font-size:12px}main{width:100%;max-width:100%;overflow:hidden}.kicker{font-size:10px;letter-spacing:1.6px;line-height:1.8;overflow-wrap:break-word}h1{font-size:30px;line-height:1.08;max-width:100%;overflow-wrap:break-word}h1 .serif{display:block}h2{font-size:31px}.lede{font-size:18px;max-width:100%;overflow-wrap:break-word}.pipeline{grid-template-columns:1fr}.hero-image{border-radius:12px}.pipe-step.hot{transform:none}}
-@media print{.toc,.grid-bg,.home-link{display:none}.shell{display:block;padding:0;max-width:none}body{background:#fff}.card,.image-card,.figure,.download,.pipe-step{break-inside:avoid}}
+@media print{.toc,.grid-bg,.topbar{display:none}.shell{display:block;padding:0;max-width:none}body{background:#fff}.card,.image-card,.figure,.download,.pipe-step{break-inside:avoid}}
 </style>
 </head>
 <body>
@@ -97,7 +97,13 @@ details{border:2px solid var(--ink);border-radius:12px;background:#fff;margin:10
 
   <main>
     <header class="hero">
-      <a class="home-link" href="../">Back to Educatian open guides</a>
+      <div class="topbar">
+        <a class="home-link" href="../">Back to Educatian open guides</a>
+        <nav class="lang-toggle" aria-label="Language">
+          <a class="active" href="./">EN</a>
+          <a href="ko/">한국어</a>
+        </nav>
+      </div>
       <div class="kicker">Interactive learning · telemetry · ECD</div>
       <h1>Telemetry Design for <span class="serif">Highly Interactive Digital Learning Environments</span></h1>
       <p class="lede">What to log before an IVR simulation, VR lab, AI studio, cyber range, or other interactive learning environment becomes impossible to study. A visual onboarding guide for turning interaction traces into defensible evidence without confusing movement, clicks, struggle, hints, sensors, or dashboards with learning itself.</p>
