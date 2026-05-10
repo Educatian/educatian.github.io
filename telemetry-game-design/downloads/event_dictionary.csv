@@ -1,10 +1,13 @@
 event_type,plain_meaning,minimum_context,common_research_use,unsafe_inference
-mission_started,Player entered a mission or level,game_version;mission_id;attempt_number,Exposure and completion denominator,Learning began
-mission_completed,Player reached an end state,mission_id;result_status;elapsed_ms;attempt_number,Completion and progression,Mastery
-choice_submitted,Player selected an option or path,scenario_id;choice_id;available_choices;pre_state;post_state,Decision pattern,Ethical reasoning without rationale
-hint_opened,Player viewed a support,available_supports;prior_attempts;elapsed_ms;hint_id,Support use and help seeking,Hint caused low performance
-failure_triggered,Game marked an error or blocked state,failure_type;pre_state;target_id;attempt_number,Failure/recovery analysis,Poor learning
-replay_started,Player restarted or replayed a segment,prior_failure_type;time_gap;mission_id,Persistence after failure,Engagement
-evidence_linked,Player connected evidence to a claim,evidence_id;claim_id;sequence_index;revision_number,Evidence-based reasoning,Understanding
-reflection_submitted,Player wrote or selected a rationale,prompt_id;response_type;privacy_tier,Reasoning evidence,Population attitude
+task_started,Learner entered a task scene or station,environment_version;task_id;attempt_number,Exposure and completion denominator,Learning began
+task_completed,Learner reached a defined end state,task_id;result_status;elapsed_ms;attempt_number,Completion and progression,Mastery
+zone_entered,Learner entered a spatial zone or scene,task_id;zone_id;position_or_view_state;sequence_index,Opportunity to notice or act,Attention
+tool_manipulated,Learner grasped moved or used a tool,tool_id;pose_or_path_quality;target_id;pre_state;post_state,Embodied procedure analysis,Procedural skill
+hazard_inspected,Learner inspected a hazard object,hazard_id;visibility;proximity;dwell_or_action_time,Hazard awareness opportunity,Hazard understanding
+choice_submitted,Learner selected an option or path,scenario_id;choice_id;available_choices;pre_state;post_state,Decision pattern,Ethical reasoning without rationale
+support_opened,Learner viewed support,available_supports;prior_attempts;elapsed_ms;support_id,Support use and help seeking,Support caused low performance
+failure_triggered,System marked an error or blocked state,failure_type;pre_state;target_id;attempt_number,Failure/recovery analysis,Poor learning
+step_revised,Learner revised a procedure claim or artifact,prior_state;new_state;feedback_id;elapsed_ms,Revision and recovery analysis,Reflection
+evidence_linked,Learner connected evidence to a claim,evidence_id;claim_id;sequence_index;revision_number,Evidence-based reasoning,Understanding
+reflection_submitted,Learner wrote or selected a rationale,prompt_id;response_type;privacy_tier,Reasoning evidence,Population attitude
 sensor_quality_logged,System recorded MMLA stream quality,modality;quality_flag;sync_offset_ms,MMLA missingness and alignment,Learner state

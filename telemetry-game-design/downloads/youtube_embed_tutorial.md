@@ -1,6 +1,6 @@
 # YouTube Embed Tutorial for Research Guides
 
-Use a YouTube embed only when the video directly supports a claim in the guide. For a telemetry guide, a good video should clarify logging, evidence-centered design, stealth assessment, multimodal traces, privacy, or validity.
+Use a YouTube embed only when the video directly supports a claim in the guide. For an interactive learning telemetry guide, a good video should clarify logging, evidence-centered design, stealth assessment, multimodal traces, privacy, or validity.
 
 ## Selection checklist
 
@@ -15,7 +15,7 @@ Use a YouTube embed only when the video directly supports a claim in the guide. 
 
 Video: Valerie Shute, "Stealth assessment: embedded evidence-based assessment in games"
 
-Why it fits: the video explains why game actions become useful assessment evidence only when competency claims, observable behaviors, and interpretation rules are designed in advance.
+Why it fits: the video explains why interaction traces become useful assessment evidence only when competency claims, observable behaviors, and interpretation rules are designed in advance.
 
 Source archive: https://transformingassessment.com/events_7_september_2011.php
 

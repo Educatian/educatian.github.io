@@ -1,4 +1,4 @@
-# ECD Evidence Map Template for Educational Game Telemetry
+# ECD Evidence Map Template for Interactive Learning Environment Telemetry
 
 ## 1. Learning Claim
 
@@ -12,11 +12,11 @@ What underlying capability is being inferred?
 
 Example: Evidence-based reasoning.
 
-## 3. Game Situation
+## 3. Interactive Task Situation
 
 Which task gives the player an opportunity to show it?
 
-Example: A mystery board where players inspect artifacts and connect evidence to a resolution.
+Example: An IVR lab station where learners inspect hazards, manipulate tools, and revise a procedure after feedback.
 
 ## 4. Observable Behaviors
 
@@ -49,10 +49,10 @@ What will be calculated later?
 
 What can be said conservatively?
 
-Example: Players who inspected and connected relevant evidence before submission showed stronger evidence-use patterns in this game task.
+Example: Learners who inspected relevant hazards and revised procedures before submission showed stronger evidence-use patterns in this interactive task.
 
 ## 8. Claims to Avoid
 
-- The game proved reasoning ability.
+- The environment proved reasoning ability.
 - Clicks measured understanding directly.
 - Students learned cybersecurity because they completed the case.

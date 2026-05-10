@@ -1,6 +1,6 @@
 # Privacy and Retention Checklist
 
-Use this before collecting educational game telemetry.
+Use this before collecting telemetry from a highly interactive digital learning environment.
 
 ## Data Minimization
 
@@ -16,8 +16,8 @@ Use this before collecting educational game telemetry.
 
 ## Consent and Notice
 
-- Does consent explain gameplay logs and any multimodal capture?
-- Are optional modalities, such as camera or audio, clearly separated from basic gameplay logging?
+- Does consent explain interaction traces and any multimodal capture?
+- Are optional modalities, such as camera, audio, gaze, pose, hand/controller path, or biometrics, clearly separated from basic event logging?
 - Does the participant know what will be retained and for how long?
 
 ## Security and Retention

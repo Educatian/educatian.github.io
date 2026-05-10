@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Telemetry Design for Educational Games</title>
-<meta name="description" content="A practical, visually rich onboarding guide for deciding what to log before an educational game becomes impossible to study.">
+<title>Telemetry Design for Highly Interactive Digital Learning Environments</title>
+<meta name="description" content="A practical, visually rich onboarding guide for deciding what to log before a highly interactive digital learning environment becomes impossible to study.">
 <link rel="canonical" href="https://educatian.github.io/telemetry-game-design/">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Telemetry Design for Educational Games">
-<meta property="og:description" content="What to log before your learning game becomes impossible to study.">
+<meta property="og:title" content="Telemetry Design for Highly Interactive Digital Learning Environments">
+<meta property="og:description" content="What to log before your interactive learning environment becomes impossible to study.">
 <meta property="og:url" content="https://educatian.github.io/telemetry-game-design/">
 <meta property="og:image" content="https://educatian.github.io/telemetry-game-design/thumbnails/hero_og_1200x630.png">
 <meta property="og:image:width" content="1200">
@@ -54,11 +54,12 @@ h2{font-size:42px;line-height:1.1;margin:0 0 16px;font-weight:900;letter-spacing
 .table-wrap{overflow:auto;border:2px solid var(--ink);border-radius:12px;background:#fff;margin:18px 0}table{width:100%;border-collapse:collapse;font-size:14px}th{text-align:left;background:var(--ink);color:#fff;font-size:11px;letter-spacing:1.4px;text-transform:uppercase;padding:12px 14px}td{padding:12px 14px;border-top:1px solid var(--line);vertical-align:top}td.k{font-family:'JetBrains Mono',monospace;font-weight:800;color:var(--teal);white-space:nowrap}
 code{font-family:'JetBrains Mono',Consolas,monospace;font-size:13px;background:#fff;border:1px solid var(--line);border-radius:5px;padding:1px 6px;color:var(--teal);font-weight:650}.code{background:var(--ink);color:#f7f1e7;border:2px solid var(--ink);border-radius:12px;padding:17px 19px;overflow:auto;font-family:'JetBrains Mono',Consolas,monospace;font-size:13px;line-height:1.62;white-space:pre;margin:14px 0}
 .lab{display:grid;grid-template-columns:330px minmax(0,1fr);gap:18px;margin:24px 0}.lab-panel,.lab-output{background:#fff;border:2px solid var(--ink);border-radius:14px;padding:18px}.control{margin-bottom:16px}.control label{display:block;font-size:12px;font-weight:900;letter-spacing:1.2px;text-transform:uppercase;color:var(--teal);margin-bottom:8px}.select{width:100%;padding:10px 12px;border:1.5px solid var(--line);border-radius:10px;background:#fff;color:var(--ink);font:inherit}.lab-result{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.result-cell{background:var(--teal-soft);border:1px solid rgba(10,111,102,.25);border-radius:10px;padding:13px}.result-cell b{display:block;color:var(--teal);font-size:11px;letter-spacing:1.2px;text-transform:uppercase;margin-bottom:5px}.result-cell span{font-size:14px;color:#263234}
+.sim{display:grid;grid-template-columns:310px minmax(0,1fr);gap:18px;margin:24px 0}.sim-stage,.sim-log{background:#fff;border:2px solid var(--ink);border-radius:14px;padding:18px}.tetris-canvas{display:block;width:240px;max-width:100%;height:auto;margin:0 auto;background:#142024;border:2px solid var(--ink);border-radius:10px}.sim-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:14px 0}.sim-stat{background:var(--teal-soft);border:1px solid rgba(10,111,102,.25);border-radius:10px;padding:10px;text-align:center}.sim-stat b{display:block;font-family:'JetBrains Mono',monospace;font-size:16px}.sim-stat span{display:block;font-size:10px;font-weight:900;letter-spacing:1px;text-transform:uppercase;color:var(--muted)}.sim-buttons{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0}.sim-buttons.wide{grid-template-columns:repeat(2,1fr)}.sim-btn{border:2px solid var(--ink);border-radius:10px;background:#fff;padding:10px 8px;font:inherit;font-weight:900;cursor:pointer}.sim-btn.primary{background:var(--teal);border-color:var(--teal);color:#fff}.sim-btn.warn{background:var(--rust);border-color:var(--rust);color:#fff}.sim-btn:hover{transform:translateY(-1px)}.log-box{max-height:410px;overflow:auto;border:1px solid var(--line);border-radius:10px}.log-table{font-size:12px}.log-table th{position:sticky;top:0}.log-table td{padding:8px 10px}.log-table code{font-size:11px;padding:0 4px}.kbd{font-family:'JetBrains Mono',monospace;font-size:11px;background:#fff;border:1px solid var(--line);border-radius:5px;padding:2px 5px;font-weight:800}
 details{border:2px solid var(--ink);border-radius:12px;background:#fff;margin:10px 0;overflow:hidden}summary{cursor:pointer;padding:15px 18px;font-weight:850}details[open]{border-color:var(--teal)}details[open] summary{border-bottom:1px solid var(--line);color:var(--teal)}details p,details ul{padding:0 18px 16px;margin:0}
 .video-frame{position:relative;overflow:hidden;border:2px solid var(--ink);border-radius:16px;background:#111;box-shadow:var(--shadow);aspect-ratio:16/9;margin:22px 0}.video-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}.resource-link{display:inline-flex;align-items:center;gap:8px;color:var(--teal);font-weight:900;text-decoration:none;border-bottom:2px solid rgba(10,111,102,.26)}.resource-link:hover{border-bottom-color:var(--teal)}
 .download-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:20px 0}.download{display:block;background:#fff;border:2px solid var(--ink);border-radius:14px;padding:18px;text-decoration:none;color:var(--ink);transition:transform .12s,box-shadow .12s}.download:hover{transform:translateY(-2px);border-color:var(--teal);box-shadow:var(--shadow)}.download .name{font-size:17px;font-weight:900;line-height:1.25;margin-bottom:8px}.download .meta{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px}
-.refs li{margin:8px 0;color:#2e3c3f}.foot{margin-top:80px;padding-top:30px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;font-size:11px;color:var(--muted);letter-spacing:.15em;text-transform:uppercase;font-weight:800}
-@media(max-width:1080px){.shell{grid-template-columns:1fr;padding:36px 24px 68px}.toc{position:relative;top:auto;max-height:none}.grid-2,.grid-3,.grid-4,.lab,.download-grid{grid-template-columns:1fr}.pipeline{grid-template-columns:repeat(2,minmax(0,1fr))}.hero-overlay{position:relative;left:auto;bottom:auto;margin:0;border-left:0;border-right:0;border-bottom:0;border-radius:0}.lab-result{grid-template-columns:1fr}h1{font-size:52px}}
+.refs li{margin:8px 0;color:#2e3c3f}.refs a{color:var(--teal);font-weight:800;text-decoration:none;border-bottom:1.5px solid rgba(10,111,102,.28)}.refs a:hover{border-bottom-color:var(--teal)}.foot{margin-top:80px;padding-top:30px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;font-size:11px;color:var(--muted);letter-spacing:.15em;text-transform:uppercase;font-weight:800}
+@media(max-width:1080px){.shell{grid-template-columns:1fr;padding:36px 24px 68px}.toc{position:relative;top:auto;max-height:none}.grid-2,.grid-3,.grid-4,.lab,.sim,.download-grid{grid-template-columns:1fr}.pipeline{grid-template-columns:repeat(2,minmax(0,1fr))}.hero-overlay{position:relative;left:auto;bottom:auto;margin:0;border-left:0;border-right:0;border-bottom:0;border-radius:0}.lab-result{grid-template-columns:1fr}h1{font-size:52px}}
 @media(max-width:620px){.shell{display:block;width:100%;max-width:100%;padding:28px 16px 60px;overflow:hidden}.toc{width:100%;max-width:100%;min-width:0;margin:0 0 28px;padding:20px}.toc a{font-size:12.5px}.toc-downloads a{font-size:12px}main{width:100%;max-width:100%;overflow:hidden}.kicker{font-size:10px;letter-spacing:1.6px;line-height:1.8;overflow-wrap:break-word}h1{font-size:30px;line-height:1.08;max-width:100%;overflow-wrap:break-word}h1 .serif{display:block}h2{font-size:31px}.lede{font-size:18px;max-width:100%;overflow-wrap:break-word}.pipeline{grid-template-columns:1fr}.hero-image{border-radius:12px}.pipe-step.hot{transform:none}}
 @media print{.toc,.grid-bg,.home-link{display:none}.shell{display:block;padding:0;max-width:none}body{background:#fff}.card,.image-card,.figure,.download,.pipe-step{break-inside:avoid}}
 </style>
@@ -67,7 +68,7 @@ details{border:2px solid var(--ink);border-radius:12px;background:#fff;margin:10
 <div class="grid-bg"></div>
 <div class="shell">
   <aside class="toc" aria-label="Table of contents">
-    <div class="toc-kicker">Game telemetry</div>
+    <div class="toc-kicker">Interactive telemetry</div>
     <h2>What to log before analysis</h2>
     <ol>
       <li><a href="#purpose">Why this guide exists</a></li>
@@ -80,6 +81,7 @@ details{border:2px solid var(--ink);border-radius:12px;background:#fff;margin:10
       <li><a href="#standards">xAPI / Caliper map</a></li>
       <li><a href="#mmla">MMLA case</a></li>
       <li><a href="#video">YouTube embed</a></li>
+      <li><a href="#tetris">Live trace simulator</a></li>
       <li><a href="#challenge">Challenge lab</a></li>
       <li><a href="#troubleshooting">Troubleshooting</a></li>
       <li><a href="#privacy">Privacy and retention</a></li>
@@ -89,18 +91,19 @@ details{border:2px solid var(--ink);border-radius:12px;background:#fff;margin:10
     <div class="toc-downloads">
       <a href="downloads/telemetry_event_schema.json">Schema JSON</a>
       <a href="downloads/event_dictionary.csv">Event dictionary</a>
-      <a href="downloads/synthetic_gameplay_log.csv">Synthetic log</a>
+      <a href="downloads/synthetic_interaction_trace.csv">Synthetic trace log</a>
     </div>
   </aside>
 
   <main>
     <header class="hero">
       <a class="home-link" href="../">Back to Educatian open guides</a>
-      <div class="kicker">Educational games · telemetry · ECD</div>
-      <h1>Telemetry Design for <span class="serif">Educational Games</span></h1>
-      <p class="lede">What to log before your learning game becomes impossible to study. A visual onboarding guide for turning gameplay into defensible evidence without confusing clicks, struggle, hints, sensors, or dashboards with learning itself.</p>
+      <div class="kicker">Interactive learning · telemetry · ECD</div>
+      <h1>Telemetry Design for <span class="serif">Highly Interactive Digital Learning Environments</span></h1>
+      <p class="lede">What to log before an IVR simulation, VR lab, AI studio, cyber range, or other interactive learning environment becomes impossible to study. A visual onboarding guide for turning interaction traces into defensible evidence without confusing movement, clicks, struggle, hints, sensors, or dashboards with learning itself.</p>
       <div class="hero-meta">
-        <span class="pill hot">Game logs</span>
+        <span class="pill hot">Interaction traces</span>
+        <span class="pill">IVR / VR</span>
         <span class="pill">ECD</span>
         <span class="pill">Stealth assessment</span>
         <span class="pill">MMLA</span>
@@ -108,7 +111,7 @@ details{border:2px solid var(--ink);border-radius:12px;background:#fff;margin:10
         <span class="pill">Public-safe templates</span>
       </div>
       <div class="hero-image">
-        <img src="assets/imagegen2-telemetry-hero.png" alt="Educational game telemetry studio with gameplay, event streams, evidence cards, and dashboard panels">
+        <img src="assets/imagegen2-telemetry-hero.png" alt="Interactive digital learning telemetry studio with simulation, VR, interaction traces, evidence cards, and dashboard panels">
         <div class="hero-overlay">
           <b>Core rule</b>
           <p>Do not log everything. Log the observable behavior and game state needed to support the claim you intend to make.</p>
@@ -118,12 +121,12 @@ details{border:2px solid var(--ink);border-radius:12px;background:#fff;margin:10
 
     <section id="purpose" class="section">
       <div class="section-label"><span class="eyebrow">01 · Purpose</span></div>
-      <h2>Educational games fail as research instruments when logging is added last.</h2>
-      <p>A game can be engaging, beautiful, and still impossible to study. If the only exported fields are final score, completion, and time, later analysis cannot reconstruct strategy, support use, failure recovery, misconception patterns, or ethical reasoning.</p>
+      <h2>Highly interactive learning environments fail as research instruments when logging is added last.</h2>
+      <p>An IVR lab, VR training scenario, simulation, game, or AI design studio can be engaging, beautiful, and still impossible to study. If the only exported fields are final score, completion, and time, later analysis cannot reconstruct strategy, support use, failure recovery, misconception patterns, embodied action, or ethical reasoning.</p>
       <div class="grid-3">
         <div class="card warn"><div class="card-title">Underlogging</div><p>Only saves score, completion, and total time. Process evidence disappears.</p></div>
-        <div class="card warn"><div class="card-title">Overlogging</div><p>Records every click but not the game state, available choices, task meaning, or support context.</p></div>
-        <div class="card soft"><div class="card-title">Instrumented design</div><p>Maps learning claims to game mechanics, observable actions, structured events, and cautious interpretations.</p></div>
+        <div class="card warn"><div class="card-title">Overlogging</div><p>Records every click, gaze point, pose, or controller action but not the environment state, available choices, task meaning, or support context.</p></div>
+        <div class="card soft"><div class="card-title">Instrumented design</div><p>Maps learning claims to interaction patterns, observable actions, structured events, and cautious interpretations.</p></div>
       </div>
     </section>
 
@@ -134,7 +137,7 @@ details{border:2px solid var(--ink);border-radius:12px;background:#fff;margin:10
       <div class="pipeline">
         <div class="pipe-step"><div class="n">01</div><b>Learning claim</b><p>What do you want to say?</p></div>
         <div class="pipe-step"><div class="n">02</div><b>Competency</b><p>What capability or construct is implied?</p></div>
-        <div class="pipe-step hot"><div class="n">03</div><b>Game mechanic</b><p>Which task can elicit evidence?</p></div>
+        <div class="pipe-step hot"><div class="n">03</div><b>Interaction pattern</b><p>Which task can elicit evidence?</p></div>
         <div class="pipe-step"><div class="n">04</div><b>Observable action</b><p>What can be seen without guessing?</p></div>
         <div class="pipe-step"><div class="n">05</div><b>Event record</b><p>What fields preserve context?</p></div>
         <div class="pipe-step"><div class="n">06</div><b>Interpretation</b><p>What can be claimed safely?</p></div>
@@ -155,10 +158,10 @@ details{border:2px solid var(--ink);border-radius:12px;background:#fff;margin:10
             </g>
             <g transform="translate(250 58)">
               <rect width="178" height="128" rx="12" fill="#e5f3ef" stroke="#151b1f" stroke-width="2"/>
-              <text x="18" y="38" font-size="18" font-weight="900" fill="#0a6f66">Mechanic</text>
+              <text x="18" y="38" font-size="18" font-weight="900" fill="#0a6f66">Pattern</text>
               <text x="18" y="66" font-size="13" fill="#2e3c3f">choice</text>
-              <text x="18" y="86" font-size="13" fill="#2e3c3f">puzzle</text>
-              <text x="18" y="106" font-size="13" fill="#2e3c3f">evidence board</text>
+              <text x="18" y="86" font-size="13" fill="#2e3c3f">simulation</text>
+              <text x="18" y="106" font-size="13" fill="#2e3c3f">embodied task</text>
             </g>
             <g transform="translate(466 58)">
               <rect width="178" height="128" rx="12" fill="#fff7df" stroke="#151b1f" stroke-width="2"/>
@@ -196,17 +199,17 @@ details{border:2px solid var(--ink);border-radius:12px;background:#fff;margin:10
 
     <section id="schema" class="section">
       <div class="section-label"><span class="eyebrow">03 · Minimum viable telemetry envelope</span></div>
-      <h2>The same click means different things in different game states.</h2>
-      <p>A useful event row preserves enough context to reconstruct what the learner could see, what they tried, what support was available, and what changed next.</p>
+      <h2>The same action means different things in different environment states.</h2>
+      <p>A useful event row preserves enough context to reconstruct what the learner could see, touch, move toward, manipulate, request, or revise; what support was available; and what changed next.</p>
       <div class="table-wrap">
         <table>
           <thead><tr><th>Field</th><th>Why it matters</th><th>Example</th></tr></thead>
           <tbody>
-            <tr><td class="k">schema_version</td><td>Keeps old logs interpretable after schema changes.</td><td><code>telemetry-game-design-v1</code></td></tr>
-            <tr><td class="k">game_version</td><td>Separates content effects from learner effects.</td><td><code>0.3.2</code></td></tr>
+            <tr><td class="k">schema_version</td><td>Keeps old traces interpretable after schema changes.</td><td><code>interactive-telemetry-v1</code></td></tr>
+            <tr><td class="k">environment_version</td><td>Separates content/interface effects from learner effects.</td><td><code>0.3.2</code></td></tr>
             <tr><td class="k">session_id / attempt_id</td><td>Preserves replay, persistence, and within-player structure.</td><td><code>S001 / A002</code></td></tr>
             <tr><td class="k">timestamp_utc / elapsed_ms / sequence_index</td><td>Supports time-on-task, process, and synchronization.</td><td><code>seq=42</code></td></tr>
-            <tr><td class="k">mission_id / state_id</td><td>Reconstructs where the event happened in game logic.</td><td><code>phishing-inn / evidence_board</code></td></tr>
+            <tr><td class="k">task_id / state_id</td><td>Reconstructs where the event happened in the environment logic.</td><td><code>lab-safety / burner_station</code></td></tr>
             <tr><td class="k">event_type</td><td>Controlled vocabulary for analysis.</td><td><code>hint_opened</code></td></tr>
             <tr><td class="k">pre_state / post_state</td><td>Makes action meaning visible.</td><td><code>blocked_path -> hint_seen</code></td></tr>
             <tr><td class="k">privacy_tier</td><td>Controls retention, sharing, and export decisions.</td><td><code>low / moderate / sensitive</code></td></tr>
@@ -217,21 +220,21 @@ details{border:2px solid var(--ink);border-radius:12px;background:#fff;margin:10
 
     <section id="events" class="section">
       <div class="section-label"><span class="eyebrow">04 · Event families</span></div>
-      <h2>Log by game mechanic, not by screen widget.</h2>
+      <h2>Log by interaction pattern, not by interface widget.</h2>
       <div class="grid-4">
-        <div class="card"><div class="card-title">TeachPlay</div><p>Design task started, AI disclosure edited, prototype evidence uploaded, feedback revised, reflection submitted.</p></div>
-        <div class="card"><div class="card-title">Cyber_Grid</div><p>Node inspected, route rotated, trace run, threat port identified, quarantine attempted, debrief submitted.</p></div>
-        <div class="card"><div class="card-title">Shadow Packet</div><p>Evidence inspected, NPC interviewed, Packet Lens opened, evidence linked, resolution submitted, misconception flagged.</p></div>
-        <div class="card"><div class="card-title">AI Ethics Voyage</div><p>Council scenario opened, choice selected, rationale entered, stakeholder consequence viewed, compass guidance accessed.</p></div>
+        <div class="card"><div class="card-title">IVR science lab</div><p>Station entered, object grasped, tool aligned, hazard noticed, procedure step completed, instructor prompt opened.</p></div>
+        <div class="card"><div class="card-title">VR field practicum</div><p>Waypoint reached, artifact scanned, gaze dwell recorded, spatial annotation placed, route revised, debrief submitted.</p></div>
+        <div class="card"><div class="card-title">Cyber range</div><p>Node inspected, trace run, threat port identified, quarantine attempted, packet evidence linked, after-action note submitted.</p></div>
+        <div class="card"><div class="card-title">AI design studio</div><p>Prompt drafted, model output critiqued, disclosure edited, prototype evidence uploaded, feedback revised, reflection submitted.</p></div>
       </div>
       <div class="table-wrap">
         <table>
           <thead><tr><th>Claim</th><th>Minimum telemetry</th><th>Unsafe shortcut</th></tr></thead>
           <tbody>
             <tr><td>Persistence after failure</td><td>Failure type, retry/replay, time gap, later success.</td><td>Counting total attempts without failure context.</td></tr>
-            <tr><td>Evidence-based reasoning</td><td>Evidence inspected, link created, claim submitted, sequence, revision.</td><td>Counting evidence clicks as reasoning.</td></tr>
-            <tr><td>Hint-supported learning</td><td>Hint availability, prior attempts, hint timing, post-hint recovery.</td><td>Comparing hint users vs non-users without prior struggle.</td></tr>
-            <tr><td>Ethical reasoning</td><td>Scenario state, choice, rationale, tradeoff viewed, revision or replay.</td><td>Treating selected option as moral reasoning.</td></tr>
+            <tr><td>Evidence-based reasoning</td><td>Evidence inspected, link created, claim submitted, sequence, revision.</td><td>Counting evidence clicks or scans as reasoning.</td></tr>
+            <tr><td>Embodied procedural skill</td><td>Tool pose, hand/controller path, object contact, sequence, safety state, corrective feedback.</td><td>Treating completion time as skill.</td></tr>
+            <tr><td>Spatial or situational awareness</td><td>Location, field of view, gaze dwell, object proximity, route choices, missed hazards.</td><td>Treating headset motion as attention or understanding.</td></tr>
           </tbody>
         </table>
       </div>
@@ -244,14 +247,14 @@ details{border:2px solid var(--ink);border-radius:12px;background:#fff;margin:10
       <div class="grid-2">
         <div class="card soft"><div class="card-title">Review question</div><p><strong>What claim are we trying to make?</strong> Write the sentence you hope to publish before deciding what to log.</p></div>
         <div class="card"><div class="card-title">Evidence check</div><p><strong>Which action could support or weaken that claim?</strong> If the answer is "completion," the event plan is probably too thin.</p></div>
-        <div class="card"><div class="card-title">State check</div><p><strong>Do we log game state before and after the action?</strong> A click has no meaning without available options, mission state, failure state, and support context.</p></div>
+        <div class="card"><div class="card-title">State check</div><p><strong>Do we log environment state before and after the action?</strong> A movement, click, gaze point, or controller gesture has no meaning without available options, task state, failure state, and support context.</p></div>
         <div class="card warn"><div class="card-title">Interpretation boundary</div><p><strong>What should never be inferred?</strong> Name the off-limits claims: motivation, ability, distress, ethics, or collaboration if the design cannot support them.</p></div>
       </div>
       <div class="table-wrap">
         <table>
           <thead><tr><th>Gate</th><th>Pass condition</th><th>Red flag</th></tr></thead>
           <tbody>
-            <tr><td class="k">Claim</td><td>The claim names a bounded behavior in a specific game task.</td><td>The claim uses broad traits such as ability, engagement, or motivation.</td></tr>
+            <tr><td class="k">Claim</td><td>The claim names a bounded behavior in a specific interactive task.</td><td>The claim uses broad traits such as ability, engagement, attention, or motivation.</td></tr>
             <tr><td class="k">Opportunity</td><td>The mission gives players a real chance to show the behavior.</td><td>The task can be completed without producing the intended evidence.</td></tr>
             <tr><td class="k">Observable</td><td>Events describe actions, targets, states, and results.</td><td>Event names already contain interpretations such as <code>understood</code> or <code>struggled</code>.</td></tr>
             <tr><td class="k">Support</td><td>Hints, feedback, retries, and idle time are logged separately.</td><td>Hint users are compared to non-users without prior-struggle context.</td></tr>
@@ -273,7 +276,8 @@ details{border:2px solid var(--ink);border-radius:12px;background:#fff;margin:10
             <tr><td class="k">Longer time</td><td>The learner persisted.</td><td>The learner spent more active time in the mission.</td><td>Focus state, idle filtering, failures, retries, pauses, and later recovery.</td></tr>
             <tr><td class="k">Hint use</td><td>The learner was weaker.</td><td>The learner accessed support after a particular prior state.</td><td>Hint availability, pre-hint attempts, error type, timing, and post-hint recovery.</td></tr>
             <tr><td class="k">Failure count</td><td>The learner has low ability.</td><td>The learner encountered repeated failure states in this task.</td><td>Failure type, difficulty, optional replay, feedback, revisions, and eventual success.</td></tr>
-            <tr><td class="k">Facial distress</td><td>The learner was failing to learn.</td><td>The model detected affective distress signals during a gameplay window.</td><td>Sensor quality, synchronization, classifier confidence, task context, and triangulation with game events.</td></tr>
+            <tr><td class="k">Headset motion</td><td>The learner was attentive.</td><td>The learner moved their head or viewpoint during a task window.</td><td>Field of view, target visibility, task goal, dwell time, object proximity, and triangulation with task actions.</td></tr>
+            <tr><td class="k">Facial distress</td><td>The learner was failing to learn.</td><td>The model detected affective distress signals during an interaction window.</td><td>Sensor quality, synchronization, classifier confidence, task context, and triangulation with event traces.</td></tr>
           </tbody>
         </table>
       </div>
@@ -281,22 +285,22 @@ details{border:2px solid var(--ink);border-radius:12px;background:#fff;margin:10
 
     <section id="case" class="section">
       <div class="section-label"><span class="eyebrow">07 - Worked Mini Case</span></div>
-      <h2>Shadow Packet: from mystery-board play to evidence-use traces.</h2>
-      <p>In a Shadow Packet mission, players inspect artifacts, interview non-player characters, link evidence to a resolution, and revise after contradictions. The telemetry design should make those reasoning opportunities visible without pretending that clicks directly equal reasoning.</p>
+      <h2>IVR lab safety: from embodied action to evidence-use traces.</h2>
+      <p>In an immersive lab safety task, learners move through a virtual lab, inspect hazards, grasp tools, follow procedures, and respond to warnings. The telemetry design should make embodied decision opportunities visible without pretending that motion, gaze, or completion directly equals understanding.</p>
       <div class="grid-3">
-        <div class="card soft"><div class="card-title">Claim</div><p>Players used evidence to justify a cybersecurity decision during the packet-trace mystery.</p></div>
-        <div class="card"><div class="card-title">Core state</div><p><code>mission_id</code>, suspect board state, evidence unlocked, current hypothesis, contradiction flags, and available evidence links.</p></div>
-        <div class="card warn"><div class="card-title">Unsafe shortcut</div><p>Counting inspected evidence items as reasoning quality without knowing whether the evidence was relevant or linked to a claim.</p></div>
+        <div class="card soft"><div class="card-title">Claim</div><p>Learners used procedural and environmental evidence to make safe lab decisions in an IVR scenario.</p></div>
+        <div class="card"><div class="card-title">Core state</div><p><code>task_id</code>, station state, hazard visibility, tool state, hand/controller pose, field of view, and available support.</p></div>
+        <div class="card warn"><div class="card-title">Unsafe shortcut</div><p>Counting completed steps or headset movement as procedural understanding without knowing what the learner could see, touch, or choose.</p></div>
       </div>
       <div class="table-wrap">
         <table>
           <thead><tr><th>Moment</th><th>Event</th><th>Key fields</th><th>Interpretation boundary</th></tr></thead>
           <tbody>
-            <tr><td>Artifact opens</td><td><code>evidence_inspected</code></td><td><code>evidence_id</code>, relevance tag, board state, sequence.</td><td>Shows exposure to evidence, not understanding.</td></tr>
-            <tr><td>Evidence is attached</td><td><code>evidence_linked</code></td><td><code>claim_id</code>, evidence id, link type, pre/post hypothesis.</td><td>Shows constructed relation, not necessarily correctness.</td></tr>
-            <tr><td>Contradiction appears</td><td><code>contradiction_flagged</code></td><td>Contradiction type, related evidence, whether the player opens it.</td><td>Shows an opportunity for revision.</td></tr>
-            <tr><td>Resolution changes</td><td><code>claim_revised</code></td><td>Prior claim, new claim, evidence added or removed, elapsed active time.</td><td>Shows revision behavior, not a complete reasoning diagnosis.</td></tr>
-            <tr><td>Mission ends</td><td><code>resolution_submitted</code></td><td>Final claim, evidence coverage, unresolved contradictions, support use.</td><td>Supports bounded claims about evidence-use patterns in this mission.</td></tr>
+            <tr><td>Station approached</td><td><code>zone_entered</code></td><td><code>zone_id</code>, position, field of view, hazard visibility, sequence.</td><td>Shows opportunity to notice, not noticing.</td></tr>
+            <tr><td>Tool is handled</td><td><code>tool_manipulated</code></td><td>Tool id, grip state, pose, target object, pre/post state.</td><td>Shows action path, not skill by itself.</td></tr>
+            <tr><td>Hazard is checked</td><td><code>hazard_inspected</code></td><td>Hazard id, gaze dwell, proximity, required step, support availability.</td><td>Shows inspection behavior, not complete understanding.</td></tr>
+            <tr><td>Procedure changes</td><td><code>step_revised</code></td><td>Prior step, new step, feedback shown, elapsed active time.</td><td>Shows revision behavior, not a complete procedural diagnosis.</td></tr>
+            <tr><td>Scenario ends</td><td><code>task_completed</code></td><td>Safety violations, unresolved hazards, support use, completion state.</td><td>Supports bounded claims about safe-procedure traces in this scenario.</td></tr>
           </tbody>
         </table>
       </div>
@@ -304,38 +308,38 @@ details{border:2px solid var(--ink);border-radius:12px;background:#fff;margin:10
 
     <section id="standards" class="section">
       <div class="section-label"><span class="eyebrow">08 - xAPI / Caliper Translation</span></div>
-      <h2>Use standards logic even when your game needs custom events.</h2>
-      <p>Educational games often require domain-specific events, but the actor-action-object-context pattern from xAPI and Caliper keeps logs portable and easier to explain to collaborators.</p>
+      <h2>Use standards logic even when your environment needs custom events.</h2>
+      <p>Highly interactive environments often require domain-specific events, but the actor-action-object-context pattern from xAPI and Caliper keeps traces portable and easier to explain to collaborators.</p>
       <div class="table-wrap">
         <table>
-          <thead><tr><th>Local field</th><th>xAPI-style role</th><th>Caliper-style role</th><th>Game-specific note</th></tr></thead>
+          <thead><tr><th>Local field</th><th>xAPI-style role</th><th>Caliper-style role</th><th>Environment-specific note</th></tr></thead>
           <tbody>
             <tr><td class="k">user_id</td><td>Actor</td><td>Actor</td><td>Pseudonymous player or team id.</td></tr>
             <tr><td class="k">event_name / action</td><td>Verb</td><td>Action</td><td>Controlled vocabulary such as <code>evidence_linked</code> or <code>hint_used</code>.</td></tr>
-            <tr><td class="k">target_id</td><td>Object</td><td>Object / entity</td><td>Evidence item, NPC, puzzle node, route, prompt, or artifact.</td></tr>
-            <tr><td class="k">mission_id / level_id</td><td>Context</td><td>Generated event context</td><td>Needed for comparing the same action across tasks.</td></tr>
+            <tr><td class="k">target_id</td><td>Object</td><td>Object / entity</td><td>Tool, hazard, evidence item, puzzle node, route, prompt, NPC, or artifact.</td></tr>
+            <tr><td class="k">task_id / scene_id</td><td>Context</td><td>Generated event context</td><td>Needed for comparing the same action across tasks, scenes, or stations.</td></tr>
             <tr><td class="k">pre_state / post_state</td><td>Extensions</td><td>Extensions / entity data</td><td>Preserves the state transition that gives an action meaning.</td></tr>
             <tr><td class="k">privacy_tier</td><td>Local governance extension</td><td>Local governance extension</td><td>Not an assessment construct; used for retention and sharing rules.</td></tr>
           </tbody>
         </table>
       </div>
       <div class="grid-2">
-        <div class="card soft"><div class="card-title">Good standardization</div><p>Preserve actor, action, object, result, context, time, and versioning even when the game vocabulary is custom.</p></div>
-        <div class="card warn"><div class="card-title">Bad standardization</div><p>Forcing all game activity into generic verbs until mission state, failure states, hints, and evidence links disappear.</p></div>
+        <div class="card soft"><div class="card-title">Good standardization</div><p>Preserve actor, action, object, result, context, time, and versioning even when the interaction vocabulary is custom.</p></div>
+        <div class="card warn"><div class="card-title">Bad standardization</div><p>Forcing all activity into generic verbs until scene state, pose, field of view, support, failure states, and evidence links disappear.</p></div>
       </div>
     </section>
 
     <section id="mmla" class="section">
       <div class="section-label"><span class="eyebrow">09 - MMLA case</span></div>
       <h2>When logs are not enough, add modalities carefully.</h2>
-      <p>Moon et al. tracked distress during educational gameplay by fusing gameplay logs with facial-expression data. The lesson is not that every game needs cameras. The lesson is that affective and embodied claims require evidence beyond raw game actions or much stronger contextual logging.</p>
+      <p>Moon et al. tracked distress in an educational game by fusing gameplay logs with facial-expression data; immersive VLE research extends this same logic to gaze, pose, motion, speech, object manipulation, and spatial traces. The lesson is not that every environment needs sensors. The lesson is that affective, embodied, collaborative, and spatial claims require evidence beyond raw interaction counts or much stronger contextual logging.</p>
       <div class="image-card">
-        <img src="assets/imagegen2-mmla-fusion.png" alt="Multimodal learning analytics fusion pipeline for educational gameplay">
+        <img src="assets/imagegen2-mmla-fusion.png" alt="Multimodal learning analytics fusion pipeline for interactive learning traces">
         <div class="caption">MMLA adds interpretive power and methodological burden: synchronization, sensor quality, privacy, missing data, and uncertainty.</div>
       </div>
       <div class="grid-3">
-        <div class="card soft"><div class="card-title">Use MMLA when</div><p>The construct is affective, collaborative, embodied, or strategic and gameplay logs alone cannot distinguish likely interpretations.</p></div>
-        <div class="card warn"><div class="card-title">Do not use it when</div><p>The claim can be supported by structured gameplay events, or raw media would create unnecessary privacy risk.</p></div>
+        <div class="card soft"><div class="card-title">Use MMLA when</div><p>The construct is affective, collaborative, embodied, spatial, or strategic and event traces alone cannot distinguish likely interpretations.</p></div>
+        <div class="card warn"><div class="card-title">Do not use it when</div><p>The claim can be supported by structured event traces, or raw media would create unnecessary privacy risk.</p></div>
         <div class="card"><div class="card-title">Log the quality</div><p>Record modality availability, sync offset, missingness, and confidence. A missing sensor stream is data about the study design.</p></div>
       </div>
     </section>
@@ -343,19 +347,19 @@ details{border:2px solid var(--ink);border-radius:12px;background:#fff;margin:10
     <section id="video" class="section">
       <div class="section-label"><span class="eyebrow">10 - YouTube embed tutorial</span></div>
       <h2>Embed videos only when they carry the evidence logic.</h2>
-      <p>This guide embeds one topic-matched YouTube video because it explains the assessment design idea behind educational game telemetry: gameplay actions become useful evidence only when the target claims, observable behaviors, and interpretation rules are planned in advance.</p>
+      <p>This guide embeds one topic-matched YouTube video because it explains the assessment design idea behind telemetry: interaction traces become useful evidence only when the target claims, observable behaviors, and interpretation rules are planned in advance.</p>
       <div class="video-frame">
         <iframe src="https://www.youtube-nocookie.com/embed/tvWtOn-ArVY?start=950" title="Stealth assessment: embedded evidence-based assessment in games" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
       </div>
       <div class="grid-2">
         <div class="card soft">
           <div class="card-title">Embedded video</div>
-          <p><strong>Valerie Shute, "Stealth assessment: embedded evidence-based assessment in games."</strong> Watch it for the ECD logic: define the competency, identify observable gameplay evidence, and design tasks so logs can support a defensible interpretation.</p>
+          <p><strong>Valerie Shute, "Stealth assessment: embedded evidence-based assessment in games."</strong> Watch it for the ECD logic: define the competency, identify observable evidence, and design tasks so logs can support a defensible interpretation.</p>
           <p><a class="resource-link" href="https://transformingassessment.com/events_7_september_2011.php">Source archive and session note</a></p>
         </div>
         <div class="card warn">
           <div class="card-title">Why not embed loosely related videos?</div>
-          <p>A motivational game-based learning talk may be interesting, but it does not automatically explain telemetry design. Embed only videos that directly clarify logging, evidence, assessment, multimodal traces, privacy, or validity.</p>
+          <p>A motivational talk about VR, games, or simulations may be interesting, but it does not automatically explain telemetry design. Embed only videos that directly clarify logging, evidence, assessment, multimodal traces, privacy, or validity.</p>
         </div>
       </div>
       <h3>How to choose and embed a YouTube video</h3>
@@ -386,9 +390,53 @@ details{border:2px solid var(--ink);border-radius:12px;background:#fff;margin:10
       </div>
     </section>
 
+    <section id="tetris" class="section">
+      <div class="section-label"><span class="eyebrow">11 - Live Trace Simulator</span></div>
+      <h2>Play a tiny Tetris-like task and watch the telemetry accumulate.</h2>
+      <p>This mini simulation is intentionally simple: it shows how a highly interactive task can emit interpretable events while the learner acts. Movement, rotation, drop, lock, line clear, and failure are logged as stateful traces rather than treated as learning by themselves.</p>
+      <div class="sim">
+        <div class="sim-stage">
+          <canvas id="tetrisCanvas" class="tetris-canvas" width="240" height="432" aria-label="Tetris-like telemetry simulation board"></canvas>
+          <div class="sim-stats">
+            <div class="sim-stat"><b id="simScore">0</b><span>score</span></div>
+            <div class="sim-stat"><b id="simLines">0</b><span>lines</span></div>
+            <div class="sim-stat"><b id="simEvents">0</b><span>events</span></div>
+          </div>
+          <div class="sim-buttons wide">
+            <button id="simStart" class="sim-btn primary" type="button">Start</button>
+            <button id="simReset" class="sim-btn warn" type="button">Reset</button>
+          </div>
+          <div class="sim-buttons" aria-label="Touch controls">
+            <button id="simLeft" class="sim-btn" type="button">Left</button>
+            <button id="simRotate" class="sim-btn" type="button">Rotate</button>
+            <button id="simRight" class="sim-btn" type="button">Right</button>
+            <button id="simDown" class="sim-btn" type="button">Down</button>
+            <button id="simDrop" class="sim-btn" type="button">Drop</button>
+            <button id="simExport" class="sim-btn" type="button">CSV</button>
+          </div>
+          <p>Keyboard: <span class="kbd">Left</span> <span class="kbd">Right</span> move, <span class="kbd">Up</span> rotate, <span class="kbd">Down</span> soft drop, <span class="kbd">Space</span> hard drop.</p>
+        </div>
+        <div class="sim-log">
+          <div class="card-title">Live event stream</div>
+          <p>Each row preserves the action, task state, piece, result, and sequence index. The log is evidence about interaction behavior, not a direct measure of spatial reasoning or learning.</p>
+          <div class="log-box">
+            <table class="log-table">
+              <thead><tr><th>#</th><th>event_type</th><th>action</th><th>state</th><th>payload</th></tr></thead>
+              <tbody id="simLogBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="grid-3">
+        <div class="card soft"><div class="card-title">What this demo can show</div><p>Action sequences, recovery after blocked moves, support-free persistence, line clears, and failure-state timing.</p></div>
+        <div class="card warn"><div class="card-title">What it cannot show</div><p>It cannot prove spatial ability, motivation, mastery, or learning without a task model, outcome evidence, and interpretation rules.</p></div>
+        <div class="card"><div class="card-title">Why Tetris works here</div><p>It is a compact stand-in for IVR/VR/simulation tasks: actions only become interpretable when state, target, result, and sequence are logged together.</p></div>
+      </div>
+    </section>
+
     <section id="challenge" class="section">
-      <div class="section-label"><span class="eyebrow">11 - Telemetry Challenge Lab</span></div>
-      <h2>Pick a game pattern and a claim. The logging plan changes.</h2>
+      <div class="section-label"><span class="eyebrow">12 - Telemetry Challenge Lab</span></div>
+      <h2>Pick an interaction pattern and a claim. The logging plan changes.</h2>
       <div class="image-card">
         <img src="assets/imagegen2-challenge-lab.png" alt="Educational game telemetry challenge lab with puzzle, evidence, ethics, and portfolio cards">
         <div class="caption">The challenge is not technical first. It is matching the game mechanic to the claim and the evidence burden.</div>
@@ -396,10 +444,10 @@ details{border:2px solid var(--ink);border-radius:12px;background:#fff;margin:10
       <div class="lab">
         <div class="lab-panel">
           <div class="control">
-            <label for="pattern">Game pattern</label>
+            <label for="pattern">Interaction pattern</label>
             <select id="pattern" class="select">
-              <option value="puzzle">Puzzle rotation</option>
-              <option value="mystery">Evidence-board mystery</option>
+              <option value="puzzle">IVR lab procedure</option>
+              <option value="mystery">Evidence-board investigation</option>
               <option value="ethics">Ethical choice scenario</option>
               <option value="portfolio">AI-assisted design portfolio</option>
             </select>
@@ -429,10 +477,10 @@ details{border:2px solid var(--ink);border-radius:12px;background:#fff;margin:10
     </section>
 
     <section id="troubleshooting" class="section">
-      <div class="section-label"><span class="eyebrow">12 - Troubleshooting</span></div>
-      <h2>When your logs are already messy, diagnose the failure mode.</h2>
+      <div class="section-label"><span class="eyebrow">13 - Troubleshooting</span></div>
+      <h2>When your traces are already messy, diagnose the failure mode.</h2>
       <div class="image-card">
-        <img src="assets/imagegen2-troubleshooting.png" alt="Troubleshooting board for messy educational game telemetry">
+        <img src="assets/imagegen2-troubleshooting.png" alt="Troubleshooting board for messy interactive learning telemetry">
         <div class="caption">Most telemetry problems are recoverable only if you know which assumption failed: time, identity, state, meaning, privacy, or versioning.</div>
       </div>
       <div class="table-wrap">
@@ -440,7 +488,7 @@ details{border:2px solid var(--ink);border-radius:12px;background:#fff;margin:10
           <thead><tr><th>Symptom</th><th>Likely cause</th><th>How to troubleshoot</th></tr></thead>
           <tbody>
             <tr><td>Events are out of order</td><td>Client clock drift, async writes, offline upload.</td><td>Sort by <code>sequence_index</code>; keep server receipt time separate.</td></tr>
-            <tr><td>Same action has different meanings</td><td>Game state was not logged.</td><td>Add <code>pre_state</code>, <code>post_state</code>, <code>mission_id</code>, and <code>available_actions</code>.</td></tr>
+            <tr><td>Same action has different meanings</td><td>Environment state was not logged.</td><td>Add <code>pre_state</code>, <code>post_state</code>, <code>task_id</code>, <code>scene_id</code>, and <code>available_actions</code>.</td></tr>
             <tr><td>Hint analysis is misleading</td><td>Hint use is confounded with prior struggle.</td><td>Rebuild around pre-hint attempts, errors, elapsed time, and recovery.</td></tr>
             <tr><td>Time-on-task is inflated</td><td>Idle time, tab switching, classroom interruptions.</td><td>Log focus/blur, pause/resume, inactivity thresholds, and active windows.</td></tr>
             <tr><td>MMLA streams do not align</td><td>Video/audio/sensor start times differ from game time.</td><td>Add sync markers and store sensor start offsets.</td></tr>
@@ -451,23 +499,23 @@ details{border:2px solid var(--ink);border-radius:12px;background:#fff;margin:10
     </section>
 
     <section id="privacy" class="section">
-      <div class="section-label"><span class="eyebrow">13 - Privacy and retention</span></div>
+      <div class="section-label"><span class="eyebrow">14 - Privacy and retention</span></div>
       <h2>More sensitive data needs a stronger reason.</h2>
       <div class="grid-3">
-        <div class="card"><div class="card-title">Low</div><p>Pseudonymous gameplay events with no free text or media. Usually enough for sequence, support-use, and completion analyses.</p></div>
+        <div class="card"><div class="card-title">Low</div><p>Pseudonymous interaction events with no free text, media, biometrics, or precise body traces. Usually enough for sequence, support-use, and completion analyses.</p></div>
         <div class="card warn"><div class="card-title">Moderate</div><p>Free-text rationale, open response, or derived feature that may reveal sensitive information. Needs careful export rules.</p></div>
         <div class="card dark"><div class="card-title">Sensitive</div><p>Raw audio, video, face, gaze, biometric, exact location, or directly identifying data. Collect only when the claim needs it.</p></div>
       </div>
     </section>
 
     <section id="downloads" class="section">
-      <div class="section-label"><span class="eyebrow">14 - Starter downloads</span></div>
+      <div class="section-label"><span class="eyebrow">15 - Starter downloads</span></div>
       <h2>Public-safe files for teams and agents.</h2>
       <div class="download-grid">
         <a class="download" href="downloads/telemetry_event_schema.json"><div class="name">Telemetry event schema</div><div class="meta">JSON</div></a>
         <a class="download" href="downloads/event_dictionary.csv"><div class="name">Event dictionary</div><div class="meta">CSV</div></a>
         <a class="download" href="downloads/ecd_evidence_map_template.md"><div class="name">ECD evidence map</div><div class="meta">Markdown</div></a>
-        <a class="download" href="downloads/synthetic_gameplay_log.csv"><div class="name">Synthetic gameplay log</div><div class="meta">CSV</div></a>
+        <a class="download" href="downloads/synthetic_interaction_trace.csv"><div class="name">Synthetic interaction trace</div><div class="meta">CSV</div></a>
         <a class="download" href="downloads/privacy_retention_checklist.md"><div class="name">Privacy checklist</div><div class="meta">Markdown</div></a>
         <a class="download" href="downloads/telemetry_design_review_checklist.md"><div class="name">Design review checklist</div><div class="meta">Markdown</div></a>
         <a class="download" href="downloads/agent_prompt_telemetry_audit.md"><div class="name">Agent audit prompt</div><div class="meta">Markdown</div></a>
@@ -476,37 +524,40 @@ details{border:2px solid var(--ink);border-radius:12px;background:#fff;margin:10
     </section>
 
     <section id="references" class="section">
-      <div class="section-label"><span class="eyebrow">15 - References</span></div>
+      <div class="section-label"><span class="eyebrow">16 - References</span></div>
       <h2>Selected sources for this guide.</h2>
       <details open><summary>Assessment and validity anchors</summary>
         <ul class="refs">
-          <li>Mislevy, R. J., Almond, R. G., & Lukas, J. F. (2003). A brief introduction to evidence-centered design. <em>ETS Research Report Series</em>. https://doi.org/10.1002/j.2333-8504.2003.tb01908.x</li>
-          <li>Shute, V. J., & Ventura, M. (2013). <em>Measuring and supporting learning in games: Stealth assessment</em>. MIT Press. https://doi.org/10.7551/mitpress/9589.001.0001</li>
-          <li>Winne, P. H. (2020). Construct and consequential validity for learning analytics based on trace data. <em>Computers in Human Behavior, 112</em>, 106457. https://doi.org/10.1016/j.chb.2020.106457</li>
-          <li>Gasevic, D., Greiff, S., & Shaffer, D. W. (2022). Towards strengthening links between learning analytics and assessment. <em>Computers in Human Behavior, 134</em>, 107304. https://doi.org/10.1016/j.chb.2022.107304</li>
+          <li>Mislevy, R. J., Almond, R. G., & Lukas, J. F. (2003). A brief introduction to evidence-centered design. <em>ETS Research Report Series</em>. <a href="https://doi.org/10.1002/j.2333-8504.2003.tb01908.x">https://doi.org/10.1002/j.2333-8504.2003.tb01908.x</a></li>
+          <li>Shute, V. J., & Ventura, M. (2013). <em>Measuring and supporting learning in games: Stealth assessment</em>. MIT Press. <a href="https://doi.org/10.7551/mitpress/9589.001.0001">https://doi.org/10.7551/mitpress/9589.001.0001</a></li>
+          <li>Winne, P. H. (2020). Construct and consequential validity for learning analytics based on trace data. <em>Computers in Human Behavior, 112</em>, 106457. <a href="https://doi.org/10.1016/j.chb.2020.106457">https://doi.org/10.1016/j.chb.2020.106457</a></li>
+          <li>Gasevic, D., Greiff, S., & Shaffer, D. W. (2022). Towards strengthening links between learning analytics and assessment. <em>Computers in Human Behavior, 134</em>, 107304. <a href="https://doi.org/10.1016/j.chb.2022.107304">https://doi.org/10.1016/j.chb.2022.107304</a></li>
         </ul>
       </details>
-      <details><summary>Game telemetry and serious-game analytics</summary>
+      <details><summary>Interactive environments, simulations, and game analytics</summary>
         <ul class="refs">
-          <li>Chung, G. K. W. K. (2015). Guidelines for the design, implementation, and analysis of game telemetry. In <em>Serious games analytics</em>. https://doi.org/10.1007/978-3-319-05834-4_3</li>
-          <li>Lu, W., Griffin, J., Sadler, T. D., Laffey, J. M., & Goggins, S. P. (2023). Serious game analytics by design. <em>Journal of Learning Analytics, 10</em>(1), 168-188. https://doi.org/10.18608/jla.2023.7681</li>
-          <li>Alonso-Fernandez, C., Calvo-Morata, A., Freire, M., Martinez-Ortiz, I., & Fernandez-Manjon, B. (2022). Game learning analytics. <em>Journal of Learning Analytics, 9</em>(3), 32-49. https://doi.org/10.18608/jla.2022.7633</li>
-          <li>Westera, W., Nadolski, R., & Hummel, H. (2014). Serious gaming analytics: What students' log files tell us about gaming and learning. <em>International Journal of Serious Games, 1</em>(2). https://doi.org/10.17083/ijsg.v1i2.9</li>
+          <li>Chung, G. K. W. K. (2015). Guidelines for the design, implementation, and analysis of game telemetry. In <em>Serious games analytics</em>. <a href="https://doi.org/10.1007/978-3-319-05834-4_3">https://doi.org/10.1007/978-3-319-05834-4_3</a></li>
+          <li>Lu, W., Griffin, J., Sadler, T. D., Laffey, J. M., & Goggins, S. P. (2023). Serious game analytics by design. <em>Journal of Learning Analytics, 10</em>(1), 168-188. <a href="https://doi.org/10.18608/jla.2023.7681">https://doi.org/10.18608/jla.2023.7681</a></li>
+          <li>Alonso-Fernandez, C., Calvo-Morata, A., Freire, M., Martinez-Ortiz, I., & Fernandez-Manjon, B. (2022). Game learning analytics. <em>Journal of Learning Analytics, 9</em>(3), 32-49. <a href="https://doi.org/10.18608/jla.2022.7633">https://doi.org/10.18608/jla.2022.7633</a></li>
+          <li>Westera, W., Nadolski, R., & Hummel, H. (2014). Serious gaming analytics: What students' log files tell us about gaming and learning. <em>International Journal of Serious Games, 1</em>(2). <a href="https://doi.org/10.17083/ijsg.v1i2.9">https://doi.org/10.17083/ijsg.v1i2.9</a></li>
+          <li>Tao, L., Cukurova, M., & Song, Y. (2025). Learning analytics in immersive virtual learning environments: A systematic literature review. <em>Smart Learning Environments, 12</em>, Article 43. <a href="https://doi.org/10.1186/s40561-025-00381-6">https://doi.org/10.1186/s40561-025-00381-6</a></li>
+          <li>Walkington, C., Nathan, M. J., Huang, W., Hunnicutt, J., & Washington, J. (2024). Multimodal analysis of interaction data from embodied education technologies. <em>Educational Technology Research and Development, 72</em>, 2565-2584. <a href="https://doi.org/10.1007/s11423-023-10254-9">https://doi.org/10.1007/s11423-023-10254-9</a></li>
         </ul>
       </details>
       <details><summary>Standards and implementation</summary>
         <ul class="refs">
           <li>1EdTech Consortium. (2020). <em>Caliper Analytics specification, version 1.2</em>. https://www.imsglobal.org/spec/caliper/v1p2/</li>
           <li>xAPI.com. (n.d.). <em>xAPI overview</em>. https://xapi.com/overview/</li>
-          <li>Serrano-Laguna, A., Martinez-Ortiz, I., Haag, J., Regan, D., Johnson, A., & Fernandez-Manjon, B. (2017). Applying standards to systematize learning analytics in serious games. <em>Computer Standards & Interfaces, 50</em>, 116-123. https://doi.org/10.1016/j.csi.2016.09.014</li>
+          <li>Serrano-Laguna, A., Martinez-Ortiz, I., Haag, J., Regan, D., Johnson, A., & Fernandez-Manjon, B. (2017). Applying standards to systematize learning analytics in serious games. <em>Computer Standards & Interfaces, 50</em>, 116-123. <a href="https://doi.org/10.1016/j.csi.2016.09.014">https://doi.org/10.1016/j.csi.2016.09.014</a></li>
         </ul>
       </details>
       <details><summary>MMLA, privacy, and video resources</summary>
         <ul class="refs">
-          <li>Moon, J., Ke, F., Sokolikj, Z., & Dahlstrom-Hakki, I. (2022). Multimodal data fusion to track students' distress during educational gameplay. <em>Journal of Learning Analytics, 9</em>(3), 97-117. https://doi.org/10.18608/jla.2022.7631</li>
-          <li>Emerson, A., Cloude, E. B., Azevedo, R., & Lester, J. (2020). Multimodal learning analytics for game-based learning. <em>British Journal of Educational Technology, 51</em>(5), 1505-1526. https://doi.org/10.1111/bjet.12992</li>
-          <li>Ochoa, X., & Worsley, M. (2016). Augmenting learning analytics with multimodal sensory data. <em>Journal of Learning Analytics, 3</em>(2), 213-219. https://doi.org/10.18608/jla.2016.32.10</li>
-          <li>Cormack, A. N. (2016). A data protection framework for learning analytics. <em>Journal of Learning Analytics, 3</em>(1), 91-106. https://doi.org/10.18608/jla.2016.31.6</li>
+          <li>Moon, J., Ke, F., Sokolikj, Z., & Dahlstrom-Hakki, I. (2022). Multimodal data fusion to track students' distress during educational gameplay. <em>Journal of Learning Analytics, 9</em>(3), 97-117. <a href="https://doi.org/10.18608/jla.2022.7631">https://doi.org/10.18608/jla.2022.7631</a></li>
+          <li>Emerson, A., Cloude, E. B., Azevedo, R., & Lester, J. (2020). Multimodal learning analytics for game-based learning. <em>British Journal of Educational Technology, 51</em>(5), 1505-1526. <a href="https://doi.org/10.1111/bjet.12992">https://doi.org/10.1111/bjet.12992</a></li>
+          <li>Ochoa, X., & Worsley, M. (2016). Augmenting learning analytics with multimodal sensory data. <em>Journal of Learning Analytics, 3</em>(2), 213-219. <a href="https://doi.org/10.18608/jla.2016.32.10">https://doi.org/10.18608/jla.2016.32.10</a></li>
+          <li>Cormack, A. N. (2016). A data protection framework for learning analytics. <em>Journal of Learning Analytics, 3</em>(1), 91-106. <a href="https://doi.org/10.18608/jla.2016.31.6">https://doi.org/10.18608/jla.2016.31.6</a></li>
+          <li>Carter, M., & Egliston, B. (2023). What are the risks of virtual reality data? Learning analytics, algorithmic bias and a fantasy of perfect data. <em>New Media & Society, 25</em>(3), 485-504. <a href="https://doi.org/10.1177/14614448211012794">https://doi.org/10.1177/14614448211012794</a></li>
           <li>Transforming Assessment. (2011). Valerie Shute: <em>Stealth assessment: embedded evidence-based assessment in games</em>. https://transformingassessment.com/events_7_september_2011.php</li>
           <li>CIRCL Center. (2016). Marcelo Worsley: <em>Making Sense of Multimodal Learning Analytics</em>. https://circlcenter.org/events/making-sense-of-multimodal-learning-analytics/</li>
         </ul>
@@ -514,7 +565,7 @@ details{border:2px solid var(--ink);border-radius:12px;background:#fff;margin:10
     </section>
 
     <footer class="foot">
-      <span>Educatian · telemetry design for educational games</span>
+      <span>Educatian · telemetry design for interactive learning environments</span>
       <span>Research instrumentation before analysis</span>
     </footer>
   </main>
@@ -524,36 +575,36 @@ details{border:2px solid var(--ink);border-radius:12px;background:#fff;margin:10
 const data={
   puzzle:{
     persistence:{
-      events:"failure_triggered, route_changed, replay_started, mission_completed",
-      fields:"failure_type, attempt_number, elapsed_ms, pre_state, post_state",
-      mmla:"Optional facial/video distress only if affective struggle is a target construct.",
+      events:"safety_violation, step_retried, station_reentered, task_completed",
+      fields:"violation_type, attempt_number, elapsed_ms, pre_state, post_state",
+      mmla:"Optional headset pose, gaze, or hand/controller path if embodied strategy is the construct.",
       risk:"Total attempts prove persistence.",
-      trouble:"Generic failure events hide whether the player recovered from the same obstacle.",
-      safe:"Some players recovered from blocked paths through repeated route testing and later success."
+      trouble:"Generic failure events hide whether the learner recovered from the same procedural obstacle.",
+      safe:"Some learners recovered from specific safety violations through repeated procedural attempts and later success."
     },
     reasoning:{
-      events:"node_inspected, route_tested, threat_port_identified, debrief_submitted",
-      fields:"node_role, target_id, sequence_index, result_status, reflection_prompt",
-      mmla:"Think-aloud or screen recording for a small validation subset.",
-      risk:"Correct route proves cybersecurity reasoning.",
-      trouble:"Fast players may rely on game skill rather than domain reasoning.",
-      safe:"Players' inspection and debrief patterns were consistent with route-based threat reasoning."
+      events:"hazard_inspected, tool_selected, step_executed, debrief_submitted",
+      fields:"hazard_id, tool_id, sequence_index, result_status, reflection_prompt",
+      mmla:"Think-aloud, screen recording, or gaze replay for a small validation subset.",
+      risk:"Correct procedure proves safety reasoning.",
+      trouble:"Fast completion may reflect interface familiarity rather than domain reasoning.",
+      safe:"Learners' inspection and debrief patterns were consistent with procedure-based safety reasoning."
     },
     support:{
-      events:"hint_available, hint_opened, route_changed, later_success",
-      fields:"prior_attempts, failure_type, hint_id, hint_timing, post_hint_action",
-      mmla:"Not usually needed unless help seeking is tied to affect.",
+      events:"support_available, support_opened, procedure_revised, later_success",
+      fields:"prior_attempts, violation_type, support_id, support_timing, post_support_action",
+      mmla:"Not usually needed unless help seeking is tied to affect or embodied hesitation.",
       risk:"Hints caused lower scores.",
       trouble:"Hint users were probably already struggling.",
-      safe:"Hint use was analyzed relative to prior struggle and post-hint recovery."
+      safe:"Support use was analyzed relative to prior struggle and post-support recovery."
     },
     progress:{
-      events:"mission_started, skill_target_attempted, mission_completed, posttest_linked",
-      fields:"skill_id, content_version, outcome_timing, player_pseudonym",
+      events:"task_started, skill_target_attempted, task_completed, posttest_linked",
+      fields:"skill_id, environment_version, outcome_timing, learner_pseudonym",
       mmla:"Optional if progress includes affect or collaboration.",
       risk:"Completion equals learning.",
-      trouble:"Version drift changes what each mission measures.",
-      safe:"Progress claims are bounded to the logged mission version and linked outcome evidence."
+      trouble:"Version drift changes what each scenario measures.",
+      safe:"Progress claims are bounded to the logged environment version and linked outcome evidence."
     }
   },
   mystery:{
@@ -670,6 +721,182 @@ function updateLab(){
   document.getElementById('safeOut').textContent=item.safe;
 }
 pattern.addEventListener('change',updateLab);claim.addEventListener('change',updateLab);updateLab();
+
+const simCanvas=document.getElementById('tetrisCanvas');
+const simCtx=simCanvas.getContext('2d');
+const simCols=10,simRows=18,cell=24;
+const simColors={I:'#24a7b0',O:'#c28b2c',T:'#7e57c2',L:'#b73a29'};
+const simShapes={
+  I:[[1,1,1,1]],
+  O:[[1,1],[1,1]],
+  T:[[0,1,0],[1,1,1]],
+  L:[[1,0],[1,0],[1,1]]
+};
+let board,piece,simTimer,simRunning=false,simSeq=0,simScore=0,simLines=0,simLogs=[];
+function emptyBoard(){return Array.from({length:simRows},()=>Array(simCols).fill(''));}
+function cloneMatrix(m){return m.map(row=>row.slice());}
+function rotateMatrix(m){return m[0].map((_,i)=>m.map(row=>row[i]).reverse());}
+function newPiece(){
+  const types=Object.keys(simShapes);
+  const type=types[Math.floor(Math.random()*types.length)];
+  return {type,matrix:cloneMatrix(simShapes[type]),x:Math.floor(simCols/2)-2,y:0};
+}
+function logSim(event_type,actor_action,result_status='success',extra={}){
+  simSeq+=1;
+  const row={
+    sequence_index:simSeq,
+    timestamp_utc:new Date().toISOString(),
+    event_type,
+    actor_action,
+    task_state:simRunning?'in_progress':'idle',
+    piece:piece?piece.type:'none',
+    result_status,
+    payload:JSON.stringify(extra)
+  };
+  simLogs.unshift(row);
+  if(simLogs.length>80)simLogs.pop();
+  document.getElementById('simEvents').textContent=String(simSeq);
+  renderLog();
+}
+function renderLog(){
+  const body=document.getElementById('simLogBody');
+  body.innerHTML=simLogs.slice(0,18).map(r=>`<tr><td>${r.sequence_index}</td><td><code>${r.event_type}</code></td><td>${r.actor_action}</td><td>${r.task_state}</td><td>${r.payload}</td></tr>`).join('');
+}
+function collide(testPiece=piece){
+  for(let y=0;y<testPiece.matrix.length;y++){
+    for(let x=0;x<testPiece.matrix[y].length;x++){
+      if(!testPiece.matrix[y][x])continue;
+      const bx=testPiece.x+x,by=testPiece.y+y;
+      if(bx<0||bx>=simCols||by>=simRows)return true;
+      if(by>=0&&board[by][bx])return true;
+    }
+  }
+  return false;
+}
+function mergePiece(){
+  piece.matrix.forEach((row,y)=>row.forEach((v,x)=>{if(v&&piece.y+y>=0)board[piece.y+y][piece.x+x]=piece.type;}));
+  logSim('piece_locked','lock','success',{x:piece.x,y:piece.y});
+}
+function clearLines(){
+  let cleared=0;
+  board=board.filter(row=>{
+    if(row.every(Boolean)){cleared+=1;return false;}
+    return true;
+  });
+  while(board.length<simRows)board.unshift(Array(simCols).fill(''));
+  if(cleared){
+    simLines+=cleared;
+    simScore+=cleared*100;
+    document.getElementById('simLines').textContent=String(simLines);
+    document.getElementById('simScore').textContent=String(simScore);
+    logSim('line_cleared','clear','success',{lines:cleared,score:simScore});
+  }
+}
+function spawnPiece(){
+  piece=newPiece();
+  logSim('piece_spawned','spawn','success',{piece:piece.type});
+  if(collide()){
+    simRunning=false;
+    clearInterval(simTimer);
+    logSim('failure_state','top_out','blocked',{reason:'spawn_collision'});
+    piece=null;
+  }
+}
+function drawCell(x,y,color){
+  simCtx.fillStyle=color;
+  simCtx.fillRect(x*cell+1,y*cell+1,cell-2,cell-2);
+  simCtx.strokeStyle='rgba(255,255,255,.18)';
+  simCtx.strokeRect(x*cell+3,y*cell+3,cell-6,cell-6);
+}
+function drawSim(){
+  simCtx.fillStyle='#142024';
+  simCtx.fillRect(0,0,simCanvas.width,simCanvas.height);
+  simCtx.strokeStyle='rgba(255,255,255,.08)';
+  for(let x=0;x<=simCols;x++){simCtx.beginPath();simCtx.moveTo(x*cell,0);simCtx.lineTo(x*cell,simRows*cell);simCtx.stroke();}
+  for(let y=0;y<=simRows;y++){simCtx.beginPath();simCtx.moveTo(0,y*cell);simCtx.lineTo(simCols*cell,y*cell);simCtx.stroke();}
+  board.forEach((row,y)=>row.forEach((v,x)=>{if(v)drawCell(x,y,simColors[v]);}));
+  if(piece)piece.matrix.forEach((row,y)=>row.forEach((v,x)=>{if(v)drawCell(piece.x+x,piece.y+y,simColors[piece.type]);}));
+}
+function movePiece(dx,dy,action='move'){
+  if(!simRunning||!piece)return;
+  piece.x+=dx;piece.y+=dy;
+  if(collide()){
+    piece.x-=dx;piece.y-=dy;
+    if(dy>0){
+      mergePiece();clearLines();spawnPiece();
+    }else{
+      logSim('move_blocked',action,'blocked',{dx,dy});
+    }
+  }else{
+    logSim('piece_moved',action,'success',{dx,dy,x:piece.x,y:piece.y});
+  }
+  drawSim();
+}
+function rotatePiece(){
+  if(!simRunning||!piece)return;
+  const old=piece.matrix;
+  piece.matrix=rotateMatrix(piece.matrix);
+  if(collide()){
+    piece.matrix=old;
+    logSim('rotation_blocked','rotate','blocked',{x:piece.x,y:piece.y});
+  }else{
+    logSim('piece_rotated','rotate','success',{x:piece.x,y:piece.y});
+  }
+  drawSim();
+}
+function hardDrop(){
+  if(!simRunning||!piece)return;
+  let distance=0;
+  while(!collide({...piece,y:piece.y+1})){piece.y+=1;distance+=1;}
+  logSim('piece_dropped','hard_drop','success',{distance});
+  mergePiece();clearLines();spawnPiece();drawSim();
+}
+function tickSim(){movePiece(0,1,'gravity_drop');}
+function startSim(){
+  if(simRunning)return;
+  if(!board)resetSim(false);
+  simRunning=true;
+  logSim('simulation_started','start','success',{environment_id:'tetris-trace-simulator'});
+  if(!piece)spawnPiece();
+  simTimer=setInterval(tickSim,850);
+  drawSim();
+}
+function resetSim(shouldLog=true){
+  clearInterval(simTimer);
+  board=emptyBoard();piece=null;simRunning=false;simSeq=0;simScore=0;simLines=0;simLogs=[];
+  document.getElementById('simScore').textContent='0';
+  document.getElementById('simLines').textContent='0';
+  document.getElementById('simEvents').textContent='0';
+  renderLog();drawSim();
+  if(shouldLog)logSim('simulation_reset','reset','success',{});
+}
+function exportSimCsv(){
+  const header=['sequence_index','timestamp_utc','event_type','actor_action','task_state','piece','result_status','payload'];
+  const rows=[header.join(',')].concat(simLogs.slice().reverse().map(r=>header.map(k=>`"${String(r[k]).replaceAll('"','""')}"`).join(',')));
+  const blob=new Blob([rows.join('\n')],{type:'text/csv'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;a.download='tetris_trace_log.csv';a.click();
+  URL.revokeObjectURL(url);
+  logSim('log_exported','download_csv','success',{rows:simLogs.length});
+}
+document.getElementById('simStart').addEventListener('click',startSim);
+document.getElementById('simReset').addEventListener('click',()=>resetSim(true));
+document.getElementById('simLeft').addEventListener('click',()=>movePiece(-1,0,'move_left'));
+document.getElementById('simRight').addEventListener('click',()=>movePiece(1,0,'move_right'));
+document.getElementById('simDown').addEventListener('click',()=>movePiece(0,1,'soft_drop'));
+document.getElementById('simRotate').addEventListener('click',rotatePiece);
+document.getElementById('simDrop').addEventListener('click',hardDrop);
+document.getElementById('simExport').addEventListener('click',exportSimCsv);
+document.addEventListener('keydown',e=>{
+  if(!simRunning||['INPUT','TEXTAREA','SELECT'].includes(document.activeElement.tagName))return;
+  if(e.key==='ArrowLeft'){e.preventDefault();movePiece(-1,0,'move_left');}
+  if(e.key==='ArrowRight'){e.preventDefault();movePiece(1,0,'move_right');}
+  if(e.key==='ArrowDown'){e.preventDefault();movePiece(0,1,'soft_drop');}
+  if(e.key==='ArrowUp'){e.preventDefault();rotatePiece();}
+  if(e.code==='Space'){e.preventDefault();hardDrop();}
+});
+resetSim(false);
 const links=[...document.querySelectorAll('.toc a')],sections=links.map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
 const observer=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){links.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+e.target.id));}})},{rootMargin:'-18% 0px -70% 0px'});
 sections.forEach(s=>observer.observe(s));

@@ -1,9 +1,9 @@
-# Agent Prompt: Telemetry Audit Before Building or Studying an Educational Game
+# Agent Prompt: Telemetry Audit Before Building or Studying a Highly Interactive Digital Learning Environment
 
-You are helping me audit educational-game telemetry before analysis.
+You are helping me audit telemetry from a highly interactive digital learning environment before analysis.
 
-Game description:
-<briefly describe the game, target learners, and main mechanics>
+Environment description:
+<briefly describe the IVR/VR/simulation/game/AI studio/cyber range, target learners, and main interaction patterns>
 
 Intended learning claims:
 1. <claim 1>
@@ -18,10 +18,10 @@ Known constraints:
 Audit the telemetry design. Create a table with:
 
 - learning claim
-- game mechanic that can elicit evidence
+- interaction pattern that can elicit evidence
 - required event types
 - required contextual fields
-- optional MMLA modality if gameplay logs are insufficient
+- optional MMLA modality if event traces are insufficient
 - common overclaim
 - likely troubleshooting problem
 - safe wording for a paper or teacher report

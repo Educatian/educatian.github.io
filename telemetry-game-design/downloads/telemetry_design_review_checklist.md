@@ -5,7 +5,7 @@ Use this before the event logger is implemented or before the schema is frozen.
 ## 1. Claim
 
 - What sentence do we want to be able to say after the study?
-- Is the claim bounded to a specific task, behavior, or game situation?
+- Is the claim bounded to a specific task, behavior, scene, station, or interaction situation?
 - Which broad claims are explicitly off limits?
 
 Avoid claims such as: "The player learned cybersecurity" or "The player was motivated."
@@ -24,7 +24,7 @@ Avoid claims such as: "The player learned cybersecurity" or "The player was moti
 
 Prefer `evidence_linked` over `reasoned_well`.
 
-## 4. Game State
+## 4. Environment State
 
 - Is `pre_state` logged?
 - Is `post_state` logged?
@@ -45,6 +45,6 @@ Prefer `evidence_linked` over `reasoned_well`.
 
 ## 7. Final Pass
 
-- Can a collaborator reconstruct the gameplay context from the log?
+- Can a collaborator reconstruct the interaction context from the log?
 - Can a reviewer see the evidence chain from claim to event?
 - Can the team explain why every sensitive field is necessary?
