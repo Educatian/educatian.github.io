@@ -1819,6 +1819,54 @@ localStorage keys: [...]</div>
   <aside class="notes">공식 문서 기준: prompt, I'm Feeling Lucky, AI Chips, Gallery remix, code generation, live preview.</aside>
 </section>
 
+<section class="slide" data-title="Advanced Settings Guide" data-step="5">
+  <div class="rail"></div>
+  <main class="main">
+    <p class="kicker">Advanced Settings · 고급 설정</p>
+    <h2 class="title-lg">빌드 전에 정해야 하는 세 가지: 모델 · 시스템 지침 · 프레임워크</h2>
+    <p class="body mt-s" style="color:var(--muted);">상단 오른쪽 톱니바퀴 → <strong>고급 설정</strong>에서 한 번 설정해 두면 같은 프로젝트 안에서 일관된 출력이 나옵니다.</p>
+    <div class="grid g3 mt-m">
+      <div class="card bar-top">
+        <h3>① Select Model · 모델 선택</h3>
+        <p><strong>워크샵 권장:</strong> 기본값 <em>Gemini 3 Flash Preview</em> 유지. 빠른 반복, 무료 한도 안에서 실습 가능.</p>
+        <p><strong>다른 선택지:</strong></p>
+        <ul style="margin:6px 0 0 18px; padding:0; font-size:14px; line-height:1.55;">
+          <li><strong>Gemini 2.5 Pro</strong> — 긴 추론, 복잡한 학습설계 검증</li>
+          <li><strong>Image / Video 모델</strong> — Imagegen, Veo로 시각자료 생성</li>
+          <li><strong>Live API</strong> — 실시간 음성 코칭·튜터</li>
+        </ul>
+        <p style="margin-top:8px;"><strong>주의:</strong> 모델을 바꾸면 출력 톤·길이·구조가 달라집니다. 프롬프트 평가 중에는 한 모델로 고정하세요.</p>
+      </div>
+      <div class="card bar-top bar-blue">
+        <h3>② System Instructions · 시스템 지침</h3>
+        <p><strong>워크샵 권장:</strong> 학습자, 학년/언어, 톤, 안전 경계, 출력 형식을 4-6문장으로.</p>
+        <p><strong>템플릿:</strong></p>
+        <pre class="prompt" style="font-size:13px; padding:12px; margin-top:6px; min-height:auto;">너는 한국 고등학생 대상 고전문학 튜터다.
+존댓말, 짧은 문장, 한자 병기.
+오답 시 정답을 바로 말하지 말고
+관련 작품 정보로 힌트를 준다.
+민감정보·실명은 받지 않는다.
+출력은 항상 JSON {question, options, hint}.</pre>
+        <p style="margin-top:8px;"><strong>주의:</strong> 시스템 지침은 사용자 프롬프트보다 강합니다. 학습목표와 충돌하지 않게 한 번에 확정하세요.</p>
+      </div>
+      <div class="card bar-top bar-coral">
+        <h3>③ Framework · 프레임워크</h3>
+        <p><strong>워크샵 권장:</strong> 기본값 <em>React (Vite)</em>. 단일 페이지, 상태관리, 컴포넌트 분리에 충분.</p>
+        <p><strong>다른 선택지:</strong></p>
+        <ul style="margin:6px 0 0 18px; padding:0; font-size:14px; line-height:1.55;">
+          <li><strong>Vanilla HTML/CSS/JS</strong> — 단일 파일, LMS 임베드용</li>
+          <li><strong>Next.js</strong> — 서버 라우팅·인증·DB 연결 필요할 때</li>
+          <li><strong>None (텍스트만)</strong> — 활동지·루브릭·JSON 산출물</li>
+        </ul>
+        <p style="margin-top:8px;"><strong>주의:</strong> 프레임워크를 중간에 바꾸면 코드가 갈아엎어집니다. 시작 전에 “어디서 실행할 것인가(브라우저 단독 / 학교 서버 / LMS 임베드)”를 먼저 정하세요.</p>
+      </div>
+    </div>
+    <div class="callout mt-m"><strong>3분 점검:</strong> 모델 → 시스템 지침 → 프레임워크 순서로 정한 뒤, 프롬프트 박스에 학습설계 brief 한 문단을 넣고 Build를 누릅니다.</div>
+  </main>
+  <div class="source-line"><span>출처: Google AI Studio Build Mode docs · Advanced Settings panel · 2026-05 워크샵 기준</span><span class="slide-num"></span></div>
+  <aside class="notes">고급 설정은 “나중에 바꾸면 비싼” 결정이라 빌드 전에 정한다. 모델은 평가 일관성, 시스템 지침은 학습설계 의도, 프레임워크는 배포 환경을 좌우한다. 워크샵에서는 기본값(Gemini 3 Flash Preview + 4-6문장 시스템 지침 + React Vite)으로 모두 시작하게 한 뒤, 실습이 끝난 후 “바꿨다면 무엇이 달라졌을지” 토론한다.</aside>
+</section>
+
 <section class="slide" data-title="Build Mode Live Example" data-step="5">
   <div class="rail"></div>
   <main class="main">
