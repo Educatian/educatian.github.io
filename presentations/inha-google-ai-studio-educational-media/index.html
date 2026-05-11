@@ -1456,6 +1456,39 @@ localStorage keys: [...]</div>
   <aside class="notes">사용자가 요청한 “쉽게 설명하는 도식”을 반영한 슬라이드. 실제 UI와 1:1 대응보다 개념적 안내에 초점.</aside>
 </section>
 
+<section class="slide" data-title="Teacher vs Student Tool" data-step="3">
+  <div class="rail"></div>
+  <main class="main">
+    <p class="kicker">First Branch · 설계 분기점</p>
+    <h2 class="title-lg">INTERACT brief을 쓰기 전에 정합니다: 누가 화면을 보는가?</h2>
+    <div class="diagram mt-m">
+      <div class="flow" style="grid-template-columns: 1fr 36px 1fr 36px 1fr;">
+        <div class="node teal"><b>핵심 질문</b><span>수업 중 “화면을 직접 누르는 사람”이 누구인가?</span></div>
+        <div class="arrow">→</div>
+        <div class="node blue"><b>교수자만</b><span>준비·평가·자료 생성 보조 → <strong>Teacher tool</strong></span></div>
+        <div class="arrow">→</div>
+        <div class="node coral"><b>학생이 직접 (혹은 혼합)</b><span>학습·연습·평가 응답 → <strong>Student tool</strong> 기준 적용</span></div>
+      </div>
+    </div>
+    <table class="matrix mt-m">
+      <thead><tr><th style="width:22%;">설계 차원</th><th>Teacher tool</th><th>Student tool</th></tr></thead>
+      <tbody>
+        <tr><td><strong>목적</strong></td><td>수업 준비, 평가 보조, 자료·문항·루브릭 생성</td><td>학습, 연습, 탐색, 형성평가, 자기주도 학습</td></tr>
+        <tr><td><strong>입력 데이터</strong></td><td>교수자 자료(공개/내부 노트) — 본인 책임</td><td>학생 응답·진행·식별 위험 ⚠ — PIPA·교내 정책 적용</td></tr>
+        <tr><td><strong>평가 기준</strong></td><td>시간 절약, 정확성, 재사용성</td><td>학습 성과, 참여, 접근성, 공정성, 발달적합성</td></tr>
+        <tr><td><strong>UX 우선순위</strong></td><td>빠른 입력 → 빠른 출력, 키보드 단축</td><td>단계별 안내 · 즉시 피드백 · 안전망 · 모바일 대응</td></tr>
+        <tr><td><strong>출력 형식</strong></td><td>JSON, CSV, 표, 슬라이드 초안</td><td>인터랙티브 UI, 점진적 피드백, 누적 점수</td></tr>
+        <tr><td><strong>프롬프트 톤</strong></td><td>명령형, 압축적 (“X를 표로 뽑아줘”)</td><td>존댓말, 친절, 격려, 한자 병기 옵션</td></tr>
+        <tr><td><strong>배포 경로</strong></td><td>본인 PC, 비공개 Share 링크</td><td>LMS 임베드, 공개 URL, 모바일 필수</td></tr>
+        <tr><td><strong>검수 강도</strong></td><td>사실성 · 재사용성</td><td>사실성 + 발달적합성 + 접근성 + 편향 + 안전성</td></tr>
+      </tbody>
+    </table>
+    <div class="callout mt-m"><strong>흔한 실수:</strong> “교사가 출제하고 학생이 푸는 한 앱”으로 합치기 — 권한·privacy·UX가 서로 충돌합니다. <strong>두 개의 별도 빌드</strong>로 분리하고 데이터로만 이어 붙이세요. 의심스러우면 Student tool 기준의 까다로운 규칙을 적용합니다.</div>
+  </main>
+  <div class="source-line"><span>설계 분기 가이드 · INTERACT brief 작성 직전 단계 · 2026-05 워크샵 기준</span><span class="slide-num"></span></div>
+  <aside class="notes">이 분기는 INTERACT brief의 모든 항목(학습자, 상호작용, 피드백, 평가, 데이터, 배포)에 영향을 준다. Teacher tool은 효율 기준 단순 검수로 충분하지만 Student tool은 PIPA·접근성·편향·발달적합성까지 5중 검수를 거쳐야 한다. 워크샵에서는 참가자에게 “나는 둘 중 어느 것을 만드는가”를 30초 안에 선언하게 하고, 잘못 분기된 brief는 INTERACT Matrix 단계에서 되돌린다.</aside>
+</section>
+
 <section class="slide" data-title="Design Language" data-step="3">
   <div class="rail"></div>
   <main class="main">
