@@ -1927,6 +1927,28 @@ localStorage keys: [...]</div>
   <aside class="notes">앞 슬라이드의 “수정 가능한 구조”가 실제로 어떻게 보이는지 두 단계 캡처로 보여 준다. 1단계 design preview는 스타일 선택, 2단계는 학생 화면 흐름과 해설 영역.</aside>
 </section>
 
+<section class="slide" data-title="Quiz App Firebase Connect" data-step="5">
+  <div class="rail"></div>
+  <main class="main">
+    <p class="kicker">Actual Screen · 학습자 데이터 영속화</p>
+    <h2 class="title-lg">3단계: “connect database” 한 줄로 Firebase 백엔드를 붙입니다.</h2>
+    <div class="screenshot-stage mt-m" style="grid-template-columns: minmax(540px, 1fr) minmax(0, 1fr); align-items: stretch; gap: 24px;">
+      <figure class="screenshot-frame" style="background:#fbfaf6; min-height: 720px;">
+        <img src="assets/quiz-app-firebase-connect.png" alt="Google AI Studio Build Mode chat panel showing the classical literature quiz app generating a Firebase Enable Database modal with Free tier and us-west1 location selected after the user typed connect database" style="object-fit: contain; background:#fbfaf6;">
+        <figcaption class="screenshot-caption">Gemini가 “Set up Firebase” 단계를 자동 안내하고, us-west1·Free tier로 데이터베이스 활성화 버튼을 띄웁니다.</figcaption>
+      </figure>
+      <div class="shot-notes">
+        <div class="card bar-top"><h3>학습설계 의도</h3><p>“성취도 분석, 최근 학습 기록 리스트”처럼 학습자 데이터 활용을 명시하면 시스템이 적절한 저장소를 제안합니다.</p></div>
+        <div class="card bar-top bar-blue"><h3>Free tier 우선</h3><p>워크샵 실습은 Free tier · 단일 region(us-west1) 기본값을 그대로 사용합니다. 결제·쿼터는 사후 확인.</p></div>
+        <div class="card bar-top bar-coral"><h3>개인정보 경계</h3><p>실명·학번·민감 답변은 절대 넣지 않습니다. P01/P02 식 익명 ID + 학습이벤트만 저장하도록 프롬프트에 못 박습니다.</p></div>
+        <div class="card bar-top bar-gold"><h3>다음 단계</h3><p>Firebase 활성화 후 Secrets Manager에서 키를 보관하고, 학생 화면에서는 서버 함수만 호출하도록 구조를 잡습니다.</p></div>
+      </div>
+    </div>
+  </main>
+  <div class="source-line"><span>이미지 출처: Google AI Studio Build Mode · 고전문학 퀴즈 앱 Firebase 연결 세션 2026-05</span><span class="slide-num"></span></div>
+  <aside class="notes">design preview → 학생 화면 → 데이터베이스 연결 3단계 progression의 마지막 캡처. Workshop Prep에서 “Cloud/Firebase 선택 경로”라고 표시했던 분기점을 실제 화면으로 보여 준다. 개인정보 경계를 함께 강조해 단순 “기능 시연”이 아니라 “책임 있는 영속화”로 설명한다.</aside>
+</section>
+
 <section class="slide" data-title="Accessibility" data-step="5">
   <div class="rail"></div>
   <main class="main">
