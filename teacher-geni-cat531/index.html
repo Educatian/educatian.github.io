@@ -48,6 +48,29 @@
       padding: 12px 14px;
       margin: 18px 0;
     }
+    .button-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 12px;
+    }
+    .button {
+      display: inline-block;
+      padding: 10px 14px;
+      border-radius: 6px;
+      background: var(--accent);
+      color: #fff;
+      font-weight: 700;
+      text-decoration: none;
+    }
+    .button.secondary {
+      background: #155e75;
+    }
+    .button.ghost {
+      background: #fff;
+      color: #0f3f3a;
+      border: 1px solid var(--accent);
+    }
     ol {
       padding-left: 24px;
     }
@@ -116,13 +139,18 @@
 
   <section class="callout">
     <p><strong>Guide link:</strong> <code>https://educatian.github.io/teacher-geni-cat531/</code></p>
-    <p><strong>App link/package:</strong> use the TeacherGen@I v1.6 file shared by your instructor for your device.</p>
+    <p><strong>App package:</strong> download the version for your device, then use the PIN provided in your course space or by your instructor.</p>
+    <div class="button-row">
+      <a class="button" href="https://drive.google.com/file/d/1yaY_Zpw4MN8O-r_M4cZ7JLMmQVn7MJ0B/view?usp=drive_link" target="_blank" rel="noopener">Download Windows Version</a>
+      <a class="button secondary" href="https://drive.google.com/file/d/126roGMoLLaqRyji0Dmq91RrT6d1XnLR0/view?usp=drive_link" target="_blank" rel="noopener">Download Mac Installer</a>
+      <a class="button ghost" href="https://educatian.github.io/teacher-geni-cat531/" target="_blank" rel="noopener">Open Student Guide</a>
+    </div>
   </section>
 
   <h2>How To Start</h2>
   <ol>
     <li>Open TeacherGen@I v1.6.</li>
-    <li>Enter the 4-digit PIN provided by your instructor.</li>
+    <li>Enter the 4-digit PIN provided in your course space or by your instructor.</li>
     <li>When the app asks if the matched name is yours, choose <strong>Yes</strong>.</li>
     <li>On the setup screen, check your first and last name.</li>
     <li>Add the course, subject, grade level, preferred teacher title, learning objectives, and previous lesson information as directed in class.</li>
