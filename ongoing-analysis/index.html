@@ -33,12 +33,19 @@ html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);
 .item .lock{font-size:13px;color:#6b6457}
 .foot{margin-top:64px;font-size:13.5px;color:#6b6457}
 .foot a{color:var(--rust);text-decoration:none}
+.topnav{display:flex;justify-content:flex-end;margin:-40px 0 40px}
+.topnav a{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;
+  letter-spacing:.5px;color:var(--ink);text-decoration:none;
+  border:1px solid var(--line);border-radius:99px;padding:8px 18px;
+  background:rgba(255,255,255,.55);transition:all .2s}
+.topnav a:hover{color:#fff;background:var(--rust);border-color:var(--rust)}
 @media(max-width:600px){.h1{font-size:34px}.shell{padding:64px 20px}}
 </style>
 </head>
 <body>
 <div class="grid-bg"></div>
 <div class="shell">
+  <div class="topnav"><a href="https://tina-adie.pages.dev/" target="_blank" rel="noopener">TINA Chatbot &#8599;</a></div>
   <div class="kicker">Educatian · Research</div>
   <h1 class="h1">Ongoing <span class="serif">data analysis</span></h1>
 
