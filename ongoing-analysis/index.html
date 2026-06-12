@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Ongoing Data Analysis — Educatian</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,800;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
+:root{--bg:#F0EAE0;--ink:#1a1a1a;--rust:#B5392A;--line:#cec8be}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);
+  font-family:'Inter',sans-serif;line-height:1.6}
+.grid-bg{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.30;
+  background-image:linear-gradient(rgba(26,26,26,.06) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(26,26,26,.06) 1px,transparent 1px);
+  background-size:48px 48px;
+  mask-image:radial-gradient(ellipse at 30% 20%,black 30%,transparent 80%)}
+.shell{position:relative;z-index:1;max-width:880px;margin:0 auto;padding:96px 32px}
+.kicker{font-size:13px;font-weight:800;letter-spacing:4px;text-transform:uppercase;
+  color:var(--rust);margin-bottom:18px}
+.h1{font-size:54px;font-weight:900;line-height:1.05;letter-spacing:-.025em;margin:0 0 22px}
+.h1 .serif{font-family:'Playfair Display',Georgia,serif;font-style:italic;font-weight:400}
+.lede{font-size:19px;line-height:1.55;color:#3a3a3a;max-width:640px;margin:0 0 56px}
+.card{border:1px solid var(--line);background:rgba(255,255,255,.55);
+  border-radius:14px;padding:30px 32px;margin-bottom:24px;transition:border-color .2s}
+.card:hover{border-color:var(--rust)}
+.card .tag{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:11px;
+  font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--rust);
+  border:1px solid var(--rust);border-radius:99px;padding:3px 12px;margin:0 6px 14px 0}
+.card .tag.neutral{color:#6b6457;border-color:#b6afa2}
+.card h2{font-size:24px;font-weight:800;letter-spacing:-.01em;margin:0 0 10px;line-height:1.25}
+.card p{font-size:15px;color:#444;margin:0 0 18px;max-width:620px}
+.card a.btn{display:inline-block;font-size:14px;font-weight:700;text-decoration:none;
+  color:#fff;background:var(--ink);border-radius:8px;padding:10px 22px;letter-spacing:.02em}
+.card a.btn:hover{background:var(--rust)}
+.lock{font-family:'JetBrains Mono',monospace;font-size:12.5px;color:#6b6457;margin-left:14px}
+.foot{margin-top:72px;padding-top:24px;border-top:1px solid var(--line);
+  font-size:13.5px;color:#6b6457}
+.foot a{color:var(--rust);text-decoration:none}
+@media(max-width:600px){.h1{font-size:38px}.shell{padding:64px 20px}}
+</style>
+</head>
+<body>
+<div class="grid-bg"></div>
+<div class="shell">
+  <div class="kicker">Educatian · Research</div>
+  <h1 class="h1">Ongoing <span class="serif">data analysis</span></h1>
+  <p class="lede">Working analyses and preliminary reports from active research projects.
+  These are pre-publication materials shared with collaborators — each report is
+  encrypted in the browser (AES-256) and requires a passcode.</p>
+
+  <div class="card">
+    <span class="tag">Active</span>
+    <span class="tag neutral">Computational discourse analysis</span>
+    <span class="tag neutral">Teacher education × AI</span>
+    <h2>From Dual Perspectives to Dual Positions:<br>Regulators Before Adopters in Pre-Service Teachers' Chatbot-Mediated Reflection on AI</h2>
+    <p>A computational positioning analysis of 675 utterances from 67 pre-service
+    teachers in dialogue with a reflective AI companion. Lexicon-based stance markers,
+    sentence-embedding anchor classification, probe-stratified trajectory decomposition,
+    and permutation-based sequence analysis — every statistic independently
+    cross-validated in R. Updated June 12, 2026.</p>
+    <a class="btn" href="tina-aied-identity.html">Open report</a>
+    <span class="lock">&#128274; passcode required</span>
+  </div>
+
+  <div class="foot">
+    Pre-publication research material. Please do not cite or circulate without permission.
+    · <a href="https://educatian.github.io/">Educatian home</a>
+  </div>
+</div>
+</body>
+</html>
