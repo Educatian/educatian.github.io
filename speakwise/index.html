@@ -86,6 +86,7 @@ code{font-family:'JetBrains Mono',Consolas,monospace;font-size:13px;background:#
       <li><a href="#videos">Demo videos</a></li>
       <li><a href="#screens">Inside the platform</a></li>
       <li><a href="#theory">Theoretical framework</a></li>
+      <li><a href="#feedback">Preliminary feedback &amp; refinement</a></li>
       <li><a href="#contribution">Contribution &amp; next steps</a></li>
       <li><a href="#references">References &amp; links</a></li>
     </ol>
@@ -379,9 +380,55 @@ code{font-family:'JetBrains Mono',Consolas,monospace;font-size:13px;background:#
       </div>
     </section>
 
-    <!-- 11 CONTRIBUTION -->
+    <!-- 11 PRELIMINARY FEEDBACK -->
+    <section id="feedback" class="section">
+      <div class="section-label"><span class="eyebrow">11 · Formative feedback</span></div>
+      <h2>Preliminary feedback &amp; refinement</h2>
+      <p>Early formative feedback came from <strong>four graduate reviewers in library &amp; information science</strong>, who each completed a SpeakWise oral-assessment session and wrote an open-ended reflection, framing the tool for informal learning (libraries, museums, makerspaces). We thematically synthesized their reflections into validated strengths, friction points, and a prioritized refinement plan that feeds the next design-based research iteration. The sample is small and self-selected, but the signals converge.</p>
+      <div class="grid-2">
+        <div class="card soft">
+          <div class="card-title">What already works</div>
+          <ul>
+            <li><strong>Immediacy</strong> — a response right after speaking, "no waiting around"</li>
+            <li><strong>Real-time articulation</strong> — "think on your feet", no over-editing</li>
+            <li><strong>Conversational feel</strong> — "closer to a real conversation or a reference interview"</li>
+            <li><strong>Low-pressure practice</strong> — confidence building for interviews / speaking</li>
+            <li><strong>Fits as a supplement</strong> to human, people-centered assessment</li>
+          </ul>
+        </div>
+        <div class="card warn">
+          <div class="card-title">Friction points &amp; risks</div>
+          <ul>
+            <li><strong>Speech recognition</strong> sometimes missed responses (most severe)</li>
+            <li><strong>Session-start scroll bug</strong> obscured the prompt area</li>
+            <li><strong>No prompt preview</strong>; pace too fast; one-shot pressure</li>
+            <li><strong>Opaque scoring</strong> felt "judged, not supported" — lowered trust</li>
+            <li><strong>Speaking anxiety &amp; accessibility</strong>; doubt that nuance is read like a human would</li>
+            <li><strong>Overreliance</strong> — confident output can be over-trusted</li>
+          </ul>
+        </div>
+      </div>
+      <h3>Refinement plan — next DBR iteration</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Priority</th><th>Reviewer signal</th><th>Planned refinement</th><th>Design / ECD anchor</th></tr></thead>
+          <tbody>
+            <tr><td class="k">P0 · Reliability</td><td>ASR misses speech; UI auto-scrolls; one-shot pressure</td><td>Harden speech capture + type-to-respond fallback; fix the scroll bug; allow retry/redo on a question.</td><td>Trustworthy evidence capture</td></tr>
+            <tr><td class="k">P0 · Calm by design</td><td>Pace too fast; anxiety; no prompt preview</td><td>Low-pressure Practice mode vs. graded mode; prompt preview; learner-controlled pacing.</td><td>Calm before clever</td></tr>
+            <tr><td class="k">P1 · Transparency</td><td>Opaque scoring feels like judgment</td><td>Student-facing "what this is looking for" rubric preview + explainable post-session breakdown.</td><td>Evidence over mystery</td></tr>
+            <tr><td class="k">P1 · Adaptivity</td><td>Wants the AI to dig deeper or redirect</td><td>Strengthen Socratic adaptive follow-ups for interesting / off-track responses.</td><td>Tiered scaffolding (ZPD)</td></tr>
+            <tr><td class="k">P1 · Reflection</td><td>Wants to review what was said</td><td>Post-session reflective replay of captured reasoning turns alongside feedback.</td><td>Metacognition step</td></tr>
+            <tr><td class="k">P2 · Accessibility</td><td>Single voice; different communication styles</td><td>Multiple voices / accents; alternative input modes.</td><td>Inclusive assessment</td></tr>
+            <tr><td class="k">P2 · Framing</td><td>Risk of overreliance on confident output</td><td>Position as a supplement; surface AI confidence so low-confidence scores invite human review.</td><td>Human-in-the-loop · calibration</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="font-size:13.5px;color:var(--muted)">These refinements operationalize <em>calm before clever</em> and <em>evidence over mystery</em> on the student-facing surface — where the prototype is weakest — and sharpen RQ2 (dialogic / temporal interpretation) and RQ3 (how evidence traces &amp; AI confidence shape judgment).</p>
+    </section>
+
+    <!-- 12 CONTRIBUTION -->
     <section id="contribution" class="section">
-      <div class="section-label"><span class="eyebrow">11 · Contribution</span></div>
+      <div class="section-label"><span class="eyebrow">12 · Contribution</span></div>
       <h2>Contribution &amp; next steps</h2>
       <div class="grid-3">
         <div class="card soft"><div class="card-title">Concept</div><p style="margin:0"><strong>Reasoning evidence traces</strong> as a new measurement target for oral assessment, beyond a single holistic score.</p></div>
@@ -401,9 +448,9 @@ code{font-family:'JetBrains Mono',Consolas,monospace;font-size:13px;background:#
       </div>
     </section>
 
-    <!-- 12 REFERENCES -->
+    <!-- 13 REFERENCES -->
     <section id="references" class="section">
-      <div class="section-label"><span class="eyebrow">12 · References &amp; links</span></div>
+      <div class="section-label"><span class="eyebrow">13 · References &amp; links</span></div>
       <h2>References &amp; links</h2>
       <div class="linkgrid">
         <a class="download" href="https://speakwise-oral-exam.pages.dev" target="_blank" rel="noopener"><span class="ic">🎙️</span><span><span class="name">Live app</span><span class="meta">speakwise-oral-exam.pages.dev</span></span></a>
