@@ -1,0 +1,44 @@
+<!doctype html><html><head><meta charset="utf-8">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=Playfair+Display:ital@1&family=JetBrains+Mono:wght@700;800&display=swap');
+*{margin:0;box-sizing:border-box}
+body{width:1200px;height:630px;overflow:hidden;font-family:Inter,sans-serif;background:#efe7d8}
+.wrap{width:1200px;height:630px;position:relative;padding:60px 64px;display:flex;flex-direction:column;justify-content:space-between;
+  background:
+   radial-gradient(1200px 500px at 90% -10%, rgba(15,157,143,.16), transparent 60%),
+   linear-gradient(160deg,#fffdf7,#efe7d8);
+  border-bottom:12px solid #9E1B32}
+.grid{position:absolute;inset:0;opacity:.3;background-image:linear-gradient(rgba(21,27,31,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(21,27,31,.06) 1px,transparent 1px);background-size:46px 46px;-webkit-mask-image:radial-gradient(ellipse at 20% 0%,#000 35%,transparent 80%)}
+.top{display:flex;align-items:center;gap:22px;position:relative}
+.mark{width:92px;height:92px;border-radius:22px;background:linear-gradient(150deg,#1b2538,#0c1120);display:flex;align-items:center;justify-content:center;box-shadow:inset 0 0 0 4px rgba(255,255,255,.14)}
+.mark span{font-weight:900;font-size:54px;color:#fff}.mark i{color:#0f9d8f;font-style:normal}
+.kick{font-family:'JetBrains Mono',monospace;font-weight:800;letter-spacing:4px;text-transform:uppercase;color:#9E1B32;font-size:18px}
+.badge{margin-left:auto;background:#9E1B32;color:#fff;border-radius:12px;padding:12px 18px;font-weight:800;font-size:18px;text-align:right;line-height:1.25}
+.badge small{display:block;font-weight:500;font-size:13px;color:#ffd9df;margin-top:2px}
+h1{position:relative;font-size:66px;line-height:1.04;font-weight:900;letter-spacing:-1.5px;color:#15191f;max-width:1080px}
+h1 em{font-family:'Playfair Display',serif;font-style:italic;font-weight:400;color:#9E1B32}
+.sub{position:relative;font-size:24px;color:#3a4046;font-weight:500;max-width:980px;margin-top:6px}
+.bottom{position:relative;display:flex;align-items:center;gap:14px}
+.pill{border:2px solid #15191f;background:#fff;border-radius:999px;padding:9px 16px;font-family:'JetBrains Mono',monospace;font-weight:800;font-size:15px;letter-spacing:.5px;text-transform:uppercase}
+.pill.hot{background:#0f9d8f;border-color:#0f9d8f;color:#fff}
+.auth{margin-left:auto;font-size:17px;font-weight:700;color:#33393f;text-align:right;line-height:1.4}
+.auth span{color:#5b6470;font-weight:500}
+</style></head>
+<body><div class="wrap">
+  <div class="grid"></div>
+  <div class="top">
+    <div class="mark"><span>W<i>.</i></span></div>
+    <div class="kick">AI-mediated oral assessment</div>
+    <div class="badge">ICOLSEI 2026<small>Seoul National University · Jun 26–27</small></div>
+  </div>
+  <div>
+    <h1>SpeakWise: capturing real-time <em>reasoning evidence traces</em></h1>
+    <div class="sub">An Evidence-Centered Design platform that turns the oral exam into a process-oriented measurement environment.</div>
+  </div>
+  <div class="bottom">
+    <span class="pill hot">Reasoning analytics</span>
+    <span class="pill">Evidence-Centered Design</span>
+    <span class="pill">Human-in-the-loop</span>
+    <div class="auth">Jewoong Moon <span>· The University of Alabama</span><br>Yong Ju Jung <span>· The University of Oklahoma</span></div>
+  </div>
+</div></body></html>
