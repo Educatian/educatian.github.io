@@ -181,6 +181,10 @@ summary {
   line-height: 1.08;
 }
 
+.team-heading__phrase {
+  white-space: nowrap;
+}
+
 .section-intro {
   max-width: var(--reading-max);
   margin: var(--space-6) 0 0;

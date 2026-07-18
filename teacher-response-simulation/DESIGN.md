@@ -35,7 +35,7 @@
 3. Prove: show current Unity evidence and clearly dated prototype metrics.
 4. Explain: connect the four research tracks and technical interaction loop.
 5. Sequence: separate the three-year planned roadmap from completed prototype work.
-6. Establish trust: identify the core research team, roles, and institutions.
+6. Establish trust: identify the core and participating research team, roles, and institutions.
 7. Bound claims: state research, privacy, safety, and non-clinical constraints.
 8. Navigate: link back to Educatian and let readers jump to evidence or roadmap.
 
@@ -183,7 +183,7 @@ The page should feel like a well-edited Korean education research dossier laid o
 
 ### Team identity card
 
-- Text-only identity with monogram, Korean/English name, affiliation, role, and contribution.
+- Text-only identity with monogram, the verified supplied name (bilingual where available), affiliation, role, and contribution.
 - No generated or inferred portrait.
 - States: default and focus only when the affiliation link exists.
 
