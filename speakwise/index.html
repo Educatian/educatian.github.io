@@ -1,10 +1,11 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>SpeakWise — AI-Mediated Oral Assessment & Reasoning Evidence Traces</title>
-<meta name="description" content="SpeakWise captures real-time reasoning evidence traces through AI-mediated oral assessment. An Evidence-Centered Design platform with adaptive oral dialogue, reasoning analytics, an argument/concept map, and human-in-the-loop instructor review. ICOLSEI 2026 project page by Jewoong Moon & Yong Ju Jung.">
+<title>SpeakWise — AI-Mediated Oral Assessment &amp; Reasoning Evidence Traces</title>
+<meta name="description" content="SpeakWise captures real-time reasoning evidence traces through AI-mediated oral assessment. An Evidence-Centered Design platform with adaptive oral dialogue, reasoning analytics, an argument/concept map, and human-in-the-loop instructor review by Jewoong Moon and Yong Ju Jung.">
+<link rel="icon" type="image/png" href="assets/favicon.png">
 <link rel="canonical" href="https://educatian.github.io/speakwise/">
 <meta property="og:type" content="article">
 <meta property="og:title" content="SpeakWise — AI-Mediated Oral Assessment & Reasoning Evidence Traces">
@@ -60,7 +61,7 @@ h2{font-size:40px;line-height:1.1;margin:0 0 16px;font-weight:900;letter-spacing
 .table-wrap{overflow:auto;border:2px solid var(--ink);border-radius:12px;background:#fff;margin:18px 0}table{width:100%;border-collapse:collapse;font-size:14px}th{text-align:left;background:var(--navy);color:#fff;font-size:11px;letter-spacing:1.2px;text-transform:uppercase;padding:12px 14px}td{padding:12px 14px;border-top:1px solid var(--line);vertical-align:top}td.k{font-family:'JetBrains Mono',monospace;font-weight:800;color:var(--teal2);white-space:nowrap}
 code{font-family:'JetBrains Mono',Consolas,monospace;font-size:13px;background:#fff;border:1px solid var(--line);border-radius:5px;padding:1px 6px;color:var(--crimson);font-weight:650}
 .resource-link{display:inline-flex;align-items:center;gap:8px;color:var(--teal2);font-weight:900;text-decoration:none;border-bottom:2px solid rgba(15,157,143,.26)}.resource-link:hover{border-bottom-color:var(--teal)}
-.linkgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:20px 0}.download{display:flex;gap:14px;align-items:center;background:#fff;border:2px solid var(--ink);border-radius:14px;padding:18px;text-decoration:none;color:var(--ink);transition:transform .12s,box-shadow .12s}.download:hover{transform:translateY(-2px);border-color:var(--teal);box-shadow:var(--shadow)}.download .ic{font-size:24px;flex:none}.download .name{font-size:16px;font-weight:900;line-height:1.2;margin-bottom:3px}.download .meta{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px}
+.linkgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:20px 0}.download{display:flex;gap:14px;align-items:center;min-width:0;background:#fff;border:2px solid var(--ink);border-radius:14px;padding:18px;text-decoration:none;color:var(--ink);transition:transform .12s,box-shadow .12s}.download:hover{transform:translateY(-2px);border-color:var(--teal);box-shadow:var(--shadow)}.download>span:last-child{min-width:0}.download .ic{font-size:24px;flex:none}.download .name{font-size:16px;font-weight:900;line-height:1.2;margin-bottom:3px}.download .meta{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;overflow-wrap:anywhere}
 .refs li{margin:9px 0;color:#2e3338;font-size:14.5px}.refs a{color:var(--teal2);font-weight:800;text-decoration:none;border-bottom:1.5px solid rgba(15,157,143,.28)}
 .qr-band{display:flex;gap:22px;align-items:center;background:var(--paper);border:2px solid var(--ink);border-radius:16px;padding:22px 24px;margin:22px 0;box-shadow:6px 6px 0 rgba(15,157,143,.10)}.qr-band img{width:128px;height:128px;flex:none}.qr-band b{font-size:18px;display:block;margin-bottom:4px}.qr-band p{margin:0;font-size:14px}
 .foot{margin-top:80px;padding-top:30px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;font-size:11px;color:var(--muted);letter-spacing:.15em;text-transform:uppercase;font-weight:800}
@@ -73,7 +74,7 @@ code{font-family:'JetBrains Mono',Consolas,monospace;font-size:13px;background:#
 <div class="grid-bg"></div>
 <div class="shell">
   <aside class="toc" aria-label="Table of contents">
-    <div class="toc-kicker">SpeakWise · ICOLSEI 2026</div>
+    <div class="toc-kicker">SpeakWise · Research project</div>
     <h2>AI-mediated oral assessment as a measurement environment</h2>
     <ol>
       <li><a href="#overview">Overview &amp; the problem</a></li>
@@ -93,7 +94,6 @@ code{font-family:'JetBrains Mono',Consolas,monospace;font-size:13px;background:#
     <div class="toc-downloads">
       <a href="https://speakwise-oral-exam.pages.dev" target="_blank" rel="noopener">↗ Live app</a>
       <a href="https://speakwise-guide.pages.dev" target="_blank" rel="noopener">↗ Walkthrough guide</a>
-      <a href="assets/SpeakWise_ICOLSEI2026_A0.pdf">↓ Poster (A0 PDF)</a>
     </div>
     <div class="toc-qr">
       <img src="assets/qr.png" alt="QR code linking to this SpeakWise project page">
@@ -110,7 +110,6 @@ code{font-family:'JetBrains Mono',Consolas,monospace;font-size:13px;background:#
       <h1>SpeakWise: capturing real-time <span class="serif">reasoning evidence traces</span> through AI-mediated oral assessment</h1>
       <p class="lede">Generative AI blurs the line between a learner's own reasoning and AI-assisted production. SpeakWise reframes the oral exam as a <strong>process-oriented measurement environment</strong>: students reason aloud with an adaptive AI examiner, and the platform captures discourse, dialogic, and temporal signals as <em>analyzable evidence</em> — then hands it to instructors who stay in control of the judgment.</p>
       <p class="byline"><b>Jewoong Moon</b>, The University of Alabama · <a href="mailto:jmoon19@ua.edu">jmoon19@ua.edu</a> &nbsp;·&nbsp; <b>Yong Ju Jung</b>, The University of Oklahoma · <a href="mailto:yongju@ou.edu">yongju@ou.edu</a></p>
-      <p class="byline" style="font-weight:500;color:var(--muted)">ICOLSEI 2026 · Seoul National University · June 26–27 · Poster presentation (work-in-progress)</p>
       <div class="hero-meta">
         <span class="pill hot">Evidence-Centered Design</span>
         <span class="pill">Oral assessment</span>
@@ -123,7 +122,6 @@ code{font-family:'JetBrains Mono',Consolas,monospace;font-size:13px;background:#
         <a class="cta primary" href="https://speakwise-oral-exam.pages.dev" target="_blank" rel="noopener">Open the live app <span class="ar">→</span></a>
         <a class="cta teal" href="#videos">Watch the demo <span class="ar">▶</span></a>
         <a class="cta" href="https://speakwise-guide.pages.dev" target="_blank" rel="noopener">Walkthrough guide <span class="ar">→</span></a>
-        <a class="cta" href="assets/SpeakWise_ICOLSEI2026_A0.pdf">Poster PDF <span class="ar">↓</span></a>
       </div>
     </header>
 
@@ -357,6 +355,36 @@ code{font-family:'JetBrains Mono',Consolas,monospace;font-size:13px;background:#
         <div class="image-card" style="margin:0"><img src="assets/login.png" alt="Unified sign-in"><div class="caption">Unified, app-managed sign-in</div></div>
         <div class="image-card" style="margin:0"><img src="assets/modal.png" alt="Submission detail and override"><div class="caption">Submission detail &amp; override</div></div>
       </div>
+
+      <h3>Recent app updates</h3>
+      <p>The current live deployment adds a dedicated product landing experience while preserving the institution-scoped student and instructor workspaces. The latest release also strengthens the review and interview experience across desktop and mobile.</p>
+      <div class="grid-2" style="margin-top:18px">
+        <div class="card soft">
+          <div class="card-title">Clearer entry experience</div>
+          <p style="margin:0">A new public landing page explains the create → interview → review workflow, separates instructor and student entry points, and foregrounds transcript-linked evidence.</p>
+        </div>
+        <div class="card soft">
+          <div class="card-title">Expanded reasoning review</div>
+          <p style="margin:0">The concept map now supports a full-screen review mode with keyboard exit, body-scroll locking, touch pan and pinch zoom, and a compact mobile fit.</p>
+        </div>
+        <div class="card">
+          <div class="card-title">Mobile usability</div>
+          <p style="margin:0">Submission review, analytics cards, tables, radar labels, pre-interview controls, and concept maps adapt more cleanly to narrow screens and touch input.</p>
+        </div>
+        <div class="card">
+          <div class="card-title">More resilient interviews</div>
+          <p style="margin:0">Active sessions now use screen wake lock, recover audio after backgrounding or device changes, and provide clearer microphone-permission guidance.</p>
+        </div>
+      </div>
+
+      <h3>Current live interface</h3>
+      <p style="font-size:13.5px;color:var(--muted)">These additional views were captured from the live deployment on August 21, 2026. The original walkthrough screenshots above remain available for continuity.</p>
+      <div class="grid-2">
+        <div class="image-card" style="margin:0"><img src="assets/latest-landing.png" alt="Current SpeakWise product landing page with instructor dashboard preview" loading="lazy"><div class="caption"><b>Latest.</b> Product landing · role-based workspace entry</div></div>
+        <div class="image-card" style="margin:0"><img src="assets/latest-dashboard-preview.png" alt="Current instructor dashboard preview with institution scope and review guidance" loading="lazy"><div class="caption"><b>Latest.</b> Instructor dashboard · review guidance and analytics</div></div>
+        <div class="image-card" style="margin:0"><img src="assets/latest-evidence-map-preview.png" alt="Current evidence review preview with transcript and interactive concept map" loading="lazy"><div class="caption"><b>Latest.</b> Evidence workspace · transcript-linked concept map</div></div>
+        <div class="image-card" style="margin:0"><img src="assets/latest-mobile.png" alt="Current SpeakWise evidence explanation in a narrow mobile viewport" loading="lazy"><div class="caption"><b>Latest.</b> Responsive evidence view · narrow mobile viewport</div></div>
+      </div>
     </section>
 
     <!-- 10 THEORY -->
@@ -443,7 +471,7 @@ code{font-family:'JetBrains Mono',Consolas,monospace;font-size:13px;background:#
         <img src="assets/qr.png" alt="QR code linking to this SpeakWise project page">
         <div>
           <b>Share this project</b>
-          <p>Scan to open this page — full workflow, architecture, and demo videos — at <code>educatian.github.io/speakwise</code>. The same QR appears on the ICOLSEI 2026 poster.</p>
+          <p>Scan to open this page — full workflow, architecture, current interface, and demo videos — at <code>educatian.github.io/speakwise</code>.</p>
         </div>
       </div>
     </section>
@@ -455,7 +483,7 @@ code{font-family:'JetBrains Mono',Consolas,monospace;font-size:13px;background:#
       <div class="linkgrid">
         <a class="download" href="https://speakwise-oral-exam.pages.dev" target="_blank" rel="noopener"><span class="ic">🎙️</span><span><span class="name">Live app</span><span class="meta">speakwise-oral-exam.pages.dev</span></span></a>
         <a class="download" href="https://speakwise-guide.pages.dev" target="_blank" rel="noopener"><span class="ic">📖</span><span><span class="name">Walkthrough guide</span><span class="meta">speakwise-guide.pages.dev</span></span></a>
-        <a class="download" href="assets/SpeakWise_ICOLSEI2026_A0.pdf"><span class="ic">🖼️</span><span><span class="name">ICOLSEI 2026 poster</span><span class="meta">A0 · PDF</span></span></a>
+        <a class="download" href="https://github.com/Educatian/speakwise-oral-exam/blob/master/CHANGELOG.md" target="_blank" rel="noopener"><span class="ic">✨</span><span><span class="name">Release notes</span><span class="meta">Recent product updates</span></span></a>
         <a class="download" href="https://github.com/Educatian/speakwise-oral-exam" target="_blank" rel="noopener"><span class="ic">⌨️</span><span><span class="name">Source repository</span><span class="meta">github.com/Educatian/speakwise-oral-exam</span></span></a>
       </div>
       <ul class="refs">
@@ -470,7 +498,7 @@ code{font-family:'JetBrains Mono',Consolas,monospace;font-size:13px;background:#
 
     <footer class="foot">
       <div>SpeakWise · AI-mediated oral conversational assessment</div>
-      <div>Jewoong Moon · The University of Alabama · ICOLSEI 2026</div>
+      <div>Jewoong Moon · The University of Alabama</div>
     </footer>
   </main>
 </div>
