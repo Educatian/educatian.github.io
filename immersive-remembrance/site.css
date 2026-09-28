@@ -165,3 +165,7 @@ p{margin:0 0 16px;color:#343b46}
   .hero .wrap{padding-bottom:48px}
 }
 @media(prefers-reduced-motion:reduce){.hero video{display:none}.tile{transition:none}}
+/* IMLS mark in hero/page headers — official white version, >=1.75in wide, clear space kept by padding */
+.funded{display:inline-flex;flex-direction:column;gap:8px;margin-top:34px;text-decoration:none;padding:6px 0}
+.funded span{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#aab2bf;font-weight:700}
+.funded img{width:190px;height:auto}
