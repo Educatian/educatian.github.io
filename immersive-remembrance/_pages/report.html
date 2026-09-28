@@ -1,0 +1,323 @@
+<!-- report | Open Architecture Report (Draft) · Immersive Remembrance | Working draft of the Living Archive VR Framework open architecture report: design principles, components, data model, retrieval, telemetry, security, accessibility, portability and acceptance criteria. -->
+<header class="page-head">
+  <div class="wrap">
+    <div class="eyebrow">Open architecture report · Draft v0.1</div>
+    <h1>Living Archive VR Framework: open architecture</h1>
+    <p>How the framework is designed to turn a museum's authenticated archive into verbatim, artifact-triggered testimony in VR, and how any museum can reuse it.</p>
+    <a class="funded" href="https://www.imls.gov/" target="_blank" rel="noopener"><span>Funded by</span><img src="img/imls_logo_white.png" alt="Institute of Museum and Library Services"></a>
+  </div>
+</header>
+
+<div class="wrap doc">
+  <aside class="doc-toc" aria-label="Report contents">
+    <b>Contents</b>
+    <ol>
+      <li><a href="#status">Status of this draft</a></li>
+      <li><a href="#scope">Purpose &amp; scope</a></li>
+      <li><a href="#principles">Design principles</a></li>
+      <li><a href="#overview">System overview</a></li>
+      <li><a href="#corpus">Archive &amp; ingestion</a></li>
+      <li><a href="#model">Data model</a></li>
+      <li><a href="#retrieval">Retrieval engine</a></li>
+      <li><a href="#client">VR client</a></li>
+      <li><a href="#edge">Edge node &amp; network</a></li>
+      <li><a href="#telemetry">Telemetry</a></li>
+      <li><a href="#security">Security, privacy &amp; rights</a></li>
+      <li><a href="#access">Accessibility &amp; comfort</a></li>
+      <li><a href="#portability">Portability</a></li>
+      <li><a href="#qa">Acceptance criteria</a></li>
+      <li><a href="#evidence">Evidence from early work</a></li>
+      <li><a href="#questions">Open design questions</a></li>
+      <li><a href="#next">Next steps</a></li>
+      <li><a href="#refs">References</a></li>
+    </ol>
+  </aside>
+
+  <article class="doc-body">
+
+    <section id="status">
+      <div class="draft-box">
+        <b>Working draft, not a final deliverable.</b> Version 0.1, September 28, 2026. It is written from the funded proposal and the team's early 3D archive work, before framework development begins. It has not yet been reviewed by the co-PIs, the Alabama Veterans Museum &amp; Archives or the advisory cohort. The final report is due at the end of Year 1 (Months 10–12). Specifications marked <span class="pill-t">proposed</span> are team recommendations still to be decided.
+      </div>
+    </section>
+
+    <section id="scope">
+      <h2>1. Purpose &amp; scope</h2>
+      <p>This report describes the open architecture of the <strong>Living Archive VR Framework</strong>, the primary software product of the IMLS project <em>Immersive Remembrance: AI-Driven Archival Retrieval for VR Learning</em> (MG-260576-OMS-26). It has three audiences:</p>
+      <ul>
+        <li><strong>The project team</strong>: a shared specification for building the retrieval pipeline (Hu), the VR environment (Kim) and the study instrumentation (Moon).</li>
+        <li><strong>Museum partners and the advisory cohort</strong>: a reviewable account of what the system does with archival material, so curators can check that it protects their authority over the narrative.</li>
+        <li><strong>Adopting institutions</strong>: the basis for the open-source release and the "Zero-to-Hero" adoption manual.</li>
+      </ul>
+      <p>In scope: the archival ingestion workflow, the corpus data model, the runtime retrieval engine, the VR client, the on-premises deployment, telemetry, and the quality criteria the system must meet before visitors use it. Out of scope: the psychometric instruments and the statistical analysis plan, which are covered in the study protocol.</p>
+    </section>
+
+    <section id="principles">
+      <h2>2. Design principles</h2>
+      <p>Every design decision in this report is tested against seven principles. The first is non-negotiable.</p>
+      <div class="ptable">
+        <div><span>P1</span><b>Verbatim only.</b> Every word a visitor hears or reads comes from an approved archival source or from text a curator wrote. The runtime system selects content; it never generates or paraphrases.</div>
+        <div><span>P2</span><b>Curatorial authority.</b> Nothing reaches a visitor without a named curator's approval, and a curator can withdraw any item at any time.</div>
+        <div><span>P3</span><b>Data stays at the museum.</b> At runtime the corpus lives on hardware on museum premises, and the gallery system needs no internet connection.</div>
+        <div><span>P4</span><b>Low-code for staff.</b> Museum staff can ingest, tag, approve and publish material without writing code.</div>
+        <div><span>P5</span><b>Open and portable.</b> Another museum can deploy the framework by changing its data and configuration, never its source code. It uses open formats and no single-vendor dependency.</div>
+        <div><span>P6</span><b>Accessible by design.</b> Captions, adjustable text and seated use are built in, and a non-VR path offers the same content.</div>
+        <div><span>P7</span><b>Measurable.</b> The system produces the telemetry the research questions need, without collecting personal information.</div>
+      </div>
+    </section>
+
+    <section id="overview">
+      <h2>3. System overview</h2>
+      <p>The framework has two halves that meet only through an approved, versioned <strong>corpus bundle</strong>. The <em>authoring side</em> is used by museum staff and the research team to digitize, segment, tag and approve archival material. The <em>gallery side</em> runs the visitor experience on standalone headsets and an on-premises edge node.</p>
+      <figure class="diagram">
+        <svg viewBox="0 0 960 430" role="img" aria-labelledby="dgt dgd">
+          <title id="dgt">Living Archive VR Framework architecture</title>
+          <desc id="dgd">Authoring side: archival sources flow to digitization, then segmentation and tagging, then curator approval, producing a signed corpus bundle. Gallery side: the bundle is loaded onto an edge node holding the metadata store, vector index and retrieval API. Six Quest 3 kiosks send interaction context to the retrieval API and receive verbatim segments. Telemetry flows from kiosks to the edge node and is exported de-identified for research.</desc>
+          <defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#1d2b45"/></marker></defs>
+          <rect x="10" y="10" width="440" height="410" rx="14" fill="#fffdf8" stroke="#ddd3c1"/>
+          <text x="30" y="40" class="dg-h">AUTHORING SIDE · museum staff + UA team</text>
+          <rect x="510" y="10" width="440" height="410" rx="14" fill="#eef1f6" stroke="#c9d1de"/>
+          <text x="530" y="40" class="dg-h">GALLERY SIDE · on museum premises, offline</text>
+          <g class="dg-box"><rect x="30" y="62" width="180" height="62" rx="8"/><text x="120" y="88">Archival sources</text><text x="120" y="107" class="dg-s">oral histories, letters, logs</text></g>
+          <g class="dg-box"><rect x="250" y="62" width="180" height="62" rx="8"/><text x="340" y="88">1 · Rights &amp; digitize</text><text x="340" y="107" class="dg-s">FADGI 3-star masters</text></g>
+          <g class="dg-box"><rect x="250" y="152" width="180" height="62" rx="8"/><text x="340" y="178">2 · Segment &amp; tag</text><text x="340" y="197" class="dg-s">narrative nodes + vocabulary</text></g>
+          <g class="dg-box"><rect x="250" y="242" width="180" height="62" rx="8"/><text x="340" y="268">3 · Curator approval</text><text x="340" y="287" class="dg-s">per node, reversible</text></g>
+          <g class="dg-box"><rect x="30" y="152" width="180" height="62" rx="8"/><text x="120" y="178">Artifact registry</text><text x="120" y="197" class="dg-s">3D models (GLB) + hotspots</text></g>
+          <g class="dg-key"><rect x="130" y="332" width="300" height="62" rx="8"/><text x="280" y="358">Signed corpus bundle</text><text x="280" y="377" class="dg-s">approved nodes · index · registry · version</text></g>
+          <g class="dg-box"><rect x="530" y="62" width="400" height="152" rx="8"/><text x="730" y="88">Edge node</text>
+            <rect x="548" y="104" width="115" height="46" rx="6" class="dg-in"/><text x="605" y="132" class="dg-s">metadata store</text>
+            <rect x="673" y="104" width="115" height="46" rx="6" class="dg-in"/><text x="730" y="132" class="dg-s">vector index</text>
+            <rect x="798" y="104" width="115" height="46" rx="6" class="dg-in"/><text x="855" y="132" class="dg-s">retrieval API</text>
+            <rect x="548" y="158" width="365" height="40" rx="6" class="dg-in"/><text x="730" y="183" class="dg-s">telemetry sink · encrypted at rest</text></g>
+          <g class="dg-box"><rect x="530" y="262" width="400" height="92" rx="8"/><text x="730" y="288">6 × Quest 3 kiosk app (Unity)</text><text x="730" y="312" class="dg-s">artifact interaction → context builder → retrieval client</text><text x="730" y="332" class="dg-s">spatial audio + captions · telemetry emitter · comfort</text></g>
+          <g class="dg-box"><rect x="530" y="370" width="400" height="38" rx="8" style="fill:#fff"/><text x="730" y="394" class="dg-s">De-identified research export (JSON Lines / CSV) → analysis</text></g>
+          <path d="M210 93 H246" class="dg-l" marker-end="url(#ar)"/>
+          <path d="M340 124 V148" class="dg-l" marker-end="url(#ar)"/>
+          <path d="M340 214 V238" class="dg-l" marker-end="url(#ar)"/>
+          <path d="M340 304 V328" class="dg-l" marker-end="url(#ar)"/>
+          <path d="M120 214 V328" class="dg-l" marker-end="url(#ar)"/>
+          <path d="M430 363 H470 V140 H526" class="dg-l dg-bold" marker-end="url(#ar)"/>
+          <text x="488" y="250" class="dg-s" transform="rotate(-90 488 250)" style="text-anchor:middle">offline, signed</text>
+          <path d="M690 262 V218" class="dg-l" marker-end="url(#ar)"/><text x="684" y="244" class="dg-s" style="text-anchor:end">context</text>
+          <path d="M770 218 V258" class="dg-l" marker-end="url(#ar)"/><text x="776" y="244" class="dg-s" style="text-anchor:start">verbatim node</text>
+          <path d="M890 262 V218" class="dg-l dg-dash" marker-end="url(#ar)"/><text x="896" y="244" class="dg-s" style="text-anchor:start">events</text>
+        </svg>
+        <figcaption>Figure 1. The authoring and gallery sides meet only through a signed, versioned corpus bundle. At runtime, nothing leaves the museum.</figcaption>
+      </figure>
+      <p>A visitor interaction runs as follows. The visitor picks up or inspects a 3D artifact. The client builds an <em>interaction context</em> (artifact, hotspot, dwell, what has already played) and sends it to the edge node on the gallery network. The retrieval API filters the corpus to approved nodes linked to that artifact, ranks them, and returns the identifier and verbatim content of the best one. The client then plays the original audio segment (or shows the text) with captions, and logs each step as telemetry.</p>
+    </section>
+
+    <section id="corpus">
+      <h2>4. Archive &amp; ingestion</h2>
+      <p>The integrity of the corpus decides the historical fidelity of every visitor interaction, so ingestion is the most consequential part of the framework. It follows four stages from the funded work plan.</p>
+      <table class="t">
+        <thead><tr><th>Stage</th><th>Months</th><th>What happens</th><th>Output</th></tr></thead>
+        <tbody>
+          <tr><td>1 · Rights &amp; condition</td><td>1–3</td><td>Museum staff assess each candidate item for physical condition, provenance and rights status. Items involving living people or next-of-kin with unresolved consent are held back.</td><td>Digitization priority list; rights status report</td></tr>
+          <tr><td>2 · Digitization</td><td>2–5</td><td>Paper is scanned and analog audio digitized to the FADGI three-star standard. Files receive persistent identifiers in the museum's collections system.</td><td>Master files with provenance metadata</td></tr>
+          <tr><td>3 · Structuring</td><td>4–7</td><td>Transcripts are segmented into <em>narrative nodes</em>, each a coherent unit tied to a person, place, event or artifact. Curators and the team tag nodes with a shared controlled vocabulary (human in the loop).</td><td>Machine-readable corpus with verified metadata</td></tr>
+          <tr><td>4 · Indexing</td><td>6–9</td><td>Approved nodes are embedded and loaded into the encrypted local vector index along with their metadata.</td><td>Signed corpus bundle v1</td></tr>
+        </tbody>
+      </table>
+      <p><span class="pill-t">proposed</span> <strong>Approval is a state, not an event.</strong> Each node carries an approval state (<code>draft → reviewed → approved → withdrawn</code>) with the approver and date. Only <code>approved</code> nodes with <code>cleared</code> rights are compiled into a bundle. Withdrawing a node and republishing the bundle removes it from the gallery. No retraining or code change is needed.</p>
+      <p><span class="pill-t">proposed</span> <strong>Segmentation keeps timecodes.</strong> Where an original recording exists, each node stores in and out timecodes, so the visitor hears the veteran's own voice rather than a reading of the transcript.</p>
+    </section>
+
+    <section id="model">
+      <h2>5. Data model</h2>
+      <p>The <strong>narrative node</strong> is the unit of retrieval. Its fields map to Dublin Core so the corpus can be exchanged with collection systems. The schema below is the <span class="pill-t">proposed</span> starting point for Summit 1.</p>
+      <table class="t mono-first">
+        <thead><tr><th>Field</th><th>Type</th><th>Purpose</th><th>Dublin Core</th></tr></thead>
+        <tbody>
+          <tr><td>node_id</td><td>string</td><td>Stable identifier for the node</td><td>dc:identifier</td></tr>
+          <tr><td>source_id</td><td>string</td><td>Persistent identifier of the master file</td><td>dc:source</td></tr>
+          <tr><td>text</td><td>string</td><td>Verbatim transcript segment. Never edited after approval.</td><td>(content)</td></tr>
+          <tr><td>audio</td><td>{file, in, out}</td><td>Original recording segment, if one exists</td><td>dc:format</td></tr>
+          <tr><td>speaker</td><td>string</td><td>Narrator, as the museum records them</td><td>dc:creator</td></tr>
+          <tr><td>date · place · conflict</td><td>vocab terms</td><td>Temporal and spatial coverage</td><td>dc:coverage</td></tr>
+          <tr><td>themes</td><td>vocab terms[]</td><td>Controlled-vocabulary subject tags</td><td>dc:subject</td></tr>
+          <tr><td>artifact_links</td><td>{artifact_id, hotspot?}[]</td><td>Which artifacts and parts of artifacts can trigger this node</td><td>dc:relation</td></tr>
+          <tr><td>register</td><td>enum</td><td><code>first_person</code> or <code>overview</code> (curator-written orientation text)</td><td>dc:type</td></tr>
+          <tr><td>content_note</td><td>enum?</td><td>Advisory for difficult content (e.g., combat death)</td><td>(none)</td></tr>
+          <tr><td>rights</td><td>{status, holder, basis}</td><td>Must be <code>cleared</code> to publish</td><td>dc:rights</td></tr>
+          <tr><td>approval</td><td>{state, by, on}</td><td>Curatorial approval state</td><td>(none)</td></tr>
+          <tr><td>version</td><td>int</td><td>Increments on any change</td><td>(none)</td></tr>
+        </tbody>
+      </table>
+      <p>The <strong>artifact registry</strong> links each 3D model (GLB) to an <code>artifact_id</code>, its catalog record, named <em>hotspots</em> (for example the lock of a musket, or the inscription on a medal), and default vocabulary terms. The registry is what lets retrieval work without free-text queries.</p>
+    </section>
+
+    <section id="retrieval">
+      <h2>6. Retrieval engine</h2>
+      <p>The engine uses Retrieval-Augmented Generation (Lewis et al., 2020) <strong>without the generation step</strong>. It chooses which approved node to present and returns that node exactly as stored.</p>
+      <ol class="steps">
+        <li><b>Hard filter.</b> Keep only nodes that are approved, rights-cleared and in the current bundle, and that are linked to the active artifact or hotspot. This step is a database constraint, not a model judgment, so an unrelated or unapproved node can never be returned.</li>
+        <li><b>Semantic ranking.</b> Rank the remaining nodes by similarity between the interaction context (artifact and hotspot terms plus the themes already heard) and each node's embedding.</li>
+        <li><b>Session rules.</b> Do not repeat a node within a session, favor thematic variety, and respect content-note settings.</li>
+        <li><b>Register choice.</b> Per the design grounded in CAMIL, short or scattered dwell favors a curator-written <code>overview</code> node, and sustained focus on an artifact favors a <code>first_person</code> node.</li>
+        <li><b>Safe fallback.</b> If nothing passes a relevance threshold, return the artifact's curator-written default node. The engine never returns nothing and never improvises.</li>
+      </ol>
+      <p>The funded target is a response in <strong>500 ms or less</strong>, from interaction to the start of narration. The <span class="pill-t">proposed</span> budget:</p>
+      <table class="t">
+        <thead><tr><th>Step</th><th>Budget (p95)</th></tr></thead>
+        <tbody>
+          <tr><td>Context build on headset</td><td>20 ms</td></tr>
+          <tr><td>Gallery network round trip</td><td>40 ms</td></tr>
+          <tr><td>Hard filter + vector search on edge node</td><td>60 ms</td></tr>
+          <tr><td>Session rules and register choice</td><td>20 ms</td></tr>
+          <tr><td>Audio segment ready to play (pre-cached per artifact)</td><td>150 ms</td></tr>
+          <tr><td><b>Total, with margin for Beta tuning</b></td><td><b>≈ 290 ms of 500 ms</b></td></tr>
+        </tbody>
+      </table>
+      <p>Because the corpus for a single artifact is small, candidate nodes for an artifact can be prefetched to the headset when the visitor approaches it. That makes the latency target robust to network hiccups.</p>
+    </section>
+
+    <section id="client">
+      <h2>7. VR client</h2>
+      <p>The visitor application is built in Unity (C#) for standalone Meta Quest 3 headsets through the OpenXR toolchain, so no tethered PC is needed. It is organized as replaceable modules:</p>
+      <div class="grid g2 compact">
+        <div class="card"><b>Artifact interaction</b><p>Grab, rotate and inspect GLB artifacts; hotspots raise events.</p></div>
+        <div class="card"><b>Context builder</b><p>Turns interaction events and dwell into a retrieval request.</p></div>
+        <div class="card"><b>Retrieval client</b><p>Talks to the edge API, prefetches per artifact, and handles timeouts with the fallback node.</p></div>
+        <div class="card"><b>Narration player</b><p>Spatial audio of the original recording, synchronized captions, and embedded text at adjustable size.</p></div>
+        <div class="card"><b>Telemetry emitter</b><p>Buffers events and sends them to the edge sink (see §9).</p></div>
+        <div class="card"><b>Session &amp; comfort</b><p>Docent reset between visitors, seated mode, comfort vignette and an always-visible exit.</p></div>
+      </div>
+    </section>
+
+    <section id="edge">
+      <h2>8. Edge node &amp; network</h2>
+      <ul>
+        <li><strong>On premises.</strong> A compact, gallery-mounted computer hosts the metadata store, vector index, retrieval API and telemetry sink. The veteran testimony corpus is never served from a commercial cloud at runtime.</li>
+        <li><strong>Isolated network.</strong> Headsets and the edge node share a dedicated, encrypted gallery network with no route to the internet during operation.</li>
+        <li><strong>Encrypted at rest.</strong> Corpus and telemetry storage are encrypted. Physical kiosks use cable locks and mounts.</li>
+        <li><strong>Offline updates.</strong> New corpus bundles and app builds are installed from signed packages, and the node checks the signature before loading.</li>
+        <li><strong>Footprint.</strong> Six kiosk stations in under 100 square feet of existing gallery space, with no structural changes.</li>
+      </ul>
+    </section>
+
+    <section id="telemetry">
+      <h2>9. Telemetry</h2>
+      <p>Telemetry serves RQ2 (which interaction sequences predict engagement) and system QA (latency, failures). Events are written as JSON Lines under a pseudonymous session ID. The <span class="pill-t">proposed</span> core event set:</p>
+      <table class="t mono-first">
+        <thead><tr><th>Event</th><th>Key fields</th></tr></thead>
+        <tbody>
+          <tr><td>session_start / session_end</td><td>session_id, condition, kiosk_id, build, bundle_version</td></tr>
+          <tr><td>artifact_grab / artifact_release</td><td>artifact_id, t</td></tr>
+          <tr><td>hotspot_dwell</td><td>artifact_id, hotspot, dwell_ms, gaze_source</td></tr>
+          <tr><td>retrieval_request / retrieval_result</td><td>context terms, node_id, rank, score, latency_ms, fallback</td></tr>
+          <tr><td>narration_start / narration_end</td><td>node_id, played_ms, completed, skipped</td></tr>
+          <tr><td>comfort_event</td><td>type (seated, vignette, exit), t</td></tr>
+          <tr><td>pose_sample</td><td>head and hand pose, sampled (rate to be set in Beta QA)</td></tr>
+        </tbody>
+      </table>
+      <p>Telemetry contains no names, images or audio of visitors. It is linked to survey responses only through a study code issued at consent, and the linking key stays with the research team and never goes into the released dataset.</p>
+    </section>
+
+    <section id="security">
+      <h2>10. Security, privacy &amp; rights</h2>
+      <ul>
+        <li><strong>Rights first.</strong> Material with unclear or restricted rights is excluded from both the gallery bundle and the public release. Another museum substitutes its own rights-cleared material.</li>
+        <li><strong>Sensitive details.</strong> Following the practice already used in the 3D archive, home addresses, identification-tag inscriptions and similar personal details are redacted before display. Memorial material is shown only with family permission.</li>
+        <li><strong>Human subjects.</strong> Visitor recruitment and data collection run only under The University of Alabama IRB approval. School groups require documented parental consent.</li>
+        <li><strong>Least data.</strong> No data is collected from visitors who decline, and participants' data is de-identified before release.</li>
+        <li><strong>Master files during processing.</strong> Master files held during digitization and NLP processing (Months 1–7) are kept in encrypted, access-controlled storage, then moved to the local node.</li>
+      </ul>
+    </section>
+
+    <section id="access">
+      <h2>11. Accessibility &amp; comfort</h2>
+      <ul>
+        <li>The interface targets WCAG 2.1 AA where it applies to immersive environments: captions for all audio, adjustable text size, sufficient contrast and no time-limited interactions.</li>
+        <li>Seated use and one-handed interaction, with comfort settings on by default and simulation-sickness screening in Beta QA.</li>
+        <li><span class="pill-t">proposed</span> A non-VR path: the same approved nodes, reachable on a screen or phone from the web 3D archive, for visitors who cannot or choose not to wear a headset.</li>
+        <li>The adoption manual is published as PDF/UA with an editable Markdown source.</li>
+      </ul>
+    </section>
+
+    <section id="portability">
+      <h2>12. Portability</h2>
+      <p>Portability is what makes this a national-leadership product rather than a single exhibit. A new institution changes <strong>data and configuration only</strong>:</p>
+      <table class="t">
+        <thead><tr><th>A museum supplies</th><th>The framework provides</th></tr></thead>
+        <tbody>
+          <tr><td>Its own rights-cleared transcripts and recordings</td><td>Ingestion templates and a no-code tagging and approval tool</td></tr>
+          <tr><td>Its controlled vocabulary (or adopts ours)</td><td>Vocabulary import and Dublin Core mapping</td></tr>
+          <tr><td>3D models of its artifacts (GLB), with hotspots</td><td>An artifact registry editor and a GLB import path</td></tr>
+          <tr><td>Gallery and kiosk settings</td><td>A JSON configuration: kiosks, languages, content notes, comfort defaults</td></tr>
+        </tbody>
+      </table>
+      <p>At each advisory cohort summit, member museums run the ingestion pipeline on samples of their own, very different collections. The acceptance test is that their material runs with <strong>no source-code changes</strong>.</p>
+    </section>
+
+    <section id="qa">
+      <h2>13. Acceptance criteria</h2>
+      <p>These are the conditions the Beta build must meet at the Month 9 QA before deployment (<span class="pill-t">proposed</span> thresholds are marked).</p>
+      <table class="t">
+        <thead><tr><th>Criterion</th><th>Test</th><th>Threshold</th></tr></thead>
+        <tbody>
+          <tr><td>Fidelity</td><td>Byte-for-byte comparison of every delivered text and audio segment against the approved node</td><td>100%, zero deviations</td></tr>
+          <tr><td>Authority</td><td>Attempt to retrieve withdrawn, draft or uncleared nodes</td><td>0 returned</td></tr>
+          <tr><td>Latency</td><td>Interaction to narration start, measured on-device</td><td>p95 ≤ 500 ms</td></tr>
+          <tr><td>Relevance</td><td>Curators rate the top node for a sample of artifact and hotspot contexts</td><td><span class="pill-t">proposed</span> ≥ 80% rated appropriate</td></tr>
+          <tr><td>Telemetry</td><td>Scripted sessions compared with logged events</td><td><span class="pill-t">proposed</span> ≥ 99% of events captured</td></tr>
+          <tr><td>Comfort</td><td>Simulation-sickness screening in lab sessions</td><td>Protocol set in the IRB application</td></tr>
+          <tr><td>Portability</td><td>Advisory cohort sample ingested</td><td>No source-code changes</td></tr>
+          <tr><td>Usability</td><td>Advisory cohort ratings of the staff tools</td><td>≥ 80% positive</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="evidence">
+      <h2>14. Evidence from early work</h2>
+      <p>The team has already published seven interactive 3D records from the AVMA galleries (<a href="archive.html">3D Archive</a>). That work tests several parts of this architecture ahead of time:</p>
+      <ul>
+        <li><strong>Artifact assets.</strong> Photo-derived GLB models with measured colors and textures cut from gallery photographs load on phones at about 1–8 MB per object. These can become the first entries in the artifact registry.</li>
+        <li><strong>Paradata.</strong> Each record separates photographed, referenced and inferred parts, and labels uncertain identifications as provisional. The same honesty rule applies to narrative nodes.</li>
+        <li><strong>Hotspots.</strong> Articulated mechanisms (a flintlock lock, a traverse-and-elevation mechanism, a washer engine) show that artifact <em>parts</em> are natural retrieval triggers.</li>
+        <li><strong>Restrictive runtimes.</strong> Delivering inside a locked-down web sandbox showed that compressed-mesh decoders and blob URLs can fail silently. We now test every build under the strictest target policy. The same discipline will apply to the headset build.</li>
+        <li><strong>Privacy practice.</strong> The Gold Star memorial record established the redaction and family-permission practice described in §10.</li>
+      </ul>
+    </section>
+
+    <section id="questions">
+      <h2>15. Open design questions</h2>
+      <p>These are for the team and for Advisory Cohort Summit 1. Each one affects the principles above.</p>
+      <div class="qs">
+        <div><b>Q1 · Where are embeddings computed?</b><p>The plan budgets a commercial text-embedding API, but P3 promises that testimony stays with the museum. <em>Recommendation:</em> use an open-weight embedding model on UA or edge hardware, or limit any external call to rights-cleared text under a no-retention agreement.</p></div>
+        <div><b>Q2 · Is there any generative model at runtime?</b><p>The proposal describes a zero-temperature RAG. <em>Recommendation:</em> no generative step at all, as in §6. Retrieval-only is simpler, faster and makes P1 testable.</p></div>
+        <div><b>Q3 · What counts as "gaze"?</b><p>Quest 3 has no eye tracking. <em>Recommendation:</em> define dwell as head-gaze and hand-held inspection, and record <code>gaze_source</code>. If true eye tracking matters for RQ2, budget a different headset for a subset.</p></div>
+        <div><b>Q4 · Voice when no recording exists.</b><p>A synthetic voice reading a veteran's words raises ethical questions. <em>Recommendation:</em> use the original audio where it exists. Otherwise show text with an optional clearly labeled neutral narrator, never a cloned voice.</p></div>
+        <div><b>Q5 · Who writes overview nodes?</b><p>The low-load path needs short orientation texts. <em>Recommendation:</em> curators write and approve them as nodes, so the "summaries" never come from a model.</p></div>
+        <div><b>Q6 · Registry granularity.</b><p>Is the retrieval trigger the whole artifact or its hotspots, and who defines hotspots: curators or the 3D team?</p></div>
+      </div>
+    </section>
+
+    <section id="next">
+      <h2>16. Next steps</h2>
+      <table class="t">
+        <thead><tr><th>When</th><th>Step</th></tr></thead>
+        <tbody>
+          <tr><td>Months 1–3</td><td>Co-PI review of this draft; agree on node schema v0.2 and resolve Q1–Q3; start the rights assessment with AVMA.</td></tr>
+          <tr><td>Months 4–7</td><td>Retrieval prototype on a pilot sample of 50–100 nodes; Unity alpha with two registry artifacts from the 3D archive.</td></tr>
+          <tr><td>Month 6</td><td>Advisory Cohort Summit 1: review this report and run the first ingestion stress test.</td></tr>
+          <tr><td>Months 8–9</td><td>Beta QA against §13.</td></tr>
+          <tr><td>Months 10–12</td><td>Final open architecture report (v1.0), published here and on OSF.</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="refs">
+      <h2>References</h2>
+      <ul class="refs">
+        <li>DCMI Usage Board. (2020). <i>DCMI metadata terms</i>. Dublin Core Metadata Initiative. https://www.dublincore.org/specifications/dublin-core/dcmi-terms/</li>
+        <li>Endacott, J., &amp; Brooks, S. (2013). An updated theoretical and practical model for promoting historical empathy. <i>Social Studies Research and Practice, 8</i>(1), 41–58.</li>
+        <li>Federal Agencies Digital Guidelines Initiative. (2023). <i>Technical guidelines for digitizing cultural heritage materials</i> (3rd ed.). https://www.digitizationguidelines.gov/</li>
+        <li>Lewis, P., Perez, E., Piktus, A., Petroni, F., Karpukhin, V., Goyal, N., Küttler, H., Lewis, M., Yih, W., Rocktäschel, T., Riedel, S., &amp; Kiela, D. (2020). Retrieval-augmented generation for knowledge-intensive NLP tasks. <i>Advances in Neural Information Processing Systems, 33</i>, 9459–9474.</li>
+        <li>Makransky, G., &amp; Petersen, G. B. (2021). The Cognitive Affective Model of Immersive Learning (CAMIL): A theoretical research-based model of learning in immersive virtual reality. <i>Educational Psychology Review, 33</i>(3), 937–958. https://doi.org/10.1007/s10648-020-09586-2</li>
+        <li>World Wide Web Consortium. (2018). <i>Web Content Accessibility Guidelines (WCAG) 2.1</i>. https://www.w3.org/TR/WCAG21/</li>
+      </ul>
+      <p class="note">Suggested citation: Moon, J., Hu, F., &amp; Kim, J. (2026). <i>Living Archive VR Framework: Open architecture report</i> (Draft v0.1). The University of Alabama. https://educatian.github.io/immersive-remembrance/report.html</p>
+    </section>
+  </article>
+</div>
