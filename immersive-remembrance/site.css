@@ -128,7 +128,7 @@ p{margin:0 0 16px;color:#343b46}
 .person{display:flex;flex-direction:column;gap:4px}
 .person .role{font-size:12px;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;color:var(--crimson)}
 .person .dept{font-size:14px;color:var(--muted);margin-bottom:10px}
-.initials{width:64px;height:64px;border-radius:50%;background:var(--navy);color:var(--brass-lt);display:grid;place-items:center;font-family:var(--serif);font-size:24px;font-weight:600;margin-bottom:14px}
+.headshot{width:120px;height:120px;border-radius:50%;object-fit:cover;object-position:center top;margin-bottom:16px;border:3px solid var(--brass-lt);background:#ddd}
 
 .note{font-size:14px;color:var(--muted);border-left:3px solid var(--brass);padding:4px 0 4px 14px;margin:26px 0 0;max-width:780px}
 .cite{font-family:var(--mono);font-size:13px;background:var(--card);border:1px solid var(--line);border-radius:8px;padding:16px 18px;line-height:1.6;color:#343b46;overflow-wrap:anywhere}
