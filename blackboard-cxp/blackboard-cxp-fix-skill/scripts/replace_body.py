@@ -46,7 +46,7 @@ def main():
         sys.exit(1)
     c2 = re.sub(
         r'<TEXT>.*?</TEXT>',
-        f'<TEXT>{encoded}</TEXT>',
+        lambda match: f'<TEXT>{encoded}</TEXT>',
         c,
         count=1,
         flags=re.DOTALL,
@@ -60,7 +60,7 @@ def main():
         )
     open(args.res_file, 'w', encoding='utf-8').write(c2)
     print(f'Replaced body of {args.res_file} '
-          f'({len(new_html)} html chars → {len(encoded)} encoded chars)')
+          f'({len(new_html)} html chars -> {len(encoded)} encoded chars)')
 
 
 if __name__ == '__main__':

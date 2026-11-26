@@ -1,0 +1,22 @@
+name: CXP local checks
+on:
+  pull_request:
+    paths:
+      - 'blackboard-cxp/**'
+      - '.github/workflows/cxp-local-checks.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'blackboard-cxp/**'
+      - '.github/workflows/cxp-local-checks.yml'
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m unittest discover -s blackboard-cxp/tests -v
